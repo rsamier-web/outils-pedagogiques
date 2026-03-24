@@ -1,0 +1,1707 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Devinette Concept — Mémorisation Espacée</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #080e1a;
+    --bg2: #0d1526;
+    --surface: #111d33;
+    --surface2: #162240;
+    --surface3: #1c2d52;
+    --border: #2a3f68;
+    --border2: #3a5490;
+    --text: #e8edf5;
+    --text-muted: #7b8fb5;
+    --text-dim: #4a5f8a;
+    --gold: #d4a853;
+    --gold2: #f0c96a;
+    --gold-dim: #8a6b2e;
+    --lv1: #2ecc71; --lv1-dim: #1a5c35; --lv1-bg: #0d2e1c;
+    --lv2: #f1c40f; --lv2-dim: #7a6108; --lv2-bg: #2e2400;
+    --lv3: #e67e22; --lv3-dim: #7a4210; --lv3-bg: #2e1800;
+    --lv4: #e74c3c; --lv4-dim: #7a1e16; --lv4-bg: #2e0d09;
+    --easy: #2ecc71; --easy-dim: #1a5c35;
+    --normal: #3d9be9; --normal-dim: #1a4a7a;
+    --hard: #e74c3c; --hard-dim: #7a1e16;
+    --radius: 16px;
+    --radius-sm: 8px;
+  }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    overflow-x: hidden;
+    position: relative;
+  }
+
+  body::before {
+    content: '';
+    position: fixed; inset: 0;
+    background: radial-gradient(ellipse 80% 60% at 50% -10%, rgba(61,85,155,0.18) 0%, transparent 70%),
+                radial-gradient(ellipse 40% 40% at 90% 90%, rgba(212,168,83,0.05) 0%, transparent 60%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .screen {
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+    padding: 24px 16px;
+    position: relative;
+    z-index: 1;
+  }
+  .screen.active { display: flex; }
+
+  /* ===================== WELCOME SCREEN ===================== */
+  #screen-welcome {
+    justify-content: flex-start;
+    padding-top: 48px;
+  }
+
+  .logo-area {
+    text-align: center;
+    margin-bottom: 40px;
+  }
+  .logo-area .logo-icon {
+    font-size: 48px;
+    margin-bottom: 12px;
+    display: block;
+    filter: drop-shadow(0 0 20px rgba(212,168,83,0.4));
+  }
+  .logo-area h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.8rem;
+    font-weight: 700;
+    background: linear-gradient(135deg, var(--gold2) 0%, var(--gold) 60%, #c8963c 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    letter-spacing: -0.5px;
+  }
+  .logo-area .subtitle {
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-top: 6px;
+    font-weight: 300;
+  }
+
+  .welcome-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 28px;
+    width: 100%;
+    max-width: 560px;
+    margin-bottom: 16px;
+    position: relative;
+    overflow: hidden;
+  }
+  .welcome-card::before {
+    content: '';
+    position: absolute; top: 0; left: 0; right: 0; height: 2px;
+    background: linear-gradient(90deg, transparent, var(--gold-dim), var(--gold), var(--gold-dim), transparent);
+  }
+
+  .section-title {
+    font-size: 0.7rem;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    color: var(--gold);
+    font-weight: 600;
+    margin-bottom: 16px;
+  }
+
+  .level-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+  }
+
+  .level-option {
+    background: var(--surface2);
+    border: 2px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 14px 16px;
+    cursor: pointer;
+    transition: all 0.2s;
+    position: relative;
+    overflow: hidden;
+  }
+  .level-option:hover { border-color: var(--border2); transform: translateY(-1px); }
+  .level-option.selected { border-color: var(--lv-color, var(--gold)); background: var(--lv-bg-color, var(--surface3)); }
+  .level-option[data-level="1"] { --lv-color: var(--lv1); --lv-bg-color: var(--lv1-bg); }
+  .level-option[data-level="2"] { --lv-color: var(--lv2); --lv-bg-color: var(--lv2-bg); }
+  .level-option[data-level="3"] { --lv-color: var(--lv3); --lv-bg-color: var(--lv3-bg); }
+  .level-option[data-level="4"] { --lv-color: var(--lv4); --lv-bg-color: var(--lv4-bg); }
+
+  .level-option .lv-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 6px;
+  }
+  .level-dot {
+    width: 10px; height: 10px;
+    border-radius: 50%;
+    background: var(--lv-color, var(--gold));
+    flex-shrink: 0;
+  }
+  .level-option .lv-name {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--text);
+  }
+  .level-option .lv-desc {
+    font-size: 0.72rem;
+    color: var(--text-muted);
+    line-height: 1.4;
+    margin-bottom: 8px;
+  }
+  .level-stats {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+  .stat-chip {
+    font-size: 0.65rem;
+    padding: 2px 8px;
+    border-radius: 20px;
+    background: rgba(255,255,255,0.05);
+    color: var(--text-muted);
+    border: 1px solid var(--border);
+  }
+  .stat-chip.due { background: rgba(212,168,83,0.12); color: var(--gold); border-color: var(--gold-dim); }
+  .stat-chip.mastered { background: rgba(46,204,113,0.1); color: var(--lv1); border-color: var(--lv1-dim); }
+
+  .session-config {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-top: 4px;
+  }
+  .session-config label {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    flex: 1;
+  }
+  .session-config select {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    color: var(--text);
+    padding: 6px 12px;
+    border-radius: var(--radius-sm);
+    font-family: inherit;
+    font-size: 0.8rem;
+    cursor: pointer;
+  }
+
+  .btn-primary {
+    width: 100%;
+    max-width: 560px;
+    padding: 16px;
+    background: linear-gradient(135deg, #c8963c, var(--gold) 50%, #d4a853);
+    color: #1a0e00;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 1rem;
+    font-weight: 600;
+    border: none;
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    transition: all 0.25s;
+    letter-spacing: 0.5px;
+    margin-top: 4px;
+    position: relative;
+    overflow: hidden;
+  }
+  .btn-primary::after {
+    content: '';
+    position: absolute; inset: 0;
+    background: linear-gradient(135deg, rgba(255,255,255,0.2), transparent);
+    opacity: 0;
+    transition: opacity 0.2s;
+  }
+  .btn-primary:hover::after { opacity: 1; }
+  .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(212,168,83,0.3); }
+  .btn-primary:active { transform: translateY(0); }
+  .btn-primary:disabled { opacity: 0.35; cursor: not-allowed; transform: none; box-shadow: none; }
+
+  .btn-secondary {
+    width: 100%;
+    max-width: 560px;
+    padding: 12px;
+    background: transparent;
+    color: var(--text-muted);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 500;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+  }
+  .btn-secondary:hover { border-color: var(--border2); color: var(--text); background: var(--surface2); }
+
+  .file-input-hidden { display: none; }
+
+  /* ===================== SESSION SCREEN ===================== */
+  #screen-session {
+    justify-content: flex-start;
+    padding-top: 20px;
+  }
+
+  .session-header {
+    width: 100%;
+    max-width: 600px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 20px;
+  }
+
+  .progress-area { flex: 1; margin: 0 16px; }
+  .progress-text {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.72rem;
+    color: var(--text-dim);
+    margin-bottom: 6px;
+  }
+  .progress-bar {
+    height: 4px;
+    background: var(--surface2);
+    border-radius: 2px;
+    overflow: hidden;
+  }
+  .progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--gold-dim), var(--gold));
+    border-radius: 2px;
+    transition: width 0.5s ease;
+  }
+
+  .btn-quit {
+    background: transparent;
+    border: 1px solid var(--border);
+    color: var(--text-dim);
+    font-size: 0.72rem;
+    padding: 6px 12px;
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    transition: all 0.2s;
+    font-family: inherit;
+    white-space: nowrap;
+  }
+  .btn-quit:hover { border-color: var(--hard-dim); color: var(--hard); }
+
+  /* CARD */
+  .card-container {
+    width: 100%;
+    max-width: 600px;
+    perspective: 1000px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .card {
+    width: 100%;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 28px;
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    animation: cardIn 0.35s ease;
+  }
+  .card::before {
+    content: '';
+    position: absolute; top: 0; left: 0; right: 0; height: 3px;
+    background: linear-gradient(90deg, transparent, var(--card-accent, var(--gold)), transparent);
+    opacity: 0.7;
+  }
+
+  @keyframes cardIn {
+    from { opacity: 0; transform: translateY(12px) scale(0.98); }
+    to { opacity: 1; transform: translateY(0) scale(1); }
+  }
+
+  .card-meta {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 20px;
+  }
+  .card-level-badge {
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    padding: 3px 10px;
+    border-radius: 20px;
+    border: 1px solid var(--card-accent, var(--gold));
+    color: var(--card-accent, var(--gold));
+    background: rgba(212,168,83,0.08);
+  }
+  .card-category {
+    font-size: 0.72rem;
+    color: var(--text-dim);
+    flex: 1;
+    text-align: right;
+  }
+
+  .card-front { text-align: center; }
+
+  .card-prompt {
+    font-size: 0.7rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    margin-bottom: 20px;
+  }
+
+  .keywords-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    justify-content: center;
+    margin-bottom: 28px;
+  }
+  .keyword-tag {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    color: var(--text-muted);
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 0.82rem;
+    font-weight: 500;
+    transition: all 0.3s;
+  }
+  .keyword-tag.highlight {
+    background: rgba(212,168,83,0.1);
+    border-color: var(--gold-dim);
+    color: var(--gold);
+  }
+
+  /* Revealed part */
+  .card-reveal {
+    margin-top: 20px;
+    padding-top: 20px;
+    border-top: 1px solid var(--border);
+    text-align: center;
+    animation: revealIn 0.4s ease;
+  }
+  @keyframes revealIn {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .concept-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--gold2);
+    margin-bottom: 16px;
+    line-height: 1.2;
+  }
+
+  .definition-text {
+    font-size: 0.92rem;
+    color: var(--text-muted);
+    line-height: 1.7;
+    font-style: italic;
+    max-width: 480px;
+    margin: 0 auto;
+  }
+  .definition-text .kw-hl {
+    color: var(--text);
+    font-style: normal;
+    font-weight: 500;
+    border-bottom: 1px dotted var(--gold-dim);
+  }
+
+  /* Rating buttons */
+  .rating-area {
+    width: 100%;
+    max-width: 600px;
+    margin-top: 20px;
+  }
+  .rating-label {
+    font-size: 0.68rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    text-align: center;
+    margin-bottom: 10px;
+  }
+  .rating-buttons {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 10px;
+  }
+  .btn-rating {
+    padding: 14px 8px;
+    border: 1.5px solid var(--btn-border, var(--border));
+    background: var(--btn-bg, var(--surface));
+    color: var(--btn-color, var(--text-muted));
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 600;
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    transition: all 0.2s;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+  }
+  .btn-rating .btn-icon { font-size: 1.2rem; }
+  .btn-rating .btn-interval { font-size: 0.62rem; font-weight: 400; opacity: 0.7; }
+  .btn-rating:hover { transform: translateY(-2px); background: var(--btn-hover-bg, var(--surface2)); border-color: var(--btn-color, var(--text-muted)); }
+
+  .btn-rating.btn-hard {
+    --btn-border: var(--hard-dim);
+    --btn-color: var(--hard);
+    --btn-bg: rgba(231,76,60,0.06);
+    --btn-hover-bg: rgba(231,76,60,0.12);
+  }
+  .btn-rating.btn-normal {
+    --btn-border: var(--normal-dim);
+    --btn-color: var(--normal);
+    --btn-bg: rgba(61,155,233,0.06);
+    --btn-hover-bg: rgba(61,155,233,0.12);
+  }
+  .btn-rating.btn-easy {
+    --btn-border: var(--easy-dim);
+    --btn-color: var(--easy);
+    --btn-bg: rgba(46,204,113,0.06);
+    --btn-hover-bg: rgba(46,204,113,0.12);
+  }
+
+  .btn-reveal-area {
+    width: 100%;
+    max-width: 600px;
+    margin-top: 20px;
+  }
+  .btn-reveal {
+    width: 100%;
+    padding: 16px;
+    background: var(--surface2);
+    border: 1.5px solid var(--border);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.95rem;
+    font-weight: 500;
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    letter-spacing: 0.5px;
+  }
+  .btn-reveal:hover {
+    background: var(--surface3);
+    border-color: var(--gold-dim);
+    color: var(--gold);
+    transform: translateY(-1px);
+  }
+
+  /* Hard queue indicator */
+  .hard-queue-bar {
+    width: 100%;
+    max-width: 600px;
+    margin-top: 12px;
+    font-size: 0.7rem;
+    color: var(--text-dim);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    min-height: 20px;
+  }
+  .hard-dot {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--hard);
+    opacity: 0.7;
+    display: inline-block;
+  }
+
+  /* ===================== END SCREEN ===================== */
+  #screen-end {
+    justify-content: center;
+    text-align: center;
+  }
+
+  .end-icon { font-size: 64px; margin-bottom: 16px; animation: pop 0.5s ease; }
+  @keyframes pop {
+    0% { transform: scale(0); }
+    70% { transform: scale(1.2); }
+    100% { transform: scale(1); }
+  }
+
+  .end-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 2rem;
+    color: var(--gold2);
+    margin-bottom: 6px;
+  }
+  .end-subtitle {
+    color: var(--text-muted);
+    font-size: 0.85rem;
+    margin-bottom: 32px;
+  }
+
+  .end-stats {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 24px;
+    width: 100%;
+    max-width: 400px;
+    margin-bottom: 20px;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 16px;
+    text-align: center;
+  }
+  .stat-item .stat-val {
+    font-family: 'Playfair Display', serif;
+    font-size: 2rem;
+    font-weight: 700;
+  }
+  .stat-item .stat-lbl { font-size: 0.7rem; color: var(--text-dim); margin-top: 2px; letter-spacing: 1px; text-transform: uppercase; }
+  .stat-item.s-easy .stat-val { color: var(--easy); }
+  .stat-item.s-normal .stat-val { color: var(--normal); }
+  .stat-item.s-hard .stat-val { color: var(--hard); }
+
+  .next-review-info {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 14px 20px;
+    width: 100%;
+    max-width: 400px;
+    font-size: 0.82rem;
+    color: var(--text-muted);
+    margin-bottom: 24px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .next-review-info .nri-icon { font-size: 1.1rem; }
+  .next-review-info strong { color: var(--text); }
+
+  .end-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 100%;
+    max-width: 400px;
+  }
+
+  /* ===================== NOTIFICATION ===================== */
+  .toast {
+    position: fixed;
+    bottom: 24px;
+    left: 50%;
+    transform: translateX(-50%) translateY(100px);
+    background: var(--surface3);
+    border: 1px solid var(--gold-dim);
+    color: var(--gold);
+    padding: 10px 20px;
+    border-radius: var(--radius-sm);
+    font-size: 0.82rem;
+    font-weight: 500;
+    transition: transform 0.3s ease;
+    z-index: 1000;
+    white-space: nowrap;
+  }
+  .toast.show { transform: translateX(-50%) translateY(0); }
+
+  /* Scrollbar */
+  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar-track { background: var(--bg); }
+  ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+
+  /* Separator */
+  .sep { width: 40px; height: 1px; background: var(--border); margin: 0 auto 16px; }
+
+  @media (max-width: 480px) {
+    .level-grid { grid-template-columns: 1fr; }
+    .concept-title { font-size: 1.5rem; }
+    .rating-buttons { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ===================== WELCOME SCREEN ===================== -->
+<div id="screen-welcome" class="screen active">
+  <div class="logo-area">
+    <span class="logo-icon">📚</span>
+    <h1>Devinette Concept</h1>
+    <p class="subtitle">Mémorisation espacée du vocabulaire encyclopédique</p>
+  </div>
+
+  <div class="welcome-card">
+    <p class="section-title">📌 Choisir les niveaux</p>
+    <div class="level-grid" id="level-grid">
+      <div class="level-option selected" data-level="1">
+        <div class="lv-header"><div class="level-dot"></div><span class="lv-name">Niveau 1</span></div>
+        <div class="lv-desc">Notions concrètes, animaux, géographie, contes</div>
+        <div class="level-stats" id="stats-1"></div>
+      </div>
+      <div class="level-option" data-level="2">
+        <div class="lv-header"><div class="level-dot"></div><span class="lv-name">Niveau 2</span></div>
+        <div class="lv-desc">Sciences du vivant, histoire, arts et culture</div>
+        <div class="level-stats" id="stats-2"></div>
+      </div>
+      <div class="level-option" data-level="3">
+        <div class="lv-header"><div class="level-dot"></div><span class="lv-name">Niveau 3</span></div>
+        <div class="lv-desc">Mythologie, figures de style, étymologie</div>
+        <div class="level-stats" id="stats-3"></div>
+      </div>
+      <div class="level-option" data-level="4">
+        <div class="lv-header"><div class="level-dot"></div><span class="lv-name">Niveau 4</span></div>
+        <div class="lv-desc">Culture générale enrichie, philosophie</div>
+        <div class="level-stats" id="stats-4"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="welcome-card" style="margin-top:0">
+    <p class="section-title">⚙️ Paramètres de session</p>
+    <div class="session-config">
+      <label>Nombre de cartes par session</label>
+      <select id="session-size">
+        <option value="10">10 cartes</option>
+        <option value="20" selected>20 cartes</option>
+        <option value="30">30 cartes</option>
+        <option value="50">50 cartes</option>
+        <option value="999">Toutes les cartes dues</option>
+      </select>
+    </div>
+  </div>
+
+  <button class="btn-primary" id="btn-start" onclick="startSession()">▶ Commencer la session</button>
+  <div style="height:10px"></div>
+  <button class="btn-secondary" onclick="document.getElementById('file-load').click()">
+    📂 Charger une sauvegarde (.json)
+  </button>
+  <input type="file" id="file-load" class="file-input-hidden" accept=".json" onchange="loadSave(event)">
+
+  <div style="margin-top:16px; font-size:0.68rem; color:var(--text-dim); text-align:center; max-width:400px; line-height:1.6">
+    L'algorithme SM-2 adapte l'espacement des révisions selon vos réponses.<br>
+    Sauvegardez votre progression pour reprendre là où vous en étiez.
+  </div>
+</div>
+
+<!-- ===================== SESSION SCREEN ===================== -->
+<div id="screen-session" class="screen">
+  <div class="session-header">
+    <div style="font-size:0.75rem; color:var(--text-dim); min-width:60px" id="session-counter">0/0</div>
+    <div class="progress-area">
+      <div class="progress-text">
+        <span id="progress-label">Progression</span>
+        <span id="progress-pct">0%</span>
+      </div>
+      <div class="progress-bar"><div class="progress-fill" id="progress-fill" style="width:0%"></div></div>
+    </div>
+    <button class="btn-quit" onclick="quitSession()">✕ Quitter</button>
+  </div>
+
+  <div class="card-container">
+    <div class="card" id="main-card">
+      <div class="card-meta">
+        <span class="card-level-badge" id="card-level-badge">Niveau 1</span>
+        <span class="card-category" id="card-category">—</span>
+      </div>
+      <div class="card-front">
+        <p class="card-prompt">🔍 De quel concept s'agit-il ?</p>
+        <div class="keywords-grid" id="keywords-container"></div>
+      </div>
+      <div class="card-reveal" id="card-reveal" style="display:none">
+        <div class="concept-title" id="concept-title"></div>
+        <div class="sep"></div>
+        <div class="definition-text" id="definition-text"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="btn-reveal-area" id="reveal-area">
+    <button class="btn-reveal" onclick="revealCard()">
+      <span>👁</span> <span>Révéler la réponse</span>
+    </button>
+  </div>
+
+  <div class="rating-area" id="rating-area" style="display:none">
+    <div class="rating-label">Comment avez-vous trouvé ?</div>
+    <div class="rating-buttons">
+      <button class="btn-rating btn-hard" onclick="rateCard('difficile')">
+        <span class="btn-icon">😰</span>
+        <span>Difficile</span>
+        <span class="btn-interval" id="interval-hard">1 jour</span>
+      </button>
+      <button class="btn-rating btn-normal" onclick="rateCard('normal')">
+        <span class="btn-icon">🤔</span>
+        <span>Normal</span>
+        <span class="btn-interval" id="interval-normal">3 jours</span>
+      </button>
+      <button class="btn-rating btn-easy" onclick="rateCard('facile')">
+        <span class="btn-icon">😊</span>
+        <span>Facile</span>
+        <span class="btn-interval" id="interval-easy">7 jours</span>
+      </button>
+    </div>
+  </div>
+
+  <div class="hard-queue-bar" id="hard-queue-bar"></div>
+</div>
+
+<!-- ===================== END SCREEN ===================== -->
+<div id="screen-end" class="screen">
+  <div class="end-icon" id="end-icon">🎉</div>
+  <h2 class="end-title" id="end-title">Session terminée !</h2>
+  <p class="end-subtitle" id="end-subtitle">Excellente révision</p>
+  <div class="end-stats">
+    <div class="stat-item s-easy">
+      <div class="stat-val" id="end-easy">0</div>
+      <div class="stat-lbl">Facile</div>
+    </div>
+    <div class="stat-item s-normal">
+      <div class="stat-val" id="end-normal">0</div>
+      <div class="stat-lbl">Normal</div>
+    </div>
+    <div class="stat-item s-hard">
+      <div class="stat-val" id="end-hard">0</div>
+      <div class="stat-lbl">Difficile</div>
+    </div>
+  </div>
+  <div class="next-review-info">
+    <span class="nri-icon">📅</span>
+    <span id="next-review-text">Prochaine révision calculée</span>
+  </div>
+  <div class="end-buttons">
+    <button class="btn-primary" onclick="saveSave()">💾 Sauvegarder la progression (.json)</button>
+    <button class="btn-secondary" onclick="goToWelcome()">🔄 Nouvelle session</button>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+// ============================================================
+// DONNÉES — FLASHCARDS
+// ============================================================
+const ALL_CARDS = [
+  // ══════════════════ NIVEAU 1 ══════════════════
+  // Animaux et nature
+  { id:'n1_mammifere', level:1, category:'Animaux et nature', concept:'Le mammifère',
+    keywords:['animal','sang chaud','poils','vivipare','allaite'],
+    definition:"Un mammifère est un animal à sang chaud, couvert de poils, qui donne naissance à des petits vivants et les allaite." },
+  { id:'n1_reptile', level:1, category:'Animaux et nature', concept:'Le reptile',
+    keywords:['animal','écailles','sang froid','rampant','ponte'],
+    definition:"Un reptile est un animal à sang froid, couvert d'écailles, qui rampe et se reproduit par des œufs." },
+  { id:'n1_carnivore', level:1, category:'Animaux et nature', concept:'Le carnivore',
+    keywords:['animal','régime','viande','chasse','prédateur'],
+    definition:"Un carnivore est un animal dont le régime alimentaire est basé sur la viande qu'il chasse." },
+  { id:'n1_herbivore', level:1, category:'Animaux et nature', concept:'L\'herbivore',
+    keywords:['animal','régime','plantes','herbe','brouteur'],
+    definition:"Un herbivore est un animal qui se nourrit exclusivement de plantes et d'herbe." },
+  { id:'n1_omnivore', level:1, category:'Animaux et nature', concept:'L\'omnivore',
+    keywords:['animal','régime','viande','végétaux','varié'],
+    definition:"Un omnivore est un animal dont le régime alimentaire est varié : il mange aussi bien de la viande que des végétaux." },
+  { id:'n1_canide', level:1, category:'Animaux et nature', concept:'Le canidé',
+    keywords:['animal','famille','chien','loup','renard'],
+    definition:"Un canidé est un animal de la même famille que le chien, comme le loup ou le renard." },
+  { id:'n1_felin', level:1, category:'Animaux et nature', concept:'Le félin',
+    keywords:['animal','famille','chat','lion','tigre'],
+    definition:"Un félin est un animal de la même famille que le chat, comme le lion ou le tigre." },
+  { id:'n1_equide', level:1, category:'Animaux et nature', concept:'L\'équidé',
+    keywords:['animal','famille','cheval','âne','zèbre'],
+    definition:"Un équidé est un animal de la même famille que le cheval, comme l'âne ou le zèbre." },
+  { id:'n1_chaine_alim', level:1, category:'Animaux et nature', concept:'La chaîne alimentaire',
+    keywords:['système','êtres vivants','manger','énergie','ordre'],
+    definition:"La chaîne alimentaire est un système qui relie les êtres vivants entre eux selon l'ordre dans lequel ils se mangent pour se transmettre de l'énergie." },
+  { id:'n1_apiculteur', level:1, category:'Animaux et nature', concept:'L\'apiculteur',
+    keywords:['métier','élevage','abeilles','ruche','miel'],
+    definition:"Un apiculteur est un éleveur d'abeilles qui s'occupe des ruches pour récolter le miel." },
+  { id:'n1_ruche', level:1, category:'Animaux et nature', concept:'La ruche',
+    keywords:['lieu','abeilles','alvéoles','miel','colonie'],
+    definition:"Une ruche est le lieu où vit une colonie d'abeilles qui y fabriquent le miel dans des alvéoles." },
+  { id:'n1_araignee', level:1, category:'Animaux et nature', concept:'L\'araignée',
+    keywords:['animal','arachnide','huit pattes','toile','fil'],
+    definition:"Une araignée est un animal arachnide qui a huit pattes et tisse une toile avec du fil pour capturer ses proies." },
+  { id:'n1_scorpion', level:1, category:'Animaux et nature', concept:'Le scorpion',
+    keywords:['animal','arachnide','dard','pinces','désert'],
+    definition:"Un scorpion est un animal arachnide qui possède un dard et des pinces, que l'on trouve souvent dans le désert." },
+  { id:'n1_chauve_souris', level:1, category:'Animaux et nature', concept:'La chauve-souris',
+    keywords:['animal','mammifère','volant','nocturne','grotte'],
+    definition:"Une chauve-souris est un mammifère volant qui vit la nuit et se repose dans les grottes." },
+  { id:'n1_dauphin', level:1, category:'Animaux et nature', concept:'Le dauphin',
+    keywords:['animal','mammifère','marin','intelligent','nageoires'],
+    definition:"Un dauphin est un mammifère marin très intelligent qui se déplace grâce à ses nageoires." },
+  { id:'n1_crabe', level:1, category:'Animaux et nature', concept:'Le crabe',
+    keywords:['animal','crustacé','pinces','carapace','mer'],
+    definition:"Un crabe est un animal crustacé qui possède des pinces et une carapace dure, et qui vit dans la mer." },
+  // Corps humain
+  { id:'n1_thermometre', level:1, category:'Corps humain', concept:'Le thermomètre',
+    keywords:['instrument','médical','mesurer','température','fièvre'],
+    definition:"Un thermomètre est un instrument médical qui sert à mesurer la température du corps pour détecter la fièvre." },
+  { id:'n1_stethoscope', level:1, category:'Corps humain', concept:'Le stéthoscope',
+    keywords:['instrument','médical','écouter','cœur','battements'],
+    definition:"Un stéthoscope est un instrument médical qui permet d'écouter les battements du cœur." },
+  // Géographie
+  { id:'n1_continent', level:1, category:'Géographie', concept:'Un continent',
+    keywords:['étendue','terre','immense','océans','sept'],
+    definition:"Un continent est une très grande étendue de terre entourée d'océans. Il en existe sept sur Terre." },
+  { id:'n1_ocean', level:1, category:'Géographie', concept:'Un océan',
+    keywords:['étendue','eau salée','immense','continents','cinq'],
+    definition:"Un océan est une immense étendue d'eau salée qui sépare les continents. Il en existe cinq sur Terre." },
+  { id:'n1_fleuve', level:1, category:'Géographie', concept:'Un fleuve',
+    keywords:['cours d\'eau','long','mer','se jette','permanent'],
+    definition:"Un fleuve est un long cours d'eau permanent qui se jette dans la mer ou l'océan." },
+  { id:'n1_montagne', level:1, category:'Géographie', concept:'Une montagne',
+    keywords:['relief','élevé','sommet','altitude','chaîne'],
+    definition:"Une montagne est un relief élevé avec un sommet, qui fait souvent partie d'une chaîne." },
+  { id:'n1_desert', level:1, category:'Géographie', concept:'Un désert',
+    keywords:['lieu','aride','sable','peu de pluie','chaleur'],
+    definition:"Un désert est un lieu aride où il pleut très peu et où les températures sont souvent extrêmes." },
+  // Sciences
+  { id:'n1_etats_matiere', level:1, category:'Sciences', concept:'Les états de la matière',
+    keywords:['physique','solide','liquide','gazeux','transformation'],
+    definition:"La matière existe sous trois états : solide, liquide et gazeux, qui peuvent se transformer l'un en l'autre." },
+  { id:'n1_arc_ciel', level:1, category:'Sciences', concept:'L\'arc-en-ciel',
+    keywords:['phénomène','météo','lumière','pluie','multicolore'],
+    definition:"Un arc-en-ciel est un phénomène météorologique multicolore qui apparaît quand la lumière du soleil traverse les gouttes de pluie." },
+  { id:'n1_orage', level:1, category:'Sciences', concept:'Un orage',
+    keywords:['phénomène','météo','éclairs','tonnerre','pluie'],
+    definition:"Un orage est un phénomène météorologique violent avec des éclairs, du tonnerre et de fortes pluies." },
+  { id:'n1_volcan', level:1, category:'Sciences', concept:'Un volcan',
+    keywords:['montagne','éruption','lave','cratère','roche'],
+    definition:"Un volcan est une montagne dont le cratère peut entrer en éruption en projetant de la lave et des roches." },
+  { id:'n1_syst_solaire', level:1, category:'Sciences', concept:'Le système solaire',
+    keywords:['astronomie','Soleil','planètes','orbite','espace'],
+    definition:"Le système solaire est l'ensemble formé par le Soleil et les huit planètes qui tournent autour de lui dans l'espace." },
+  // Histoire
+  { id:'n1_prehistoire', level:1, category:'Histoire', concept:'La Préhistoire',
+    keywords:['période','histoire','outils','pierre','avant l\'écriture'],
+    definition:"La Préhistoire est la période de l'histoire humaine qui précède l'invention de l'écriture, où les hommes utilisaient des outils en pierre." },
+  { id:'n1_chasseur_cueilleur', level:1, category:'Histoire', concept:'Le chasseur-cueilleur',
+    keywords:['homme','préhistorique','chasse','cueillette','nomade'],
+    definition:"Le chasseur-cueilleur est l'homme préhistorique qui se nourrit en chassant des animaux et en cueillant des plantes, sans s'installer durablement." },
+  { id:'n1_pharaon', level:1, category:'Histoire', concept:'Le pharaon',
+    keywords:['souverain','Égypte','antique','dieu','pyramide'],
+    definition:"Le pharaon est le souverain de l'Égypte antique, considéré comme un dieu vivant et enterré dans une pyramide." },
+  { id:'n1_chateau_fort', level:1, category:'Histoire', concept:'Un château fort',
+    keywords:['construction','Moyen Âge','défense','seigneur','remparts'],
+    definition:"Un château fort est une construction du Moyen Âge entourée de remparts, qui servait à défendre le seigneur et ses terres." },
+  { id:'n1_rev_fr', level:1, category:'Histoire', concept:'La Révolution française',
+    keywords:['événement','1789','France','liberté','égalité'],
+    definition:"La Révolution française est un événement de 1789 qui a renversé la monarchie et proclamé les valeurs de Liberté, Égalité et Fraternité." },
+  // Littérature
+  { id:'n1_ogre', level:1, category:'Littérature', concept:'L\'ogre',
+    keywords:['personnage','imaginaire','conte','géant','manger des enfants'],
+    definition:"Un ogre est un personnage imaginaire des contes, géant et cruel, qui mange les enfants." },
+  { id:'n1_dragon', level:1, category:'Littérature', concept:'Le dragon',
+    keywords:['créature','imaginaire','reptile','volant','feu'],
+    definition:"Un dragon est une créature imaginaire qui ressemble à un reptile géant, capable de voler et de cracher du feu." },
+  { id:'n1_vampire', level:1, category:'Littérature', concept:'Le vampire',
+    keywords:['personnage','imaginaire','sang','humain','nuit'],
+    definition:"Un vampire est un personnage imaginaire qui boit le sang des humains et ne sort que la nuit." },
+  { id:'n1_fable', level:1, category:'Littérature', concept:'La fable',
+    keywords:['genre','littéraire','récit','animaux','morale'],
+    definition:"Une fable est un récit littéraire court mettant en scène des animaux pour illustrer une morale." },
+  // Vocabulaire
+  { id:'n1_dictionnaire', level:1, category:'Vocabulaire', concept:'Un dictionnaire',
+    keywords:['livre','mots','définitions','alphabétique','référence'],
+    definition:"Un dictionnaire est un livre de référence qui classe les mots par ordre alphabétique et donne leur définition." },
+  { id:'n1_jury', level:1, category:'Vocabulaire', concept:'Un jury',
+    keywords:['groupe','personnes','évaluer','noter','épreuve'],
+    definition:"Un jury est un groupe de personnes chargées d'évaluer et de noter les participants d'une épreuve." },
+  { id:'n1_pacte', level:1, category:'Vocabulaire', concept:'Un pacte',
+    keywords:['accord','personnes','engagement','alliance','entente'],
+    definition:"Un pacte est un accord d'alliance entre plusieurs personnes qui s'engagent mutuellement." },
+  { id:'n1_robot', level:1, category:'Vocabulaire', concept:'Un robot',
+    keywords:['machine','automatisée','programmée','remplacer','humain'],
+    definition:"Un robot est une machine automatisée et programmée pour accomplir des tâches à la place d'un humain." },
+  { id:'n1_montgolfiere', level:1, category:'Vocabulaire', concept:'Une montgolfière',
+    keywords:['véhicule','aérien','ballon','air chaud','frères Montgolfier'],
+    definition:"Une montgolfière est un véhicule aérien constitué d'un ballon gonflé à l'air chaud, inventé par les frères Montgolfier." },
+
+  // ══════════════════ NIVEAU 2 ══════════════════
+  // Sciences du vivant
+  { id:'n2_arthropode', level:2, category:'Sciences du vivant', concept:'Un arthropode',
+    keywords:['animal','invertébré','pattes articulées','exosquelette','insecte'],
+    definition:"Un arthropode est un animal invertébré dont les pattes sont articulées et le corps protégé par un exosquelette, comme les insectes et les araignées." },
+  { id:'n2_arachnide', level:2, category:'Sciences du vivant', concept:'Un arachnide',
+    keywords:['animal','arthropode','huit pattes','araignée','scorpion'],
+    definition:"Un arachnide est un arthropode qui possède huit pattes, comme l'araignée ou le scorpion." },
+  { id:'n2_vertebre', level:2, category:'Sciences du vivant', concept:'Vertébré / Invertébré',
+    keywords:['animal','classification','colonne vertébrale','squelette','opposé'],
+    definition:"Un vertébré est un animal qui possède une colonne vertébrale, contrairement à l'invertébré qui n'en a pas." },
+  { id:'n2_photosynthese', level:2, category:'Sciences du vivant', concept:'La photosynthèse',
+    keywords:['processus','plante','lumière','CO2','oxygène'],
+    definition:"La photosynthèse est le processus par lequel les plantes fabriquent leur nourriture en utilisant la lumière du soleil, le dioxyde de carbone et l'eau." },
+  { id:'n2_pollinisation', level:2, category:'Sciences du vivant', concept:'La pollinisation',
+    keywords:['processus','végétal','pollen','insectes','reproduction'],
+    definition:"La pollinisation est le processus de reproduction des fleurs qui consiste à transporter le pollen d'une fleur à une autre, souvent grâce aux insectes." },
+  { id:'n2_mutation', level:2, category:'Sciences du vivant', concept:'La mutation génétique',
+    keywords:['phénomène','biologique','gènes','modification','ADN'],
+    definition:"Une mutation génétique est une modification accidentelle de l'ADN qui peut changer les caractéristiques d'un être vivant." },
+  { id:'n2_ligre', level:2, category:'Sciences du vivant', concept:'Le ligre',
+    keywords:['animal','hybride','lion','tigresse','félin'],
+    definition:"Le ligre est un animal hybride, issu du croisement entre un lion et une tigresse." },
+  // Santé
+  { id:'n2_cellule', level:2, category:'Santé et médecine', concept:'La cellule',
+    keywords:['biologie','unité','vivant','microscopique','organisme'],
+    definition:"La cellule est l'unité microscopique de base de tous les êtres vivants." },
+  { id:'n2_cancer', level:2, category:'Santé et médecine', concept:'Le cancer',
+    keywords:['maladie','cellules','prolifération','anormale','organisme'],
+    definition:"Le cancer est une maladie provoquée par la multiplication anormale et incontrôlée de cellules dans l'organisme." },
+  { id:'n2_alzheimer', level:2, category:'Santé et médecine', concept:'La maladie d\'Alzheimer',
+    keywords:['maladie','cerveau','mémoire','souvenirs','perte'],
+    definition:"La maladie d'Alzheimer est une maladie du cerveau qui provoque une perte progressive de la mémoire et des souvenirs." },
+  { id:'n2_hypertension', level:2, category:'Santé et médecine', concept:'L\'hypertension artérielle',
+    keywords:['maladie','pression','sang','artères','élevée'],
+    definition:"L'hypertension artérielle est une maladie caractérisée par une pression trop élevée du sang dans les artères." },
+  // Géographie
+  { id:'n2_latitude', level:2, category:'Géographie', concept:'La latitude',
+    keywords:['coordonnée','géographique','position','nord-sud','degré'],
+    definition:"La latitude est une coordonnée géographique qui mesure en degrés la position d'un point sur Terre entre le nord et le sud." },
+  { id:'n2_equateur', level:2, category:'Géographie', concept:'L\'équateur',
+    keywords:['géographie','ligne','imaginaire','Terre','hémisphères'],
+    definition:"L'équateur est une ligne imaginaire qui divise la Terre en deux hémisphères égaux, nord et sud." },
+  { id:'n2_meandres', level:2, category:'Géographie', concept:'Les méandres',
+    keywords:['géographie','cours d\'eau','courbes','sinueux','rivière'],
+    definition:"Les méandres sont les courbes sinueuses que fait un cours d'eau, comme une rivière, dans son parcours." },
+  { id:'n2_estuaire', level:2, category:'Géographie', concept:'Un estuaire',
+    keywords:['géographie','embouchure','fleuve','mer','eau salée'],
+    definition:"Un estuaire est l'embouchure d'un fleuve là où il se jette dans la mer et où ses eaux se mélangent à l'eau salée." },
+  { id:'n2_densite', level:2, category:'Géographie', concept:'La densité de population',
+    keywords:['géographie','habitants','superficie','territoire','mesure'],
+    definition:"La densité de population est le nombre d'habitants par rapport à la superficie d'un territoire." },
+  { id:'n2_pauvrete', level:2, category:'Géographie', concept:'Le seuil de pauvreté',
+    keywords:['économie','revenu','minimum','pauvre','vivre dignement'],
+    definition:"Le seuil de pauvreté est le revenu minimum en dessous duquel une personne est considérée comme trop pauvre pour vivre dignement." },
+  { id:'n2_diaspora', level:2, category:'Géographie', concept:'La diaspora',
+    keywords:['groupe','personnes','origine','émigrés','pays d\'accueil'],
+    definition:"La diaspora désigne l'ensemble des personnes d'une même origine vivant dispersées dans des pays d'accueil loin de leur terre natale." },
+  // Histoire
+  { id:'n2_scribe', level:2, category:'Histoire', concept:'Un scribe',
+    keywords:['métier','Égypte antique','écriture','hiéroglyphes','papyrus'],
+    definition:"Un scribe est un métier de l'Égypte antique : c'est la personne chargée d'écrire les textes en hiéroglyphes sur le papyrus." },
+  { id:'n2_hieroglyphes', level:2, category:'Histoire', concept:'Les hiéroglyphes',
+    keywords:['écriture','Égypte antique','sacrée','gravée','symboles'],
+    definition:"Les hiéroglyphes sont une écriture sacrée et gravée de l'Égypte antique, composée de symboles représentant des sons et des idées." },
+  { id:'n2_papyrus', level:2, category:'Histoire', concept:'Le papyrus',
+    keywords:['support','écriture','Égypte','plante','rouleau'],
+    definition:"Le papyrus est un support d'écriture fabriqué à partir d'une plante aquatique, utilisé en Égypte antique sous forme de rouleau." },
+  { id:'n2_democratie', level:2, category:'Histoire', concept:'La démocratie',
+    keywords:['système','politique','peuple','vote','décisions'],
+    definition:"La démocratie est un système politique dans lequel le peuple prend les décisions en votant." },
+  { id:'n2_feodalite', level:2, category:'Histoire', concept:'La féodalité',
+    keywords:['système','Moyen Âge','seigneur','vassal','terres'],
+    definition:"La féodalité est le système politique du Moyen Âge fondé sur des liens de loyauté entre un seigneur et ses vassaux en échange de terres." },
+  { id:'n2_califat', level:2, category:'Histoire', concept:'Le califat',
+    keywords:['territoire','islam','calife','gouvernement','religieux'],
+    definition:"Le califat est le territoire gouverné par un calife, chef à la fois religieux et politique du monde islamique." },
+  // Sciences
+  { id:'n2_electricite', level:2, category:'Sciences', concept:'L\'électricité',
+    keywords:['énergie','courant','circuit','piles','lumière'],
+    definition:"L'électricité est une forme d'énergie qui circule dans un circuit et permet d'alimenter les appareils comme les lampes." },
+  { id:'n2_gravite', level:2, category:'Sciences', concept:'La gravité',
+    keywords:['force','attraction','Terre','objets','chute'],
+    definition:"La gravité est la force d'attraction exercée par la Terre qui attire tous les objets vers le sol et provoque leur chute." },
+  { id:'n2_meteorite', level:2, category:'Sciences', concept:'Une météorite',
+    keywords:['objet','extraterrestre','espace','chute','Terre'],
+    definition:"Une météorite est un objet solide venu de l'espace qui traverse l'atmosphère et tombe à la surface de la Terre." },
+  { id:'n2_bigbang', level:2, category:'Sciences', concept:'Le Big Bang',
+    keywords:['théorie','scientifique','création','univers','explosion'],
+    definition:"Le Big Bang est la théorie scientifique selon laquelle l'univers est né d'une immense explosion il y a environ 14 milliards d'années." },
+  { id:'n2_microscope', level:2, category:'Sciences', concept:'Le microscope',
+    keywords:['instrument','optique','observer','infiniment petit','lentilles'],
+    definition:"Un microscope est un instrument optique à lentilles qui permet d'observer des objets infiniment petits, invisibles à l'œil nu." },
+  { id:'n2_telescope', level:2, category:'Sciences', concept:'Le télescope',
+    keywords:['instrument','optique','astronomie','astres','loin'],
+    definition:"Un télescope est un instrument optique utilisé en astronomie pour observer les astres très loin dans l'espace." },
+  { id:'n2_eolienne', level:2, category:'Sciences', concept:'Une éolienne',
+    keywords:['construction','hélice','vent','électricité','renouvelable'],
+    definition:"Une éolienne est une construction munie d'hélices qui transforme la force du vent en électricité, une énergie renouvelable." },
+  // Arts et culture
+  { id:'n2_magritte', level:2, category:'Arts et culture', concept:'René Magritte',
+    keywords:['peintre','belge','surréaliste','chapeau melon','illusion'],
+    definition:"René Magritte est un peintre belge surréaliste connu pour ses tableaux jouant sur l'illusion et représentant notamment des hommes au chapeau melon." },
+  { id:'n2_chaplin', level:2, category:'Arts et culture', concept:'Charlie Chaplin',
+    keywords:['réalisateur','acteur','cinéma','noir et blanc','Le Dictateur'],
+    definition:"Charlie Chaplin est un acteur et réalisateur de cinéma connu pour son film Le Dictateur, une caricature d'Hitler en noir et blanc." },
+  { id:'n2_beatles', level:2, category:'Arts et culture', concept:'Les Beatles',
+    keywords:['groupe','musical','britannique','rock','John Lennon'],
+    definition:"The Beatles est un groupe musical britannique de rock, dont le chanteur John Lennon a été assassiné et qui a écrit la chanson Imagine." },
+  { id:'n2_queen', level:2, category:'Arts et culture', concept:'Queen',
+    keywords:['groupe','rock','britannique','Freddie Mercury','Bohemian Rhapsody'],
+    definition:"Queen est un groupe de rock britannique dont le chanteur Freddie Mercury est mort du SIDA, célèbre pour sa chanson Bohemian Rhapsody." },
+  { id:'n2_rowling', level:2, category:'Arts et culture', concept:'J. K. Rowling',
+    keywords:['auteure','britannique','Harry Potter','fantasy','magie'],
+    definition:"J. K. Rowling est une auteure britannique qui a créé la saga Harry Potter, une série de livres dans un univers de fantasy et de magie." },
+  { id:'n2_saint_ex', level:2, category:'Arts et culture', concept:'Antoine de Saint-Exupéry',
+    keywords:['écrivain','français','pilote','Le Petit Prince','XXe siècle'],
+    definition:"Antoine de Saint-Exupéry est un écrivain et pilote français du XXe siècle, auteur du Petit Prince." },
+  // Vocabulaire
+  { id:'n2_discrimination', level:2, category:'Vocabulaire', concept:'La discrimination',
+    keywords:['comportement','injuste','différence','traitement','groupe'],
+    definition:"La discrimination est un comportement injuste qui consiste à traiter différemment un groupe de personnes en raison de leurs différences." },
+  { id:'n2_anachronisme', level:2, category:'Vocabulaire', concept:'Un anachronisme',
+    keywords:['erreur','chronologique','époque','récit','objet'],
+    definition:"Un anachronisme est une erreur chronologique qui consiste à placer un objet ou un fait dans une époque où il n'existait pas." },
+  { id:'n2_antagoniste', level:2, category:'Vocabulaire', concept:'Un antagoniste',
+    keywords:['personnage','opposé','héros','conflit','combat'],
+    definition:"Un antagoniste est le personnage opposé au héros dans un récit, qui lui crée des obstacles ou entre en conflit avec lui." },
+  { id:'n2_consternation', level:2, category:'Vocabulaire', concept:'La consternation',
+    keywords:['sentiment','découragement','tristesse','choc','accablement'],
+    definition:"La consternation est un sentiment d'accablement et de profonde tristesse causé par une nouvelle choquante." },
+  { id:'n2_hecatombe', level:2, category:'Vocabulaire', concept:'Une hécatombe',
+    keywords:['événement','massacre','grand nombre','victimes','mort'],
+    definition:"Une hécatombe est un événement tragique provoquant la mort d'un très grand nombre de personnes ou d'animaux." },
+  { id:'n2_euphemisme', level:2, category:'Littérature', concept:'Un euphémisme',
+    keywords:['figure de style','atténuation','réalité','mot doux','remplacer'],
+    definition:"Un euphémisme est une figure de style qui consiste à remplacer un mot brutal par une expression plus douce pour atténuer la réalité." },
+  { id:'n2_hyperbole', level:2, category:'Littérature', concept:'Une hyperbole',
+    keywords:['figure de style','exagération','réalité','effet','insister'],
+    definition:"Une hyperbole est une figure de style qui consiste à exagérer la réalité pour créer un effet ou insister sur une idée." },
+  { id:'n2_dystopie', level:2, category:'Littérature', concept:'La dystopie',
+    keywords:['genre','littéraire','société','imaginaire','oppressive'],
+    definition:"La dystopie est un genre littéraire qui décrit une société imaginaire oppressive et totalitaire, souvent dans le futur." },
+
+  // ══════════════════ NIVEAU 3 ══════════════════
+  // Histoire
+  { id:'n3_humanisme', level:3, category:'Histoire des idées', concept:'L\'Humanisme',
+    keywords:['mouvement','culturel','Renaissance','homme','raison'],
+    definition:"L'Humanisme est un mouvement culturel de la Renaissance qui place l'homme et sa raison au centre de la pensée et du savoir." },
+  { id:'n3_renaissance', level:3, category:'Histoire des idées', concept:'La Renaissance',
+    keywords:['période','culturelle','XVe-XVIe siècle','arts','sciences'],
+    definition:"La Renaissance est une période culturelle des XVe et XVIe siècles marquée par un renouveau des arts, des sciences et de la pensée." },
+  { id:'n3_colonisation', level:3, category:'Histoire', concept:'La colonisation',
+    keywords:['processus','historique','domination','peuple','territoire étranger'],
+    definition:"La colonisation est le processus par lequel un peuple s'impose sur un territoire étranger en dominant ses habitants." },
+  { id:'n3_reforme', level:3, category:'Histoire', concept:'La Réforme protestante',
+    keywords:['mouvement','religieux','XVIe siècle','Luther','Église catholique'],
+    definition:"La Réforme protestante est un mouvement religieux du XVIe siècle lancé par Luther pour contester l'autorité de l'Église catholique." },
+  { id:'n3_armistice', level:3, category:'Histoire', concept:'Un armistice',
+    keywords:['accord','cessation','hostilités','guerre','signature'],
+    definition:"Un armistice est un accord signé entre deux parties en guerre pour cesser les combats." },
+  { id:'n3_shoah', level:3, category:'Histoire', concept:'La Shoah',
+    keywords:['génocide','Juifs','nazisme','Seconde Guerre mondiale','extermination'],
+    definition:"La Shoah est le génocide des Juifs organisé par le régime nazi durant la Seconde Guerre mondiale." },
+  { id:'n3_decolonisation', level:3, category:'Histoire', concept:'La Décolonisation',
+    keywords:['processus','historique','indépendance','colonies','XXe siècle'],
+    definition:"La Décolonisation est le processus par lequel les territoires colonisés ont obtenu leur indépendance au cours du XXe siècle." },
+  // Mythologie
+  { id:'n3_ulysse', level:3, category:'Mythologie', concept:'Ulysse',
+    keywords:['personnage','mythologie grecque','roi','rusé','Odyssée'],
+    definition:"Ulysse est un personnage de la mythologie grecque, roi d'Ithaque, réputé pour sa ruse et ses aventures racontées dans L'Odyssée." },
+  { id:'n3_minotaure', level:3, category:'Mythologie', concept:'Le Minotaure',
+    keywords:['créature','mythologie grecque','mi-homme','mi-taureau','labyrinthe'],
+    definition:"Le Minotaure est une créature de la mythologie grecque, mi-homme et mi-taureau, enfermée dans un labyrinthe et vaincue par Thésée." },
+  { id:'n3_aphrodite', level:3, category:'Mythologie', concept:'Aphrodite / Vénus',
+    keywords:['déesse','mythologie grecque','beauté','amour','Olympe'],
+    definition:"Aphrodite (ou Vénus chez les Romains) est la déesse de la beauté et de l'amour dans la mythologie grecque." },
+  { id:'n3_athena', level:3, category:'Mythologie', concept:'Athéna',
+    keywords:['déesse','mythologie grecque','sagesse','guerre','Athènes'],
+    definition:"Athéna est la déesse de la sagesse et de la guerre dans la mythologie grecque, protectrice de la cité d'Athènes." },
+  { id:'n3_mnemosyne', level:3, category:'Mythologie', concept:'Mnémosyne',
+    keywords:['déesse','mythologie grecque','mémoire','muse','souvenir'],
+    definition:"Mnémosyne est la déesse de la mémoire dans la mythologie grecque, dont le nom a donné le mot mnémotechnique." },
+  // Dinosaures
+  { id:'n3_diplodocus', level:3, category:'Dinosaures', concept:'Le diplodocus',
+    keywords:['dinosaure','herbivore','long cou','longue queue','très grand'],
+    definition:"Le diplodocus est un dinosaure herbivore caractérisé par son très grand corps, son long cou et sa longue queue." },
+  { id:'n3_triceratops', level:3, category:'Dinosaures', concept:'Le tricératops',
+    keywords:['dinosaure','herbivore','trois cornes','crâne','bouclier'],
+    definition:"Le tricératops est un dinosaure herbivore reconnaissable à ses trois cornes et au grand bouclier osseux de son crâne." },
+  { id:'n3_dilophosaure', level:3, category:'Dinosaures', concept:'Le dilophosaure',
+    keywords:['dinosaure','carnivore','deux crêtes','venimeux','bipède'],
+    definition:"Le dilophosaure est un dinosaure carnivore bipède reconnaissable à ses deux crêtes osseuses sur la tête et supposé venimeux." },
+  { id:'n3_quetzalcoatlus', level:3, category:'Dinosaures', concept:'Le quetzalcoatlus',
+    keywords:['dinosaure','volant','immense','envergure','piscivore'],
+    definition:"Le quetzalcoatlus est un dinosaure volant à l'envergure immense qui se nourrissait principalement de poissons." },
+  // Sciences
+  { id:'n3_adn', level:3, category:'Sciences', concept:'L\'ADN',
+    keywords:['molécule','génétique','noyau','cellule','code'],
+    definition:"L'ADN est la molécule présente dans le noyau de chaque cellule qui contient le code génétique d'un être vivant." },
+  { id:'n3_tectonique', level:3, category:'Sciences', concept:'La tectonique des plaques',
+    keywords:['théorie','géologique','plaques','mouvement','séisme'],
+    definition:"La tectonique des plaques est la théorie selon laquelle la surface de la Terre est composée de plaques en mouvement lent, provoquant séismes et volcans." },
+  { id:'n3_iss', level:3, category:'Sciences', concept:'La Station spatiale internationale',
+    keywords:['satellite','artificiel','habité','scientifiques','orbite'],
+    definition:"La Station spatiale internationale est un satellite artificiel habité en orbite autour de la Terre, où des scientifiques mènent des expériences." },
+  // Littérature
+  { id:'n3_baudelaire', level:3, category:'Littérature', concept:'Charles Baudelaire',
+    keywords:['poète','français','XIXe siècle','Les Fleurs du Mal','symbolisme'],
+    definition:"Charles Baudelaire est un poète français du XIXe siècle, auteur des Fleurs du Mal, figure majeure du symbolisme." },
+  { id:'n3_zola', level:3, category:'Littérature', concept:'Émile Zola',
+    keywords:['écrivain','français','XIXe siècle','naturalisme','J\'accuse'],
+    definition:"Émile Zola est un écrivain français du XIXe siècle, fondateur du naturalisme, auteur de Germinal et de la lettre J'accuse." },
+  { id:'n3_haiku', level:3, category:'Littérature', concept:'Le haïku',
+    keywords:['poème','japonais','court','nature','trois vers'],
+    definition:"Un haïku est un poème japonais très court composé de trois vers, souvent inspiré par la nature et l'instant présent." },
+  { id:'n3_cadavre_exquis', level:3, category:'Littérature', concept:'Le cadavre exquis',
+    keywords:['jeu','littéraire','surréaliste','collectif','phrase'],
+    definition:"Le cadavre exquis est un jeu littéraire surréaliste collectif qui consiste à composer une phrase à plusieurs, chacun ignorant ce que l'autre a écrit." },
+  // Figures de style
+  { id:'n3_metaphore', level:3, category:'Figures de style', concept:'La métaphore',
+    keywords:['figure de style','comparaison','implicite','image','sans comme'],
+    definition:"La métaphore est une figure de style qui crée une image en comparant deux choses de façon implicite, sans utiliser le mot comme." },
+  { id:'n3_anaphore', level:3, category:'Figures de style', concept:'L\'anaphore',
+    keywords:['figure de style','répétition','début','phrase','insistance'],
+    definition:"L'anaphore est une figure de style qui consiste à répéter un même mot ou groupe de mots au début de plusieurs phrases pour insister." },
+  { id:'n3_alliteration', level:3, category:'Figures de style', concept:'L\'allitération',
+    keywords:['figure de style','répétition','son','consonnes','rythme'],
+    definition:"L'allitération est une figure de style qui consiste à répéter un même son consonantique pour créer un effet de rythme ou d'harmonie." },
+  { id:'n3_oxymore', level:3, category:'Figures de style', concept:'L\'oxymore',
+    keywords:['figure de style','contradiction','deux mots','opposés','même expression'],
+    definition:"Un oxymore est une figure de style qui associe deux mots de sens opposé dans une même expression, comme « une obscure clarté »." },
+  // Étymologie
+  { id:'n3_etym_microscope', level:3, category:'Étymologie', concept:'Étymologie : microscope',
+    keywords:['grec','micro (petit)','scope (voir)','instrument','optique'],
+    definition:"Le mot microscope vient du grec micro (petit) et scope (voir) : c'est l'instrument qui permet de voir l'infiniment petit." },
+  { id:'n3_etym_telescope', level:3, category:'Étymologie', concept:'Étymologie : télescope',
+    keywords:['grec','télé (loin)','scope (voir)','instrument','astronomie'],
+    definition:"Le mot télescope vient du grec télé (loin) et scope (voir) : c'est l'instrument qui permet de voir ce qui est très loin." },
+  { id:'n3_etym_thermometre', level:3, category:'Étymologie', concept:'Étymologie : thermomètre',
+    keywords:['grec','thermo (chaleur)','mètre (mesurer)','instrument','température'],
+    definition:"Le mot thermomètre vient du grec thermo (chaleur) et mètre (mesurer) : c'est l'instrument qui mesure la chaleur du corps." },
+  { id:'n3_etym_philo', level:3, category:'Étymologie', concept:'Étymologie : philosophie',
+    keywords:['grec','philo (aimer)','sophie (sagesse)','réflexion','idées'],
+    definition:"Le mot philosophie vient du grec philo (aimer) et sophie (sagesse) : c'est la discipline qui consiste à aimer et chercher la sagesse." },
+  { id:'n3_etym_hecatombe', level:3, category:'Étymologie', concept:'Étymologie : hécatombe',
+    keywords:['grec','hécato (cent)','bous (bœuf)','massacre','grand nombre'],
+    definition:"Le mot hécatombe vient du grec hécato (cent) et bous (bœuf) : il désignait le sacrifice de cent bœufs, et signifie aujourd'hui un massacre en grand nombre." },
+  { id:'n3_etym_antagoniste', level:3, category:'Étymologie', concept:'Étymologie : antagoniste',
+    keywords:['grec','anti (contre)','agon (agir)','opposant','conflit'],
+    definition:"Le mot antagoniste vient du grec anti (contre) et agon (agir) : c'est celui qui agit contre un autre dans un conflit." },
+  { id:'n3_etym_arthropode', level:3, category:'Étymologie', concept:'Étymologie : arthropode',
+    keywords:['grec','arthro (articulation)','pode (pied)','animal','pattes'],
+    definition:"Le mot arthropode vient du grec arthro (articulation) et pode (pied) : c'est un animal aux pattes articulées, comme l'insecte ou l'araignée." },
+
+  // ══════════════════ NIVEAU 4 ══════════════════
+  // Histoire
+  { id:'n4_hammurabi', level:4, category:'Histoire et civilisations', concept:'Le Code de Hammurabi',
+    keywords:['document','historique','lois','Babylone','Mésopotamie'],
+    definition:"Le Code de Hammurabi est un document historique de Mésopotamie, considéré comme l'un des premiers codes de lois de l'histoire, rédigé à Babylone." },
+  { id:'n4_khawarizmi', level:4, category:'Histoire et civilisations', concept:'Al-Khawarizmi',
+    keywords:['savant','arabe','mathématicien','algèbre','algorithme'],
+    definition:"Al-Khawarizmi est un savant arabe du IXe siècle, père de l'algèbre, dont le nom a donné le mot algorithme." },
+  { id:'n4_averroes', level:4, category:'Histoire et civilisations', concept:'Averroès (Ibn Rushd)',
+    keywords:['philosophe','arabe','Andalousie','Aristote','commentateur'],
+    definition:"Averroès est un philosophe arabe du XIIe siècle né en Andalousie, célèbre pour ses commentaires de l'œuvre d'Aristote." },
+  { id:'n4_avicenne', level:4, category:'Histoire et civilisations', concept:'Avicenne (Ibn Sina)',
+    keywords:['savant','arabe','médecin','philosophe','encyclopédiste'],
+    definition:"Avicenne est un médecin et philosophe arabe du Xe siècle, auteur d'une encyclopédie médicale qui a influencé l'Europe pendant des siècles." },
+  { id:'n4_fatima', level:4, category:'Histoire et civilisations', concept:'Fatima Zahra',
+    keywords:['personnage','historique','islam','fille','Mahomet'],
+    definition:"Fatima Zahra est la fille du prophète Mahomet et de Khadija, et l'épouse d'Ali, vénérée dans l'islam." },
+  // Sciences
+  { id:'n4_double_helice', level:4, category:'Sciences', concept:'La double hélice de l\'ADN',
+    keywords:['structure','moléculaire','ADN','Watson et Crick','génétique'],
+    definition:"La double hélice est la structure en spirale de l'ADN, découverte par Watson et Crick, qui contient toute l'information génétique d'un être vivant." },
+  { id:'n4_evolution', level:4, category:'Sciences', concept:'L\'évolution des espèces',
+    keywords:['théorie','scientifique','Darwin','sélection naturelle','adaptation'],
+    definition:"L'évolution des espèces est la théorie scientifique de Darwin selon laquelle les êtres vivants se transforment au fil du temps par sélection naturelle." },
+  { id:'n4_trou_noir', level:4, category:'Sciences', concept:'Un trou noir',
+    keywords:['objet','astronomique','gravité','extrême','lumière absorbée'],
+    definition:"Un trou noir est un objet astronomique d'une gravité si extrême que rien, pas même la lumière, ne peut en échapper." },
+  { id:'n4_newton', level:4, category:'Sciences', concept:'La loi de la gravitation universelle',
+    keywords:['loi','physique','Newton','attraction','masses'],
+    definition:"La loi de la gravitation universelle est la loi physique établie par Newton selon laquelle toutes les masses s'attirent mutuellement." },
+  // Littérature
+  { id:'n4_surrealisme', level:4, category:'Littérature et arts', concept:'Le surréalisme',
+    keywords:['mouvement','artistique','XXe siècle','inconscient','rêve'],
+    definition:"Le surréalisme est un mouvement artistique du XXe siècle qui cherche à exprimer l'inconscient et le monde des rêves dans les œuvres d'art." },
+  { id:'n4_tragedie', level:4, category:'Littérature et arts', concept:'La tragédie grecque',
+    keywords:['genre','théâtral','Antiquité','destin','héros'],
+    definition:"La tragédie grecque est un genre théâtral de l'Antiquité qui met en scène la chute d'un héros confronté à un destin inévitable." },
+  { id:'n4_epopee', level:4, category:'Littérature et arts', concept:'Une épopée',
+    keywords:['genre','littéraire','long','récit','héros'],
+    definition:"Une épopée est un long récit littéraire qui raconte les exploits d'un héros légendaire, comme L'Iliade ou L'Odyssée." },
+  // Philosophie
+  { id:'n4_catharsis', level:4, category:'Philosophie', concept:'La catharsis',
+    keywords:['concept','philosophique','Aristote','émotions','purification'],
+    definition:"La catharsis est un concept philosophique d'Aristote selon lequel le spectateur d'une tragédie se libère de ses émotions en les vivant à travers les personnages." },
+  { id:'n4_allegorie', level:4, category:'Philosophie', concept:'Une allégorie',
+    keywords:['figure','style','représentation','concrète','idée abstraite'],
+    definition:"Une allégorie est une figure de style qui représente une idée abstraite à travers une image concrète ou un personnage symbolique." },
+  { id:'n4_rhetorique', level:4, category:'Philosophie', concept:'La rhétorique',
+    keywords:['art','discours','convaincre','persuader','arguments'],
+    definition:"La rhétorique est l'art de bien construire un discours pour convaincre et persuader un auditoire par des arguments." },
+  { id:'n4_serendipite', level:4, category:'Philosophie', concept:'La sérendipité',
+    keywords:['concept','découverte','hasard','inattendue','observation'],
+    definition:"La sérendipité désigne le fait de faire une découverte importante de façon inattendue et par hasard, en observant attentivement." },
+  { id:'n4_dialectique', level:4, category:'Philosophie', concept:'La dialectique',
+    keywords:['méthode','philosophique','thèse','antithèse','synthèse'],
+    definition:"La dialectique est une méthode philosophique qui consiste à confronter une thèse et une antithèse pour aboutir à une synthèse plus complète." },
+  { id:'n4_litote', level:4, category:'Littérature et arts', concept:'La litote',
+    keywords:['figure de style','atténuation','dire moins','suggérer plus','implicite'],
+    definition:"La litote est une figure de style qui consiste à dire moins pour suggérer davantage, comme « ce n'est pas mal » pour dire « c'est très bien »." },
+  { id:'n4_erudition', level:4, category:'Philosophie', concept:'L\'érudition',
+    keywords:['qualité','intellectuelle','savoir','vaste','études approfondies'],
+    definition:"L'érudition est une qualité intellectuelle qui désigne un savoir très vaste et approfondi acquis par de longues études." },
+  { id:'n4_sep_pouvoirs', level:4, category:'Philosophie', concept:'La séparation des pouvoirs',
+    keywords:['principe','politique','législatif','exécutif','judiciaire'],
+    definition:"La séparation des pouvoirs est le principe politique qui divise l'autorité d'un État en trois pouvoirs indépendants : le législatif, l'exécutif et le judiciaire." },
+  { id:'n4_droit_homme', level:4, category:'Philosophie', concept:'La Déclaration universelle des droits de l\'Homme',
+    keywords:['document','international','1948','droits','fondamentaux'],
+    definition:"La Déclaration universelle des droits de l'Homme est un document international adopté en 1948 qui énonce les droits fondamentaux de tout être humain." },
+];
+
+// ============================================================
+// ÉTAT DE L'APPLICATION
+// ============================================================
+const LEVEL_COLORS = { 1:'#2ecc71', 2:'#f1c40f', 3:'#e67e22', 4:'#e74c3c' };
+const LEVEL_NAMES = { 1:'Niveau 1', 2:'Niveau 2', 3:'Niveau 3', 4:'Niveau 4' };
+
+let cardStates = {}; // id -> { interval, easeFactor, repetitions, nextReview, totalReviews, lastDifficulty }
+let sessionQueue = [];
+let hardQueue = [];
+let currentCard = null;
+let isRevealed = false;
+let selectedLevels = [1];
+let sessionSize = 20;
+let sessionStats = { facile:0, normal:0, difficile:0 };
+let sessionTotal = 0;
+let sessionDone = 0;
+
+// ============================================================
+// SM-2 ALGORITHM
+// ============================================================
+function getCardState(id) {
+  return cardStates[id] || { interval:0, easeFactor:2.5, repetitions:0, nextReview:null, totalReviews:0 };
+}
+
+function computeNextInterval(state, difficulty) {
+  const ef = state.easeFactor || 2.5;
+  const reps = state.repetitions || 0;
+  const prevInterval = state.interval || 0;
+  let interval, newEf;
+
+  if (difficulty === 'difficile') {
+    interval = 1;
+    newEf = Math.max(1.3, ef - 0.2);
+    return { interval, easeFactor: newEf, repetitions: 0 };
+  } else if (difficulty === 'normal') {
+    newEf = ef;
+    if (reps === 0) interval = 1;
+    else if (reps === 1) interval = 3;
+    else interval = Math.round(prevInterval * ef);
+    return { interval, easeFactor: newEf, repetitions: reps + 1 };
+  } else { // facile
+    newEf = Math.min(2.5, ef + 0.1);
+    if (reps === 0) interval = 3;
+    else if (reps === 1) interval = 7;
+    else interval = Math.round(prevInterval * ef);
+    return { interval, easeFactor: newEf, repetitions: reps + 1 };
+  }
+}
+
+function getIntervalLabel(days) {
+  if (days === 0) return 'Aujourd\'hui';
+  if (days === 1) return '1 jour';
+  if (days < 7) return `${days} jours`;
+  if (days < 30) return `${Math.round(days/7)} sem.`;
+  return `${Math.round(days/30)} mois`;
+}
+
+function getToday() {
+  return new Date().toISOString().split('T')[0];
+}
+
+function addDays(days) {
+  const d = new Date();
+  d.setDate(d.getDate() + days);
+  return d.toISOString().split('T')[0];
+}
+
+// ============================================================
+// SESSION LOGIC
+// ============================================================
+function getDueCards(levels) {
+  const today = getToday();
+  return ALL_CARDS.filter(card => {
+    if (!levels.includes(card.level)) return false;
+    const s = getCardState(card.id);
+    if (!s.nextReview) return true;
+    return s.nextReview <= today;
+  });
+}
+
+function shuffle(arr) {
+  const a = [...arr];
+  for (let i = a.length-1; i > 0; i--) {
+    const j = Math.floor(Math.random()*(i+1));
+    [a[i],a[j]] = [a[j],a[i]];
+  }
+  return a;
+}
+
+function buildSessionQueue() {
+  let due = getDueCards(selectedLevels);
+  due = shuffle(due);
+  const size = sessionSize === 999 ? due.length : Math.min(sessionSize, due.length);
+  sessionQueue = due.slice(0, size);
+  hardQueue = [];
+  sessionTotal = sessionQueue.length;
+  sessionDone = 0;
+  sessionStats = { facile:0, normal:0, difficile:0 };
+}
+
+function getNextCard() {
+  // Insérer une carte difficile toutes les 12 cartes
+  if (hardQueue.length > 0 && sessionDone > 0 && sessionDone % 12 === 0) {
+    return hardQueue.shift();
+  }
+  return sessionQueue.shift() || null;
+}
+
+// ============================================================
+// UI HELPERS
+// ============================================================
+function showScreen(id) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+}
+
+function showToast(msg, duration=2200) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), duration);
+}
+
+function updateLevelStats() {
+  const today = getToday();
+  for (let lv = 1; lv <= 4; lv++) {
+    const cards = ALL_CARDS.filter(c => c.level === lv);
+    const total = cards.length;
+    const due = cards.filter(c => {
+      const s = getCardState(c.id);
+      return !s.nextReview || s.nextReview <= today;
+    }).length;
+    const mastered = cards.filter(c => {
+      const s = getCardState(c.id);
+      return s.repetitions >= 3 && s.interval >= 14;
+    }).length;
+    const el = document.getElementById(`stats-${lv}`);
+    if (el) {
+      el.innerHTML = `
+        <span class="stat-chip">${total} cartes</span>
+        ${due > 0 ? `<span class="stat-chip due">${due} à revoir</span>` : ''}
+        ${mastered > 0 ? `<span class="stat-chip mastered">${mastered} maîtrisées</span>` : ''}
+      `;
+    }
+  }
+}
+
+// ============================================================
+// WELCOME SCREEN
+// ============================================================
+document.querySelectorAll('.level-option').forEach(el => {
+  el.addEventListener('click', () => {
+    const lv = parseInt(el.dataset.level);
+    el.classList.toggle('selected');
+    if (el.classList.contains('selected')) {
+      if (!selectedLevels.includes(lv)) selectedLevels.push(lv);
+    } else {
+      selectedLevels = selectedLevels.filter(l => l !== lv);
+    }
+    checkStartButton();
+  });
+});
+
+document.getElementById('session-size').addEventListener('change', e => {
+  sessionSize = parseInt(e.target.value);
+});
+
+function checkStartButton() {
+  const btn = document.getElementById('btn-start');
+  const hasDue = selectedLevels.some(lv => getDueCards([lv]).length > 0);
+  btn.disabled = selectedLevels.length === 0 || !hasDue;
+  if (selectedLevels.length === 0) {
+    btn.textContent = '▶ Sélectionner au moins un niveau';
+  } else if (!hasDue) {
+    btn.textContent = '✓ Aucune carte à revoir pour aujourd\'hui';
+  } else {
+    const count = Math.min(sessionSize === 999 ? 9999 : sessionSize, getDueCards(selectedLevels).length);
+    btn.textContent = `▶ Commencer (${count} cartes)`;
+  }
+}
+
+function goToWelcome() {
+  updateLevelStats();
+  checkStartButton();
+  showScreen('screen-welcome');
+}
+
+// ============================================================
+// SESSION
+// ============================================================
+function startSession() {
+  sessionSize = parseInt(document.getElementById('session-size').value);
+  buildSessionQueue();
+  if (sessionTotal === 0) { showToast('Aucune carte à revoir !'); return; }
+  showScreen('screen-session');
+  showNextCard();
+}
+
+function showNextCard() {
+  currentCard = getNextCard();
+  if (!currentCard) { endSession(); return; }
+
+  isRevealed = false;
+  sessionDone++;
+
+  // Progress
+  const pct = Math.round(((sessionDone-1) / sessionTotal) * 100);
+  document.getElementById('progress-fill').style.width = pct + '%';
+  document.getElementById('progress-pct').textContent = pct + '%';
+  document.getElementById('session-counter').textContent = `${sessionDone}/${sessionTotal}`;
+  document.getElementById('progress-label').textContent = `Carte ${sessionDone} sur ${sessionTotal}`;
+
+  // Card color by level
+  const color = LEVEL_COLORS[currentCard.level];
+  document.getElementById('main-card').style.setProperty('--card-accent', color);
+
+  // Level badge
+  const badge = document.getElementById('card-level-badge');
+  badge.textContent = LEVEL_NAMES[currentCard.level];
+  badge.style.borderColor = color;
+  badge.style.color = color;
+
+  document.getElementById('card-category').textContent = currentCard.category;
+
+  // Keywords
+  const kc = document.getElementById('keywords-container');
+  kc.innerHTML = currentCard.keywords.map(k =>
+    `<span class="keyword-tag">${k}</span>`
+  ).join('');
+
+  // Hide reveal
+  document.getElementById('card-reveal').style.display = 'none';
+  document.getElementById('reveal-area').style.display = 'block';
+  document.getElementById('rating-area').style.display = 'none';
+
+  // Hard queue indicator
+  updateHardQueueBar();
+
+  // Animate card
+  const card = document.getElementById('main-card');
+  card.style.animation = 'none';
+  void card.offsetWidth;
+  card.style.animation = 'cardIn 0.35s ease';
+}
+
+function updateHardQueueBar() {
+  const bar = document.getElementById('hard-queue-bar');
+  if (hardQueue.length === 0) {
+    bar.innerHTML = '';
+  } else {
+    bar.innerHTML = `
+      ${hardQueue.map(() => '<span class="hard-dot"></span>').join('')}
+      <span>${hardQueue.length} carte${hardQueue.length>1?'s':''} difficile${hardQueue.length>1?'s':''} à revoir</span>
+    `;
+  }
+}
+
+function revealCard() {
+  isRevealed = true;
+  document.getElementById('reveal-area').style.display = 'none';
+  document.getElementById('rating-area').style.display = 'block';
+  document.getElementById('card-reveal').style.display = 'block';
+
+  // Concept + definition
+  document.getElementById('concept-title').textContent = currentCard.concept;
+  document.getElementById('definition-text').innerHTML = highlightKeywords(
+    currentCard.definition, currentCard.keywords
+  );
+
+  // Highlight keywords
+  document.querySelectorAll('#keywords-container .keyword-tag').forEach(el => {
+    el.classList.add('highlight');
+  });
+
+  // Compute and show intervals
+  const state = getCardState(currentCard.id);
+  const hard = computeNextInterval(state, 'difficile');
+  const normal = computeNextInterval(state, 'normal');
+  const easy = computeNextInterval(state, 'facile');
+
+  document.getElementById('interval-hard').textContent = getIntervalLabel(hard.interval);
+  document.getElementById('interval-normal').textContent = getIntervalLabel(normal.interval);
+  document.getElementById('interval-easy').textContent = getIntervalLabel(easy.interval);
+}
+
+function highlightKeywords(def, keywords) {
+  let text = def;
+  const sorted = [...keywords].sort((a,b) => b.length - a.length);
+  sorted.forEach(kw => {
+    const safe = kw.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');
+    const re = new RegExp(`(${safe})`, 'gi');
+    text = text.replace(re, '<span class="kw-hl">$1</span>');
+  });
+  return text;
+}
+
+function rateCard(difficulty) {
+  if (!currentCard) return;
+
+  // Update stats
+  sessionStats[difficulty]++;
+
+  // Compute new state
+  const state = getCardState(currentCard.id);
+  const newIntervals = computeNextInterval(state, difficulty);
+  cardStates[currentCard.id] = {
+    ...state,
+    interval: newIntervals.interval,
+    easeFactor: newIntervals.easeFactor,
+    repetitions: newIntervals.repetitions,
+    nextReview: addDays(newIntervals.interval),
+    totalReviews: (state.totalReviews || 0) + 1,
+    lastDifficulty: difficulty
+  };
+
+  // Si difficile : on remet la carte dans la file
+  if (difficulty === 'difficile') {
+    hardQueue.push(currentCard);
+    sessionTotal++; // la file s'allonge d'une carte
+  }
+
+  setTimeout(showNextCard, 100);
+}
+
+function quitSession() {
+  if (confirm('Quitter la session en cours ?')) {
+    endSession();
+  }
+}
+
+// ============================================================
+// END SESSION
+// ============================================================
+function endSession() {
+  const total = sessionStats.facile + sessionStats.normal + sessionStats.difficile;
+  document.getElementById('end-easy').textContent = sessionStats.facile;
+  document.getElementById('end-normal').textContent = sessionStats.normal;
+  document.getElementById('end-hard').textContent = sessionStats.difficile;
+
+  // Emoji selon performance
+  const pctEasy = total > 0 ? sessionStats.facile / total : 0;
+  let icon = '🎉', title = 'Session terminée !', sub = '';
+  if (pctEasy >= 0.8) { icon='🏆'; sub='Maîtrise excellente !'; }
+  else if (pctEasy >= 0.5) { icon='👍'; sub='Bon travail, continuez !'; }
+  else if (pctEasy >= 0.3) { icon='💪'; sub='Persévérez, ça vient !'; }
+  else { icon='📖'; sub='Continuez à réviser régulièrement.'; }
+
+  document.getElementById('end-icon').textContent = icon;
+  document.getElementById('end-title').textContent = title;
+  document.getElementById('end-subtitle').textContent = sub;
+
+  // Prochaine révision
+  const today = getToday();
+  const tomorrow = addDays(1);
+  const dueTomorrow = ALL_CARDS.filter(c => {
+    const s = getCardState(c.id);
+    return s.nextReview === tomorrow;
+  }).length;
+  const dueToday = ALL_CARDS.filter(c => {
+    const s = getCardState(c.id);
+    return s.nextReview && s.nextReview <= today;
+  }).length;
+
+  let nextText = '';
+  if (dueTomorrow > 0) nextText = `${dueTomorrow} carte${dueTomorrow>1?'s':''} à revoir demain`;
+  else if (dueToday > 0) nextText = `${dueToday} carte${dueToday>1?'s':''} encore disponible${dueToday>1?'s':''} aujourd'hui`;
+  else nextText = 'Aucune carte à revoir dans les prochains jours — excellent !';
+  document.getElementById('next-review-text').innerHTML = nextText;
+
+  showScreen('screen-end');
+}
+
+// ============================================================
+// SAVE / LOAD
+// ============================================================
+function generateSaveData() {
+  return {
+    version: '1.0',
+    savedAt: new Date().toISOString(),
+    cardStates: cardStates,
+    meta: {
+      totalCards: ALL_CARDS.length,
+      reviewedCards: Object.keys(cardStates).length,
+      masteredCards: Object.values(cardStates).filter(s => s.repetitions >= 3 && s.interval >= 14).length
+    }
+  };
+}
+
+function saveSave() {
+  const data = generateSaveData();
+  const json = JSON.stringify(data, null, 2);
+  const blob = new Blob([json], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  const d = new Date().toISOString().split('T')[0];
+  a.download = `devinette_concept_${d}.json`;
+  a.click();
+  URL.revokeObjectURL(url);
+  showToast('💾 Progression sauvegardée !');
+}
+
+function loadSave(event) {
+  const file = event.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = e => {
+    try {
+      const data = JSON.parse(e.target.result);
+      if (!data.cardStates) throw new Error('Format invalide');
+      cardStates = data.cardStates;
+      updateLevelStats();
+      checkStartButton();
+      const meta = data.meta || {};
+      showToast(`✅ Chargé : ${meta.reviewedCards || 0} cartes travaillées`);
+    } catch(err) {
+      showToast('❌ Fichier invalide');
+    }
+  };
+  reader.readAsText(file);
+  event.target.value = '';
+}
+
+// ============================================================
+// INIT
+// ============================================================
+updateLevelStats();
+checkStartButton();
+</script>
+</body>
+</html>
