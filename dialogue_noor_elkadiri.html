@@ -1,0 +1,646 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dialogue – Noor et M. El Kadiri</title>
+<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;1,400&family=Source+Sans+3:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #fdf6ec;
+    --parchment: #f5ecd6;
+    --ink: #2c1f0e;
+    --brown-dark: #5c3d1e;
+    --brown-mid: #8b5e2e;
+    --brown-light: #c9913d;
+    --green: #2d6a4f;
+    --green-light: #e8f5ef;
+    --blue: #1a4a72;
+    --blue-light: #e5f0f8;
+    --noor-bg: #fff8ee;
+    --noor-border: #d4a850;
+    --prof-bg: #f0f7f3;
+    --prof-border: #4a9070;
+    --link-color: #1a6b9a;
+    --link-hover: #0d3f5e;
+    --tag-bg: #fff3cd;
+    --tag-border: #e8b84b;
+    --shadow: 0 2px 12px rgba(44,31,14,0.10);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background-color: var(--bg);
+    color: var(--ink);
+    font-family: 'Source Sans 3', sans-serif;
+    font-size: 16px;
+    line-height: 1.7;
+    min-height: 100vh;
+  }
+
+  /* HEADER */
+  .header {
+    background: linear-gradient(135deg, var(--brown-dark) 0%, #3a2510 100%);
+    color: #fdf3e3;
+    padding: 36px 32px 28px;
+    text-align: center;
+    border-bottom: 4px solid var(--brown-light);
+  }
+  .header .tag {
+    display: inline-block;
+    background: var(--brown-light);
+    color: var(--brown-dark);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    padding: 4px 14px;
+    border-radius: 20px;
+    margin-bottom: 14px;
+  }
+  .header h1 {
+    font-family: 'Lora', serif;
+    font-size: clamp(20px, 4vw, 28px);
+    font-weight: 600;
+    line-height: 1.3;
+    margin-bottom: 8px;
+  }
+  .header p {
+    font-size: 14px;
+    opacity: 0.80;
+    font-style: italic;
+  }
+
+  /* SECTION TITLE */
+  .section-title {
+    background: var(--parchment);
+    border-left: 5px solid var(--brown-light);
+    padding: 14px 20px;
+    margin: 28px 0 0 0;
+    font-family: 'Lora', serif;
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--brown-dark);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .section-title .emoji { font-size: 18px; }
+
+  /* MAIN CONTAINER */
+  .container {
+    max-width: 780px;
+    margin: 0 auto;
+    padding: 0 20px 60px;
+  }
+
+  /* BUBBLE */
+  .bubble-wrap {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    margin: 18px 0;
+  }
+  .bubble-wrap.noor { flex-direction: row; }
+  .bubble-wrap.prof  { flex-direction: row-reverse; }
+
+  .avatar {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    flex-shrink: 0;
+    margin-top: 4px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+  }
+  .noor .avatar  { background: var(--noor-border); }
+  .prof .avatar  { background: var(--prof-border); }
+
+  .bubble {
+    border-radius: 16px;
+    padding: 14px 18px;
+    max-width: calc(100% - 60px);
+    position: relative;
+    box-shadow: var(--shadow);
+  }
+  .noor .bubble {
+    background: var(--noor-bg);
+    border: 1.5px solid var(--noor-border);
+    border-top-left-radius: 4px;
+  }
+  .prof .bubble {
+    background: var(--prof-bg);
+    border: 1.5px solid var(--prof-border);
+    border-top-right-radius: 4px;
+  }
+
+  .speaker-name {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+  .noor .speaker-name { color: var(--brown-mid); }
+  .prof .speaker-name { color: var(--green); }
+
+  .bubble p { font-size: 15px; line-height: 1.65; }
+
+  /* INLINE LINK CHIP */
+  .link-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    background: var(--blue-light);
+    border: 1px solid #9cc5e8;
+    border-radius: 6px;
+    padding: 2px 9px 2px 7px;
+    font-size: 12.5px;
+    font-weight: 600;
+    color: var(--blue);
+    text-decoration: none;
+    vertical-align: middle;
+    margin: 2px 2px;
+    transition: background 0.18s, color 0.18s, transform 0.12s;
+    white-space: nowrap;
+  }
+  .link-chip:hover {
+    background: var(--blue);
+    color: #fff;
+    border-color: var(--blue);
+    transform: translateY(-1px);
+  }
+  .link-chip .chip-icon { font-size: 13px; }
+
+  /* RESOURCE BOX */
+  .resource-box {
+    background: var(--blue-light);
+    border: 1.5px solid #9cc5e8;
+    border-radius: 12px;
+    padding: 12px 16px;
+    margin-top: 10px;
+    font-size: 13.5px;
+  }
+  .resource-box .res-title {
+    font-weight: 700;
+    color: var(--blue);
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .resource-box ul { list-style: none; padding: 0; display: flex; flex-wrap: wrap; gap: 6px; }
+  .resource-box ul li { display: inline; }
+
+  /* DATE TABLE */
+  .dates-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+    margin: 16px 0 0;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: var(--shadow);
+  }
+  .dates-table th {
+    background: var(--brown-dark);
+    color: #fdf3e3;
+    padding: 10px 14px;
+    text-align: left;
+    font-size: 12px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+  .dates-table td {
+    padding: 9px 14px;
+    border-bottom: 1px solid #e8d8c0;
+    background: var(--noor-bg);
+  }
+  .dates-table tr:last-child td { border-bottom: none; }
+  .dates-table tr:hover td { background: var(--parchment); }
+  .dates-table .date-cell {
+    font-weight: 700;
+    color: var(--brown-dark);
+    white-space: nowrap;
+  }
+  .dates-table .highlight td {
+    background: #fff3cd;
+    font-weight: 600;
+  }
+
+  /* RECAP BOX */
+  .recap-box {
+    background: linear-gradient(135deg, #1a4a72 0%, #2d6a4f 100%);
+    color: #fff;
+    border-radius: 14px;
+    padding: 22px 24px;
+    margin-top: 28px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.18);
+  }
+  .recap-box h3 {
+    font-family: 'Lora', serif;
+    font-size: 16px;
+    margin-bottom: 12px;
+    opacity: 0.95;
+  }
+  .recap-box p {
+    font-size: 14.5px;
+    line-height: 1.7;
+    opacity: 0.92;
+  }
+
+  /* DIVIDER */
+  .divider {
+    border: none;
+    border-top: 2px dashed #d4b896;
+    margin: 28px 0 20px;
+    opacity: 0.6;
+  }
+
+  /* RESPONSIVE */
+  @media (max-width: 500px) {
+    .header { padding: 24px 16px 20px; }
+    .container { padding: 0 12px 40px; }
+    .bubble { padding: 12px 14px; }
+    .link-chip { font-size: 11px; padding: 2px 7px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="tag">📖 Dialogue pédagogique</div>
+  <h1>Noor et Monsieur El Kadiri</h1>
+  <p>Chapitre 2 – Le modèle britannique et son influence (17e-18e siècle)</p>
+</div>
+
+<div class="container">
+
+  <!-- INTRO -->
+  <div class="section-title"><span class="emoji">🏛️</span> Introduction — La Magna Carta (1215)</div>
+
+  <div class="bubble-wrap noor">
+    <div class="avatar">🎒</div>
+    <div class="bubble">
+      <div class="speaker-name">Noor</div>
+      <p>Monsieur, on commence par quoi aujourd'hui ?</p>
+    </div>
+  </div>
+
+  <div class="bubble-wrap prof">
+    <div class="avatar">👨‍🏫</div>
+    <div class="bubble">
+      <div class="speaker-name">M. El Kadiri</div>
+      <p>On remonte un peu dans le temps, Noor. On va parler de l'Angleterre. Et on commence avec une date importante : <strong>1215</strong>. Tu sais ce qui se passe cette année-là ?</p>
+    </div>
+  </div>
+
+  <div class="bubble-wrap noor">
+    <div class="avatar">🎒</div>
+    <div class="bubble">
+      <div class="speaker-name">Noor</div>
+      <p>Non, pas du tout…</p>
+    </div>
+  </div>
+
+  <div class="bubble-wrap prof">
+    <div class="avatar">👨‍🏫</div>
+    <div class="bubble">
+      <div class="speaker-name">M. El Kadiri</div>
+      <p>Les nobles anglais forcent le roi à signer un texte très important qu'on appelle la <strong>Magna Carta</strong>, ou la Grande Charte. Ce texte dit une chose simple mais révolutionnaire : <em>le roi ne peut pas créer de nouveaux impôts sans demander l'accord du Parlement.</em> C'est la première fois qu'on limite le pouvoir d'un roi par écrit.</p>
+      <div class="resource-box">
+        <div class="res-title">📎 En savoir plus sur la Magna Carta</div>
+        <ul>
+          <li><a class="link-chip" href="https://fr.vikidia.org/wiki/Grande_Charte" target="_blank"><span class="chip-icon">🧒</span> Vikidia (8-13 ans)</a></li>
+          <li><a class="link-chip" href="https://www.worldhistory.org/trans/fr/1-17603/magna-carta/" target="_blank"><span class="chip-icon">🌍</span> World History</a></li>
+          <li><a class="link-chip" href="https://www.herodote.net/15_juin_1215-evenement-12150615.php" target="_blank"><span class="chip-icon">📰</span> Herodote.net</a></li>
+          <li><a class="link-chip" href="https://fr.humanrights.com/what-are-human-rights/brief-history/magna-carta.html" target="_blank"><span class="chip-icon">⚖️</span> Droits de l'Homme</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="bubble-wrap noor">
+    <div class="avatar">🎒</div>
+    <div class="bubble">
+      <div class="speaker-name">Noor</div>
+      <p>Donc même le roi devait obéir à des règles ?</p>
+    </div>
+  </div>
+
+  <div class="bubble-wrap prof">
+    <div class="avatar">👨‍🏫</div>
+    <div class="bubble">
+      <div class="speaker-name">M. El Kadiri</div>
+      <p>Exactement ! Mais attention, ça ne veut pas dire que tout change immédiatement. Au <strong>16e siècle</strong>, l'Angleterre reste une <strong>monarchie absolue</strong> — c'est-à-dire que le roi, ou ici la reine, gouverne seul, sans partager le pouvoir.</p>
+    </div>
+  </div>
+
+  <div class="bubble-wrap noor">
+    <div class="avatar">🎒</div>
+    <div class="bubble">
+      <div class="speaker-name">Noor</div>
+      <p>C'est qui la reine dont vous parlez ?</p>
+    </div>
+  </div>
+
+  <div class="bubble-wrap prof">
+    <div class="avatar">👨‍🏫</div>
+    <div class="bubble">
+      <div class="speaker-name">M. El Kadiri</div>
+      <p><strong>Élisabeth I</strong>. Elle est très habile. Elle gouverne l'Angleterre sans presque jamais convoquer le Parlement. Elle s'appuie sur la <em>Gentry</em> — c'est la noblesse anglaise. Elle impose aussi une religion officielle à tout son peuple : <strong>l'anglicanisme</strong>. Quand elle meurt en <strong>1603</strong>, elle laisse un royaume calme et assez riche.</p>
+    </div>
+  </div>
+
+  <div class="bubble-wrap noor">
+    <div class="avatar">🎒</div>
+    <div class="bubble">
+      <div class="speaker-name">Noor</div>
+      <p>Et après sa mort, tout continue bien ?</p>
+    </div>
+  </div>
+
+  <div class="bubble-wrap prof">
+    <div class="avatar">👨‍🏫</div>
+    <div class="bubble">
+      <div class="speaker-name">M. El Kadiri</div>
+      <p>Pas vraiment… Une nouvelle famille royale arrive au pouvoir : <strong>les Stuarts</strong>. Au début, tout le monde est content. Mais ça ne dure pas longtemps.</p>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <!-- PARTIE I -->
+  <div class="section-title"><span class="emoji">⚔️</span> I – La naissance du modèle politique anglais au 17e siècle</div>
+
+  <div class="bubble-wrap prof">
+    <div class="avatar">👨‍🏫</div>
+    <div class="bubble">
+      <div class="speaker-name">M. El Kadiri</div>
+      <p><strong>Jacques Ier Stuart</strong> arrive au pouvoir en <strong>1603</strong>. Il pense être l'<strong>intermédiaire direct entre Dieu et ses sujets</strong>. En gros, il dit : <em>"Je tiens mon pouvoir de Dieu lui-même, personne ne peut me dire quoi faire."</em></p>
+    </div>
+  </div>
+
+  <div class="bubble-wrap noor">
+    <div class="avatar">🎒</div>
+    <div class="bubble">
+      <div class="speaker-name">Noor</div>
+      <p>Donc il ne veut pas du tout écouter le Parlement ?</p>
+    </div>
+  </div>
+
+  <div class="bubble-wrap prof">
+    <div class="avatar">👨‍🏫</div>
+    <div class="bubble">
+      <div class="speaker-name">M. El Kadiri</div>
+      <p>Voilà. Il meurt en <strong>1625</strong>, et son fils <strong>Charles Ier</strong> lui succède. Et là, les choses empirent vraiment. Charles Ier entraîne l'Angleterre dans des guerres coûteuses. Il <strong>confisque les pouvoirs du Parlement</strong> — il prend à lui seul le droit de faire les lois ET de diriger le pays.</p>
+    </div>
+  </div>
+
+  <div class="bubble-wrap noor">
+    <div class="avatar">🎒</div>
+    <div class="bubble">
+      <div class="speaker-name">Noor</div>
+      <p>Mais le Parlement, il laisse faire ça ?</p>
+    </div>
+  </div>
+
+  <div class="bubble-wrap prof">
+    <div class="avatar">👨‍🏫</div>
+    <div class="bubble">
+      <div class="speaker-name">M. El Kadiri</div>
+      <p>Non ! C'est là que ça explose. En <strong>1649</strong>, une <strong>guerre civile</strong> éclate. D'un côté, les partisans du roi. De l'autre, les partisans du Parlement. Et à la tête des parlementaires, il y a un homme très déterminé : <strong>Oliver Cromwell</strong>.</p>
+      <div class="resource-box">
+        <div class="res-title">📎 La guerre civile anglaise</div>
+        <ul>
+          <li><a class="link-chip" href="https://www.herodote.net/Cromwell_et_la_guerre_civile_anglaise-synthese-2008.php" target="_blank"><span class="chip-icon">📰</span> Herodote.net</a></li>
+          <li><a class="link-chip" href="https://www.worldhistory.org/trans/fr/1-19697/oliver-cromwell/" target="_blank"><span class="chip-icon">🌍</span> World History</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="bubble-wrap noor">
+    <div class="avatar">🎒</div>
+    <div class="bubble">
+      <div class="speaker-name">Noor</div>
+      <p>C'était qui, Cromwell ?</p>
+    </div>
+  </div>
+
+  <div class="bubble-wrap prof">
+    <div class="avatar">👨‍🏫</div>
+    <div class="bubble">
+      <div class="speaker-name">M. El Kadiri</div>
+      <p>Au départ, c'est un petit seigneur, pas très connu. Mais il devient un chef militaire redoutable. Il bat l'armée du roi. Et Charles Ier est <strong>arrêté, jugé, puis exécuté en 1649 à Londres</strong>. On coupe la tête au roi d'Angleterre !</p>
+      <div class="resource-box">
+        <div class="res-title">📎 Oliver Cromwell — qui était-il ?</div>
+        <ul>
+          <li><a class="link-chip" href="https://www.studysmarter.fr/resumes/histoire/epoque-moderne/oliver-cromwell/" target="_blank"><span class="chip-icon">📚</span> StudySmarter</a></li>
+          <li><a class="link-chip" href="https://www.larousse.fr/encyclopedie/personnage/Oliver_Cromwell/115240" target="_blank"><span class="chip-icon">📖</span> Larousse</a></li>
+          <li><a class="link-chip" href="https://www.linternaute.fr/actualite/biographie/1776298-oliver-cromwell-biographie-courte-dates-citations/" target="_blank"><span class="chip-icon">👤</span> Biographie courte</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="bubble-wrap noor">
+    <div class="avatar">🎒</div>
+    <div class="bubble">
+      <div class="speaker-name">Noor</div>
+      <p>Wow… Ça a dû faire un choc en Europe !</p>
+    </div>
+  </div>
+
+  <div class="bubble-wrap prof">
+    <div class="avatar">👨‍🏫</div>
+    <div class="bubble">
+      <div class="speaker-name">M. El Kadiri</div>
+      <p>Énorme. Toute l'Europe est sous le choc. On n'avait jamais vu ça. Un roi condamné à mort par son propre peuple — c'est inédit.</p>
+    </div>
+  </div>
+
+  <div class="bubble-wrap noor">
+    <div class="avatar">🎒</div>
+    <div class="bubble">
+      <div class="speaker-name">Noor</div>
+      <p>Et après, Cromwell prend le pouvoir ?</p>
+    </div>
+  </div>
+
+  <div class="bubble-wrap prof">
+    <div class="avatar">👨‍🏫</div>
+    <div class="bubble">
+      <div class="speaker-name">M. El Kadiri</div>
+      <p>Oui. Cromwell instaure une sorte de <strong>dictature militaire républicaine</strong>. Le régime est très strict, très austère. Cromwell meurt en <strong>1658</strong>, et sans lui, le système s'effondre.</p>
+    </div>
+  </div>
+
+  <div class="bubble-wrap noor">
+    <div class="avatar">🎒</div>
+    <div class="bubble">
+      <div class="speaker-name">Noor</div>
+      <p>Qu'est-ce qui se passe ensuite ?</p>
+    </div>
+  </div>
+
+  <div class="bubble-wrap prof">
+    <div class="avatar">👨‍🏫</div>
+    <div class="bubble">
+      <div class="speaker-name">M. El Kadiri</div>
+      <p>Le Parlement décide de ramener la monarchie, mais cette fois avec des règles. <strong>Charles II</strong> revient au pouvoir. Mais à sa mort en <strong>1685</strong>, son frère <strong>Jacques II</strong> lui succède. Et Jacques II est <strong>catholique</strong> — ce qui est un problème énorme en Angleterre protestante. De plus, il gouverne comme un roi absolu.</p>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <!-- GLORIEUSE REVOLUTION -->
+  <div class="section-title"><span class="emoji">👑</span> A – La Glorieuse Révolution (1688)</div>
+
+  <div class="bubble-wrap noor">
+    <div class="avatar">🎒</div>
+    <div class="bubble">
+      <div class="speaker-name">Noor</div>
+      <p>Les gens ne sont pas contents…</p>
+    </div>
+  </div>
+
+  <div class="bubble-wrap prof">
+    <div class="avatar">👨‍🏫</div>
+    <div class="bubble">
+      <div class="speaker-name">M. El Kadiri</div>
+      <p>Pas du tout ! Les Lords — les grands nobles anglais — sont furieux. Ils font appel à un prince étranger : <strong>Guillaume d'Orange</strong>, venu des Pays-Bas et marié à la fille protestante de Jacques II.</p>
+    </div>
+  </div>
+
+  <div class="bubble-wrap noor">
+    <div class="avatar">🎒</div>
+    <div class="bubble">
+      <div class="speaker-name">Noor</div>
+      <p>Et il accepte de venir ?</p>
+    </div>
+  </div>
+
+  <div class="bubble-wrap prof">
+    <div class="avatar">👨‍🏫</div>
+    <div class="bubble">
+      <div class="speaker-name">M. El Kadiri</div>
+      <p>Oui. En <strong>1688</strong>, son armée débarque en Angleterre. Jacques II fuit. Et on appelle cet événement… Devines !</p>
+    </div>
+  </div>
+
+  <div class="bubble-wrap noor">
+    <div class="avatar">🎒</div>
+    <div class="bubble">
+      <div class="speaker-name">Noor</div>
+      <p>Euh… la Révolution ?</p>
+    </div>
+  </div>
+
+  <div class="bubble-wrap prof">
+    <div class="avatar">👨‍🏫</div>
+    <div class="bubble">
+      <div class="speaker-name">M. El Kadiri</div>
+      <p>Presque ! On l'appelle <strong>la Glorieuse Révolution</strong>. Pourquoi "glorieuse" ? Parce qu'elle se passe <strong>presque sans violence</strong>. Et elle aboutit à quelque chose de nouveau : une <strong>monarchie tempérée</strong>, ou <strong>monarchie constitutionnelle</strong>. Le roi garde son trône, <em>mais</em> il doit respecter les lois et partager le pouvoir avec le Parlement.</p>
+      <div class="resource-box">
+        <div class="res-title">📎 La Glorieuse Révolution de 1688</div>
+        <ul>
+          <li><a class="link-chip" href="https://www.worldhistory.org/trans/fr/1-21023/glorieuse-revolution/" target="_blank"><span class="chip-icon">🌍</span> World History</a></li>
+          <li><a class="link-chip" href="https://www.studysmarter.fr/resumes/histoire/histoire-europeenne/revolution-glorieuse/" target="_blank"><span class="chip-icon">📚</span> StudySmarter</a></li>
+          <li><a class="link-chip" href="https://fr.wikipedia.org/wiki/Glorieuse_R%C3%A9volution" target="_blank"><span class="chip-icon">🔎</span> Wikipédia</a></li>
+          <li><a class="link-chip" href="https://www.larousse.fr/encyclopedie/divers/seconde_r%C3%A9volution_dAngleterre/140730" target="_blank"><span class="chip-icon">📖</span> Larousse</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <!-- RECAP NOOR -->
+  <div class="section-title"><span class="emoji">🧠</span> Ce qu'il faut retenir absolument</div>
+
+  <div class="bubble-wrap prof">
+    <div class="avatar">👨‍🏫</div>
+    <div class="bubble">
+      <div class="speaker-name">M. El Kadiri</div>
+      <p>Alors Noor, si tu devais résumer tout ça en quelques mots clés ?</p>
+    </div>
+  </div>
+
+  <div class="bubble-wrap noor">
+    <div class="avatar">🎒</div>
+    <div class="bubble">
+      <div class="speaker-name">Noor</div>
+      <p>La Magna Carta en 1215 limite le roi. Ensuite les Stuarts veulent gouverner seuls, mais le Parlement résiste. Il y a une guerre civile, Charles Ier est exécuté. Cromwell prend le pouvoir, mais ça ne marche pas. Et finalement en 1688, la Glorieuse Révolution crée une monarchie où le roi ne peut plus faire ce qu'il veut.</p>
+    </div>
+  </div>
+
+  <div class="bubble-wrap prof">
+    <div class="avatar">👨‍🏫</div>
+    <div class="bubble">
+      <div class="speaker-name">M. El Kadiri</div>
+      <p>Parfait, Noor ! Tu as tout compris. L'idée centrale c'est celle-ci : <strong>l'Angleterre est le premier pays d'Europe à limiter légalement le pouvoir du roi</strong>. Et ça, ça va inspirer tout le monde au 18e siècle — les Lumières, la Révolution française, et même la démocratie moderne.</p>
+      <div class="resource-box">
+        <div class="res-title">📎 Synthèse globale de la Révolution anglaise</div>
+        <ul>
+          <li><a class="link-chip" href="https://teachy.ai/fr/resumes/college-ca/premiere-ca/histoire-ca/revolution-anglaise-de-la-revolution-puritaine-a-la-glorieuse-revolution-or-resume-teachy-6da7" target="_blank"><span class="chip-icon">🎓</span> Teachy – Résumé collège</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <!-- TABLEAU DES DATES -->
+  <div class="section-title"><span class="emoji">📌</span> Les dates à ne pas oublier</div>
+
+  <table class="dates-table">
+    <thead>
+      <tr>
+        <th>Date</th>
+        <th>Événement</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="date-cell">1215</td>
+        <td>Magna Carta — le roi doit respecter le Parlement</td>
+      </tr>
+      <tr>
+        <td class="date-cell">1603</td>
+        <td>Arrivée des Stuarts (Jacques Ier)</td>
+      </tr>
+      <tr>
+        <td class="date-cell">1649</td>
+        <td>Guerre civile — exécution de Charles Ier</td>
+      </tr>
+      <tr>
+        <td class="date-cell">1658</td>
+        <td>Mort de Cromwell</td>
+      </tr>
+      <tr>
+        <td class="date-cell">1685</td>
+        <td>Jacques II au pouvoir</td>
+      </tr>
+      <tr class="highlight">
+        <td class="date-cell">⭐ 1688</td>
+        <td><strong>Glorieuse Révolution → monarchie constitutionnelle</strong></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="recap-box">
+    <h3>💡 L'idée essentielle à retenir</h3>
+    <p>L'Angleterre est le <strong>premier pays d'Europe</strong> à construire un système où le roi est <em>obligé</em> de partager le pouvoir avec le Parlement. Ce modèle va inspirer les philosophes des Lumières, la Révolution américaine (1776), puis la Révolution française (1789). Le monde moderne de la démocratie parlementaire commence ici.</p>
+  </div>
+
+</div>
+</body>
+</html>
