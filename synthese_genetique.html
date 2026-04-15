@@ -1,0 +1,770 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Génétique & Monohybridisme — Synthèse visuelle</title>
+<style>
+  :root {
+    --green:   #2d7a4f;
+    --green-l: #e8f5ee;
+    --blue:    #1a5f8a;
+    --blue-l:  #e3f0f9;
+    --orange:  #d6622a;
+    --orange-l:#fdf0e8;
+    --purple:  #6b3fa0;
+    --purple-l:#f3edfb;
+    --red:     #c0392b;
+    --red-l:   #fdecea;
+    --yellow:  #d4a017;
+    --yellow-l:#fdf8e3;
+    --gray:    #555;
+    --light:   #f7f8fa;
+    --border:  #dde2ea;
+    --shadow:  0 2px 12px rgba(0,0,0,.08);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Segoe UI', Arial, sans-serif;
+    background: #f0f2f5;
+    color: #222;
+    line-height: 1.6;
+  }
+
+  /* ─── HEADER ─── */
+  header {
+    background: linear-gradient(135deg, #1a5f8a 0%, #2d7a4f 100%);
+    color: #fff;
+    padding: 36px 40px 30px;
+    text-align: center;
+  }
+  header .tag {
+    display: inline-block;
+    background: rgba(255,255,255,.2);
+    border-radius: 20px;
+    padding: 4px 16px;
+    font-size: .8rem;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+  header h1 { font-size: 2rem; font-weight: 700; margin-bottom: 6px; }
+  header p  { font-size: 1rem; opacity: .85; }
+
+  /* ─── LAYOUT ─── */
+  main { max-width: 1060px; margin: 0 auto; padding: 32px 20px 60px; }
+
+  /* ─── SECTION TITLES ─── */
+  .section-title {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin: 40px 0 20px;
+  }
+  .section-title .num {
+    width: 36px; height: 36px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 700; font-size: 1rem; flex-shrink: 0;
+    color: #fff;
+  }
+  .section-title h2 { font-size: 1.25rem; font-weight: 700; }
+
+  /* ─── CARDS GRID ─── */
+  .cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 16px; }
+  .card {
+    background: #fff;
+    border-radius: 12px;
+    padding: 20px 18px;
+    box-shadow: var(--shadow);
+    border-top: 4px solid transparent;
+  }
+  .card .icon { font-size: 1.8rem; margin-bottom: 10px; }
+  .card h3 { font-size: .95rem; font-weight: 700; margin-bottom: 6px; }
+  .card p  { font-size: .85rem; color: #444; }
+
+  /* ─── HIGHLIGHT BOX ─── */
+  .box {
+    background: #fff;
+    border-radius: 12px;
+    padding: 24px 24px;
+    box-shadow: var(--shadow);
+    margin-bottom: 16px;
+  }
+  .box h3 { font-size: 1rem; font-weight: 700; margin-bottom: 10px; }
+
+  /* ─── MENDEL TIMELINE ─── */
+  .timeline { display: flex; flex-direction: column; gap: 0; }
+  .tl-item {
+    display: flex;
+    gap: 0;
+    position: relative;
+  }
+  .tl-left {
+    width: 110px;
+    flex-shrink: 0;
+    text-align: right;
+    padding-right: 20px;
+    padding-top: 6px;
+    font-weight: 700;
+    font-size: .9rem;
+    color: var(--blue);
+  }
+  .tl-line {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex-shrink: 0;
+    width: 24px;
+  }
+  .tl-dot {
+    width: 14px; height: 14px;
+    border-radius: 50%;
+    background: var(--blue);
+    flex-shrink: 0;
+    margin-top: 8px;
+    z-index: 1;
+  }
+  .tl-bar {
+    width: 3px;
+    background: var(--border);
+    flex: 1;
+    min-height: 20px;
+  }
+  .tl-content {
+    background: #fff;
+    border-radius: 10px;
+    padding: 14px 18px;
+    box-shadow: var(--shadow);
+    margin: 4px 0 16px 10px;
+    flex: 1;
+  }
+  .tl-content h4 { font-size: .92rem; font-weight: 700; margin-bottom: 4px; }
+  .tl-content p  { font-size: .85rem; color: #444; }
+
+  /* ─── EXPERIMENT CARDS ─── */
+  .exp-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+  @media (max-width: 600px) { .exp-grid { grid-template-columns: 1fr; } }
+
+  .exp-card {
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: var(--shadow);
+    overflow: hidden;
+  }
+  .exp-card .exp-head {
+    padding: 14px 18px 10px;
+    font-weight: 700;
+    font-size: .95rem;
+    color: #fff;
+  }
+  .exp-card .exp-body { padding: 16px 18px; }
+  .exp-card .exp-body p { font-size: .85rem; color: #444; margin-bottom: 8px; }
+
+  /* Cross diagram */
+  .cross {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin: 12px 0;
+    flex-wrap: wrap;
+  }
+  .plant {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+  }
+  .pea {
+    width: 36px; height: 36px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: .65rem; font-weight: 700; color: #fff;
+    box-shadow: 0 2px 6px rgba(0,0,0,.15);
+  }
+  .pea.smooth  { background: #3d9a5e; }
+  .pea.wrinkled { background: #8b6914; }
+  .pea.smooth.small { width: 28px; height: 28px; }
+  .pea.wrinkled.small { width: 28px; height: 28px; }
+  .pea-label { font-size: .72rem; color: #555; font-weight: 600; }
+  .cross-symbol { font-size: 1.3rem; color: #888; font-weight: 700; }
+  .arrow-down { font-size: 1.4rem; color: #888; margin: 2px 0; }
+
+  .result-row {
+    display: flex;
+    gap: 6px;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin: 8px 0;
+  }
+
+  .result-label {
+    text-align: center;
+    font-size: .8rem;
+    font-weight: 700;
+    padding: 4px 12px;
+    border-radius: 20px;
+    margin-top: 4px;
+  }
+
+  /* ─── ALLELE TABLE ─── */
+  .allele-table { width: 100%; border-collapse: collapse; font-size: .85rem; }
+  .allele-table th {
+    background: var(--blue);
+    color: #fff;
+    padding: 8px 12px;
+    text-align: left;
+    font-weight: 700;
+  }
+  .allele-table td { padding: 9px 12px; border-bottom: 1px solid var(--border); }
+  .allele-table tr:last-child td { border-bottom: none; }
+  .allele-table tr:nth-child(even) td { background: #f5f8fb; }
+  .badge {
+    display: inline-block;
+    padding: 2px 10px;
+    border-radius: 12px;
+    font-weight: 700;
+    font-size: .8rem;
+  }
+  .badge.dom { background: var(--green-l); color: var(--green); }
+  .badge.rec { background: var(--orange-l); color: var(--orange); }
+
+  /* ─── NOTATION PANEL ─── */
+  .notation-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  @media (max-width: 500px) { .notation-grid { grid-template-columns: 1fr; } }
+
+  .notation-card {
+    background: #fff;
+    border-radius: 10px;
+    padding: 18px;
+    box-shadow: var(--shadow);
+    border-left: 5px solid;
+  }
+  .notation-card h4 { font-size: .9rem; font-weight: 700; margin-bottom: 8px; }
+  .notation-card .ex { font-size: 1.5rem; font-weight: 700; margin: 8px 0 4px; }
+  .notation-card p  { font-size: .82rem; color: #555; }
+
+  /* ─── GENOTYPE BOXES ─── */
+  .geno-row {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-top: 8px;
+  }
+  .geno-box {
+    border-radius: 8px;
+    padding: 10px 14px;
+    text-align: center;
+    min-width: 80px;
+  }
+  .geno-box .geno { font-size: 1.2rem; font-weight: 700; }
+  .geno-box .pheno { font-size: .78rem; margin-top: 3px; }
+  .geno-box .ptype { font-size: .78rem; font-style: italic; }
+
+  /* ─── PUNNETT SQUARE ─── */
+  .punnett-wrap {
+    display: flex;
+    gap: 30px;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    margin-top: 10px;
+  }
+  .punnett { border-collapse: collapse; }
+  .punnett td, .punnett th {
+    width: 70px; height: 60px;
+    text-align: center;
+    vertical-align: middle;
+    font-size: .88rem;
+    font-weight: 600;
+    border: 2px solid var(--border);
+  }
+  .punnett th {
+    background: var(--blue);
+    color: #fff;
+    font-weight: 700;
+  }
+  .punnett td.LL { background: #e8f5ee; color: var(--green); }
+  .punnett td.Ll { background: #e3f0f9; color: var(--blue); }
+  .punnett td.ll { background: #fdf0e8; color: var(--orange); }
+  .punnett th.corner { background: #fff; }
+
+  .punnett-legend { font-size: .83rem; }
+  .punnett-legend .row { display: flex; align-items: center; gap: 8px; margin-bottom: 6px; }
+  .punnett-legend .swatch {
+    width: 14px; height: 14px; border-radius: 3px; flex-shrink: 0;
+  }
+
+  /* ─── MENDEL PORTRAIT ─── */
+  .portrait-box {
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: var(--shadow);
+    padding: 20px;
+    display: flex;
+    gap: 20px;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+  .portrait {
+    width: 80px; height: 80px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #1a5f8a, #2d7a4f);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 2rem;
+    flex-shrink: 0;
+  }
+  .portrait-text h3 { font-size: 1rem; font-weight: 700; margin-bottom: 4px; }
+  .portrait-text p  { font-size: .85rem; color: #444; }
+
+  /* ─── HOMO/HETERO ─── */
+  .mice-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  @media (max-width: 500px) { .mice-grid { grid-template-columns: 1fr; } }
+
+  .mouse-card {
+    border-radius: 10px;
+    padding: 16px;
+    text-align: center;
+  }
+  .mouse-icon { font-size: 2.2rem; margin-bottom: 8px; }
+  .mouse-card h4 { font-size: .95rem; font-weight: 700; margin-bottom: 6px; }
+  .mouse-card p  { font-size: .82rem; color: #444; }
+  .allele-chips { display: flex; justify-content: center; gap: 6px; margin: 8px 0; }
+  .chip {
+    display: inline-block;
+    padding: 4px 12px;
+    border-radius: 16px;
+    font-weight: 700;
+    font-size: .9rem;
+  }
+
+  /* ─── KEY RULE BOX ─── */
+  .rule-box {
+    background: linear-gradient(135deg, #e8f5ee, #e3f0f9);
+    border-radius: 12px;
+    padding: 18px 22px;
+    border-left: 5px solid var(--green);
+    margin-bottom: 16px;
+  }
+  .rule-box h4 { font-size: .92rem; font-weight: 700; margin-bottom: 6px; color: var(--green); }
+  .rule-box p  { font-size: .85rem; color: #333; }
+
+  /* ─── FOOTER ─── */
+  footer {
+    text-align: center;
+    padding: 20px;
+    font-size: .8rem;
+    color: #888;
+    border-top: 1px solid var(--border);
+    margin-top: 40px;
+  }
+
+  /* colour helpers */
+  .c-green  { color: var(--green); }
+  .c-blue   { color: var(--blue); }
+  .c-orange { color: var(--orange); }
+  .c-purple { color: var(--purple); }
+  .bg-green  { background: var(--green); }
+  .bg-blue   { background: var(--blue); }
+  .bg-orange { background: var(--orange); }
+  .bg-purple { background: var(--purple); }
+  .bg-red    { background: var(--red); }
+
+  .border-green  { border-color: var(--green)  !important; }
+  .border-blue   { border-color: var(--blue)   !important; }
+  .border-orange { border-color: var(--orange) !important; }
+  .border-purple { border-color: var(--purple) !important; }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="tag">UAA3 · 4è Sciences générales</div>
+  <h1>🧬 Génétique &amp; Monohybridisme</h1>
+  <p>Chapitre VIII · Synthèse visuelle · Prof. Haye</p>
+</header>
+
+<main>
+
+  <!-- ══════════════════════════════════════════
+       1. CONCEPTS DE BASE
+  ════════════════════════════════════════════ -->
+  <div class="section-title">
+    <div class="num bg-blue">1</div>
+    <h2>Les concepts de base</h2>
+  </div>
+
+  <div class="cards">
+
+    <div class="card" style="border-color: var(--blue);">
+      <div class="icon">🧬</div>
+      <h3>L'ADN</h3>
+      <p>Molécule présente dans chaque cellule. Elle contient <strong>toutes les instructions</strong> pour construire un organisme. C'est le « livre de vie » de la cellule.</p>
+    </div>
+
+    <div class="card" style="border-color: var(--green);">
+      <div class="icon">🔬</div>
+      <h3>Le gène</h3>
+      <p>Petite portion d'ADN qui détermine <strong>un caractère précis</strong> (couleur des yeux, forme du nez…). C'est une « recette » dans le grand livre qu'est l'ADN.</p>
+    </div>
+
+    <div class="card" style="border-color: var(--orange);">
+      <div class="icon">🔀</div>
+      <h3>L'allèle</h3>
+      <p><strong>Version possible</strong> d'un gène. Un même gène peut exister en plusieurs variantes. Ex. : allèle « yeux bleus » et allèle « yeux marrons ».</p>
+    </div>
+
+    <div class="card" style="border-color: var(--purple);">
+      <div class="icon">⚡</div>
+      <h3>La mutation</h3>
+      <p>Modification <strong>accidentelle de l'ADN</strong>. C'est elle qui crée de nouveaux allèles et est à l'origine de la diversité entre les individus.</p>
+    </div>
+
+    <div class="card" style="border-color: var(--yellow);">
+      <div class="icon">👨‍👩‍👧</div>
+      <h3>Caractère héréditaire</h3>
+      <p>Caractère <strong>transmis par les gènes</strong> de parents à enfants. La couleur des yeux est héréditaire ; une cicatrice ne l'est pas.</p>
+    </div>
+
+    <div class="card" style="border-color: var(--red);">
+      <div class="icon">🔁</div>
+      <h3>Monohybridisme</h3>
+      <p>Étude de la transmission d'<strong>un seul caractère</strong> (un seul gène) d'une génération à l'autre. C'est ce qu'a fait Mendel avec la forme des graines.</p>
+    </div>
+
+  </div>
+
+  <!-- ══════════════════════════════════════════
+       2. CELLULE DIPLOÏDE & CHROMOSOMES
+  ════════════════════════════════════════════ -->
+  <div class="section-title">
+    <div class="num bg-green">2</div>
+    <h2>La cellule diploïde &amp; les chromosomes</h2>
+  </div>
+
+  <div class="box">
+    <h3 class="c-green">🔵 Cellule diploïde</h3>
+    <p style="font-size:.88rem; margin-bottom:14px;">
+      Nos cellules contiennent des chromosomes organisés <strong>par paires</strong>.
+      Chez l'Homme : <strong>23 paires = 46 chromosomes</strong>. Chaque paire est formée de deux
+      <strong>chromosomes homologues</strong> portant les mêmes gènes aux mêmes emplacements.
+    </p>
+    <div style="display:flex; gap:40px; flex-wrap:wrap; justify-content:center; margin-top:10px;">
+      <!-- Homologue pair visual -->
+      <div style="text-align:center;">
+        <div style="display:flex; justify-content:center; gap:6px; margin-bottom:6px;">
+          <div style="width:22px; height:70px; background:linear-gradient(to bottom,#1a5f8a,#2d7a4f); border-radius:11px; display:flex;align-items:center;justify-content:center; color:#fff; font-size:.65rem; writing-mode:vertical-rl; transform:rotate(180deg); font-weight:700;">Gène A</div>
+          <div style="width:22px; height:70px; background:linear-gradient(to bottom,#6b3fa0,#d6622a); border-radius:11px; display:flex;align-items:center;justify-content:center; color:#fff; font-size:.65rem; writing-mode:vertical-rl; transform:rotate(180deg); font-weight:700;">Gène A</div>
+        </div>
+        <div style="font-size:.8rem; color:#555;">Chromosomes homologues<br><em>(même gène, allèles possiblement différents)</em></div>
+      </div>
+      <div style="display:flex; flex-direction:column; justify-content:center; gap:10px;">
+        <div style="font-size:.88rem;">✅ Un chromosome vient du <strong>père</strong></div>
+        <div style="font-size:.88rem;">✅ Un chromosome vient de la <strong>mère</strong></div>
+        <div style="font-size:.88rem;">✅ Chaque gène est présent en <strong>2 exemplaires</strong></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Homo / Hétérozygote -->
+  <div class="mice-grid">
+    <div class="mouse-card" style="background: var(--green-l); border: 2px solid var(--green);">
+      <div class="mouse-icon">🐁</div>
+      <h4 class="c-green">HOMOZYGOTE</h4>
+      <div class="allele-chips">
+        <span class="chip" style="background:#fff; color:var(--green); border:2px solid var(--green);">L</span>
+        <span class="chip" style="background:#fff; color:var(--green); border:2px solid var(--green);">L</span>
+      </div>
+      <p>Les <strong>2 allèles sont identiques</strong>. Ex. : souris blanche avec 2 allèles « blanc ». Génotype : <strong>LL</strong> ou <strong>ll</strong>. On dit aussi : lignée pure.</p>
+    </div>
+    <div class="mouse-card" style="background: var(--purple-l); border: 2px solid var(--purple);">
+      <div class="mouse-icon">🐁</div>
+      <h4 class="c-purple">HÉTÉROZYGOTE</h4>
+      <div class="allele-chips">
+        <span class="chip" style="background:#fff; color:var(--green); border:2px solid var(--green);">L</span>
+        <span class="chip" style="background:#fff; color:var(--orange); border:2px solid var(--orange);">l</span>
+      </div>
+      <p>Les <strong>2 allèles sont différents</strong>. Ex. : souris avec un allèle « blanc » et un allèle « noir ». Génotype : <strong>Ll</strong>. Il « cache » l'allèle récessif.</p>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════
+       3. GREGOR MENDEL
+  ════════════════════════════════════════════ -->
+  <div class="section-title">
+    <div class="num bg-orange">3</div>
+    <h2>Gregor Mendel &amp; ses expériences</h2>
+  </div>
+
+  <div class="portrait-box" style="margin-bottom:20px;">
+    <div class="portrait">👨‍🔬</div>
+    <div class="portrait-text">
+      <h3>Gregor Mendel (1822 – 1884)</h3>
+      <p>Moine et botaniste autrichien du 19e siècle. <strong>Père fondateur de la génétique.</strong> Il a découvert les lois de l'hérédité en étudiant le petit pois <em>(Pisum sativum)</em> pendant des années dans le jardin de son monastère.</p>
+    </div>
+  </div>
+
+  <!-- Expérience 1 et 2 -->
+  <div class="exp-grid">
+
+    <!-- EXP 1 -->
+    <div class="exp-card">
+      <div class="exp-head" style="background: linear-gradient(135deg,#1a5f8a,#2d7a4f);">
+        1ère expérience — Génération F1
+      </div>
+      <div class="exp-body">
+        <p>Croisement de deux <strong>lignées pures</strong> :</p>
+        <div class="cross">
+          <div class="plant">
+            <div class="pea smooth">L</div>
+            <div class="pea-label">Lisse (LL)</div>
+          </div>
+          <div class="cross-symbol">×</div>
+          <div class="plant">
+            <div class="pea wrinkled">l</div>
+            <div class="pea-label">Ridé (ll)</div>
+          </div>
+        </div>
+        <div style="text-align:center; margin:6px 0; font-size:1.3rem; color:#888;">↓</div>
+        <p style="text-align:center; font-weight:700; color:var(--green); margin-bottom:6px;">F1 — 100 % de graines LISSES</p>
+        <div class="result-row">
+          <div class="plant"><div class="pea smooth small">Ll</div></div>
+          <div class="plant"><div class="pea smooth small">Ll</div></div>
+          <div class="plant"><div class="pea smooth small">Ll</div></div>
+          <div class="plant"><div class="pea smooth small">Ll</div></div>
+        </div>
+        <p style="font-size:.82rem; color:#555; margin-top:10px;">Le caractère « ridé » semble avoir <strong>disparu</strong>… mais il est en réalité <em>caché</em> par l'allèle dominant L !</p>
+      </div>
+    </div>
+
+    <!-- EXP 2 -->
+    <div class="exp-card">
+      <div class="exp-head" style="background: linear-gradient(135deg, #d6622a, #c0392b);">
+        2ème expérience — Génération F2
+      </div>
+      <div class="exp-body">
+        <p>Les plantes F1 se croisent entre elles :</p>
+        <div class="cross">
+          <div class="plant">
+            <div class="pea smooth">Ll</div>
+            <div class="pea-label">Lisse (Ll)</div>
+          </div>
+          <div class="cross-symbol">×</div>
+          <div class="plant">
+            <div class="pea smooth">Ll</div>
+            <div class="pea-label">Lisse (Ll)</div>
+          </div>
+        </div>
+        <div style="text-align:center; margin:6px 0; font-size:1.3rem; color:#888;">↓</div>
+        <p style="text-align:center; font-weight:700; margin-bottom:6px;">F2 — Réapparition du caractère récessif !</p>
+        <div class="result-row">
+          <div class="plant"><div class="pea smooth small" style="font-size:.6rem;">LL</div></div>
+          <div class="plant"><div class="pea smooth small" style="font-size:.6rem;">Ll</div></div>
+          <div class="plant"><div class="pea smooth small" style="font-size:.6rem;">Ll</div></div>
+          <div class="plant"><div class="pea wrinkled small" style="font-size:.6rem;">ll</div></div>
+        </div>
+        <div style="display:flex; gap:8px; justify-content:center; margin-top:10px; flex-wrap:wrap;">
+          <span class="result-label" style="background:var(--green-l); color:var(--green);">🟢 75 % Lisses [L]</span>
+          <span class="result-label" style="background:var(--orange-l); color:var(--orange);">🟤 25 % Ridés [l]</span>
+        </div>
+        <p style="font-size:.82rem; color:#555; margin-top:10px;">L'allèle récessif était simplement <strong>masqué</strong> dans la F1. Il réapparaît quand deux allèles récessifs se retrouvent ensemble.</p>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ══════════════════════════════════════════
+       4. DOMINANT / RÉCESSIF
+  ════════════════════════════════════════════ -->
+  <div class="section-title">
+    <div class="num bg-purple">4</div>
+    <h2>Allèle dominant vs allèle récessif</h2>
+  </div>
+
+  <div class="box">
+    <table class="allele-table">
+      <thead>
+        <tr>
+          <th>Type</th>
+          <th>Définition</th>
+          <th>Notation</th>
+          <th>Exemple (pois)</th>
+          <th>S'exprime si…</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><span class="badge dom">Dominant</span></td>
+          <td>Allèle qui <strong>s'exprime toujours</strong>, même présent en un seul exemplaire</td>
+          <td style="font-size:1.1rem; font-weight:700; color:var(--green);">L</td>
+          <td>Graine <strong>lisse</strong></td>
+          <td>L_ (LL ou Ll)</td>
+        </tr>
+        <tr>
+          <td><span class="badge rec">Récessif</span></td>
+          <td>Allèle qui ne s'exprime que <strong>lorsqu'il est en double</strong></td>
+          <td style="font-size:1.1rem; font-weight:700; color:var(--orange);">l</td>
+          <td>Graine <strong>ridée</strong></td>
+          <td>ll uniquement</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- ══════════════════════════════════════════
+       5. PHÉNOTYPE & GÉNOTYPE
+  ════════════════════════════════════════════ -->
+  <div class="section-title">
+    <div class="num bg-green">5</div>
+    <h2>Phénotype &amp; génotype — les conventions d'écriture</h2>
+  </div>
+
+  <div class="notation-grid">
+    <div class="notation-card border-blue">
+      <h4 class="c-blue">👁 Phénotype</h4>
+      <p>Ce qu'on <strong>observe de l'extérieur</strong> (le caractère visible).</p>
+      <div class="ex c-blue">[L] ou [l]</div>
+      <p>Se note entre <strong>crochets</strong>. [L] = lisse · [l] = ridé.</p>
+    </div>
+    <div class="notation-card border-green">
+      <h4 class="c-green">🧬 Génotype</h4>
+      <p>L'ensemble des <strong>allèles</strong> d'un individu pour un gène donné.</p>
+      <div class="ex c-green">LL · Ll · ll</div>
+      <p>Se note avec les <strong>2 lettres</strong> des allèles.</p>
+    </div>
+  </div>
+
+  <div class="geno-row" style="margin-top: 16px;">
+    <div class="geno-box" style="background:var(--green-l); border: 2px solid var(--green);">
+      <div class="geno c-green">LL</div>
+      <div class="pheno" style="background:var(--green); color:#fff; border-radius:10px; padding:2px 8px; margin-top:4px;">[L] lisse</div>
+      <div class="ptype c-green" style="margin-top:4px;">Homozygote dominant</div>
+    </div>
+    <div class="geno-box" style="background:var(--blue-l); border: 2px solid var(--blue);">
+      <div class="geno c-blue">Ll</div>
+      <div class="pheno" style="background:var(--green); color:#fff; border-radius:10px; padding:2px 8px; margin-top:4px;">[L] lisse</div>
+      <div class="ptype c-blue" style="margin-top:4px;">Hétérozygote</div>
+    </div>
+    <div class="geno-box" style="background:var(--orange-l); border: 2px solid var(--orange);">
+      <div class="geno c-orange">ll</div>
+      <div class="pheno" style="background:var(--orange); color:#fff; border-radius:10px; padding:2px 8px; margin-top:4px;">[l] ridé</div>
+      <div class="ptype c-orange" style="margin-top:4px;">Homozygote récessif</div>
+    </div>
+  </div>
+
+  <div class="rule-box" style="margin-top:16px;">
+    <h4>⚠️ À retenir</h4>
+    <p>Deux individus peuvent avoir le <strong>même phénotype [L]</strong> (graines lisses) mais des <strong>génotypes différents</strong> (LL ou Ll). La grille de Punnett permet de le savoir !</p>
+  </div>
+
+  <!-- ══════════════════════════════════════════
+       6. GRILLE DE PUNNETT
+  ════════════════════════════════════════════ -->
+  <div class="section-title">
+    <div class="num bg-blue">6</div>
+    <h2>La grille de Punnett (F1 × F1)</h2>
+  </div>
+
+  <div class="box">
+    <p style="font-size:.88rem; margin-bottom:16px;">
+      Croisement <strong>Ll × Ll</strong> : on place les gamètes du père en ligne, ceux de la mère en colonne.
+      On remplit chaque case en combinant les gamètes.
+    </p>
+    <div class="punnett-wrap">
+      <table class="punnett">
+        <tr>
+          <th class="corner" style="background:#f0f2f5; font-size:.75rem; color:#888;">gamètes ↓ père →</th>
+          <th><span style="color:#fff; font-size:1rem;">L</span></th>
+          <th><span style="color:#fff; font-size:1rem;">l</span></th>
+        </tr>
+        <tr>
+          <th><span style="color:#fff; font-size:1rem;">L</span></th>
+          <td class="LL"><strong>LL</strong><br><span style="font-size:.72rem;">[L] lisse</span></td>
+          <td class="Ll"><strong>Ll</strong><br><span style="font-size:.72rem;">[L] lisse</span></td>
+        </tr>
+        <tr>
+          <th><span style="color:#fff; font-size:1rem;">l</span></th>
+          <td class="Ll"><strong>Ll</strong><br><span style="font-size:.72rem;">[L] lisse</span></td>
+          <td class="ll"><strong>ll</strong><br><span style="font-size:.72rem;">[l] ridé</span></td>
+        </tr>
+      </table>
+
+      <div class="punnett-legend">
+        <p style="font-weight:700; margin-bottom:10px; font-size:.88rem;">Résultats de la F2 :</p>
+        <div class="row">
+          <div class="swatch" style="background:var(--green-l); border:2px solid var(--green);"></div>
+          <span><strong>LL</strong> → 25 % · homozygote dominant · <span style="color:var(--green);">[L] lisse</span></span>
+        </div>
+        <div class="row">
+          <div class="swatch" style="background:var(--blue-l); border:2px solid var(--blue);"></div>
+          <span><strong>Ll</strong> → 50 % · hétérozygote · <span style="color:var(--green);">[L] lisse</span></span>
+        </div>
+        <div class="row">
+          <div class="swatch" style="background:var(--orange-l); border:2px solid var(--orange);"></div>
+          <span><strong>ll</strong> → 25 % · homozygote récessif · <span style="color:var(--orange);">[l] ridé</span></span>
+        </div>
+        <div style="margin-top:14px; padding:10px 14px; border-radius:8px; background:var(--green-l); border-left:4px solid var(--green);">
+          <strong>Phénotypes :</strong><br>
+          <span style="color:var(--green);">🟢 75 % lisses</span> (LL + Ll)<br>
+          <span style="color:var(--orange);">🟤 25 % ridés</span> (ll)
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════
+       7. LOIS DE MENDEL
+  ════════════════════════════════════════════ -->
+  <div class="section-title">
+    <div class="num bg-orange">7</div>
+    <h2>Généralisation des lois de Mendel</h2>
+  </div>
+
+  <div class="rule-box" style="border-color: var(--orange);">
+    <h4 style="color:var(--orange);">🌍 Une loi universelle</h4>
+    <p>Les lois découvertes par Mendel s'appliquent à <strong>tous les êtres vivants</strong> : plantes, animaux, champignons… Elles ont été généralisées bien au-delà du petit pois.</p>
+  </div>
+
+  <div class="timeline">
+    <div class="tl-item">
+      <div class="tl-left">Étape 1</div>
+      <div class="tl-line"><div class="tl-dot"></div><div class="tl-bar"></div></div>
+      <div class="tl-content">
+        <h4>Effectuer le croisement</h4>
+        <p>Croiser les deux lignées pures (P × P). Noter les parents P.</p>
+      </div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-left">Étape 2</div>
+      <div class="tl-line"><div class="tl-dot"></div><div class="tl-bar"></div></div>
+      <div class="tl-content">
+        <h4>Déterminer l'allèle dominant</h4>
+        <p>Observer la F1 : le caractère qui s'exprime chez 100 % des individus est le <strong>caractère dominant</strong>.</p>
+      </div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-left">Étape 3</div>
+      <div class="tl-line"><div class="tl-dot"></div><div class="tl-bar"></div></div>
+      <div class="tl-content">
+        <h4>Choisir la lettre</h4>
+        <p>Prendre la <strong>première lettre du caractère dominant</strong> en majuscule (ex. : L pour lisse). L'allèle récessif prend la même lettre en minuscule : l.</p>
+      </div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-left">Étape 4</div>
+      <div class="tl-line"><div class="tl-dot"></div></div>
+      <div class="tl-content">
+        <h4>Déterminer génotypes et phénotypes</h4>
+        <p>Utiliser la <strong>grille de Punnett</strong> pour calculer les proportions de la F1 et de la F2.</p>
+      </div>
+    </div>
+  </div>
+
+</main>
+
+<footer>
+  Chapitre VIII · UAA3 « Unité et diversité des êtres vivants » · 4è Sciences générales · Prof. Haye
+</footer>
+
+</body>
+</html>
