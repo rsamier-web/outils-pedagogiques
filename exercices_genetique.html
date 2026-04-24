@@ -1,0 +1,1295 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Exercices — Génétique & Monohybridisme</title>
+<style>
+  :root {
+    --green:    #2d7a4f;
+    --green-l:  #e8f5ee;
+    --blue:     #1a5f8a;
+    --blue-l:   #e3f0f9;
+    --orange:   #d6622a;
+    --orange-l: #fdf0e8;
+    --purple:   #6b3fa0;
+    --purple-l: #f3edfb;
+    --red:      #c0392b;
+    --red-l:    #fdecea;
+    --yellow:   #b8860b;
+    --yellow-l: #fdfbe8;
+    --corr-bg:  #fffde7;
+    --border:   #dde2ea;
+    --shadow:   0 2px 12px rgba(0,0,0,.08);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Segoe UI', Arial, sans-serif;
+    background: #f0f2f5;
+    color: #222;
+    line-height: 1.65;
+  }
+
+  /* ─── HEADER ─── */
+  header {
+    background: linear-gradient(135deg, #1a5f8a 0%, #2d7a4f 100%);
+    color: #fff;
+    padding: 30px 40px 24px;
+    text-align: center;
+  }
+  header .tag {
+    display: inline-block;
+    background: rgba(255,255,255,.2);
+    border-radius: 20px;
+    padding: 3px 14px;
+    font-size: .78rem;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+  }
+  header h1 { font-size: 1.8rem; font-weight: 700; margin-bottom: 4px; }
+  header p  { font-size: .92rem; opacity: .85; }
+
+  /* ─── LAYOUT ─── */
+  main { max-width: 980px; margin: 0 auto; padding: 32px 20px 60px; }
+
+  /* ─── PART TITLES ─── */
+  .part-title {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin: 44px 0 22px;
+  }
+  .part-badge {
+    padding: 6px 18px;
+    border-radius: 20px;
+    color: #fff;
+    font-weight: 700;
+    font-size: .88rem;
+    flex-shrink: 0;
+  }
+  .part-title h2 { font-size: 1.2rem; font-weight: 700; }
+
+  /* ─── EXERCISE CARD ─── */
+  .exercise {
+    background: #fff;
+    border-radius: 14px;
+    box-shadow: var(--shadow);
+    margin-bottom: 28px;
+    overflow: hidden;
+  }
+  .ex-header {
+    padding: 14px 22px;
+    font-weight: 700;
+    font-size: 1rem;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .ex-body { padding: 22px; }
+  .ex-body p { font-size: .92rem; color: #333; margin-bottom: 12px; }
+  .ex-body p:last-child { margin-bottom: 0; }
+
+  /* ─── TABLE ─── */
+  .data-table { width: 100%; border-collapse: collapse; font-size: .88rem; margin: 14px 0; }
+  .data-table th {
+    background: var(--blue);
+    color: #fff;
+    padding: 10px 14px;
+    text-align: left;
+    font-weight: 700;
+  }
+  .data-table td {
+    padding: 9px 14px;
+    border-bottom: 1px solid var(--border);
+    border-left: 1px solid var(--border);
+  }
+  .data-table td:first-child { border-left: none; }
+  .data-table tr:last-child td { border-bottom: none; }
+  .data-table tr:nth-child(even) td { background: #f5f8fb; }
+  .data-table .blank-cell {
+    background: #f9f9f9;
+    border: 2px dashed #ccc;
+    color: #aaa;
+    font-style: italic;
+    text-align: center;
+  }
+
+  /* ─── SUB-QUESTIONS ─── */
+  .sub-questions { margin-top: 18px; }
+  .sub-q {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 12px;
+    align-items: flex-start;
+  }
+  .sub-q .letter {
+    background: var(--blue);
+    color: #fff;
+    width: 26px; height: 26px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 700;
+    font-size: .8rem;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+  .sub-q p { font-size: .9rem; color: #333; }
+  .sub-sub { margin-left: 38px; margin-top: 4px; }
+  .sub-sub li { font-size: .88rem; color: #333; margin-bottom: 4px; list-style: disc; margin-left: 16px; }
+
+  /* ─── QUIZ ─── */
+  .quiz-q {
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: var(--shadow);
+    padding: 18px 20px;
+    margin-bottom: 14px;
+  }
+  .quiz-q .q-num {
+    font-weight: 700;
+    color: var(--blue);
+    font-size: .88rem;
+    margin-bottom: 6px;
+  }
+  .quiz-q .q-text { font-size: .92rem; font-weight: 600; margin-bottom: 10px; color: #222; }
+  .options { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
+  @media (max-width: 520px) { .options { grid-template-columns: 1fr; } }
+  .opt {
+    background: #f5f8fb;
+    border: 1.5px solid var(--border);
+    border-radius: 8px;
+    padding: 7px 12px;
+    font-size: .87rem;
+    color: #333;
+  }
+  .opt strong { color: var(--blue); margin-right: 6px; }
+
+  /* ─── SEPARATOR ─── */
+  .separator {
+    margin: 50px 0;
+    text-align: center;
+    position: relative;
+  }
+  .separator::before {
+    content: '';
+    position: absolute;
+    left: 0; right: 0; top: 50%;
+    height: 2px;
+    background: linear-gradient(to right, transparent, var(--yellow), transparent);
+  }
+  .separator span {
+    position: relative;
+    background: #f0f2f5;
+    padding: 0 20px;
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--yellow);
+    letter-spacing: .05em;
+  }
+
+  /* ─── CORRECTION BLOCK ─── */
+  .correction {
+    background: var(--corr-bg);
+    border-radius: 14px;
+    box-shadow: var(--shadow);
+    margin-bottom: 28px;
+    overflow: hidden;
+    border: 1.5px solid #f5e642;
+  }
+  .corr-header {
+    padding: 14px 22px;
+    font-weight: 700;
+    font-size: 1rem;
+    background: linear-gradient(135deg, #b8860b, #d4a017);
+    color: #fff;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .corr-body { padding: 22px; }
+
+  /* sub-answer */
+  .corr-sub {
+    margin-bottom: 22px;
+    padding-bottom: 18px;
+    border-bottom: 1px dashed #e0d080;
+  }
+  .corr-sub:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+  .corr-q {
+    background: #fff;
+    border-left: 4px solid var(--yellow);
+    padding: 10px 14px;
+    border-radius: 0 8px 8px 0;
+    font-size: .9rem;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 10px;
+  }
+  .corr-a { font-size: .9rem; color: #222; }
+  .corr-a p { margin-bottom: 8px; }
+  .highlight {
+    display: inline-block;
+    background: var(--green-l);
+    border: 1.5px solid var(--green);
+    border-radius: 6px;
+    padding: 2px 10px;
+    font-weight: 700;
+    color: var(--green);
+    font-size: .88rem;
+    margin: 2px 2px;
+  }
+  .highlight.blue  { background: var(--blue-l);   border-color: var(--blue);   color: var(--blue);   }
+  .highlight.orange{ background: var(--orange-l); border-color: var(--orange); color: var(--orange); }
+  .highlight.purple{ background: var(--purple-l); border-color: var(--purple); color: var(--purple); }
+
+  /* ─── PUNNETT ─── */
+  .punnett-wrap { display: flex; gap: 28px; align-items: flex-start; flex-wrap: wrap; margin: 10px 0; }
+  .punnett { border-collapse: collapse; }
+  .punnett td, .punnett th {
+    width: 80px; height: 62px;
+    text-align: center; vertical-align: middle;
+    font-size: .88rem; font-weight: 600;
+    border: 2px solid var(--border);
+  }
+  .punnett th { background: var(--blue); color: #fff; font-weight: 700; }
+  .punnett th.corner { background: #f0f2f5; color: #888; font-size: .72rem; font-weight: 500; }
+  .punnett td.dom-dom  { background: #e8f5ee; color: var(--green); }
+  .punnett td.dom-rec  { background: #e3f0f9; color: var(--blue); }
+  .punnett td.rec-rec  { background: var(--orange-l); color: var(--orange); }
+  .punnett td.dom-rec2 { background: #e3f0f9; color: var(--blue); }
+
+  .legend-box { font-size: .84rem; }
+  .legend-row { display: flex; align-items: center; gap: 8px; margin-bottom: 6px; }
+  .swatch { width: 14px; height: 14px; border-radius: 3px; flex-shrink: 0; }
+  .result-banner {
+    margin-top: 12px;
+    padding: 10px 16px;
+    border-radius: 8px;
+    background: var(--green-l);
+    border-left: 4px solid var(--green);
+    font-size: .88rem;
+  }
+
+  /* ─── QUIZ CORR ─── */
+  .qcorr {
+    background: #fff;
+    border: 1.5px solid #f5e642;
+    border-radius: 10px;
+    padding: 16px 18px;
+    margin-bottom: 12px;
+  }
+  .qcorr .qnum { font-weight: 700; color: var(--yellow); font-size: .85rem; margin-bottom: 4px; }
+  .qcorr .qtext { font-size: .9rem; font-weight: 600; margin-bottom: 8px; color: #222; }
+  .qcorr .answer {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    margin-bottom: 6px;
+  }
+  .ans-badge {
+    background: var(--green);
+    color: #fff;
+    border-radius: 20px;
+    padding: 3px 12px;
+    font-weight: 700;
+    font-size: .85rem;
+    flex-shrink: 0;
+  }
+  .ans-text { font-size: .87rem; color: #333; }
+  .all-opts-corr { display: grid; grid-template-columns: 1fr 1fr; gap: 4px; margin-bottom: 8px; }
+  @media (max-width: 520px) { .all-opts-corr { grid-template-columns: 1fr; } }
+  .opt-corr {
+    padding: 6px 10px;
+    border-radius: 6px;
+    font-size: .85rem;
+    border: 1.5px solid var(--border);
+  }
+  .opt-corr.correct { background: var(--green-l); border-color: var(--green); font-weight: 700; color: var(--green); }
+  .opt-corr.wrong   { background: #f5f5f5; color: #888; }
+  .opt-corr .mark { margin-right: 4px; }
+
+  /* misc */
+  .rule-note {
+    background: var(--blue-l);
+    border-left: 4px solid var(--blue);
+    border-radius: 0 8px 8px 0;
+    padding: 10px 14px;
+    font-size: .86rem;
+    color: #1a3a5a;
+    margin: 8px 0;
+  }
+  .formula-box {
+    background: #fff;
+    border: 2px solid var(--green);
+    border-radius: 8px;
+    padding: 10px 16px;
+    display: inline-block;
+    font-size: .95rem;
+    font-weight: 600;
+    margin: 4px 0;
+    color: var(--green);
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="tag">UAA3 · 4è Sciences générales</div>
+  <h1>🧬 Exercices de monohybridisme &amp; Quiz</h1>
+  <p>Génétique · Prof. Haye &nbsp;|&nbsp; Correction complète en fin de document</p>
+</header>
+
+<main>
+
+<!-- ═══════════════════════════════════════════════════════
+     PARTIE A — EXERCICES
+═══════════════════════════════════════════════════════ -->
+<div class="part-title">
+  <div class="part-badge" style="background:var(--blue);">PARTIE A</div>
+  <h2>Exercices de monohybridisme</h2>
+</div>
+
+<!-- ──────────── EXERCICE 1 ──────────── -->
+<div class="exercise">
+  <div class="ex-header" style="background: linear-gradient(135deg, #1a5f8a, #2d7a4f);">
+    🐾 Exercice 1 — Croisements chez différents animaux
+  </div>
+  <div class="ex-body">
+    <p>
+      Pour étudier la transmission de différents caractères chez des animaux, des scientifiques ont
+      réalisé des croisements entre individus de lignées pures. Les résultats obtenus sont
+      présentés dans le tableau ci-dessous.
+    </p>
+
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>Phénotype des parents (P)</th>
+          <th>F1</th>
+          <th>F2</th>
+          <th>Caractère dominant</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Chats noirs × chats blancs</td>
+          <td>Chats noirs</td>
+          <td>387 noirs ; 132 blancs</td>
+          <td class="blank-cell">à compléter</td>
+        </tr>
+        <tr>
+          <td>Lapins à poils courts × lapins à poils longs</td>
+          <td>Poils courts</td>
+          <td>563 courts ; 188 longs</td>
+          <td class="blank-cell">à compléter</td>
+        </tr>
+        <tr>
+          <td>Maïs grains jaunes × maïs grains blancs</td>
+          <td>Grains jaunes</td>
+          <td>416 jaunes ; 139 blancs</td>
+          <td class="blank-cell">à compléter</td>
+        </tr>
+        <tr>
+          <td>Tomates fruits ronds × fruits allongés</td>
+          <td>Fruits ronds</td>
+          <td>278 ronds ; 93 allongés</td>
+          <td class="blank-cell">à compléter</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <p><strong>b.</strong> Pour le premier croisement uniquement (chats noirs × chats blancs) :</p>
+    <div class="sub-questions">
+      <div class="sub-q">
+        <div class="letter">—</div>
+        <p>Indique le génotype et le phénotype des Parents (P) avec les symboles conventionnels.</p>
+      </div>
+      <div class="sub-q">
+        <div class="letter">—</div>
+        <p>Indique le génotype et le phénotype de la F1 avec les symboles conventionnels.</p>
+      </div>
+      <div class="sub-q">
+        <div class="letter">—</div>
+        <p>Les individus de la F1 sont-ils homozygotes ou hétérozygotes ? Justifie.</p>
+      </div>
+      <div class="sub-q">
+        <div class="letter">—</div>
+        <p>Justifie à l'aide d'une grille de Punnett les résultats obtenus en F2. Indique pour chaque case le génotype et le phénotype des descendants.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ──────────── EXERCICE 2 ──────────── -->
+<div class="exercise">
+  <div class="ex-header" style="background: linear-gradient(135deg, #6b3fa0, #d6622a);">
+    🐹 Exercice 2 — Les cobayes à poil noir et à poil roux
+  </div>
+  <div class="ex-body">
+    <p>
+      On dispose de deux lignées pures de cobayes qui diffèrent par un seul caractère :
+      l'une possède des poils <strong>noirs</strong> et l'autre des poils <strong>roux</strong>.
+    </p>
+
+    <div class="sub-questions">
+      <div class="sub-q">
+        <div class="letter" style="background:var(--purple);">a</div>
+        <p>Comment peut-on s'assurer que ces deux lignées sont bien des lignées pures ?</p>
+      </div>
+      <div class="sub-q">
+        <div class="letter" style="background:var(--purple);">b</div>
+        <p>
+          Le croisement d'un cobaye à poil noir avec un cobaye à poil roux donne en F1
+          uniquement des cobayes à poil noir. Explique ce résultat en précisant quel allèle
+          est dominant et quel allèle est récessif.
+        </p>
+      </div>
+      <div class="sub-q">
+        <div class="letter" style="background:var(--purple);">c</div>
+        <p>Quels seront les résultats statistiques en F2 lors du croisement des cobayes F1 entre eux ? Justifie.</p>
+      </div>
+      <div class="sub-q">
+        <div class="letter" style="background:var(--purple);">d</div>
+        <p>
+          Doit-on obligatoirement s'assurer de la pureté de la lignée des cobayes à poil roux ?
+          Justifie.
+        </p>
+      </div>
+      <div class="sub-q">
+        <div class="letter" style="background:var(--purple);">e</div>
+        <p>Qu'obtiendra-t-on en croisant :</p>
+        <ul class="sub-sub">
+          <li>Les cobayes F1 avec les cobayes à poil noir de la lignée pure ?</li>
+          <li>Les cobayes F1 avec les cobayes à poil roux de la lignée pure ?</li>
+        </ul>
+      </div>
+      <div class="sub-q">
+        <div class="letter" style="background:var(--purple);">f</div>
+        <p>
+          On trouve dans l'enclos d'élevage un cobaye à poil noir. Comment peut-on
+          savoir s'il appartient à une lignée pure ?
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ═══════════════════════════════════════════════════════
+     PARTIE B — QUIZ DE VOCABULAIRE
+═══════════════════════════════════════════════════════ -->
+<div class="part-title">
+  <div class="part-badge" style="background:var(--purple);">PARTIE B</div>
+  <h2>Quiz — Vocabulaire et notions clés</h2>
+</div>
+
+<p style="font-size:.9rem; color:#555; margin-bottom:18px;">
+  Pour chaque question, entoure la lettre de la <strong>seule bonne réponse</strong>.
+</p>
+
+<!-- Q1 -->
+<div class="quiz-q">
+  <div class="q-num">Question 1</div>
+  <div class="q-text">Qu'appelle-t-on un caractère héréditaire ?</div>
+  <div class="options">
+    <div class="opt"><strong>A.</strong> Un caractère acquis au cours de la vie (cicatrice, bronzage…)</div>
+    <div class="opt"><strong>B.</strong> Un caractère déterminé par un gène et transmissible aux descendants</div>
+    <div class="opt"><strong>C.</strong> Un caractère visible uniquement chez les adultes</div>
+    <div class="opt"><strong>D.</strong> Un caractère propre aux seuls mammifères</div>
+  </div>
+</div>
+
+<!-- Q2 -->
+<div class="quiz-q">
+  <div class="q-num">Question 2</div>
+  <div class="q-text">Quel terme désigne les différentes versions d'un même gène ?</div>
+  <div class="options">
+    <div class="opt"><strong>A.</strong> Des chromosomes</div>
+    <div class="opt"><strong>B.</strong> Des phénotypes</div>
+    <div class="opt"><strong>C.</strong> Des allèles</div>
+    <div class="opt"><strong>D.</strong> Des mutations</div>
+  </div>
+</div>
+
+<!-- Q3 -->
+<div class="quiz-q">
+  <div class="q-num">Question 3</div>
+  <div class="q-text">Un individu homozygote dominant pour l'allèle « lisse » (noté L) a le génotype :</div>
+  <div class="options">
+    <div class="opt"><strong>A.</strong> ll</div>
+    <div class="opt"><strong>B.</strong> Ll</div>
+    <div class="opt"><strong>C.</strong> LL</div>
+    <div class="opt"><strong>D.</strong> [L]</div>
+  </div>
+</div>
+
+<!-- Q4 -->
+<div class="quiz-q">
+  <div class="q-num">Question 4</div>
+  <div class="q-text">Quelle notation représente un phénotype ?</div>
+  <div class="options">
+    <div class="opt"><strong>A.</strong> Ll</div>
+    <div class="opt"><strong>B.</strong> [L]</div>
+    <div class="opt"><strong>C.</strong> L/l</div>
+    <div class="opt"><strong>D.</strong> LL</div>
+  </div>
+</div>
+
+<!-- Q5 -->
+<div class="quiz-q">
+  <div class="q-num">Question 5</div>
+  <div class="q-text">Lors du croisement de deux lignées pures différentes, les individus F1 sont :</div>
+  <div class="options">
+    <div class="opt"><strong>A.</strong> Homozygotes dominants</div>
+    <div class="opt"><strong>B.</strong> Homozygotes récessifs</div>
+    <div class="opt"><strong>C.</strong> Hétérozygotes</div>
+    <div class="opt"><strong>D.</strong> Ni homozygotes ni hétérozygotes</div>
+  </div>
+</div>
+
+<!-- Q6 -->
+<div class="quiz-q">
+  <div class="q-num">Question 6</div>
+  <div class="q-text">Dans une cellule diploïde humaine ordinaire, combien de chromosomes trouve-t-on ?</div>
+  <div class="options">
+    <div class="opt"><strong>A.</strong> 23</div>
+    <div class="opt"><strong>B.</strong> 46</div>
+    <div class="opt"><strong>C.</strong> 92</div>
+    <div class="opt"><strong>D.</strong> 4</div>
+  </div>
+</div>
+
+<!-- Q7 -->
+<div class="quiz-q">
+  <div class="q-num">Question 7</div>
+  <div class="q-text">Si 100 % des individus F1 présentent le caractère « noir » après un croisement noir × blanc, cela signifie que :</div>
+  <div class="options">
+    <div class="opt"><strong>A.</strong> L'allèle blanc est dominant</div>
+    <div class="opt"><strong>B.</strong> Les deux allèles sont équivalents</div>
+    <div class="opt"><strong>C.</strong> L'allèle noir est dominant</div>
+    <div class="opt"><strong>D.</strong> L'allèle noir est récessif</div>
+  </div>
+</div>
+
+<!-- Q8 -->
+<div class="quiz-q">
+  <div class="q-num">Question 8</div>
+  <div class="q-text">Un individu de génotype Ll produit le phénotype suivant (L étant dominant sur l) :</div>
+  <div class="options">
+    <div class="opt"><strong>A.</strong> [l], car l'allèle récessif s'exprime aussi</div>
+    <div class="opt"><strong>B.</strong> [L], car l'allèle dominant masque l'allèle récessif</div>
+    <div class="opt"><strong>C.</strong> [Ll], les deux s'expriment à moitié</div>
+    <div class="opt"><strong>D.</strong> Impossible à déterminer</div>
+  </div>
+</div>
+
+<!-- Q9 -->
+<div class="quiz-q">
+  <div class="q-num">Question 9</div>
+  <div class="q-text">Lors du croisement F1 × F1 (Ll × Ll), quel pourcentage d'individus a le génotype ll ?</div>
+  <div class="options">
+    <div class="opt"><strong>A.</strong> 0 %</div>
+    <div class="opt"><strong>B.</strong> 25 %</div>
+    <div class="opt"><strong>C.</strong> 50 %</div>
+    <div class="opt"><strong>D.</strong> 75 %</div>
+  </div>
+</div>
+
+<!-- Q10 -->
+<div class="quiz-q">
+  <div class="q-num">Question 10</div>
+  <div class="q-text">Comment vérifie-t-on qu'une population d'organismes constitue une lignée pure ?</div>
+  <div class="options">
+    <div class="opt"><strong>A.</strong> On analyse leur ADN au microscope électronique</div>
+    <div class="opt"><strong>B.</strong> On les croise entre eux : si tous les descendants sont identiques, c'est une lignée pure</div>
+    <div class="opt"><strong>C.</strong> On les croise avec une lignée différente et on observe la F1</div>
+    <div class="opt"><strong>D.</strong> On compte le nombre de chromosomes dans leurs cellules</div>
+  </div>
+</div>
+
+<!-- Q11 -->
+<div class="quiz-q">
+  <div class="q-num">Question 11</div>
+  <div class="q-text">Un allèle récessif s'exprime dans le phénotype :</div>
+  <div class="options">
+    <div class="opt"><strong>A.</strong> Toujours, même présent en un seul exemplaire</div>
+    <div class="opt"><strong>B.</strong> Uniquement chez les individus homozygotes récessifs (deux fois l'allèle récessif)</div>
+    <div class="opt"><strong>C.</strong> Lorsqu'il est dominant sur l'autre allèle</div>
+    <div class="opt"><strong>D.</strong> Jamais : l'allèle récessif est toujours masqué</div>
+  </div>
+</div>
+
+<!-- Q12 -->
+<div class="quiz-q">
+  <div class="q-num">Question 12</div>
+  <div class="q-text">Dans un croisement Ll × ll, quelle proportion d'individus aura le phénotype récessif [l] ?</div>
+  <div class="options">
+    <div class="opt"><strong>A.</strong> 0 %</div>
+    <div class="opt"><strong>B.</strong> 25 %</div>
+    <div class="opt"><strong>C.</strong> 50 %</div>
+    <div class="opt"><strong>D.</strong> 75 %</div>
+  </div>
+</div>
+
+<!-- Q13 -->
+<div class="quiz-q">
+  <div class="q-num">Question 13</div>
+  <div class="q-text">Deux individus ont le même phénotype [L]. Peut-on affirmer qu'ils ont le même génotype ?</div>
+  <div class="options">
+    <div class="opt"><strong>A.</strong> Oui, même phénotype signifie toujours même génotype</div>
+    <div class="opt"><strong>B.</strong> Non, ils peuvent avoir les génotypes LL ou Ll, tous deux de phénotype [L]</div>
+    <div class="opt"><strong>C.</strong> Non, l'un est forcément LL et l'autre forcément ll</div>
+    <div class="opt"><strong>D.</strong> Oui, car le phénotype détermine entièrement le génotype</div>
+  </div>
+</div>
+
+<!-- Q14 -->
+<div class="quiz-q">
+  <div class="q-num">Question 14</div>
+  <div class="q-text">Dans l'expérience de Mendel en F2 (pois lisses × pois lisses F1), il obtient environ :</div>
+  <div class="options">
+    <div class="opt"><strong>A.</strong> 1 lisse pour 1 ridé</div>
+    <div class="opt"><strong>B.</strong> 2 lisses pour 1 ridé</div>
+    <div class="opt"><strong>C.</strong> 3 lisses pour 1 ridé</div>
+    <div class="opt"><strong>D.</strong> 4 lisses pour 1 ridé</div>
+  </div>
+</div>
+
+<!-- Q15 -->
+<div class="quiz-q">
+  <div class="q-num">Question 15</div>
+  <div class="q-text">À quoi sert une grille de Punnett ?</div>
+  <div class="options">
+    <div class="opt"><strong>A.</strong> À mesurer la taille des chromosomes sous microscope</div>
+    <div class="opt"><strong>B.</strong> À prévoir les génotypes et phénotypes possibles d'une descendance</div>
+    <div class="opt"><strong>C.</strong> À colorier les cellules pour les rendre visibles</div>
+    <div class="opt"><strong>D.</strong> À déterminer l'âge d'un individu d'après ses gènes</div>
+  </div>
+</div>
+
+
+
+<!-- ═══════════════════════════════════════════════════════
+     SÉPARATEUR
+═══════════════════════════════════════════════════════ -->
+<div class="separator">
+  <span>✏️ — CORRECTION — ✏️</span>
+</div>
+
+
+
+<!-- ═══════════════════════════════════════════════════════
+     CORRECTION PARTIE A
+═══════════════════════════════════════════════════════ -->
+<div class="part-title">
+  <div class="part-badge" style="background:var(--yellow);">CORRECTION A</div>
+  <h2>Exercices de monohybridisme</h2>
+</div>
+
+<!-- ──────────── CORRECTION EX 1 ──────────── -->
+<div class="correction">
+  <div class="corr-header">🐾 Correction — Exercice 1 · Croisements chez différents animaux</div>
+  <div class="corr-body">
+
+    <!-- TABLEAU -->
+    <div class="corr-sub">
+      <div class="corr-q">
+        a. Complète le tableau en indiquant pour chaque croisement le caractère dominant.
+      </div>
+      <div class="corr-a">
+        <p>
+          Dans chaque croisement, la <strong>F1 est constituée à 100 % d'un seul phénotype</strong> :
+          c'est le caractère dominant. La F2 suit toujours un ratio approximatif <strong>3 dominants pour 1 récessif</strong>, ce qui confirme la loi de Mendel.
+        </p>
+        <table class="data-table" style="margin-top:10px;">
+          <thead>
+            <tr>
+              <th>Phénotype des parents (P)</th>
+              <th>F1</th>
+              <th>F2</th>
+              <th>Caractère dominant</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Chats noirs × chats blancs</td>
+              <td>Chats noirs</td>
+              <td>387 noirs ; 132 blancs</td>
+              <td style="font-weight:700; color:var(--green);">Poil <strong>noir</strong> (ratio ≈ 3:1 ✓)</td>
+            </tr>
+            <tr>
+              <td>Lapins à poils courts × poils longs</td>
+              <td>Poils courts</td>
+              <td>563 courts ; 188 longs</td>
+              <td style="font-weight:700; color:var(--green);">Poil <strong>court</strong> (ratio ≈ 3:1 ✓)</td>
+            </tr>
+            <tr>
+              <td>Maïs grains jaunes × grains blancs</td>
+              <td>Grains jaunes</td>
+              <td>416 jaunes ; 139 blancs</td>
+              <td style="font-weight:700; color:var(--green);">Grain <strong>jaune</strong> (ratio ≈ 3:1 ✓)</td>
+            </tr>
+            <tr>
+              <td>Tomates fruits ronds × fruits allongés</td>
+              <td>Fruits ronds</td>
+              <td>278 ronds ; 93 allongés</td>
+              <td style="font-weight:700; color:var(--green);">Fruit <strong>rond</strong> (ratio ≈ 3:1 ✓)</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- QUESTION B — PARENTS -->
+    <div class="corr-sub">
+      <div class="corr-q">
+        b. Pour le croisement chats noirs × chats blancs — Génotype et phénotype des Parents (P).
+      </div>
+      <div class="corr-a">
+        <p>
+          On choisit la lettre <strong>N</strong> (première lettre de « Noir », caractère dominant).
+          L'allèle dominant se note <span class="highlight">N</span> (noir) et l'allèle récessif se note <span class="highlight orange">n</span> (blanc).
+        </p>
+        <p>
+          Les parents sont des lignées pures, donc <strong>homozygotes</strong> :
+        </p>
+        <p>
+          Parent noir pur : génotype <span class="highlight">NN</span>, phénotype <span class="highlight">[N] noir</span><br>
+          Parent blanc pur : génotype <span class="highlight orange">nn</span>, phénotype <span class="highlight orange">[n] blanc</span>
+        </p>
+      </div>
+    </div>
+
+    <!-- QUESTION B — F1 -->
+    <div class="corr-sub">
+      <div class="corr-q">
+        b. Génotype et phénotype de la F1.
+      </div>
+      <div class="corr-a">
+        <p>
+          Chaque parent de la F1 reçoit un allèle du père et un allèle de la mère. Le parent noir (NN) ne produit que des gamètes portant N ; le parent blanc (nn) ne produit que des gamètes portant n.
+        </p>
+        <p>
+          Tous les individus F1 ont donc le génotype : <span class="highlight blue">Nn</span><br>
+          L'allèle N dominant s'exprime, donc tous ont le phénotype : <span class="highlight">[N] noir</span>
+        </p>
+      </div>
+    </div>
+
+    <!-- QUESTION B — HOMO/HÉTÉRO -->
+    <div class="corr-sub">
+      <div class="corr-q">
+        b. Les individus F1 sont-ils homozygotes ou hétérozygotes ? Justification.
+      </div>
+      <div class="corr-a">
+        <p>
+          Les individus F1 sont <span class="highlight purple">hétérozygotes</span>.
+          Justification : leur génotype est <strong>Nn</strong>, c'est-à-dire qu'ils possèdent
+          <strong>deux allèles différents</strong> pour ce gène : un allèle dominant N et un allèle récessif n.
+          La définition de l'hétérozygote est précisément d'avoir deux allèles distincts.
+        </p>
+      </div>
+    </div>
+
+    <!-- QUESTION B — PUNNETT F2 -->
+    <div class="corr-sub">
+      <div class="corr-q">
+        b. Grille de Punnett pour la F2 (Nn × Nn) — génotypes et phénotypes des descendants.
+      </div>
+      <div class="corr-a">
+        <p>Les individus F1 (Nn) produisent deux types de gamètes : <strong>N</strong> ou <strong>n</strong>.</p>
+        <div class="punnett-wrap">
+          <table class="punnett">
+            <tr>
+              <th class="corner" style="font-size:.72rem; color:#888; background:#f5f5f5;">gamètes ♀ ↓ &nbsp; ♂ →</th>
+              <th>N</th>
+              <th>n</th>
+            </tr>
+            <tr>
+              <th>N</th>
+              <td class="dom-dom"><strong>NN</strong><br><span style="font-size:.75rem;">[N] noir</span></td>
+              <td class="dom-rec"><strong>Nn</strong><br><span style="font-size:.75rem;">[N] noir</span></td>
+            </tr>
+            <tr>
+              <th>n</th>
+              <td class="dom-rec2"><strong>Nn</strong><br><span style="font-size:.75rem;">[N] noir</span></td>
+              <td class="rec-rec"><strong>nn</strong><br><span style="font-size:.75rem;">[n] blanc</span></td>
+            </tr>
+          </table>
+          <div class="legend-box">
+            <p style="font-weight:700; margin-bottom:10px; font-size:.88rem;">Résultats F2 :</p>
+            <div class="legend-row">
+              <div class="swatch" style="background:#e8f5ee; border:2px solid var(--green);"></div>
+              <span><strong>NN</strong> → 25 % · homozygote dominant · <span style="color:var(--green);">[N] noir</span></span>
+            </div>
+            <div class="legend-row">
+              <div class="swatch" style="background:#e3f0f9; border:2px solid var(--blue);"></div>
+              <span><strong>Nn</strong> → 50 % · hétérozygote · <span style="color:var(--green);">[N] noir</span></span>
+            </div>
+            <div class="legend-row">
+              <div class="swatch" style="background:var(--orange-l); border:2px solid var(--orange);"></div>
+              <span><strong>nn</strong> → 25 % · homozygote récessif · <span style="color:var(--orange);">[n] blanc</span></span>
+            </div>
+            <div class="result-banner">
+              <strong>Phénotypes :</strong><br>
+              🐈‍⬛ 75 % de chats <strong>noirs</strong> (NN + Nn)<br>
+              🐱 25 % de chats <strong>blancs</strong> (nn)<br>
+              <em>Ratio 3:1, conforme aux résultats observés (387:132 ≈ 3:1).</em>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ──────────── CORRECTION EX 2 ──────────── -->
+<div class="correction">
+  <div class="corr-header">🐹 Correction — Exercice 2 · Les cobayes à poil noir et à poil roux</div>
+  <div class="corr-body">
+
+    <!-- a -->
+    <div class="corr-sub">
+      <div class="corr-q">
+        a. Comment peut-on s'assurer que ces deux lignées sont bien des lignées pures ?
+      </div>
+      <div class="corr-a">
+        <p>
+          Pour vérifier la pureté d'une lignée, on croise les individus de cette lignée
+          <strong>entre eux</strong> sur plusieurs générations. Si <strong>tous les descendants présentent
+          le même phénotype</strong> sans exception, la lignée est pure : les individus sont homozygotes (NN
+          pour les noirs ou nn pour les roux). Si des phénotypes différents apparaissent, certains individus
+          sont hétérozygotes et la lignée n'est pas pure.
+        </p>
+      </div>
+    </div>
+
+    <!-- b -->
+    <div class="corr-sub">
+      <div class="corr-q">
+        b. Le croisement donne en F1 uniquement des cobayes à poil noir. Explique ce résultat.
+      </div>
+      <div class="corr-a">
+        <p>
+          On choisit la lettre <strong>N</strong> (noir dominant). L'allèle <span class="highlight">N</span> (noir) est <strong>dominant</strong>,
+          l'allèle <span class="highlight orange">n</span> (roux) est <strong>récessif</strong>.
+        </p>
+        <p>
+          Le parent noir pur a le génotype <strong>NN</strong> ; le parent roux pur a le génotype <strong>nn</strong>.
+          Tous les individus F1 reçoivent un allèle N du parent noir et un allèle n du parent roux :
+          leur génotype est <span class="highlight blue">Nn</span>.
+        </p>
+        <p>
+          Puisque N est dominant, il masque l'allèle n récessif : tous les individus F1 ont le phénotype
+          <span class="highlight">[N] poil noir</span>. L'allèle « roux » n'a pas disparu ; il est simplement <em>caché</em>.
+        </p>
+      </div>
+    </div>
+
+    <!-- c -->
+    <div class="corr-sub">
+      <div class="corr-q">
+        c. Résultats statistiques en F2 (croisement F1 × F1).
+      </div>
+      <div class="corr-a">
+        <p>Croisement : <strong>Nn × Nn</strong>. La grille de Punnett donne :</p>
+        <div class="punnett-wrap">
+          <table class="punnett">
+            <tr>
+              <th class="corner" style="font-size:.72rem; color:#888; background:#f5f5f5;">♀ ↓ &nbsp; ♂ →</th>
+              <th>N</th>
+              <th>n</th>
+            </tr>
+            <tr>
+              <th>N</th>
+              <td class="dom-dom"><strong>NN</strong><br><span style="font-size:.75rem;">[N] noir</span></td>
+              <td class="dom-rec"><strong>Nn</strong><br><span style="font-size:.75rem;">[N] noir</span></td>
+            </tr>
+            <tr>
+              <th>n</th>
+              <td class="dom-rec2"><strong>Nn</strong><br><span style="font-size:.75rem;">[N] noir</span></td>
+              <td class="rec-rec"><strong>nn</strong><br><span style="font-size:.75rem;">[n] roux</span></td>
+            </tr>
+          </table>
+          <div class="legend-box">
+            <div class="result-banner">
+              <strong>Résultats F2 :</strong><br>
+              🐹 <strong>75 %</strong> de cobayes à poil <span style="color:var(--green);">noir [N]</span>
+              (génotypes NN ou Nn)<br>
+              🐹 <strong>25 %</strong> de cobayes à poil <span style="color:var(--orange);">roux [n]</span>
+              (génotype nn)<br><br>
+              <em>Le caractère « roux » réapparaît en F2 : il n'avait pas disparu, il était caché.</em>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- d -->
+    <div class="corr-sub">
+      <div class="corr-q">
+        d. Doit-on obligatoirement vérifier la pureté de la lignée des cobayes à poil roux ? Justifie.
+      </div>
+      <div class="corr-a">
+        <p>
+          <strong>Non, ce n'est pas nécessaire.</strong>
+          L'allèle « roux » est un allèle <strong>récessif</strong> (noté n). Pour qu'un cobaye soit roux,
+          il faut qu'il possède <strong>deux allèles récessifs</strong> (génotype nn), car un seul allèle n
+          serait masqué par l'allèle N dominant. Un cobaye roux est donc <em>forcément homozygote récessif</em>
+          (nn), donc <em>forcément de lignée pure</em>. Il n'est pas nécessaire de le vérifier
+          expérimentalement.
+        </p>
+      </div>
+    </div>
+
+    <!-- e -->
+    <div class="corr-sub">
+      <div class="corr-q">
+        e. Résultats des croisements : 1) F1 × cobayes noirs purs &nbsp;|&nbsp; 2) F1 × cobayes roux purs.
+      </div>
+      <div class="corr-a">
+        <p><strong>1) Croisement F1 (Nn) × cobayes noirs purs (NN) :</strong></p>
+        <div class="punnett-wrap" style="margin-bottom:16px;">
+          <table class="punnett">
+            <tr>
+              <th class="corner" style="font-size:.72rem; color:#888; background:#f5f5f5;">♀ Nn ↓ &nbsp; ♂ NN →</th>
+              <th>N</th>
+              <th>N</th>
+            </tr>
+            <tr>
+              <th>N</th>
+              <td class="dom-dom"><strong>NN</strong><br><span style="font-size:.75rem;">[N] noir</span></td>
+              <td class="dom-dom"><strong>NN</strong><br><span style="font-size:.75rem;">[N] noir</span></td>
+            </tr>
+            <tr>
+              <th>n</th>
+              <td class="dom-rec"><strong>Nn</strong><br><span style="font-size:.75rem;">[N] noir</span></td>
+              <td class="dom-rec"><strong>Nn</strong><br><span style="font-size:.75rem;">[N] noir</span></td>
+            </tr>
+          </table>
+          <div class="legend-box">
+            <div class="result-banner">
+              <strong>100 % de cobayes noirs [N]</strong><br>
+              50 % NN + 50 % Nn<br>
+              <em>Aucun cobaye roux ne peut apparaître.</em>
+            </div>
+          </div>
+        </div>
+
+        <p><strong>2) Croisement F1 (Nn) × cobayes roux purs (nn) — <em>croisement-test</em> :</strong></p>
+        <div class="punnett-wrap">
+          <table class="punnett">
+            <tr>
+              <th class="corner" style="font-size:.72rem; color:#888; background:#f5f5f5;">♀ Nn ↓ &nbsp; ♂ nn →</th>
+              <th>n</th>
+              <th>n</th>
+            </tr>
+            <tr>
+              <th>N</th>
+              <td class="dom-rec"><strong>Nn</strong><br><span style="font-size:.75rem;">[N] noir</span></td>
+              <td class="dom-rec"><strong>Nn</strong><br><span style="font-size:.75rem;">[N] noir</span></td>
+            </tr>
+            <tr>
+              <th>n</th>
+              <td class="rec-rec"><strong>nn</strong><br><span style="font-size:.75rem;">[n] roux</span></td>
+              <td class="rec-rec"><strong>nn</strong><br><span style="font-size:.75rem;">[n] roux</span></td>
+            </tr>
+          </table>
+          <div class="legend-box">
+            <div class="result-banner">
+              <strong>50 % de cobayes noirs [N]</strong> (Nn)<br>
+              <strong>50 % de cobayes roux [n]</strong> (nn)<br>
+              <em>Ce croisement avec la lignée récessive pure révèle que F1 est hétérozygote. C'est ce qu'on appelle le <strong>croisement-test</strong>.</em>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- f -->
+    <div class="corr-sub">
+      <div class="corr-q">
+        f. On trouve dans l'enclos un cobaye à poil noir. Comment savoir s'il appartient à une lignée pure ?
+      </div>
+      <div class="corr-a">
+        <p>
+          Un cobaye à poil noir peut être de génotype <strong>NN</strong> (lignée pure) ou <strong>Nn</strong>
+          (hétérozygote) : les deux ont le phénotype [N] noir. On ne peut pas le savoir en le regardant.
+        </p>
+        <p>
+          La méthode est le <strong>croisement-test</strong> : on croise ce cobaye inconnu avec
+          un cobaye à poil roux de lignée pure (nn).
+        </p>
+        <div class="rule-note">
+          📌 Si <strong>tous les descendants sont noirs</strong> → le cobaye inconnu est <strong>NN</strong>
+          (homozygote dominant, lignée pure).<br>
+          📌 Si on obtient <strong>50 % noirs et 50 % roux</strong> → le cobaye inconnu est <strong>Nn</strong>
+          (hétérozygote, pas une lignée pure).
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+
+
+<!-- ═══════════════════════════════════════════════════════
+     CORRECTION PARTIE B — QUIZ
+═══════════════════════════════════════════════════════ -->
+<div class="part-title">
+  <div class="part-badge" style="background:var(--yellow);">CORRECTION B</div>
+  <h2>Quiz — Vocabulaire et notions clés</h2>
+</div>
+
+<!-- Q1 -->
+<div class="qcorr">
+  <div class="qnum">Question 1</div>
+  <div class="qtext">Qu'appelle-t-on un caractère héréditaire ?</div>
+  <div class="all-opts-corr">
+    <div class="opt-corr wrong"><span class="mark">✗</span> A. Un caractère acquis au cours de la vie</div>
+    <div class="opt-corr correct"><span class="mark">✓</span> B. Un caractère déterminé par un gène et transmissible aux descendants</div>
+    <div class="opt-corr wrong"><span class="mark">✗</span> C. Un caractère visible uniquement chez les adultes</div>
+    <div class="opt-corr wrong"><span class="mark">✗</span> D. Un caractère propre aux seuls mammifères</div>
+  </div>
+  <div class="answer">
+    <div class="ans-badge">→ B</div>
+    <div class="ans-text">Un caractère héréditaire est déterminé par un gène et peut être transmis aux enfants (ex. : couleur des yeux, groupe sanguin). Une cicatrice ou un bronzage ne sont pas héréditaires car ils ne sont pas codés dans les gènes.</div>
+  </div>
+</div>
+
+<!-- Q2 -->
+<div class="qcorr">
+  <div class="qnum">Question 2</div>
+  <div class="qtext">Quel terme désigne les différentes versions d'un même gène ?</div>
+  <div class="all-opts-corr">
+    <div class="opt-corr wrong"><span class="mark">✗</span> A. Des chromosomes</div>
+    <div class="opt-corr wrong"><span class="mark">✗</span> B. Des phénotypes</div>
+    <div class="opt-corr correct"><span class="mark">✓</span> C. Des allèles</div>
+    <div class="opt-corr wrong"><span class="mark">✗</span> D. Des mutations</div>
+  </div>
+  <div class="answer">
+    <div class="ans-badge">→ C</div>
+    <div class="ans-text">Les allèles sont les différentes versions d'un gène. Par exemple, pour le gène de la couleur du pelage, il peut exister un allèle « noir » et un allèle « blanc ». Les mutations sont à l'origine de la création de nouveaux allèles.</div>
+  </div>
+</div>
+
+<!-- Q3 -->
+<div class="qcorr">
+  <div class="qnum">Question 3</div>
+  <div class="qtext">Un individu homozygote dominant pour l'allèle « lisse » (noté L) a le génotype :</div>
+  <div class="all-opts-corr">
+    <div class="opt-corr wrong"><span class="mark">✗</span> A. ll</div>
+    <div class="opt-corr wrong"><span class="mark">✗</span> B. Ll</div>
+    <div class="opt-corr correct"><span class="mark">✓</span> C. LL</div>
+    <div class="opt-corr wrong"><span class="mark">✗</span> D. [L]</div>
+  </div>
+  <div class="answer">
+    <div class="ans-badge">→ C</div>
+    <div class="ans-text">Homozygote = deux allèles identiques. Dominant = l'allèle L (majuscule). Donc LL. Le génotype Ll est hétérozygote, ll est homozygote récessif, et [L] représente le phénotype, pas le génotype.</div>
+  </div>
+</div>
+
+<!-- Q4 -->
+<div class="qcorr">
+  <div class="qnum">Question 4</div>
+  <div class="qtext">Quelle notation représente un phénotype ?</div>
+  <div class="all-opts-corr">
+    <div class="opt-corr wrong"><span class="mark">✗</span> A. Ll</div>
+    <div class="opt-corr correct"><span class="mark">✓</span> B. [L]</div>
+    <div class="opt-corr wrong"><span class="mark">✗</span> C. L/l</div>
+    <div class="opt-corr wrong"><span class="mark">✗</span> D. LL</div>
+  </div>
+  <div class="answer">
+    <div class="ans-badge">→ B</div>
+    <div class="ans-text">Le phénotype se note entre crochets : [L] pour le caractère dominant visible, [l] pour le caractère récessif. Les notations Ll, LL et ll désignent des génotypes.</div>
+  </div>
+</div>
+
+<!-- Q5 -->
+<div class="qcorr">
+  <div class="qnum">Question 5</div>
+  <div class="qtext">Lors du croisement de deux lignées pures différentes, les individus F1 sont :</div>
+  <div class="all-opts-corr">
+    <div class="opt-corr wrong"><span class="mark">✗</span> A. Homozygotes dominants</div>
+    <div class="opt-corr wrong"><span class="mark">✗</span> B. Homozygotes récessifs</div>
+    <div class="opt-corr correct"><span class="mark">✓</span> C. Hétérozygotes</div>
+    <div class="opt-corr wrong"><span class="mark">✗</span> D. Ni homozygotes ni hétérozygotes</div>
+  </div>
+  <div class="answer">
+    <div class="ans-badge">→ C</div>
+    <div class="ans-text">Chaque parent de lignée pure donne un seul type d'allèle : le parent dominant donne N, le parent récessif donne n. Chaque individu F1 reçoit donc un allèle N et un allèle n → génotype Nn → hétérozygote.</div>
+  </div>
+</div>
+
+<!-- Q6 -->
+<div class="qcorr">
+  <div class="qnum">Question 6</div>
+  <div class="qtext">Dans une cellule diploïde humaine ordinaire, combien de chromosomes trouve-t-on ?</div>
+  <div class="all-opts-corr">
+    <div class="opt-corr wrong"><span class="mark">✗</span> A. 23</div>
+    <div class="opt-corr correct"><span class="mark">✓</span> B. 46</div>
+    <div class="opt-corr wrong"><span class="mark">✗</span> C. 92</div>
+    <div class="opt-corr wrong"><span class="mark">✗</span> D. 4</div>
+  </div>
+  <div class="answer">
+    <div class="ans-badge">→ B</div>
+    <div class="ans-text">Une cellule diploïde contient les chromosomes par paires. Chez l'Homme : 23 paires × 2 = 46 chromosomes. Les gamètes (spermatozoïdes et ovules) n'en contiennent que 23 : ils sont haploïdes.</div>
+  </div>
+</div>
+
+<!-- Q7 -->
+<div class="qcorr">
+  <div class="qnum">Question 7</div>
+  <div class="qtext">Si 100 % des individus F1 présentent le caractère « noir » après un croisement noir × blanc, cela signifie que :</div>
+  <div class="all-opts-corr">
+    <div class="opt-corr wrong"><span class="mark">✗</span> A. L'allèle blanc est dominant</div>
+    <div class="opt-corr wrong"><span class="mark">✗</span> B. Les deux allèles sont équivalents</div>
+    <div class="opt-corr correct"><span class="mark">✓</span> C. L'allèle noir est dominant</div>
+    <div class="opt-corr wrong"><span class="mark">✗</span> D. L'allèle noir est récessif</div>
+  </div>
+  <div class="answer">
+    <div class="ans-badge">→ C</div>
+    <div class="ans-text">En F1, tous les individus sont hétérozygotes (Nn). Si 100 % sont noirs, c'est que l'allèle N (noir) s'exprime même en présence de l'allèle n : il est donc dominant. L'allèle blanc (n) est récessif et masqué.</div>
+  </div>
+</div>
+
+<!-- Q8 -->
+<div class="qcorr">
+  <div class="qnum">Question 8</div>
+  <div class="qtext">Un individu de génotype Ll produit le phénotype suivant (L étant dominant sur l) :</div>
+  <div class="all-opts-corr">
+    <div class="opt-corr wrong"><span class="mark">✗</span> A. [l], car l'allèle récessif s'exprime aussi</div>
+    <div class="opt-corr correct"><span class="mark">✓</span> B. [L], car l'allèle dominant masque l'allèle récessif</div>
+    <div class="opt-corr wrong"><span class="mark">✗</span> C. [Ll], les deux s'expriment à moitié</div>
+    <div class="opt-corr wrong"><span class="mark">✗</span> D. Impossible à déterminer</div>
+  </div>
+  <div class="answer">
+    <div class="ans-badge">→ B</div>
+    <div class="ans-text">Par définition, un allèle dominant s'exprime dès qu'il est présent, même en un seul exemplaire. L'allèle récessif l est donc totalement masqué. L'individu Ll a le même aspect visible qu'un individu LL.</div>
+  </div>
+</div>
+
+<!-- Q9 -->
+<div class="qcorr">
+  <div class="qnum">Question 9</div>
+  <div class="qtext">Lors du croisement F1 × F1 (Ll × Ll), quel pourcentage d'individus a le génotype ll ?</div>
+  <div class="all-opts-corr">
+    <div class="opt-corr wrong"><span class="mark">✗</span> A. 0 %</div>
+    <div class="opt-corr correct"><span class="mark">✓</span> B. 25 %</div>
+    <div class="opt-corr wrong"><span class="mark">✗</span> C. 50 %</div>
+    <div class="opt-corr wrong"><span class="mark">✗</span> D. 75 %</div>
+  </div>
+  <div class="answer">
+    <div class="ans-badge">→ B</div>
+    <div class="ans-text">La grille de Punnett (Ll × Ll) donne : 25 % LL, 50 % Ll, 25 % ll. Seul 1 cas sur 4 donne ll. Les 75 % restants (LL + Ll) ont le phénotype dominant [L].</div>
+  </div>
+</div>
+
+<!-- Q10 -->
+<div class="qcorr">
+  <div class="qnum">Question 10</div>
+  <div class="qtext">Comment vérifie-t-on qu'une population constitue une lignée pure ?</div>
+  <div class="all-opts-corr">
+    <div class="opt-corr wrong"><span class="mark">✗</span> A. On analyse leur ADN au microscope électronique</div>
+    <div class="opt-corr correct"><span class="mark">✓</span> B. On les croise entre eux : si tous les descendants sont identiques, c'est une lignée pure</div>
+    <div class="opt-corr wrong"><span class="mark">✗</span> C. On les croise avec une lignée différente et on observe la F1</div>
+    <div class="opt-corr wrong"><span class="mark">✗</span> D. On compte le nombre de chromosomes dans leurs cellules</div>
+  </div>
+  <div class="answer">
+    <div class="ans-badge">→ B</div>
+    <div class="ans-text">Une lignée pure est composée d'individus homozygotes. En les croisant entre eux, si tous les descendants ont le même phénotype sur plusieurs générations, cela confirme qu'ils sont homozygotes (lignée pure). C'est la méthode utilisée par Mendel pendant deux ans.</div>
+  </div>
+</div>
+
+<!-- Q11 -->
+<div class="qcorr">
+  <div class="qnum">Question 11</div>
+  <div class="qtext">Un allèle récessif s'exprime dans le phénotype :</div>
+  <div class="all-opts-corr">
+    <div class="opt-corr wrong"><span class="mark">✗</span> A. Toujours, même en un seul exemplaire</div>
+    <div class="opt-corr correct"><span class="mark">✓</span> B. Uniquement chez les individus homozygotes récessifs</div>
+    <div class="opt-corr wrong"><span class="mark">✗</span> C. Lorsqu'il est dominant sur l'autre allèle</div>
+    <div class="opt-corr wrong"><span class="mark">✗</span> D. Jamais : l'allèle récessif est toujours masqué</div>
+  </div>
+  <div class="answer">
+    <div class="ans-badge">→ B</div>
+    <div class="ans-text">Un allèle récessif ne s'exprime que lorsque l'individu en possède deux exemplaires (génotype nn ou ll). En présence d'un allèle dominant, il est masqué (Nn → phénotype dominant). Il peut donc s'exprimer, mais uniquement à l'état homozygote récessif.</div>
+  </div>
+</div>
+
+<!-- Q12 -->
+<div class="qcorr">
+  <div class="qnum">Question 12</div>
+  <div class="qtext">Dans un croisement Ll × ll, quelle proportion d'individus aura le phénotype récessif [l] ?</div>
+  <div class="all-opts-corr">
+    <div class="opt-corr wrong"><span class="mark">✗</span> A. 0 %</div>
+    <div class="opt-corr wrong"><span class="mark">✗</span> B. 25 %</div>
+    <div class="opt-corr correct"><span class="mark">✓</span> C. 50 %</div>
+    <div class="opt-corr wrong"><span class="mark">✗</span> D. 75 %</div>
+  </div>
+  <div class="answer">
+    <div class="ans-badge">→ C</div>
+    <div class="ans-text">Grille de Punnett : Ll × ll → 50 % Ll (phénotype [L] dominant) et 50 % ll (phénotype [l] récessif). C'est le principe du croisement-test : il révèle si un individu au phénotype dominant est LL ou Ll.</div>
+  </div>
+</div>
+
+<!-- Q13 -->
+<div class="qcorr">
+  <div class="qnum">Question 13</div>
+  <div class="qtext">Deux individus ont le même phénotype [L]. Peut-on affirmer qu'ils ont le même génotype ?</div>
+  <div class="all-opts-corr">
+    <div class="opt-corr wrong"><span class="mark">✗</span> A. Oui, même phénotype signifie toujours même génotype</div>
+    <div class="opt-corr correct"><span class="mark">✓</span> B. Non, ils peuvent avoir les génotypes LL ou Ll, tous deux de phénotype [L]</div>
+    <div class="opt-corr wrong"><span class="mark">✗</span> C. Non, l'un est forcément LL et l'autre forcément ll</div>
+    <div class="opt-corr wrong"><span class="mark">✗</span> D. Oui, car le phénotype détermine entièrement le génotype</div>
+  </div>
+  <div class="answer">
+    <div class="ans-badge">→ B</div>
+    <div class="ans-text">Le phénotype [L] (lisse ou dominant) peut correspondre à deux génotypes différents : LL (homozygote dominant) ou Ll (hétérozygote). Pour distinguer les deux, il faut réaliser un croisement-test avec un individu de génotype ll.</div>
+  </div>
+</div>
+
+<!-- Q14 -->
+<div class="qcorr">
+  <div class="qnum">Question 14</div>
+  <div class="qtext">Dans l'expérience de Mendel en F2 (pois lisses F1 × pois lisses F1), il obtient environ :</div>
+  <div class="all-opts-corr">
+    <div class="opt-corr wrong"><span class="mark">✗</span> A. 1 lisse pour 1 ridé</div>
+    <div class="opt-corr wrong"><span class="mark">✗</span> B. 2 lisses pour 1 ridé</div>
+    <div class="opt-corr correct"><span class="mark">✓</span> C. 3 lisses pour 1 ridé</div>
+    <div class="opt-corr wrong"><span class="mark">✗</span> D. 4 lisses pour 1 ridé</div>
+  </div>
+  <div class="answer">
+    <div class="ans-badge">→ C</div>
+    <div class="ans-text">Le croisement Ll × Ll donne 25 % LL + 50 % Ll + 25 % ll, soit 75 % de phénotype dominant [L] et 25 % de phénotype récessif [l]. La proportion est donc de 3 dominants pour 1 récessif, soit le ratio 3:1, loi fondamentale de Mendel.</div>
+  </div>
+</div>
+
+<!-- Q15 -->
+<div class="qcorr">
+  <div class="qnum">Question 15</div>
+  <div class="qtext">À quoi sert une grille de Punnett ?</div>
+  <div class="all-opts-corr">
+    <div class="opt-corr wrong"><span class="mark">✗</span> A. À mesurer la taille des chromosomes</div>
+    <div class="opt-corr correct"><span class="mark">✓</span> B. À prévoir les génotypes et phénotypes possibles d'une descendance</div>
+    <div class="opt-corr wrong"><span class="mark">✗</span> C. À colorier les cellules pour les rendre visibles</div>
+    <div class="opt-corr wrong"><span class="mark">✗</span> D. À déterminer l'âge d'un individu d'après ses gènes</div>
+  </div>
+  <div class="answer">
+    <div class="ans-badge">→ B</div>
+    <div class="ans-text">La grille de Punnett (ou échiquier de croisement) est un tableau dans lequel on place les gamètes du père en ligne et ceux de la mère en colonne. On remplit chaque case en combinant un gamète de chaque parent, ce qui permet de calculer tous les génotypes possibles et leurs proportions.</div>
+  </div>
+</div>
+
+</main>
+
+<footer style="text-align:center; padding:20px; font-size:.8rem; color:#888; border-top:1px solid #dde2ea; margin-top:20px;">
+  UAA3 « Unité et diversité des êtres vivants » · 4è Sciences générales · Prof. Haye
+</footer>
+
+</body>
+</html>
