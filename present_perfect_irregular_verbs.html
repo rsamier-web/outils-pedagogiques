@@ -1,0 +1,508 @@
+
+<style>
+  :root { --tab-active: var(--color-text-primary); }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: var(--font-sans); }
+  .app { padding: 0.5rem 0 2rem; }
+  .tabs { display: flex; gap: 4px; border-bottom: 0.5px solid var(--color-border-tertiary); margin-bottom: 1.5rem; flex-wrap: wrap; }
+  .tab-btn { background: none; border: none; padding: 8px 14px; font-size: 13px; cursor: pointer; color: var(--color-text-secondary); border-bottom: 2px solid transparent; margin-bottom: -1px; font-family: var(--font-sans); transition: color 0.15s; }
+  .tab-btn.active { color: var(--color-text-primary); border-bottom-color: var(--color-text-primary); font-weight: 500; }
+  .tab-btn:hover { color: var(--color-text-primary); }
+  .section { display: none; }
+  .section.active { display: block; }
+
+  /* Leçon */
+  .rule-card { background: var(--color-background-secondary); border-radius: var(--border-radius-lg); padding: 1rem 1.25rem; margin-bottom: 1rem; }
+  .rule-title { font-size: 14px; font-weight: 500; color: var(--color-text-primary); margin-bottom: 0.5rem; }
+  .rule-body { font-size: 13px; color: var(--color-text-secondary); line-height: 1.7; }
+  .adv-badge { display: inline-block; background: var(--color-background-info); color: var(--color-text-info); font-size: 12px; font-weight: 500; padding: 2px 8px; border-radius: var(--border-radius-md); margin-right: 6px; margin-bottom: 4px; }
+  .example-line { background: var(--color-background-primary); border: 0.5px solid var(--color-border-tertiary); border-radius: var(--border-radius-md); padding: 8px 12px; margin-top: 6px; font-size: 13px; color: var(--color-text-primary); }
+  .example-line em { color: var(--color-text-info); font-style: normal; }
+  .formula-box { background: var(--color-background-primary); border: 0.5px solid var(--color-border-secondary); border-radius: var(--border-radius-md); padding: 10px 14px; font-size: 13px; font-family: var(--font-mono); color: var(--color-text-primary); margin-top: 8px; }
+
+  /* Tableau */
+  .search-row { display: flex; gap: 8px; margin-bottom: 1rem; align-items: center; }
+  .search-row input { flex: 1; font-size: 13px; padding: 6px 10px; border: 0.5px solid var(--color-border-secondary); border-radius: var(--border-radius-md); background: var(--color-background-primary); color: var(--color-text-primary); font-family: var(--font-sans); }
+  .verb-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  .verb-table th { text-align: left; padding: 8px 10px; font-weight: 500; font-size: 12px; color: var(--color-text-secondary); border-bottom: 0.5px solid var(--color-border-tertiary); }
+  .verb-table td { padding: 7px 10px; border-bottom: 0.5px solid var(--color-border-tertiary); color: var(--color-text-primary); }
+  .verb-table tr:hover td { background: var(--color-background-secondary); }
+  .pp-cell { font-weight: 500; color: #185FA5; }
+  .sheet-badge { font-size: 10px; background: var(--color-background-secondary); color: var(--color-text-secondary); border-radius: 3px; padding: 1px 5px; }
+
+  /* Flashcards */
+  .fc-controls { display: flex; align-items: center; justify-content: space-between; margin-bottom: 1rem; }
+  .fc-counter { font-size: 13px; color: var(--color-text-secondary); }
+  .fc-mode-select { font-size: 12px; padding: 4px 8px; border: 0.5px solid var(--color-border-secondary); border-radius: var(--border-radius-md); background: var(--color-background-primary); color: var(--color-text-primary); font-family: var(--font-sans); }
+  .flashcard { background: var(--color-background-primary); border: 0.5px solid var(--color-border-secondary); border-radius: var(--border-radius-lg); min-height: 160px; display: flex; flex-direction: column; align-items: center; justify-content: center; cursor: pointer; padding: 2rem; text-align: center; user-select: none; margin-bottom: 1rem; transition: border-color 0.15s; }
+  .flashcard:hover { border-color: var(--color-border-primary); }
+  .fc-front-label { font-size: 11px; color: var(--color-text-tertiary); margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.05em; }
+  .fc-word { font-size: 26px; font-weight: 500; color: var(--color-text-primary); margin-bottom: 4px; }
+  .fc-hint { font-size: 13px; color: var(--color-text-secondary); }
+  .fc-answer { display: none; margin-top: 12px; padding-top: 12px; border-top: 0.5px solid var(--color-border-tertiary); width: 100%; }
+  .flashcard.flipped .fc-answer { display: block; }
+  .flashcard.flipped { background: var(--color-background-secondary); }
+  .answer-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-top: 8px; }
+  .answer-cell { text-align: center; }
+  .answer-cell-label { font-size: 10px; color: var(--color-text-tertiary); text-transform: uppercase; }
+  .answer-cell-val { font-size: 15px; font-weight: 500; color: var(--color-text-primary); }
+  .fc-nav { display: flex; gap: 8px; justify-content: center; }
+  .nav-btn { padding: 7px 20px; font-size: 13px; border: 0.5px solid var(--color-border-secondary); border-radius: var(--border-radius-md); background: none; cursor: pointer; color: var(--color-text-primary); font-family: var(--font-sans); }
+  .nav-btn:hover { background: var(--color-background-secondary); }
+  .nav-btn.primary { background: var(--color-text-primary); color: var(--color-background-primary); border-color: var(--color-text-primary); }
+  .shuffle-btn { font-size: 12px; padding: 4px 10px; border: 0.5px solid var(--color-border-secondary); border-radius: var(--border-radius-md); background: none; cursor: pointer; color: var(--color-text-secondary); font-family: var(--font-sans); }
+  .shuffle-btn:hover { background: var(--color-background-secondary); }
+  .fc-tip { font-size: 12px; color: var(--color-text-tertiary); text-align: center; margin-top: 0.5rem; }
+
+  /* Quiz */
+  .quiz-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 1rem; }
+  .quiz-score { font-size: 13px; color: var(--color-text-secondary); }
+  .quiz-progress { height: 4px; background: var(--color-background-secondary); border-radius: 2px; margin-bottom: 1.5rem; overflow: hidden; }
+  .quiz-progress-fill { height: 100%; background: var(--color-text-primary); border-radius: 2px; transition: width 0.3s; }
+  .quiz-question { font-size: 15px; font-weight: 500; color: var(--color-text-primary); margin-bottom: 0.5rem; }
+  .quiz-sub { font-size: 13px; color: var(--color-text-secondary); margin-bottom: 1.25rem; }
+  .quiz-options { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 1rem; }
+  .quiz-opt { padding: 10px 14px; border: 0.5px solid var(--color-border-secondary); border-radius: var(--border-radius-md); background: var(--color-background-primary); cursor: pointer; font-size: 14px; color: var(--color-text-primary); text-align: center; font-family: var(--font-sans); transition: background 0.1s, border-color 0.1s; }
+  .quiz-opt:hover:not(.disabled) { background: var(--color-background-secondary); }
+  .quiz-opt.correct { background: var(--color-background-success); border-color: var(--color-border-success); color: var(--color-text-success); }
+  .quiz-opt.wrong { background: var(--color-background-danger); border-color: var(--color-border-danger); color: var(--color-text-danger); }
+  .quiz-opt.disabled { cursor: default; }
+  .quiz-feedback { font-size: 13px; padding: 8px 12px; border-radius: var(--border-radius-md); margin-bottom: 1rem; min-height: 36px; }
+  .quiz-feedback.ok { background: var(--color-background-success); color: var(--color-text-success); }
+  .quiz-feedback.ko { background: var(--color-background-danger); color: var(--color-text-danger); }
+  .result-card { background: var(--color-background-secondary); border-radius: var(--border-radius-lg); padding: 2rem; text-align: center; }
+  .result-score { font-size: 48px; font-weight: 500; color: var(--color-text-primary); }
+  .result-label { font-size: 14px; color: var(--color-text-secondary); margin-top: 4px; margin-bottom: 1.5rem; }
+  .result-msg { font-size: 15px; color: var(--color-text-primary); margin-bottom: 1.5rem; }
+  .quiz-type-selector { display: flex; gap: 6px; margin-bottom: 1.25rem; flex-wrap: wrap; }
+  .qtype-btn { font-size: 12px; padding: 5px 12px; border: 0.5px solid var(--color-border-secondary); border-radius: 20px; background: none; cursor: pointer; color: var(--color-text-secondary); font-family: var(--font-sans); }
+  .qtype-btn.active { background: var(--color-text-primary); color: var(--color-background-primary); border-color: var(--color-text-primary); }
+  .fill-input { width: 100%; padding: 8px 12px; border: 0.5px solid var(--color-border-secondary); border-radius: var(--border-radius-md); font-size: 14px; font-family: var(--font-sans); background: var(--color-background-primary); color: var(--color-text-primary); margin-bottom: 8px; }
+  .fill-input:focus { outline: none; border-color: var(--color-border-primary); }
+  .fill-input.correct { border-color: var(--color-border-success); background: var(--color-background-success); }
+  .fill-input.wrong { border-color: var(--color-border-danger); background: var(--color-background-danger); }
+  .submit-btn { padding: 8px 20px; border: 0.5px solid var(--color-border-secondary); border-radius: var(--border-radius-md); background: var(--color-text-primary); color: var(--color-background-primary); cursor: pointer; font-size: 13px; font-family: var(--font-sans); }
+  .submit-btn:hover { opacity: 0.85; }
+  .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0,0,0,0); }
+</style>
+
+<div class="app">
+  <h2 class="sr-only">Support de révision : Present Perfect et verbes irréguliers anglais</h2>
+
+  <div class="tabs">
+    <button class="tab-btn active" onclick="showTab('lecon')"><i class="ti ti-book-2" aria-hidden="true"></i> Leçon</button>
+    <button class="tab-btn" onclick="showTab('tableau')"><i class="ti ti-table" aria-hidden="true"></i> Verbes</button>
+    <button class="tab-btn" onclick="showTab('flashcards')"><i class="ti ti-cards" aria-hidden="true"></i> Flashcards</button>
+    <button class="tab-btn" onclick="showTab('quiz')"><i class="ti ti-writing" aria-hidden="true"></i> Quiz</button>
+  </div>
+
+  <!-- LEÇON -->
+  <div id="tab-lecon" class="section active">
+    <div class="rule-card">
+      <div class="rule-title">Structure du present perfect</div>
+      <div class="rule-body">
+        Le present perfect exprime une action passée qui a un lien avec le présent.
+        <div class="formula-box">SUJET + have / has + PAST PARTICIPLE (+ complément)</div>
+        <div class="example-line">I <em>have seen</em> this film. &nbsp;|&nbsp; She <em>has eaten</em> sushi before.</div>
+      </div>
+    </div>
+
+    <div class="rule-card">
+      <div class="rule-title"><span class="adv-badge">ALREADY</span> déjà</div>
+      <div class="rule-body">
+        Indique qu'une action s'est produite avant le moment attendu ou avant maintenant. Placé entre <em>have/has</em> et le participe passé. Phrases affirmatives.
+        <div class="formula-box">S + have/has + ALREADY + past participle</div>
+        <div class="example-line">I <em>have already done</em> my homework. → J'ai déjà fait mes devoirs.</div>
+        <div class="example-line">She <em>has already eaten</em>. → Elle a déjà mangé.</div>
+      </div>
+    </div>
+
+    <div class="rule-card">
+      <div class="rule-title"><span class="adv-badge">NEVER</span> ne… jamais</div>
+      <div class="rule-body">
+        Indique qu'une action ne s'est jamais produite jusqu'à maintenant. Phrases négatives de sens.
+        <div class="formula-box">S + have/has + NEVER + past participle</div>
+        <div class="example-line">I <em>have never seen</em> snow. → Je n'ai jamais vu de neige.</div>
+        <div class="example-line">He <em>has never flown</em> in a plane. → Il n'a jamais pris l'avion.</div>
+      </div>
+    </div>
+
+    <div class="rule-card">
+      <div class="rule-title"><span class="adv-badge">ONCE</span> une fois &nbsp; <span class="adv-badge">TWICE</span> deux fois &nbsp; <span class="adv-badge">SEVERAL TIMES</span> plusieurs fois</div>
+      <div class="rule-body">
+        Expriment le nombre de fois qu'une action a eu lieu. Placés en fin de phrase.
+        <div class="formula-box">S + have/has + past participle + ONCE / TWICE / SEVERAL TIMES</div>
+        <div class="example-line">I <em>have visited</em> Paris <em>once</em>. → J'ai visité Paris une fois.</div>
+        <div class="example-line">She <em>has won</em> the competition <em>twice</em>. → Elle a gagné deux fois.</div>
+        <div class="example-line">We <em>have seen</em> this film <em>several times</em>. → Nous avons vu ce film plusieurs fois.</div>
+      </div>
+    </div>
+
+    <div class="rule-card">
+      <div class="rule-title">Récapitulatif — place des adverbes</div>
+      <div class="rule-body" style="overflow-x:auto;">
+        <table style="width:100%; font-size:13px; border-collapse:collapse;">
+          <tr><th style="text-align:left; padding:5px 8px; border-bottom:0.5px solid var(--color-border-tertiary); font-weight:500; color:var(--color-text-secondary); font-size:12px;">Adverbe</th><th style="text-align:left; padding:5px 8px; border-bottom:0.5px solid var(--color-border-tertiary); font-weight:500; color:var(--color-text-secondary); font-size:12px;">Position</th><th style="text-align:left; padding:5px 8px; border-bottom:0.5px solid var(--color-border-tertiary); font-weight:500; color:var(--color-text-secondary); font-size:12px;">Sens</th></tr>
+          <tr><td style="padding:5px 8px; border-bottom:0.5px solid var(--color-border-tertiary);">ALREADY</td><td style="padding:5px 8px; border-bottom:0.5px solid var(--color-border-tertiary); color:#185FA5;">entre have/has et PP</td><td style="padding:5px 8px; border-bottom:0.5px solid var(--color-border-tertiary);">déjà</td></tr>
+          <tr><td style="padding:5px 8px; border-bottom:0.5px solid var(--color-border-tertiary);">NEVER</td><td style="padding:5px 8px; border-bottom:0.5px solid var(--color-border-tertiary); color:#185FA5;">entre have/has et PP</td><td style="padding:5px 8px; border-bottom:0.5px solid var(--color-border-tertiary);">ne… jamais</td></tr>
+          <tr><td style="padding:5px 8px; border-bottom:0.5px solid var(--color-border-tertiary);">ONCE</td><td style="padding:5px 8px; border-bottom:0.5px solid var(--color-border-tertiary); color:#185FA5;">fin de phrase</td><td style="padding:5px 8px; border-bottom:0.5px solid var(--color-border-tertiary);">une fois</td></tr>
+          <tr><td style="padding:5px 8px; border-bottom:0.5px solid var(--color-border-tertiary);">TWICE</td><td style="padding:5px 8px; border-bottom:0.5px solid var(--color-border-tertiary); color:#185FA5;">fin de phrase</td><td style="padding:5px 8px; border-bottom:0.5px solid var(--color-border-tertiary);">deux fois</td></tr>
+          <tr><td style="padding:5px 8px;">SEVERAL TIMES</td><td style="padding:5px 8px; color:#185FA5;">fin de phrase</td><td style="padding:5px 8px;">plusieurs fois</td></tr>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- TABLEAU VERBES -->
+  <div id="tab-tableau" class="section">
+    <div class="search-row">
+      <input type="text" id="verb-search" placeholder="Chercher un verbe…" oninput="filterVerbs()" />
+      <select id="sheet-filter" onchange="filterVerbs()" style="font-size:13px; padding:6px 8px; border:0.5px solid var(--color-border-secondary); border-radius:var(--border-radius-md); background:var(--color-background-primary); color:var(--color-text-primary); font-family:var(--font-sans);">
+        <option value="">Toutes les fiches</option>
+        <option value="3">Fiche 3</option>
+        <option value="4">Fiche 4</option>
+      </select>
+    </div>
+    <div style="overflow-x:auto;">
+      <table class="verb-table" id="verb-table">
+        <thead>
+          <tr>
+            <th>Français</th>
+            <th>Infinitif</th>
+            <th>Prétérit</th>
+            <th style="color:#185FA5;">Past Participle</th>
+            <th>Fiche</th>
+          </tr>
+        </thead>
+        <tbody id="verb-tbody"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- FLASHCARDS -->
+  <div id="tab-flashcards" class="section">
+    <div class="fc-controls">
+      <span class="fc-counter" id="fc-counter">1 / 35</span>
+      <div style="display:flex; gap:8px; align-items:center;">
+        <select class="fc-mode-select" id="fc-mode" onchange="resetFlashcards()">
+          <option value="fr-pp">Français → Past Participle</option>
+          <option value="inf-pp">Infinitif → Past Participle</option>
+          <option value="pp-fr">Past Participle → Français</option>
+        </select>
+        <button class="shuffle-btn" onclick="shuffleFC()"><i class="ti ti-arrows-shuffle" aria-hidden="true"></i> Mélanger</button>
+      </div>
+    </div>
+    <div class="flashcard" id="flashcard" onclick="flipCard()">
+      <div class="fc-front-label" id="fc-label">Traduction française</div>
+      <div class="fc-word" id="fc-front"></div>
+      <div class="fc-hint" id="fc-hint"></div>
+      <div class="fc-answer" id="fc-answer">
+        <div class="answer-grid" id="fc-answer-grid"></div>
+      </div>
+    </div>
+    <p class="fc-tip">Cliquer sur la carte pour voir la réponse</p>
+    <div class="fc-nav">
+      <button class="nav-btn" onclick="prevCard()"><i class="ti ti-arrow-left" aria-hidden="true"></i> Préc.</button>
+      <button class="nav-btn" onclick="flipCard()">Retourner</button>
+      <button class="nav-btn" onclick="nextCard()">Suiv. <i class="ti ti-arrow-right" aria-hidden="true"></i></button>
+    </div>
+  </div>
+
+  <!-- QUIZ -->
+  <div id="tab-quiz" class="section">
+    <div id="quiz-setup">
+      <div style="font-size:14px; font-weight:500; margin-bottom:0.75rem; color:var(--color-text-primary);">Type de questions</div>
+      <div class="quiz-type-selector" id="qtype-selector">
+        <button class="qtype-btn active" onclick="setQType('qcm')" id="qt-qcm">QCM — choisir le past participle</button>
+        <button class="qtype-btn" onclick="setQType('fill')" id="qt-fill">Saisie libre</button>
+        <button class="qtype-btn" onclick="setQType('adv')" id="qt-adv">Present Perfect complet</button>
+      </div>
+      <button class="nav-btn primary" onclick="startQuiz()" style="width:100%; margin-top:0.5rem;">Démarrer le quiz (10 questions) <i class="ti ti-arrow-right" aria-hidden="true"></i></button>
+    </div>
+
+    <div id="quiz-game" style="display:none;">
+      <div class="quiz-header">
+        <span id="q-num" class="quiz-score">Question 1/10</span>
+        <span id="q-score" class="quiz-score">Score : 0</span>
+      </div>
+      <div class="quiz-progress"><div class="quiz-progress-fill" id="q-prog" style="width:10%"></div></div>
+      <div class="quiz-question" id="q-question"></div>
+      <div class="quiz-sub" id="q-sub"></div>
+      <div id="q-options-wrap"></div>
+      <div class="quiz-feedback" id="q-feedback" style="display:none;"></div>
+      <button class="nav-btn" id="q-next-btn" style="display:none;" onclick="nextQuestion()">Question suivante <i class="ti ti-arrow-right" aria-hidden="true"></i></button>
+    </div>
+
+    <div id="quiz-result" style="display:none;">
+      <div class="result-card">
+        <div class="result-score" id="r-score"></div>
+        <div class="result-label">/ 10 bonnes réponses</div>
+        <div class="result-msg" id="r-msg"></div>
+        <button class="nav-btn primary" onclick="resetQuiz()">Recommencer</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+const VERBS = [
+  {fr:"Casser",inf:"break",pret:"broke",pp:"broken",sh:3},
+  {fr:"Voler (qqch)",inf:"steal",pret:"stole",pp:"stolen",sh:3},
+  {fr:"Oublier",inf:"forget",pret:"forgot",pp:"forgotten",sh:3},
+  {fr:"Trouver",inf:"find",pret:"found",pp:"found",sh:3},
+  {fr:"Faire",inf:"do",pret:"did",pp:"done",sh:3},
+  {fr:"Se battre",inf:"fight",pret:"fought",pp:"fought",sh:3},
+  {fr:"Entendre",inf:"hear",pret:"heard",pp:"heard",sh:3},
+  {fr:"Écrire",inf:"write",pret:"wrote",pp:"written",sh:3},
+  {fr:"Rencontrer",inf:"meet",pret:"met",pp:"met",sh:3},
+  {fr:"Envoyer",inf:"send",pret:"sent",pp:"sent",sh:"3/4"},
+  {fr:"Dormir",inf:"sleep",pret:"slept",pp:"slept",sh:"3/4"},
+  {fr:"Tomber",inf:"fall",pret:"fell",pp:"fallen",sh:3},
+  {fr:"Voir",inf:"see",pret:"saw",pp:"seen",sh:3},
+  {fr:"Conduire",inf:"drive",pret:"drove",pp:"driven",sh:3},
+  {fr:"Boire",inf:"drink",pret:"drank",pp:"drunk",sh:3},
+  {fr:"Manger",inf:"eat",pret:"ate",pp:"eaten",sh:3},
+  {fr:"Gagner",inf:"win",pret:"won",pp:"won",sh:3},
+  {fr:"Construire",inf:"build",pret:"built",pp:"built",sh:4},
+  {fr:"Prendre",inf:"take",pret:"took",pp:"taken",sh:4},
+  {fr:"Acheter",inf:"buy",pret:"bought",pp:"bought",sh:4},
+  {fr:"Attraper",inf:"catch",pret:"caught",pp:"caught",sh:4},
+  {fr:"Nourrir",inf:"feed",pret:"fed",pp:"fed",sh:4},
+  {fr:"Donner",inf:"give",pret:"gave",pp:"given",sh:4},
+  {fr:"Voler / avion",inf:"fly",pret:"flew",pp:"flown",sh:4},
+  {fr:"Faire du cheval",inf:"ride",pret:"rode",pp:"ridden",sh:4},
+  {fr:"Être",inf:"be",pret:"was/were",pp:"been",sh:4},
+  {fr:"Perdre",inf:"lose",pret:"lost",pp:"lost",sh:4},
+  {fr:"Avoir",inf:"have",pret:"had",pp:"had",sh:4},
+  {fr:"Dépenser / passer du temps",inf:"spend",pret:"spent",pp:"spent",sh:4},
+  {fr:"Vendre",inf:"sell",pret:"sold",pp:"sold",sh:4},
+  {fr:"Chanter",inf:"sing",pret:"sang",pp:"sung",sh:4},
+  {fr:"Nager",inf:"swim",pret:"swam",pp:"swum",sh:4},
+  {fr:"Parler",inf:"speak",pret:"spoke",pp:"spoken",sh:4},
+  {fr:"Choisir",inf:"choose",pret:"chose",pp:"chosen",sh:4},
+];
+
+const ADV_SENTENCES = [
+  {q:"Traduire : 'J'ai déjà mangé.'",a:"I have already eaten.",hint:"ALREADY"},
+  {q:"Traduire : 'Elle n'a jamais nagé dans la mer.'",a:"She has never swum in the sea.",hint:"NEVER"},
+  {q:"Traduire : 'Il a visité Paris deux fois.'",a:"He has visited Paris twice.",hint:"TWICE"},
+  {q:"Traduire : 'Nous avons déjà construit une maison.'",a:"We have already built a house.",hint:"ALREADY"},
+  {q:"Traduire : 'Je n'ai jamais perdu une compétition.'",a:"I have never lost a competition.",hint:"NEVER"},
+  {q:"Traduire : 'Elle a chanté dans ce groupe plusieurs fois.'",a:"She has sung in this band several times.",hint:"SEVERAL TIMES"},
+  {q:"Traduire : 'Il a déjà choisi.'",a:"He has already chosen.",hint:"ALREADY"},
+  {q:"Traduire : 'Ils ont regardé ce film une fois.'",a:"They have watched this film once.",hint:"ONCE"},
+  {q:"Traduire : 'Elle n'a jamais conduit.'",a:"She has never driven.",hint:"NEVER"},
+  {q:"Traduire : 'J'ai bu ce thé deux fois.'",a:"I have drunk this tea twice.",hint:"TWICE"},
+];
+
+function showTab(name) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('tab-'+name).classList.add('active');
+  event.currentTarget.classList.add('active');
+}
+
+function renderTable(list) {
+  const tbody = document.getElementById('verb-tbody');
+  tbody.innerHTML = list.map(v => `
+    <tr>
+      <td>${v.fr}</td>
+      <td>${v.inf}</td>
+      <td>${v.pret}</td>
+      <td class="pp-cell">${v.pp}</td>
+      <td><span class="sheet-badge">${v.sh}</span></td>
+    </tr>`).join('');
+}
+
+function filterVerbs() {
+  const q = document.getElementById('verb-search').value.toLowerCase();
+  const sh = document.getElementById('sheet-filter').value;
+  const filtered = VERBS.filter(v => {
+    const matchText = !q || v.fr.toLowerCase().includes(q) || v.inf.toLowerCase().includes(q) || v.pp.toLowerCase().includes(q);
+    const matchSheet = !sh || String(v.sh).includes(sh);
+    return matchText && matchSheet;
+  });
+  renderTable(filtered);
+}
+
+renderTable(VERBS);
+
+let fcIdx = 0, fcVerbs = [...VERBS], fcFlipped = false;
+
+function resetFlashcards() { fcIdx = 0; fcFlipped = false; renderCard(); }
+function shuffleFC() { fcVerbs = [...fcVerbs].sort(() => Math.random()-0.5); fcIdx = 0; resetFlashcards(); }
+
+function renderCard() {
+  const v = fcVerbs[fcIdx];
+  const mode = document.getElementById('fc-mode').value;
+  const card = document.getElementById('flashcard');
+  card.classList.remove('flipped');
+  fcFlipped = false;
+  document.getElementById('fc-counter').textContent = `${fcIdx+1} / ${fcVerbs.length}`;
+  const labels = {
+    'fr-pp': {front:'Traduction française', word:v.fr, hint:'Quel est le past participle ?'},
+    'inf-pp': {front:'Infinitif anglais', word:v.inf, hint:'Quel est le past participle ?'},
+    'pp-fr': {front:'Past participle', word:v.pp, hint:'Quelle est la traduction ?'},
+  };
+  const l = labels[mode];
+  document.getElementById('fc-label').textContent = l.front;
+  document.getElementById('fc-front').textContent = l.word;
+  document.getElementById('fc-hint').textContent = l.hint;
+  const grid = document.getElementById('fc-answer-grid');
+  grid.innerHTML = `
+    <div class="answer-cell"><div class="answer-cell-label">Français</div><div class="answer-cell-val">${v.fr}</div></div>
+    <div class="answer-cell"><div class="answer-cell-label">Infinitif</div><div class="answer-cell-val">${v.inf}</div></div>
+    <div class="answer-cell"><div class="answer-cell-label">Past Participle</div><div class="answer-cell-val" style="color:#185FA5;">${v.pp}</div></div>
+  `;
+}
+
+function flipCard() {
+  fcFlipped = !fcFlipped;
+  document.getElementById('flashcard').classList.toggle('flipped', fcFlipped);
+}
+function prevCard() { fcIdx = (fcIdx - 1 + fcVerbs.length) % fcVerbs.length; renderCard(); }
+function nextCard() { fcIdx = (fcIdx + 1) % fcVerbs.length; renderCard(); }
+
+resetFlashcards();
+
+let qType = 'qcm', qIdx = 0, qScore = 0, qList = [], qAnswered = false;
+
+function setQType(t) {
+  qType = t;
+  document.querySelectorAll('.qtype-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('qt-'+t).classList.add('active');
+}
+
+function shuffle(a) { return [...a].sort(() => Math.random()-0.5); }
+
+function buildQList() {
+  const verbs = shuffle(VERBS).slice(0,10);
+  if(qType === 'adv') {
+    return shuffle(ADV_SENTENCES).slice(0,10);
+  }
+  return verbs.map(v => ({verb:v}));
+}
+
+function startQuiz() {
+  qIdx = 0; qScore = 0; qList = buildQList();
+  document.getElementById('quiz-setup').style.display = 'none';
+  document.getElementById('quiz-result').style.display = 'none';
+  document.getElementById('quiz-game').style.display = 'block';
+  renderQuestion();
+}
+
+function renderQuestion() {
+  qAnswered = false;
+  const total = 10;
+  document.getElementById('q-num').textContent = `Question ${qIdx+1}/10`;
+  document.getElementById('q-score').textContent = `Score : ${qScore}`;
+  document.getElementById('q-prog').style.width = `${(qIdx/total)*100}%`;
+  document.getElementById('q-feedback').style.display = 'none';
+  document.getElementById('q-next-btn').style.display = 'none';
+
+  if(qType === 'adv') {
+    const item = qList[qIdx];
+    document.getElementById('q-question').textContent = item.q;
+    document.getElementById('q-sub').textContent = `Indice : utilisez ${item.hint}`;
+    document.getElementById('q-options-wrap').innerHTML = `
+      <input type="text" class="fill-input" id="fill-ans" placeholder="Écrire la phrase complète…" />
+      <button class="submit-btn" onclick="checkFill()">Vérifier</button>
+    `;
+    return;
+  }
+
+  const item = qList[qIdx];
+  const v = item.verb;
+  document.getElementById('q-sub').textContent = '';
+
+  if(qType === 'qcm') {
+    document.getElementById('q-question').textContent = `"${v.fr}" → quel est le past participle ?`;
+    const wrongs = shuffle(VERBS.filter(x => x.pp !== v.pp)).slice(0,3).map(x => x.pp);
+    const opts = shuffle([v.pp, ...wrongs]);
+    document.getElementById('q-options-wrap').innerHTML = opts.map(o => `
+      <button class="quiz-opt" onclick="checkQCM(this,'${o}','${v.pp}')">${o}</button>
+    `).join('');
+    document.getElementById('q-options-wrap').style.display = 'grid';
+    document.getElementById('q-options-wrap').style.gridTemplateColumns = '1fr 1fr';
+  } else {
+    document.getElementById('q-question').textContent = `Quel est le past participle de "${v.inf}" (${v.fr}) ?`;
+    document.getElementById('q-options-wrap').innerHTML = `
+      <input type="text" class="fill-input" id="fill-ans" placeholder="Past participle…" onkeydown="if(event.key==='Enter')checkFill()" />
+      <button class="submit-btn" onclick="checkFill()">Vérifier</button>
+    `;
+  }
+}
+
+function checkQCM(btn, chosen, correct) {
+  if(qAnswered) return;
+  qAnswered = true;
+  document.querySelectorAll('.quiz-opt').forEach(b => b.classList.add('disabled'));
+  const fb = document.getElementById('q-feedback');
+  fb.style.display = 'block';
+  if(chosen === correct) {
+    btn.classList.add('correct');
+    fb.className = 'quiz-feedback ok';
+    fb.textContent = 'Correct !';
+    qScore++;
+  } else {
+    btn.classList.add('wrong');
+    document.querySelectorAll('.quiz-opt').forEach(b => { if(b.textContent === correct) b.classList.add('correct'); });
+    fb.className = 'quiz-feedback ko';
+    fb.textContent = `Incorrect. La bonne réponse est : "${correct}"`;
+  }
+  document.getElementById('q-score').textContent = `Score : ${qScore}`;
+  document.getElementById('q-next-btn').style.display = 'inline-flex';
+}
+
+function checkFill() {
+  if(qAnswered) return;
+  qAnswered = true;
+  const inp = document.getElementById('fill-ans');
+  if(!inp) return;
+  const userVal = inp.value.trim().toLowerCase();
+  const fb = document.getElementById('q-feedback');
+  fb.style.display = 'block';
+
+  let correct, correctDisplay;
+  if(qType === 'adv') {
+    correct = qList[qIdx].a.toLowerCase();
+    correctDisplay = qList[qIdx].a;
+  } else {
+    correct = qList[qIdx].verb.pp.toLowerCase();
+    correctDisplay = qList[qIdx].verb.pp;
+  }
+
+  if(userVal === correct) {
+    inp.classList.add('correct');
+    fb.className = 'quiz-feedback ok';
+    fb.textContent = 'Correct !';
+    qScore++;
+  } else {
+    inp.classList.add('wrong');
+    fb.className = 'quiz-feedback ko';
+    fb.textContent = `Incorrect. Réponse : "${correctDisplay}"`;
+  }
+  document.getElementById('q-score').textContent = `Score : ${qScore}`;
+  document.getElementById('q-next-btn').style.display = 'inline-flex';
+}
+
+function nextQuestion() {
+  qIdx++;
+  if(qIdx >= 10) { showResult(); return; }
+  renderQuestion();
+}
+
+function showResult() {
+  document.getElementById('quiz-game').style.display = 'none';
+  document.getElementById('quiz-result').style.display = 'block';
+  document.getElementById('r-score').textContent = qScore;
+  const msgs = ['Continue à travailler, tu vas y arriver !','Pas mal, encore un peu de révision !','Bien ! Quelques points à revoir.','Très bien ! Tu maîtrises bien le sujet.','Excellent ! Tu es prêt(e) pour l\'éval !'];
+  document.getElementById('r-msg').textContent = msgs[Math.min(Math.floor(qScore/2), 4)];
+}
+
+function resetQuiz() {
+  document.getElementById('quiz-game').style.display = 'none';
+  document.getElementById('quiz-result').style.display = 'none';
+  document.getElementById('quiz-setup').style.display = 'block';
+}
+</script>
