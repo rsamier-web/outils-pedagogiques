@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dictée fautive — Le MMA de Rhita</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #f5f0eb;
+    --card: #ffffff;
+    --ink: #1a1a1a;
+    --ink-light: #6b6560;
+    --accent: #e63946;
+    --accent2: #2b2d42;
+    --correct: #2d6a4f;
+    --correct-bg: #d8f3dc;
+    --wrong: #c1121f;
+    --wrong-bg: #ffe0e0;
+    --border: #e0dbd4;
+    --select-bg: #fff9f0;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    font-family: 'DM Sans', sans-serif;
+    color: var(--ink);
+    min-height: 100vh;
+    padding: 0 0 80px;
+  }
+
+  /* HEADER */
+  header {
+    background: var(--accent2);
+    color: #fff;
+    padding: 40px 32px 32px;
+    position: relative;
+    overflow: hidden;
+  }
+  header::before {
+    content: '🥊';
+    position: absolute;
+    right: 32px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 80px;
+    opacity: 0.15;
+  }
+  header .tag {
+    display: inline-block;
+    background: var(--accent);
+    color: #fff;
+    font-family: 'Syne', sans-serif;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    padding: 4px 10px;
+    border-radius: 2px;
+    margin-bottom: 12px;
+  }
+  header h1 {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(22px, 4vw, 34px);
+    font-weight: 800;
+    line-height: 1.1;
+    margin-bottom: 10px;
+  }
+  header p {
+    font-size: 14px;
+    color: rgba(255,255,255,0.65);
+    font-weight: 300;
+    max-width: 480px;
+    line-height: 1.6;
+  }
+
+  /* CONSIGNE */
+  .consigne {
+    margin: 28px 24px 0;
+    background: var(--accent2);
+    color: rgba(255,255,255,0.9);
+    border-radius: 10px;
+    padding: 14px 20px;
+    font-size: 13.5px;
+    line-height: 1.6;
+  }
+  .consigne strong { color: #fff; }
+
+  /* SECTION */
+  .section {
+    margin: 28px 24px 0;
+  }
+  .section-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 14px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .section-title::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+
+  /* TEXT CARD */
+  .text-card {
+    background: var(--card);
+    border-radius: 12px;
+    padding: 24px;
+    line-height: 2.2;
+    font-size: 16px;
+    border: 1px solid var(--border);
+    box-shadow: 0 2px 12px rgba(0,0,0,0.04);
+  }
+
+  /* SELECT */
+  select.gap {
+    appearance: none;
+    -webkit-appearance: none;
+    background: var(--select-bg) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%23999'/%3E%3C/svg%3E") no-repeat right 8px center;
+    border: 1.5px solid #d0c8be;
+    border-radius: 6px;
+    padding: 3px 26px 3px 10px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--accent2);
+    cursor: pointer;
+    transition: border-color 0.15s, background 0.15s;
+    vertical-align: middle;
+    min-width: 90px;
+  }
+  select.gap:focus {
+    outline: none;
+    border-color: var(--accent);
+  }
+  select.gap.correct {
+    border-color: var(--correct);
+    background-color: var(--correct-bg);
+    color: var(--correct);
+  }
+  select.gap.wrong {
+    border-color: var(--wrong);
+    background-color: var(--wrong-bg);
+    color: var(--wrong);
+  }
+
+  /* BUTTON */
+  .btn-row {
+    margin: 32px 24px 0;
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+  button {
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 14px;
+    letter-spacing: 0.05em;
+    padding: 14px 28px;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    transition: transform 0.1s, box-shadow 0.1s;
+  }
+  button:active { transform: scale(0.97); }
+
+  #btn-correct {
+    background: var(--accent);
+    color: #fff;
+    box-shadow: 0 4px 16px rgba(230,57,70,0.3);
+  }
+  #btn-correct:hover { box-shadow: 0 6px 20px rgba(230,57,70,0.4); }
+
+  #btn-reset {
+    background: var(--card);
+    color: var(--ink-light);
+    border: 1.5px solid var(--border);
+  }
+  #btn-reset:hover { border-color: #aaa; }
+
+  /* RESULTS */
+  #results {
+    display: none;
+    margin: 28px 24px 0;
+  }
+
+  .score-box {
+    background: var(--accent2);
+    color: #fff;
+    border-radius: 12px;
+    padding: 20px 24px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    margin-bottom: 20px;
+  }
+  .score-num {
+    font-family: 'Syne', sans-serif;
+    font-size: 48px;
+    font-weight: 800;
+    line-height: 1;
+  }
+  .score-num span { font-size: 20px; opacity: 0.5; }
+  .score-label { font-size: 14px; opacity: 0.75; margin-top: 4px; }
+
+  .results-table {
+    background: var(--card);
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1px solid var(--border);
+    font-size: 14px;
+  }
+  .results-table table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  .results-table th {
+    background: var(--accent2);
+    color: rgba(255,255,255,0.8);
+    font-family: 'Syne', sans-serif;
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 10px 16px;
+    text-align: left;
+    font-weight: 600;
+  }
+  .results-table td {
+    padding: 10px 16px;
+    border-bottom: 1px solid var(--border);
+    vertical-align: top;
+  }
+  .results-table tr:last-child td { border-bottom: none; }
+  .results-table tr:nth-child(even) td { background: #faf8f6; }
+
+  .badge-ok {
+    display: inline-block;
+    background: var(--correct-bg);
+    color: var(--correct);
+    border-radius: 4px;
+    padding: 2px 8px;
+    font-weight: 600;
+    font-size: 13px;
+  }
+  .badge-ko {
+    display: inline-block;
+    background: var(--wrong-bg);
+    color: var(--wrong);
+    border-radius: 4px;
+    padding: 2px 8px;
+    font-weight: 600;
+    font-size: 13px;
+  }
+  .rule-cell {
+    color: var(--ink-light);
+    font-size: 12.5px;
+    font-style: italic;
+  }
+
+  @media (max-width: 500px) {
+    .text-card { font-size: 15px; padding: 18px; }
+    select.gap { font-size: 14px; min-width: 80px; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="tag">Orthographe · 5e</div>
+  <h1>Le MMA de Rhita</h1>
+  <p>Dictée fautive — accords du GN &amp; homophones grammaticaux</p>
+</header>
+
+<div class="consigne">
+  <strong>Consigne :</strong> Pour chaque trou, choisis le mot correct dans le menu déroulant. Clique sur <strong>Corriger</strong> pour voir tes résultats.
+</div>
+
+<!-- PARTIE 1 -->
+<div class="section">
+  <div class="section-title">Partie 1 — L'entraînement</div>
+  <div class="text-card" id="text1">
+
+    Rhita <select class="gap" id="g1" data-answer="est"><option value="">___</option><option>est</option><option>et</option><option>ai</option></select>
+    une jeune combattante de MMA passionnée. Tous les soirs après l'école, elle va
+    <select class="gap" id="g2" data-answer="à"><option value="">___</option><option>a</option><option>à</option><option>as</option></select>
+    la salle d'entraînement. Elle enfile
+    <select class="gap" id="g3" data-answer="ses"><option value="">___</option><option>ses</option><option>ces</option><option>c'est</option></select>
+    gants
+    <select class="gap" id="g4" data-answer="bleus"><option value="">___</option><option>bleus</option><option>bleues</option><option>bleu</option></select>
+    <select class="gap" id="g5" data-answer="et"><option value="">___</option><option>et</option><option>est</option><option>es</option></select>
+    <select class="gap" id="g6" data-answer="son"><option value="">___</option><option>son</option><option>sont</option><option>ses</option></select>
+    protège-dents, puis elle monte sur le tatami.<br><br>
+
+    <select class="gap" id="g7" data-answer="Son"><option value="">___</option><option>Son</option><option>Sont</option><option>On</option></select>
+    coach lui
+    <select class="gap" id="g8" data-answer="a"><option value="">___</option><option>a</option><option>à</option><option>as</option></select>
+    appris
+    <select class="gap" id="g9" data-answer="à"><option value="">___</option><option>à</option><option>a</option><option>as</option></select>
+    esquiver les coups
+    <select class="gap" id="g10" data-answer="et"><option value="">___</option><option>et</option><option>est</option><option>es</option></select>
+    <select class="gap" id="g11" data-answer="à"><option value="">___</option><option>à</option><option>a</option><option>as</option></select>
+    placer des frappes précises. Ce soir, les filles de l'équipe
+    <select class="gap" id="g12" data-answer="sont"><option value="">___</option><option>sont</option><option>son</option><option>ont</option></select>
+    <select class="gap" id="g13" data-answer="motivées"><option value="">___</option><option>motivées</option><option>motivés</option><option>motivée</option></select>.
+    <select class="gap" id="g14" data-answer="Chacune"><option value="">___</option><option>Chacune</option><option>Chaque une</option><option>Chacun</option></select>
+    d'elles
+    <select class="gap" id="g15" data-answer="est"><option value="">___</option><option>est</option><option>et</option><option>es</option></select>
+    prête
+    <select class="gap" id="g16" data-answer="à"><option value="">___</option><option>à</option><option>a</option><option>as</option></select>
+    donner le meilleur d'elle-même.
+
+  </div>
+</div>
+
+<!-- PARTIE 2 -->
+<div class="section">
+  <div class="section-title">Partie 2 — Le combat</div>
+  <div class="text-card" id="text2">
+
+    Le grand jour
+    <select class="gap" id="g17" data-answer="est"><option value="">___</option><option>est</option><option>et</option><option>ai</option></select>
+    enfin arrivé. Rhita
+    <select class="gap" id="g18" data-answer="a"><option value="">___</option><option>a</option><option>à</option><option>as</option></select>
+    les jambes
+    <select class="gap" id="g19" data-answer="légères"><option value="">___</option><option>légères</option><option>légers</option><option>légère</option></select>
+    <select class="gap" id="g20" data-answer="et"><option value="">___</option><option>et</option><option>est</option><option>es</option></select>
+    les poings
+    <select class="gap" id="g21" data-answer="serrés"><option value="">___</option><option>serrés</option><option>serrées</option><option>serré</option></select>.
+    Son adversaire
+    <select class="gap" id="g22" data-answer="est"><option value="">___</option><option>est</option><option>et</option><option>es</option></select>
+    <select class="gap" id="g23" data-answer="grande"><option value="">___</option><option>grande</option><option>grand</option><option>grandes</option></select>
+    <select class="gap" id="g24" data-answer="et"><option value="">___</option><option>et</option><option>est</option><option>es</option></select>
+    très rapide. Mais Rhita
+    <select class="gap" id="g25" data-answer="a"><option value="">___</option><option>a</option><option>à</option><option>as</option></select>
+    travaillé dur. Elle
+    <select class="gap" id="g26" data-answer="est"><option value="">___</option><option>est</option><option>et</option><option>ai</option></select>
+    <select class="gap" id="g27" data-answer="prête"><option value="">___</option><option>prête</option><option>prêts</option><option>prêt</option></select>
+    pour ce combat.<br><br>
+
+    L'arbitre donne le signal. Rhita
+    <select class="gap" id="g28" data-answer="a"><option value="">___</option><option>a</option><option>à</option><option>as</option></select>
+    la tête
+    <select class="gap" id="g29" data-answer="baissée"><option value="">___</option><option>baissée</option><option>baissés</option><option>baissé</option></select>.
+    Elle esquive, frappe,
+    <select class="gap" id="g30" data-answer="et"><option value="">___</option><option>et</option><option>est</option><option>es</option></select>
+    finit par remporter le combat. Les spectateurs
+    <select class="gap" id="g31" data-answer="sont"><option value="">___</option><option>sont</option><option>son</option><option>ont</option></select>
+    <select class="gap" id="g32" data-answer="impressionnés"><option value="">___</option><option>impressionnés</option><option>impressionnées</option><option>impressionné</option></select>
+    par sa technique
+    <select class="gap" id="g33" data-answer="et"><option value="">___</option><option>et</option><option>est</option><option>es</option></select>
+    son courage.
+
+  </div>
+</div>
+
+<!-- BUTTONS -->
+<div class="btn-row">
+  <button id="btn-correct" onclick="corriger()">✔ Corriger</button>
+  <button id="btn-reset" onclick="reinitialiser()">↺ Recommencer</button>
+</div>
+
+<!-- RESULTS -->
+<div id="results">
+  <div class="section-title" style="margin: 0 0 14px;">Résultats</div>
+
+  <div class="score-box">
+    <div>
+      <div class="score-num" id="score-num">—<span>/33</span></div>
+      <div class="score-label">bonnes réponses</div>
+    </div>
+    <div style="flex:1; text-align:right;">
+      <div id="score-msg" style="font-family:'Syne',sans-serif; font-size:18px; font-weight:700;"></div>
+    </div>
+  </div>
+
+  <div class="results-table">
+    <table>
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Ta réponse</th>
+          <th>Bonne réponse</th>
+          <th>Règle</th>
+        </tr>
+      </thead>
+      <tbody id="results-body"></tbody>
+    </table>
+  </div>
+</div>
+
+<script>
+const data = [
+  { id:'g1',  answer:'est',          rule:'Verbe être conjugué (3ᵉ pers. sg.)' },
+  { id:'g2',  answer:'à',            rule:'Préposition de lieu (≠ a = verbe avoir)' },
+  { id:'g3',  answer:'ses',          rule:'Déterminant possessif (ses gants à elle)' },
+  { id:'g4',  answer:'bleus',        rule:'Adj. masc. pl. accordé avec gants' },
+  { id:'g5',  answer:'et',           rule:'Conjonction de coordination (≠ est = être)' },
+  { id:'g6',  answer:'son',          rule:'Déterminant possessif masc. sg.' },
+  { id:'g7',  answer:'Son',          rule:'Déterminant possessif masc. sg.' },
+  { id:'g8',  answer:'a',            rule:'Verbe avoir conjugué (≠ à = préposition)' },
+  { id:'g9',  answer:'à',            rule:'Préposition devant l\'infinitif' },
+  { id:'g10', answer:'et',           rule:'Conjonction de coordination' },
+  { id:'g11', answer:'à',            rule:'Préposition devant l\'infinitif' },
+  { id:'g12', answer:'sont',         rule:'Verbe être, sujet pl. les filles' },
+  { id:'g13', answer:'motivées',     rule:'Adj. fém. pl. accordé avec filles' },
+  { id:'g14', answer:'Chacune',      rule:'Pronom indéfini fém. sg. (filles → fém.)' },
+  { id:'g15', answer:'est',          rule:'Verbe être conjugué' },
+  { id:'g16', answer:'à',            rule:'Préposition devant l\'infinitif' },
+  { id:'g17', answer:'est',          rule:'Verbe être conjugué' },
+  { id:'g18', answer:'a',            rule:'Verbe avoir conjugué' },
+  { id:'g19', answer:'légères',      rule:'Adj. fém. pl. accordé avec jambes' },
+  { id:'g20', answer:'et',           rule:'Conjonction de coordination' },
+  { id:'g21', answer:'serrés',       rule:'Adj. masc. pl. accordé avec poings' },
+  { id:'g22', answer:'est',          rule:'Verbe être conjugué' },
+  { id:'g23', answer:'grande',       rule:'Adj. fém. sg. accordé avec adversaire (fém.)' },
+  { id:'g24', answer:'et',           rule:'Conjonction de coordination' },
+  { id:'g25', answer:'a',            rule:'Verbe avoir conjugué' },
+  { id:'g26', answer:'est',          rule:'Verbe être conjugué' },
+  { id:'g27', answer:'prête',        rule:'Adj. fém. sg. accordé avec Rhita' },
+  { id:'g28', answer:'a',            rule:'Verbe avoir conjugué' },
+  { id:'g29', answer:'baissée',      rule:'Adj. fém. sg. accordé avec tête' },
+  { id:'g30', answer:'et',           rule:'Conjonction de coordination' },
+  { id:'g31', answer:'sont',         rule:'Verbe être, sujet pl. les spectateurs' },
+  { id:'g32', answer:'impressionnés',rule:'Adj. masc. pl. accordé avec spectateurs' },
+  { id:'g33', answer:'et',           rule:'Conjonction de coordination' },
+];
+
+function corriger() {
+  let correct = 0;
+  const tbody = document.getElementById('results-body');
+  tbody.innerHTML = '';
+
+  data.forEach((item, i) => {
+    const sel = document.getElementById(item.id);
+    const val = sel.value;
+    const ok = val === item.answer;
+    if (ok) correct++;
+
+    sel.classList.remove('correct','wrong');
+    sel.classList.add(ok ? 'correct' : 'wrong');
+
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+      <td style="color:var(--ink-light);font-size:12px;">${i+1}</td>
+      <td>${val ? `<span class="${ok?'badge-ok':'badge-ko'}">${val}</span>` : '<span style="color:#bbb;font-style:italic">—</span>'}</td>
+      <td><span class="badge-ok">${item.answer}</span></td>
+      <td class="rule-cell">${item.rule}</td>
+    `;
+    tbody.appendChild(tr);
+  });
+
+  document.getElementById('score-num').innerHTML = `${correct}<span>/33</span>`;
+
+  let msg = '';
+  if (correct === 33) msg = '🏆 Parfait !';
+  else if (correct >= 27) msg = '💪 Excellent !';
+  else if (correct >= 20) msg = '👊 Bien joué !';
+  else if (correct >= 12) msg = '🥊 Continue !';
+  else msg = '📚 Entraîne-toi encore !';
+  document.getElementById('score-msg').textContent = msg;
+
+  const results = document.getElementById('results');
+  results.style.display = 'block';
+  results.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+function reinitialiser() {
+  data.forEach(item => {
+    const sel = document.getElementById(item.id);
+    sel.value = '';
+    sel.classList.remove('correct','wrong');
+  });
+  const results = document.getElementById('results');
+  results.style.display = 'none';
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+</script>
+</body>
+</html>
