@@ -1,0 +1,831 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fiche d'exercices — Monohybridisme</title>
+<style>
+  :root {
+    --green:    #2d7a4f;
+    --green-l:  #e8f5ee;
+    --blue:     #1a5f8a;
+    --blue-l:   #e3f0f9;
+    --orange:   #c0621a;
+    --orange-l: #fdf0e8;
+    --purple:   #6b3fa0;
+    --purple-l: #f3edfb;
+    --yellow:   #b8860b;
+    --yellow-l: #fdfbe8;
+    --red:      #a93226;
+    --border:   #ccc;
+    --shadow:   0 2px 10px rgba(0,0,0,.08);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Segoe UI', Arial, sans-serif;
+    background: #f0f2f5;
+    color: #111;
+    line-height: 1.7;
+  }
+
+  /* ─── PAGE HEADER ─── */
+  .page-header {
+    background: #fff;
+    border-bottom: 3px solid var(--blue);
+    padding: 18px 36px 14px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  .page-header .left h1 { font-size: 1.15rem; font-weight: 700; color: var(--blue); }
+  .page-header .left p  { font-size: .82rem; color: #555; }
+  .page-header .right {
+    text-align: right;
+    font-size: .82rem;
+    color: #555;
+    border: 1.5px solid var(--border);
+    border-radius: 6px;
+    padding: 6px 14px;
+    line-height: 1.5;
+  }
+
+  /* ─── LAYOUT ─── */
+  main { max-width: 960px; margin: 0 auto; padding: 28px 20px 60px; }
+
+  /* ─── EXERCISE BLOCK ─── */
+  .exercise {
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: var(--shadow);
+    margin-bottom: 28px;
+    overflow: hidden;
+  }
+  .ex-head {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 13px 22px;
+    color: #fff;
+    font-weight: 700;
+    font-size: .97rem;
+  }
+  .ex-num {
+    background: rgba(255,255,255,.25);
+    border-radius: 6px;
+    padding: 2px 10px;
+    font-size: .95rem;
+    font-weight: 800;
+  }
+  .ex-body { padding: 22px 24px; }
+  .ex-intro { font-size: .93rem; color: #222; margin-bottom: 14px; }
+
+  /* ─── TABLE ─── */
+  .data-table { width: 100%; border-collapse: collapse; font-size: .88rem; margin: 12px 0 18px; }
+  .data-table th {
+    background: var(--blue);
+    color: #fff;
+    padding: 9px 14px;
+    text-align: left;
+    font-weight: 700;
+    border: 1px solid #1a5f8a;
+  }
+  .data-table td {
+    padding: 8px 14px;
+    border: 1px solid #c8d6e0;
+    vertical-align: middle;
+  }
+  .data-table tr:nth-child(even) td { background: #f4f8fb; }
+  .blank { background: #f9f9f9 !important; border: 2px dashed #aaa !important; color: #bbb; font-style: italic; text-align: center; }
+
+  /* ─── SUB-QUESTIONS ─── */
+  .sub { font-size: .92rem; color: #222; margin-bottom: 10px; display: flex; gap: 10px; align-items: flex-start; }
+  .sub-lbl { font-weight: 700; min-width: 22px; flex-shrink: 0; }
+  .indent { padding-left: 32px; }
+  .indent li { font-size: .9rem; margin-bottom: 5px; list-style: disc; margin-left: 18px; }
+
+  /* ─── ANSWER LINES ─── */
+  .lines { margin: 6px 0 12px 32px; }
+  .line-row {
+    border-bottom: 1px dotted #aaa;
+    height: 26px;
+    margin-bottom: 4px;
+  }
+
+  /* ─── PUNNETT BLANK ─── */
+  .punnett-blank {
+    border-collapse: collapse;
+    margin: 8px 0 8px 32px;
+  }
+  .punnett-blank td, .punnett-blank th {
+    width: 80px; height: 60px;
+    border: 2px solid #aaa;
+    text-align: center; vertical-align: middle;
+    font-size: .88rem;
+    font-weight: 600;
+  }
+  .punnett-blank th { background: var(--blue); color: #fff; }
+  .punnett-blank th.corner { background: #f5f5f5; color: #888; font-size: .72rem; font-weight: 400; }
+  .punnett-blank td { background: #fafafa; }
+
+  /* ─── SEPARATOR ─── */
+  .sep {
+    margin: 46px 0;
+    text-align: center;
+    position: relative;
+  }
+  .sep::before {
+    content: '';
+    position: absolute;
+    left: 0; right: 0; top: 50%;
+    height: 2px;
+    background: linear-gradient(to right, transparent, #b8860b, transparent);
+  }
+  .sep span {
+    position: relative;
+    background: #f0f2f5;
+    padding: 0 18px;
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--yellow);
+    letter-spacing: .06em;
+  }
+
+  /* ─── CORRECTION ─── */
+  .corr-block {
+    background: var(--yellow-l);
+    border: 1.5px solid #e8c84a;
+    border-radius: 10px;
+    box-shadow: var(--shadow);
+    margin-bottom: 24px;
+    overflow: hidden;
+  }
+  .corr-head {
+    background: linear-gradient(135deg, #b8860b, #d4a017);
+    color: #fff;
+    padding: 12px 22px;
+    font-weight: 700;
+    font-size: .97rem;
+    display: flex; align-items: center; gap: 10px;
+  }
+  .corr-body { padding: 20px 24px; }
+  .corr-section {
+    margin-bottom: 20px;
+    padding-bottom: 16px;
+    border-bottom: 1px dashed #ddd;
+  }
+  .corr-section:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+  .corr-q {
+    background: #fff;
+    border-left: 4px solid var(--yellow);
+    border-radius: 0 6px 6px 0;
+    padding: 8px 14px;
+    font-size: .9rem;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 8px;
+  }
+  .corr-a { font-size: .9rem; color: #222; }
+  .corr-a p { margin-bottom: 7px; }
+  .tag {
+    display: inline-block;
+    border-radius: 5px;
+    padding: 1px 9px;
+    font-weight: 700;
+    font-size: .85rem;
+    margin: 1px;
+  }
+  .tag.g { background: var(--green-l);  color: var(--green);  border: 1px solid var(--green);  }
+  .tag.b { background: var(--blue-l);   color: var(--blue);   border: 1px solid var(--blue);   }
+  .tag.o { background: var(--orange-l); color: var(--orange); border: 1px solid var(--orange); }
+  .tag.p { background: var(--purple-l); color: var(--purple); border: 1px solid var(--purple); }
+  .note {
+    background: var(--blue-l);
+    border-left: 4px solid var(--blue);
+    border-radius: 0 6px 6px 0;
+    padding: 9px 14px;
+    font-size: .86rem;
+    color: #1a3a5a;
+    margin: 8px 0;
+  }
+  .result {
+    background: var(--green-l);
+    border-left: 4px solid var(--green);
+    border-radius: 0 6px 6px 0;
+    padding: 9px 14px;
+    font-size: .86rem;
+    color: #1a3a5a;
+    margin: 8px 0;
+  }
+
+  /* ─── PUNNETT CORRECTION ─── */
+  .punnett { border-collapse: collapse; }
+  .punnett td, .punnett th {
+    width: 78px; height: 58px;
+    border: 2px solid var(--border);
+    text-align: center; vertical-align: middle;
+    font-size: .87rem; font-weight: 600;
+  }
+  .punnett th { background: var(--blue); color: #fff; }
+  .punnett th.corner { background: #f0f2f5; color: #888; font-size: .7rem; font-weight: 400; }
+  .punnett td.DD { background: #e8f5ee; color: var(--green); }
+  .punnett td.Dr { background: #e3f0f9; color: var(--blue); }
+  .punnett td.rr { background: var(--orange-l); color: var(--orange); }
+
+  .punnett-wrap { display: flex; gap: 24px; flex-wrap: wrap; align-items: flex-start; margin: 8px 0; }
+  .legend { font-size: .83rem; }
+  .legend-row { display: flex; align-items: center; gap: 8px; margin-bottom: 5px; }
+  .sw { width: 13px; height: 13px; border-radius: 2px; flex-shrink: 0; }
+  .res-box {
+    margin-top: 10px;
+    padding: 9px 14px;
+    background: var(--green-l);
+    border-left: 4px solid var(--green);
+    border-radius: 0 6px 6px 0;
+    font-size: .85rem;
+  }
+</style>
+</head>
+<body>
+
+<!-- ─── PAGE HEADER ─── -->
+<div class="page-header">
+  <div class="left">
+    <h1>UAA3 « Unité et diversité des êtres vivants »</h1>
+    <p>2.6 · Exercices de monohybridisme &nbsp;—&nbsp; 4è Sciences générales</p>
+  </div>
+  <div class="right">
+    Nom : ___________________________<br>
+    Date : _________________ &nbsp;/20
+  </div>
+</div>
+
+<main>
+
+<!-- ═════════════════════════════════════════
+     EXERCICE 1
+═════════════════════════════════════════ -->
+<div class="exercise">
+  <div class="ex-head" style="background: linear-gradient(135deg, #1a5f8a, #2d7a4f);">
+    <span class="ex-num">1)</span>
+    Des scientifiques ont réalisé des croisements entre individus de lignées pures de plusieurs espèces, en étudiant à chaque fois un seul caractère.
+  </div>
+  <div class="ex-body">
+    <p class="ex-intro">
+      <strong>a.</strong> Complète le tableau en indiquant pour chaque croisement le caractère dominant.
+    </p>
+
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>Phénotype des parents</th>
+          <th>F1</th>
+          <th>F2</th>
+          <th>Caractère dominant</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Souris grises × souris blanches</td>
+          <td>Souris grises</td>
+          <td>1 564 grises &nbsp;; 512 blanches</td>
+          <td class="blank">à compléter</td>
+        </tr>
+        <tr>
+          <td>Drosophiles ailes longues × ailes vestigiales</td>
+          <td>Ailes longues</td>
+          <td>2 459 longues &nbsp;; 820 vestigiales</td>
+          <td class="blank">à compléter</td>
+        </tr>
+        <tr>
+          <td>Poules à crête simple × crête rose</td>
+          <td>Crête rose</td>
+          <td>983 crête rose &nbsp;; 328 crête simple</td>
+          <td class="blank">à compléter</td>
+        </tr>
+        <tr>
+          <td>Pois à cosses vertes × cosses jaunes</td>
+          <td>Cosses vertes</td>
+          <td>1 847 vertes &nbsp;; 616 jaunes</td>
+          <td class="blank">à compléter</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <p class="ex-intro"><strong>b.</strong> Pour le premier croisement uniquement (souris grises × souris blanches) :</p>
+
+    <div class="sub">
+      <span class="sub-lbl">—</span>
+      <span>Indique le génotype et le phénotype des Parents avec les symboles conventionnels.</span>
+    </div>
+    <div class="lines"><div class="line-row"></div><div class="line-row"></div></div>
+
+    <div class="sub">
+      <span class="sub-lbl">—</span>
+      <span>Indique le génotype et le phénotype de la F1 avec les symboles conventionnels.</span>
+    </div>
+    <div class="lines"><div class="line-row"></div><div class="line-row"></div></div>
+
+    <div class="sub">
+      <span class="sub-lbl">—</span>
+      <span>Les individus de la F1 sont-ils homozygotes ou hétérozygotes ? Justifie.</span>
+    </div>
+    <div class="lines"><div class="line-row"></div><div class="line-row"></div></div>
+
+    <div class="sub">
+      <span class="sub-lbl">—</span>
+      <span>Justifie à l'aide d'une grille de Punnett les résultats obtenus en F2. Indique pour chaque case le génotype et le phénotype.</span>
+    </div>
+    <table class="punnett-blank">
+      <tr>
+        <th class="corner">♀ ↓ &nbsp; ♂ →</th>
+        <th>&nbsp;&nbsp;&nbsp;&nbsp;</th>
+        <th>&nbsp;&nbsp;&nbsp;&nbsp;</th>
+      </tr>
+      <tr>
+        <th>&nbsp;&nbsp;&nbsp;&nbsp;</th>
+        <td></td>
+        <td></td>
+      </tr>
+      <tr>
+        <th>&nbsp;&nbsp;&nbsp;&nbsp;</th>
+        <td></td>
+        <td></td>
+      </tr>
+    </table>
+    <div class="lines" style="margin-top:4px;"><div class="line-row"></div><div class="line-row"></div></div>
+  </div>
+</div>
+
+
+<!-- ═════════════════════════════════════════
+     EXERCICE 2
+═════════════════════════════════════════ -->
+<div class="exercise">
+  <div class="ex-head" style="background: linear-gradient(135deg, #6b3fa0, #c0621a);">
+    <span class="ex-num">2)</span>
+    On dispose de deux lignées pures de poules qui diffèrent par un seul caractère : l'une possède des plumes noires et l'autre des plumes blanches.
+  </div>
+  <div class="ex-body">
+
+    <div class="sub" style="margin-bottom:4px;">
+      <span class="sub-lbl">a.</span>
+      <span>Comment peut-on s'assurer de la pureté de ces deux lignées ?</span>
+    </div>
+    <div class="lines"><div class="line-row"></div><div class="line-row"></div><div class="line-row"></div></div>
+
+    <div class="sub" style="margin-bottom:4px;">
+      <span class="sub-lbl">b.</span>
+      <span>Le croisement d'une poule à plumes noires avec un coq à plumes blanches donne en F1 uniquement des poulets à plumes noires. Explique ce résultat en précisant quel allèle est dominant.</span>
+    </div>
+    <div class="lines"><div class="line-row"></div><div class="line-row"></div><div class="line-row"></div></div>
+
+    <div class="sub" style="margin-bottom:4px;">
+      <span class="sub-lbl">c.</span>
+      <span>Quels seront les résultats statistiques en F2 lors du croisement des poulets F1 entre eux ? Justifie ta réponse.</span>
+    </div>
+    <div class="lines"><div class="line-row"></div><div class="line-row"></div><div class="line-row"></div></div>
+
+    <div class="sub" style="margin-bottom:4px;">
+      <span class="sub-lbl">d.</span>
+      <span>Doit-on obligatoirement s'assurer de la pureté de la lignée des poules à plumes blanches ? Justifie.</span>
+    </div>
+    <div class="lines"><div class="line-row"></div><div class="line-row"></div><div class="line-row"></div></div>
+
+    <div class="sub" style="margin-bottom:4px;">
+      <span class="sub-lbl">e.</span>
+      <span>Qu'obtiendra-t-on en croisant :</span>
+    </div>
+    <ul class="indent">
+      <li>Les poulets F1 avec les poules à plumes noires de la lignée pure ?</li>
+    </ul>
+    <div class="lines"><div class="line-row"></div><div class="line-row"></div></div>
+    <ul class="indent">
+      <li>Les poulets F1 avec les poules à plumes blanches de la lignée pure ?</li>
+    </ul>
+    <div class="lines"><div class="line-row"></div><div class="line-row"></div></div>
+
+    <div class="sub" style="margin-bottom:4px;">
+      <span class="sub-lbl">f.</span>
+      <span>On trouve dans le poulailler un poulet à plumes noires. Comment peut-on savoir s'il appartient à une lignée pure ?</span>
+    </div>
+    <div class="lines"><div class="line-row"></div><div class="line-row"></div><div class="line-row"></div></div>
+  </div>
+</div>
+
+
+<!-- ═════════════════════════════════════════
+     EXERCICE 3
+═════════════════════════════════════════ -->
+<div class="exercise">
+  <div class="ex-head" style="background: linear-gradient(135deg, #2d7a4f, #1a5f8a);">
+    <span class="ex-num">3)</span>
+    Chez le chien, le poil frisé (F) est dominant sur le poil lisse (f). On croise un chien à poil frisé de lignée pure avec une chienne à poil lisse.
+  </div>
+  <div class="ex-body">
+
+    <div class="sub" style="margin-bottom:4px;">
+      <span class="sub-lbl">a.</span>
+      <span>Donne le génotype et le phénotype de chaque parent. Que peut-on observer chez les individus de la F1 ?</span>
+    </div>
+    <div class="lines"><div class="line-row"></div><div class="line-row"></div><div class="line-row"></div></div>
+
+    <div class="sub" style="margin-bottom:4px;">
+      <span class="sub-lbl">b.</span>
+      <span>On croise deux individus F1 entre eux. Quels phénotypes obtient-on en F2 et dans quelles proportions ? Justifie à l'aide d'une grille de Punnett.</span>
+    </div>
+    <table class="punnett-blank">
+      <tr>
+        <th class="corner">♀ ↓ &nbsp; ♂ →</th>
+        <th>&nbsp;&nbsp;&nbsp;&nbsp;</th>
+        <th>&nbsp;&nbsp;&nbsp;&nbsp;</th>
+      </tr>
+      <tr>
+        <th>&nbsp;&nbsp;&nbsp;&nbsp;</th>
+        <td></td>
+        <td></td>
+      </tr>
+      <tr>
+        <th>&nbsp;&nbsp;&nbsp;&nbsp;</th>
+        <td></td>
+        <td></td>
+      </tr>
+    </table>
+    <div class="lines" style="margin-top:4px;"><div class="line-row"></div><div class="line-row"></div></div>
+
+    <div class="sub" style="margin-bottom:4px;">
+      <span class="sub-lbl">c.</span>
+      <span>On dispose d'un chien à poil frisé dont on ne connaît pas le génotype. Il peut être FF ou Ff. Quelle expérience permet de déterminer son génotype ? Explique le résultat attendu dans chaque cas.</span>
+    </div>
+    <div class="lines"><div class="line-row"></div><div class="line-row"></div><div class="line-row"></div><div class="line-row"></div></div>
+
+    <div class="sub" style="margin-bottom:4px;">
+      <span class="sub-lbl">d.</span>
+      <span>Un éleveur croise deux chiens à poil frisé et obtient dans la portée 3 chiots à poil frisé et 1 chiot à poil lisse. Quelle conclusion peut-il tirer sur le génotype des parents ? Justifie.</span>
+    </div>
+    <div class="lines"><div class="line-row"></div><div class="line-row"></div><div class="line-row"></div></div>
+  </div>
+</div>
+
+
+<!-- ═════════════════════════════════════════
+     SÉPARATEUR
+═════════════════════════════════════════ -->
+<div class="sep"><span>✏️ — CORRECTION — ✏️</span></div>
+
+
+<!-- ═════════════════════════════════════════
+     CORRECTION EX 1
+═════════════════════════════════════════ -->
+<div class="corr-block">
+  <div class="corr-head">📋 Correction — Exercice 1 · Croisements</div>
+  <div class="corr-body">
+
+    <!-- tableau -->
+    <div class="corr-section">
+      <div class="corr-q">a. Tableau — Identification du caractère dominant.</div>
+      <div class="corr-a">
+        <p>Dans chaque cas, le caractère dominant est celui qui s'exprime à 100 % en F1. En F2, le ratio dominant/récessif est toujours voisin de <strong>3 pour 1</strong>, ce qui confirme la loi de Mendel.</p>
+        <table class="data-table" style="margin-top:8px;">
+          <thead>
+            <tr>
+              <th>Phénotype des parents</th>
+              <th>F1</th>
+              <th>F2</th>
+              <th>Caractère dominant</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Souris grises × souris blanches</td>
+              <td>Grises</td>
+              <td>1 564 ; 512 (ratio 3,05:1)</td>
+              <td style="font-weight:700; color:var(--green);">Poil <strong>gris</strong> ✓</td>
+            </tr>
+            <tr>
+              <td>Drosophiles ailes longues × vestigiales</td>
+              <td>Longues</td>
+              <td>2 459 ; 820 (ratio 3:1)</td>
+              <td style="font-weight:700; color:var(--green);">Aile <strong>longue</strong> ✓</td>
+            </tr>
+            <tr>
+              <td>Poules crête simple × crête rose</td>
+              <td>Crête rose</td>
+              <td>983 ; 328 (ratio 3:1)</td>
+              <td style="font-weight:700; color:var(--green);">Crête <strong>rose</strong> ✓</td>
+            </tr>
+            <tr>
+              <td>Pois cosses vertes × cosses jaunes</td>
+              <td>Vertes</td>
+              <td>1 847 ; 616 (ratio 3:1)</td>
+              <td style="font-weight:700; color:var(--green);">Cosse <strong>verte</strong> ✓</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Parents -->
+    <div class="corr-section">
+      <div class="corr-q">b. Génotype et phénotype des Parents (souris grises × souris blanches).</div>
+      <div class="corr-a">
+        <p>Le caractère dominant est le poil gris. On choisit la lettre <strong>G</strong> (gris). L'allèle dominant se note <span class="tag g">G</span> (gris), l'allèle récessif se note <span class="tag o">g</span> (blanc).</p>
+        <p>Les parents sont des lignées pures, donc <strong>homozygotes</strong> :</p>
+        <p>
+          Parent gris pur : génotype <span class="tag g">GG</span> · phénotype <span class="tag g">[G] gris</span><br>
+          Parent blanc pur : génotype <span class="tag o">gg</span> · phénotype <span class="tag o">[g] blanc</span>
+        </p>
+      </div>
+    </div>
+
+    <!-- F1 -->
+    <div class="corr-section">
+      <div class="corr-q">b. Génotype et phénotype de la F1.</div>
+      <div class="corr-a">
+        <p>Le parent GG ne transmet que l'allèle <strong>G</strong> ; le parent gg ne transmet que l'allèle <strong>g</strong>.</p>
+        <p>Chaque individu F1 reçoit un G et un g → génotype : <span class="tag b">Gg</span></p>
+        <p>Puisque G est dominant, l'allèle g est masqué → phénotype : <span class="tag g">[G] gris</span></p>
+        <p>Résultat : <strong>100 % de souris grises</strong> en F1, ce qui correspond aux données du tableau.</p>
+      </div>
+    </div>
+
+    <!-- Homo/Hétéro -->
+    <div class="corr-section">
+      <div class="corr-q">b. Les individus F1 sont-ils homozygotes ou hétérozygotes ?</div>
+      <div class="corr-a">
+        <p>Les individus F1 sont <span class="tag p">hétérozygotes</span>.</p>
+        <p>Justification : leur génotype est <strong>Gg</strong>, c'est-à-dire qu'ils possèdent <strong>deux allèles différents</strong> (G et g) pour ce gène. La définition de l'hétérozygote est précisément d'avoir deux allèles distincts.</p>
+      </div>
+    </div>
+
+    <!-- Punnett F2 -->
+    <div class="corr-section">
+      <div class="corr-q">b. Grille de Punnett — F2 (Gg × Gg).</div>
+      <div class="corr-a">
+        <p>Les individus F1 (Gg) produisent deux types de gamètes : <strong>G</strong> ou <strong>g</strong>.</p>
+        <div class="punnett-wrap">
+          <table class="punnett">
+            <tr>
+              <th class="corner" style="font-size:.68rem;">♀ ↓ &nbsp; ♂ →</th>
+              <th>G</th>
+              <th>g</th>
+            </tr>
+            <tr>
+              <th>G</th>
+              <td class="DD"><strong>GG</strong><br><span style="font-size:.73rem;">[G] gris</span></td>
+              <td class="Dr"><strong>Gg</strong><br><span style="font-size:.73rem;">[G] gris</span></td>
+            </tr>
+            <tr>
+              <th>g</th>
+              <td class="Dr"><strong>Gg</strong><br><span style="font-size:.73rem;">[G] gris</span></td>
+              <td class="rr"><strong>gg</strong><br><span style="font-size:.73rem;">[g] blanc</span></td>
+            </tr>
+          </table>
+          <div class="legend">
+            <div class="legend-row"><div class="sw" style="background:#e8f5ee; border:1.5px solid var(--green);"></div><span><strong>GG</strong> → 25 % · homozygote dominant · <span style="color:var(--green);">[G] gris</span></span></div>
+            <div class="legend-row"><div class="sw" style="background:#e3f0f9; border:1.5px solid var(--blue);"></div><span><strong>Gg</strong> → 50 % · hétérozygote · <span style="color:var(--green);">[G] gris</span></span></div>
+            <div class="legend-row"><div class="sw" style="background:var(--orange-l); border:1.5px solid var(--orange);"></div><span><strong>gg</strong> → 25 % · homozygote récessif · <span style="color:var(--orange);">[g] blanc</span></span></div>
+            <div class="res-box">
+              🐭 <strong>75 % grises</strong> (GG + Gg)<br>
+              🐭 <strong>25 % blanches</strong> (gg)<br>
+              <em>Ratio 3:1, conforme aux données : 1 564/512 ≈ 3,05:1</em>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+
+<!-- ═════════════════════════════════════════
+     CORRECTION EX 2
+═════════════════════════════════════════ -->
+<div class="corr-block">
+  <div class="corr-head">🐔 Correction — Exercice 2 · Les poules à plumes noires et blanches</div>
+  <div class="corr-body">
+
+    <!-- a -->
+    <div class="corr-section">
+      <div class="corr-q">a. Comment s'assurer de la pureté des lignées ?</div>
+      <div class="corr-a">
+        <p>On croise les individus de chaque lignée <strong>entre eux</strong> sur plusieurs générations. Si <strong>tous les descendants présentent le même phénotype</strong>, la lignée est pure : ses individus sont homozygotes. Si des phénotypes différents apparaissent, certains individus sont hétérozygotes et la lignée n'est pas pure.</p>
+      </div>
+    </div>
+
+    <!-- b -->
+    <div class="corr-section">
+      <div class="corr-q">b. F1 = 100 % plumes noires → explication.</div>
+      <div class="corr-a">
+        <p>On choisit la lettre <strong>N</strong> (noir). L'allèle <span class="tag g">N</span> (noir) est <strong>dominant</strong> ; l'allèle <span class="tag o">n</span> (blanc) est <strong>récessif</strong>.</p>
+        <p>Parents : poule noire pure <span class="tag g">NN</span> × coq blanc pur <span class="tag o">nn</span>.</p>
+        <p>Tous les individus F1 reçoivent un N et un n → génotype <span class="tag b">Nn</span>. L'allèle dominant N s'exprime seul → phénotype <span class="tag g">[N] noir</span>. L'allèle blanc n est présent mais masqué.</p>
+      </div>
+    </div>
+
+    <!-- c -->
+    <div class="corr-section">
+      <div class="corr-q">c. Résultats statistiques en F2 (Nn × Nn).</div>
+      <div class="corr-a">
+        <div class="punnett-wrap">
+          <table class="punnett">
+            <tr>
+              <th class="corner" style="font-size:.68rem;">♀ ↓ &nbsp; ♂ →</th>
+              <th>N</th>
+              <th>n</th>
+            </tr>
+            <tr>
+              <th>N</th>
+              <td class="DD"><strong>NN</strong><br><span style="font-size:.73rem;">[N] noir</span></td>
+              <td class="Dr"><strong>Nn</strong><br><span style="font-size:.73rem;">[N] noir</span></td>
+            </tr>
+            <tr>
+              <th>n</th>
+              <td class="Dr"><strong>Nn</strong><br><span style="font-size:.73rem;">[N] noir</span></td>
+              <td class="rr"><strong>nn</strong><br><span style="font-size:.73rem;">[n] blanc</span></td>
+            </tr>
+          </table>
+          <div class="legend">
+            <div class="res-box">
+              🐔 <strong>75 % plumes noires</strong> (NN + Nn)<br>
+              🐓 <strong>25 % plumes blanches</strong> (nn)<br>
+              <em>Le caractère blanc réapparaît en F2 : il n'avait pas disparu, il était caché en F1.</em>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- d -->
+    <div class="corr-section">
+      <div class="corr-q">d. Faut-il vérifier la pureté de la lignée blanche ?</div>
+      <div class="corr-a">
+        <p><strong>Non, ce n'est pas nécessaire.</strong> L'allèle « blanc » est récessif (n). Pour qu'un individu soit blanc, il doit posséder <strong>obligatoirement deux allèles récessifs</strong> (génotype nn), car un seul allèle n serait masqué par N. Une poule blanche est donc <em>forcément homozygote réessive</em> (nn) = forcément de lignée pure.</p>
+      </div>
+    </div>
+
+    <!-- e -->
+    <div class="corr-section">
+      <div class="corr-q">e. Résultats des croisements : F1 × noires pures &nbsp;|&nbsp; F1 × blanches pures.</div>
+      <div class="corr-a">
+        <p><strong>1) F1 (Nn) × poules noires pures (NN) :</strong></p>
+        <div class="punnett-wrap" style="margin-bottom:14px;">
+          <table class="punnett">
+            <tr>
+              <th class="corner" style="font-size:.68rem;">♀ Nn ↓ &nbsp; ♂ NN →</th>
+              <th>N</th>
+              <th>N</th>
+            </tr>
+            <tr>
+              <th>N</th>
+              <td class="DD"><strong>NN</strong><br><span style="font-size:.73rem;">[N] noir</span></td>
+              <td class="DD"><strong>NN</strong><br><span style="font-size:.73rem;">[N] noir</span></td>
+            </tr>
+            <tr>
+              <th>n</th>
+              <td class="Dr"><strong>Nn</strong><br><span style="font-size:.73rem;">[N] noir</span></td>
+              <td class="Dr"><strong>Nn</strong><br><span style="font-size:.73rem;">[N] noir</span></td>
+            </tr>
+          </table>
+          <div class="legend">
+            <div class="res-box">🐔 <strong>100 % plumes noires</strong> (50 % NN + 50 % Nn)<br><em>Aucun descendant blanc ne peut apparaître.</em></div>
+          </div>
+        </div>
+        <p><strong>2) F1 (Nn) × poules blanches pures (nn) — croisement-test :</strong></p>
+        <div class="punnett-wrap">
+          <table class="punnett">
+            <tr>
+              <th class="corner" style="font-size:.68rem;">♀ Nn ↓ &nbsp; ♂ nn →</th>
+              <th>n</th>
+              <th>n</th>
+            </tr>
+            <tr>
+              <th>N</th>
+              <td class="Dr"><strong>Nn</strong><br><span style="font-size:.73rem;">[N] noir</span></td>
+              <td class="Dr"><strong>Nn</strong><br><span style="font-size:.73rem;">[N] noir</span></td>
+            </tr>
+            <tr>
+              <th>n</th>
+              <td class="rr"><strong>nn</strong><br><span style="font-size:.73rem;">[n] blanc</span></td>
+              <td class="rr"><strong>nn</strong><br><span style="font-size:.73rem;">[n] blanc</span></td>
+            </tr>
+          </table>
+          <div class="legend">
+            <div class="res-box">
+              🐔 <strong>50 % noires</strong> (Nn) &nbsp;+&nbsp; 🐓 <strong>50 % blanches</strong> (nn)<br>
+              <em>Ce croisement avec la lignée récessive révèle que F1 est bien hétérozygote (Nn). C'est le <strong>croisement-test</strong>.</em>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- f -->
+    <div class="corr-section">
+      <div class="corr-q">f. Poulet à plumes noires dans le poulailler — appartient-il à une lignée pure ?</div>
+      <div class="corr-a">
+        <p>Un poulet à plumes noires peut avoir le génotype <strong>NN</strong> (lignée pure) ou <strong>Nn</strong> (hétérozygote). Les deux ont le phénotype [N] : impossible de le savoir à l'œil nu.</p>
+        <p>Il faut réaliser un <strong>croisement-test</strong> : croiser ce poulet inconnu avec une poule à plumes blanches de lignée pure (nn).</p>
+        <div class="note">
+          📌 Si <strong>100 % des descendants sont noirs</strong> → le poulet est <strong>NN</strong> (homozygote, lignée pure).<br>
+          📌 Si on obtient <strong>50 % noirs + 50 % blancs</strong> → le poulet est <strong>Nn</strong> (hétérozygote, pas une lignée pure).
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+
+<!-- ═════════════════════════════════════════
+     CORRECTION EX 3
+═════════════════════════════════════════ -->
+<div class="corr-block">
+  <div class="corr-head">🐕 Correction — Exercice 3 · Le poil chez le chien (F dominant sur f)</div>
+  <div class="corr-body">
+
+    <!-- a -->
+    <div class="corr-section">
+      <div class="corr-q">a. Génotype et phénotype des parents — observation en F1.</div>
+      <div class="corr-a">
+        <p>L'énoncé précise que F (frisé) est dominant sur f (lisse), et que le chien frisé est de lignée pure :</p>
+        <p>
+          Parent frisé pur : génotype <span class="tag g">FF</span> · phénotype <span class="tag g">[F] frisé</span><br>
+          Parent lisse pur : génotype <span class="tag o">ff</span> · phénotype <span class="tag o">[f] lisse</span>
+        </p>
+        <p>Tous les individus F1 reçoivent un allèle F et un allèle f → génotype <span class="tag b">Ff</span> · phénotype <span class="tag g">[F] frisé</span>.</p>
+        <p>On observera donc <strong>100 % de chiens à poil frisé</strong> en F1.</p>
+      </div>
+    </div>
+
+    <!-- b -->
+    <div class="corr-section">
+      <div class="corr-q">b. Phénotypes et proportions en F2 — Grille de Punnett (Ff × Ff).</div>
+      <div class="corr-a">
+        <div class="punnett-wrap">
+          <table class="punnett">
+            <tr>
+              <th class="corner" style="font-size:.68rem;">♀ ↓ &nbsp; ♂ →</th>
+              <th>F</th>
+              <th>f</th>
+            </tr>
+            <tr>
+              <th>F</th>
+              <td class="DD"><strong>FF</strong><br><span style="font-size:.73rem;">[F] frisé</span></td>
+              <td class="Dr"><strong>Ff</strong><br><span style="font-size:.73rem;">[F] frisé</span></td>
+            </tr>
+            <tr>
+              <th>f</th>
+              <td class="Dr"><strong>Ff</strong><br><span style="font-size:.73rem;">[F] frisé</span></td>
+              <td class="rr"><strong>ff</strong><br><span style="font-size:.73rem;">[f] lisse</span></td>
+            </tr>
+          </table>
+          <div class="legend">
+            <div class="legend-row"><div class="sw" style="background:#e8f5ee; border:1.5px solid var(--green);"></div><span><strong>FF</strong> → 25 % · <span style="color:var(--green);">[F] frisé</span></span></div>
+            <div class="legend-row"><div class="sw" style="background:#e3f0f9; border:1.5px solid var(--blue);"></div><span><strong>Ff</strong> → 50 % · <span style="color:var(--green);">[F] frisé</span></span></div>
+            <div class="legend-row"><div class="sw" style="background:var(--orange-l); border:1.5px solid var(--orange);"></div><span><strong>ff</strong> → 25 % · <span style="color:var(--orange);">[f] lisse</span></span></div>
+            <div class="res-box">🐕‍🦺 <strong>75 % poil frisé</strong> [F]<br>🐕 <strong>25 % poil lisse</strong> [f] — ratio 3:1</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- c -->
+    <div class="corr-section">
+      <div class="corr-q">c. Chien à poil frisé de génotype inconnu (FF ou Ff) — quelle expérience pour le déterminer ?</div>
+      <div class="corr-a">
+        <p>On réalise un <strong>croisement-test</strong> : on croise ce chien inconnu avec un individu à poil lisse de lignée pure (ff).</p>
+        <div class="note">
+          📌 Si <strong>100 % des descendants ont le poil frisé</strong> → le chien est <strong>FF</strong> (homozygote dominant).<br>
+          Croissement FF × ff : tous les descendants = Ff → tous frisés.<br><br>
+          📌 Si on obtient <strong>50 % frisés et 50 % lisses</strong> → le chien est <strong>Ff</strong> (hétérozygote).<br>
+          Croisement Ff × ff : 50 % Ff (frisé) + 50 % ff (lisse).
+        </div>
+      </div>
+    </div>
+
+    <!-- d -->
+    <div class="corr-section">
+      <div class="corr-q">d. Deux chiens à poil frisé croisés donnent 3 frisés et 1 lisse — conclusion sur les génotypes des parents.</div>
+      <div class="corr-a">
+        <p>L'apparition du caractère lisse (récessif) dans la descendance prouve que <strong>les deux parents portent l'allèle récessif f</strong> sans l'exprimer.</p>
+        <p>La proportion 3 frisés : 1 lisse correspond exactement au résultat d'un croisement <strong>Ff × Ff</strong> (grille de Punnett : 25 % FF, 50 % Ff, 25 % ff).</p>
+        <div class="result">
+          ✅ Conclusion : les <strong>deux parents sont hétérozygotes</strong>, de génotype <strong>Ff</strong>. Ils ne font pas partie d'une lignée pure, malgré leur phénotype frisé [F].
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+</main>
+
+<footer style="text-align:center; padding:18px; font-size:.8rem; color:#888; border-top:1px solid #dde2ea;">
+  UAA3 « Unité et diversité des êtres vivants » · 4è Sciences générales · Prof. Haye
+</footer>
+
+</body>
+</html>
