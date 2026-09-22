@@ -1,0 +1,870 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Voyage au pays des livres</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Alegreya:wght@500;700;800&family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=Lexend:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#EEF2F5; --surface:#FFFFFF; --surface2:#F6F8FA; --ink:#1B2631; --muted:#4F5D6A; --line:#D3DBE2;
+  --accent:#1F5F8B; --accent-soft:#E1ECF5; --ok:#2B7A4B; --ok-soft:#E3F2E8; --ko:#AE3A2E; --ko-soft:#F8E5E2;
+  --e-ant:#A0660F; --e-mag:#962D29; --e-ren:#3A7447; --e-17:#2E4D98; --e-18:#1C7474; --e-19:#6A3D8C; --e-20:#B23566;
+  --body:"Atkinson Hyperlegible", "Segoe UI", Verdana, sans-serif;
+  --display:"Alegreya", Georgia, "Times New Roman", serif;
+  --fs:1.0625rem; --lh:1.6;
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --bg:#131A21; --surface:#1C252F; --surface2:#222C37; --ink:#E6EBEF; --muted:#A7B2BC; --line:#33404C;
+    --accent:#86BBE2; --accent-soft:#233748; --ok:#7CCB98; --ok-soft:#1E3327; --ko:#F09A8E; --ko-soft:#3B2220;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#131A21; --surface:#1C252F; --surface2:#222C37; --ink:#E6EBEF; --muted:#A7B2BC; --line:#33404C;
+  --accent:#86BBE2; --accent-soft:#233748; --ok:#7CCB98; --ok-soft:#1E3327; --ko:#F09A8E; --ko-soft:#3B2220;
+}
+:root[data-font="lexend"]{ --body:"Lexend", Verdana, sans-serif; }
+*,*::before,*::after{box-sizing:inherit}
+html{height:100%;scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;min-height:100%;background:var(--bg);color:var(--ink);font-family:var(--body);font-size:var(--fs);line-height:var(--lh)}
+button,input,textarea{font:inherit;color:inherit}
+h1,h2,h3{font-family:var(--display);line-height:1.2;margin:0 0 .5em;font-weight:700}
+h1{font-size:2rem} h2{font-size:1.6rem} h3{font-size:1.25rem}
+p{margin:0 0 .9em}
+em{font-style:italic}
+:focus-visible{outline:3px solid var(--accent);outline-offset:2px;border-radius:4px}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+
+/* Shell */
+.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:var(--surface);border-bottom:1px solid var(--line)}
+.top-in{max-width:1180px;margin:0 auto;display:flex;align-items:center;gap:12px;padding:10px 16px}
+.brand{background:none;border:0;padding:0;cursor:pointer;text-align:left;display:flex;align-items:center;gap:10px}
+.brand-mark{display:flex;gap:2px}
+.brand-mark span{width:6px;height:26px;border-radius:2px}
+.brand b{font-family:var(--display);font-size:1.25rem;font-weight:800;display:block;line-height:1.1}
+.brand small{color:var(--muted);font-size:.8rem}
+.top-actions{margin-left:auto;display:flex;gap:6px}
+.icon-btn{border:1px solid var(--line);background:var(--surface2);border-radius:10px;padding:7px 12px;cursor:pointer;font-size:.9rem}
+.icon-btn:hover{border-color:var(--accent)}
+.layout{max-width:1180px;margin:0 auto;display:grid;grid-template-columns:210px 1fr;gap:28px;padding:24px 16px 48px}
+nav.side{position:sticky;top:78px;align-self:start;display:flex;flex-direction:column;gap:4px}
+.nav-btn{display:flex;align-items:center;gap:10px;width:100%;text-align:left;background:none;border:0;border-radius:10px;padding:10px 12px;cursor:pointer;color:var(--muted);font-weight:700}
+.nav-btn svg{width:20px;height:20px;flex:none}
+.nav-btn:hover{background:var(--surface);color:var(--ink)}
+.nav-btn[aria-current="page"]{background:var(--surface);color:var(--accent);box-shadow:inset 3px 0 0 var(--accent)}
+main{min-width:0;max-width:760px}
+.bottom{display:none}
+@media (max-width:820px){
+  .layout{grid-template-columns:1fr;padding:18px 14px 110px}
+  nav.side{display:none}
+  .bottom{display:flex;position:fixed;left:0;right:0;bottom:0;z-index:30;background:var(--surface);border-top:1px solid var(--line);padding:6px 4px calc(6px + env(safe-area-inset-bottom,0px))}
+  .bottom .nav-btn{flex-direction:column;gap:2px;font-size:.7rem;padding:6px 2px;text-align:center;justify-content:center}
+  .bottom .nav-btn[aria-current="page"]{box-shadow:inset 0 3px 0 var(--accent);background:none}
+  .brand small{display:none}
+  h1{font-size:1.65rem}
+}
+
+/* Blocks */
+.lead{font-size:1.12em;color:var(--muted);max-width:62ch}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:20px 22px;margin-bottom:18px}
+.key{border-left:5px solid var(--accent);background:var(--accent-soft);border-radius:0 12px 12px 0;padding:14px 18px;margin:0 0 18px}
+.key p:last-child{margin:0}
+.tabs{display:flex;gap:6px;flex-wrap:wrap;margin:0 0 20px}
+.tab{border:1px solid var(--line);background:var(--surface);border-radius:999px;padding:7px 16px;cursor:pointer;font-weight:700;color:var(--muted)}
+.tab[aria-selected="true"]{background:var(--ink);color:var(--surface);border-color:var(--ink)}
+.btn{display:inline-flex;align-items:center;gap:8px;border:0;border-radius:12px;padding:11px 18px;background:var(--accent);color:#fff;font-weight:700;cursor:pointer}
+:root[data-theme="dark"] .btn{color:#10202D}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .btn{color:#10202D}}
+.btn.ghost{background:var(--surface);color:var(--ink);border:1px solid var(--line)}
+.btn:disabled{opacity:.45;cursor:not-allowed}
+.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.muted{color:var(--muted)}
+.small{font-size:.88em}
+.gl{background:none;border:0;padding:0;color:inherit;font:inherit;cursor:pointer;text-decoration:underline dotted var(--accent);text-decoration-thickness:2px;text-underline-offset:3px}
+.gl:hover{color:var(--accent)}
+.scroll{overflow-x:auto}
+table{border-collapse:collapse;width:100%;font-size:.95em}
+th,td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-weight:700;color:var(--muted);font-size:.9em}
+
+/* Frise */
+.frise{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;margin:6px 0 4px}
+.seg{border:0;cursor:pointer;color:#fff;border-radius:8px;padding:14px 8px 12px;text-align:left;min-height:118px;display:flex;flex-direction:column;justify-content:space-between;transition:transform .15s}
+.seg:hover{transform:translateY(-3px)}
+.seg b{font-family:var(--display);font-size:1.05rem;line-height:1.1;font-weight:800}
+.seg span{font-size:.78rem;opacity:.92}
+.seg i{font-style:normal;font-size:.8rem;border-top:1px solid rgba(255,255,255,.4);padding-top:6px;margin-top:8px}
+@media (max-width:640px){
+  .frise{grid-template-columns:1fr;gap:5px}
+  .seg{min-height:0;flex-direction:row;align-items:center;gap:10px;padding:10px 14px}
+  .seg b{flex:1}.seg i{border:0;margin:0;padding:0}
+}
+.era-tag{display:inline-block;color:#fff;border-radius:6px;padding:2px 9px;font-size:.8rem;font-weight:700}
+
+/* Cards / lists */
+.grid2{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:12px}
+.tile{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:14px 16px}
+.tile h3{font-size:1.08rem;margin-bottom:4px}
+.tile p{margin:0;font-size:.95em}
+.tile .ex{color:var(--muted);font-size:.88em;margin-top:6px}
+.steps{list-style:none;padding:0;margin:0;counter-reset:s;display:grid;gap:10px}
+.steps li{counter-increment:s;display:grid;grid-template-columns:40px 1fr;gap:12px;align-items:start;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:12px 16px;cursor:pointer;text-align:left}
+.steps li::before{content:counter(s);font-family:var(--display);font-weight:800;font-size:1.5rem;color:var(--accent);line-height:1}
+.steps li b{display:block}
+.oe-list{display:grid;gap:8px}
+.oe{display:grid;grid-template-columns:6px 1fr auto;gap:14px;align-items:center;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:12px 14px 12px 0;cursor:pointer;text-align:left;width:100%}
+.oe:hover{border-color:var(--accent)}
+.oe .bar{align-self:stretch;border-radius:0 4px 4px 0}
+.oe b{font-family:var(--display);font-size:1.1rem;font-style:italic}
+.oe .check{font-size:.8rem;color:var(--ok);font-weight:700}
+.chips{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:16px}
+.chip{border:2px solid var(--line);background:var(--surface);border-radius:999px;padding:5px 12px;cursor:pointer;font-size:.88rem;font-weight:700}
+.chip[aria-pressed="true"]{border-color:var(--ink);background:var(--ink);color:var(--surface)}
+
+/* Fiche */
+.fiche-head{border-radius:14px;color:#fff;padding:22px 22px 20px;margin-bottom:16px}
+.fiche-head h1{font-style:italic;margin-bottom:6px;font-size:2.1rem}
+.fiche-head p{margin:0;opacity:.95}
+.fiche-sec{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:16px 20px;margin-bottom:12px}
+.fiche-sec h2{font-size:1.1rem;font-family:var(--body);font-weight:700;color:var(--muted);margin-bottom:6px}
+.fiche-sec p:last-child{margin:0}
+.fiche-nav{display:flex;justify-content:space-between;gap:10px;margin-top:18px;flex-wrap:wrap}
+blockquote{margin:10px 0;padding:8px 16px;border-left:4px solid var(--line);font-family:var(--display);font-size:1.12em;font-style:italic}
+
+/* Activities */
+.prog{height:8px;background:var(--line);border-radius:99px;overflow:hidden;margin:6px 0 18px}
+.prog span{display:block;height:100%;background:var(--accent);transition:width .3s}
+.q-text{font-size:1.2em;font-weight:700;margin-bottom:16px;line-height:1.45}
+.opts{display:grid;gap:8px}
+.opt{text-align:left;border:2px solid var(--line);background:var(--surface);border-radius:12px;padding:12px 16px;cursor:pointer;display:flex;gap:12px;align-items:center}
+.opt:hover:not(:disabled){border-color:var(--accent)}
+.opt .l{font-weight:700;color:var(--muted);min-width:1.2em}
+.opt.good{border-color:var(--ok);background:var(--ok-soft)}
+.opt.bad{border-color:var(--ko);background:var(--ko-soft)}
+.opt:disabled{cursor:default}
+.fb{border-radius:12px;padding:14px 16px;margin-top:14px}
+.fb.good{background:var(--ok-soft);border-left:5px solid var(--ok)}
+.fb.bad{background:var(--ko-soft);border-left:5px solid var(--ko)}
+.fb b{display:block;margin-bottom:2px}
+.act-foot{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-top:18px;flex-wrap:wrap}
+.match-row{display:grid;gap:6px;margin-bottom:14px}
+.match-row .opts{grid-template-columns:repeat(3,1fr)}
+@media (max-width:560px){.match-row .opts{grid-template-columns:1fr}}
+.order-pool,.order-ans{display:flex;flex-direction:column;gap:6px}
+.order-ans{min-height:52px;border:2px dashed var(--line);border-radius:12px;padding:8px;margin-bottom:14px}
+.order-ans:empty::before{content:"Touche les étiquettes dans le bon ordre.";color:var(--muted);padding:6px}
+.ord{display:flex;gap:10px;align-items:center;text-align:left;border:2px solid var(--line);background:var(--surface);border-radius:10px;padding:10px 14px;cursor:pointer}
+.ord .n{font-weight:800;color:var(--accent);min-width:1.4em}
+.ord.good{border-color:var(--ok);background:var(--ok-soft)}.ord.bad{border-color:var(--ko);background:var(--ko-soft)}
+.card{perspective:1000px;margin:0 auto 16px;max-width:520px}
+.card-in{position:relative;min-height:240px;transition:transform .45s;transform-style:preserve-3d}
+.card.flip .card-in{transform:rotateY(180deg)}
+.face{position:absolute;inset:0;overflow:auto;backface-visibility:hidden;border-radius:16px;border:1px solid var(--line);background:var(--surface);padding:24px;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center}
+.face.back{transform:rotateY(180deg);background:var(--surface2)}
+.face .big{font-family:var(--display);font-size:1.6rem;font-weight:700;line-height:1.25}
+.face small{color:var(--muted);margin-bottom:10px}
+textarea{width:100%;min-height:140px;border:2px solid var(--line);border-radius:12px;padding:12px;background:var(--surface);resize:vertical}
+.checklist label{display:flex;gap:10px;align-items:flex-start;padding:6px 0;cursor:pointer}
+.checklist input{width:20px;height:20px;margin-top:3px;accent-color:var(--accent)}
+.result{text-align:center;padding:28px 20px}
+.result .score{font-family:var(--display);font-size:3.2rem;font-weight:800;color:var(--accent);line-height:1}
+.act-menu{display:grid;gap:10px}
+.act-item{display:grid;grid-template-columns:1fr auto;gap:12px;align-items:center;text-align:left;border:1px solid var(--line);background:var(--surface);border-radius:14px;padding:16px 18px;cursor:pointer}
+.act-item:hover{border-color:var(--accent)}
+.act-item b{font-family:var(--display);font-size:1.2rem;display:block}
+.act-item .badge{font-size:.82rem;color:var(--muted);white-space:nowrap}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.stat{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:12px 14px}
+.stat b{font-family:var(--display);font-size:1.6rem;display:block;line-height:1.1}
+.stat span{font-size:.85rem;color:var(--muted)}
+input[type=text],input[type=number],input[type=search]{border:2px solid var(--line);border-radius:10px;padding:9px 12px;background:var(--surface);width:100%}
+.gl-item{padding:14px 0;border-bottom:1px solid var(--line)}
+.gl-item h3{font-size:1.15rem;margin-bottom:2px}
+.gl-item p{margin:0}
+.gl-item .ex{color:var(--muted);font-size:.93em;margin-top:4px}
+.letter{font-family:var(--display);font-size:1.4rem;color:var(--accent);margin:20px 0 0;font-weight:800}
+
+/* Popover & settings */
+.sheet-bg{position:fixed;inset:0;background:rgba(10,18,26,.45);z-index:50;display:flex;align-items:flex-end;justify-content:center}
+.sheet{background:var(--surface);width:100%;max-width:520px;border-radius:18px 18px 0 0;padding:22px 22px calc(22px + env(safe-area-inset-bottom,0px));max-height:80vh;overflow:auto}
+@media (min-width:821px){.sheet-bg{align-items:center}.sheet{border-radius:18px}}
+.sheet h2{margin-bottom:6px}
+.set-row{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:12px 0;border-bottom:1px solid var(--line);flex-wrap:wrap}
+.seg-ctl{display:flex;border:1px solid var(--line);border-radius:10px;overflow:hidden}
+.seg-ctl button{border:0;background:var(--surface);padding:7px 12px;cursor:pointer;font-weight:700}
+.seg-ctl button[aria-pressed="true"]{background:var(--ink);color:var(--surface)}
+.conv{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.conv input{max-width:140px}
+.conv-out{font-family:var(--display);font-size:1.5rem;font-weight:800;color:var(--accent)}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="top-in">
+    <button class="brand" data-go="accueil" aria-label="Retour à l'accueil">
+      <span class="brand-mark" aria-hidden="true"><span style="background:var(--e-ant)"></span><span style="background:var(--e-mag)"></span><span style="background:var(--e-ren)"></span><span style="background:var(--e-17)"></span><span style="background:var(--e-18)"></span><span style="background:var(--e-19)"></span><span style="background:var(--e-20)"></span></span>
+      <span><b>Voyage au pays des livres</b><small>La littérature, de l'Antiquité à aujourd'hui</small></span>
+    </button>
+    <div class="top-actions">
+      <button class="icon-btn" data-act="settings" aria-label="Réglages de lecture">Aa Réglages</button>
+    </div>
+  </div>
+</header>
+<div class="layout">
+  <nav class="side" id="nav-side" aria-label="Navigation principale"></nav>
+  <main id="main" tabindex="-1"></main>
+</div>
+<nav class="bottom" id="nav-bottom" aria-label="Navigation principale"></nav>
+<div id="overlay"></div>
+<div id="live" class="sr" aria-live="polite"></div>
+
+<script>
+/* ============ DONNÉES ============ */
+const ERAS=[
+ {id:"ant",nom:"Antiquité",dates:"~3000 av. J.-C. – 476",debut:"~3000 av. J.-C.",color:"var(--e-ant)",motcle:"Héros et dieux",phare:"Homère, *L'Odyssée*",
+  contexte:"L'époque des Grecs et des Romains. On croit en de nombreux dieux.",
+  ecrit:"Des [[épopées|Épopée]] (longs poèmes sur des héros) et des [[mythes|Mythe]].",
+  intro:"De l'invention de l'écriture (vers 3000 av. J.-C.) à 476 apr. J.-C."},
+ {id:"mag",nom:"Moyen Âge",dates:"476 – 1492",debut:"476",color:"var(--e-mag)",motcle:"Chevaliers",phare:"*La Chanson de Roland*",
+  contexte:"L'époque des rois, des chevaliers et des châteaux forts. La religion chrétienne est très importante. Peu de gens savent lire : les textes sont souvent **récités ou chantés**.",
+  ecrit:"Des [[chansons de geste|Chanson de geste]], des romans de chevalerie, des récits de voyage.",intro:"De 476 à 1492."},
+ {id:"ren",nom:"Renaissance",dates:"1492 – 1600",debut:"1492",color:"var(--e-ren)",motcle:"Humanisme",phare:"Rabelais, *Gargantua*",
+  contexte:"L'imprimerie est inventée (vers 1450) : les livres se multiplient. Les Européens découvrent l'Amérique (1492). On redécouvre les auteurs de l'Antiquité.",
+  ecrit:"Idée clé : l'[[humanisme|Humanisme]]. L'être humain peut progresser grâce au savoir.",intro:"XVe – XVIe siècles, de 1492 à 1600 environ."},
+ {id:"x17",nom:"XVIIe siècle",dates:"1601 – 1700",debut:"1600",color:"var(--e-17)",motcle:"Classicisme",phare:"Molière, *L'Avare*",
+  contexte:"Le règne de **Louis XIV**, le « Roi-Soleil », à Versailles.",
+  ecrit:"Idée clé : le [[classicisme|Classicisme]]. On cherche l'ordre, la clarté et le bon goût. La littérature doit **plaire et instruire**.",intro:"De 1601 à 1700."},
+ {id:"x18",nom:"XVIIIe siècle",dates:"1701 – 1800",debut:"1700",color:"var(--e-18)",motcle:"Lumières",phare:"Voltaire, *Candide*",
+  contexte:"L'époque se termine par la **Révolution française** (1789).",
+  ecrit:"Idée clé : les [[Lumières|Lumières]]. Les écrivains veulent « éclairer » les gens par la raison. Ils combattent l'injustice et défendent la liberté.",intro:"De 1701 à 1800."},
+ {id:"x19",nom:"XIXe siècle",dates:"1801 – 1900",debut:"1800",color:"var(--e-19)",motcle:"Romantisme, réalisme",phare:"Victor Hugo, *Les Misérables*",
+  contexte:"Napoléon, puis l'industrie (trains, usines). Les villes grandissent.",
+  ecrit:"Deux idées clés : le [[romantisme|Romantisme]] (exprimer ses sentiments et sa sensibilité) et le [[réalisme|Réalisme]] (décrire la société telle qu'elle est vraiment).",intro:"De 1801 à 1900."},
+ {id:"x20",nom:"XXe – XXIe siècles",dates:"1901 → aujourd'hui",debut:"1900",color:"var(--e-20)",motcle:"Liberté",phare:"Saint-Exupéry, *Le Petit Prince*",
+  contexte:"Deux guerres mondiales, puis le monde moderne (cinéma, télévision, Internet).",
+  ecrit:"Idée clé : une grande **liberté**. Les auteurs inventent de nouvelles formes et parlent du monde entier.",intro:"De 1901 à aujourd'hui."}
+];
+const ERA=Object.fromEntries(ERAS.map(e=>[e.id,e]));
+
+const OEUVRES=[
+ {id:"odyssee",t:"L'Odyssée",a:"Homère",d:"VIIIe siècle av. J.-C.",y:-750,e:"ant",g:"[[Épopée]] (long poème en grec)",
+  c:"C'est l'un des plus anciens textes de la littérature européenne. Il était récité à voix haute par des poètes, les aèdes, bien avant d'être lu.",
+  h:"Après dix ans de guerre à Troie, Ulysse, roi de l'île d'Ithaque, veut rentrer chez lui. Son voyage dure encore dix ans. Il affronte le Cyclope, résiste au chant des sirènes et échappe à la magicienne Circé. Pendant ce temps, sa femme Pénélope l'attend fidèlement. Il revient enfin déguisé en mendiant et chasse les hommes qui voulaient prendre sa place.",
+  p:"Ulysse est le modèle du héros **rusé**, qui gagne grâce à son intelligence plus qu'à sa force. Le mot « odyssée » veut aujourd'hui dire « long voyage plein d'aventures »."},
+ {id:"eneide",t:"L'Énéide",a:"Virgile",d:"Ier siècle av. J.-C.",y:-20,e:"ant",g:"[[Épopée]] (long poème en latin)",
+  c:"L'empereur romain Auguste veut un grand poème qui glorifie Rome. Virgile s'inspire d'Homère.",
+  h:"Troie est en flammes. Le héros Énée s'enfuit en portant son vieux père sur son dos. Il voyage longtemps sur la mer et vit une histoire d'amour avec Didon, reine de Carthage, mais les dieux l'obligent à partir. Il arrive en Italie, où il doit faire la guerre pour s'installer. Ses descendants fonderont Rome.",
+  p:"C'est le grand poème national des Romains. Il montre un héros qui fait passer son **devoir** avant ses désirs."},
+ {id:"metamorphoses",t:"Les Métamorphoses",a:"Ovide",d:"vers l'an 1 apr. J.-C.",y:1,e:"ant",g:"[[Recueil]] de récits en [[vers]]",
+  c:"Ovide rassemble environ 250 mythes grecs et romains.",
+  h:"Chaque récit raconte une transformation. Narcisse tombe amoureux de son reflet et devient une fleur. Arachné défie la déesse Athéna et devient une araignée. Icare vole trop près du soleil avec ses ailes de cire et tombe dans la mer.",
+  p:"C'est une immense réserve de [[mythes|Mythe]]. Des peintres, des sculpteurs et des écrivains s'en inspirent depuis 2 000 ans."},
+ {id:"roland",t:"La Chanson de Roland",a:"Anonyme",d:"fin du XIe siècle",y:1090,e:"mag",g:"[[Chanson de geste]] (poème en ancien français)",
+  c:"C'est la plus ancienne chanson de geste connue. Elle était chantée par des jongleurs devant un public qui, souvent, ne savait pas lire.",
+  h:"L'empereur Charlemagne revient d'une guerre en Espagne. Ganelon, un traître, organise une embuscade dans le col de Roncevaux. Le chevalier Roland, neveu de Charlemagne, commande l'arrière de l'armée. Par fierté, il refuse longtemps de sonner son cor (l'olifant) pour appeler à l'aide. Quand il le fait enfin, c'est trop tard : il meurt en héros. Charlemagne le venge et Ganelon est puni.",
+  p:"C'est l'un des premiers grands textes en langue française. Il montre les valeurs des chevaliers : courage, fidélité, honneur."},
+ {id:"erec",t:"Érec et Énide",a:"Chrétien de Troyes",d:"vers 1170",y:1170,e:"mag",g:"Roman de chevalerie (en [[vers]])",
+  c:"Chrétien de Troyes écrit pour les nobles des cours seigneuriales. C'est son premier roman sur les chevaliers du roi Arthur.",
+  h:"Le chevalier Érec épouse la belle Énide. Il l'aime tellement qu'il oublie de combattre. On se moque de lui. Pour prouver sa valeur, il part à l'aventure avec Énide et lui interdit de parler. Mais elle le prévient quand même des dangers, par amour. Ensemble, ils surmontent les épreuves.",
+  p:"Le roman pose une question : comment être à la fois un bon mari et un bon chevalier ? Il mêle **amour** et **aventure**."},
+ {id:"perceval",t:"Perceval ou le Conte du Graal",a:"Chrétien de Troyes",d:"vers 1180",y:1180,e:"mag",g:"Roman de chevalerie (en [[vers]], inachevé)",
+  c:"C'est le dernier roman de Chrétien de Troyes. Il est mort avant de le finir.",
+  h:"Perceval grandit dans une forêt avec sa mère, qui lui cache tout de la chevalerie. Un jour, il rencontre des chevaliers et veut devenir comme eux. Il part à la cour du roi Arthur. Dans un château mystérieux, il voit passer un objet magique, le Graal, mais il n'ose pas poser de questions. Cette erreur va le poursuivre.",
+  p:"C'est le premier texte qui parle du **Graal**. Des centaines d'histoires, de films et de jeux sur la quête du Graal viennent de ce roman."},
+ {id:"renart",t:"Le Roman de Renart",a:"Plusieurs auteurs",d:"fin XIIe – XIIIe siècle",y:1190,e:"mag",g:"Récits en [[vers]], écrits en plusieurs parties appelées « branches »",
+  c:"Différents auteurs, souvent [[anonymes|Anonyme]], ajoutent des histoires au fil des années.",
+  h:"Renart le renard est rusé et menteur. Il joue des tours aux autres animaux, surtout au loup Ysengrin, son ennemi. Il trompe le coq Chantecler et le corbeau Tiécelin. Le lion Noble, le roi, essaie de le juger, mais Renart s'en sort toujours.",
+  p:"Derrière les animaux, les auteurs se moquent de la société de l'époque (les nobles, les prêtres, les juges). C'est une [[satire]]. Avant ce livre, on disait « goupil » : le nom propre Renart est devenu le nom commun « renard »."},
+ {id:"merveilles",t:"Le Livre des merveilles",a:"Marco Polo",d:"1298",y:1298,e:"mag",g:"Récit de voyage",
+  c:"Marco Polo, marchand de Venise, est en prison. Il raconte ses souvenirs à un autre prisonnier, qui les écrit.",
+  h:"De 1271 à 1295, Marco Polo voyage jusqu'en Chine. Il vit à la cour du grand empereur mongol Kubilaï Khan. Il décrit des villes immenses, le papier-monnaie, des animaux et des coutumes inconnus en Europe.",
+  p:"Le livre fait rêver les Européens pendant des siècles. Christophe Colomb l'avait lu avant de partir vers l'Ouest."},
+ {id:"nuits",t:"Les Mille et Une Nuits",a:"Anonyme",d:"monde arabe, perse et indien",y:null,e:"mag",g:"[[Recueil]] de contes",
+  c:"Ces contes ont été rassemblés pendant plusieurs siècles. Ils ont été traduits en français par Antoine Galland au début du XVIIIe siècle.",
+  h:"Le roi Shahriar a été trompé par sa femme. Pour se venger, il épouse chaque jour une jeune femme et la fait tuer le lendemain matin. Shéhérazade a une idée : chaque nuit, elle raconte une histoire au roi et s'arrête au moment le plus passionnant. Le roi veut connaître la suite, alors il la laisse vivre. Cela dure mille et une nuits.",
+  p:"C'est un modèle de **suspense**. On y trouve des histoires dans l'histoire ([[récit enchâssé]]). Aladin, Ali Baba et Sindbad le marin viennent de ce livre."},
+ {id:"gargantua",t:"Gargantua",a:"François Rabelais",d:"1534",y:1534,e:"ren",g:"Roman comique",
+  c:"Rabelais est médecin et humaniste. Il veut faire rire, mais aussi faire réfléchir sur l'éducation.",
+  h:"Gargantua est un géant qui naît par l'oreille de sa mère et boit le lait de milliers de vaches. D'abord, ses professeurs lui apprennent des choses inutiles. Puis un bon maître lui donne une éducation complète : sciences, sport, musique. Plus tard, Gargantua combat le roi Picrochole, qui a déclaré une guerre ridicule. À la fin, il fait construire l'abbaye de Thélème, où la seule règle est de faire ce que l'on veut.",
+  p:"Le livre défend les idées de l'[[humanisme]]. Rabelais invente beaucoup de mots. On dit encore « un repas gargantuesque » pour un repas énorme."},
+ {id:"regrets",t:"Les Regrets",a:"Joachim du Bellay",d:"1558",y:1558,e:"ren",g:"Poésie ([[recueil]] de [[sonnets|Sonnet]])",
+  c:"Du Bellay passe quatre ans à Rome. Il s'y ennuie et regrette son village d'Anjou.",
+  h:"Les poèmes expriment la nostalgie, c'est-à-dire la tristesse d'être loin de chez soi. Le plus célèbre commence par :\n> « Heureux qui, comme Ulysse, a fait un beau voyage »",
+  p:"Du Bellay rend le **sonnet** célèbre en France. Il fait aussi un lien avec *L'Odyssée* : comme Ulysse, il veut rentrer chez lui.",hl:"Ce que ça raconte"},
+ {id:"utopie",t:"L'Utopie",a:"Thomas More",d:"1516",y:1516,e:"ren",g:"Récit philosophique (écrit en latin)",
+  c:"Thomas More est un homme politique anglais. Il trouve que la société de son pays est injuste.",
+  h:"Un voyageur décrit une île imaginaire, Utopia. Là-bas, personne n'est riche ni pauvre, tout le monde travaille six heures par jour, et chacun peut choisir sa religion.",
+  p:"En décrivant une société parfaite, More critique la sienne. Il invente le mot « **utopie** », qui veut dire « un lieu qui n'existe nulle part ». Aujourd'hui, une utopie est un rêve de monde idéal."},
+ {id:"fables",t:"Fables",a:"Jean de La Fontaine",d:"à partir de 1668",y:1668,e:"x17",g:"Poésie ([[recueil]] de [[fables|Fable]])",
+  c:"La Fontaine s'inspire d'auteurs de l'Antiquité, comme le Grec Ésope. Il écrit sous le règne de Louis XIV.",
+  h:"Plus de 240 petites histoires, surtout avec des animaux. Quelques exemples :\n- *Le Corbeau et le Renard* : le renard flatte le corbeau pour lui voler son fromage.\n- *La Cigale et la Fourmi* : la cigale a chanté tout l'été ; en hiver, elle n'a rien à manger.\n- *Le Lièvre et la Tortue* : la tortue lente gagne la course contre le lièvre trop sûr de lui.",
+  p:"La Fontaine veut **plaire et instruire** en même temps. Les animaux représentent les défauts des humains, et parfois des gens puissants de la cour qu'on ne pouvait pas critiquer directement.",hl:"Ce que ça raconte"},
+ {id:"avare",t:"L'Avare",a:"Molière",d:"1668",y:1668,e:"x17",g:"Théâtre ([[comédie]] en [[prose]])",
+  c:"Molière est acteur, auteur et chef de troupe. Il joue pour le roi Louis XIV.",
+  h:"Harpagon est très riche mais il aime l'argent plus que tout. Il cache une cassette pleine d'or dans son jardin. Il veut épouser Mariane, la jeune fille qu'aime son propre fils. Quand sa cassette est volée, il devient fou de désespoir. À la fin, les jeunes gens peuvent se marier et Harpagon retrouve son trésor, ce qui compte le plus pour lui.",
+  p:"C'est une **comédie de caractère** : elle se moque d'un défaut, l'avarice. Le nom « un harpagon » désigne encore une personne très avare."},
+ {id:"bourgeois",t:"Le Bourgeois gentilhomme",a:"Molière",d:"1670",y:1670,e:"x17",g:"Théâtre ([[comédie-ballet]], avec de la musique et de la danse)",
+  c:"La pièce est écrite pour une fête du roi Louis XIV.",
+  h:"Monsieur Jourdain est un bourgeois riche. Il rêve de devenir noble. Il prend des leçons de danse, de musique, d'escrime et de philosophie. Il découvre avec surprise qu'il parle en [[prose]] depuis toujours sans le savoir. À la fin, on le trompe avec une fausse cérémonie turque où on le nomme « mamamouchi ».",
+  p:"Molière se moque de ceux qui veulent **paraître** ce qu'ils ne sont pas."},
+ {id:"malade",t:"Le Malade imaginaire",a:"Molière",d:"1673",y:1673,e:"x17",g:"Théâtre ([[comédie-ballet]])",
+  c:"C'est la dernière pièce de Molière. Il se sent très mal pendant la quatrième représentation, où il joue le rôle principal, et meurt quelques heures plus tard.",
+  h:"Argan croit toujours être malade. Il veut marier sa fille Angélique à un médecin pour être soigné gratuitement. Sa servante Toinette se déguise en médecin pour se moquer de lui. Argan fait semblant d'être mort : sa femme se réjouit (elle voulait son argent), mais sa fille pleure sincèrement.",
+  p:"Molière se moque des médecins de son époque, qui parlaient latin mais soignaient mal."},
+ {id:"contes",t:"Contes",a:"Charles Perrault",d:"1697",y:1697,e:"x17",g:"[[Recueil]] de contes",
+  c:"Perrault écrit des histoires que l'on racontait oralement depuis longtemps.",
+  h:"- *Le Petit Chaperon rouge* : une petite fille rencontre un loup en allant chez sa grand-mère. Chez Perrault, le loup la mange et il n'y a pas de chasseur pour la sauver.\n- *Cendrillon* : une jeune fille maltraitée va au bal grâce à sa marraine la fée et perd sa pantoufle de verre.\n- *Le Petit Poucet* : le plus petit de sept frères sauve toute sa famille d'un ogre.\n- *La Belle au bois dormant* : une princesse dort cent ans à cause d'un sort.",
+  p:"Perrault a **fixé par écrit** des contes qui se transmettaient de bouche à oreille. Chaque conte finit par une **[[morale]]** en [[vers]], souvent adressée aux jeunes filles.",hl:"Ce que ça raconte"},
+ {id:"ile",t:"L'Île des esclaves",a:"Marivaux",d:"1725",y:1725,e:"x18",g:"Théâtre ([[comédie]] en un acte)",
+  c:"Marivaux écrit au début du siècle des Lumières. On commence à se poser des questions sur l'égalité.",
+  h:"Deux maîtres et leurs deux serviteurs font naufrage sur une île. Elle est dirigée par d'anciens esclaves. La règle : les maîtres deviennent serviteurs, et les serviteurs deviennent maîtres. Les maîtres découvrent ce que vivent ceux qui les servent. À la fin, tout le monde se pardonne et chacun reprend sa place, mais les maîtres ont appris à être plus humains.",
+  p:"La pièce fait réfléchir sur l'**égalité** entre les êtres humains."},
+ {id:"gulliver",t:"Les Voyages de Gulliver",a:"Jonathan Swift",d:"1726",y:1726,e:"x18",g:"Roman d'aventures [[satirique|Satire]]",
+  c:"Swift est irlandais. Il critique la société et la politique anglaises.",
+  h:"Gulliver, un médecin de bateau, fait naufrage plusieurs fois. Il arrive à Lilliput, où les habitants mesurent 15 centimètres. Puis il se retrouve chez des géants, où c'est lui qui est minuscule. Il visite ensuite une île volante et un pays gouverné par des chevaux sages.",
+  p:"Sous une histoire amusante, Swift se moque des guerres et de l'orgueil humain. L'adjectif « **lilliputien** » veut encore dire « très petit »."},
+ {id:"candide",t:"Candide",a:"Voltaire",d:"1759",y:1759,e:"x18",g:"[[Conte philosophique]]",
+  c:"Voltaire est le plus célèbre écrivain des Lumières. En 1755, un terrible tremblement de terre détruit Lisbonne. Voltaire se demande comment on peut dire que le monde est parfait.",
+  h:"Candide est un jeune homme naïf. Son professeur, Pangloss, lui répète que tout va pour le mieux dans le meilleur des mondes. Chassé de son château pour avoir embrassé la belle Cunégonde, Candide fait le tour du monde. Il découvre la guerre, les catastrophes et l'injustice. À la fin, il conclut qu'il faut arrêter de rêver et « cultiver notre jardin », c'est-à-dire travailler et agir concrètement.",
+  p:"Voltaire utilise l'**[[ironie]]** pour critiquer la guerre, l'intolérance et l'optimisme aveugle."},
+ {id:"reveries",t:"Les Rêveries du promeneur solitaire",a:"Jean-Jacques Rousseau",d:"écrit vers 1776-1778",y:1777,e:"x18",g:"Récit [[autobiographique|Autobiographie]]",
+  c:"Rousseau est vieux et se sent rejeté par la société. Il écrit ce livre à la fin de sa vie. Il meurt avant de le terminer.",
+  h:"Le livre est divisé en dix « promenades ». Rousseau y raconte ses pensées en marchant dans la nature. Il se souvient notamment d'un séjour heureux sur une île au milieu d'un lac, en Suisse, où il se laissait porter par sa barque en rêvant.",
+  p:"Rousseau exprime ses **sentiments** et son amour de la **nature**. Il annonce le [[romantisme]] du siècle suivant.",hl:"Ce que ça raconte"},
+ {id:"mousquetaires",t:"Les Trois Mousquetaires",a:"Alexandre Dumas",d:"1844",y:1844,e:"x19",g:"Roman historique et d'aventures",
+  c:"Le roman est d'abord publié en [[feuilleton]] dans un journal. Les lecteurs attendent chaque épisode avec impatience.",
+  h:"En 1625, d'Artagnan, un jeune homme pauvre du sud de la France, arrive à Paris. Il veut devenir mousquetaire du roi Louis XIII. Il devient l'ami d'Athos, Porthos et Aramis. Ensemble, ils combattent les gardes du cardinal de Richelieu et l'espionne Milady pour sauver l'honneur de la reine.",
+  p:"C'est un modèle du **roman d'aventures** plein d'action et d'amitié. La devise « Un pour tous, tous pour un » est devenue célèbre."},
+ {id:"miserables",t:"Les Misérables",a:"Victor Hugo",d:"1862",y:1862,e:"x19",g:"Roman",
+  c:"Victor Hugo écrit ce roman pendant son [[exil]]. Il s'oppose à l'empereur Napoléon III et veut dénoncer la misère.",
+  h:"Jean Valjean a passé dix-neuf ans au bagne, d'abord pour avoir volé du pain. Un évêque le traite avec bonté et change sa vie. Il devient un homme honnête et protège Cosette, une petite fille exploitée par les Thénardier, un couple cruel. Mais l'inspecteur Javert le poursuit sans relâche. Le roman se termine par une révolte à Paris en 1832, où meurt Gavroche, un jeune garçon des rues.",
+  p:"C'est un **roman engagé** : Hugo défend les pauvres et montre qu'un homme peut changer."},
+ {id:"legende",t:"La Légende des siècles",a:"Victor Hugo",d:"1859-1883",y:1859,e:"x19",g:"Poésie ([[recueil]] épique)",
+  c:"Hugo veut raconter toute l'histoire de l'humanité en poèmes.",
+  h:"Des poèmes sur des héros de toutes les époques, de la Bible au XIXe siècle. Dans « Après la bataille », un soldat blessé essaie de tirer sur son père qui lui donne à boire. Dans « Le Mariage de Roland », on retrouve le chevalier de *La Chanson de Roland*.",
+  p:"C'est une **épopée moderne**. Hugo reprend la forme d'Homère et de Virgile pour son époque.",hl:"Ce que ça raconte"},
+ {id:"tour",t:"Le Tour du monde en 80 jours",a:"Jules Verne",d:"1872",y:1872,e:"x19",g:"Roman d'aventures",
+  c:"À cette époque, les trains et les bateaux à vapeur rendent les voyages plus rapides. Jules Verne adore les sciences et les découvertes.",
+  h:"Phileas Fogg, un gentleman anglais très ponctuel, parie qu'il peut faire le tour du monde en 80 jours. Il part avec son valet Passepartout. Un policier, Fix, le suit car il le prend pour un voleur. En Inde, ils sauvent une jeune femme, Aouda. Au retour, Fogg croit avoir perdu son pari d'un jour, mais il a gagné une journée grâce au décalage horaire.",
+  p:"Le roman mêle **aventure** et **science**. Il montre la fascination pour le progrès."},
+ {id:"parure",t:"La Parure",a:"Guy de Maupassant",d:"1884",y:1884,e:"x19",g:"Nouvelle",
+  c:"Maupassant publie ses nouvelles dans les journaux. Il décrit la vie des gens ordinaires.",
+  h:"Mathilde Loisel est mariée à un petit employé. Elle rêve de luxe. Pour un bal, elle emprunte un collier de diamants à une amie riche. Elle le perd. Pour le remplacer, le couple s'endette et vit dix ans dans la misère. À la fin, Mathilde apprend que le collier était faux et ne valait presque rien.",
+  p:"C'est un modèle de nouvelle à **[[chute]]** : la fin surprend le lecteur. Maupassant montre le prix du mensonge et de l'orgueil. C'est un texte [[réaliste|Réalisme]]."},
+ {id:"fleurs",t:"Les Fleurs du mal",a:"Charles Baudelaire",d:"1857",y:1857,e:"x19",g:"Poésie ([[recueil]])",
+  c:"À sa sortie, le livre choque. Baudelaire est jugé et six poèmes sont interdits.",
+  h:"Les poèmes parlent de beauté, de tristesse, d'amour et de la grande ville. Dans « L'Albatros », le poète se compare à ce grand oiseau : magnifique quand il vole, ridicule quand il marche sur le pont d'un bateau.",
+  p:"Baudelaire montre qu'on peut trouver de la **beauté même dans ce qui est laid ou triste**. Il ouvre la voie à la poésie moderne.",hl:"Ce que ça raconte"},
+ {id:"magellan",t:"Magellan",a:"Stefan Zweig",d:"1938",y:1938,e:"x20",g:"Biographie",
+  c:"Zweig est un écrivain autrichien. Il écrit la vie de grands personnages de l'histoire.",
+  h:"En 1519, le navigateur portugais Magellan part d'Espagne avec cinq navires. Il cherche un passage vers l'Asie par l'Ouest. Il découvre un détroit au sud de l'Amérique et traverse un immense océan, qu'il nomme Pacifique. Il est tué aux Philippines. Un seul navire revient en 1522, avec une vingtaine d'hommes : c'est le premier tour du monde.",
+  p:"La biographie se lit **comme un roman d'aventures**, tout en racontant des faits réels."},
+ {id:"petitprince",t:"Le Petit Prince",a:"Antoine de Saint-Exupéry",d:"1943",y:1943,e:"x20",g:"[[Conte philosophique]]",
+  c:"Saint-Exupéry est aviateur. Il écrit ce livre aux États-Unis, pendant la Seconde Guerre mondiale, loin de la France.",
+  h:"Un aviateur tombe en panne dans le désert du Sahara. Il rencontre un petit garçon venu d'une toute petite planète, où il a laissé une rose qu'il aime. Le petit prince raconte son voyage sur d'autres planètes, où il a rencontré des adultes étranges : un roi, un vaniteux, un homme d'affaires. Sur Terre, un renard lui explique ce que veut dire créer des liens avec quelqu'un.",
+  p:"Sous un aspect simple, le livre parle d'**amitié**, d'amour et de ce qui compte vraiment. Il critique les adultes qui ne s'intéressent qu'aux chiffres. C'est l'un des livres les plus traduits au monde."},
+ {id:"paroles",t:"Paroles",a:"Jacques Prévert",d:"1946",y:1946,e:"x20",g:"Poésie ([[recueil]])",
+  c:"Après la Seconde Guerre mondiale, Prévert veut une poésie simple, proche de la vie de tous les jours.",
+  h:"Des poèmes sur l'enfance, l'amour, la liberté et la guerre. Dans « Le Cancre », un élève refuse de répondre au professeur et dessine sur le tableau. Dans « Déjeuner du matin », un couple se sépare sans un mot, juste à travers des gestes.",
+  p:"Prévert utilise des **mots simples** et des jeux de mots. Il montre que la poésie peut être accessible à tous.",hl:"Ce que ça raconte"},
+ {id:"mots",t:"Les Mots",a:"Jean-Paul Sartre",d:"1964",y:1964,e:"x20",g:"[[Autobiographie]]",
+  c:"Sartre est un grand philosophe. Il reçoit la même année le prix Nobel de littérature, qu'il refuse.",
+  h:"Sartre raconte son enfance, jusqu'à ses 10 ans environ. Son père est mort quand il était bébé. Il grandit chez ses grands-parents, entouré de livres. Le livre a deux parties : « Lire », puis « Écrire ». Il explique comment les livres ont construit sa vie.",
+  p:"Sartre porte un regard [[ironique|Ironie]] sur l'enfant qu'il était. Il montre la place immense que peuvent prendre les livres dans une vie.",hl:"Ce que ça raconte"},
+ {id:"mondo",t:"Mondo et autres histoires",a:"J.M.G. Le Clézio",d:"1978",y:1978,e:"x20",g:"[[Recueil]] de nouvelles",
+  c:"Le Clézio aime parler des enfants, de la nature et de la liberté. Il reçoit le prix Nobel de littérature en 2008.",
+  h:"Mondo est un garçon d'une dizaine d'années. Il arrive un jour dans une ville au bord de la mer. Personne ne sait d'où il vient. Il n'a pas de famille et ne va pas à l'école. Il se promène, se fait des amis parmi les gens simples, et un vieil homme lui apprend à lire. Un jour, il disparaît.",
+  p:"L'écriture est très **poétique**, même si ce n'est pas un poème. On voit le monde avec le regard émerveillé d'un enfant.",hl:"L'histoire (Mondo)"},
+ {id:"enchanteur",t:"L'Enchanteur",a:"René Barjavel",d:"1984",y:1984,e:"x20",g:"Roman",
+  c:"Barjavel reprend les légendes du Moyen Âge sur le roi Arthur.",
+  h:"Le roman raconte la vie de Merlin l'enchanteur. Il aide le roi Arthur et les chevaliers de la Table ronde dans leur quête du Graal. Il vit aussi un grand amour avec la fée Viviane.",
+  p:"C'est une **[[réécriture]]** moderne. Barjavel montre que les histoires de Chrétien de Troyes peuvent encore passionner les lecteurs d'aujourd'hui."},
+ {id:"noetmoi",t:"No et moi",a:"Delphine de Vigan",d:"2007",y:2007,e:"x20",g:"Roman",
+  c:"L'autrice parle d'un problème de société actuel : les personnes qui vivent dans la rue.",
+  h:"Lou a 13 ans. Elle est très intelligente, mais timide et seule. Pour un exposé, elle interroge No, une jeune fille de 18 ans qui vit dans la rue. Elles deviennent amies. Lou convainc ses parents d'accueillir No chez eux. Cette rencontre change toute la famille, mais aider quelqu'un s'avère plus difficile que prévu.",
+  p:"Le roman est raconté par une **adolescente**, ce qui permet au lecteur de s'identifier. Il fait réfléchir à la solidarité et à l'exclusion."}
+];
+const OE=Object.fromEntries(OEUVRES.map(o=>[o.id,o]));
+
+const VALEURS=[
+ {n:"Intellectuelle",q:"Qu'est-ce que j'apprends ?",r:"Des connaissances, des idées"},
+ {n:"Esthétique",q:"Qu'est-ce que je ressens ?",r:"Des émotions, de la beauté"},
+ {n:"Artistique",q:"Comment l'auteur a-t-il écrit ?",r:"On admire son travail sur les mots"}
+];
+const GENRES=[
+ {n:"Roman",d:"Une longue histoire inventée",ex:"*Le Tour du monde en 80 jours*, Jules Verne",o:"tour"},
+ {n:"Nouvelle",d:"Une histoire courte (moins de 50 pages)",ex:"*La Parure*, Maupassant",o:"parure"},
+ {n:"Conte",d:"Une histoire merveilleuse, souvent avec une morale",ex:"*Le Petit Chaperon rouge*, Perrault",o:"contes"},
+ {n:"Théâtre",d:"Un texte écrit pour être joué sur scène",ex:"*L'Avare*, Molière",o:"avare"},
+ {n:"Poésie",d:"Un texte qui joue avec les sons, le rythme et les images",ex:"*Les Fables*, La Fontaine",o:"fables"},
+ {n:"Autobiographie",d:"Un auteur raconte sa propre vie",ex:"*Les Mots*, Sartre",o:"mots"},
+ {n:"Biographie",d:"Un auteur raconte la vie de quelqu'un d'autre",ex:"*Magellan*, Stefan Zweig",o:"magellan"},
+ {n:"Récit de voyage",d:"Un voyageur raconte ce qu'il a découvert",ex:"*Le Livre des merveilles*, Marco Polo",o:"merveilles"}
+];
+const POUVOIRS=[
+ {n:"Apprendre",d:"Les livres nous font découvrir d'autres pays, d'autres époques, d'autres façons de vivre."},
+ {n:"Réfléchir et partager des idées",d:"Des auteurs ont écrit pour faire changer la société.",ex:"Au XVIIIe siècle, Voltaire dénonce l'injustice et l'intolérance."},
+ {n:"Ressentir des émotions",d:"Joie, peur, tristesse, colère : un livre peut nous faire rire ou pleurer."},
+ {n:"S'évader et se mettre à la place des autres",d:"On vit des aventures impossibles dans la vraie vie. On se reconnaît dans les personnages.",q:"« Lire, c'est vivre des vies que l'on ne peut pas vivre en dehors des livres. »"},
+ {n:"Inspirer d'autres créateurs",d:"Les écrivains s'inspirent des livres d'avant. Beaucoup de films et de séries viennent de livres.",ex:"*L'Odyssée* d'Homère inspire encore des films et des romans aujourd'hui."}
+];
+const LIENS=[
+ ["*L'Odyssée* (Antiquité)","*Les Regrets* de Du Bellay : « Heureux qui, comme Ulysse… »"],
+ ["*La Chanson de Roland* (Moyen Âge)","« Le Mariage de Roland » dans *La Légende des siècles* de Hugo"],
+ ["Les romans de Chrétien de Troyes (Moyen Âge)","*L'Enchanteur* de Barjavel"],
+ ["*Le Livre des merveilles* (Moyen Âge)","Le voyage de Christophe Colomb"],
+ ["*Magellan*, premier tour du monde","*Le Tour du monde en 80 jours* de Jules Verne"],
+ ["Les fables d'Ésope (Antiquité)","Les *Fables* de La Fontaine"]
+];
+const GLOSS=[
+ ["Anonyme","Se dit d'un texte dont on ne connaît pas l'auteur.","On ne sait pas qui a écrit *La Chanson de Roland*."],
+ ["Autobiographie","Récit dans lequel l'auteur raconte sa propre vie.","Dans *Les Mots*, Sartre raconte son enfance."],
+ ["Chanson de geste","Long poème du Moyen Âge qui raconte les exploits guerriers de chevaliers. « Geste » vient d'un mot latin qui veut dire « exploits ».","*La Chanson de Roland*."],
+ ["Chute","Fin surprenante d'une histoire, qui change le sens de tout ce qu'on a lu.","Dans *La Parure*, on apprend à la fin que le collier était faux."],
+ ["Classicisme","Mouvement du XVIIe siècle. Les auteurs recherchent l'ordre, l'équilibre et une écriture claire.","Les pièces de Molière."],
+ ["Comédie","Pièce de théâtre qui fait rire, souvent en se moquant des défauts des personnages.","Dans *L'Avare*, Molière se moque d'Harpagon, qui aime trop son argent."],
+ ["Comédie-ballet","Pièce de théâtre comique qui mélange du texte, de la musique et de la danse.","*Le Bourgeois gentilhomme* de Molière."],
+ ["Conte philosophique","Histoire inventée, souvent un peu fantaisiste, qui sert à faire réfléchir sur une grande question.","*Candide* pose la question du malheur dans le monde."],
+ ["Épopée","Long poème qui raconte les aventures extraordinaires d'un héros, souvent aidé ou gêné par les dieux.","*L'Odyssée* d'Homère."],
+ ["Exil","Situation d'une personne obligée de vivre loin de son pays.","Victor Hugo a vécu en exil sur l'île de Guernesey."],
+ ["Fable","Court récit, souvent avec des animaux, qui se termine par une leçon (la morale).","*La Cigale et la Fourmi*, de La Fontaine."],
+ ["Feuilleton","Roman publié par épisodes dans un journal, comme une série.","*Les Trois Mousquetaires* est d'abord paru en feuilleton."],
+ ["Genre littéraire","Famille de textes qui ont la même forme.","Le roman, le théâtre et la poésie sont trois genres différents."],
+ ["Humanisme","Idée de la Renaissance : l'être humain peut devenir meilleur grâce à l'éducation et au savoir.","Dans *Gargantua*, Rabelais décrit une éducation idéale."],
+ ["Ironie","Façon de se moquer en disant le contraire de ce que l'on pense.","Voltaire répète que tout va bien dans le monde, alors qu'il montre des catastrophes."],
+ ["Lumières","Mouvement du XVIIIe siècle. Les écrivains utilisent la raison pour lutter contre l'injustice et l'ignorance.","Voltaire critique l'intolérance dans ses textes."],
+ ["Morale","Leçon de vie que l'on tire d'une histoire.","« Rien ne sert de courir, il faut partir à point » (*Le Lièvre et la Tortue*)."],
+ ["Mythe","Très ancien récit qui met en scène des dieux et des héros pour expliquer le monde.","Le mythe de Prométhée, qui vole le feu aux dieux pour le donner aux hommes."],
+ ["Œuvre","Production d'un artiste (livre, tableau, film, etc.).","*Le Petit Prince* est une œuvre de Saint-Exupéry."],
+ ["Procédé littéraire","Technique qu'un auteur utilise avec les mots pour produire un effet sur le lecteur.","La comparaison (« fort comme un lion »)."],
+ ["Prose","Façon d'écrire normale, en phrases, sans vers ni rimes. C'est le contraire des vers.","Ce texte que tu lis est écrit en prose."],
+ ["Réalisme","Mouvement du XIXe siècle. Les auteurs décrivent la société et la vie des gens de façon très précise, telles qu'elles sont.","Les nouvelles de Maupassant."],
+ ["Récit enchâssé","Histoire racontée à l'intérieur d'une autre histoire.","Shéhérazade raconte des contes à l'intérieur de l'histoire des *Mille et Une Nuits*."],
+ ["Recueil","Livre qui rassemble plusieurs textes (poèmes, contes, nouvelles).","*Paroles* est un recueil de poèmes de Prévert."],
+ ["Réécriture","Nouvelle version d'une histoire déjà racontée par un autre auteur.","*L'Enchanteur* réécrit les légendes du roi Arthur."],
+ ["Romantisme","Mouvement du début du XIXe siècle. Les auteurs expriment leurs sentiments : amour, tristesse, admiration de la nature.","Les poèmes de Victor Hugo."],
+ ["Satire","Texte qui se moque des défauts d'une personne ou d'une société pour la critiquer.","*Le Roman de Renart* se moque des puissants du Moyen Âge."],
+ ["Siècle","Période de 100 ans.","Le XIXe siècle va de 1801 à 1900."],
+ ["Sonnet","Poème de 14 vers, organisé en 2 strophes de 4 vers puis 2 strophes de 3 vers.","Les poèmes des *Regrets* de Du Bellay."],
+ ["Vers","Ligne d'un poème. Les vers ont souvent un rythme régulier et des rimes.","Les *Fables* de La Fontaine sont écrites en vers."]
+];
+const norm=s=>s.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"").replace(/œ/g,"oe");
+const GL=Object.fromEntries(GLOSS.map(g=>[norm(g[0]),g]));
+
+/* Quiz du document */
+const QUIZ=[
+ {step:"Le pouvoir des livres",type:"mcq",q:"Inès lit un roman sur une jeune fille qui vit dans la rue. Elle se met à sa place et comprend mieux ce qu'elle ressent. Quel pouvoir du livre ?",o:["Faire rire","Se mettre à la place des autres","Apprendre une règle de grammaire"],a:1,x:"C'est l'histoire de *No et moi*, de Delphine de Vigan."},
+ {step:"Le pouvoir des livres",type:"mcq",q:"Au XVIIIe siècle, Voltaire écrit des histoires pour dénoncer l'injustice. Des milliers de lecteurs commencent à réfléchir autrement. Quel pouvoir du livre ?",o:["Partager des idées et changer la société","Se détendre avant de dormir","Décorer une bibliothèque"],a:0,x:"Les écrivains des Lumières ont préparé les esprits à la Révolution française."},
+ {step:"Le pouvoir des livres",type:"mcq",q:"Yanis n'a jamais quitté sa ville. Pourtant, grâce à un livre, il a traversé les océans, affronté un cyclope et échappé aux sirènes. Quel pouvoir du livre ?",o:["Apprendre à nager","S'évader et vivre d'autres vies","Réviser pour un contrôle"],a:1,x:"Yanis a vécu les aventures d'Ulysse dans *L'Odyssée*."},
+ {step:"Le pouvoir des livres",type:"mcq",q:"Un réalisateur lit *L'Odyssée* et décide d'en faire un film. Un jeune auteur s'en inspire pour écrire son premier roman. Quel pouvoir du livre ?",o:["Inspirer d'autres créateurs","Remplacer les films","Faire peur"],a:0,x:"Les livres se répondent à travers les siècles."},
+ {step:"Le pouvoir des livres",type:"match",q:"En lisant un poème, tu ressens trois choses. Relie chaque réaction à la valeur de l'œuvre.",choices:["Intellectuelle","Esthétique","Artistique"],rows:[{l:"« Je suis ému. »",a:1},{l:"« J'ai appris quelque chose. »",a:0},{l:"« Waouh, comme c'est bien écrit ! »",a:2}],x:"Ému → esthétique. Appris → intellectuelle. Bien écrit → artistique."},
+ {step:"Qui suis-je ?",type:"mcq",q:"« Je suis un poète grec. Il y a presque 3 000 ans, j'ai raconté le long voyage d'Ulysse pour rentrer chez lui. On récitait mes vers à voix haute bien avant de les lire. »",o:["Virgile","Homère","Ovide","Marco Polo"],a:1,x:"Homère, l'auteur de *L'Odyssée*."},
+ {step:"Qui suis-je ?",type:"mcq",q:"« Chaque nuit, je raconte une histoire au roi et je m'arrête au moment le plus passionnant. S'il veut connaître la suite, il doit me laisser vivre jusqu'au lendemain. »",o:["Pénélope","Cendrillon","Shéhérazade","Énide"],a:2,x:"Shéhérazade, l'héroïne des *Mille et Une Nuits*."},
+ {step:"Qui suis-je ?",type:"mcq",q:"« Je suis acteur et auteur. Je fais rire le roi Louis XIV en me moquant des défauts humains, comme celui d'un vieil homme qui aime trop son argent. »",o:["Molière","La Fontaine","Marivaux","Perrault"],a:0,x:"Molière. La pièce s'appelle *L'Avare*."},
+ {step:"Qui suis-je ?",type:"mcq",q:"« J'adore les sciences et les voyages. J'ai imaginé un gentleman anglais qui parie qu'il peut faire le tour de la Terre en 80 jours. »",o:["Alexandre Dumas","Victor Hugo","Stefan Zweig","Jules Verne"],a:3,x:"Jules Verne, *Le Tour du monde en 80 jours*."},
+ {step:"Qui suis-je ?",type:"mcq",q:"« Je suis aviateur. J'ai écrit l'histoire d'un petit garçon venu d'une autre planète, qui a laissé une rose chez lui. »",o:["Jacques Prévert","Antoine de Saint-Exupéry","René Barjavel","J.M.G. Le Clézio"],a:1,x:"Antoine de Saint-Exupéry, l'auteur du *Petit Prince*."},
+ {step:"Machine à remonter le temps",type:"mcq",q:"Tu arrives dans la Grèce antique. Autour du feu, on écoute :",o:["Une épopée sur des héros et des dieux","Un roman policier","Une pièce de Molière"],a:0,x:"L'Antiquité est l'époque des épopées et des mythes."},
+ {step:"Machine à remonter le temps",type:"mcq",q:"Tu te réveilles dans un château fort, au Moyen Âge. Peu de gens savent lire. Comment découvres-tu les histoires ?",o:["Dans des livres de poche","Un jongleur les chante ou les récite","Sur un écran"],a:1,x:"Au Moyen Âge, les textes sont souvent récités ou chantés."},
+ {step:"Machine à remonter le temps",type:"mcq",q:"Toujours au Moyen Âge, le jongleur raconte les exploits d'un chevalier, neveu de l'empereur Charlemagne. De quelle œuvre s'agit-il ?",o:["Perceval","Le Roman de Renart","La Chanson de Roland","L'Énéide"],a:2,x:"*La Chanson de Roland* : Roland est le neveu de Charlemagne."},
+ {step:"Machine à remonter le temps",type:"mcq",q:"Te voilà à la Renaissance, vers 1450. Une invention change tout : les livres se multiplient et coûtent moins cher. Quelle est cette invention ?",o:["La machine à vapeur","L'imprimerie","La télévision","Le téléphone"],a:1,x:"L'imprimerie, inventée vers 1450."},
+ {step:"Machine à remonter le temps",type:"mcq",q:"Tu arrives à la cour de Versailles, au XVIIe siècle. Qui règne sur la France ?",o:["Charlemagne","Napoléon","Louis XIV","Louis XIII"],a:2,x:"Louis XIV, le « Roi-Soleil »."},
+ {step:"Machine à remonter le temps",type:"mcq",q:"Au XVIIIe siècle, les écrivains veulent « éclairer » les gens par la raison. Comment s'appelle ce mouvement ?",o:["Le classicisme","L'humanisme","Le romantisme","Les Lumières"],a:3,x:"Les Lumières, le mouvement de Voltaire."},
+ {step:"Machine à remonter le temps",type:"order",q:"Remets ces voyages dans l'ordre, du plus ancien au plus récent.",items:["Grèce d'Homère","Château fort des chevaliers","Invention de l'imprimerie","Versailles de Louis XIV","Paris de Victor Hugo"],x:"Antiquité → Moyen Âge → Renaissance → XVIIe siècle → XIXe siècle."},
+ {step:"Vrai ou faux ?",type:"vf",q:"Une nouvelle est une histoire plus longue qu'un roman.",a:false,x:"Une nouvelle est une histoire **courte**, de moins de 50 pages environ."},
+ {step:"Vrai ou faux ?",type:"vf",q:"La littérature ne sert qu'à l'école.",a:false,x:"La littérature sert aussi à apprendre, rêver, réfléchir, ressentir des émotions et comprendre les autres, tout au long de la vie."},
+ {step:"Vrai ou faux ?",type:"vf",q:"Des œuvres écrites il y a des siècles inspirent encore des films et des livres aujourd'hui.",a:true,x:"*L'Odyssée* a presque 3 000 ans et inspire encore des films."},
+ {step:"Et toi ?",type:"open",q:"Selon toi, à quoi sert la littérature ? Donne **ta** réponse, avec un exemple de livre, de conte ou d'histoire que tu connais.",check:["J'ai donné **une idée** (par exemple : « la littérature permet de s'évader »).","J'ai ajouté **un exemple** (un livre, un conte, une histoire).","J'ai expliqué **pourquoi** cet exemple montre mon idée."]}
+];
+
+/* ============ OUTILS ============ */
+const $=s=>document.querySelector(s);
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+function inline(s){
+  s=s.replace(/\[\[([^\]|]+)(?:\|([^\]]+))?\]\]/g,(m,t,k)=>`<button class="gl" data-term="${esc(norm(k||t))}">${t}</button>`);
+  s=s.replace(/\*\*([^*]+)\*\*/g,"<strong>$1</strong>").replace(/\*([^*]+)\*/g,"<em>$1</em>");
+  return s;
+}
+function rich(s){
+  const lines=s.split("\n");let out="",list=false;
+  for(const l of lines){
+    if(l.startsWith("- ")){if(!list){out+="<ul>";list=true}out+=`<li>${inline(l.slice(2))}</li>`;continue}
+    if(list){out+="</ul>";list=false}
+    if(l.startsWith("> "))out+=`<blockquote>${inline(l.slice(2))}</blockquote>`;
+    else if(l.trim())out+=`<p>${inline(l)}</p>`;
+  }
+  if(list)out+="</ul>";return out;
+}
+const plain=s=>s.replace(/\[\[([^\]|]+)(?:\|[^\]]+)?\]\]/g,"$1").replace(/\*+/g,"").replace(/^[->] /gm,"");
+const shuffle=a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a};
+const pick=(a,n)=>shuffle(a).slice(0,n);
+const ROM=[[1000,"M"],[900,"CM"],[500,"D"],[400,"CD"],[100,"C"],[90,"XC"],[50,"L"],[40,"XL"],[10,"X"],[9,"IX"],[5,"V"],[4,"IV"],[1,"I"]];
+const roman=n=>{let r="";for(const[v,s]of ROM)while(n>=v){r+=s;n-=v}return r};
+const siecle=y=>Math.floor((y-1)/100)+1;
+const siecleTxt=y=>{const s=siecle(y);return roman(s)+(s===1?"er":"e")+" siècle"};
+const say=t=>{$("#live").textContent=t};
+
+/* Stockage (propre à ce navigateur) */
+const KEY="voyage-livres-v1";
+let store={seen:{},cards:{},best:{},prefs:{}};
+try{const r=localStorage.getItem(KEY);if(r)store=Object.assign(store,JSON.parse(r))}catch(e){}
+const save=()=>{try{localStorage.setItem(KEY,JSON.stringify(store))}catch(e){}};
+
+/* Réglages */
+function applyPrefs(){
+  const p=store.prefs,r=document.documentElement;
+  r.style.setProperty("--fs",(p.fs||1.0625)+"rem");
+  r.style.setProperty("--lh",p.lh||1.6);
+  if(p.font==="lexend")r.dataset.font="lexend";else delete r.dataset.font;
+  if(p.theme)r.dataset.theme=p.theme;else delete r.dataset.theme;
+}
+applyPrefs();
+
+/* ============ NAVIGATION ============ */
+const ICONS={
+ accueil:'<path d="M3 11l9-7 9 7v9a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/>',
+ comprendre:'<path d="M4 5a2 2 0 0 1 2-2h13v16H6a2 2 0 0 0-2 2z"/><path d="M4 21V5"/>',
+ epoques:'<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>',
+ oeuvres:'<path d="M5 4h4v16H5zM10 4h4v16h-4zM15 5l3.5-1 3 15-3.5 1z"/>',
+ glossaire:'<path d="M5 20l5-14h2l5 14M7.5 14h7"/>',
+ entrainer:'<path d="M9 11l3 3 8-8"/><path d="M20 12v7a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1h11"/>'
+};
+const NAV=[["accueil","Accueil"],["comprendre","Comprendre"],["epoques","Époques"],["oeuvres","Œuvres"],["glossaire","Glossaire"],["entrainer","S'entraîner"]];
+let S={view:"accueil",sub:null,arg:null};
+function navHTML(){return NAV.map(([id,l])=>`<button class="nav-btn" data-go="${id}" ${S.view===id?'aria-current="page"':""}><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${ICONS[id]}</svg>${l}</button>`).join("")}
+function go(view,sub=null,arg=null){stopSpeech();S={view,sub,arg};render();window.scrollTo(0,0);$("#main").focus({preventScroll:true})}
+function render(){
+  $("#nav-side").innerHTML=navHTML();$("#nav-bottom").innerHTML=navHTML();
+  const v={accueil:vAccueil,comprendre:vComprendre,epoques:vEpoques,oeuvres:vOeuvres,fiche:vFiche,glossaire:vGlossaire,entrainer:vEntrainer,activite:vActivite}[S.view];
+  $("#main").innerHTML=v();
+  if(S.view==="fiche"||S.view==="oeuvres"){$("#nav-side").querySelector('[data-go="oeuvres"]').setAttribute("aria-current","page");$("#nav-bottom").querySelector('[data-go="oeuvres"]').setAttribute("aria-current","page")}
+  if(S.view==="activite"){["#nav-side","#nav-bottom"].forEach(n=>$(n).querySelector('[data-go="entrainer"]').setAttribute("aria-current","page"))}
+  afterRender();
+}
+const tabs=(items,cur,act)=>`<div class="tabs" role="tablist">${items.map(([id,l])=>`<button class="tab" role="tab" aria-selected="${cur===id}" data-act="${act}" data-v="${id}">${l}</button>`).join("")}</div>`;
+
+/* ============ VUES ============ */
+function frise(){return `<div class="frise">${ERAS.map(e=>`<button class="seg" style="background:${e.color}" data-act="era" data-v="${e.id}"><span>${e.debut}</span><b>${e.nom}</b><i>${e.motcle}</i></button>`).join("")}</div>`}
+
+function vAccueil(){
+  const seen=Object.keys(store.seen).length,known=Object.values(store.cards).filter(v=>v>=2).length,best=store.best.quiz;
+  return `<h1>3 000 ans d'histoires à explorer</h1>
+  <p class="lead">Des épopées grecques aux romans d'aujourd'hui, découvre à quoi sert la littérature et comment elle a changé à travers les siècles. Touche une époque pour commencer.</p>
+  ${frise()}
+  <p class="small muted" style="margin-top:6px">Chaque couleur correspond à une époque. Tu la retrouveras partout dans l'application.</p>
+  <h2 style="margin-top:28px">Le parcours conseillé</h2>
+  <ol class="steps">
+    <li data-go="comprendre" tabindex="0" role="button"><span><b>Comprendre</b>Ce qu'est la littérature, ses genres et ses pouvoirs.</span></li>
+    <li data-go="epoques" tabindex="0" role="button"><span><b>Se repérer dans le temps</b>Lire un siècle, puis parcourir les 7 grandes époques.</span></li>
+    <li data-go="oeuvres" tabindex="0" role="button"><span><b>Découvrir les œuvres</b>34 fiches courtes, toutes construites de la même façon.</span></li>
+    <li data-go="entrainer" tabindex="0" role="button"><span><b>S'entraîner</b>Cartes mémoire, défis et le grand quiz du voyage.</span></li>
+  </ol>
+  <h2 style="margin-top:28px">Ta progression</h2>
+  <div class="stats">
+    <div class="stat"><b>${seen}/${OEUVRES.length}</b><span>fiches lues</span></div>
+    <div class="stat"><b>${known}</b><span>cartes maîtrisées</span></div>
+    <div class="stat"><b>${best!=null?best+"/20":"—"}</b><span>meilleur score au quiz</span></div>
+  </div>
+  <p class="small muted" style="margin-top:8px">Ta progression reste enregistrée sur cet appareil.</p>`;
+}
+
+function vComprendre(){
+  const sub=S.sub||"def";
+  let body="";
+  if(sub==="def"){
+    body=`<div class="key"><p><strong>La littérature, ce sont des œuvres écrites qui ont une vraie valeur.</strong> Les auteurs les ont écrites avec soin, et on les lit encore des années ou des siècles plus tard.</p></div>
+    <h2>Les 3 valeurs d'une œuvre</h2><p class="muted">Pour chaque valeur, une question à se poser en lisant.</p>
+    <div class="grid2">${VALEURS.map(v=>`<div class="tile"><h3>${v.n}</h3><p><strong>${v.q}</strong></p><p class="ex">${v.r}</p></div>`).join("")}</div>
+    <div class="row" style="margin-top:20px"><button class="btn" data-act="csub" data-v="genres">Suite : les genres</button></div>`;
+  }else if(sub==="genres"){
+    body=`<p class="lead">Un [[genre littéraire|Genre littéraire]], c'est une famille de textes qui ont la même forme. En voici 8.</p>
+    <div class="grid2">${GENRES.map(g=>`<div class="tile"><h3>${g.n}</h3><p>${g.d}</p><p class="ex">Exemple : <button class="gl" data-act="fiche" data-v="${g.o}">${inline(g.ex)}</button></p></div>`).join("")}</div>
+    <div class="row" style="margin-top:20px"><button class="btn" data-act="csub" data-v="pouvoirs">Suite : à quoi ça sert ?</button></div>`;
+  }else{
+    body=`<p class="lead">La littérature a 5 grands pouvoirs. Lis-les un par un.</p>
+    <ol class="steps" style="cursor:default">${POUVOIRS.map(p=>`<li style="cursor:default"><span><b>${p.n}</b>${inline(p.d)}${p.ex?`<br><span class="muted small">Exemple : ${inline(p.ex)}</span>`:""}${p.q?`<blockquote>${p.q}</blockquote>`:""}</span></li>`).join("")}</ol>
+    <div class="row" style="margin-top:20px"><button class="btn" data-go="epoques">Étape suivante : se repérer dans le temps</button></div>`;
+  }
+  return `<h1>Comprendre la littérature</h1>${tabs([["def","C'est quoi ?"],["genres","Les genres"],["pouvoirs","À quoi ça sert ?"]],sub,"csub")}${inline(body)}`;
+}
+
+function vEpoques(){
+  const sub=S.sub||"reperer";
+  let body="";
+  if(sub==="reperer"){
+    body=`<h2>Lire un siècle</h2>
+    <p>Les siècles s'écrivent en <strong>chiffres romains</strong> : I = 1, V = 5, X = 10.</p>
+    <div class="panel scroll"><table><thead><tr><th>On écrit</th><th>On dit</th><th>Années</th></tr></thead><tbody>
+    <tr><td><strong>XVIIe</strong> siècle</td><td>17e siècle</td><td>de 1601 à 1700</td></tr>
+    <tr><td><strong>XIXe</strong> siècle</td><td>19e siècle</td><td>de 1801 à 1900</td></tr>
+    <tr><td><strong>XXIe</strong> siècle</td><td>21e siècle</td><td>de 2001 à 2100 (aujourd'hui)</td></tr></tbody></table></div>
+    <div class="key"><p><strong>Astuce :</strong> le siècle = le chiffre des centaines + 1.<br>Exemple : 1850 → 18 + 1 → XIXe siècle.</p>
+    <p class="small">Attention : une année qui finit par 00 termine un siècle. 1900 appartient encore au XIXe siècle.</p></div>
+    <h3>Essaie avec une année</h3>
+    <div class="conv"><label for="yr" class="sr">Année</label><input id="yr" type="number" inputmode="numeric" placeholder="ex. 1789" min="1" max="2100"><span class="conv-out" id="yr-out" aria-live="polite"></span></div>
+    <h2 style="margin-top:28px">Avant ou après J.-C. ?</h2>
+    <p>On compte les années à partir de la naissance de Jésus-Christ (année 1).</p>
+    <div class="grid2"><div class="tile"><h3>av. J.-C.</h3><p>Avant cette date : on compte à l'envers.</p></div><div class="tile"><h3>apr. J.-C.</h3><p>Après cette date.</p></div></div>
+    <div class="row" style="margin-top:22px"><button class="btn" data-act="esub" data-v="liste">Suite : les 7 époques</button></div>`;
+  }else if(sub==="liste"){
+    const e=ERA[S.arg]||null;
+    if(!e){
+      body=`<p class="lead">Choisis une époque pour la découvrir.</p>${frise()}`;
+    }else{
+      const i=ERAS.indexOf(e),prev=ERAS[i-1],next=ERAS[i+1];
+      const oes=OEUVRES.filter(o=>o.e===e.id);
+      body=`${frise()}
+      <div class="fiche-head" style="background:${e.color};margin-top:16px"><h1 style="font-style:normal">${e.nom}</h1><p>${e.intro}</p></div>
+      <div class="fiche-sec"><h2>Contexte</h2><p>${inline(e.contexte)}</p></div>
+      <div class="fiche-sec"><h2>Ce qu'on écrit</h2><p>${inline(e.ecrit)}</p></div>
+      <h3 style="margin-top:18px">Les œuvres de cette époque</h3>
+      <div class="oe-list">${oes.map(oeRow).join("")}</div>
+      <div class="fiche-nav">${prev?`<button class="btn ghost" data-act="era" data-v="${prev.id}">← ${prev.nom}</button>`:"<span></span>"}${next?`<button class="btn ghost" data-act="era" data-v="${next.id}">${next.nom} →</button>`:""}</div>`;
+    }
+  }else{
+    body=`<p class="lead">L'essentiel à retenir, en un seul tableau.</p>
+    <div class="panel scroll" style="padding:6px 8px"><table><thead><tr><th>Époque</th><th>Dates</th><th>Mot-clé</th><th>1 auteur, 1 œuvre</th></tr></thead><tbody>
+    ${ERAS.map(e=>`<tr><td><span class="era-tag" style="background:${e.color}">${e.nom}</span></td><td>${e.dates}</td><td><strong>${e.motcle}</strong></td><td>${inline(e.phare)}</td></tr>`).join("")}
+    </tbody></table></div>
+    <div class="row"><button class="btn" data-act="start" data-v="frise">Me tester : remettre la frise dans l'ordre</button></div>`;
+  }
+  return `<h1>Les époques</h1>${tabs([["reperer","Se repérer"],["liste","Les 7 époques"],["essentiel","L'essentiel"]],sub,"esub")}${body}`;
+}
+
+function oeRow(o){return `<button class="oe" data-act="fiche" data-v="${o.id}"><span class="bar" style="background:${ERA[o.e].color}"></span><span><b>${o.t}</b><br><span class="muted small">${o.a}, ${o.d}</span></span>${store.seen[o.id]?'<span class="check">Lue ✓</span>':"<span></span>"}</button>`}
+
+function vOeuvres(){
+  const f=S.sub||"all";
+  const list=f==="all"?OEUVRES:OEUVRES.filter(o=>o.e===f);
+  return `<h1>Les œuvres à connaître</h1>
+  <p class="lead">Chaque fiche répond à 4 questions : quel genre, quel contexte, quelle histoire, pourquoi c'est important.</p>
+  <div class="chips" role="group" aria-label="Filtrer par époque"><button class="chip" aria-pressed="${f==="all"}" data-act="ofilter" data-v="all">Toutes</button>${ERAS.map(e=>`<button class="chip" aria-pressed="${f===e.id}" data-act="ofilter" data-v="${e.id}" style="${f===e.id?"":`border-color:${e.color}`}">${e.nom}</button>`).join("")}</div>
+  <div class="oe-list">${list.map(oeRow).join("")}</div>
+  <h2 style="margin-top:30px">Les liens entre les œuvres</h2>
+  <p class="muted">Les œuvres se répondent à travers les siècles.</p>
+  <div class="panel scroll" style="padding:6px 8px"><table><thead><tr><th>Œuvre ancienne</th><th>Œuvre qui s'en inspire ou y fait écho</th></tr></thead><tbody>${LIENS.map(l=>`<tr><td>${inline(l[0])}</td><td>${inline(l[1])}</td></tr>`).join("")}</tbody></table></div>`;
+}
+
+function vFiche(){
+  const o=OE[S.arg];if(!o)return vOeuvres();
+  store.seen[o.id]=1;save();
+  const e=ERA[o.e],same=OEUVRES,i=same.indexOf(o),prev=same[i-1],next=same[i+1];
+  return `<button class="btn ghost" data-go="oeuvres" style="margin-bottom:14px">← Toutes les œuvres</button>
+  <div class="fiche-head" style="background:${e.color}"><p class="small" style="margin-bottom:6px">${e.nom}</p><h1>${o.t}</h1><p><strong>${o.a}</strong>, ${o.d}</p></div>
+  <div class="row" style="margin-bottom:12px"><button class="btn ghost" data-act="speak" data-v="${o.id}" id="speak-btn">🔊 Écouter la fiche</button></div>
+  <div class="fiche-sec"><h2>Genre</h2><p>${inline(o.g)}</p></div>
+  <div class="fiche-sec"><h2>Contexte</h2><p>${inline(o.c)}</p></div>
+  <div class="fiche-sec"><h2>${o.hl||"L'histoire"}</h2>${rich(o.h)}</div>
+  <div class="fiche-sec" style="border-left:5px solid ${e.color}"><h2>Pourquoi c'est important</h2><p>${inline(o.p)}</p></div>
+  <p class="small muted">Les mots soulignés en pointillés sont expliqués : touche-les.</p>
+  <div class="fiche-nav">${prev?`<button class="btn ghost" data-act="fiche" data-v="${prev.id}">← ${prev.t}</button>`:"<span></span>"}${next?`<button class="btn" data-act="fiche" data-v="${next.id}">${next.t} →</button>`:`<button class="btn" data-go="entrainer">S'entraîner</button>`}</div>`;
+}
+
+function vGlossaire(){
+  const q=S.arg||"";
+  const list=GLOSS.filter(g=>!q||norm(g[0]+" "+g[1]).includes(norm(q)));
+  let out="",L="";
+  for(const g of list){const l=norm(g[0])[0].toUpperCase();if(l!==L){L=l;out+=`<p class="letter">${l}</p>`}out+=`<div class="gl-item"><h3>${g[0]}</h3><p>${inline(g[1])}</p><p class="ex">Exemple : ${inline(g[2])}</p></div>`}
+  return `<h1>Glossaire</h1><p class="lead">${GLOSS.length} mots pour parler de littérature.</p>
+  <label for="gsearch" class="sr">Chercher un mot</label><input id="gsearch" type="search" placeholder="Chercher un mot…" value="${esc(q)}">
+  <div id="glist">${out||`<p style="margin-top:16px">Aucun mot ne correspond. Essaie une autre orthographe.</p>`}</div>
+  <div class="row" style="margin-top:22px"><button class="btn" data-act="start" data-v="cards-gloss">Réviser le glossaire en cartes mémoire</button></div>`;
+}
+
+const ACTS=[
+ {id:"cards-gloss",n:"Cartes mémoire : les mots",d:"Lis le mot, cherche la définition dans ta tête, puis retourne la carte.",b:()=>`${GLOSS.length} cartes`},
+ {id:"cards-oeuvres",n:"Cartes mémoire : œuvres et auteurs",d:"Une œuvre : qui l'a écrite et à quelle époque ?",b:()=>`${OEUVRES.length} cartes`},
+ {id:"cards-eras",n:"Cartes mémoire : les époques",d:"Une époque : ses dates et son mot-clé.",b:()=>"7 cartes"},
+ {id:"defi",n:"Défi rapide",d:"10 questions tirées au hasard, sans chronomètre. Chaque partie est différente.",b:()=>"10 questions"},
+ {id:"frise",n:"La frise à reconstruire",d:"Remets les époques, puis des œuvres, dans l'ordre du temps.",b:()=>"2 manches"},
+ {id:"quiz",n:"Le grand quiz du voyage",d:"Les 21 questions du voyage au pays des livres, étape par étape.",b:()=>store.best.quiz!=null?`Record : ${store.best.quiz}/20`:"21 questions"}
+];
+function vEntrainer(){
+  return `<h1>S'entraîner</h1><p class="lead">Se tester aide à retenir, même quand on se trompe. Commence par les cartes mémoire, finis par le grand quiz.</p>
+  <div class="act-menu">${ACTS.map(a=>`<button class="act-item" data-act="start" data-v="${a.id}"><span><b>${a.n}</b><span class="muted small">${a.d}</span></span><span class="badge">${a.b()}</span></button>`).join("")}</div>`;
+}
+
+/* ============ ACTIVITÉS ============ */
+let A=null;
+function startAct(id){
+  if(id.startsWith("cards-")){
+    let cards=[];
+    if(id==="cards-gloss")cards=GLOSS.map(g=>({id:"g:"+g[0],f:g[0],fl:"Que veut dire ce mot ?",b:inline(g[1]),bx:inline("Exemple : "+g[2])}));
+    if(id==="cards-oeuvres")cards=OEUVRES.map(o=>({id:"o:"+o.id,f:`<em>${o.t}</em>`,fl:"Qui l'a écrite ? À quelle époque ?",b:`<strong>${o.a}</strong>`,bx:`${ERA[o.e].nom}, ${o.d}`,color:ERA[o.e].color}));
+    if(id==="cards-eras")cards=ERAS.map(e=>({id:"e:"+e.id,f:e.nom,fl:"Quelles dates ? Quel mot-clé ?",b:`${e.dates}`,bx:`<strong>${e.motcle}</strong><br>${inline(e.phare)}`,color:e.color}));
+    cards=shuffle(cards).sort((a,b)=>(store.cards[a.id]||0)-(store.cards[b.id]||0));
+    A={kind:"cards",id,title:ACTS.find(a=>a.id===id).n,queue:cards,total:cards.length,done:0,ok:0,again:0,flip:false};
+  }else if(id==="quiz"){
+    A={kind:"quiz",id,title:"Le grand quiz du voyage",list:QUIZ.map(q=>Object.assign({},q)),i:0,score:0,st:{}};
+  }else if(id==="defi"){
+    A={kind:"quiz",id,title:"Défi rapide",list:genDefi(),i:0,score:0,st:{}};
+  }else if(id==="frise"){
+    const oes=[];for(const o of shuffle(OEUVRES.filter(o=>o.y!==null))){if(oes.every(x=>Math.abs(x.y-o.y)>=40))oes.push(o);if(oes.length===5)break}
+    oes.sort((a,b)=>a.y-b.y);
+    A={kind:"quiz",id,title:"La frise à reconstruire",list:[
+      {step:"Manche 1",type:"order",q:"Remets les 7 époques dans l'ordre, de la plus ancienne à la plus récente.",items:ERAS.map(e=>e.nom),x:ERAS.map(e=>`${e.nom} (${e.dates})`).join(" → ")},
+      {step:"Manche 2",type:"order",q:"Remets ces 5 œuvres dans l'ordre où elles ont été écrites.",items:oes.map(o=>`<em>${o.t}</em>, ${o.a}`),x:oes.map(o=>`<em>${o.t}</em> (${o.d})`).join(" → ")}
+    ],i:0,score:0,st:{}};
+  }
+  go("activite");
+}
+function genDefi(){
+  const qs=[],authors=[...new Set(OEUVRES.map(o=>o.a).filter(a=>a!=="Anonyme"&&a!=="Plusieurs auteurs"))];
+  const gens=[
+   ()=>{const o=pick(OEUVRES,1)[0],opts=shuffle([o.e,...pick(ERAS.filter(e=>e.id!==o.e).map(e=>e.id),3)]);return{type:"mcq",step:"Œuvres et époques",q:`À quelle époque appartient <em>${o.t}</em> ?`,o:opts.map(i=>ERA[i].nom),a:opts.indexOf(o.e),x:`<em>${o.t}</em> (${o.a}, ${o.d}) appartient à l'époque : ${ERA[o.e].nom}.`}},
+   ()=>{const o=pick(OEUVRES.filter(o=>authors.includes(o.a)),1)[0],opts=shuffle([o.a,...pick(authors.filter(a=>a!==o.a),3)]);return{type:"mcq",step:"Œuvres et auteurs",q:`Qui a écrit <em>${o.t}</em> ?`,o:opts,a:opts.indexOf(o.a),x:`<em>${o.t}</em> a été écrit par ${o.a} (${o.d}).`}},
+   ()=>{const g=pick(GLOSS,1)[0],opts=shuffle([g[0],...pick(GLOSS.filter(x=>x!==g),3).map(x=>x[0])]);return{type:"mcq",step:"Le vocabulaire",q:`Quel mot correspond à cette définition ?<br><span style="font-weight:400">« ${inline(g[1])} »</span>`,o:opts,a:opts.indexOf(g[0]),x:`C'est « ${g[0]} ». Exemple : ${inline(g[2])}`}},
+   ()=>{const y=[450,1215,1350,1515,1600,1643,1789,1800,1830,1885,1914,1969,2007][Math.floor(Math.random()*13)],s=siecle(y);const cand=shuffle([s-1,s+1,s+2,s-2].filter(n=>n>0)).slice(0,3);const opts=shuffle([s,...cand]);const t=n=>roman(n)+(n===1?"er":"e")+" siècle";return{type:"mcq",step:"Se repérer dans le temps",q:`En quel siècle est l'année ${y} ?`,o:opts.map(t),a:opts.indexOf(s),x:y%100===0?`${y} finit par 00 : c'est la dernière année du ${t(s)}.`:`Chiffre des centaines : ${Math.floor(y/100)}, + 1 = ${s}. Donc ${t(s)}.`}},
+   ()=>{const e=pick(ERAS,1)[0],opts=shuffle([e.id,...pick(ERAS.filter(x=>x!==e).map(x=>x.id),3)]);return{type:"mcq",step:"Les époques",q:`Quel est le mot-clé de l'époque : ${e.nom} ?`,o:opts.map(i=>ERA[i].motcle),a:opts.indexOf(e.id),x:`${e.nom} (${e.dates}) : ${e.motcle}. Exemple : ${inline(e.phare)}.`}},
+   ()=>{const g=pick(GENRES,1)[0],opts=shuffle([g.n,...pick(GENRES.filter(x=>x!==g).map(x=>x.n),3)]);return{type:"mcq",step:"Les genres",q:`« ${g.d} » : de quel genre s'agit-il ?`,o:opts,a:opts.indexOf(g.n),x:`C'est le genre « ${g.n} ». Exemple : ${inline(g.ex)}.`}}
+  ];
+  const seenQ=new Set();
+  while(qs.length<10){const q=gens[qs.length%gens.length===0?Math.floor(Math.random()*gens.length):Math.floor(Math.random()*gens.length)]();if(!seenQ.has(q.q)){seenQ.add(q.q);qs.push(q)}}
+  return qs;
+}
+
+function vActivite(){
+  if(!A)return vEntrainer();
+  const head=`<div class="row" style="justify-content:space-between;margin-bottom:4px"><h1 style="font-size:1.5rem;margin:0">${A.title}</h1><button class="btn ghost" data-act="quit">Quitter</button></div>`;
+  if(A.kind==="cards")return head+vCards();
+  return head+vQuiz();
+}
+function vCards(){
+  if(!A.queue.length){
+    return `<div class="panel result"><p class="score">${A.ok}/${A.total}</p><p><strong>cartes sues du premier coup.</strong></p><p class="muted">Les cartes « à revoir » sont revenues jusqu'à ce que tu les saches. La prochaine fois, elles passeront en premier.</p><div class="row" style="justify-content:center"><button class="btn" data-act="start" data-v="${A.id}">Recommencer</button><button class="btn ghost" data-go="entrainer">Autre activité</button></div></div>`;
+  }
+  const c=A.queue[0],pct=Math.round(A.done/A.total*100);
+  return `<p class="small muted">${A.done} carte${A.done>1?"s":""} sue${A.done>1?"s":""} sur ${A.total}</p><div class="prog"><span style="width:${pct}%"></span></div>
+  <div class="card ${A.flip?"flip":""}"><div class="card-in">
+    <div class="face" style="${c.color?`border-top:8px solid ${c.color}`:""}" aria-hidden="${A.flip}"><small>${c.fl}</small><div class="big">${c.f}</div></div>
+    <div class="face back" style="${c.color?`border-top:8px solid ${c.color}`:""}" aria-hidden="${!A.flip}"><div class="big" style="font-size:1.25rem">${c.b}</div><p class="muted" style="margin-top:10px">${c.bx}</p></div>
+  </div></div>
+  <div class="row" style="justify-content:center">${A.flip?`<button class="btn ghost" data-act="card" data-v="again">À revoir</button><button class="btn" data-act="card" data-v="ok">Je savais</button>`:`<button class="btn" data-act="flip">Retourner la carte</button>`}</div>
+  <p class="small muted" style="text-align:center;margin-top:12px">Réfléchis d'abord, puis retourne. Sois honnête : c'est toi qui décides.</p>`;
+}
+function vQuiz(){
+  const L=A.list;
+  if(A.i>=L.length)return vQuizEnd();
+  const q=L[A.i],st=A.st,pct=Math.round(A.i/L.length*100),answered=st.done;
+  let body="";
+  if(q.type==="mcq"||q.type==="vf"){
+    const opts=q.type==="vf"?["Vrai","Faux"]:q.o,ans=q.type==="vf"?(q.a?0:1):q.a;
+    body=`<div class="opts">${opts.map((o,i)=>{let cls="";if(answered){if(i===ans)cls="good";else if(i===st.sel)cls="bad"}return `<button class="opt ${cls}" data-act="ans" data-v="${i}" ${answered?"disabled":""}><span class="l">${q.type==="vf"?"":String.fromCharCode(97+i)+")"}</span><span>${inline(o)}</span></button>`}).join("")}</div>`;
+  }else if(q.type==="match"){
+    st.m=st.m||{};
+    body=q.rows.map((r,ri)=>`<div class="match-row"><strong>${r.l}</strong><div class="opts">${q.choices.map((c,ci)=>{let cls="";if(answered){if(ci===r.a)cls="good";else if(st.m[ri]===ci)cls="bad"}else if(st.m[ri]===ci)cls="";return `<button class="opt ${cls}" data-act="match" data-r="${ri}" data-v="${ci}" ${answered?"disabled":""} aria-pressed="${st.m[ri]===ci}" style="${!answered&&st.m[ri]===ci?"border-color:var(--accent);background:var(--accent-soft)":""}">${c}</button>`}).join("")}</div></div>`).join("")+
+    (answered?"":`<button class="btn" data-act="checkmatch" ${Object.keys(st.m).length<q.rows.length?"disabled":""}>Vérifier</button>`);
+  }else if(q.type==="order"){
+    if(!st.pool)st.pool=shuffle(q.items.map((t,i)=>i)),st.chosen=[];
+    if(st.pool.length>1&&st.pool.every((v,i)=>v===i))st.pool.reverse();
+    body=`<p class="small muted">Du plus ancien (1) au plus récent. Touche une étiquette placée pour l'enlever.</p>
+    <div class="order-ans">${st.chosen.map((v,k)=>`<button class="ord ${answered?(v===k?"good":"bad"):""}" data-act="unorder" data-v="${k}" ${answered?"disabled":""}><span class="n">${k+1}</span><span>${q.items[v]}</span></button>`).join("")}</div>
+    ${answered?"":`<div class="order-pool">${st.pool.filter(v=>!st.chosen.includes(v)).map(v=>`<button class="ord" data-act="order" data-v="${v}"><span class="n">+</span><span>${q.items[v]}</span></button>`).join("")}</div>
+    <div class="row" style="margin-top:14px"><button class="btn" data-act="checkorder" ${st.chosen.length<q.items.length?"disabled":""}>Vérifier</button></div>`}`;
+  }else if(q.type==="open"){
+    st.c=st.c||{};
+    body=`<label for="open-txt" class="sr">Ta réponse</label><textarea id="open-txt" placeholder="Écris ta réponse ici…">${esc(st.txt||"")}</textarea>
+    <div class="panel checklist" style="margin-top:12px"><p><strong>Pour qu'elle soit solide, vérifie que :</strong></p>${q.check.map((c,i)=>`<label><input type="checkbox" data-act="chk" data-v="${i}" ${st.c[i]?"checked":""}><span>${inline(c)}</span></label>`).join("")}</div>
+    <p class="muted small">Il n'y a pas de bonne ou de mauvaise réponse : ta réponse t'appartient. Cette question ne compte pas dans le score.</p>`;
+  }
+  let fb="";
+  if(answered&&q.type!=="open")fb=`<div class="fb ${st.good?"good":"bad"}" role="status"><b>${st.good?"Bonne réponse !":"Pas tout à fait."}</b>${inline(q.x)}</div>`;
+  const canNext=answered||q.type==="open";
+  return `<p class="small muted" style="margin-top:12px">${q.step?q.step+" : ":""}question ${A.i+1} sur ${L.length}</p><div class="prog"><span style="width:${pct}%"></span></div>
+  <div class="q-text">${inline(q.q)}</div>${body}${fb}
+  <div class="act-foot"><span class="small muted">Score : ${A.score}</span>${canNext?`<button class="btn" data-act="next">${A.i===L.length-1?"Voir mon résultat":"Question suivante"}</button>`:""}</div>`;
+}
+function vQuizEnd(){
+  const total=A.list.filter(q=>q.type!=="open").length,s=A.score;
+  let title="",msg="";
+  if(A.id==="quiz"){
+    if(store.best.quiz==null||s>store.best.quiz){store.best.quiz=s;save()}
+    if(s>=16){title="Grand voyageur des livres";msg="Tu as traversé 3 000 ans d'histoires sans te perdre."}
+    else if(s>=10){title="Explorateur curieux";msg="Tu connais déjà bien le chemin. Relis les étapes où tu as hésité."}
+    else{title="Jeune aventurier";msg="Ton voyage commence ! Relis la fiche et refais le quiz dans quelques jours."}
+  }else{
+    const r=s/total;title=r>=.8?"Très solide":r>=.5?"En bonne voie":"Continue ton voyage";
+    msg=r>=.8?"Tu maîtrises bien ces connaissances.":r>=.5?"Revois les points où tu t'es trompé, puis rejoue.":"Relis les fiches concernées, puis retente le défi : les questions changent à chaque partie.";
+  }
+  return `<div class="panel result"><p class="score">${s}/${total}</p><h2 style="margin-top:10px">${title}</h2><p>${msg}</p>
+  <div class="row" style="justify-content:center"><button class="btn" data-act="start" data-v="${A.id}">${A.id==="defi"?"Nouveau défi":"Recommencer"}</button><button class="btn ghost" data-go="entrainer">Autre activité</button></div></div>`;
+}
+
+/* ============ INTERACTIONS ============ */
+function openSheet(html){$("#overlay").innerHTML=`<div class="sheet-bg" data-act="close"><div class="sheet" role="dialog" aria-modal="true">${html}<div class="row" style="margin-top:16px"><button class="btn" data-act="close" id="sheet-close">Fermer</button></div></div></div>`;$("#sheet-close").focus()}
+function closeSheet(){$("#overlay").innerHTML=""}
+function settingsHTML(){
+  const p=store.prefs,fs=p.fs||1.0625,lh=p.lh||1.6,font=p.font||"std",th=p.theme||"auto";
+  const seg=(key,val,opts)=>`<div class="seg-ctl">${opts.map(([v,l])=>`<button data-act="pref" data-k="${key}" data-v="${v}" aria-pressed="${String(val)===String(v)}">${l}</button>`).join("")}</div>`;
+  return `<h2>Réglages de lecture</h2><p class="muted small">Choisis ce qui te rend la lecture plus facile.</p>
+  <div class="set-row"><span>Taille du texte</span>${seg("fs",fs,[[0.95,"A"],[1.0625,"A+"],[1.2,"A++"],[1.35,"A+++"]])}</div>
+  <div class="set-row"><span>Espace entre les lignes</span>${seg("lh",lh,[[1.6,"Normal"],[1.9,"Large"],[2.2,"Très large"]])}</div>
+  <div class="set-row"><span>Police</span>${seg("font",font,[["std","Hyperlegible"],["lexend","Lexend"]])}</div>
+  <div class="set-row"><span>Couleurs</span>${seg("theme",th,[["auto","Auto"],["light","Clair"],["dark","Sombre"]])}</div>
+  <div class="set-row"><span>Effacer ma progression</span><button class="btn ghost" data-act="reset">Effacer</button></div>`;
+}
+let speaking=false;
+function stopSpeech(){try{if(window.speechSynthesis)speechSynthesis.cancel()}catch(e){}speaking=false}
+function speak(id){
+  const o=OE[id];if(!("speechSynthesis" in window)){say("La lecture à voix haute n'est pas disponible sur ce navigateur.");return}
+  const b=$("#speak-btn");
+  if(speaking){stopSpeech();if(b)b.textContent="🔊 Écouter la fiche";return}
+  const txt=`${o.t}, de ${o.a}. Genre : ${plain(o.g)}. Contexte : ${plain(o.c)} ${o.hl||"L'histoire"} : ${plain(o.h)} Pourquoi c'est important : ${plain(o.p)}`;
+  const u=new SpeechSynthesisUtterance(txt);u.lang="fr-FR";u.rate=.92;
+  const v=speechSynthesis.getVoices().find(v=>v.lang&&v.lang.startsWith("fr"));if(v)u.voice=v;
+  u.onend=()=>{speaking=false;const bb=$("#speak-btn");if(bb)bb.textContent="🔊 Écouter la fiche"};
+  speechSynthesis.speak(u);speaking=true;if(b)b.textContent="⏹ Arrêter la lecture";
+}
+
+document.addEventListener("click",ev=>{
+  const g=ev.target.closest("[data-go]");
+  if(g){go(g.dataset.go);return}
+  const t=ev.target.closest("[data-term]");
+  if(t){const d=GL[t.dataset.term];if(d)openSheet(`<h2>${d[0]}</h2><p>${inline(d[1])}</p><p class="muted">Exemple : ${inline(d[2])}</p>`);return}
+  const el=ev.target.closest("[data-act]");if(!el)return;
+  const a=el.dataset.act,v=el.dataset.v;
+  if(a==="close"){if(ev.target===el||el.id==="sheet-close")closeSheet();return}
+  if(a==="settings"){openSheet(settingsHTML());return}
+  if(a==="pref"){const k=el.dataset.k;store.prefs[k]=(k==="fs"||k==="lh")?parseFloat(v):(v==="auto"||v==="std"?undefined:v);save();applyPrefs();$(".sheet").innerHTML=settingsHTML()+`<div class="row" style="margin-top:16px"><button class="btn" data-act="close" id="sheet-close">Fermer</button></div>`;return}
+  if(a==="reset"){if(confirm("Effacer toute ta progression (fiches lues, cartes, scores) ?")){store.seen={};store.cards={};store.best={};save();closeSheet();render()}return}
+  if(a==="csub"){S.sub=v;render();window.scrollTo(0,0);return}
+  if(a==="esub"){S.sub=v;S.arg=null;render();window.scrollTo(0,0);return}
+  if(a==="era"){go("epoques","liste",v);return}
+  if(a==="ofilter"){S.sub=v;render();return}
+  if(a==="fiche"){go("fiche",null,v);return}
+  if(a==="speak"){speak(v);return}
+  if(a==="start"){startAct(v);return}
+  if(a==="quit"){A=null;go("entrainer");return}
+  if(a==="flip"){A.flip=true;render();return}
+  if(a==="card"){const c=A.queue.shift();if(v==="ok"){store.cards[c.id]=(store.cards[c.id]||0)+1;if(!c.missed)A.ok++;A.done++}else{store.cards[c.id]=0;c.missed=true;A.queue.splice(Math.min(3,A.queue.length),0,c)}save();A.flip=false;render();return}
+  const q=A&&A.list?A.list[A.i]:null;
+  if(a==="ans"){const i=+v,ans=q.type==="vf"?(q.a?0:1):q.a;A.st.sel=i;A.st.done=true;A.st.good=i===ans;if(A.st.good)A.score++;render();say(A.st.good?"Bonne réponse":"Pas tout à fait");return}
+  if(a==="match"){A.st.m[+el.dataset.r]=+v;render();return}
+  if(a==="checkmatch"){A.st.done=true;A.st.good=q.rows.every((r,i)=>A.st.m[i]===r.a);if(A.st.good)A.score++;render();return}
+  if(a==="order"){A.st.chosen.push(+v);render();return}
+  if(a==="unorder"){A.st.chosen.splice(+v,1);render();return}
+  if(a==="checkorder"){A.st.done=true;A.st.good=A.st.chosen.every((v,k)=>v===k);if(A.st.good)A.score++;render();return}
+  if(a==="chk"){A.st.c[+v]=el.checked;return}
+  if(a==="next"){A.i++;A.st={};render();window.scrollTo(0,0);return}
+});
+document.addEventListener("keydown",ev=>{
+  if(ev.key==="Escape"&&$("#overlay").innerHTML)closeSheet();
+  if((ev.key==="Enter"||ev.key===" ")&&ev.target.matches("li[data-go]")){ev.preventDefault();go(ev.target.dataset.go)}
+});
+function afterRender(){
+  const yr=$("#yr");
+  if(yr)yr.addEventListener("input",()=>{const y=parseInt(yr.value,10);$("#yr-out").textContent=(y>0&&y<=2100)?"→ "+siecleTxt(y):""});
+  const gs=$("#gsearch");
+  if(gs){gs.addEventListener("input",()=>{S.arg=gs.value;const pos=gs.selectionStart;render();const n=$("#gsearch");n.focus();n.setSelectionRange(pos,pos)})}
+  const ot=$("#open-txt");
+  if(ot)ot.addEventListener("input",()=>{A.st.txt=ot.value});
+}
+render();
+</script>
+</body>
+</html>
