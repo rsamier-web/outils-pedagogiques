@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Le juste prix – El Jadida</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --chaux:#F3F6F7;
+  --surface:#FFFFFF;
+  --ink:#16323F;
+  --muted:#5A6F7A;
+  --ocean:#0E4C6B;
+  --ocean-soft:#D6E6EE;
+  --ocre:#A8691A;
+  --ocre-soft:#F6E7CC;
+  --zellige:#1D7A52;
+  --zellige-soft:#D4EEDF;
+  --rule:#9FB3BD;
+  --tag:#E0B040;
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --chaux:#0F1D24; --surface:#16272F; --ink:#E8F0F3; --muted:#A2B5BE;
+    --ocean:#7FC0E0; --ocean-soft:#1D3E4F; --ocre:#F0B45A; --ocre-soft:#46341A;
+    --zellige:#5FD39B; --zellige-soft:#173D2C; --rule:#557180; --tag:#E8BC52;
+  }
+}
+:root[data-theme="dark"]{
+  --chaux:#0F1D24; --surface:#16272F; --ink:#E8F0F3; --muted:#A2B5BE;
+  --ocean:#7FC0E0; --ocean-soft:#1D3E4F; --ocre:#F0B45A; --ocre-soft:#46341A;
+  --zellige:#5FD39B; --zellige-soft:#173D2C; --rule:#557180; --tag:#E8BC52;
+}
+*,*::before,*::after{box-sizing:inherit}
+html{height:100%;scroll-padding-top:env(safe-area-inset-top,0px)}
+body{
+  margin:0;min-height:100%;
+  background:var(--chaux);color:var(--ink);
+  font-family:"Atkinson Hyperlegible",system-ui,-apple-system,"Segoe UI",sans-serif;
+  font-size:1.125rem;line-height:1.5;
+}
+main{max-width:920px;margin:0 auto;padding:1.25rem 1.25rem 2.5rem}
+
+.top{display:flex;justify-content:space-between;align-items:center;gap:1rem;flex-wrap:wrap}
+.brand{font-family:"Bricolage Grotesque",system-ui,sans-serif;font-weight:800;font-size:1.25rem;margin:0;color:var(--ocean)}
+.progress{display:flex;gap:6px;align-items:center}
+.dot{width:14px;height:14px;border-radius:50%;border:2px solid var(--rule);background:transparent}
+.dot.done{background:var(--zellige);border-color:var(--zellige)}
+.dot.now{border-color:var(--ocean);background:var(--ocean-soft)}
+.count{color:var(--muted);font-size:1rem;margin-left:.5rem}
+
+.item{text-align:center;margin:1.75rem 0 .5rem}
+.emoji{font-size:4.5rem;line-height:1;display:block}
+.name{font-family:"Bricolage Grotesque",system-ui,sans-serif;font-weight:800;font-size:clamp(1.9rem,5vw,2.8rem);margin:.4rem 0 .15rem;line-height:1.1}
+.detail{color:var(--muted);margin:0}
+
+.readout{
+  text-align:center;margin:1.5rem 0 .25rem;
+  font-family:"Bricolage Grotesque",system-ui,sans-serif;font-weight:800;
+  font-size:clamp(2.6rem,9vw,4.6rem);line-height:1;letter-spacing:-.01em;
+  font-variant-numeric:tabular-nums;color:var(--ocean);
+}
+.readout small{font-size:.42em;font-weight:500;color:var(--muted);margin-left:.2em}
+
+.feedback{
+  min-height:3.6rem;margin:1rem auto 0;max-width:560px;
+  display:flex;align-items:center;justify-content:center;gap:.6rem;
+  border-radius:999px;padding:.6rem 1.4rem;
+  font-size:1.35rem;font-weight:700;text-align:center;
+  border:2px dashed var(--rule);color:var(--muted);
+}
+.feedback .arrow{font-size:1.6rem;line-height:1}
+.feedback.plus{border:2px solid var(--ocean);background:var(--ocean-soft);color:var(--ocean)}
+.feedback.moins{border:2px solid var(--ocre);background:var(--ocre-soft);color:var(--ocre)}
+.feedback.juste{border:2px solid var(--zellige);background:var(--zellige-soft);color:var(--zellige)}
+.feedback.pop{animation:pop .35s ease-out}
+@keyframes pop{0%{transform:scale(.94)}60%{transform:scale(1.04)}100%{transform:scale(1)}}
+
+.tries{text-align:center;color:var(--muted);font-size:1rem;margin:.6rem 0 0;min-height:1.5em}
+
+.ruler-wrap{margin:2.5rem 0 0;padding:0 1.4rem}
+.ruler{position:relative;height:120px;touch-action:none;cursor:pointer;user-select:none;-webkit-user-select:none}
+.bar{position:absolute;left:0;right:0;top:58px;height:10px;border-radius:5px;background:var(--ocean-soft);border:2px solid var(--ocean)}
+.zone{position:absolute;top:52px;height:22px;background:var(--zellige);opacity:.35;border-radius:4px;display:none}
+.tick{position:absolute;top:70px;width:2px;background:var(--rule);transform:translateX(-1px)}
+.tick.minor{height:9px}
+.tick.major{height:18px;background:var(--ink)}
+.lab{position:absolute;top:92px;transform:translateX(-50%);font-size:.85rem;color:var(--ink);white-space:nowrap;font-variant-numeric:tabular-nums}
+.guess{position:absolute;top:36px;transform:translateX(-50%);font-size:.9rem;font-weight:700;line-height:1}
+.guess.plus{color:var(--ocean)}
+.guess.moins{color:var(--ocre)}
+.exact{position:absolute;top:44px;width:4px;height:38px;background:var(--zellige);transform:translateX(-2px);border-radius:2px;display:none}
+
+.thumb{
+  position:absolute;top:18px;width:34px;height:44px;transform:translateX(-50%);
+  outline:none;cursor:grab;touch-action:none;
+}
+.thumb svg{width:100%;height:100%;display:block;filter:drop-shadow(0 2px 0 rgba(0,0,0,.18))}
+.thumb:focus-visible{outline:3px solid var(--ocean);outline-offset:4px;border-radius:6px}
+.ruler.dragging .thumb{cursor:grabbing}
+.ruler.locked,.ruler.locked .thumb{cursor:default}
+
+.hint{text-align:center;color:var(--muted);font-size:1rem;margin:1.25rem 0 0}
+
+.btn{
+  font:inherit;font-weight:700;font-size:1.1rem;
+  background:var(--ocean);color:var(--chaux);border:0;border-radius:12px;
+  padding:.75rem 1.5rem;cursor:pointer;
+}
+.btn:focus-visible{outline:3px solid var(--ocre);outline-offset:3px}
+.next-wrap{text-align:center;margin-top:1.25rem;min-height:3.2rem}
+
+.end{text-align:center;margin-top:2rem}
+.end h2{font-family:"Bricolage Grotesque",system-ui,sans-serif;font-weight:800;font-size:clamp(2rem,6vw,3rem);margin:.2rem 0 .5rem;color:var(--zellige)}
+.table-wrap{overflow-x:auto;margin:1.5rem auto;max-width:640px}
+table{border-collapse:collapse;width:100%;text-align:left;background:var(--surface);border-radius:12px;overflow:hidden}
+th,td{padding:.6rem .9rem;border-bottom:1px solid var(--ocean-soft)}
+th{color:var(--muted);font-weight:700;font-size:.95rem}
+td.num,th.num{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+
+@media (max-width:560px){
+  .lab.alt{display:none}
+  .emoji{font-size:3.6rem}
+  .feedback{font-size:1.15rem}
+}
+@media (prefers-reduced-motion: reduce){
+  .feedback.pop{animation:none}
+}
+</style>
+</head>
+<body>
+<main id="app">
+  <div class="top">
+    <p class="brand">Le juste prix à El Jadida</p>
+    <div class="progress" id="progress" aria-label="Progression"></div>
+  </div>
+
+  <section id="game">
+    <div class="item">
+      <span class="emoji" id="emoji" aria-hidden="true"></span>
+      <h1 class="name" id="name"></h1>
+      <p class="detail" id="detail"></p>
+    </div>
+
+    <div class="readout" id="readout" aria-hidden="true"></div>
+
+    <div class="ruler-wrap">
+      <div class="ruler" id="ruler">
+        <div class="bar"></div>
+        <div class="zone" id="zone"></div>
+        <div id="ticks"></div>
+        <div id="guesses"></div>
+        <div class="exact" id="exact"></div>
+        <div class="thumb" id="thumb" role="slider" tabindex="0" aria-label="Ton estimation en dirhams">
+          <svg viewBox="0 0 34 44" aria-hidden="true">
+            <path d="M3 10 L17 1 L31 10 L31 41 Q31 43 29 43 L5 43 Q3 43 3 41 Z" fill="var(--tag)" stroke="var(--ink)" stroke-width="2"/>
+            <circle cx="17" cy="11" r="3.2" fill="var(--chaux)" stroke="var(--ink)" stroke-width="1.6"/>
+            <line x1="17" y1="22" x2="17" y2="36" stroke="var(--ink)" stroke-width="2.4" stroke-linecap="round"/>
+          </svg>
+        </div>
+      </div>
+    </div>
+
+    <div class="feedback" id="feedback" aria-live="polite">Déplace l'étiquette puis lâche-la</div>
+    <p class="tries" id="tries"></p>
+    <div class="next-wrap" id="nextWrap"></div>
+    <p class="hint">Au clavier : les flèches pour bouger, Entrée pour proposer.</p>
+  </section>
+
+  <section id="end" class="end" hidden>
+    <span class="emoji" aria-hidden="true">🏆</span>
+    <h2>Tous les prix sont trouvés !</h2>
+    <p id="endSummary"></p>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Objet</th><th class="num">Prix moyen</th><th class="num">Essais</th></tr></thead>
+        <tbody id="recap"></tbody>
+      </table>
+    </div>
+    <button class="btn" id="replay" type="button">Rejouer</button>
+  </section>
+</main>
+
+<script>
+// Prix moyens estimés (El Jadida / Maroc, septembre 2026)
+const ITEMS = [
+  {name:"Une maison", emoji:"🏠", detail:"Maison de 120 m² avec 3 chambres", price:1100000, max:2500000, major:500000, minor:100000, step:10000},
+  {name:"Un canapé", emoji:"🛋️", detail:"Canapé 3 places, neuf", price:5000, max:12000, major:2000, minor:500, step:100},
+  {name:"Une bibliothèque", emoji:"📚", detail:"Étagère en bois à 5 niveaux", price:1200, max:3000, major:500, minor:100, step:50},
+  {name:"Un meuble à chaussures", emoji:"👟", detail:"Placard à chaussures en bois", price:1500, max:4000, major:500, minor:100, step:50},
+  {name:"Une télévision", emoji:"📺", detail:"Smart TV 55 pouces, neuve", price:5500, max:12000, major:2000, minor:500, step:100},
+  {name:"Une plante", emoji:"🪴", detail:"Plante d'intérieur moyenne (ficus, monstera)", price:250, max:1000, major:100, minor:50, step:10},
+  {name:"Un meuble télévision", emoji:"🗄️", detail:"Meuble TV de salon, 160 cm", price:2000, max:5000, major:1000, minor:250, step:50},
+  {name:"Des coussins", emoji:"💠", detail:"Lot de 4 coussins décoratifs", price:600, max:1500, major:250, minor:50, step:10},
+  {name:"Un équipement de salle de bains", emoji:"🚿", detail:"Meuble avec vasque et miroir", price:1700, max:4000, major:500, minor:100, step:50},
+  {name:"Un lit", emoji:"🛏️", detail:"Lit 2 places avec sommier et matelas", price:4000, max:10000, major:1000, minor:500, step:100}
+];
+const TOLERANCE = 0.10;   // ± 10 % autour du prix moyen
+const NEXT_DELAY = 3500;  // délai avant l'objet suivant (ms)
+
+const $ = id => document.getElementById(id);
+const fmt = n => n.toLocaleString("fr-FR").replace(/\u202f|\u00a0/g, " ");
+
+let idx = 0, value = 0, attempts = 0, locked = false, results = [], keyTimer = null, nextTimer = null;
+const ruler = $("ruler"), thumb = $("thumb");
+
+function buildProgress(){
+  $("progress").innerHTML = ITEMS.map((_, i) =>
+    `<span class="dot ${i < idx ? "done" : i === idx ? "now" : ""}"></span>`).join("") +
+    `<span class="count">${Math.min(idx + 1, ITEMS.length)} / ${ITEMS.length}</span>`;
+}
+
+function pct(v){ return (v / ITEMS[idx].max) * 100; }
+
+function buildRuler(){
+  const it = ITEMS[idx];
+  let html = "";
+  const nMinor = Math.round(it.max / it.minor);
+  for (let i = 0; i <= nMinor; i++){
+    const v = i * it.minor;
+    const isMajor = (v % it.major) === 0;
+    html += `<div class="tick ${isMajor ? "major" : "minor"}" style="left:${pct(v)}%"></div>`;
+  }
+  const nMajor = Math.round(it.max / it.major);
+  for (let k = 0; k <= nMajor; k++){
+    const v = k * it.major;
+    html += `<div class="lab ${k % 2 ? "alt" : ""}" style="left:${pct(v)}%">${fmt(v)}</div>`;
+  }
+  $("ticks").innerHTML = html;
+  $("guesses").innerHTML = "";
+  $("zone").style.display = "none";
+  $("exact").style.display = "none";
+}
+
+function setValue(v){
+  const it = ITEMS[idx];
+  v = Math.round(v / it.step) * it.step;
+  value = Math.max(0, Math.min(it.max, v));
+  thumb.style.left = pct(value) + "%";
+  $("readout").innerHTML = `${fmt(value)}<small>DH</small>`;
+  thumb.setAttribute("aria-valuemin", 0);
+  thumb.setAttribute("aria-valuemax", it.max);
+  thumb.setAttribute("aria-valuenow", value);
+  thumb.setAttribute("aria-valuetext", fmt(value) + " dirhams");
+}
+
+function showFeedback(kind, text, arrow){
+  const f = $("feedback");
+  f.className = "feedback " + kind;
+  f.innerHTML = (arrow ? `<span class="arrow" aria-hidden="true">${arrow}</span>` : "") + `<span>${text}</span>`;
+  void f.offsetWidth; f.classList.add("pop");
+}
+
+function evaluate(){
+  if (locked) return;
+  const it = ITEMS[idx];
+  const low = it.price * (1 - TOLERANCE), high = it.price * (1 + TOLERANCE);
+  attempts++;
+
+  if (value < low || value > high){
+    const kind = value < low ? "plus" : "moins";
+    if (kind === "plus") showFeedback("plus", "C'est plus !", "⬆");
+    else showFeedback("moins", "C'est moins !", "⬇");
+    const g = document.createElement("div");
+    g.className = "guess " + kind;
+    g.style.left = pct(value) + "%";
+    g.textContent = kind === "plus" ? "▲" : "▼";
+    g.setAttribute("aria-hidden", "true");
+    $("guesses").appendChild(g);
+    $("tries").textContent = `Essai n° ${attempts}`;
+    return;
+  }
+
+  // Bonne réponse
+  locked = true;
+  ruler.classList.add("locked");
+  thumb.setAttribute("aria-disabled", "true");
+  results.push({name: it.name, price: it.price, attempts});
+  showFeedback("juste", `C'est le juste prix ! Prix moyen : ${fmt(it.price)} DH`, "✔");
+  $("tries").textContent = attempts === 1 ? "Trouvé du premier coup !" : `Trouvé en ${attempts} essais`;
+  const z = $("zone");
+  z.style.left = pct(low) + "%"; z.style.width = (pct(high) - pct(low)) + "%"; z.style.display = "block";
+  const e = $("exact"); e.style.left = pct(it.price) + "%"; e.style.display = "block";
+
+  const last = idx === ITEMS.length - 1;
+  $("nextWrap").innerHTML = `<button class="btn" id="nextBtn" type="button">${last ? "Voir le bilan" : "Objet suivant"}</button>`;
+  $("nextBtn").addEventListener("click", goNext);
+  nextTimer = setTimeout(goNext, NEXT_DELAY);
+}
+
+function goNext(){
+  clearTimeout(nextTimer);
+  if (!locked) return;
+  idx++;
+  if (idx >= ITEMS.length){ showEnd(); return; }
+  loadItem();
+  thumb.focus({preventScroll:true});
+}
+
+function loadItem(){
+  const it = ITEMS[idx];
+  locked = false; attempts = 0;
+  ruler.classList.remove("locked");
+  thumb.removeAttribute("aria-disabled");
+  $("emoji").textContent = it.emoji;
+  $("name").textContent = it.name;
+  $("detail").textContent = it.detail;
+  $("tries").textContent = "";
+  $("nextWrap").innerHTML = "";
+  const f = $("feedback"); f.className = "feedback"; f.textContent = "Déplace l'étiquette puis lâche-la";
+  buildProgress(); buildRuler(); setValue(0);
+}
+
+function showEnd(){
+  $("game").hidden = true; $("end").hidden = false;
+  buildProgress();
+  const total = results.reduce((s, r) => s + r.attempts, 0);
+  $("endSummary").textContent = `${ITEMS.length} objets estimés en ${total} essais au total.`;
+  $("recap").innerHTML = results.map(r =>
+    `<tr><td>${r.name}</td><td class="num">${fmt(r.price)} DH</td><td class="num">${r.attempts}</td></tr>`).join("");
+  $("replay").focus({preventScroll:true});
+}
+
+$("replay").addEventListener("click", () => {
+  idx = 0; results = [];
+  $("end").hidden = true; $("game").hidden = false;
+  loadItem();
+});
+
+// Glisser à la souris ou au doigt
+function valueFromX(clientX){
+  const r = ruler.getBoundingClientRect();
+  const ratio = Math.max(0, Math.min(1, (clientX - r.left) / r.width));
+  return ratio * ITEMS[idx].max;
+}
+let dragging = false;
+ruler.addEventListener("pointerdown", e => {
+  if (locked) return;
+  dragging = true;
+  ruler.classList.add("dragging");
+  try { ruler.setPointerCapture(e.pointerId); } catch(_) {}
+  setValue(valueFromX(e.clientX));
+  thumb.focus({preventScroll:true});
+  e.preventDefault();
+});
+ruler.addEventListener("pointermove", e => { if (dragging) setValue(valueFromX(e.clientX)); });
+ruler.addEventListener("pointerup", () => {
+  if (!dragging) return;
+  dragging = false;
+  ruler.classList.remove("dragging");
+  evaluate();
+});
+ruler.addEventListener("pointercancel", () => { dragging = false; ruler.classList.remove("dragging"); });
+
+// Clavier
+thumb.addEventListener("keydown", e => {
+  if (locked) return;
+  const it = ITEMS[idx];
+  const map = {
+    ArrowRight: it.step, ArrowUp: it.step, ArrowLeft: -it.step, ArrowDown: -it.step,
+    PageUp: it.major, PageDown: -it.major
+  };
+  if (e.key in map){
+    setValue(value + (e.shiftKey ? map[e.key] * 10 : map[e.key]));
+  } else if (e.key === "Home"){ setValue(0); }
+  else if (e.key === "End"){ setValue(it.max); }
+  else if (e.key === "Enter" || e.key === " "){
+    e.preventDefault(); clearTimeout(keyTimer); evaluate(); return;
+  } else return;
+  e.preventDefault();
+  clearTimeout(keyTimer);
+  keyTimer = setTimeout(evaluate, 900);
+});
+
+loadItem();
+</script>
+</body>
+</html>
