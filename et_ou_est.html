@@ -1,0 +1,579 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>et ou est ? Entraînement</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#EEF1F3; --surface:#FFFFFF; --ink:#1C2733; --muted:#56636F; --line:#D5DBE0;
+  --est:#1F5F8B; --est-bg:#E3EEF6; --et:#7A4E0C; --et-bg:#F6EBD6;
+  --ok:#2E6B4A; --ok-bg:#E2F0E8; --bad:#A63D3D; --bad-bg:#F8E4E4;
+  --btn:#1C2733; --btn-ink:#FFFFFF; --focus:#1F5F8B;
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#12171C; --surface:#1B222A; --ink:#E8EDF1; --muted:#9AA7B2; --line:#2E3841;
+    --est:#8CC4EA; --est-bg:#1E3648; --et:#EBBE6E; --et-bg:#443617;
+    --ok:#7CCBA0; --ok-bg:#1B3428; --bad:#EE9A9A; --bad-bg:#3B2222;
+    --btn:#E8EDF1; --btn-ink:#12171C; --focus:#8CC4EA;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#12171C; --surface:#1B222A; --ink:#E8EDF1; --muted:#9AA7B2; --line:#2E3841;
+  --est:#8CC4EA; --est-bg:#1E3648; --et:#EBBE6E; --et-bg:#443617;
+  --ok:#7CCBA0; --ok-bg:#1B3428; --bad:#EE9A9A; --bad-bg:#3B2222;
+  --btn:#E8EDF1; --btn-ink:#12171C; --focus:#8CC4EA;
+}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*,*::before,*::after{box-sizing:border-box}
+body{
+  margin:0; background:var(--bg); color:var(--ink);
+  font-family:"Atkinson Hyperlegible","Trebuchet MS",Verdana,sans-serif;
+  font-size:18px; line-height:1.6;
+}
+.wrap{max-width:720px; margin:0 auto; padding:20px 16px 56px}
+.top{display:flex; align-items:center; gap:12px; flex-wrap:wrap}
+.top h1{font-size:1.6rem; margin:0; display:flex; align-items:center; gap:10px; flex-wrap:wrap}
+.top .sub{color:var(--muted); margin:0; font-size:.95rem}
+.progress{display:flex; gap:6px; margin:16px 0 6px}
+.progress i{flex:1; height:6px; border-radius:3px; background:var(--line)}
+.progress i.done{background:var(--muted)}
+.progress i.now{background:var(--ink)}
+.stepname{color:var(--muted); font-size:.95rem; margin:0 0 14px}
+.card{background:var(--surface); border:1px solid var(--line); border-radius:12px; padding:24px}
+.card h2{font-size:1.35rem; margin:0 0 4px; outline:none}
+.lead{color:var(--muted); margin:0 0 18px}
+.nb{white-space:nowrap}
+.chip{display:inline-block; padding:0 .5em; border-radius:6px; font-weight:700; line-height:1.45; border:2px solid transparent}
+.chip.est{background:var(--est-bg); color:var(--est); border-color:var(--est)}
+.chip.et{background:var(--et-bg); color:var(--et); border-color:var(--et)}
+.sentence{font-size:1.5rem; line-height:1.9; margin:14px 0}
+.blank{display:inline-block; min-width:3.2em; height:1.1em; border-bottom:3px solid var(--muted); vertical-align:-.1em}
+.counter{color:var(--muted); font-size:.95rem; margin:0}
+.choices{display:grid; grid-template-columns:1fr 1fr; gap:12px; margin:8px 0 14px}
+.choice{
+  font:inherit; font-size:1.6rem; font-weight:700; min-height:64px; padding:12px;
+  border-radius:10px; border:2px solid var(--line); background:var(--surface); color:var(--ink); cursor:pointer;
+}
+.choice.est{border-color:var(--est); color:var(--est)}
+.choice.et{border-color:var(--et); color:var(--et)}
+.choice:hover:not(:disabled){background:var(--bg)}
+.choice:disabled{cursor:default}
+.choice.right{background:var(--ok-bg)}
+.choice.wrong{background:var(--bad-bg)}
+.choice.faded{opacity:.55}
+.btn{
+  font:inherit; font-weight:700; min-height:48px; padding:10px 22px; border-radius:10px;
+  border:2px solid var(--btn); background:var(--btn); color:var(--btn-ink); cursor:pointer;
+}
+.btn.ghost{background:transparent; color:var(--ink); border-color:var(--line)}
+.btn:disabled{opacity:.5; cursor:default}
+:focus-visible{outline:3px solid var(--focus); outline-offset:2px}
+.actions{display:flex; gap:12px; flex-wrap:wrap; margin-top:16px}
+.feedback{border-radius:10px; padding:14px 16px; margin-top:8px; border:1px solid var(--line)}
+.feedback.ok{background:var(--ok-bg); border-color:var(--ok)}
+.feedback.no{background:var(--bad-bg); border-color:var(--bad)}
+.feedback.info{background:var(--bg)}
+.fbtitle{font-weight:700; margin:0 0 6px}
+.testline{margin-top:8px}
+.testlabel{font-size:.9rem; color:var(--muted); margin:0}
+.testsentence{font-size:1.15rem}
+.swap{background:transparent; color:var(--ink); font-weight:700; border-bottom:3px double var(--muted); padding:0 2px}
+.verdict{margin:4px 0 0}
+.tip{border-left:4px solid var(--ink); background:var(--bg); padding:12px 16px; border-radius:0 10px 10px 0; margin-bottom:16px}
+.tip.compact{font-size:.95rem; padding:8px 12px}
+.rules{display:grid; gap:12px; margin:16px 0}
+.rule{display:flex; gap:14px; align-items:flex-start; padding:14px; border:1px solid var(--line); border-radius:10px}
+.rule .chip{font-size:1.3rem; flex:none}
+.note{color:var(--muted); font-size:.95rem; margin:0}
+.steps{padding-left:1.3em; margin:12px 0}
+.steps li{margin-bottom:10px}
+.example{border:1px solid var(--line); border-radius:10px; padding:8px 18px 14px; margin-bottom:16px}
+.example h3{font-size:1rem; margin:10px 0 0; color:var(--muted); font-weight:400}
+.field{
+  font:inherit; font-size:1.3rem; width:4.4em; text-align:center; padding:2px 6px;
+  border:2px solid var(--muted); border-radius:8px; background:var(--surface); color:var(--ink);
+}
+.field.ok{border-color:var(--ok); background:var(--ok-bg)}
+.field.bad{border-color:var(--bad); background:var(--bad-bg)}
+.field.shown{background:var(--bg)}
+.write{
+  width:100%; font:inherit; font-size:1.25rem; padding:12px; border:2px solid var(--muted);
+  border-radius:10px; background:var(--surface); color:var(--ink);
+}
+.peek{font-size:1.4rem; padding:12px 16px; background:var(--bg); border-radius:10px; margin:8px 0}
+.scorerow{display:flex; justify-content:space-between; gap:12px; padding:10px 14px; border:1px solid var(--line); border-radius:10px; margin-bottom:8px}
+.missed{margin-top:10px; padding-top:6px; border-top:1px solid var(--line)}
+.missed .sentence{font-size:1.2rem; margin:6px 0}
+.vh{position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0 0 0 0); white-space:nowrap}
+.fatal{padding:24px}
+@media (max-width:480px){
+  body{font-size:17px}
+  .card{padding:18px}
+  .sentence{font-size:1.3rem}
+}
+@media (prefers-reduced-motion: reduce){ *{transition:none !important; animation:none !important} }
+</style>
+</head>
+<body>
+<div class="wrap"><div id="root"></div></div>
+<noscript><p class="fatal">Cette page a besoin de JavaScript pour fonctionner.</p></noscript>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/htm@3.1.1/dist/htm.umd.js"></script>
+<script>
+(function(){
+  if (!window.React || !window.ReactDOM || !window.htm) {
+    document.getElementById('root').innerHTML = '<p class="fatal">Le chargement a échoué. Vérifie ta connexion internet puis recharge la page.</p>';
+    return;
+  }
+  var useState = React.useState, useEffect = React.useEffect, useRef = React.useRef, useMemo = React.useMemo;
+  var html = htm.bind(React.createElement);
+
+  /* ---------- Données ---------- */
+  // {} = espace à compléter ; a = réponses attendues, dans l'ordre
+  var EXEMPLES = [
+    { s: "Le creeper {} vert.", a: ["est"] },
+    { s: "Le lutteur tombe {} se relève.", a: ["et"] }
+  ];
+  var QUIZ = [
+    { s: "Steve {} dans la mine.", a: ["est"] },
+    { s: "Le combattant porte des gants {} un protège-dents.", a: ["et"] },
+    { s: "Le creeper {} très dangereux.", a: ["est"] },
+    { s: "Le boxeur saute {} frappe.", a: ["et"] },
+    { s: "L’octogone {} le ring du MMA.", a: ["est"] },
+    { s: "Alex ramasse du bois {} de la pierre.", a: ["et"] },
+    { s: "Le diamant {} rare dans Minecraft.", a: ["est"] },
+    { s: "Le lutteur attrape la jambe {} le fait tomber.", a: ["et"] }
+  ];
+  var TROUS = [
+    { s: "Le zombie {} lent {} il fait peur.", a: ["est", "et"] },
+    { s: "Alex ramasse du fer {} son sac {} plein.", a: ["et", "est"] },
+    { s: "Le creeper {} vert, l’araignée {} noire.", a: ["est", "est"] },
+    { s: "Le combat {} terminé {} l’arbitre lève le bras du gagnant.", a: ["est", "et"] },
+    { s: "Steve mine {} il construit {} il explore.", a: ["et", "et"] }
+  ];
+  var ECRIRE = [
+    { s: "Steve {} dans la mine {} il cherche du diamant.", a: ["est", "et"] },
+    { s: "Alex construit une maison {} une tour.", a: ["et"] },
+    { s: "Le combattant {} rapide {} puissant.", a: ["est", "et"] },
+    { s: "L’Enderman {} grand {} noir.", a: ["est", "et"] },
+    { s: "Le combat {} fini {} l’arbitre lève le bras du gagnant.", a: ["est", "et"] }
+  ];
+  var STEPS = ["L’astuce", "Un exemple", "Quiz", "Phrases à trous", "Phrases à écrire", "Bilan"];
+  var INFO = [
+    { t: "L’astuce", l: "« et » et « est » se prononcent pareil. C’est le sens de la phrase qui décide, et un seul test suffit." },
+    { t: "Un exemple pas à pas", l: "Regarde le test fonctionner sur deux phrases." },
+    { t: "Quiz : et ou est ?", l: "Clique sur le bon mot. Fais le test à chaque phrase." },
+    { t: "Phrases à trous", l: "Écris « et » ou « est » dans chaque espace." },
+    { t: "Phrases à écrire", l: "Écoute la phrase, puis écris-la en entier. Les deux petits mots sonnent pareil : fais le test." },
+    { t: "Bilan", l: "Voici ce que tu as réussi et ce qu’il reste à revoir." }
+  ];
+
+  /* ---------- Utilitaires ---------- */
+  function shuffle(a){
+    var b = a.slice();
+    for (var i = b.length - 1; i > 0; i--) {
+      var j = Math.floor(Math.random() * (i + 1));
+      var t = b[i]; b[i] = b[j]; b[j] = t;
+    }
+    return b;
+  }
+  function fill(item){
+    var parts = item.s.split("{}"), out = "";
+    for (var i = 0; i < parts.length; i++) { out += parts[i]; if (i < item.a.length) out += item.a[i]; }
+    return out;
+  }
+  function words(s){
+    return s.replace(/[’‘`´]/g, "'").toLowerCase().split(/[^a-zà-ÿœæ']+/).filter(Boolean);
+  }
+  function keyOf(s){
+    return words(s).filter(function(w){ return w === "et" || w === "est"; }).join(" ");
+  }
+  var canSpeak = typeof window !== "undefined" && "speechSynthesis" in window && "SpeechSynthesisUtterance" in window;
+  function speak(text){
+    try {
+      window.speechSynthesis.cancel();
+      var u = new SpeechSynthesisUtterance(text);
+      u.lang = "fr-FR"; u.rate = 0.85;
+      window.speechSynthesis.speak(u);
+    } catch (e) {}
+  }
+
+  /* ---------- Petits composants ---------- */
+  function Chip(p){ return html`<span className=${"chip " + (p.w === "est" ? "est" : "et")}>${p.w}</span>`; }
+  function Etait(){ return html`<b className="nb">« était »</b>`; }
+
+  function Sentence(p){
+    var parts = p.item.s.split("{}"), out = [];
+    parts.forEach(function(t, i){
+      out.push(html`<span key=${"t" + i}>${t}</span>`);
+      if (i < parts.length - 1) out.push(html`<span key=${"s" + i}>${p.slots[i]}</span>`);
+    });
+    return html`<p className="sentence">${out}</p>`;
+  }
+  function Blank(){ return html`<span className="blank" role="img" aria-label="espace à compléter"></span>`; }
+
+  // Phrase où le mot n° index est remplacé par « était »
+  function TestSentence(p){
+    var parts = p.item.s.split("{}"), out = [];
+    parts.forEach(function(t, i){
+      out.push(html`<span key=${"t" + i}>${t}</span>`);
+      if (i < parts.length - 1) {
+        if (i === p.index) out.push(html`<mark key=${"m" + i} className="swap">était</mark>`);
+        else out.push(html`<span key=${"a" + i}>${p.item.a[i]}</span>`);
+      }
+    });
+    return html`<div className="testline"><p className="testlabel">Test avec « était » :</p><div className="testsentence">${out}</div></div>`;
+  }
+  function Verdict(p){
+    var isEst = p.item.a[p.index] === "est";
+    return html`<p className="verdict">${isEst
+      ? html`<span><b>✓ La phrase garde du sens.</b> J’écris <${Chip} w="est"/>.</span>`
+      : html`<span><b>✗ La phrase n’a plus de sens.</b> J’écris <${Chip} w="et"/>.</span>`}</p>`;
+  }
+  function TestFull(p){
+    return html`<div><${TestSentence} item=${p.item} index=${p.index}/><${Verdict} item=${p.item} index=${p.index}/></div>`;
+  }
+
+  function TipFull(){
+    return html`<div>
+      <p>Devant le petit mot, pose-toi une seule question : <b>peut-on le remplacer par « était » ?</b></p>
+      <div className="rules">
+        <div className="rule"><${Chip} w="est"/><div><b>Oui</b>, la phrase garde du sens.<br/>C’est le verbe être : j’écris <b>est</b>.</div></div>
+        <div className="rule"><${Chip} w="et"/><div><b>Non</b>, la phrase n’a plus de sens.<br/>Le mot relie deux mots ou deux morceaux de phrase : j’écris <b>et</b>.</div></div>
+      </div>
+      <p className="note">Ce test fonctionne quand la phrase est au présent.</p>
+    </div>`;
+  }
+  function TipCompact(){
+    return html`<div className="tip compact"><b>Test :</b> remplace par <${Etait}/>. Si ça marche, j’écris <${Chip} w="est"/>. Sinon, j’écris <${Chip} w="et"/>.</div>`;
+  }
+
+  /* ---------- Étape 2 : exemple ---------- */
+  function Example(p){
+    var st = useState(false), tried = st[0], setTried = st[1];
+    var item = p.item, word = item.a[0];
+    return html`<div className="example">
+      <${Sentence} item=${item} slots=${[html`<${Chip} w=${word}/>`]}/>
+      <ol className="steps">
+        <li>Je repère le petit mot : <${Chip} w=${word}/></li>
+        <li>J’essaie <${Etait}/> à sa place.
+          ${tried
+            ? html`<${TestSentence} item=${item} index=${0}/>`
+            : html`<div className="actions"><button className="btn ghost" onClick=${function(){ setTried(true); }}>Essayer avec « était »</button></div>`}
+        </li>
+        ${tried && html`<li>Je décide.<${Verdict} item=${item} index=${0}/></li>`}
+      </ol>
+    </div>`;
+  }
+
+  /* ---------- Étape 3 : quiz ---------- */
+  function Quiz(p){
+    var s1 = useState(0), i = s1[0], setI = s1[1];
+    var s2 = useState(null), pick = s2[0], setPick = s2[1];
+    var s3 = useState([]), log = s3[0], setLog = s3[1];
+    var nextRef = useRef(null);
+    var item = p.items[i];
+    useEffect(function(){ if (pick !== null && nextRef.current) nextRef.current.focus(); }, [pick]);
+    function next(){
+      var nl = log.concat([{ item: item, ok: pick === item.a[0] }]);
+      if (i + 1 >= p.items.length) p.onDone(nl);
+      else { setLog(nl); setI(i + 1); setPick(null); }
+    }
+    function btn(w){
+      var cls = "choice " + (w === "est" ? "est" : "et");
+      var mark = "";
+      if (pick !== null) {
+        if (w === item.a[0]) { cls += " right"; mark = " ✓"; }
+        else if (w === pick) { cls += " wrong"; mark = " ✗"; }
+        else cls += " faded";
+      }
+      return html`<button className=${cls} disabled=${pick !== null} onClick=${function(){ if (pick === null) setPick(w); }}>${w}${mark}</button>`;
+    }
+    var slot = pick === null ? html`<${Blank}/>` : html`<${Chip} w=${pick}/>`;
+    var ok = pick !== null && pick === item.a[0];
+    return html`<div>
+      <p className="counter">Question ${i + 1} sur ${p.items.length}</p>
+      <${Sentence} item=${item} slots=${[slot]}/>
+      <div className="choices">${btn("et")}${btn("est")}</div>
+      <div aria-live="polite">
+        ${pick !== null && html`<div className=${"feedback " + (ok ? "ok" : "no")}>
+          <p className="fbtitle">${ok ? "Bien joué." : "Pas tout à fait."}</p>
+          <${TestFull} item=${item} index=${0}/>
+        </div>`}
+      </div>
+      ${pick !== null && html`<div className="actions"><button ref=${nextRef} className="btn" onClick=${next}>${i + 1 >= p.items.length ? "Terminer le quiz" : "Question suivante"}</button></div>`}
+    </div>`;
+  }
+
+  /* ---------- Étape 4 : phrases à trous ---------- */
+  function TrousItem(p){
+    var item = p.item, n = item.a.length;
+    var a1 = useState(function(){ return Array(n).fill(""); }), vals = a1[0], setVals = a1[1];
+    var a2 = useState(function(){ return Array(n).fill(""); }), marks = a2[0], setMarks = a2[1];
+    var a3 = useState(0), attempt = a3[0], setAttempt = a3[1];
+    var a4 = useState("edit"), phase = a4[0], setPhase = a4[1];
+    var a5 = useState(false), firstOk = a5[0], setFirstOk = a5[1];
+    var a6 = useState([]), firstBad = a6[0], setFirstBad = a6[1];
+    var a7 = useState(false), revealed = a7[0], setRevealed = a7[1];
+    var a8 = useState(""), msg = a8[0], setMsg = a8[1];
+    var nextRef = useRef(null), firstInput = useRef(null);
+    useEffect(function(){ if (phase === "done" && nextRef.current) nextRef.current.focus(); }, [phase]);
+    useEffect(function(){ if (firstInput.current) firstInput.current.focus(); }, []);
+
+    function clean(v){ return v.trim().toLowerCase(); }
+    function check(){
+      if (phase === "done") return;
+      if (vals.some(function(v){ return clean(v) === ""; })) { setMsg("Complète tous les espaces avant de vérifier."); return; }
+      setMsg("");
+      var m = vals.map(function(v, k){ return clean(v) === item.a[k] ? "ok" : "bad"; });
+      var bad = [];
+      m.forEach(function(x, k){ if (x === "bad") bad.push(k); });
+      if (bad.length === 0) {
+        setMarks(m);
+        if (attempt === 0) setFirstOk(true);
+        setPhase("done");
+      } else if (attempt === 0) {
+        setMarks(m); setFirstBad(bad); setAttempt(1); setPhase("retry");
+      } else {
+        setVals(item.a.slice());
+        setMarks(item.a.map(function(){ return "shown"; }));
+        setRevealed(true); setPhase("done");
+      }
+    }
+    function setVal(k, v){
+      setVals(function(old){ var c = old.slice(); c[k] = v; return c; });
+      setMarks(function(old){ var c = old.slice(); if (c[k] === "bad") c[k] = ""; return c; });
+    }
+    var slots = item.a.map(function(_, k){
+      return html`<input key=${"f" + k} ref=${k === 0 ? firstInput : null}
+        className=${"field " + (marks[k] || "")} type="text" inputMode="text"
+        autoCapitalize="none" autoComplete="off" autoCorrect="off" spellCheck=${false} maxLength=${3}
+        value=${vals[k]} disabled=${phase === "done"} aria-label=${"Espace " + (k + 1)}
+        onChange=${function(e){ setVal(k, e.target.value); }}
+        onKeyDown=${function(e){ if (e.key === "Enter") { e.preventDefault(); check(); } }} />`;
+    });
+    var title = firstOk ? "Bravo, du premier coup." : (revealed ? "Voici la correction." : "Bien corrigé.");
+    return html`<div>
+      <p className="counter">Phrase ${p.pos + 1} sur ${p.total}</p>
+      <${Sentence} item=${item} slots=${slots}/>
+      <div aria-live="polite">
+        ${msg && html`<div className="feedback info">${msg}</div>`}
+        ${phase === "retry" && html`<div className="feedback no">
+          <p className="fbtitle">Une réponse est à revoir (espace en rouge).</p>
+          <p className="note">Essaie <${Etait}/> à la place du mot en rouge. Est-ce que la phrase garde du sens ?</p>
+          ${firstBad.map(function(k){ return html`<${TestSentence} key=${"h" + k} item=${item} index=${k}/>`; })}
+        </div>`}
+        ${phase === "done" && html`<div className=${"feedback " + (firstOk ? "ok" : "no")}>
+          <p className="fbtitle">${title}</p>
+          ${(firstOk ? item.a.map(function(_, k){ return k; }) : firstBad.concat(revealed ? [] : [])).map(function(k){
+            return html`<${TestFull} key=${"r" + k} item=${item} index=${k}/>`;
+          })}
+        </div>`}
+      </div>
+      <div className="actions">
+        ${phase !== "done"
+          ? html`<button className="btn" onClick=${check}>Vérifier</button>`
+          : html`<button ref=${nextRef} className="btn" onClick=${function(){ p.onFinish(firstOk); }}>${p.pos + 1 >= p.total ? "Terminer" : "Phrase suivante"}</button>`}
+      </div>
+    </div>`;
+  }
+  function Trous(p){
+    var s = useState(0), i = s[0], setI = s[1];
+    var l = useState([]), log = l[0], setLog = l[1];
+    function fin(ok){
+      var nl = log.concat([{ item: p.items[i], ok: ok }]);
+      if (i + 1 >= p.items.length) p.onDone(nl); else { setLog(nl); setI(i + 1); }
+    }
+    return html`<${TrousItem} key=${i} item=${p.items[i]} pos=${i} total=${p.items.length} onFinish=${fin}/>`;
+  }
+
+  /* ---------- Étape 5 : phrases à écrire ---------- */
+  function EcrireItem(p){
+    var item = p.item, target = fill(item);
+    var a1 = useState(""), value = a1[0], setValue = a1[1];
+    var a2 = useState(0), attempt = a2[0], setAttempt = a2[1];
+    var a3 = useState("edit"), phase = a3[0], setPhase = a3[1];
+    var a4 = useState(false), firstOk = a4[0], setFirstOk = a4[1];
+    var a5 = useState(""), outcome = a5[0], setOutcome = a5[1];
+    var a6 = useState(""), msg = a6[0], setMsg = a6[1];
+    var a7 = useState(false), peek = a7[0], setPeek = a7[1];
+    var nextRef = useRef(null), inputRef = useRef(null), timer = useRef(null);
+    useEffect(function(){ return function(){ clearTimeout(timer.current); if (canSpeak) { try { window.speechSynthesis.cancel(); } catch (e) {} } }; }, []);
+    useEffect(function(){ if (phase === "done" && nextRef.current) nextRef.current.focus(); }, [phase]);
+
+    function showPeek(){
+      setPeek(true); clearTimeout(timer.current);
+      timer.current = setTimeout(function(){ setPeek(false); if (inputRef.current) inputRef.current.focus(); }, 5000);
+    }
+    function check(){
+      if (phase === "done") return;
+      var v = value.trim();
+      if (!v) { setMsg("Écris la phrase avant de vérifier."); return; }
+      setMsg("");
+      var full = words(v).join(" ") === words(target).join(" ");
+      var skill = keyOf(v) === keyOf(target);
+      if (full || skill) {
+        setOutcome(full ? "full" : "skill");
+        if (attempt === 0) setFirstOk(true);
+        setPhase("done");
+      } else if (attempt === 0) {
+        setAttempt(1); setPhase("retry");
+      } else {
+        setOutcome("reveal"); setPhase("done");
+      }
+    }
+    var model = html`<${Sentence} item=${item} slots=${item.a.map(function(w, k){ return html`<${Chip} key=${"c" + k} w=${w}/>`; })}/>`;
+    return html`<div>
+      <p className="counter">Phrase ${p.pos + 1} sur ${p.total}</p>
+      <div className="actions">
+        ${canSpeak && html`<button className="btn ghost" onClick=${function(){ speak(target); }}>Écouter la phrase</button>`}
+        <button className="btn ghost" onClick=${showPeek}>Voir la phrase 5 secondes</button>
+      </div>
+      ${peek && html`<div className="peek" aria-live="polite">${target}</div>`}
+      <p style=${{ margin: "16px 0 6px" }}><label htmlFor="ecrire">Ta phrase :</label></p>
+      <input id="ecrire" ref=${inputRef} className="write" type="text" autoComplete="off" autoCorrect="off" autoCapitalize="sentences" spellCheck=${false}
+        value=${value} disabled=${phase === "done"}
+        onChange=${function(e){ setValue(e.target.value); }}
+        onKeyDown=${function(e){ if (e.key === "Enter") { e.preventDefault(); check(); } }} />
+      <div aria-live="polite">
+        ${msg && html`<div className="feedback info">${msg}</div>`}
+        ${phase === "retry" && html`<div className="feedback no">
+          <p className="fbtitle">Vérifie tes petits mots.</p>
+          <p className="note">Pour chaque « et » ou « est » de ta phrase, essaie <${Etait}/> à sa place. Si tu as oublié un de ces mots, ajoute-le. Tu peux réécouter la phrase.</p>
+        </div>`}
+        ${phase === "done" && html`<div className=${"feedback " + (outcome === "reveal" ? "no" : "ok")}>
+          <p className="fbtitle">${outcome === "full" ? (firstOk ? "Phrase exacte, bravo." : "Phrase exacte, bien corrigé.")
+            : outcome === "skill" ? "Tes petits mots sont corrects." : "Voici la correction."}</p>
+          ${outcome === "skill" && html`<p className="note">Un autre mot diffère du modèle (accent, accord ou lettre). Compare avec le modèle :</p>`}
+          ${model}
+          ${outcome === "reveal" && item.a.map(function(_, k){ return html`<${TestFull} key=${"e" + k} item=${item} index=${k}/>`; })}
+        </div>`}
+      </div>
+      <div className="actions">
+        ${phase !== "done"
+          ? html`<button className="btn" onClick=${check}>Vérifier</button>`
+          : html`<button ref=${nextRef} className="btn" onClick=${function(){ p.onFinish(firstOk); }}>${p.pos + 1 >= p.total ? "Terminer" : "Phrase suivante"}</button>`}
+      </div>
+    </div>`;
+  }
+  function Ecrire(p){
+    var s = useState(0), i = s[0], setI = s[1];
+    var l = useState([]), log = l[0], setLog = l[1];
+    var t = useState(false), tip = t[0], setTip = t[1];
+    function fin(ok){
+      var nl = log.concat([{ item: p.items[i], ok: ok }]);
+      if (i + 1 >= p.items.length) p.onDone(nl); else { setLog(nl); setI(i + 1); }
+    }
+    return html`<div>
+      ${tip ? html`<${TipCompact}/>` : html`<div className="actions" style=${{ margin: "0 0 12px" }}><button className="btn ghost" onClick=${function(){ setTip(true); }}>Revoir l’astuce</button></div>`}
+      <${EcrireItem} key=${i} item=${p.items[i]} pos=${i} total=${p.items.length} onFinish=${fin}/>
+    </div>`;
+  }
+
+  /* ---------- Étape 6 : bilan ---------- */
+  function Bilan(p){
+    var rows = [["Quiz", p.res.quiz], ["Phrases à trous", p.res.trous], ["Phrases à écrire", p.res.ecrire]];
+    var total = 0, good = 0, missed = [];
+    rows.forEach(function(r){
+      r[1].forEach(function(x){ total++; if (x.ok) good++; else missed.push(x); });
+    });
+    var strong = total > 0 && good / total >= 0.85;
+    return html`<div>
+      ${rows.map(function(r){
+        var g = r[1].filter(function(x){ return x.ok; }).length;
+        return html`<div className="scorerow" key=${r[0]}><span>${r[0]}</span><b>${g} sur ${r[1].length} du premier coup</b></div>`;
+      })}
+      <p>${strong
+        ? "Le test « était » fonctionne pour toi. Utilise-le à chaque fois que tu hésites dans un texte."
+        : "Le test « était » demande un peu d’entraînement pour devenir un réflexe. Refais une série : les phrases changent d’ordre."}</p>
+      ${missed.length > 0 && html`<div>
+        <h3 style=${{ fontSize: "1.05rem", marginBottom: 0 }}>À revoir</h3>
+        ${missed.map(function(x, j){
+          return html`<div className="missed" key=${"m" + j}>
+            <p className="sentence">${fill(x.item)}</p>
+            ${x.item.a.map(function(_, k){ return html`<${TestFull} key=${"v" + k} item=${x.item} index=${k}/>`; })}
+          </div>`;
+        })}
+      </div>`}
+      <div className="actions">
+        <button className="btn" onClick=${p.onRestart}>Refaire une série</button>
+        <button className="btn ghost" onClick=${p.onTip}>Relire l’astuce</button>
+      </div>
+    </div>`;
+  }
+
+  /* ---------- Application ---------- */
+  function App(){
+    var s1 = useState(0), step = s1[0], setStep = s1[1];
+    var s2 = useState(0), run = s2[0], setRun = s2[1];
+    var s3 = useState({ quiz: [], trous: [], ecrire: [] }), res = s3[0], setRes = s3[1];
+    var quiz = useMemo(function(){ return shuffle(QUIZ); }, [run]);
+    var trous = useMemo(function(){ return shuffle(TROUS); }, [run]);
+    var ecrire = useMemo(function(){ return shuffle(ECRIRE); }, [run]);
+    var head = useRef(null);
+    useEffect(function(){
+      if (head.current) head.current.focus({ preventScroll: true });
+      try { window.scrollTo(0, 0); } catch (e) {}
+    }, [step, run]);
+
+    function done(key, next){
+      return function(log){
+        setRes(function(r){ var c = Object.assign({}, r); c[key] = log; return c; });
+        setStep(next);
+      };
+    }
+    function restart(){ setRes({ quiz: [], trous: [], ecrire: [] }); setRun(function(r){ return r + 1; }); setStep(2); }
+
+    var body;
+    if (step === 0) {
+      body = html`<div><${TipFull}/><div className="actions"><button className="btn" onClick=${function(){ setStep(1); }}>Voir un exemple</button></div></div>`;
+    } else if (step === 1) {
+      body = html`<div>
+        ${EXEMPLES.map(function(ex, k){ return html`<${Example} key=${k} item=${ex}/>`; })}
+        <div className="actions">
+          <button className="btn ghost" onClick=${function(){ setStep(0); }}>Retour à l’astuce</button>
+          <button className="btn" onClick=${function(){ setStep(2); }}>Commencer le quiz</button>
+        </div>
+      </div>`;
+    } else if (step === 2) {
+      body = html`<div><${TipCompact}/><${Quiz} key=${"q" + run} items=${quiz} onDone=${done("quiz", 3)}/></div>`;
+    } else if (step === 3) {
+      body = html`<div><${TipCompact}/><${Trous} key=${"t" + run} items=${trous} onDone=${done("trous", 4)}/></div>`;
+    } else if (step === 4) {
+      body = html`<${Ecrire} key=${"e" + run} items=${ecrire} onDone=${done("ecrire", 5)}/>`;
+    } else {
+      body = html`<${Bilan} res=${res} onRestart=${restart} onTip=${function(){ setStep(0); }}/>`;
+    }
+
+    return html`<div>
+      <header className="top">
+        <h1><${Chip} w="et"/> ou <${Chip} w="est"/> ?</h1>
+        <p className="sub">Entraînement en 5 étapes</p>
+      </header>
+      <div className="progress" aria-hidden="true">
+        ${STEPS.map(function(_, k){ return html`<i key=${k} className=${k < step ? "done" : (k === step ? "now" : "")}></i>`; })}
+      </div>
+      <p className="stepname">Étape ${step + 1} sur ${STEPS.length} : ${STEPS[step]}</p>
+      <main className="card">
+        <h2 ref=${head} tabIndex=${-1}>${INFO[step].t}</h2>
+        <p className="lead">${INFO[step].l}</p>
+        ${body}
+      </main>
+    </div>`;
+  }
+
+  ReactDOM.createRoot(document.getElementById("root")).render(html`<${App}/>`);
+})();
+</script>
+</body>
+</html>
