@@ -1,0 +1,771 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Réviser : espaces et paysages de l’urbanisation (4e)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#edf1ee; --surface:#ffffff; --surface2:#f5f8f6; --ink:#1b2733; --muted:#5a6772; --line:#d3dcd7;
+  --accent:#1e6f78; --accent-ink:#ffffff; --accentsoft:#dcecec;
+  --centre:#e0553a; --proche:#f2b632; --peri:#9a7fd0; --axe:#2b2f33;
+  --ok:#2f7d4f; --okbg:#e2f2e7; --ko:#b8322a; --kobg:#fae3e0;
+  --sky:#dcebf3; --land:#dfe6dc; --sea:#cfe3ec; --coast:#9fb1a8;
+  --fs:17px;
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#131a1f; --surface:#1b242b; --surface2:#222d35; --ink:#e6ecef; --muted:#9fb0ba; --line:#33424c;
+    --accent:#5fb7c0; --accent-ink:#0e1a1f; --accentsoft:#1e3a3f; --axe:#dfe6ea;
+    --ok:#6fcf97; --okbg:#17352a; --ko:#ff8a80; --kobg:#3d1f1d;
+    --sky:#24343f; --land:#3b4a44; --sea:#1b2b35; --coast:#5d6e68;
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#131a1f; --surface:#1b242b; --surface2:#222d35; --ink:#e6ecef; --muted:#9fb0ba; --line:#33424c;
+  --accent:#5fb7c0; --accent-ink:#0e1a1f; --accentsoft:#1e3a3f; --axe:#dfe6ea;
+  --ok:#6fcf97; --okbg:#17352a; --ko:#ff8a80; --kobg:#3d1f1d;
+  --sky:#24343f; --land:#3b4a44; --sea:#1b2b35; --coast:#5d6e68;
+}
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+html.big{--fs:20px}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:'Atkinson Hyperlegible',system-ui,-apple-system,'Segoe UI',sans-serif;font-size:var(--fs);line-height:1.55}
+html.spaced body{letter-spacing:.04em;word-spacing:.14em;line-height:1.85}
+button,textarea{font:inherit;color:inherit}
+:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+h1,h2,h3,h4{font-family:'Bricolage Grotesque','Atkinson Hyperlegible',system-ui,sans-serif;line-height:1.15}
+h1{font-size:1.55rem;margin:0;font-weight:800}
+h2{font-size:1.45rem;margin:0 0 10px;font-weight:800}
+h3{font-size:1.1rem;margin:22px 0 8px}
+h4{font-size:1rem;margin:0 0 6px}
+p{margin:0 0 10px}
+
+header.top{max-width:1060px;margin:0 auto;padding:18px 16px 6px;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.brand{display:flex;align-items:center;gap:12px;background:none;border:0;padding:0;cursor:pointer;text-align:left}
+.brand svg{width:46px;height:46px;flex:none}
+.sub{color:var(--muted);font-size:.9em;margin:2px 0 0}
+.tools{display:flex;gap:6px}
+.tools button{border:1.5px solid var(--line);background:var(--surface);border-radius:8px;padding:6px 10px;cursor:pointer;font-size:.85em}
+.tools button[aria-pressed="true"]{border-color:var(--accent);background:var(--accentsoft)}
+
+nav.mods{max-width:1060px;margin:0 auto;padding:8px 16px 10px;display:flex;gap:6px;overflow-x:auto;scrollbar-width:thin}
+nav.mods button{flex:0 0 auto;display:flex;align-items:center;gap:6px;border:1.5px solid var(--line);background:var(--surface);border-radius:999px;padding:7px 14px;cursor:pointer;font-size:.9em}
+nav.mods button[aria-current="page"]{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.tick{display:inline-grid;place-items:center;width:18px;height:18px;border-radius:50%;background:var(--ok);color:#fff;font-size:11px;font-weight:700}
+
+main{max-width:1060px;margin:0 auto;padding:6px 16px 60px;outline:none}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:22px}
+@media (max-width:600px){.panel{padding:16px 14px;border-radius:12px}}
+.lead{font-size:1.02em}
+.muted{color:var(--muted)}
+.label{font-weight:700;font-size:.88em;color:var(--muted);margin:0 0 6px}
+.counter{color:var(--muted);font-size:.9em;margin:0 0 8px}
+.row{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:10px 0}
+
+.btn{background:var(--accent);color:var(--accent-ink);border:1.5px solid var(--accent);border-radius:8px;padding:9px 16px;font-weight:700;cursor:pointer}
+.btn.ghost{background:transparent;color:var(--accent)}
+.btn.small{padding:6px 14px;font-size:.92em}
+.btn.ok{background:var(--ok);border-color:var(--ok);color:#fff}
+.btn.ko{background:var(--ko);border-color:var(--ko);color:#fff}
+.btn:disabled{cursor:default}
+.btn:disabled:not(.ok):not(.ko){opacity:.4}
+
+.rappel{background:var(--accentsoft);border-radius:12px;padding:10px 16px;margin:0 0 18px}
+.rappel summary{cursor:pointer;font-weight:700}
+.rappel ul{margin:10px 0 4px;padding-left:1.2em}
+.rappel li{margin:4px 0}
+
+.steps{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 18px;padding:0;list-style:none}
+.steps button{display:flex;align-items:center;gap:8px;border:1.5px solid var(--line);background:var(--surface2);border-radius:10px;padding:7px 12px;cursor:pointer;font-size:.9em}
+.steps button[aria-current="step"]{border-color:var(--accent);background:var(--accentsoft);font-weight:700}
+.steps .sn{display:inline-grid;place-items:center;width:22px;height:22px;border-radius:50%;background:var(--ink);color:var(--paper);font-size:.8em;font-weight:700}
+.steps .sn.d{background:var(--ok);color:#fff}
+.nextrow{display:flex;justify-content:flex-end;margin-top:24px;border-top:1px solid var(--line);padding-top:16px}
+
+/* placement */
+.pl-layout{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);gap:22px;align-items:start}
+@media (max-width:780px){.pl-layout{grid-template-columns:1fr}}
+.figwrap{background:var(--surface2);border:1px solid var(--line);border-radius:12px;padding:8px;overflow-x:auto}
+.figwrap svg{display:block;width:100%;height:auto}
+.figwrap.wide svg{min-width:620px}
+.bank{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 16px}
+.chip{border:1.5px solid var(--line);background:var(--surface);border-radius:8px;padding:6px 10px;cursor:pointer;text-align:left;font-size:.92em;line-height:1.35}
+.chip:hover{border-color:var(--accent)}
+.chip.sel{border-color:var(--accent);background:var(--accentsoft);box-shadow:inset 0 0 0 1.5px var(--accent)}
+.legend{display:block}
+.lrow{display:flex;align-items:center;gap:8px;margin:6px 0}
+.num{flex:none;display:grid;place-items:center;width:26px;height:26px;border-radius:50%;background:var(--ink);color:var(--paper);font-weight:700;font-size:.82em}
+.sw{flex:none;display:grid;place-items:center;width:42px}
+.sw svg{width:42px;height:24px;display:block}
+.lname{flex:none;width:7.2em;font-weight:700;font-size:.88em}
+.slot{flex:1;min-height:40px;text-align:left;border:1.5px dashed var(--line);background:transparent;border-radius:8px;padding:6px 10px;cursor:pointer;color:var(--muted);font-size:.92em;line-height:1.35}
+.slot.filled{border-style:solid;color:var(--ink);background:var(--surface2)}
+.slot.ok{border-style:solid;border-color:var(--ok);background:var(--okbg);color:var(--ink)}
+.slot.ko{border-style:solid;border-color:var(--ko);background:var(--kobg);color:var(--ink)}
+.slot.shown{border-style:solid;border-color:var(--accent);background:var(--accentsoft);color:var(--ink)}
+.msg{min-height:1.5em;font-weight:700;margin:12px 0 0}
+.fb{margin:4px 0 10px;padding:8px 12px;border-radius:8px;font-size:.92em}
+.fb.ok{background:var(--okbg);border-left:4px solid var(--ok)}
+.fb.ko{background:var(--kobg);border-left:4px solid var(--ko)}
+.why{margin:2px 0 8px 34px;font-size:.88em;color:var(--muted)}
+.why summary{cursor:pointer}
+.why p{margin:4px 0 0}
+
+/* svg */
+svg text{font-family:'Atkinson Hyperlegible',system-ui,sans-serif}
+[data-t],[data-c]{cursor:pointer}
+.z{stroke:var(--surface2);stroke-width:2}
+.c-centre{fill:var(--centre)} .c-proche{fill:var(--proche)} .c-peri{fill:var(--peri)}
+.road{stroke:var(--axe);stroke-width:7;stroke-linecap:round;fill:none}
+.sw-road{stroke-width:5}
+.hit{stroke:transparent;stroke-width:26;fill:none}
+.arrow{stroke:var(--axe);stroke-width:3;fill:none;stroke-linecap:round;stroke-linejoin:round}
+.bldg{fill:#3c4f63} .win{fill:#cfe0ea}
+.fence{fill:var(--surface);fill-opacity:.9;stroke:var(--ink);stroke-width:2;stroke-dasharray:4 3}
+.house{fill:var(--ink)} .treec{fill:#3f8f4f}
+.shack{fill:#a07a52;stroke:#5a432c;stroke-width:.8}
+.badge circle{fill:var(--surface);stroke:var(--ink);stroke-width:2}
+.badge text{font-weight:700;font-size:13px;fill:var(--ink);pointer-events:none}
+.mbadge circle{fill:var(--surface);stroke:var(--ink);stroke-width:1}
+.mbadge text{font-weight:700;font-size:6px;fill:var(--ink);pointer-events:none}
+.badge.filled circle,.mbadge.filled circle{fill:var(--accentsoft);stroke:var(--accent)}
+.badge.ok circle,.mbadge.ok circle{fill:var(--okbg);stroke:var(--ok)}
+.badge.ko circle,.mbadge.ko circle{fill:var(--kobg);stroke:var(--ko)}
+.badge.shown circle,.mbadge.shown circle{fill:var(--accentsoft);stroke:var(--accent)}
+.hl{filter:drop-shadow(0 0 4px var(--accent)) drop-shadow(0 0 2px var(--accent))}
+.sky{fill:var(--sky)} .far{fill:#b7b2c9} .farwin{fill:#e9e6f2} .tower{fill:#5f7f99} .towin{fill:#d3e3ed}
+.asphalt{fill:#3a3f44} .lane{stroke:#f4f4f4;stroke-width:1.5;stroke-dasharray:8 6} .car{fill:#e0553a} .car2{fill:#f2b632}
+.lawn{fill:#9cc98f} .tree{fill:#3f8f4f} .tree2{fill:#2f7442} .trunk{fill:#6b4b2e}
+.sea{fill:var(--sea)} .cont{fill:var(--land);stroke:var(--coast);stroke-width:.35;stroke-linejoin:round}
+.cont.ok{stroke:var(--ok);stroke-width:1.1} .cont.ko{stroke:var(--ko);stroke-width:1.1}
+.clabel{font-weight:700;font-size:6px;fill:#1b2733;paint-order:stroke;stroke:#ffffff;stroke-width:1.8px;pointer-events:none}
+.grid{stroke:var(--line);stroke-width:1} .grid.strong{stroke:var(--muted);stroke-width:1}
+.ax{font-size:10px;fill:var(--muted)}
+.curve{fill:none;stroke:var(--accent);stroke-width:3}
+.curve.dash{stroke-dasharray:6 5}
+.pt{fill:var(--surface);stroke:var(--accent);stroke-width:2.5}
+.bar{fill:var(--accent)} .bname{font-size:11px;fill:var(--ink);font-weight:700} .bval{font-size:10.5px;fill:var(--ink)}
+.bgrow{font-size:10.5px;font-weight:700;fill:var(--ok)}
+
+/* palette */
+.palette{display:flex;flex-wrap:wrap;gap:8px;margin:6px 0 12px}
+.pbtn{display:flex;align-items:center;gap:8px;border:1.5px solid var(--line);background:var(--surface);border-radius:8px;padding:6px 12px;cursor:pointer;font-size:.92em}
+.pbtn .dot{width:22px;height:16px;border-radius:4px;border:1px solid var(--muted)}
+.pbtn[aria-pressed="true"]{border-color:var(--accent);box-shadow:inset 0 0 0 1.5px var(--accent);background:var(--accentsoft)}
+.databox{margin:0 0 12px;font-size:.92em}
+.databox summary{cursor:pointer;color:var(--accent);font-weight:700}
+
+/* flash & match */
+.flash{display:flex;flex-direction:column;gap:12px;justify-content:center;align-items:center;width:100%;max-width:560px;min-height:230px;margin:10px auto;border:2px solid var(--line);border-radius:18px;background:var(--surface2);cursor:pointer;padding:26px;text-align:center}
+.flash.flipped{border-color:var(--accent);background:var(--accentsoft)}
+.flash .term{font-family:'Bricolage Grotesque',sans-serif;font-size:1.7em;font-weight:800;line-height:1.1}
+.flash .term.small{font-size:1.1em}
+.flash .def{font-size:1.05em;max-width:34em}
+.flash .ex{color:var(--muted);font-size:.9em}
+.flash .tap{color:var(--muted);font-size:.85em}
+.center{justify-content:center}
+.terms{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 14px}
+.defs{display:grid;gap:8px}
+.mitem{text-align:left;border:1.5px solid var(--line);background:var(--surface);border-radius:8px;padding:8px 12px;cursor:pointer;font-size:.93em;line-height:1.4}
+.mitem.t{font-weight:700}
+.mitem.sel{border-color:var(--accent);background:var(--accentsoft);box-shadow:inset 0 0 0 1.5px var(--accent)}
+.mitem.ok{border-color:var(--ok);background:var(--okbg);opacity:.6;cursor:default}
+.mitem.bad{border-color:var(--ko);background:var(--kobg)}
+.mitem.hint{border-color:var(--accent);border-style:dashed}
+
+/* questions */
+.q{border:1px solid var(--line);border-radius:12px;padding:14px 16px;margin:12px 0;background:var(--surface)}
+.stmt{font-weight:700;margin:0 0 10px}
+.opts{display:grid;gap:8px}
+.opt{text-align:left;border:1.5px solid var(--line);background:var(--surface2);border-radius:8px;padding:8px 12px;cursor:pointer;line-height:1.4}
+.opt:hover:not(:disabled){border-color:var(--accent)}
+.opt:disabled{cursor:default}
+.opt.ok{border-color:var(--ok);background:var(--okbg)}
+.opt.ko{border-color:var(--ko);background:var(--kobg)}
+.opt.dim{opacity:.55}
+.cq{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:20px;align-items:start}
+@media (max-width:780px){.cq{grid-template-columns:1fr}}
+.cq .q:first-child{margin-top:0}
+.ta{width:100%;border:1.5px solid var(--line);border-radius:8px;background:var(--surface2);padding:8px 10px;margin:0 0 8px;resize:vertical}
+.done-box{border:2px solid var(--ok);background:var(--okbg);border-radius:12px;padding:14px 16px;margin:16px 0}
+.progress{height:8px;border-radius:4px;background:var(--line);overflow:hidden;margin:0 0 14px}
+.progress i{display:block;height:100%;background:var(--accent)}
+
+/* mind map */
+.mindmap{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+@media (max-width:600px){.mindmap{grid-template-columns:1fr}}
+.mm-center{grid-column:1/-1;justify-self:center;background:var(--ink);color:var(--paper);padding:10px 22px;border-radius:999px;font-weight:700;font-family:'Bricolage Grotesque',sans-serif;font-size:1.1em}
+.mm-branch{border:1.5px solid var(--line);border-top:6px solid var(--bc);border-radius:12px;padding:12px;background:var(--surface)}
+.mm-branch .fixed{display:block;padding:7px 10px;border-radius:8px;background:var(--surface2);margin:6px 0;font-size:.92em}
+.mm-branch .slot{display:block;width:100%;margin:6px 0}
+
+/* home */
+.hero{display:grid;grid-template-columns:minmax(0,1.4fr) minmax(0,1fr);gap:24px;align-items:center;margin:0 0 22px}
+@media (max-width:720px){.hero{grid-template-columns:1fr}}
+.hero h2{font-size:1.9rem}
+.how{margin:0;padding-left:1.1em}
+.how li{margin:6px 0}
+.hero svg{width:100%;max-width:300px;justify-self:center}
+.mgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:12px}
+.mcard{text-align:left;border:1.5px solid var(--line);border-radius:14px;background:var(--surface2);padding:14px 16px;cursor:pointer;display:flex;flex-direction:column;gap:6px}
+.mcard:hover{border-color:var(--accent)}
+.mcard .mt{font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:1.08em}
+.mcard .md{color:var(--muted);font-size:.9em}
+.mbar{height:6px;border-radius:3px;background:var(--line);overflow:hidden;margin-top:4px}
+.mbar i{display:block;height:100%;background:var(--ok)}
+@media (prefers-reduced-motion:no-preference){.flash{transition:background .2s,border-color .2s}}
+</style>
+</head>
+<body>
+<header class="top">
+  <button class="brand" type="button" id="home-btn" aria-label="Retour à l’accueil">
+    <svg viewBox="0 0 46 46" aria-hidden="true"><ellipse cx="23" cy="23" rx="22" ry="19" fill="#9a7fd0"/><circle cx="23" cy="23" r="11" fill="#f2b632"/><circle cx="23" cy="23" r="5" fill="#e0553a"/><path d="M30 14 L42 3" stroke="#2b2f33" stroke-width="3" stroke-linecap="round"/><path d="M16 32 L6 44" stroke="#2b2f33" stroke-width="3" stroke-linecap="round"/></svg>
+    <span><h1>Espaces et paysages de l’urbanisation</h1><p class="sub">Révisions de géographie, 4e, thème 1</p></span>
+  </button>
+  <div class="tools">
+    <button type="button" id="t-big" aria-pressed="false">A+ texte plus grand</button>
+    <button type="button" id="t-sp" aria-pressed="false">Espacer les lettres</button>
+  </div>
+</header>
+<nav class="mods" id="nav" aria-label="Modules"></nav>
+<main id="app" tabindex="-1"></main>
+
+<script>
+'use strict';
+/* ---------- utilitaires ---------- */
+const $=(s,r=document)=>r.querySelector(s);
+function h(t,a,...c){const e=document.createElement(t);if(a)for(const k in a){const v=a[k];if(v===false||v==null)continue;if(k==='class')e.className=v;else if(k==='html')e.innerHTML=v;else if(k.startsWith('on')&&typeof v==='function')e.addEventListener(k.slice(2),v);else e.setAttribute(k,v===true?'':v);}for(const x of c.flat(3)){if(x==null||x===false)continue;e.append(x.nodeType?x:String(x));}return e;}
+function shuffle(a){a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
+function chunk(a,n){const r=[];for(let i=0;i<a.length;i+=n)r.push(a.slice(i,i+n));return r;}
+const STORE='revision-urbanisation-4e-v1';
+let S={done:{},mod:'home',step:{},big:false,spaced:false};
+try{const raw=localStorage.getItem(STORE);if(raw)S=Object.assign(S,JSON.parse(raw));}catch(e){}
+function save(){try{localStorage.setItem(STORE,JSON.stringify(S));}catch(e){}}
+let refreshStepper=()=>{};
+function markDone(k){if(!S.done[k]){S.done[k]=true;save();renderNav();refreshStepper();}}
+
+/* ---------- contenus ---------- */
+const VOCAB=[
+{t:'Métropole',d:'Très grande ville qui concentre des habitants, des activités et des pouvoirs de décision.',ex:'Los Angeles, São Paulo, Tokyo'},
+{t:'CBD',d:'Central Business District : le quartier des affaires, avec ses gratte-ciel, ses banques et ses sièges d’entreprises.',ex:'Downtown à Los Angeles, La Défense à Paris'},
+{t:'Aire urbaine',d:'L’agglomération plus sa couronne périurbaine : toute la zone qui vit au rythme de la ville.',ex:'Aire urbaine de Los Angeles : 18,8 millions d’habitants'},
+{t:'Périphérie',d:'Les espaces situés autour du centre-ville.',ex:'Les banlieues de Los Angeles, les favelas de São Paulo'},
+{t:'Étalement urbain',d:'Extension de la ville sur des espaces de plus en plus vastes, souvent au détriment des terres agricoles.',ex:'Los Angeles s’étend jusqu’à 80 km vers l’est'},
+{t:'Banlieue pavillonnaire',d:'Quartier de périphérie fait de maisons individuelles avec jardin.',ex:'Les banlieues de Los Angeles ou de Londres'},
+{t:'Lotissement',d:'Ensemble de maisons semblables construites en même temps sur un terrain découpé en parcelles.',ex:'Les lotissements uniformes de Los Angeles'},
+{t:'Edge city',d:'Centre secondaire de périphérie, avec de grands immeubles de bureaux, le long des autoroutes.',ex:'Les pôles de bureaux autour de Los Angeles'},
+{t:'Mall',d:'Grand centre commercial de périphérie, où l’on va en voiture.',ex:'Les malls le long des autoroutes de Los Angeles'},
+{t:'Gated community',d:'Quartier résidentiel fermé et surveillé, réservé à des habitants aisés.',ex:'Hidden Hills, à l’ouest de Los Angeles'},
+{t:'Gentrification',d:'Installation de populations aisées dans un quartier populaire rénové ; les habitants les plus pauvres doivent partir.',ex:'Des quartiers du centre de São Paulo'},
+{t:'Favela',d:'Nom donné au Brésil aux bidonvilles : quartiers d’habitat informel et précaire.',ex:'Paraisópolis, à São Paulo'},
+{t:'Bidonville',d:'Quartier d’habitat précaire construit sans autorisation, souvent sans eau courante ni électricité.',ex:'Les favelas, le township d’Alexandra'},
+{t:'Condominio fechado',d:'Au Brésil, résidence fermée et sécurisée où vivent les plus riches.',ex:'Les résidences sécurisées de São Paulo'},
+{t:'Pays émergent',d:'Pays dont l’économie grandit vite, mais où les inégalités restent fortes.',ex:'Le Brésil, la Chine, l’Inde'},
+{t:'Taux d’urbanisation',d:'Part de la population qui vit en ville, en pourcentage.',ex:'56 % dans le monde en 2020'},
+{t:'Fragmentation urbaine',d:'Division de la ville en quartiers très différents qui se côtoient sans se mélanger.',ex:'Sandton, quartier riche, à côté du township d’Alexandra'},
+{t:'Ségrégation sociale',d:'Séparation des habitants dans l’espace selon leurs revenus.',ex:'Les riches dans les quartiers fermés, les pauvres dans les bidonvilles'}
+];
+
+const LA_VF=[
+{s:'À Los Angeles, c’est surtout le centre-ville qui a gagné des habitants.',v:false,why:['La population du centre est restée stable : ce sont les banlieues qui ont fortement augmenté.','Le centre a perdu tous ses habitants.','Toute l’agglomération a perdu des habitants.'],expl:'L’agglomération est passée de 15 à 18 millions d’habitants grâce aux banlieues.'},
+{s:'Les nouveaux quartiers de Los Angeles se développent le long des autoroutes.',v:true,why:['La voiture est le mode de déplacement presque exclusif des habitants.','Les habitants se déplacent surtout à pied.','Les autoroutes sont interdites aux voitures.'],expl:'Maisons, zones d’activités, malls et edge cities suivent les grands axes routiers.'},
+{s:'Le centre de Los Angeles ne compte que des quartiers riches.',v:false,why:['On y trouve aussi Skid Row, où se concentrent pauvres et sans-abri.','Il n’y a aucun habitant dans le centre.','Le centre n’a que des maisons individuelles.'],expl:'Le downtown mêle le CBD, des entrepôts, des quartiers rénovés et des poches de pauvreté.'},
+{s:'Hidden Hills est un quartier ouvert à tous.',v:false,why:['C’est une gated community, fermée et surveillée jour et nuit.','C’est un parc public.','C’est le quartier des affaires.'],expl:'Hidden Hills, au-delà des Santa Monica Mountains, montre comment les plus riches se séparent du reste de la ville.'}
+];
+const SP_VF=[
+{s:'Le centre de São Paulo est bien relié au reste de la ville.',v:true,why:['On y accède par la route et par le train, et l’aéroport est à 15 km.','Il n’y a aucune voiture dans le centre.','Tout le monde habite dans le centre.'],expl:'Un centre bien connecté est un atout des métropoles mondiales.'},
+{s:'Il n’y a plus d’inégalités dans le centre de São Paulo.',v:false,why:['Il reste des quartiers dégradés et des personnes qui vivent dans la rue.','Tous les habitants du centre sont riches.','Le centre est vide.'],expl:'Le soir, des vitrines sont barricadées et certaines ruelles appartiennent aux plus démunis.'},
+{s:'Les périphéries de São Paulo ne comptent que des favelas.',v:false,why:['Elles sont mixtes : centres secondaires, immeubles des classes moyennes et favelas.','Elles ne comptent que des gratte-ciel.','Elles sont inhabitées.'],expl:'À Paraisópolis, la favela touche des immeubles de classes moyennes et aisées.'},
+{s:'Malgré la réhabilitation de certaines favelas, les inégalités s’accentuent.',v:true,why:['Les riches se réfugient dans des condominios fechados, fermés et sécurisés.','Toutes les favelas ont disparu.','Les riches partent vivre à la campagne.'],expl:'La ville est fragmentée : les quartiers se côtoient sans se mélanger.'}
+];
+
+const SORT=[
+{t:'De vastes banlieues pavillonnaires le long des autoroutes',a:'nord',why:'C’est le modèle de Los Angeles : maisons individuelles et voiture.'},
+{t:'Des favelas en périphérie',a:'sud',why:'Dans les métropoles du Sud, l’étalement urbain prend souvent la forme de quartiers informels, comme à São Paulo.'},
+{t:'Un CBD hérissé de gratte-ciel',a:'deux',why:'Le CBD est le paysage typique de la mondialisation : on le trouve à Los Angeles comme à São Paulo.'},
+{t:'Des quartiers fermés et surveillés pour les plus riches',a:'deux',why:'Gated communities à Los Angeles (Hidden Hills), condominios fechados à São Paulo.'},
+{t:'Des transports en commun développés',a:'nord',why:'Ils demandent des investissements coûteux : ils sont surtout développés dans les pays riches.'},
+{t:'Eau, électricité et ramassage des ordures insuffisants en périphérie',a:'sud',why:'Les services urbains manquent dans les périphéries des pays pauvres et émergents.'},
+{t:'Des bidonvilles juste à côté du quartier d’affaires',a:'sud',why:'Ce contraste ne se retrouve que dans les pays en développement ou émergents.'},
+{t:'Des ghettos où se concentre la pauvreté',a:'nord',why:'Les ghettos d’Amérique du Nord sont des poches de pauvreté dans des villes riches.'},
+{t:'L’étalement urbain',a:'deux',why:'Il se fait partout dans le monde, au détriment des espaces agricoles.'},
+{t:'Des périphéries mal reliées au centre',a:'sud',why:'Les habitants y font de très longs trajets, avec peu de transports.'},
+{t:'La gentrification de quartiers du centre',a:'deux',why:'Des quartiers rénovés attirent les plus aisés, à Los Angeles comme à São Paulo.'},
+{t:'Un township d’habitat précaire (Alexandra)',a:'sud',why:'À Johannesburg, le township d’Alexandra côtoie le quartier riche de Sandton.'}
+];
+
+const CHEZ=[
+{q:'À Casablanca, quel quartier ressemble à un CBD ?',p:'Casablanca Finance City, avec ses tours de bureaux et ses sièges d’entreprises, ou le quartier des Twin Center. Ce sont des paysages de la mondialisation.'},
+{q:'Comment Casablanca s’étale-t-elle ?',p:'De nouveaux quartiers se construisent en périphérie (Bouskoura, Dar Bouazza…), souvent sous forme de résidences fermées, reliées au centre par des autoroutes.'},
+{q:'Voit-on des contrastes sociaux à Casablanca ?',p:'Oui : des quartiers aisés comme Anfa côtoient des quartiers populaires. Le programme « Villes sans bidonvilles » cherche à reloger les habitants des bidonvilles.'},
+{q:'À Paris, où se trouve le CBD ? Où trouve-t-on des banlieues pavillonnaires ?',p:'Le CBD, c’est La Défense. Les banlieues pavillonnaires se trouvent surtout loin du centre, dans les communes de la grande couronne.'}
+];
+
+const G1=[
+{q:'Quelle part de la population mondiale vit en ville en 2020 ?',o:['56 %','37 %','68 %','80 %'],w:'Le point de 2020 est un peu au-dessus de la ligne des 50 % : 56 %, soit plus de 4,3 milliards de personnes.'},
+{q:'Vers quelle année plus de la moitié de l’humanité est-elle devenue urbaine ?',o:['Vers 2007','Vers 1950','Vers 1990','Vers 2050'],w:'La courbe franchit la ligne des 50 % vers 2007.'},
+{q:'Que montre la partie en pointillés ?',o:['Une prévision de l’ONU : 68 % en 2050','Une baisse de la population urbaine','Des chiffres de 1950','La population rurale'],w:'Les pointillés indiquent une prévision, pas une mesure.'}
+];
+const G2=[
+{q:'Quelle ville a connu la plus forte croissance entre 1990 et 2014 ?',o:['Shanghai (+193 %)','Tokyo (+16 %)','São Paulo (+41 %)','Mexico (+33 %)'],w:'Shanghai (+193 %) puis Delhi (+156 %) ont connu la plus forte croissance.'},
+{q:'Sur quel continent se trouvent trois de ces cinq villes ?',o:['L’Asie','L’Europe','L’Afrique','L’Amérique du Nord'],w:'Tokyo, Delhi et Shanghai sont en Asie.'},
+{q:'Que peut-on conclure de ce graphique ?',o:['Les villes des pays émergents grandissent bien plus vite que Tokyo','Toutes les villes grandissent au même rythme','Les grandes villes perdent des habitants','Les plus grandes villes sont en Europe'],w:'Tokyo, dans un pays riche, grandit peu (+16 %) ; Delhi, Shanghai, São Paulo et Mexico grandissent beaucoup plus vite.'}
+];
+
+const QUIZ=[
+{q:'Que désigne le sigle CBD ?',o:['Le quartier des affaires, avec ses gratte-ciel','Un quartier historique','Une banlieue pavillonnaire','Un bidonville'],w:'CBD = Central Business District : sièges sociaux, banques, tours de bureaux.'},
+{q:'Quel paysage se diffuse dans toutes les grandes villes avec la mondialisation ?',o:['Le CBD et ses gratte-ciel','Les villages isolés','Les zones agricoles','Les quartiers historiques'],w:'Le CBD est le paysage typique de la mondialisation, de New York à São Paulo.'},
+{q:'En Europe, autour de quoi s’organisent souvent les centres-villes ?',o:['Des quartiers historiques','Des autoroutes','Des favelas','Des gated communities'],w:'Les villes européennes sont anciennes : leur centre garde des quartiers historiques.'},
+{q:'Qu’est-ce que l’étalement urbain ?',o:['L’extension de la ville sur des espaces de plus en plus vastes','La construction de tours de plus en plus hautes','Le départ des habitants vers la campagne','La rénovation des vieux quartiers'],w:'La ville grandit en surface, souvent au détriment des espaces agricoles.'},
+{q:'Pourquoi Los Angeles est-elle un exemple typique d’étalement urbain ?',o:['Son centre est petit et ses banlieues s’étendent sur des dizaines de kilomètres','Elle ne compte que des gratte-ciel','Sa population diminue','Elle n’a pas d’autoroutes'],w:'Les banlieues s’étendent jusqu’à 80 km vers l’est et la majorité des habitants y vit.'},
+{q:'À Los Angeles, quel est le principal moyen de se déplacer ?',o:['La voiture, sur les autoroutes','Le métro','Le vélo','La marche'],w:'La voiture est presque le seul mode de déplacement : la ville s’est construite le long des autoroutes.'},
+{q:'Qu’est-ce que Hidden Hills ?',o:['Une gated community, fermée et surveillée','Le quartier des affaires de Los Angeles','Une favela','Un parc naturel'],w:'Hidden Hills, à l’ouest de Los Angeles, est fermée et surveillée jour et nuit.'},
+{q:'Qu’est-ce qu’une edge city ?',o:['Un centre secondaire de bureaux en périphérie','Un quartier historique','Un bidonville au bord de la ville','Une ville frontière'],w:'Le long des autoroutes, d’énormes immeubles de bureaux forment de nouveaux centres.'},
+{q:'Que trouve-t-on à Skid Row, dans le centre de Los Angeles ?',o:['Des populations pauvres et des sans-abri','Des gratte-ciel de banques','Des villas de luxe','Des champs'],w:'Même dans le centre d’une ville riche, il existe des poches de pauvreté.'},
+{q:'Où se situe São Paulo ?',o:['Au sud-est du Brésil, près de l’océan Atlantique','Au nord du Mexique','Sur la côte pacifique du Chili','Au centre de l’Argentine'],w:'Pour situer une ville : le pays, la position dans le pays, un repère proche, le continent.'},
+{q:'Qu’est-ce que l’avenue Paulista ?',o:['La grande avenue des affaires et du commerce de São Paulo','Une autoroute de périphérie','Une favela','Un parc'],w:'Banques, sièges d’entreprises, boutiques chics : on la compare aux Champs-Élysées.'},
+{q:'Comment a évolué la population de São Paulo entre 1950 et 2014 ?',o:['De 2,5 à 20,8 millions d’habitants','De 20 à 2 millions','Elle est restée stable','De 10 à 12 millions'],w:'Elle a été multipliée par plus de 8 : une croissance urbaine très rapide.'},
+{q:'Qu’est-ce qu’une favela ?',o:['Un quartier d’habitat informel et précaire au Brésil','Un quartier d’affaires','Une résidence fermée pour riches','Un centre commercial'],w:'C’est le nom brésilien des bidonvilles, comme Paraisópolis.'},
+{q:'Que sont les condominios fechados ?',o:['Des résidences fermées et sécurisées pour les riches','Des favelas réhabilitées','Des immeubles de bureaux','Des parcs publics'],w:'Les riches s’y réfugient : cela accentue la fragmentation de la ville.'},
+{q:'Qu’est-ce que la gentrification ?',o:['L’installation de populations aisées dans un quartier populaire rénové','La destruction d’un quartier riche','La construction d’une autoroute','Le départ des riches vers la campagne'],w:'Les prix montent et les habitants les plus pauvres doivent partir.'},
+{q:'En 2020, quelle part de la population mondiale vit en ville ?',o:['56 %','25 %','80 %','100 %'],w:'Plus de 4,3 milliards de personnes. L’ONU prévoit 68 % en 2050.'},
+{q:'Quels continents sont les moins urbanisés ?',o:['L’Afrique et l’Asie','L’Europe et l’Amérique du Nord','L’Amérique du Sud et l’Europe','L’Amérique du Nord et l’Amérique du Sud'],w:'Afrique : 44 % ; Asie : 52 %. Contre plus de 75 % en Europe et plus de 80 % aux Amériques.'},
+{q:'Où la croissance urbaine est-elle la plus rapide aujourd’hui ?',o:['Dans les pays en développement et émergents','Dans les pays les plus riches','Uniquement en Europe','Nulle part : elle s’arrête'],w:'C’est dans ces pays, les « Suds », que se trouvent la plupart des plus grandes villes.'},
+{q:'Quelle était la ville la plus peuplée du monde en 2015 ?',o:['Tokyo','São Paulo','Los Angeles','Delhi'],w:'Tokyo : 37,8 millions d’habitants.'},
+{q:'Dans les pays riches, comment se manifeste la fragmentation de la ville ?',o:['Les plus riches vont dans les centres rénovés, les classes moyennes en périphérie','Tout le monde habite au centre','Il n’y a plus de différences entre quartiers','Les centres sont abandonnés'],w:'C’est la ségrégation sociale des villes du Nord.'},
+{q:'Quel problème touche les périphéries des métropoles du Sud ?',o:['Le manque d’eau, d’électricité et de ramassage des ordures','Trop de transports en commun','Trop de gratte-ciel','Pas assez d’habitants'],w:'Les services urbains y sont très insuffisants.'},
+{q:'À Johannesburg, qu’est-ce qui illustre la fragmentation urbaine ?',o:['Le quartier riche de Sandton à côté du township d’Alexandra','Un seul grand quartier identique','L’absence de périphérie','Un centre historique médiéval'],w:'Quartiers sécurisés et habitat précaire se côtoient sans se mélanger.'},
+{q:'Dans le schéma « Habiter une métropole », que regroupe « Pratiquer » ?',o:['Travailler, faire des achats, se divertir','Se loger en banlieue','Prendre la voiture','Les inégalités sociales'],w:'Pratiquer la ville, c’est y faire des activités.'},
+{q:'Comment évolue la densité du centre vers les espaces ruraux ?',o:['Elle diminue : maximale au centre, minimale à la campagne','Elle augmente','Elle est partout identique','Elle est maximale en périphérie'],w:'Le centre est le plus dense (tours, immeubles), les espaces ruraux le moins.'},
+{q:'À Paris, quel quartier ressemble le plus à un CBD ?',o:['La Défense','Montmartre','Le Marais','Le bois de Boulogne'],w:'La Défense regroupe les tours de bureaux et les sièges de grandes entreprises.'},
+{q:'À Casablanca, Casablanca Finance City est un exemple de…',o:['Quartier d’affaires (CBD)','Bidonville','Banlieue pavillonnaire','Espace rural'],w:'Tours de bureaux, sièges d’entreprises et banques : un paysage de la mondialisation.'}
+];
+
+/* ---------- dessins ---------- */
+function P(cx,cy,r,deg){const a=deg*Math.PI/180;return[cx+r*Math.cos(a),cy+r*Math.sin(a)];}
+function arrowD(x1,y1,x2,y2){const a=Math.atan2(y2-y1,x2-x1),L=10;const f=n=>n.toFixed(1);return`M${f(x1)} ${f(y1)}L${f(x2)} ${f(y2)}M${f(x2-L*Math.cos(a-0.45))} ${f(y2-L*Math.sin(a-0.45))}L${f(x2)} ${f(y2)}L${f(x2-L*Math.cos(a+0.45))} ${f(y2-L*Math.sin(a+0.45))}`;}
+function badge(id,n,x,y){return`<g class="badge" data-t="${id}" data-badge="${id}"><circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="12"/><text x="${x.toFixed(1)}" y="${(y+4.5).toFixed(1)}" text-anchor="middle">${n}</text></g>`;}
+const SW={
+  fill:c=>`<svg viewBox="0 0 42 24" aria-hidden="true"><rect x="2" y="3" width="38" height="18" rx="3" class="z ${c}"/></svg>`,
+  road:`<svg viewBox="0 0 42 24" aria-hidden="true"><line x1="4" y1="12" x2="38" y2="12" class="road sw-road"/></svg>`,
+  arrow:`<svg viewBox="0 0 42 24" aria-hidden="true"><path d="${arrowD(4,12,38,12)}" class="arrow"/></svg>`,
+  edge:`<svg viewBox="0 0 42 24" aria-hidden="true"><rect x="14" y="2" width="14" height="20" class="bldg"/><rect x="16" y="6" width="10" height="2" class="win"/><rect x="16" y="11" width="10" height="2" class="win"/><rect x="16" y="16" width="10" height="2" class="win"/></svg>`,
+  gated:`<svg viewBox="0 0 42 24" aria-hidden="true"><rect x="5" y="3" width="32" height="18" rx="5" class="fence"/><path d="M16 18v-6l5-4 5 4v6z" class="house"/></svg>`,
+  favela:`<svg viewBox="0 0 42 24" aria-hidden="true"><rect x="8" y="5" width="8" height="6" class="shack"/><rect x="18" y="4" width="7" height="7" class="shack"/><rect x="27" y="6" width="7" height="6" class="shack"/><rect x="11" y="13" width="9" height="7" class="shack"/><rect x="22" y="13" width="8" height="7" class="shack"/></svg>`
+};
+function concentric(o){
+  const cx=210,cy=160,ang=[-113,-31,115];
+  let s=`<svg viewBox="0 0 420 320" role="img" aria-label="${o.aria}">`;
+  s+=`<ellipse data-t="${o.ids[0]}" class="z c-peri" cx="${cx}" cy="${cy}" rx="178" ry="138"/>`;
+  s+=`<circle data-t="${o.ids[1]}" class="z c-proche" cx="${cx}" cy="${cy}" r="80"/>`;
+  s+=`<circle data-t="${o.ids[2]}" class="z c-centre" cx="${cx}" cy="${cy}" r="34"/>`;
+  s+=o.extras||'';
+  ang.forEach(d=>{const[a,b]=P(cx,cy,80,d),[x,y]=P(cx,cy,270,d);s+=`<g data-t="${o.ids[3]}"><line class="hit" x1="${a}" y1="${b}" x2="${x}" y2="${y}"/><line class="road" x1="${a}" y1="${b}" x2="${x}" y2="${y}"/></g>`;});
+  ang.forEach(d=>{const pa=(d+90)*Math.PI/180,dx=18*Math.cos(pa),dy=18*Math.sin(pa);const[x1,y1]=P(cx,cy,100,d),[x2,y2]=P(cx,cy,165,d);const D=arrowD(x1+dx,y1+dy,x2+dx,y2+dy);s+=`<g data-t="${o.ids[4]}"><path class="hit" d="${D}"/><path class="arrow" d="${D}"/></g>`;});
+  const[ax,ay]=P(cx,cy,215,-31);
+  const pa=(-113+90)*Math.PI/180;const[mx,my]=P(cx,cy,132,-113);
+  s+=badge(o.ids[2],1,cx,cy)+badge(o.ids[1],2,...P(cx,cy,57,60))+badge(o.ids[0],3,78,195)+badge(o.ids[3],4,ax,ay)+badge(o.ids[4],5,mx+38*Math.cos(pa),my+38*Math.sin(pa));
+  s+=o.extraBadges||'';
+  return s+'</svg>';
+}
+const LA_EXTRA=(()=>{let s='<g data-t="edge"><rect x="304" y="196" width="28" height="36" rx="2" class="bldg"/>';for(let y=202;y<228;y+=7)s+=`<rect x="308" y="${y}" width="20" height="3" class="win"/>`;s+='</g>';s+='<g data-t="gated"><rect x="58" y="112" width="54" height="38" rx="9" class="fence"/><path d="M70 142v-10l8-7 8 7v10z" class="house"/><path d="M90 142v-8l6-5 6 5v8z" class="house"/></g>';return s;})();
+const SP_EXTRA='<g data-t="favela"><rect x="270" y="222" width="10" height="8" class="shack"/><rect x="282" y="218" width="9" height="9" class="shack"/><rect x="293" y="223" width="11" height="7" class="shack"/><rect x="272" y="232" width="8" height="9" class="shack"/><rect x="282" y="230" width="12" height="8" class="shack"/><rect x="296" y="232" width="9" height="9" class="shack"/><rect x="276" y="243" width="11" height="7" class="shack"/><rect x="290" y="242" width="10" height="8" class="shack"/></g><g data-t="condo"><rect x="312" y="198" width="46" height="32" rx="8" class="fence"/><path d="M322 223v-9l7-6 7 6v9z" class="house"/><circle cx="347" cy="215" r="6" class="treec"/></g>';
+
+function paysageSVG(){
+  let s='<svg viewBox="0 0 400 250" role="img" aria-label="Dessin du centre de São Paulo vu depuis un parc, en trois plans"><rect width="400" height="250" class="sky"/>';
+  s+='<g data-t="plan3"><rect x="0" y="70" width="400" height="100" fill="transparent"/>';
+  [[0,92,36],[34,80,30],[62,100,28],[88,76,34],[120,96,30],[250,90,30],[300,98,32],[330,86,32],[360,76,40]].forEach(([x,y,w])=>{s+=`<rect x="${x}" y="${y}" width="${w}" height="${170-y}" class="far"/>`;for(let yy=y+6;yy<160;yy+=9)for(let xx=x+4;xx<x+w-4;xx+=7)s+=`<rect x="${xx}" y="${yy}" width="3" height="4" class="farwin"/>`;});
+  s+='</g><g data-t="plan2">';
+  [[110,40,26],[140,18,30],[176,50,24],[204,26,34],[244,44,26],[274,30,28]].forEach(([x,y,w])=>{s+=`<rect x="${x}" y="${y}" width="${w}" height="${168-y}" class="tower"/>`;for(let yy=y+6;yy<162;yy+=8)s+=`<rect x="${x+3}" y="${yy}" width="${w-6}" height="3" class="towin"/>`;});
+  s+='</g><g data-t="avenue"><rect x="0" y="166" width="400" height="20" class="asphalt"/><line x1="0" y1="176" x2="400" y2="176" class="lane"/><rect x="60" y="169" width="16" height="6" rx="2" class="car"/><rect x="190" y="178" width="16" height="6" rx="2" class="car2"/><rect x="300" y="169" width="16" height="6" rx="2" class="car"/></g>';
+  s+='<g data-t="plan1"><rect x="0" y="186" width="400" height="64" class="lawn"/>';
+  [[20,214,20],[62,222,16],[110,210,22],[160,226,17],[210,214,21],[258,224,16],[305,212,22],[352,222,19],[392,210,16]].forEach(([x,y,r],i)=>{s+=`<rect x="${x-3}" y="${y}" width="6" height="${250-y}" class="trunk"/><circle cx="${x}" cy="${y}" r="${r}" class="${i%2?'tree2':'tree'}"/>`;});
+  s+='</g>';
+  s+=badge('plan3',3,22,112)+badge('plan2',2,155,60)+badge('avenue',4,372,176)+badge('plan1',1,62,222);
+  return s+'</svg>';
+}
+
+/* planisphère simplifié (projection équirectangulaire) */
+const pr=([lo,la])=>[lo+180,90-la];
+const dpath=pts=>'M'+pts.map(p=>{const[x,y]=pr(p);return x.toFixed(1)+' '+y.toFixed(1);}).join('L')+'Z';
+const CONT={
+amn:[[[-168,66],[-162,70],[-150,71],[-140,70],[-128,70],[-115,68],[-100,68],[-95,72],[-85,70],[-80,64],[-88,58],[-92,57],[-82,53],[-78,56],[-77,62],[-70,60],[-62,57],[-56,52],[-60,47],[-66,45],[-70,42],[-74,40],[-76,35],[-81,31],[-80,25],[-82,27],[-84,30],[-90,30],[-94,29],[-97,26],[-97,21],[-95,19],[-91,19],[-87,21],[-88,16],[-84,15],[-83,10],[-79,9],[-80,7],[-83,8],[-86,12],[-92,14],[-96,16],[-105,20],[-106,23],[-109,26],[-112,29],[-114.5,31.5],[-112.5,28],[-110,23],[-112,25],[-115,28],[-117,32],[-121,35],[-124,40],[-124,47],[-127,51],[-133,57],[-140,60],[-150,61],[-158,58],[-165,60]],
+     [[-73,78],[-65,81],[-40,83],[-20,81],[-18,75],[-22,70],[-40,65],[-44,60],[-50,62],[-54,67],[-56,72],[-68,76]]],
+ams:[[[-77,8],[-72,12],[-67,11],[-62,10],[-57,6],[-52,5],[-50,1],[-44,-2],[-38,-4],[-35,-7],[-37,-12],[-39,-15],[-40,-21],[-44,-23],[-48,-26],[-51,-31],[-54,-35],[-58,-38],[-62,-39],[-65,-42],[-66,-47],[-69,-51],[-68,-55],[-72,-54],[-75,-48],[-73,-40],[-72,-30],[-71,-22],[-70,-18],[-76,-14],[-79,-8],[-81,-5],[-80,-1],[-80,1],[-78,4]]],
+eur:[[[-9,37],[-9,43],[-2,43.5],[-1,46],[-4,48],[2,50.5],[5,53],[8,54],[8,57],[5,59],[5,62],[10,64],[15,68],[20,70],[28,71],[33,69],[40,67],[44,68.5],[55,68.5],[60,69],[60,55],[57,51],[50,48],[48,45],[47,42],[42,41.5],[36,41.5],[29,41],[26,40.5],[24,38],[22,36.5],[21,39],[19.5,42],[13.5,45.5],[12.5,44],[16,41.5],[18.5,40],[16,38],[15.5,40],[12,41.5],[10,44],[7.5,43.8],[3,43.2],[3,41.5],[0,39],[-0.5,37.5],[-2,36.7],[-5.5,36]],
+     [[-5.5,50],[1.5,51.2],[1.7,52.7],[0,53.5],[-1.5,55],[-2,57],[-3,58.6],[-5,58.6],[-6,56.5],[-5,55],[-3,54.5],[-4.5,53.2],[-5.2,51.7]],
+     [[-10,51.6],[-6,52],[-6,54],[-8,55.2],[-10,54]],
+     [[-24,65.5],[-18,66.5],[-13.5,65],[-19,63.4],[-22,64]]],
+asi:[[[60,69],[70,73],[80,73],[90,76],[100,77],[112,74],[130,71],[140,72],[150,71],[160,70],[170,70],[180,68],[180,65],[172,64],[165,60],[162,56],[156,51],[156,57],[160,61],[155,59.5],[143,59],[137,54],[141,52],[140,48],[135,43],[130,42],[129,36],[126,35],[126,38],[122,40],[118,39],[121,37],[119,35],[121,32],[122,30],[120,26],[116,23],[110,21],[108,18],[106,20],[108,15],[109,12],[105,9],[104,10.5],[101,13],[99,10],[100,7],[103,4],[104,1.5],[101,3],[98,8],[98,14],[97,17],[94,19],[92,22],[89,22],[86,20],[80,15],[80,10],[77,8],[75,12],[73,17],[72.5,21],[70,22.5],[67,25],[62,25],[57,25.5],[56.3,27],[52,28],[50,30],[48,29.5],[50,26],[51.5,24],[54,24],[56,26],[57,23],[59.8,22.5],[57,18.5],[53,16.5],[45,12.8],[43,13],[42.5,15],[39,21],[35,28],[34.5,29.5],[32.5,30],[34.2,31.3],[35.9,35.5],[36.2,36.7],[32,36.1],[30,36.3],[27,37],[26.3,39.5],[26.5,40.5],[29,41],[36,41.5],[42,41.5],[47,42],[48,45],[50,48],[57,51],[60,55]],
+     [[130,31],[132,34],[135,34],[140,35],[141,38],[141.5,41],[140,40],[139,38],[137,37],[135,35.6],[132,35.4],[130,33.5]],
+     [[140,41.5],[141.5,45.4],[145.5,43.3],[143,42]],
+     [[95,5.5],[98,4],[104,-1],[106,-5.8],[102,-4],[98,0]],
+     [[109,1.5],[110.5,-3],[116,-4],[118,1],[117,6.5],[115,5]],
+     [[105,-6.5],[114.5,-7.5],[114,-8.7],[106,-7.5]]],
+afr:[[[-17,21],[-17,15],[-16,12],[-13,9],[-8,4.5],[-3,5],[3,6.3],[8,4.5],[9.5,3],[9.5,-1],[12,-5],[13.3,-9],[12,-15],[12,-18],[14.5,-23],[16,-28.5],[18.5,-34],[22,-34],[26,-34],[30,-31],[33,-26],[35.5,-24],[35,-20],[40,-16],[40.5,-11],[39,-6],[40,-3],[42,0],[46,3],[51,11],[44,10.5],[43,12],[40,15],[38,18],[36,22],[34,26],[32.5,30],[31,31.5],[25,31.7],[20,32],[20,30.5],[15,32],[11,33],[10,37],[3,36.8],[-2,35.2],[-6,35.8],[-9.5,30],[-13,27.5]],
+     [[44,-25],[43.5,-22],[44.5,-16],[49.5,-12],[50.5,-15.5],[47,-25]]],
+oce:[[[114,-22],[122,-17],[130,-12],[137,-12],[142,-11],[146,-19],[153,-26],[151,-33],[145,-38],[138,-35],[131,-31],[115,-34],[114,-26]],
+     [[172,-35],[178,-38],[174,-41],[167,-46],[172,-41]],
+     [[131,-1],[141,-2.5],[150,-10],[143,-9],[138,-8]]]
+};
+const CNAME={amn:'Amérique du Nord',ams:'Amérique du Sud',eur:'Europe',asi:'Asie',afr:'Afrique',oce:'Océanie'};
+const CLAB={amn:[-102,50],ams:[-60,-14],eur:[18,54],afr:[20,6],asi:[92,48],oce:[134,-26]};
+const CITIES=[
+{id:'la',n:'Los Angeles',ll:[-118.2,34.1],e:'Los Angeles (États-Unis), sur la côte pacifique : le modèle de la métropole étalée du Nord.',hi:'Côte ouest de l’Amérique du Nord.'},
+{id:'mexico',n:'Mexico',ll:[-99.1,19.4],e:'Mexico (Mexique) : 20,8 millions d’habitants en 2015, 4e ville du monde.',hi:'Entre l’Amérique du Nord et l’Amérique du Sud.'},
+{id:'sp',n:'São Paulo',ll:[-46.6,-23.5],e:'São Paulo (Brésil), au sud-est du pays, près de l’Atlantique : 20,8 millions d’habitants.',hi:'Amérique du Sud, près de l’océan Atlantique.'},
+{id:'londres',n:'Londres',ll:[-0.1,51.5],e:'Londres (Royaume-Uni) : un exemple de banlieues pavillonnaires en Europe.',hi:'Une île au nord-ouest de l’Europe.'},
+{id:'jo',n:'Johannesburg',ll:[28,-26.2],e:'Johannesburg (Afrique du Sud) : le quartier riche de Sandton côtoie le township d’Alexandra.',hi:'Sud de l’Afrique.'},
+{id:'delhi',n:'Delhi',ll:[77.2,28.6],e:'Delhi (Inde) : 25 millions d’habitants, +156 % entre 1990 et 2014.',hi:'Asie du Sud, au nord de l’Inde.'},
+{id:'shanghai',n:'Shanghai',ll:[121.5,31.2],e:'Shanghai (Chine) : la plus forte croissance du top 5 mondial, +193 %.',hi:'Côte est de la Chine.'},
+{id:'tokyo',n:'Tokyo',ll:[139.7,35.7],e:'Tokyo (Japon) : la plus grande ville du monde, 37,8 millions d’habitants.',hi:'Un archipel à l’est de l’Asie.'}
+];
+function worldSVG(mode){
+  let s=`<svg viewBox="0 6 360 150" role="img" aria-label="Planisphère simplifié"><rect x="0" y="6" width="360" height="150" class="sea"/>`;
+  for(const c in CONT){const clickable=mode==='color'&&c!=='oce';s+=`<g class="cont" id="cont-${c}"${clickable?` data-c="${c}"`:''}>`+CONT[c].map(p=>`<path d="${dpath(p)}"/>`).join('')+'</g>';}
+  if(mode==='color')for(const c in CLAB){const[x,y]=pr(CLAB[c]);s+=`<text class="clabel" x="${x}" y="${y}" text-anchor="middle">${CNAME[c]}</text>`;}
+  if(mode==='cities')CITIES.forEach((ct,i)=>{const[x,y]=pr(ct.ll);s+=`<g class="mbadge" data-t="${ct.id}" data-badge="${ct.id}"><circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="5"/><text x="${x.toFixed(1)}" y="${(y+2.1).toFixed(1)}" text-anchor="middle">${i+1}</text></g>`;});
+  return s+'</svg>';
+}
+function lineChart(){
+  const D=[[1950,30],[1970,37],[1990,43],[2007,50],[2020,56],[2050,68]];
+  const X=y=>55+(y-1950)*3.15,Y=v=>200-v*1.75;
+  let s='<svg viewBox="0 0 400 236" role="img" aria-label="Courbe : part de la population mondiale vivant en ville, de 1950 à 2050">';
+  for(let v=0;v<=100;v+=10)s+=`<line x1="55" x2="372" y1="${Y(v)}" y2="${Y(v)}" class="grid${v===50?' strong':''}"/><text x="49" y="${Y(v)+3.5}" text-anchor="end" class="ax">${v} %</text>`;
+  D.forEach(([y])=>s+=`<text x="${X(y)}" y="218" text-anchor="middle" class="ax">${y}</text>`);
+  const pts=D.map(([y,v])=>X(y)+' '+Y(v));
+  s+=`<path class="curve" d="M${pts.slice(0,5).join('L')}"/><path class="curve dash" d="M${pts[4]}L${pts[5]}"/>`;
+  D.forEach(([y,v])=>s+=`<circle class="pt" cx="${X(y)}" cy="${Y(v)}" r="4"/>`);
+  s+=`<line x1="250" y1="232" x2="272" y2="232" class="curve dash" style="stroke-width:2"/><text x="276" y="235" class="ax">prévision de l’ONU</text>`;
+  return s+'</svg>';
+}
+function barChart(){
+  const B=[['Tokyo (Japon)',37.8,'+16 %'],['Delhi (Inde)',25,'+156 %'],['Shanghai (Chine)',23,'+193 %'],['Mexico (Mexique)',20.8,'+33 %'],['São Paulo (Brésil)',20.8,'+41 %']];
+  let s='<svg viewBox="0 0 400 200" role="img" aria-label="Diagramme : population et croissance des cinq plus grandes villes du monde en 2015"><text x="118" y="16" class="ax">habitants (millions)</text><text x="396" y="16" text-anchor="end" class="ax">croissance 1990-2014</text>';
+  B.forEach(([n,v,g],i)=>{const y=34+i*32;s+=`<text x="0" y="${y+13}" class="bname">${n}</text><rect x="118" y="${y}" width="${(v*5.4).toFixed(1)}" height="18" rx="3" class="bar"/><text x="${(122+v*5.4).toFixed(1)}" y="${y+13}" class="bval">${String(v).replace('.',',')}</text><text x="396" y="${y+13}" text-anchor="end" class="bgrow">${g}</text>`;});
+  return s+'<text x="0" y="196" class="ax">Source : ONU, 2015</text></svg>';
+}
+
+/* ---------- configurations des exercices de placement ---------- */
+const LA_CFG={
+  intro:'Voici le modèle de Los Angeles. Place chaque étiquette dans la légende. Attention : deux étiquettes sont des pièges.',
+  figure:concentric({aria:'Schéma de Los Angeles : un centre, une périphérie proche, un vaste étalement récent, des autoroutes',ids:['etal','proche','centre','axe','sens'],extras:LA_EXTRA,extraBadges:badge('edge',6,346,196)+badge('gated',7,58,108)}),
+  legendTitle:'Légende du schéma',
+  targets:[{id:'centre',n:1,sw:SW.fill('c-centre')},{id:'proche',n:2,sw:SW.fill('c-proche')},{id:'etal',n:3,sw:SW.fill('c-peri')},{id:'axe',n:4,sw:SW.road},{id:'sens',n:5,sw:SW.arrow},{id:'edge',n:6,sw:SW.edge},{id:'gated',n:7,sw:SW.gated}],
+  labels:[{id:'centre',text:'Centre-ville (downtown), urbanisé dès le XIXe siècle'},{id:'proche',text:'Périphérie proche'},{id:'etal',text:'Étalement urbain récent : banlieues pavillonnaires'},{id:'axe',text:'Autoroute (axe de communication)'},{id:'sens',text:'Sens de l’étalement urbain'},{id:'edge',text:'Edge city : centre secondaire de bureaux'},{id:'gated',text:'Gated community (ex. Hidden Hills)'},{id:'d1',text:'Favela'},{id:'d2',text:'Quartier historique'}],
+  answer:{centre:['centre'],proche:['proche'],etal:['etal'],axe:['axe'],sens:['sens'],edge:['edge'],gated:['gated']},
+  explain:{centre:'Le downtown est petit : c’est le CBD, avec ses tours de bureaux, entouré d’autoroutes.',proche:'Les premiers quartiers construits autour du centre.',etal:'La plus grande partie de la ville : maisons individuelles et lotissements sur des dizaines de kilomètres.',axe:'Les autoroutes organisent la ville : presque tout le monde se déplace en voiture.',sens:'La ville grandit vers l’extérieur, le long des autoroutes.',edge:'Le long des autoroutes, de grands immeubles de bureaux forment de nouveaux centres.',gated:'Un quartier fermé et surveillé jour et nuit, pour habitants aisés.'},
+  hint:{centre:'la plus petite zone, au cœur de la ville, la plus ancienne.',proche:'l’anneau juste autour du centre.',etal:'la zone la plus vaste et la plus récente.',axe:'un trait épais qui relie le centre à l’extérieur.',sens:'une flèche indique un mouvement.',edge:'un immeuble de bureaux loin du centre.',gated:'un quartier entouré d’une clôture.'}
+};
+const SP_CFG={
+  intro:'Complète le schéma de São Paulo. Deux étiquettes sont des pièges.',
+  figure:concentric({aria:'Schéma de São Paulo : centre-ville, quartiers des classes moyennes, périphérie pauvre, favela et résidence fermée',ids:['pauvre','moyen','centre','axe','sens'],extras:SP_EXTRA,extraBadges:badge('favela',6,262,258)+badge('condo',7,368,196)}),
+  legendTitle:'Légende du schéma',
+  targets:[{id:'centre',n:1,sw:SW.fill('c-centre')},{id:'moyen',n:2,sw:SW.fill('c-proche')},{id:'pauvre',n:3,sw:SW.fill('c-peri')},{id:'axe',n:4,sw:SW.road},{id:'sens',n:5,sw:SW.arrow},{id:'favela',n:6,sw:SW.favela},{id:'condo',n:7,sw:SW.gated}],
+  labels:[{id:'centre',text:'Centre-ville : quartiers d’affaires et quartiers aisés'},{id:'moyen',text:'Quartiers des classes moyennes'},{id:'pauvre',text:'Périphérie : quartiers pauvres'},{id:'axe',text:'Grand axe de communication'},{id:'sens',text:'Étalement urbain'},{id:'favela',text:'Favela (ex. Paraisópolis)'},{id:'condo',text:'Condominio fechado : résidence fermée pour les riches'},{id:'d1',text:'Gated community de Hidden Hills'},{id:'d2',text:'Banlieue pavillonnaire de Londres'}],
+  answer:{centre:['centre'],moyen:['moyen'],pauvre:['pauvre'],axe:['axe'],sens:['sens'],favela:['favela'],condo:['condo']},
+  explain:{centre:'Le centre concentre le quartier des affaires (avenue Paulista) et des quartiers aisés, mais aussi des quartiers dégradés.',moyen:'Des immeubles pour les classes moyennes, autour du centre.',pauvre:'La ville s’étale sur des dizaines de kilomètres ; les plus pauvres vivent souvent loin du centre.',axe:'Les grands axes relient le centre aux périphéries.',sens:'2,5 millions d’habitants en 1950, 20,8 millions en 2014 : la ville s’étend.',favela:'Un quartier d’habitat informel et précaire. Paraisópolis est l’une des plus grandes favelas.',condo:'Les riches s’y réfugient : résidences fermées et sécurisées, parfois tout près des favelas.'},
+  hint:{centre:'le cœur de la ville, là où sont les tours.',moyen:'l’anneau autour du centre.',pauvre:'la zone la plus vaste, loin du centre.',axe:'un trait épais.',sens:'une flèche montre un mouvement.',favela:'des petites constructions serrées et précaires.',condo:'une résidence entourée d’une clôture, à São Paulo.'}
+};
+const PAY_CFG={
+  intro:'Ce dessin représente le centre de São Paulo vu depuis un parc. Identifie chaque plan du paysage. Deux étiquettes sont des pièges.',
+  figure:paysageSVG(),
+  legendTitle:'Les plans du paysage',
+  targets:[{id:'plan1',n:1,name:'1er plan'},{id:'plan2',n:2,name:'2e plan'},{id:'plan3',n:3,name:'Arrière-plan'},{id:'avenue',n:4,name:'La grande avenue'}],
+  labels:[{id:'plan1',text:'Parc Trianon (parc urbain)'},{id:'plan2',text:'Quartier d’affaires : tours de bureaux, banques'},{id:'plan3',text:'Quartiers résidentiels'},{id:'avenue',text:'Avenue Paulista'},{id:'d1',text:'Favela'},{id:'d2',text:'Zone industrielle'}],
+  answer:{plan1:['plan1'],plan2:['plan2'],plan3:['plan3'],avenue:['avenue']},
+  explain:{plan1:'Au 1er plan, le parc Trianon : un espace vert au cœur du centre.',plan2:'Au 2e plan, les tours du quartier d’affaires : banques, compagnies de téléphonie, sièges d’entreprises.',plan3:'À l’arrière-plan, des quartiers résidentiels densément peuplés.',avenue:'L’avenue Paulista, surnommée les Champs-Élysées de São Paulo : affaires, boutiques chics, pistes cyclables.'},
+  hint:{plan1:'ce qui est le plus près de toi, en bas du dessin.',plan2:'les bâtiments les plus hauts.',plan3:'ce qui est le plus loin, derrière les tours.',avenue:'une grande voie au pied des tours.'}
+};
+const CITY_CFG={
+  intro:'Place les 8 villes étudiées sur le planisphère. Si besoin, fais glisser la carte vers la droite.',
+  figure:worldSVG('cities'),wide:true,
+  legendTitle:'Les villes',
+  targets:CITIES.map((c,i)=>({id:c.id,n:i+1})),
+  labels:CITIES.map(c=>({id:c.id,text:c.n})),
+  answer:Object.fromEntries(CITIES.map(c=>[c.id,[c.id]])),
+  explain:Object.fromEntries(CITIES.map(c=>[c.id,c.e])),
+  hint:Object.fromEntries(CITIES.map(c=>[c.id,c.hi]))
+};
+const MM_CFG={
+  intro:'Complète la carte mentale avec les 8 étiquettes. Dans une même branche, l’ordre n’a pas d’importance.',
+  groups:[
+    {title:'Se loger',color:'#1e6f78',items:[{fixed:'Dans un bidonville'},{t:'m1'},{t:'m2'}]},
+    {title:'Pratiquer',color:'#f2b632',items:[{t:'m3'},{t:'m4'},{fixed:'Travailler'}]},
+    {title:'Se déplacer',color:'#3d7cc9',items:[{fixed:'À pied ou à vélo'},{t:'m5'},{t:'m6'}]},
+    {title:'Cohabiter',color:'#9a7fd0',items:[{t:'m7'},{t:'m8'},{fixed:'Inégalités sociales'}]}
+  ],
+  center:'Habiter une métropole',
+  targets:['m1','m2','m3','m4','m5','m6','m7','m8'].map((id,i)=>({id,n:i+1,aria:['Se loger','Se loger','Pratiquer','Pratiquer','Se déplacer','Se déplacer','Cohabiter','Cohabiter'][i]})),
+  labels:[{id:'centre',text:'Dans le centre-ville'},{id:'banlieue',text:'Dans une banlieue pavillonnaire'},{id:'achats',text:'Faire des achats'},{id:'divertir',text:'Se divertir'},{id:'voiture',text:'En voiture'},{id:'tc',text:'En transports en commun'},{id:'espaces',text:'Espaces publics'},{id:'amenag',text:'Aménagements communs'}],
+  answer:{m1:['centre','banlieue'],m2:['centre','banlieue'],m3:['achats','divertir'],m4:['achats','divertir'],m5:['voiture','tc'],m6:['voiture','tc'],m7:['espaces','amenag'],m8:['espaces','amenag']},
+  explain:{centre:'On peut se loger au centre, souvent plus cher.',banlieue:'Les banlieues pavillonnaires : maisons individuelles en périphérie.',achats:'Faire des achats : commerces du centre, malls de périphérie.',divertir:'Se divertir : musées, cinémas, stades…',voiture:'La voiture domine dans les villes étalées comme Los Angeles.',tc:'Métro, bus, train : surtout développés dans les pays riches.',espaces:'Places, parcs, rues : on y croise tous les habitants.',amenag:'Équipements partagés par tous : transports, parcs, services.'},
+  hint:{m1:'où peut-on habiter ?',m2:'où peut-on habiter ?',m3:'que fait-on en ville, en plus de travailler ?',m4:'que fait-on en ville, en plus de travailler ?',m5:'comment se déplace-t-on ?',m6:'comment se déplace-t-on ?',m7:'qu’est-ce qu’on partage avec les autres habitants ?',m8:'qu’est-ce qu’on partage avec les autres habitants ?'}
+};
+
+/* ---------- composants ---------- */
+function placement(root,cfg,done){
+  const T={};cfg.targets.forEach(t=>T[t.id]=Object.assign({},t,{state:'',fb:'',locked:false}));
+  const labels=shuffle(cfg.labels);
+  let placed={},sel=null,checks=0;
+  root.innerHTML='';
+  if(cfg.intro)root.append(h('p',{class:'lead'},cfg.intro));
+  const fig=cfg.figure?h('div',{class:'figwrap'+(cfg.wide?' wide':''),html:cfg.figure}):null;
+  const bank=h('div',{class:'bank'});
+  const legend=h('div',{class:cfg.groups?'mindmap':'legend'});
+  const msg=h('p',{class:'msg','aria-live':'polite'});
+  const actions=h('div',{class:'row'});
+  if(cfg.groups)root.append(h('p',{class:'label'},'Étiquettes à placer'),bank,legend,msg,actions);
+  else root.append(h('div',{class:'pl-layout'},fig,h('div',{},h('p',{class:'label'},'Étiquettes à placer'),bank,h('p',{class:'label'},cfg.legendTitle||'Légende'),legend)),msg,actions);
+  if(fig)fig.addEventListener('click',e=>{const el=e.target.closest('[data-t]');if(el)tap(el.getAttribute('data-t'));});
+  const hl=(id,on)=>{if(fig)fig.querySelectorAll('[data-t="'+id+'"]').forEach(x=>x.classList.toggle('hl',on));};
+  const labelOf=id=>labels.find(l=>l.id===id);
+  function tap(id){const t=T[id];if(!t||t.locked||t.state==='shown')return;
+    if(sel){placed[id]=sel;sel=null;t.state='';t.fb='';msg.textContent='';}
+    else if(placed[id]){delete placed[id];t.state='';t.fb='';msg.textContent='L’étiquette est revenue dans la liste.';}
+    else msg.textContent='Touche d’abord une étiquette.';
+    update();}
+  function slotFor(t){const lid=placed[t.id],lab=lid&&labelOf(lid);
+    return h('button',{type:'button',class:'slot'+(lab?' filled':'')+(t.state?' '+t.state:''),'aria-label':(t.aria||('Case '+t.n))+(lab?' : '+lab.text:' : vide'),onclick:()=>tap(t.id),onmouseenter:()=>hl(t.id,true),onmouseleave:()=>hl(t.id,false),onfocus:()=>hl(t.id,true),onblur:()=>hl(t.id,false)},lab?lab.text:(sel?'Placer ici':'…'));}
+  function fbFor(t){if(t.state==='ko'&&t.fb)return h('p',{class:'fb ko'},t.fb);if((t.state==='ok'||t.state==='shown')&&t.fb)return h('details',{class:'why'},h('summary',{},'Pourquoi ?'),h('p',{},t.fb));return null;}
+  function update(){
+    bank.innerHTML='';const used=new Set(Object.values(placed));
+    labels.forEach(l=>{if(used.has(l.id))return;bank.append(h('button',{type:'button',class:'chip'+(sel===l.id?' sel':''),'aria-pressed':sel===l.id?'true':'false',onclick:()=>{sel=sel===l.id?null:l.id;msg.textContent=sel?'Touche maintenant le bon numéro, la bonne zone ou la bonne case.':'';update();}},l.text));});
+    if(!bank.children.length)bank.append(h('span',{class:'muted'},'Toutes les étiquettes sont placées.'));
+    legend.innerHTML='';
+    if(cfg.groups){legend.append(h('div',{class:'mm-center'},cfg.center));
+      cfg.groups.forEach(g=>{const box=h('div',{class:'mm-branch',style:'--bc:'+g.color},h('h4',{},g.title));g.items.forEach(it=>{if(it.fixed)box.append(h('span',{class:'fixed'},it.fixed));else{const t=T[it.t];box.append(slotFor(t),fbFor(t));}});legend.append(box);});}
+    else cfg.targets.forEach(t0=>{const t=T[t0.id];legend.append(h('div',{class:'lrow'},h('span',{class:'num'},t.n),t.sw?h('span',{class:'sw',html:t.sw}):null,t.name?h('span',{class:'lname'},t.name):null,slotFor(t)),fbFor(t));});
+    if(fig)fig.querySelectorAll('[data-badge]').forEach(b=>{const id=b.getAttribute('data-badge'),t=T[id];b.classList.remove('filled','ok','ko','shown');if(t.state)b.classList.add(t.state);else if(placed[id])b.classList.add('filled');});
+    actions.innerHTML='';
+    const vals=Object.values(T),allOk=vals.every(t=>t.state==='ok'),shown=vals.some(t=>t.state==='shown');
+    if(!allOk&&!shown)actions.append(h('button',{type:'button',class:'btn',onclick:check},'Vérifier'));
+    if(checks>=2&&!allOk&&!shown)actions.append(h('button',{type:'button',class:'btn ghost',onclick:showAll},'Voir la correction'));
+    actions.append(h('button',{type:'button',class:'btn ghost',onclick:reset},'Recommencer'));
+  }
+  function check(){checks++;let ok=0,empty=0,bad=0;const n=cfg.targets.length;
+    cfg.targets.forEach(t0=>{const t=T[t0.id];if(t.locked){ok++;return;}const lid=placed[t.id];if(!lid){empty++;t.state='';t.fb='';return;}
+      if(cfg.answer[t.id].includes(lid)){t.state='ok';t.locked=true;t.fb=cfg.explain[lid]||'';ok++;}
+      else{bad++;t.state='ko';t.fb=(cfg.hint&&cfg.hint[t.id]?'Indice : '+cfg.hint[t.id]+' ':'')+'Touche la case pour libérer l’étiquette.';}});
+    if(ok===n){msg.textContent=checks===1?'Tout est juste du premier coup !':'Tout est juste !';done();}
+    else msg.textContent=ok+' sur '+n+' bien placées.'+(bad?' Corrige les cases en rouge.':'')+(empty?' Il reste '+empty+(empty>1?' cases vides.':' case vide.'):'');
+    update();}
+  function showAll(){const used=new Set(Object.values(T).filter(t=>t.locked).map(t=>placed[t.id]));
+    cfg.targets.forEach(t0=>{const t=T[t0.id];if(t.locked)return;const lid=cfg.answer[t.id].find(x=>!used.has(x));used.add(lid);placed[t.id]=lid;t.state='shown';t.fb=cfg.explain[lid]||'';});
+    sel=null;msg.textContent='Voici la correction. Lis les « Pourquoi ? », puis recommence sans aide.';update();}
+  function reset(){placed={};sel=null;checks=0;Object.values(T).forEach(t=>{t.state='';t.fb='';t.locked=false;});msg.textContent='';update();}
+  update();
+}
+
+function qcmItem(q,onAns){
+  const box=h('div',{class:'q'});const opts=shuffle(q.o.map((t,i)=>({t,i})));let ans=null;
+  function draw(){box.innerHTML='';box.append(h('p',{class:'stmt'},q.q));const ol=h('div',{class:'opts'});
+    opts.forEach(o=>ol.append(h('button',{type:'button',class:'opt'+(ans!==null&&o.i===0?' ok':'')+(ans===o.i&&o.i!==0?' ko':'')+(ans!==null&&o.i!==0&&ans!==o.i?' dim':''),disabled:ans!==null,onclick:()=>{ans=o.i;draw();if(onAns)onAns(ans===0);}},o.t)));
+    box.append(ol);
+    if(ans!==null)box.append(h('p',{class:'fb '+(ans===0?'ok':'ko')},(ans===0?'Exact. ':'Non. La bonne réponse : '+q.o[0]+'. ')+q.w));}
+  draw();return box;
+}
+
+function twoTier(root,items,done){
+  const st=items.map(()=>({vf:null,why:null})),ord=items.map(it=>shuffle(it.why.map((w,k)=>({w,k}))));let finished=false;
+  function draw(){root.innerHTML='';
+    root.append(h('p',{class:'lead'},'Dis si la phrase est vraie ou fausse, puis choisis la bonne justification.'));
+    items.forEach((it,i)=>{const s=st[i];const box=h('div',{class:'q'},h('p',{class:'stmt'},it.s));
+      const row=h('div',{class:'row'});
+      [['Vrai',true],['Faux',false]].forEach(([lab,val])=>row.append(h('button',{type:'button',class:'btn small ghost'+(s.vf!==null&&val===it.v?' ok':'')+(s.vf===val&&val!==it.v?' ko':''),disabled:s.vf!==null,onclick:()=>{s.vf=val;draw();}},lab)));
+      box.append(row);
+      if(s.vf!==null){box.append(h('p',{class:'fb '+(s.vf===it.v?'ok':'ko')},s.vf===it.v?'Oui, c’est '+(it.v?'vrai':'faux')+'. Maintenant, pourquoi ?':'Non, c’est '+(it.v?'vrai':'faux')+'. Cherche pourquoi :'));
+        const ol=h('div',{class:'opts'});
+        ord[i].forEach(o=>ol.append(h('button',{type:'button',class:'opt'+(s.why!==null&&o.k===0?' ok':'')+(s.why===o.k&&o.k!==0?' ko':''),disabled:s.why!==null,onclick:()=>{s.why=o.k;draw();}},o.w)));
+        box.append(ol);
+        if(s.why!==null)box.append(h('p',{class:'fb '+(s.why===0?'ok':'ko')},(s.why===0?'Bonne justification. ':'Ce n’est pas la bonne raison. ')+it.expl));}
+      root.append(box);});
+    if(st.every(x=>x.why!==null)){const pts=st.reduce((a,x,i)=>a+(x.vf===items[i].v?1:0)+(x.why===0?1:0),0);
+      root.append(h('div',{class:'done-box'},h('p',{},'Score : '+pts+' sur '+items.length*2+' (une réponse et une justification par phrase).'),h('button',{type:'button',class:'btn',onclick:()=>{st.forEach(x=>{x.vf=null;x.why=null;});draw();}},'Recommencer')));
+      if(!finished){finished=true;done();}}
+  }
+  draw();
+}
+
+function stepFlash(root,done){
+  let queue=shuffle(VOCAB.map((v,i)=>i)),known=0,flipped=false;const total=VOCAB.length;
+  function draw(){root.innerHTML='';
+    root.append(h('p',{class:'lead'},'Lis le mot et essaie de le définir dans ta tête. Retourne ensuite la carte pour vérifier.'));
+    if(!queue.length){root.append(h('div',{class:'done-box'},h('p',{},'Bravo : tu connais les '+total+' mots-clés.'),h('button',{type:'button',class:'btn',onclick:()=>{queue=shuffle(VOCAB.map((v,i)=>i));known=0;draw();}},'Recommencer')));done();return;}
+    const v=VOCAB[queue[0]];
+    root.append(h('p',{class:'counter'},'Mots sus : '+known+' sur '+total+(queue.length>total-known?'':'')));
+    root.append(h('div',{class:'progress'},h('i',{style:'width:'+Math.round(known/total*100)+'%'})));
+    root.append(h('button',{type:'button',class:'flash'+(flipped?' flipped':''),onclick:()=>{flipped=!flipped;draw();}},
+      flipped?[h('span',{class:'term small'},v.t),h('span',{class:'def'},v.d),h('span',{class:'ex'},'Exemple : '+v.ex)]:[h('span',{class:'term'},v.t),h('span',{class:'tap'},'Touche pour voir la définition')]));
+    if(flipped)root.append(h('div',{class:'row center'},h('button',{type:'button',class:'btn ghost',onclick:()=>{queue.push(queue.shift());flipped=false;draw();}},'À revoir'),h('button',{type:'button',class:'btn',onclick:()=>{queue.shift();known++;flipped=false;draw();}},'Je savais')));
+  }
+  draw();
+}
+
+function stepMatch(root,done){
+  const rounds=chunk(shuffle(VOCAB),6);let r=0;
+  function drawRound(){
+    const items=rounds[r],defs=shuffle(items),matched=new Set(),tries={};let selT=null,badD=null;
+    const fb=h('p',{class:'msg','aria-live':'polite'});const terms=h('div',{class:'terms'}),dl=h('div',{class:'defs'});
+    root.innerHTML='';
+    root.append(h('p',{class:'lead'},'Touche un mot, puis la définition qui lui correspond.'),h('p',{class:'counter'},'Série '+(r+1)+' sur '+rounds.length),terms,dl,fb);
+    function upd(){terms.innerHTML='';dl.innerHTML='';
+      items.forEach(v=>terms.append(h('button',{type:'button',class:'mitem t'+(matched.has(v.t)?' ok':'')+(selT===v.t?' sel':''),disabled:matched.has(v.t),onclick:()=>{selT=v.t;badD=null;fb.textContent='';upd();}},v.t)));
+      defs.forEach(v=>dl.append(h('button',{type:'button',class:'mitem'+(matched.has(v.t)?' ok':'')+(badD===v.t?' bad':'')+(selT&&(tries[selT]||0)>=2&&v.t===selT?' hint':''),disabled:matched.has(v.t),onclick:()=>pick(v)},v.d)));}
+    function pick(v){if(!selT){fb.textContent='Touche d’abord un mot.';return;}
+      if(v.t===selT){matched.add(v.t);selT=null;badD=null;fb.textContent='Exact !';upd();if(matched.size===items.length)finish();}
+      else{tries[selT]=(tries[selT]||0)+1;badD=v.t;fb.textContent=tries[selT]>=2?'Pas celle-ci. La bonne définition est encadrée en pointillés.':'Pas celle-ci. Relis le mot et cherche un indice dans la définition.';upd();}}
+    function finish(){root.append(h('div',{class:'done-box'},h('p',{},r+1<rounds.length?'Série réussie !':'Toutes les séries sont réussies !'),r+1<rounds.length?h('button',{type:'button',class:'btn',onclick:()=>{r++;drawRound();}},'Série suivante'):h('button',{type:'button',class:'btn ghost',onclick:()=>{r=0;drawRound();}},'Recommencer')));if(r+1===rounds.length)done();}
+    upd();
+  }
+  drawRound();
+}
+
+function stepColor(root,done){
+  const CATS=[{id:'c1',t:'75 % et plus',col:'#16606a'},{id:'c2',t:'Entre 50 et 60 %',col:'#6fb0ae'},{id:'c3',t:'Moins de 50 %',col:'#e8f2d0'}];
+  const ANS={amn:'c1',ams:'c1',eur:'c1',asi:'c2',afr:'c3'};
+  const WHY={amn:'Amérique du Nord : plus de 80 % des habitants vivent en ville.',ams:'Amérique du Sud : environ 80 %.',eur:'Europe : plus de 75 %.',asi:'Asie : 52 %, un peu plus de la moitié.',afr:'Afrique : 44 %, le continent le moins urbanisé.'};
+  let brush=null,paint={},state={};
+  root.innerHTML='';
+  root.append(h('p',{class:'lead'},'Colorie chaque continent selon son taux d’urbanisation (vers 2020). Choisis une couleur, puis touche un continent. Essaie d’abord de mémoire.'));
+  root.append(h('details',{class:'databox'},h('summary',{},'Besoin d’aide ? Afficher les chiffres'),h('p',{},'Amérique du Nord : plus de 80 %. Amérique latine : 80 %. Europe : plus de 75 %. Asie : 52 %. Afrique : 44 %.')));
+  const pal=h('div',{class:'palette',role:'group','aria-label':'Couleurs de la légende'});
+  const fig=h('div',{class:'figwrap wide',html:worldSVG('color')});
+  const msg=h('p',{class:'msg','aria-live':'polite'}),list=h('div',{}),actions=h('div',{class:'row'});
+  root.append(h('p',{class:'label'},'Légende : taux d’urbanisation'),pal,fig,msg,list,actions);
+  function drawPal(){pal.innerHTML='';CATS.forEach(c=>pal.append(h('button',{type:'button',class:'pbtn','aria-pressed':brush===c.id?'true':'false',onclick:()=>{brush=c.id;msg.textContent='Touche maintenant un continent.';drawPal();}},h('span',{class:'dot',style:'background:'+c.col}),c.t)));}
+  function paintMap(){fig.querySelectorAll('[data-c]').forEach(g=>{const c=g.getAttribute('data-c');g.style.fill=paint[c]?CATS.find(x=>x.id===paint[c]).col:'';g.classList.remove('ok','ko');if(state[c])g.classList.add(state[c]);});}
+  fig.addEventListener('click',e=>{const g=e.target.closest('[data-c]');if(!g)return;const c=g.getAttribute('data-c');if(!brush){msg.textContent='Choisis d’abord une couleur dans la légende.';return;}if(state[c]==='ok')return;paint[c]=brush;state[c]='';list.innerHTML='';msg.textContent=CNAME[c]+' : colorié.';paintMap();});
+  function check(){const miss=Object.keys(ANS).filter(c=>!paint[c]);if(miss.length){msg.textContent='Il reste à colorier : '+miss.map(c=>CNAME[c]).join(', ')+'.';return;}
+    let ok=0;list.innerHTML='';Object.keys(ANS).forEach(c=>{if(paint[c]===ANS[c]){state[c]='ok';ok++;}else{state[c]='ko';list.append(h('p',{class:'fb ko'},'Non pour ce continent. '+WHY[c]));}});
+    paintMap();
+    if(ok===5){msg.textContent='Carte juste ! Les continents les plus urbanisés sont les Amériques et l’Europe.';done();}
+    else msg.textContent=ok+' continents sur 5 sont justes. Corrige ceux entourés de rouge.';}
+  actions.append(h('button',{type:'button',class:'btn',onclick:check},'Vérifier'),h('button',{type:'button',class:'btn ghost',onclick:()=>{paint={};state={};list.innerHTML='';msg.textContent='';paintMap();}},'Recommencer'));
+  drawPal();paintMap();
+}
+
+function stepGraph(root,done){
+  let n=0;const total=G1.length+G2.length,cb=()=>{n++;if(n===total)done();};
+  root.innerHTML='';
+  root.append(h('p',{class:'lead'},'Méthode : lis le titre, repère ce que montrent les axes, puis cherche la valeur demandée.'));
+  root.append(h('h3',{},'Part de la population mondiale vivant en ville'));
+  root.append(h('div',{class:'cq'},h('div',{class:'figwrap',html:lineChart()}),h('div',{},G1.map(q=>qcmItem(q,cb)))));
+  root.append(h('h3',{},'Les cinq plus grandes villes du monde en 2015'));
+  root.append(h('div',{class:'cq'},h('div',{class:'figwrap',html:barChart()}),h('div',{},G2.map(q=>qcmItem(q,cb)))));
+}
+
+function stepSort(root,done){
+  const items=shuffle(SORT),ans={},COLS=[['nord','Nord'],['sud','Sud'],['deux','Les deux']];let finished=false;
+  function draw(){root.innerHTML='';
+    root.append(h('p',{class:'lead'},'Cette caractéristique concerne-t-elle les métropoles du Nord (pays riches), du Sud (pays émergents et pauvres), ou les deux ?'));
+    const nA=Object.keys(ans).length,nOk=items.filter(it=>ans[it.t]===it.a).length;
+    root.append(h('p',{class:'counter'},nA+' sur '+items.length+' classées, '+nOk+' justes'));
+    items.forEach(it=>{const a=ans[it.t];const box=h('div',{class:'q'},h('p',{class:'stmt'},it.t));const row=h('div',{class:'row'});
+      COLS.forEach(([k,l])=>row.append(h('button',{type:'button',class:'btn small ghost'+(a&&k===it.a?' ok':'')+(a===k&&k!==it.a?' ko':''),disabled:!!a,onclick:()=>{ans[it.t]=k;draw();}},l)));
+      box.append(row);if(a)box.append(h('p',{class:'fb '+(a===it.a?'ok':'ko')},(a===it.a?'Oui. ':'Non, réponse : '+COLS.find(c=>c[0]===it.a)[1]+'. ')+it.why));root.append(box);});
+    if(nA===items.length){root.append(h('div',{class:'done-box'},h('p',{},'Score : '+nOk+' sur '+items.length+'.'),h('button',{type:'button',class:'btn',onclick:()=>{for(const k in ans)delete ans[k];draw();}},'Recommencer')));if(!finished){finished=true;done();}}
+  }
+  draw();
+}
+
+function stepChez(root,done){
+  const seen=new Set();root.innerHTML='';
+  root.append(h('p',{class:'lead'},'Relie le cours à des villes que tu connais. Réponds d’abord par écrit ou dans ta tête, puis compare avec la piste.'));
+  CHEZ.forEach((c,i)=>{const piste=h('p',{class:'fb ok',hidden:true},c.p);
+    root.append(h('div',{class:'q'},h('p',{class:'stmt'},c.q),h('textarea',{class:'ta',rows:'2','aria-label':'Ta réponse'}),h('button',{type:'button',class:'btn small ghost',onclick:e=>{piste.hidden=false;e.currentTarget.remove();seen.add(i);if(seen.size===CHEZ.length)done();}},'Voir une piste'),piste));});
+}
+
+function stepQuiz(root,done){
+  let qs,i,score,errs;
+  function start(){qs=shuffle(QUIZ).slice(0,12);i=0;score=0;errs=[];draw();}
+  function draw(){root.innerHTML='';
+    if(i>=qs.length){done();const pct=score/qs.length;
+      root.append(h('div',{class:'done-box'},h('h3',{style:'margin-top:0'},'Résultat : '+score+' sur '+qs.length),h('p',{},pct>=.85?'Excellent : le chapitre est bien en place. Refais un quiz dans quelques jours pour le garder en mémoire.':pct>=.6?'Bien. Relis les points ci-dessous, puis refais un quiz.':'Reprends les modules liés aux erreurs ci-dessous, puis refais un quiz.')));
+      if(errs.length){root.append(h('h3',{},'À revoir'));errs.forEach(q=>root.append(h('div',{class:'q'},h('p',{class:'stmt'},q.q),h('p',{class:'fb ok'},q.o[0]+'. '+q.w))));}
+      root.append(h('div',{class:'row'},h('button',{type:'button',class:'btn',onclick:start},'Nouveau quiz (autres questions)')));return;}
+    root.append(h('p',{class:'counter'},'Question '+(i+1)+' sur '+qs.length+', score : '+score));
+    root.append(h('div',{class:'progress'},h('i',{style:'width:'+Math.round(i/qs.length*100)+'%'})));
+    const next=h('div',{class:'row'});const q=qs[i];
+    root.append(qcmItem(q,ok=>{if(ok)score++;else errs.push(q);next.append(h('button',{type:'button',class:'btn',onclick:()=>{i++;draw();}},i+1<qs.length?'Question suivante':'Voir mon résultat'));next.querySelector('button').focus();}),next);
+  }
+  start();
+}
+
+/* ---------- modules ---------- */
+const MODULES=[
+{id:'vocab',title:'Les mots-clés',desc:'Apprendre le vocabulaire avant tout le reste.',
+ steps:[{k:'vocab-cartes',t:'Cartes-mémoire',f:stepFlash},{k:'vocab-assoc',t:'Associer mot et définition',f:stepMatch}]},
+{id:'la',title:'Los Angeles, métropole du Nord',desc:'Un petit centre, un immense étalement, la voiture partout.',
+ rappel:['L’aire urbaine de Los Angeles compte 18,8 millions d’habitants.','Le centre (downtown) est petit : c’est le CBD, avec ses tours de bureaux. On y trouve aussi Skid Row, où se concentrent pauvres et sans-abri.','Les banlieues s’étendent sur des dizaines de kilomètres (jusqu’à 80 km vers l’est) : maisons individuelles, lotissements, zones industrielles et de bureaux.','Tout s’organise le long des autoroutes : la voiture est presque le seul moyen de se déplacer. Malls et edge cities forment des centres secondaires.','Les plus riches s’isolent dans des gated communities comme Hidden Hills.'],
+ steps:[{k:'la-schema',t:'Compléter le schéma',f:(r,d)=>placement(r,LA_CFG,d)},{k:'la-vf',t:'Vrai ou faux, et pourquoi ?',f:(r,d)=>twoTier(r,LA_VF,d)}]},
+{id:'sp',title:'São Paulo, métropole d’un pays émergent',desc:'Un centre mondialisé et une ville très inégalitaire.',
+ rappel:['São Paulo est au sud-est du Brésil, près de l’océan Atlantique, en Amérique du Sud.','2,5 millions d’habitants en 1950, 20,8 millions en 2014.','Le centre mêle quartiers d’affaires (avenue Paulista), quartiers aisés et quartiers dégradés en cours de gentrification. Les inégalités restent fortes.','Les périphéries s’étalent sur des dizaines de kilomètres : centres secondaires, immeubles des classes moyennes et favelas (Paraisópolis).','Les riches se protègent dans des condominios fechados : la ville est fragmentée.'],
+ steps:[{k:'sp-paysage',t:'Lire le paysage',f:(r,d)=>placement(r,PAY_CFG,d)},{k:'sp-schema',t:'Compléter le schéma',f:(r,d)=>placement(r,SP_CFG,d)},{k:'sp-vf',t:'Vrai ou faux, et pourquoi ?',f:(r,d)=>twoTier(r,SP_VF,d)}]},
+{id:'monde',title:'Les villes dans la mondialisation',desc:'Cartes, taux d’urbanisation et plus grandes villes.',
+ rappel:['En 2020, 56 % des humains vivent en ville (plus de 4,3 milliards). L’ONU prévoit 68 % en 2050.','Les plus urbanisés : les Amériques (plus de 80 %) et l’Europe (plus de 75 %). Les moins : l’Afrique (44 %) et l’Asie (52 %).','La croissance urbaine la plus forte se fait dans les pays en développement et émergents : c’est là que se trouvent la plupart des plus grandes villes.','Partout, le CBD aux gratte-ciel est le paysage typique de la mondialisation.'],
+ steps:[{k:'monde-villes',t:'Placer les villes',f:(r,d)=>placement(r,CITY_CFG,d)},{k:'monde-couleurs',t:'Colorier la carte',f:stepColor},{k:'monde-graph',t:'Lire des graphiques',f:stepGraph}]},
+{id:'habiter',title:'Habiter une métropole',desc:'Se loger, se déplacer, pratiquer, cohabiter. Nord et Sud.',
+ rappel:['Habiter une métropole, c’est se loger, se déplacer, pratiquer la ville (travailler, faire des achats, se divertir) et cohabiter.','Au Nord : les plus riches dans les centres rénovés, les classes moyennes en banlieue pavillonnaire. Les transports en commun sont développés.','Au Sud : des bidonvilles face à des quartiers sécurisés. Les périphéries sont mal reliées et les services (eau, électricité, ordures) insuffisants.'],
+ steps:[{k:'habiter-carte',t:'Carte mentale',f:(r,d)=>placement(r,MM_CFG,d)},{k:'habiter-tri',t:'Nord ou Sud ?',f:stepSort},{k:'habiter-chez',t:'Et chez moi ?',f:stepChez}]},
+{id:'quiz',title:'Quiz final',desc:'12 questions tirées au hasard dans tout le chapitre.',
+ steps:[{k:'quiz',t:'Quiz final',f:stepQuiz}]}
+];
+const modDone=m=>m.steps.filter(s=>S.done[s.k]).length;
+
+/* ---------- affichage ---------- */
+function go(id){S.mod=id;save();render();window.scrollTo(0,0);}
+function renderNav(){const nav=$('#nav');nav.innerHTML='';
+  nav.append(h('button',{type:'button','aria-current':S.mod==='home'?'page':false,onclick:()=>go('home')},'Accueil'));
+  MODULES.forEach((m,i)=>{const full=modDone(m)===m.steps.length;nav.append(h('button',{type:'button','aria-current':S.mod===m.id?'page':false,onclick:()=>go(m.id)},(i+1)+'. '+m.title.split(',')[0],full?h('span',{class:'tick','aria-label':'terminé'},'✓'):null));});}
+function renderHome(app){
+  const art='<svg viewBox="0 0 300 240" aria-hidden="true"><ellipse cx="150" cy="120" rx="140" ry="105" fill="#9a7fd0"/><circle cx="150" cy="120" r="62" fill="#f2b632"/><circle cx="150" cy="120" r="26" fill="#e0553a"/><line x1="185" y1="70" x2="262" y2="-10" stroke="#2b2f33" stroke-width="7" stroke-linecap="round"/><line x1="120" y1="176" x2="60" y2="260" stroke="#2b2f33" stroke-width="7" stroke-linecap="round"/><line x1="210" y1="140" x2="310" y2="175" stroke="#2b2f33" stroke-width="7" stroke-linecap="round"/><rect x="138" y="100" width="8" height="30" fill="#2b2f33"/><rect x="150" y="92" width="10" height="38" fill="#2b2f33"/></svg>';
+  const panel=h('div',{class:'panel'});
+  panel.append(h('section',{class:'hero'},h('div',{},
+    h('h2',{},'Réviser le chapitre en six modules'),
+    h('p',{},'Commence par les mots-clés : ils rendent tout le reste plus facile. Avance ensuite module par module et termine par le quiz final.'),
+    h('ul',{class:'how'},h('li',{},'Pour placer une étiquette : touche l’étiquette, puis le numéro, la zone ou la case.'),h('li',{},'Si tu te trompes, lis l’indice et réessaie : c’est en cherchant qu’on retient.'),h('li',{},'Refais le quiz final dans quelques jours : les questions changent à chaque fois.'))),
+    h('div',{html:art})));
+  const grid=h('div',{class:'mgrid'});
+  MODULES.forEach((m,i)=>{const d=modDone(m);grid.append(h('button',{type:'button',class:'mcard',onclick:()=>go(m.id)},h('span',{class:'mt'},(i+1)+'. '+m.title),h('span',{class:'md'},m.desc),h('span',{class:'md'},d+' sur '+m.steps.length+(m.steps.length>1?' étapes faites':' étape faite')),h('span',{class:'mbar'},h('i',{style:'width:'+Math.round(d/m.steps.length*100)+'%'}))));});
+  panel.append(grid);
+  const total=MODULES.reduce((a,m)=>a+m.steps.length,0),dn=MODULES.reduce((a,m)=>a+modDone(m),0);
+  if(dn>0)panel.append(h('div',{class:'row'},h('button',{type:'button',class:'btn ghost small',onclick:()=>{if(confirm('Effacer toute ta progression ?')){S.done={};S.step={};save();render();}}},'Effacer ma progression ('+dn+' sur '+total+')')));
+  app.append(panel);
+}
+function renderModule(app,m){
+  const idx=Math.min(S.step[m.id]||0,m.steps.length-1),step=m.steps[idx],mi=MODULES.indexOf(m);
+  const panel=h('div',{class:'panel'});
+  panel.append(h('h2',{},m.title));
+  if(m.rappel)panel.append(h('details',{class:'rappel',open:modDone(m)===0},h('summary',{},'L’essentiel à relire avant de commencer'),h('ul',{},m.rappel.map(r=>h('li',{},r)))));
+  const stepper=h('ol',{class:'steps','aria-label':'Étapes du module'});
+  refreshStepper=()=>{stepper.innerHTML='';if(m.steps.length<2)return;m.steps.forEach((s,i)=>stepper.append(h('li',{},h('button',{type:'button','aria-current':i===idx?'step':false,onclick:()=>{S.step[m.id]=i;save();render();}},h('span',{class:'sn'+(S.done[s.k]?' d':'')},S.done[s.k]?'✓':String(i+1)),s.t))));};
+  refreshStepper();
+  panel.append(stepper);
+  if(m.steps.length>1)panel.append(h('h3',{style:'margin-top:0'},step.t));
+  const body=h('section',{});panel.append(body);
+  step.f(body,()=>markDone(step.k));
+  const nr=h('div',{class:'nextrow'});
+  if(idx<m.steps.length-1)nr.append(h('button',{type:'button',class:'btn',onclick:()=>{S.step[m.id]=idx+1;save();render();window.scrollTo(0,0);}},'Étape suivante'));
+  else if(mi<MODULES.length-1)nr.append(h('button',{type:'button',class:'btn',onclick:()=>go(MODULES[mi+1].id)},'Module suivant : '+MODULES[mi+1].title));
+  else nr.append(h('button',{type:'button',class:'btn ghost',onclick:()=>go('home')},'Retour à l’accueil'));
+  panel.append(nr);
+  app.append(panel);
+}
+function render(){renderNav();const app=$('#app');app.innerHTML='';refreshStepper=()=>{};
+  const m=MODULES.find(x=>x.id===S.mod);if(m)renderModule(app,m);else renderHome(app);}
+function applyPrefs(){document.documentElement.classList.toggle('big',!!S.big);document.documentElement.classList.toggle('spaced',!!S.spaced);$('#t-big').setAttribute('aria-pressed',S.big?'true':'false');$('#t-sp').setAttribute('aria-pressed',S.spaced?'true':'false');}
+$('#t-big').addEventListener('click',()=>{S.big=!S.big;save();applyPrefs();});
+$('#t-sp').addEventListener('click',()=>{S.spaced=!S.spaced;save();applyPrefs();});
+$('#home-btn').addEventListener('click',()=>go('home'));
+applyPrefs();render();
+</script>
+</body>
+</html>
