@@ -1,0 +1,972 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Révision DS physique-chimie, Seconde</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#F5F8FB; --panel:#FFFFFF; --ink:#172838; --muted:#566575; --line:#D6E0EA; --grid:#E8EEF4;
+  --cuivre:#1E6BB0; --cuivre-soft:#E2EDF8; --on-cu:#FFFFFF;
+  --orange:#B4600A; --orange-soft:#FCEEDB;
+  --vert:#1F7545; --vert-soft:#E1F2E7;
+  --rouge:#A8322A; --rouge-soft:#F8E2DF;
+  color-scheme: light;
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#0E1620; --panel:#15202B; --ink:#E4ECF3; --muted:#9BAAB8; --line:#2A3947; --grid:#1B2733;
+    --cuivre:#62A9E6; --cuivre-soft:#15304A; --on-cu:#0E1620;
+    --orange:#F0A64A; --orange-soft:#3A2911;
+    --vert:#5CC48A; --vert-soft:#122F1F;
+    --rouge:#F28076; --rouge-soft:#3B1815;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#0E1620; --panel:#15202B; --ink:#E4ECF3; --muted:#9BAAB8; --line:#2A3947; --grid:#1B2733;
+  --cuivre:#62A9E6; --cuivre-soft:#15304A; --on-cu:#0E1620;
+  --orange:#F0A64A; --orange-soft:#3A2911;
+  --vert:#5CC48A; --vert-soft:#122F1F;
+  --rouge:#F28076; --rouge-soft:#3B1815;
+  color-scheme: dark;
+}
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-padding-top:calc(env(safe-area-inset-top,0px) + 140px)}
+body{margin:0;background:var(--paper);color:var(--ink);
+  font-family:"Atkinson Hyperlegible",Verdana,"Segoe UI",system-ui,sans-serif;
+  font-size:1.0625rem;line-height:1.6}
+button{font:inherit;color:inherit}
+:focus-visible{outline:3px solid var(--orange);outline-offset:2px;border-radius:6px}
+
+/* En-tête */
+.top{position:sticky;top:0;z-index:10;background:var(--paper);border-bottom:1px solid var(--line)}
+.top-inner{max-width:1120px;margin:0 auto;padding:.7rem 1rem;display:flex;flex-wrap:wrap;gap:.6rem 1.5rem;align-items:center;justify-content:space-between}
+.titre h1{font-size:1.15rem;margin:0;line-height:1.25}
+.titre p{margin:0;color:var(--muted);font-size:.9rem}
+.modes{display:flex;gap:.25rem;background:var(--grid);padding:.25rem;border-radius:999px}
+.modes button{border:0;background:transparent;padding:.45rem 1rem;border-radius:999px;cursor:pointer;min-height:40px}
+.modes button[aria-pressed="true"]{background:var(--panel);box-shadow:0 0 0 1px var(--line);font-weight:700}
+.modes .cpt{color:var(--muted);font-weight:400;font-size:.85rem;margin-left:.3rem}
+
+/* Échelle de teinte = progression */
+.teinte{display:flex;align-items:flex-end;gap:.45rem}
+.teinte .tube{position:relative;width:16px;height:34px;border:2px solid var(--muted);border-top:0;border-radius:0 0 9px 9px;overflow:hidden;display:block}
+.teinte .tube i{position:absolute;left:0;right:0;bottom:0;height:72%;background:var(--cuivre);display:block;transition:opacity .4s}
+.teinte-leg{font-size:.8rem;color:var(--muted);margin-left:.3rem;max-width:9rem;line-height:1.2}
+
+/* Mise en page */
+.wrap{max-width:1120px;margin:0 auto;padding:1.25rem 1rem 3rem;display:grid;grid-template-columns:260px minmax(0,1fr);gap:1.5rem;align-items:start}
+.wrap.solo{grid-template-columns:minmax(0,1fr)}
+aside.nav{position:sticky;top:120px;display:flex;flex-direction:column;gap:.3rem}
+.nav-bloc{display:flex;gap:.7rem;align-items:center;text-align:left;border:1px solid transparent;background:transparent;padding:.55rem .7rem;border-radius:10px;cursor:pointer;min-height:44px}
+.nav-bloc:hover{background:var(--grid)}
+.nav-bloc[aria-current="true"]{background:var(--panel);border-color:var(--line);font-weight:700}
+.nav-bloc .num{flex:0 0 1.8rem;height:1.8rem;border-radius:50%;display:grid;place-items:center;font-size:.9rem;border:2px solid var(--cuivre);color:var(--cuivre);font-weight:700}
+.nav-bloc .num.vide{border-style:dashed;border-color:var(--muted)}
+.nav-bloc .num.fini{background:var(--cuivre);color:var(--on-cu)}
+@media (max-width:820px){
+  .wrap{grid-template-columns:minmax(0,1fr)}
+  aside.nav{position:static;flex-direction:row;overflow-x:auto;padding-bottom:.3rem}
+  .nav-bloc{flex:0 0 auto}
+  .nav-bloc .lib{white-space:nowrap}
+  .teinte-leg{display:none}
+}
+
+/* Écran de notion */
+.ecran{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:1.4rem clamp(1rem,3.5vw,2.2rem) 1.6rem;max-width:800px}
+.ecran h2{font-size:1.45rem;line-height:1.25;margin:.4rem 0 1rem}
+.ecran h2:focus{outline:none}
+.ecran h3{font-size:1.1rem;margin:1.4rem 0 .5rem}
+.contexte{display:flex;justify-content:space-between;gap:1rem;align-items:center;flex-wrap:wrap;color:var(--muted);font-size:.9rem}
+.dots{display:flex;gap:5px}
+.dots span{width:20px;height:6px;border-radius:3px;background:var(--line)}
+.dots span.on{background:var(--cuivre)}
+.contenu p,.contenu li{max-width:68ch}
+.contenu ul,.contenu ol{padding-left:1.3rem}
+.contenu li{margin:.25rem 0}
+.cle{color:var(--cuivre);font-weight:700}
+
+.formule{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:.5rem .7rem;font-size:1.35rem;padding:1rem;margin:1rem 0;background:var(--cuivre-soft);border-radius:12px;border-left:5px solid var(--cuivre);text-align:center}
+.formule small{display:block;width:100%;font-size:.9rem;color:var(--muted)}
+.frac{display:inline-flex;flex-direction:column;align-items:center;vertical-align:middle;line-height:1.25}
+.frac>span:first-child{border-bottom:2px solid currentColor;padding:0 .35em .1em}
+.frac>span:last-child{padding:.1em .35em 0}
+
+.piege{background:var(--orange-soft);border-left:5px solid var(--orange);padding:.75rem 1rem;border-radius:0 12px 12px 0;margin:1rem 0}
+.piege strong:first-child{display:block;color:var(--orange)}
+.piege p{margin:.3rem 0 0}
+.retiens{background:var(--vert-soft);border-left:5px solid var(--vert);padding:.75rem 1rem;border-radius:0 12px 12px 0;margin:1rem 0}
+.retiens strong:first-child{display:block;color:var(--vert)}
+.retiens p{margin:.3rem 0 0}
+
+.scroll{overflow-x:auto;margin:1rem 0}
+.tbl{border-collapse:collapse;width:100%;min-width:420px;font-size:.98rem}
+.tbl th,.tbl td{border:1px solid var(--line);padding:.5rem .65rem;text-align:left;vertical-align:top}
+.tbl th{background:var(--grid)}
+.tbl td.c,.tbl th.c{text-align:center}
+
+figure.fig{margin:1.1rem 0;text-align:center}
+figure.fig svg{max-width:100%;height:auto}
+figure.fig figcaption{font-size:.88rem;color:var(--muted);margin-top:.3rem}
+svg text{font-family:"Atkinson Hyperlegible",Verdana,sans-serif;font-size:13px;fill:var(--ink)}
+svg .b{font-weight:700}
+.f-ink{fill:var(--ink)} .s-ink{stroke:var(--ink)} .f-cu{fill:var(--cuivre)} .s-cu{stroke:var(--cuivre)}
+.f-or{fill:var(--orange)} .s-or{stroke:var(--orange)} .f-cus{fill:var(--cuivre-soft)} .f-ors{fill:var(--orange-soft)}
+.f-muted{fill:var(--muted)} .s-muted{stroke:var(--muted)} .f-panel{fill:var(--panel)} .s-line{stroke:var(--line)}
+.f-oncu{fill:var(--on-cu)} .f-grid{fill:var(--grid)} .f-none{fill:none}
+
+.equation{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:.6rem;margin:1rem 0}
+.equation .boite{border:2px solid var(--cuivre);border-radius:10px;padding:.5rem .8rem;text-align:center;background:var(--panel)}
+.equation .boite small{display:block;color:var(--muted);font-size:.85rem}
+.equation .op{font-size:1.4rem;font-weight:700}
+
+.pager{display:flex;justify-content:space-between;gap:.8rem;flex-wrap:wrap;margin-top:1.6rem;padding-top:1rem;border-top:1px solid var(--line)}
+.btn{border:1px solid var(--line);background:var(--panel);padding:.6rem 1.1rem;border-radius:10px;cursor:pointer;min-height:44px;text-align:center}
+.btn:hover{border-color:var(--muted)}
+.btn.prim{background:var(--cuivre);color:var(--on-cu);border-color:var(--cuivre);font-weight:700}
+.btn[disabled]{opacity:.45;cursor:not-allowed}
+.btn.lien{border:0;background:transparent;text-decoration:underline;color:var(--muted);padding:.3rem}
+
+/* Teste-toi */
+.rappel{border:1px solid var(--line);border-radius:12px;padding:.8rem 1rem;margin:.8rem 0}
+.rappel .q{font-weight:700;margin:0 0 .6rem}
+.rep{margin-top:.7rem;padding:.7rem .9rem;background:var(--vert-soft);border-radius:10px}
+.rep p{margin:.2rem 0}
+
+/* Quiz */
+.quiz-top{display:flex;justify-content:space-between;flex-wrap:wrap;gap:.4rem 1rem;color:var(--muted);font-size:.92rem;margin-bottom:.4rem;max-width:800px}
+.barre{height:8px;background:var(--line);border-radius:4px;overflow:hidden;max-width:800px;margin-bottom:1rem}
+.barre i{display:block;height:100%;background:var(--cuivre);transition:width .3s}
+.opts{display:flex;flex-direction:column;gap:.55rem}
+.opt{display:flex;gap:.8rem;align-items:center;width:100%;text-align:left;border:2px solid var(--line);background:var(--panel);padding:.7rem .9rem;border-radius:12px;cursor:pointer;min-height:52px}
+.opt:hover:not([disabled]){border-color:var(--cuivre)}
+.opt .lettre{flex:0 0 2rem;height:2rem;border-radius:50%;display:grid;place-items:center;background:var(--grid);font-weight:700}
+.opt[disabled]{cursor:default}
+.opt.ok{border-color:var(--vert);background:var(--vert-soft)}
+.opt.ok .lettre{background:var(--vert);color:var(--panel)}
+.opt.ko{border-color:var(--rouge);background:var(--rouge-soft)}
+.opt.ko .lettre{background:var(--rouge);color:var(--panel)}
+.opt.dim{opacity:.55}
+.fb{margin-top:1rem;padding:.8rem 1rem;border-radius:12px}
+.fb.ok{background:var(--vert-soft);border-left:5px solid var(--vert)}
+.fb.ko{background:var(--rouge-soft);border-left:5px solid var(--rouge)}
+.fb strong{display:block}
+.fb p{margin:.3rem 0 0}
+.aide{color:var(--muted);margin-top:1rem}
+.bilan-item{border:1px solid var(--line);border-radius:12px;padding:.8rem 1rem;margin:.7rem 0;background:var(--panel)}
+.bilan-item.juste{border-left:5px solid var(--vert)}
+.bilan-item.faux{border-left:5px solid var(--rouge)}
+.bilan-item.vide{border-left:5px solid var(--line)}
+.bilan-item h3{font-size:1rem;margin:0 0 .3rem}
+.bilan-item p{margin:.25rem 0}
+.etiq{font-size:.85rem;font-weight:700}
+.etiq.juste{color:var(--vert)} .etiq.faux{color:var(--rouge)} .etiq.vide{color:var(--muted)}
+.filtres{display:flex;gap:.5rem;flex-wrap:wrap;margin:1rem 0}
+
+/* Exercices */
+.fams{display:flex;gap:.4rem;flex-wrap:wrap;margin-bottom:1rem}
+.fams button{border:1px solid var(--line);background:var(--panel);padding:.5rem .8rem;border-radius:10px;cursor:pointer;min-height:44px;text-align:left}
+.fams button[aria-pressed="true"]{border-color:var(--cuivre);box-shadow:inset 0 0 0 1px var(--cuivre);font-weight:700}
+.fams .lettre-f{display:inline-grid;place-items:center;width:1.6rem;height:1.6rem;border-radius:6px;background:var(--cuivre);color:var(--on-cu);font-weight:700;margin-right:.45rem;font-size:.9rem}
+.fams .fait{color:var(--muted);font-weight:400;font-size:.85rem;margin-left:.3rem}
+.resolu{background:var(--panel);border:2px solid var(--cuivre);border-radius:16px;padding:1.3rem clamp(1rem,3vw,2rem);max-width:800px}
+.resolu h2,.exos-titre{font-size:1.3rem;margin:.2rem 0 .8rem}
+.enonce{background:var(--grid);border-radius:10px;padding:.8rem 1rem;margin:.6rem 0 1rem}
+.enonce p{margin:.35rem 0}
+ol.etapes{list-style:none;padding:0;margin:0;counter-reset:et}
+ol.etapes li{counter-increment:et;position:relative;padding:.2rem 0 .8rem 2.8rem;margin:0;max-width:none}
+ol.etapes li::before{content:counter(et);position:absolute;left:0;top:.1rem;width:2rem;height:2rem;border-radius:50%;background:var(--cuivre);color:var(--on-cu);display:grid;place-items:center;font-weight:700}
+ol.etapes li strong{display:block}
+ol.etapes li p{margin:.2rem 0}
+.apparait{animation:apparait .28s ease-out}
+@keyframes apparait{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:none}}
+.actions{display:flex;gap:.6rem;flex-wrap:wrap;margin-top:.8rem}
+.exo{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:1.1rem clamp(1rem,3vw,1.6rem);margin:1rem 0;max-width:800px}
+.exo h3{margin:0 0 .4rem;font-size:1.1rem;display:flex;gap:.7rem;align-items:baseline;flex-wrap:wrap}
+.niv{color:var(--orange);letter-spacing:.1em;font-size:1rem}
+.niv-lib{color:var(--muted);font-size:.85rem;font-weight:400}
+.exo p{margin:.4rem 0;max-width:68ch}
+.indice{margin-top:.8rem;padding:.7rem .9rem;background:var(--orange-soft);border-radius:10px}
+.corr{margin-top:.8rem;padding:.8rem 1rem;background:var(--vert-soft);border-radius:10px;border-left:5px solid var(--vert)}
+.corr>strong:first-child{display:block;color:var(--vert);margin-bottom:.2rem}
+.corr p{margin:.35rem 0}
+.corr ol,.corr ul,.exo ol,.exo ul{padding-left:1.3rem;margin:.3rem 0}
+.intro-exos{max-width:800px;color:var(--muted);margin:0 0 1rem}
+
+footer.pied{max-width:1120px;margin:0 auto;padding:0 1rem 2rem;color:var(--muted);font-size:.85rem;display:flex;justify-content:space-between;gap:1rem;flex-wrap:wrap}
+
+@media (prefers-reduced-motion: reduce){
+  *,*::before,*::after{animation:none!important;transition:none!important}
+}
+</style>
+</head>
+<body>
+<div id="app"></div>
+<script>
+/* ---------- Aides de mise en forme ---------- */
+const F=(n,d)=>`<span class="frac"><span>${n}</span><span>${d}</span></span>`;
+const FORM=(h,leg)=>`<div class="formule">${h}${leg?`<small>${leg}</small>`:''}</div>`;
+const PIEGE=(t,titre)=>`<div class="piege"><strong>⚠️ ${titre||'Piège'}</strong><p>${t}</p></div>`;
+const RETIENS=(t)=>`<div class="retiens"><strong>À retenir</strong><p>${t}</p></div>`;
+const TAB=(h)=>`<div class="scroll"><table class="tbl">${h}</table></div>`;
+const FIG=(svg,cap)=>`<figure class="fig">${svg}${cap?`<figcaption>${cap}</figcaption>`:''}</figure>`;
+
+/* ---------- Schémas (texte intégré au schéma : contiguïté spatiale) ---------- */
+const SVG_PUR=`<svg viewBox="0 0 400 175" role="img" aria-label="À gauche un corps pur : toutes les particules sont identiques. À droite un mélange : deux sortes de particules.">
+<rect x="10" y="8" width="170" height="115" rx="12" class="f-panel s-muted" stroke-width="2"/>
+${[[40,38],[85,32],[135,42],[58,78],[105,70],[150,88],[35,102],[95,106],[140,58]].map(p=>`<circle cx="${p[0]}" cy="${p[1]}" r="10" class="f-cu"/>`).join('')}
+<text x="95" y="146" text-anchor="middle" class="b">Corps pur</text>
+<text x="95" y="164" text-anchor="middle" class="f-muted">une seule sorte de particule</text>
+<rect x="220" y="8" width="170" height="115" rx="12" class="f-panel s-muted" stroke-width="2"/>
+${[[250,38],[295,32],[345,42],[268,78],[315,70],[360,88],[245,102],[305,106],[350,58]].map((p,i)=>`<circle cx="${p[0]}" cy="${p[1]}" r="10" class="${i%3===1?'f-or':'f-cu'}"/>`).join('')}
+<text x="305" y="146" text-anchor="middle" class="b">Mélange</text>
+<text x="305" y="164" text-anchor="middle" class="f-muted">plusieurs sortes de particules</text>
+</svg>`;
+
+const SVG_HOMO=`<svg viewBox="0 0 400 190" role="img" aria-label="À gauche, de l'eau salée : une seule phase visible. À droite, une vinaigrette : on voit l'huile au-dessus et des gouttes.">
+<path d="M44 52 L136 52 L130 128 L50 128 Z" class="f-cus"/>
+<path d="M40 20 L140 20 L130 130 L50 130 Z" class="f-none s-ink" stroke-width="2.5"/>
+<text x="90" y="157" text-anchor="middle" class="b">Eau salée : homogène</text>
+<text x="90" y="175" text-anchor="middle" class="f-muted">on ne voit qu'une seule phase</text>
+<path d="M262 82 L358 82 L350 128 L270 128 Z" class="f-ors"/>
+<path d="M264 52 L356 52 L358 82 L262 82 Z" class="f-or" opacity=".45"/>
+<circle cx="290" cy="100" r="5" class="f-or" opacity=".7"/><circle cx="320" cy="112" r="4" class="f-or" opacity=".7"/><circle cx="336" cy="96" r="3.5" class="f-or" opacity=".7"/>
+<path d="M260 20 L360 20 L350 130 L270 130 Z" class="f-none s-ink" stroke-width="2.5"/>
+<text x="310" y="157" text-anchor="middle" class="b">Vinaigrette : hétérogène</text>
+<text x="310" y="175" text-anchor="middle" class="f-muted">on voit plusieurs constituants</text>
+</svg>`;
+
+const SVG_AIR=`<svg viewBox="0 0 400 110" role="img" aria-label="Composition de l'air en volume : 78 % de diazote, 21 % de dioxygène, 1 % d'autres gaz.">
+<rect x="10" y="20" width="296" height="44" class="f-cu"/>
+<rect x="306" y="20" width="80" height="44" class="f-or"/>
+<rect x="386" y="20" width="4" height="44" class="f-muted"/>
+<text x="158" y="47" text-anchor="middle" class="f-oncu b">diazote N₂ : 78 %</text>
+<text x="346" y="47" text-anchor="middle" class="f-oncu b">O₂ : 21 %</text>
+<path d="M388 66 L388 84 L330 84" class="f-none s-muted" stroke-width="1.5"/>
+<text x="326" y="88" text-anchor="end" class="f-muted">autres gaz : 1 %</text>
+</svg>`;
+
+const SVG_TUBE=`<svg viewBox="0 0 380 205" role="img" aria-label="Tube à essais : le cyclohexane, moins dense, flotte au-dessus de l'eau.">
+<path d="M62 110 L62 155 A23 23 0 0 0 108 155 L108 110 Z" class="f-cus"/>
+<rect x="62" y="62" width="46" height="48" class="f-ors"/>
+<path d="M60 15 L60 155 A25 25 0 0 0 110 155 L110 15" class="f-none s-ink" stroke-width="2.5"/>
+<path d="M112 84 L140 84" class="s-muted" stroke-width="1.5"/>
+<text x="146" y="80" class="b">cyclohexane</text><text x="146" y="97" class="f-muted">ρ = 0,78 g/mL : au-dessus</text>
+<path d="M112 140 L140 140" class="s-muted" stroke-width="1.5"/>
+<text x="146" y="136" class="b">eau</text><text x="146" y="153" class="f-muted">ρ = 1,00 g/mL : en dessous</text>
+</svg>`;
+
+const SVG_CHAUFFE=`<svg viewBox="0 0 430 250" role="img" aria-label="Courbe de chauffage de l'eau : un palier à 0 °C pendant la fusion, un palier à 100 °C pendant l'ébullition.">
+<defs><marker id="axe1" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" class="f-ink"/></marker></defs>
+<path d="M55 212 L55 22" class="s-ink" stroke-width="1.5" marker-end="url(#axe1)"/>
+<path d="M55 212 L410 212" class="s-ink" stroke-width="1.5" marker-end="url(#axe1)"/>
+<text x="62" y="18">température (°C)</text><text x="410" y="232" text-anchor="end">temps</text>
+<path d="M55 150 L110 150 M55 70 L255 70" class="s-muted" stroke-width="1" stroke-dasharray="4 4"/>
+<text x="48" y="154" text-anchor="end">0</text><text x="48" y="74" text-anchor="end">100</text>
+<path d="M60 200 L110 150 L210 150 L255 70 L375 70" class="f-none s-cu" stroke-width="3"/>
+<path d="M110 150 L210 150 M255 70 L375 70" class="s-or" stroke-width="6" stroke-linecap="round"/>
+<text x="70" y="168" class="f-muted">solide</text>
+<text x="160" y="140" text-anchor="middle" class="b">palier : solide + liquide</text>
+<text x="160" y="170" text-anchor="middle" class="f-muted">fusion</text>
+<text x="238" y="118" text-anchor="end" class="f-muted">liquide</text>
+<text x="315" y="60" text-anchor="middle" class="b">palier : liquide + gaz</text>
+<text x="315" y="90" text-anchor="middle" class="f-muted">ébullition</text>
+</svg>`;
+
+const SVG_ETATS=`<svg viewBox="0 0 400 252" role="img" aria-label="Les six changements d'état entre solide, liquide et gaz.">
+<defs><marker id="fl2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" class="f-ink"/></marker></defs>
+<rect x="150" y="22" width="100" height="34" rx="17" class="f-cus s-cu" stroke-width="2"/><text x="200" y="44" text-anchor="middle" class="b">Gaz</text>
+<rect x="10" y="194" width="100" height="34" rx="17" class="f-cus s-cu" stroke-width="2"/><text x="60" y="216" text-anchor="middle" class="b">Solide</text>
+<rect x="290" y="194" width="100" height="34" rx="17" class="f-cus s-cu" stroke-width="2"/><text x="340" y="216" text-anchor="middle" class="b">Liquide</text>
+<path d="M112 203 L286 203" class="s-ink" stroke-width="1.6" marker-end="url(#fl2)"/>
+<path d="M286 221 L112 221" class="s-ink" stroke-width="1.6" marker-end="url(#fl2)"/>
+<text x="200" y="196" text-anchor="middle">fusion</text>
+<text x="200" y="240" text-anchor="middle">solidification</text>
+<path d="M58 190 L150 60" class="s-ink" stroke-width="1.6" marker-end="url(#fl2)"/>
+<path d="M168 60 L78 190" class="s-ink" stroke-width="1.6" marker-end="url(#fl2)"/>
+<text x="92" y="118" text-anchor="end">sublimation</text>
+<text x="124" y="150" text-anchor="start">condensation</text>
+<path d="M342 190 L250 60" class="s-ink" stroke-width="1.6" marker-end="url(#fl2)"/>
+<path d="M232 60 L322 190" class="s-ink" stroke-width="1.6" marker-end="url(#fl2)"/>
+<text x="308" y="118" text-anchor="start">vaporisation</text>
+<text x="264" y="128" text-anchor="end">liquéfaction</text>
+</svg>`;
+
+const SVG_CCM=`<svg viewBox="0 0 430 240" role="img" aria-label="Cuve de chromatographie : plaque, ligne de dépôt au crayon au-dessus de l'éluant, taches séparées.">
+<rect x="52" y="8" width="166" height="12" rx="3" class="f-muted"/>
+<rect x="62" y="190" width="146" height="28" class="f-cus"/>
+<rect x="60" y="20" width="150" height="200" rx="6" class="f-none s-ink" stroke-width="2"/>
+<rect x="85" y="32" width="100" height="182" class="f-panel s-ink" stroke-width="1.5"/>
+<path d="M85 62 L185 62" class="s-muted" stroke-width="1.2" stroke-dasharray="5 4"/>
+<path d="M88 175 L182 175" class="s-ink" stroke-width="1.3" stroke-dasharray="2 3"/>
+<path d="M90 120 L180 120 M90 88 L180 88" class="s-line" stroke-width="1"/>
+<circle cx="105" cy="120" r="6" class="f-or"/>
+<circle cx="135" cy="120" r="6" class="f-or"/><circle cx="135" cy="88" r="6" class="f-cu"/>
+<circle cx="165" cy="88" r="6" class="f-cu"/>
+<text x="105" y="52" text-anchor="middle" class="b">A</text><text x="135" y="52" text-anchor="middle" class="b">B</text><text x="165" y="52" text-anchor="middle" class="b">C</text>
+<path d="M220 14 L240 14" class="s-muted"/><text x="244" y="18">couvercle</text>
+<path d="M187 62 L240 62" class="s-muted"/><text x="244" y="66">front de l'éluant</text>
+<path d="M187 104 L240 104" class="s-muted"/><text x="244" y="100">même hauteur</text><text x="244" y="116">= même espèce</text>
+<path d="M187 175 L240 175" class="s-muted"/><text x="244" y="172">ligne de dépôt</text><text x="244" y="188">au crayon</text>
+<path d="M210 205 L240 205" class="s-muted"/><text x="244" y="209">éluant (plus bas)</text>
+</svg>`;
+
+const SVG_FIOLE=`<svg viewBox="0 0 410 240" role="img" aria-label="Fiole jaugée : on remplit jusqu'au trait de jauge. Le bas du ménisque doit toucher le trait, l'œil à la même hauteur.">
+<defs><clipPath id="zoom3"><circle cx="300" cy="110" r="68"/></clipPath></defs>
+<path d="M87 60 L113 60 L113 122 C158 150 170 205 100 212 C30 205 42 150 87 122 Z" class="f-cus"/>
+<path d="M85 18 L85 120 C38 150 28 208 100 215 C172 208 162 150 115 120 L115 18" class="f-none s-ink" stroke-width="2.5"/>
+<path d="M78 60 L122 60" class="s-ink" stroke-width="2.5"/>
+<text x="100" y="234" text-anchor="middle" class="b">fiole jaugée</text>
+<path d="M124 60 L236 88" class="s-muted" stroke-width="1.2" stroke-dasharray="3 3"/>
+<g clip-path="url(#zoom3)">
+<path d="M228 85 Q300 115 372 85 L372 190 L228 190 Z" class="f-cus"/>
+<path d="M228 85 Q300 115 372 85" class="f-none s-cu" stroke-width="2.5"/>
+<path d="M228 100 L372 100" class="s-ink" stroke-width="2.5"/>
+</g>
+<circle cx="300" cy="110" r="68" class="f-none s-ink" stroke-width="2"/>
+<text x="300" y="200" text-anchor="middle">bas du ménisque</text><text x="300" y="216" text-anchor="middle">sur le trait de jauge</text>
+<text x="300" y="30" text-anchor="middle" class="f-muted">vue agrandie</text>
+<text x="386" y="104" font-size="20">👁</text>
+<text x="386" y="130" text-anchor="middle" class="f-muted">œil à</text><text x="386" y="146" text-anchor="middle" class="f-muted">hauteur</text>
+</svg>`;
+
+const TUBE_T=(x,op,lab1,lab2)=>`<path d="M${x+2} 50 L${x+2} 120 A14 14 0 0 0 ${x+30} 120 L${x+30} 50 Z" class="f-cu" opacity="${op}"/>
+<path d="M${x} 18 L${x} 120 A16 16 0 0 0 ${x+32} 120 L${x+32} 18" class="f-none s-ink" stroke-width="2"/>
+<text x="${x+16}" y="158" text-anchor="middle" class="b">${lab1}</text><text x="${x+16}" y="175" text-anchor="middle" class="f-muted">${lab2}</text>`;
+const SVG_TEINTE=`<svg viewBox="0 0 420 190" role="img" aria-label="Échelle de teinte : quatre tubes de plus en plus foncés, de 5 à 65 grammes par litre, et un tube inconnu dont la teinte est entre S2 et S3.">
+${TUBE_T(20,.12,'S1','5 g/L')}${TUBE_T(90,.32,'S2','15 g/L')}${TUBE_T(160,.6,'S3','35 g/L')}${TUBE_T(230,.92,'S4','65 g/L')}
+<path d="M292 10 L292 180" class="s-line" stroke-width="1.5" stroke-dasharray="4 4"/>
+${TUBE_T(330,.46,'?','inconnue')}
+<text x="210" y="12" text-anchor="middle" class="f-muted">plus foncé = plus concentré</text>
+</svg>`;
+
+const dots=(pts)=>pts.map(p=>`<circle cx="${p[0]}" cy="${p[1]}" r="5" class="f-cu"/>`).join('');
+const SVG_DIL=`<svg viewBox="0 0 450 232" role="img" aria-label="Dilution : on prélève une partie de la solution mère, puis on ajoute de l'eau. Le nombre de grains de soluté ne change pas, le volume augmente.">
+<defs><marker id="fl4" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" class="f-ink"/></marker></defs>
+<rect x="22" y="100" width="96" height="73" class="f-cus"/>
+<path d="M20 60 L20 170 Q20 175 25 175 L115 175 Q120 175 120 170 L120 60" class="f-none s-ink" stroke-width="2.5"/>
+${dots([[38,118],[62,112],[88,120],[106,110],[45,140],[72,135],[98,142],[35,160],[60,158],[85,163],[108,158],[75,152]])}
+<path d="M112 52 Q150 20 185 110" class="f-none s-ink" stroke-width="1.6" marker-end="url(#fl4)"/>
+<text x="150" y="26" text-anchor="middle">on prélève Vp</text>
+<rect x="172" y="145" width="56" height="28" class="f-cus"/>
+<path d="M170 115 L170 170 Q170 175 175 175 L225 175 Q230 175 230 170 L230 115" class="f-none s-ink" stroke-width="2.5"/>
+${dots([[182,158],[196,165],[210,156],[220,166]])}
+<path d="M240 148 L285 148" class="s-ink" stroke-width="1.6" marker-end="url(#fl4)"/>
+<text x="262" y="138" text-anchor="middle">+ eau</text>
+<rect x="302" y="75" width="116" height="98" class="f-cus" opacity=".55"/>
+<path d="M300 45 L300 170 Q300 175 305 175 L415 175 Q420 175 420 170 L420 45" class="f-none s-ink" stroke-width="2.5"/>
+${dots([[325,98],[385,112],[345,148],[398,158]])}
+<text x="70" y="198" text-anchor="middle" class="b">solution mère</text><text x="70" y="216" text-anchor="middle" class="f-muted">12 grains</text>
+<text x="200" y="198" text-anchor="middle" class="b">prélèvement</text><text x="200" y="216" text-anchor="middle" class="f-muted">4 grains dans Vp</text>
+<text x="360" y="198" text-anchor="middle" class="b">solution fille</text><text x="360" y="216" text-anchor="middle" class="f-muted">4 grains dans Vf</text>
+</svg>`;
+
+const SVG_PROP=`<svg viewBox="0 0 460 235" role="img" aria-label="À gauche : droite passant par l'origine, grandeurs proportionnelles. À droite : courbe de chute, pas de proportionnalité entre d et t.">
+<defs><marker id="axe5" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" class="f-ink"/></marker></defs>
+<text x="125" y="14" text-anchor="middle" class="b">Proportionnel</text>
+<path d="M40 195 L40 25 M40 195 L215 195" class="s-ink" stroke-width="1.5" marker-end="url(#axe5)"/>
+<path d="M40 195 L40 25" class="s-ink" stroke-width="1.5" marker-end="url(#axe5)"/>
+<text x="46" y="32">d</text><text x="212" y="214" text-anchor="end">t</text>
+<path d="M40 195 L200 45" class="s-cu" stroke-width="3"/>
+<path d="M160 82.5 L160 195 M160 82.5 L40 82.5" class="s-muted" stroke-width="1.2" stroke-dasharray="4 4"/>
+<circle cx="160" cy="82.5" r="6" class="f-or"/>
+<text x="160" y="214" text-anchor="middle">tA</text><text x="33" y="87" text-anchor="end">dA</text>
+<text x="168" y="130" class="b">a = dA ÷ tA</text>
+<text x="340" y="14" text-anchor="middle" class="b">Chute : pas proportionnel</text>
+<path d="M265 195 L265 25" class="s-ink" stroke-width="1.5" marker-end="url(#axe5)"/>
+<path d="M265 195 L440 195" class="s-ink" stroke-width="1.5" marker-end="url(#axe5)"/>
+<text x="271" y="32">d</text><text x="437" y="214" text-anchor="end">t</text>
+<path d="M265 195 Q345 195 425 45" class="f-none s-or" stroke-width="3"/>
+<text x="352" y="130" text-anchor="end" class="f-muted">une courbe,</text><text x="352" y="146" text-anchor="end" class="f-muted">pas une droite</text>
+</svg>`;
+
+const SVG_MOY=`<svg viewBox="0 0 330 230" role="img" aria-label="Nuage de points de mesure autour d'une droite passant par l'origine. On calcule le coefficient avec un point pris sur la droite.">
+<defs><marker id="axe6" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" class="f-ink"/></marker></defs>
+<path d="M35 195 L35 15" class="s-ink" stroke-width="1.5" marker-end="url(#axe6)"/>
+<path d="M35 195 L300 195" class="s-ink" stroke-width="1.5" marker-end="url(#axe6)"/>
+<text x="41" y="22">d (m)</text><text x="298" y="214" text-anchor="end">t (s)</text>
+<path d="M35 195 L275 18" class="s-cu" stroke-width="2.5"/>
+${[[65,168],[95,158],[125,122],[155,113],[185,78],[215,70],[245,34]].map(p=>`<path d="M${p[0]-5} ${p[1]-5} L${p[0]+5} ${p[1]+5} M${p[0]+5} ${p[1]-5} L${p[0]-5} ${p[1]+5}" class="s-ink" stroke-width="2"/>`).join('')}
+<circle cx="245" cy="40" r="7" class="f-none s-or" stroke-width="3"/>
+<text x="240" y="92" text-anchor="start" class="b">point</text><text x="240" y="108" text-anchor="start" class="b">de la droite</text>
+<path d="M250 80 L247 50" class="s-muted" stroke-width="1.2"/>
+<text x="110" y="185" class="f-muted">× = mesures</text>
+</svg>`;
+
+/* ---------- Contenu des notions ---------- */
+const BLOCS=[
+{titre:"Avant de commencer",court:"Avant de commencer",ecrans:[
+{titre:"Comment réviser avec cette appli",html:`
+<p>Tu vas revoir <span class="cle">5 blocs de notions</span>. Chaque bloc est découpé en petits écrans, avec une seule idée par écran : ton cerveau traite mieux les informations en petites quantités.</p>
+<ol>
+<li>Lis l'écran lentement, en regardant le schéma <b>en même temps</b> que le texte.</li>
+<li>À la fin de chaque bloc, l'écran <b>Teste-toi</b> te pose des questions. Réponds dans ta tête <b>avant</b> d'afficher la réponse : c'est cet effort de rappel qui fixe les connaissances.</li>
+<li>Ensuite, fais le <b>quiz</b>, puis les <b>exercices</b>.</li>
+</ol>
+<h3>Ce que signifient les encadrés</h3>
+${FORM(`Cm = ${F('m(soluté)','V(solution)')}`,'une formule à connaître')}
+${PIEGE('une erreur fréquente, à relire deux fois.')}
+${RETIENS('la phrase qui résume l\'écran.')}
+<h3>Les tubes en haut de l'écran</h3>
+<p>Ils forment ton échelle de teinte : plus un tube est foncé, plus tu as avancé dans le bloc correspondant.</p>
+<h3>Un planning d'ici vendredi</h3>
+<ul>
+<li><b>J-3</b> : blocs 1 et 2.</li>
+<li><b>J-2</b> : blocs 3 et 4, puis les exercices D et E.</li>
+<li><b>J-1</b> : le quiz entier sans relire, les autres familles d'exercices, puis la fiche-synthèse.</li>
+</ul>`},
+{titre:"Les notations à connaître",html:`
+<p>Une seule notation par grandeur, du début à la fin. Retiens ce tableau avant de commencer : le reste sera plus facile à lire.</p>
+${TAB(`<tr><th class="c">Symbole</th><th>Signification</th><th>Unité usuelle</th></tr>
+<tr><td class="c"><b>ρ</b> (rhô)</td><td>masse volumique</td><td>g/mL, g/L, kg/L</td></tr>
+<tr><td class="c"><b>Cm</b></td><td>concentration en masse</td><td>g/L</td></tr>
+<tr><td class="c"><b>Ci</b></td><td>concentration de la solution mère (dilution)</td><td>g/L</td></tr>
+<tr><td class="c"><b>Cf</b></td><td>concentration de la solution fille (dilution)</td><td>g/L</td></tr>
+<tr><td class="c"><b>Vp</b></td><td>volume prélevé de solution mère</td><td>mL ou L</td></tr>
+<tr><td class="c"><b>Vf</b></td><td>volume de solution fille préparée</td><td>mL ou L</td></tr>`)}
+${RETIENS('1 L = 1 000 mL. Pour passer des mL aux L, on divise par 1 000 : 250 mL = 0,250 L.')}`}
+]},
+{titre:"Corps purs et mélanges",court:"Corps purs et mélanges",ecrans:[
+{titre:"Corps pur ou mélange ?",html:`
+${FIG(SVG_PUR)}
+<p>Un <span class="cle">corps pur</span> est constitué d'<b>une seule espèce chimique</b>. Exemples : eau distillée, sucre (saccharose), dioxygène, or pur.</p>
+<p>Un <span class="cle">mélange</span> est constitué de <b>plusieurs espèces chimiques</b>. Exemples : air, eau salée, lait, vinaigrette.</p>
+${RETIENS('corps pur = 1 espèce ; mélange = plusieurs espèces.')}`},
+{titre:"Homogène ou hétérogène ?",html:`
+${FIG(SVG_HOMO)}
+<p>Un mélange est <span class="cle">homogène</span> si l'on <b>ne distingue pas</b> ses constituants à l'œil nu : eau salée, air, jus de pomme filtré, sirop.</p>
+<p>Il est <span class="cle">hétérogène</span> si l'on <b>distingue</b> au moins deux constituants à l'œil nu : vinaigrette, jus d'orange avec pulpe, roche.</p>
+${PIEGE('Le lait paraît homogène à l\'œil nu, mais on voit des gouttelettes de graisse au microscope. Au lycée, le critère de référence est l\'<b>œil nu</b> : le lait est classé mélange homogène (à l\'œil nu).','Limite du critère')}`},
+{titre:"La composition de l'air",html:`
+${FIG(SVG_AIR,'Composition de l\'air en volume')}
+<p>On décrit un mélange par les <b>pourcentages</b> de ses constituants. Pour trouver le volume d'un gaz :</p>
+${FORM(`V(gaz) = ${F('pourcentage','100')} × V(total)`)}
+<h3>Exemple</h3>
+<p>Une pièce de 15 m × 10 m × 3 m a un volume de 450 m³.<br>V(O₂) = 0,21 × 450 ≈ <b>94,5 m³</b>.</p>
+${RETIENS('air ≈ 78 % de diazote N₂, 21 % de dioxygène O₂, 1 % d\'autres gaz.')}`}
+],recall:[
+{q:"Quelle est la différence entre un corps pur et un mélange ?",a:"<p>Un corps pur contient une seule espèce chimique ; un mélange en contient plusieurs.</p>"},
+{q:"Comment distingue-t-on un mélange homogène d'un mélange hétérogène ?",a:"<p>À l'œil nu : si on ne distingue pas les constituants, il est homogène ; si on les distingue, il est hétérogène.</p>"},
+{q:"Quelle est la composition de l'air ?",a:"<p>Environ 78 % de diazote, 21 % de dioxygène et 1 % d'autres gaz (en volume).</p>"}
+]},
+{titre:"Identifier une espèce chimique",court:"Identifier une espèce",ecrans:[
+{titre:"La masse volumique ρ",html:`
+<p>Pour identifier une espèce, on peut mesurer une grandeur (méthodes physiques) ou observer une réaction (tests chimiques). Première méthode physique : la masse volumique.</p>
+${FORM(`ρ = ${F('m','V')}`,'la masse d\'un volume donné de matière')}
+<p>Chaque corps pur a sa propre masse volumique : on la mesure, puis on la compare à un tableau de valeurs.</p>
+${RETIENS('ρ(eau) = 1 g/mL = 1 kg/L = 1 000 g/L. Donc 1 mL d\'eau pèse 1 g.')}
+<p>Exemple : ρ(éthanol) = 0,79 g/mL, donc 1 mL d'éthanol pèse 0,79 g.</p>
+<h3>Deux liquides qui ne se mélangent pas</h3>
+${FIG(SVG_TUBE)}
+<p>Le liquide de <b>plus petite masse volumique</b> flotte au-dessus.</p>`},
+{titre:"Ne confonds pas ρ et Cm",html:`
+<p>C'est le piège n°1 du chapitre. Les deux formules se ressemblent, mais <b>la masse au numérateur n'est pas la même</b>.</p>
+${TAB(`<tr><th>Masse volumique d'une solution</th><th>Concentration en masse</th></tr>
+<tr><td class="c" style="font-size:1.2rem">ρ = ${F('m(<b>solution</b>)','V(solution)')}</td><td class="c" style="font-size:1.2rem">Cm = ${F('m(<b>soluté</b>)','V(solution)')}</td></tr>
+<tr><td>masse de <b>tout</b> le liquide</td><td>masse de ce qui est <b>dissous</b> seulement</td></tr>`)}
+${PIEGE('Pour une eau sucrée : ρ utilise la masse de l\'eau + du sucre ; Cm utilise seulement la masse du sucre.')}`},
+{titre:"Le palier de changement d'état",html:`
+${FIG(SVG_CHAUFFE,'On chauffe de la glace jusqu\'à l\'ébullition')}
+<p>Pendant un changement d'état, la température d'un <span class="cle">corps pur</span> reste <b>constante</b> : sur la courbe, on voit un <b>palier</b> horizontal.</p>
+<p>Un <span class="cle">mélange</span> ne présente <b>pas de palier</b> : sa température continue de varier.</p>
+${RETIENS('palier = corps pur. La température du palier permet d\'identifier l\'espèce (eau : 0 °C et 100 °C).')}`},
+{titre:"Les 6 changements d'état",html:`
+${FIG(SVG_ETATS)}
+${TAB(`<tr><th>Passage</th><th>Nom</th></tr>
+<tr><td>solide → liquide</td><td>fusion</td></tr>
+<tr><td>liquide → solide</td><td>solidification</td></tr>
+<tr><td>liquide → gaz</td><td>vaporisation (évaporation lente ou ébullition)</td></tr>
+<tr><td>gaz → liquide</td><td>liquéfaction</td></tr>
+<tr><td>solide → gaz</td><td>sublimation</td></tr>
+<tr><td>gaz → solide</td><td>condensation</td></tr>`)}
+${PIEGE('La buée sur une vitre, c\'est de la vapeur qui devient liquide : en physique-chimie, c\'est une <b>liquéfaction</b>, même si l\'on dit « condensation » dans la vie courante.')}`},
+{titre:"Les tests chimiques",html:`
+<p>Un test chimique met en évidence la présence d'une espèce grâce à une observation.</p>
+${TAB(`<tr><th>On cherche…</th><th>Réactif ou méthode</th><th>Résultat positif</th></tr>
+<tr><td>l'eau</td><td>sulfate de cuivre anhydre (blanc)</td><td>il devient <b>bleu</b></td></tr>
+<tr><td>le dioxyde de carbone CO₂</td><td>eau de chaux (incolore)</td><td>elle se <b>trouble</b></td></tr>
+<tr><td>le dioxygène O₂</td><td>bûchette incandescente</td><td>elle se <b>rallume</b></td></tr>
+<tr><td>le dihydrogène H₂</td><td>flamme approchée</td><td>légère <b>détonation</b></td></tr>`)}
+${PIEGE('Le sulfate de cuivre anhydre montre qu\'il y a de l\'eau. Il ne montre pas que le liquide est de l\'eau <b>pure</b>.')}`},
+{titre:"La chromatographie sur couche mince (CCM)",html:`
+${FIG(SVG_CCM,'B est un mélange : ses taches sont à la hauteur de A et de C')}
+<p><b>But</b> : séparer et identifier les espèces d'un mélange.</p>
+<p><b>Principe</b> : l'<span class="cle">éluant</span> monte le long de la plaque et entraîne les espèces à des vitesses différentes. Le résultat s'appelle le <span class="cle">chromatogramme</span>.</p>
+<h3>Deux règles de manipulation</h3>
+<ul>
+<li>Ligne de dépôt au <b>crayon à papier</b> : le graphite ne migre pas, l'encre si.</li>
+<li>Ligne de dépôt <b>au-dessus de l'éluant</b> : sinon les dépôts se dissolvent dans l'éluant.</li>
+</ul>
+<h3>Lire un chromatogramme</h3>
+<ul>
+<li>1 tache : corps pur.</li>
+<li>Plusieurs taches : mélange (au moins autant d'espèces que de taches).</li>
+<li>Taches à la <b>même hauteur</b> : <b>même espèce</b>.</li>
+</ul>`}
+],recall:[
+{q:"Donne la formule de la masse volumique et sa valeur pour l'eau.",a:"<p>ρ = m / V. Pour l'eau : 1 g/mL = 1 kg/L = 1 000 g/L.</p>"},
+{q:"Qu'est-ce qui différencie ρ(solution) et Cm ?",a:"<p>ρ utilise la masse de toute la solution ; Cm utilise seulement la masse du soluté dissous.</p>"},
+{q:"Sur une courbe de chauffage, comment reconnaît-on un corps pur ?",a:"<p>Il présente un palier : la température reste constante pendant le changement d'état.</p>"},
+{q:"Comment met-on en évidence le dioxyde de carbone ?",a:"<p>Il trouble l'eau de chaux.</p>"},
+{q:"En CCM, pourquoi trace-t-on la ligne de dépôt au crayon ?",a:"<p>Parce que le graphite ne migre pas avec l'éluant, contrairement à l'encre.</p>"}
+]},
+{titre:"Dissolution et concentration en masse",court:"Dissolution (TP1)",ecrans:[
+{titre:"Soluté, solvant, solution",html:`
+<div class="equation">
+<div class="boite"><b>soluté</b><small>ce qu'on dissout</small></div><span class="op">+</span>
+<div class="boite"><b>solvant</b><small>le liquide qui dissout</small></div><span class="op">→</span>
+<div class="boite"><b>solution</b><small>le mélange obtenu</small></div>
+</div>
+<p>Exemple : sel (soluté) + eau (solvant) → eau salée (solution). Quand le solvant est l'eau, la solution est dite <span class="cle">aqueuse</span>.</p>
+<p>L'action de dissoudre s'appelle la <span class="cle">dissolution</span>.</p>
+${PIEGE('La solution, c\'est le soluté dissous dans un <b>solvant</b> (et non « dans Cm »).')}`},
+{titre:"La concentration en masse Cm",html:`
+${FORM(`Cm = ${F('m(soluté)','V(solution)')}`,'Cm en g/L si m est en g et V en L')}
+<p>Elle indique la masse de soluté dissoute dans 1 L de solution.</p>
+${PIEGE('Convertis <b>toujours</b> les mL en L avant de calculer Cm : 100 mL = 0,100 L ; 250 mL = 0,250 L.')}
+<h3>Exemple : l'eau de Dalibour</h3>
+<p>0,100 g de sulfate de cuivre pour 100 mL de solution.<br>V = 0,100 L, donc Cm = 0,100 ÷ 0,100 = <b>1,00 g/L</b>.</p>`},
+{titre:"Trouver la masse ou le volume",html:`
+<p>À partir de Cm = m / V, on obtient deux autres formules. Choisis celle qui correspond à ce que tu cherches.</p>
+${TAB(`<tr><th>Je cherche…</th><th>Formule</th></tr>
+<tr><td>la concentration</td><td>Cm = m ÷ V</td></tr>
+<tr><td>la <b>masse de soluté</b> à peser</td><td>m = Cm × V</td></tr>
+<tr><td>le volume de solution</td><td>V = m ÷ Cm</td></tr>`)}
+${PIEGE('m = Cm × V donne la <b>masse de soluté</b>, pas la masse volumique.')}
+<p>Exemple : pour préparer 250 mL à 3,0 g/L, on pèse m = 3,0 × 0,250 = <b>0,75 g</b>.</p>`},
+{titre:"Le protocole de dissolution",html:`
+${FIG(SVG_FIOLE)}
+<ol>
+<li><b>Peser</b> la masse m de soluté, après avoir taré la balance avec la coupelle.</li>
+<li>Verser de l'eau distillée dans une <b>fiole jaugée</b> jusqu'à la moitié environ.</li>
+<li>Introduire le solide avec un <b>entonnoir</b>.</li>
+<li><b>Rincer</b> la coupelle et l'entonnoir avec la pissette, au-dessus de la fiole, pour ne perdre aucun soluté.</li>
+<li>Boucher et agiter jusqu'à <b>dissolution complète</b>.</li>
+<li>Compléter avec de l'eau distillée jusqu'au <b>trait de jauge</b>.</li>
+<li>Boucher et agiter pour homogénéiser.</li>
+</ol>`},
+{titre:"L'échelle de teinte",html:`
+${FIG(SVG_TEINTE,'Les solutions du TP1 : 100 mL avec 0,5 g, 1,5 g, 3,5 g et 6,5 g de sulfate de cuivre')}
+<p>Plus une solution colorée est concentrée, plus sa couleur est <b>intense</b>. On prépare des solutions de concentrations connues : c'est l'<span class="cle">échelle de teinte</span>.</p>
+<p>On compare la couleur d'une solution inconnue à l'échelle pour <b>encadrer</b> sa concentration. Ici, sa teinte est entre S2 et S3, donc 15 g/L &lt; C &lt; 35 g/L.</p>`}
+],recall:[
+{q:"Donne la formule de Cm et les unités à utiliser.",a:"<p>Cm = m(soluté) / V(solution), avec m en g et V en L : Cm est alors en g/L.</p>"},
+{q:"Quelle formule utilise-t-on pour calculer la masse de soluté à peser ?",a:"<p>m = Cm × V.</p>"},
+{q:"Pourquoi rince-t-on la coupelle et l'entonnoir au-dessus de la fiole ?",a:"<p>Pour que tout le soluté pesé arrive dans la fiole : sinon la concentration serait trop faible.</p>"},
+{q:"À quoi sert une échelle de teinte ?",a:"<p>À encadrer la concentration d'une solution colorée inconnue en comparant sa couleur à des solutions de concentrations connues.</p>"}
+]},
+{titre:"La dilution",court:"Dilution (TP2)",ecrans:[
+{titre:"Qu'est-ce qu'une dilution ?",html:`
+${FIG(SVG_DIL)}
+<p>Diluer, c'est <b>diminuer la concentration</b> d'une solution en ajoutant du solvant (de l'eau).</p>
+<ul>
+<li>La <span class="cle">solution mère</span> est la solution de départ : concentration Ci, on en prélève un volume Vp.</li>
+<li>La <span class="cle">solution fille</span> est la solution préparée : concentration Cf, volume Vf.</li>
+</ul>
+${RETIENS('quand on ajoute de l\'eau, la masse de soluté ne change pas mais le volume augmente : la concentration diminue, donc Cf &lt; Ci.')}`},
+{titre:"La formule de la dilution",html:`
+<p>La masse de soluté est <b>conservée</b> :</p>
+<p style="text-align:center">m(soluté prélevé) = m(soluté dans la solution fille)</p>
+<p>Comme m = C × V, on obtient :</p>
+${FORM('Ci × Vp = Cf × Vf')}
+${TAB(`<tr><th>Je cherche…</th><th>Formule</th></tr>
+<tr><td>le volume à prélever</td><td>Vp = ${F('Cf × Vf','Ci')}</td></tr>
+<tr><td>la concentration de la fille</td><td>Cf = ${F('Ci × Vp','Vf')}</td></tr>`)}
+${RETIENS('Vp et Vf doivent être dans la <b>même unité</b> (par exemple tous les deux en mL). Pas besoin de convertir en litres.')}`},
+{titre:"Le facteur de dilution F",html:`
+${FORM(`F = ${F('Ci','Cf')} = ${F('Vf','Vp')}`,'un nombre sans unité, toujours plus grand que 1')}
+<p>« Diluer 10 fois » signifie F = 10 : la concentration est divisée par 10, et Vf vaut 10 fois Vp.</p>
+<h3>Exemple</h3>
+<p>Ci = 25 g/L et Cf = 2,5 g/L, donc F = 25 ÷ 2,5 = 10. Pour Vf = 100 mL, on prélève Vp = 100 ÷ 10 = <b>10 mL</b>.</p>
+${PIEGE('On parle de facteur de <b>dilution</b> (pas de « dissolution »), et au dénominateur on a bien <b>Vp</b>.')}`},
+{titre:"Le protocole de dilution",html:`
+<ol>
+<li>Verser un peu de solution mère dans un bécher (on ne pipette jamais directement dans le flacon).</li>
+<li><b>Prélever</b> Vp avec une <b>pipette jaugée</b> munie d'une <b>propipette</b>, jamais à la bouche.</li>
+<li>Verser ce volume dans une <b>fiole jaugée</b> de volume Vf.</li>
+<li>Remplir d'eau distillée jusqu'à la moitié environ, boucher et agiter.</li>
+<li>Compléter jusqu'au <b>trait de jauge</b>, boucher et agiter.</li>
+</ol>
+${TAB(`<tr><th>Verrerie précise</th><th>Verrerie peu précise</th></tr>
+<tr><td>fiole jaugée, pipette jaugée</td><td>bécher, éprouvette graduée</td></tr>`)}`}
+],recall:[
+{q:"Quelle grandeur est conservée lors d'une dilution ?",a:"<p>La masse de soluté.</p>"},
+{q:"Écris la formule de la dilution.",a:"<p>Ci × Vp = Cf × Vf.</p>"},
+{q:"Comment calcule-t-on le facteur de dilution ?",a:"<p>F = Ci / Cf = Vf / Vp. C'est un nombre sans unité, plus grand que 1.</p>"},
+{q:"Quelle verrerie faut-il pour prélever puis préparer la solution fille ?",a:"<p>Une pipette jaugée avec une propipette, puis une fiole jaugée.</p>"}
+]},
+{titre:"Proportionnalité et graphiques",court:"Proportionnalité",ecrans:[
+{titre:"Reconnaître la proportionnalité",html:`
+${FIG(SVG_PROP)}
+<p>Deux grandeurs A et B sont <span class="cle">proportionnelles</span> si :</p>
+<ul>
+<li><b>par le calcul</b> : le rapport A ÷ B est <b>constant</b> ;</li>
+<li><b>par le graphique</b> : les points sont alignés sur une <b>droite passant par l'origine</b>.</li>
+</ul>
+${RETIENS('rapport constant ⇔ droite passant par l\'origine.')}`},
+{titre:"Le coefficient directeur",html:`
+<p>Pour une droite passant par l'origine, on choisit un point A de la droite :</p>
+${FORM(`a = ${F('ordonnée de A','abscisse de A')}`)}
+<ul>
+<li>Il a une <b>unité</b> : unité de l'ordonnée ÷ unité de l'abscisse.</li>
+<li>Il ne dépend pas du point choisi.</li>
+<li>Pour d = f(t), a = d ÷ t est la <b>vitesse</b>, en m/s.</li>
+</ul>
+<h3>Exemple</h3>
+<p>La droite passe par (t = 4 s ; d = 3,2 m) : a = 3,2 ÷ 4 = <b>0,8 m/s</b>.</p>`},
+{titre:"La droite moyenne",html:`
+${FIG(SVG_MOY)}
+<p>Les mesures réelles ne sont jamais parfaitement alignées. On trace la droite passant par l'origine qui laisse <b>à peu près autant de points au-dessus qu'en dessous</b>.</p>
+${PIEGE('Pour calculer le coefficient, prends un point <b>de la droite</b>, pas un point de mesure. Choisis-le loin de l\'origine pour être plus précis.')}`},
+{titre:"La chute, et le lien avec la chimie",html:`
+<h3>Quand un objet tombe</h3>
+<p>d ÷ t n'est pas constant : d n'est <b>pas</b> proportionnelle à t (la vitesse augmente).</p>
+<p>Mais d ÷ t² est constant (environ 4,9 m/s² sur Terre) : d est <b>proportionnelle à t²</b>.</p>
+<h3>En chimie</h3>
+<p>Pour un même volume V, Cm = m ÷ V : Cm est proportionnelle à m, et le coefficient vaut 1 ÷ V. C'est ce qui rend possible l'échelle de teinte du TP1.</p>`}
+],recall:[
+{q:"Quelles sont les deux façons de reconnaître deux grandeurs proportionnelles ?",a:"<p>Le rapport des deux grandeurs est constant, ou le graphique est une droite passant par l'origine.</p>"},
+{q:"Pour d = f(t), quelle est l'unité du coefficient directeur et que représente-t-il ?",a:"<p>Il s'exprime en m/s : c'est la vitesse.</p>"},
+{q:"Pourquoi utilise-t-on un point de la droite plutôt qu'un point de mesure ?",a:"<p>Les points de mesure contiennent des erreurs ; la droite moyenne les compense.</p>"}
+]},
+{titre:"Fiche-synthèse",court:"Fiche-synthèse",ecrans:[
+{titre:"Tout le chapitre en un tableau",html:`
+<p>À relire la veille du DS. Cache la colonne de droite et essaie de la retrouver.</p>
+${TAB(`<tr><th>Notion</th><th>À retenir</th></tr>
+<tr><td>Corps pur</td><td>1 seule espèce, palier de changement d'état, 1 tache en CCM</td></tr>
+<tr><td>Mélange</td><td>plusieurs espèces, pas de palier, plusieurs taches en CCM</td></tr>
+<tr><td>Homogène / hétérogène</td><td>on ne distingue pas / on distingue les constituants à l'œil nu</td></tr>
+<tr><td>Air</td><td>78 % N₂, 21 % O₂, 1 % autres</td></tr>
+<tr><td>Masse volumique</td><td>ρ = m ÷ V ; eau : 1 g/mL = 1 kg/L</td></tr>
+<tr><td>Concentration en masse</td><td>Cm = m(soluté) ÷ V(solution), en g/L (V en L)</td></tr>
+<tr><td>Masse de soluté à peser</td><td>m = Cm × V</td></tr>
+<tr><td>Dilution</td><td>Ci × Vp = Cf × Vf (masse de soluté conservée)</td></tr>
+<tr><td>Facteur de dilution</td><td>F = Ci ÷ Cf = Vf ÷ Vp, sans unité, plus grand que 1</td></tr>
+<tr><td>Verrerie précise</td><td>fiole jaugée, pipette jaugée + propipette</td></tr>
+<tr><td>Tests</td><td>eau : sulfate de cuivre blanc → bleu ; CO₂ : eau de chaux trouble ; O₂ : bûchette rallumée ; H₂ : détonation</td></tr>
+<tr><td>CCM</td><td>ligne au crayon, au-dessus de l'éluant ; même hauteur = même espèce</td></tr>
+<tr><td>Proportionnalité</td><td>rapport constant ⇔ droite passant par l'origine</td></tr>`)}`}
+]}
+];
+
+/* ---------- Quiz ---------- */
+const QUIZ=[
+{s:"Corps purs et mélanges",q:"Un corps pur est constitué :",o:["de plusieurs espèces chimiques mélangées finement","d'une seule espèce chimique","d'un seul atome","d'une substance naturelle, sans additif"],a:1,j:"« Pur » signifie une seule espèce chimique. Une espèce peut contenir plusieurs atomes (l'eau H₂O en contient trois), et « naturel » ne veut pas dire « pur »."},
+{s:"Corps purs et mélanges",q:"Un mélange est homogène quand :",o:["on distingue au moins deux constituants à l'œil nu","il contient forcément de l'eau","on ne peut pas distinguer ses constituants à l'œil nu","il ne contient qu'une seule espèce chimique"],a:2,j:"La définition repose sur ce que l'on voit à l'œil nu. La première proposition décrit un mélange hétérogène."},
+{s:"Corps purs et mélanges",q:"La vinaigrette est :",o:["un corps pur","un mélange homogène","une solution aqueuse","un mélange hétérogène"],a:3,j:"On voit nettement les gouttes d'huile séparées du vinaigre."},
+{s:"Corps purs et mélanges",q:"Le lait paraît uniforme à l'œil nu, mais on voit des gouttelettes au microscope. Au lycée, on le classe comme :",o:["un mélange homogène (à l'œil nu)","un corps pur","un mélange hétérogène à l'œil nu","une solution sans soluté"],a:0,j:"Le critère officiel est l'œil nu. Le microscope montre la limite du critère mais ne change pas la classification."},
+{s:"Corps purs et mélanges",q:"La composition volumique approximative de l'air est :",o:["21 % de diazote, 78 % de dioxygène, 1 % d'autres gaz","78 % de diazote, 21 % de dioxygène, 1 % d'autres gaz","50 % de diazote, 50 % de dioxygène","100 % de dioxygène"],a:1,j:"Environ 78 % de diazote et 21 % de dioxygène. Attention à ne pas inverser les deux."},
+{s:"Corps purs et mélanges",q:"Une pièce a un volume de 100 m³. Le volume de dioxygène qu'elle contient vaut environ :",o:["78 m³","100 m³","21 m³","0,21 m³"],a:2,j:"V(O₂) = 0,21 × 100 = 21 m³. La réponse 0,21 m³ oublie de multiplier par le volume."},
+{s:"Identification",q:"La masse volumique se calcule par :",o:["ρ = m × V","ρ = V / m","ρ = m(soluté) / V(solution)","ρ = m / V"],a:3,j:"ρ = m / V. La formule m(soluté) / V(solution) est celle de Cm : c'est le piège classique."},
+{s:"Identification",q:"La masse volumique de l'eau vaut :",o:["1 g/L","1 g/mL","1 kg/mL","100 g/L"],a:1,j:"1 g/mL = 1 000 g/L = 1 kg/L : 1 mL d'eau pèse 1 g."},
+{s:"Identification",q:"On mélange de l'eau (1,00 g/mL) et du cyclohexane (0,78 g/mL), non miscibles. Le liquide au-dessus est :",o:["l'eau","le cyclohexane","aucun des deux, ils se mélangent","celui qu'on a versé en dernier"],a:1,j:"Le cyclohexane a la plus petite masse volumique (0,78 < 1,00) : il flotte sur l'eau."},
+{s:"Identification",q:"Sur une courbe de chauffage, un palier horizontal indique :",o:["que la substance est un mélange","une erreur de mesure","un changement d'état d'un corps pur","que le chauffage a été arrêté"],a:2,j:"Pendant un changement d'état, la température d'un corps pur reste constante. Un mélange n'a pas de palier."},
+{s:"Identification",q:"Le passage de l'état liquide à l'état gazeux s'appelle :",o:["la liquéfaction","la vaporisation","la sublimation","la condensation"],a:1,j:"La vaporisation regroupe l'évaporation (lente) et l'ébullition."},
+{s:"Identification",q:"De la buée se forme sur un miroir froid. En physique-chimie, ce changement d'état s'appelle :",o:["une liquéfaction","une condensation","une vaporisation","une fusion"],a:0,j:"La buée est un passage gaz → liquide : une liquéfaction. La « condensation » désigne le passage gaz → solide."},
+{s:"Identification",q:"Pour mettre en évidence la présence d'eau, on observe que :",o:["l'eau de chaux se trouble","une bûchette incandescente se rallume","une légère détonation se produit","le sulfate de cuivre anhydre passe du blanc au bleu"],a:3,j:"Les autres propositions correspondent au CO₂, au dioxygène et au dihydrogène."},
+{s:"Identification",q:"Le gaz qui trouble l'eau de chaux est :",o:["le dioxygène","le dioxyde de carbone","le dihydrogène","le diazote"],a:1,j:"L'eau de chaux incolore devient blanchâtre en présence de CO₂."},
+{s:"Identification",q:"Une bûchette incandescente se rallume au contact :",o:["du dioxygène","du dioxyde de carbone","du dihydrogène","de la vapeur d'eau"],a:0,j:"Le dioxygène entretient la combustion."},
+{s:"Identification",q:"En chromatographie, la ligne de dépôt est tracée :",o:["au stylo, sous le niveau de l'éluant","au crayon à papier, au-dessus du niveau de l'éluant","au crayon à papier, sous le niveau de l'éluant","au feutre, n'importe où"],a:1,j:"Le crayon ne migre pas, contrairement à l'encre. Sous le niveau de l'éluant, les dépôts se dissoudraient au lieu de migrer."},
+{s:"Identification",q:"Un échantillon donne 3 taches sur un chromatogramme. Il s'agit :",o:["d'un corps pur","d'un mélange contenant au moins 3 espèces chimiques","d'une erreur de dépôt","de la même espèce déposée 3 fois"],a:1,j:"Chaque tache correspond à une espèce. Deux espèces pourraient migrer à la même hauteur, d'où « au moins » 3."},
+{s:"Dissolution et concentration",q:"La concentration en masse se calcule par :",o:["Cm = m(solution) / V(solution)","Cm = m(soluté) / V(solvant)","Cm = m(soluté) / V(solution)","Cm = V(solution) / m(soluté)"],a:2,j:"La première formule est la masse volumique de la solution ; la deuxième divise par le volume de solvant au lieu du volume de solution."},
+{s:"Dissolution et concentration",q:"On dissout 2,0 g de sel pour obtenir 250 mL de solution. La concentration en masse vaut :",o:["0,008 g/L","500 g/L","125 g/L","8,0 g/L"],a:3,j:"250 mL = 0,250 L, donc Cm = 2,0 ÷ 0,250 = 8,0 g/L. La réponse 0,008 g/L oublie la conversion en litres."},
+{s:"Dissolution et concentration",q:"Pour préparer une solution de volume précis par dissolution, on utilise :",o:["un bécher","une éprouvette graduée","une fiole jaugée","un erlenmeyer"],a:2,j:"La fiole jaugée est la seule verrerie précise pour un volume de solution."},
+{s:"Dilution",q:"Lors d'une dilution, la grandeur conservée est :",o:["la masse de soluté","la concentration","le volume de solution","la masse de solvant"],a:0,j:"On ajoute seulement de l'eau : la quantité de soluté ne change pas. La concentration et le volume changent."},
+{s:"Dilution",q:"La formule de la dilution est :",o:["Ci × Cf = Vp × Vf","Ci × Vp = Cf × Vf","Ci × Vf = Cf × Vp","Ci / Vp = Cf / Vf"],a:1,j:"Elle traduit la conservation de la masse de soluté, puisque m = C × V avant et après."},
+{s:"Dilution",q:"On dilue 10 fois une solution à 20 g/L. La solution fille a une concentration de :",o:["200 g/L","10 g/L","2,0 g/L","30 g/L"],a:2,j:"Diluer 10 fois = diviser la concentration par 10 : 20 ÷ 10 = 2,0 g/L."},
+{s:"Dilution",q:"Pour préparer 100 mL d'une solution diluée 5 fois, on prélève :",o:["5 mL de solution mère","20 mL de solution mère","50 mL de solution mère","500 mL de solution mère"],a:1,j:"Vp = Vf ÷ F = 100 ÷ 5 = 20 mL."},
+{s:"Dilution",q:"Pour prélever précisément le volume Vp, on utilise :",o:["une éprouvette graduée","un bécher gradué","une pipette jaugée munie d'une propipette","une pipette jaugée en aspirant avec la bouche"],a:2,j:"La pipette jaugée est précise. On ne pipette jamais à la bouche, pour des raisons de sécurité."},
+{s:"Dilution",q:"Dans une échelle de teinte, S2 est à 1,2 g/L et S3 à 0,9 g/L. Une solution inconnue a une teinte entre les deux. Sa concentration C vérifie :",o:["C > 1,2 g/L","C < 0,9 g/L","0,9 g/L < C < 1,2 g/L","on ne peut rien dire"],a:2,j:"L'échelle de teinte permet d'encadrer la concentration entre celles des deux solutions voisines."},
+{s:"Proportionnalité",q:"Deux grandeurs sont proportionnelles si leur représentation graphique est :",o:["une droite passant par l'origine","une droite ne passant pas par l'origine","une courbe","un nuage de points non alignés"],a:0,j:"C'est la traduction graphique d'un rapport constant."},
+{s:"Proportionnalité",q:"Une droite passant par l'origine passe par le point (t = 4 s ; d = 3,2 m). Son coefficient directeur vaut :",o:["1,25 m/s","0,8 m/s","12,8 m/s","0,8 s/m"],a:1,j:"a = 3,2 ÷ 4 = 0,8 m/s. L'unité est ordonnée ÷ abscisse, donc m/s et non s/m."},
+{s:"Proportionnalité",q:"Pour un objet qui tombe, le rapport d / t augmente au cours du temps. On en conclut que :",o:["d est proportionnelle à t","la vitesse est constante","d n'est pas proportionnelle à t","les mesures sont fausses"],a:2,j:"Si le rapport n'est pas constant, il n'y a pas de proportionnalité. La vitesse augmente pendant la chute."}
+];
+
+/* ---------- Exercices ---------- */
+const FAMS=[
+{L:"A",titre:"Corps purs, mélanges, composition",
+resolu:{enonce:`<p>Une salle de classe mesure 8 m × 6 m × 3 m. Quel volume de dioxygène contient-elle ?</p>`,
+etapes:[
+{t:"Je calcule le volume total.",h:"V = 8 × 6 × 3 = 144 m³"},
+{t:"Je repère le pourcentage de dioxygène.",h:"L'air contient environ 21 % de dioxygène."},
+{t:"J'applique la formule V(gaz) = (pourcentage ÷ 100) × V(total).",h:"V(O₂) = 0,21 × 144 = 30,24 m³"},
+{t:"Je conclus avec une phrase et une unité.",h:"La salle contient environ <b>30 m³</b> de dioxygène."}]},
+exos:[
+{niv:1,enonce:`<p>Classe chaque exemple en corps pur, mélange homogène ou mélange hétérogène, et justifie : eau salée, vinaigrette, dioxygène, air, jus d'orange avec pulpe, sucre (saccharose), eau distillée, sirop de grenadine.</p>`,
+indice:"Pose-toi deux questions dans l'ordre : combien d'espèces chimiques ? Puis, si c'est un mélange : est-ce que je vois plusieurs constituants à l'œil nu ?",
+corr:`<ul><li>Eau salée : mélange homogène (on ne voit pas le sel dissous).</li><li>Vinaigrette : mélange hétérogène (on voit l'huile et le vinaigre).</li><li>Dioxygène : corps pur (une seule espèce, O₂).</li><li>Air : mélange homogène (plusieurs gaz invisibles).</li><li>Jus d'orange avec pulpe : mélange hétérogène (on voit la pulpe).</li><li>Sucre (saccharose) : corps pur.</li><li>Eau distillée : corps pur.</li><li>Sirop de grenadine : mélange homogène (eau, sucre, colorants, arômes, sans constituant visible).</li></ul>`},
+{niv:2,enonce:`<p>Un adulte au repos inspire 6,0 L d'air par minute.</p><ol><li>Calcule le volume de diazote inspiré en une minute.</li><li>Calcule le volume de dioxygène inspiré en une minute.</li><li>Déduis-en le volume de dioxygène inspiré en une heure.</li></ol>`,
+indice:"Même méthode que l'exercice résolu, avec 78 % puis 21 %. Pour une heure, pense qu'il y a 60 minutes.",
+corr:`<ol><li>V(N₂) = 0,78 × 6,0 = 4,68 L, soit environ <b>4,7 L</b> par minute.</li><li>V(O₂) = 0,21 × 6,0 = 1,26 L, soit environ <b>1,3 L</b> par minute.</li><li>En une heure : 1,26 × 60 = 75,6 L, soit environ <b>76 L</b>.</li></ol>`},
+{niv:3,enonce:`<p>Une pièce contient 42 m³ de dioxygène.</p><ol><li>Calcule le volume total de la pièce.</li><li>La pièce a une hauteur de 2,5 m. Calcule sa surface au sol.</li><li>Calcule le volume de diazote contenu dans la pièce.</li></ol>`,
+indice:"Ici, on connaît V(O₂) et on cherche V(total) : il faut « remonter » la formule V(O₂) = 0,21 × V(total).",
+corr:`<ol><li>V(O₂) = 0,21 × V(total), donc V(total) = 42 ÷ 0,21 = <b>200 m³</b>.</li><li>Surface = V ÷ h = 200 ÷ 2,5 = <b>80 m²</b>.</li><li>V(N₂) = 0,78 × 200 = <b>156 m³</b>.</li></ol>`}
+]},
+{L:"B",titre:"Masse volumique",
+resolu:{enonce:`<p>Un liquide incolore de 25,0 mL a une masse de 19,75 g. De quel liquide s'agit-il ?</p><p>Données : ρ(eau) = 1,00 g/mL ; ρ(éthanol) = 0,79 g/mL ; ρ(glycérol) = 1,26 g/mL.</p>`,
+etapes:[
+{t:"J'identifie ce que je cherche.",h:"Pour identifier un liquide, je calcule sa masse volumique et je la compare aux données."},
+{t:"J'écris la formule.",h:"ρ = m ÷ V"},
+{t:"Je vérifie les unités.",h:"Les données sont en g/mL. J'ai m en g et V en mL : rien à convertir."},
+{t:"Je calcule.",h:"ρ = 19,75 ÷ 25,0 = 0,79 g/mL"},
+{t:"Je compare et je conclus.",h:"0,79 g/mL correspond à l'éthanol : le liquide est de l'<b>éthanol</b>."}]},
+exos:[
+{niv:1,enonce:`<p>Le cyclohexane a une masse volumique de 780 g/L. Calcule la masse de 15 mL de cyclohexane.</p>`,
+indice:"On cherche m : m = ρ × V. Attention, ρ est en g/L et V en mL.",
+corr:`<p>15 mL = 0,015 L, donc m = ρ × V = 780 × 0,015 = <b>11,7 g</b>.</p><p>Autre méthode : 780 g/L = 0,780 g/mL, donc m = 0,780 × 15 = 11,7 g.</p>`},
+{niv:2,enonce:`<p>On pèse trois huiles essentielles après avoir taré la balance.</p>${TAB(`<tr><th>Éprouvette</th><th class="c">A</th><th class="c">B</th><th class="c">C</th></tr><tr><td>Volume</td><td class="c">12,0 mL</td><td class="c">20,0 mL</td><td class="c">30,0 mL</td></tr><tr><td>Masse</td><td class="c">11,4 g</td><td class="c">17,6 g</td><td class="c">27,0 g</td></tr>`)}<p>Données : basilic 0,95 g/mL ; menthol 0,90 g/mL ; lavande 0,88 g/mL. Identifie l'huile de chaque éprouvette.</p>`,
+indice:"Calcule ρ = m ÷ V pour chaque éprouvette, puis compare.",
+corr:`<ul><li>A : 11,4 ÷ 12,0 = 0,95 g/mL : <b>basilic</b>.</li><li>B : 17,6 ÷ 20,0 = 0,88 g/mL : <b>lavande</b>.</li><li>C : 27,0 ÷ 30,0 = 0,90 g/mL : <b>menthol</b>.</li></ul>`},
+{niv:3,enonce:`<p>On dispose de 200 mL d'une solution sucrée de masse totale 222 g. Elle contient 30 g de sucre dissous.</p><ol><li>Calcule la masse volumique de la solution, en g/mL puis en g/L.</li><li>Calcule la concentration en masse du sucre, en g/L.</li><li>Explique pourquoi les résultats 1 et 2 sont différents.</li><li>On verse de l'huile (ρ = 0,92 g/mL), non miscible, sur cette solution. Où se place l'huile ? Justifie.</li></ol>`,
+indice:"Relis l'écran « Ne confonds pas ρ et Cm » : quelle masse va au numérateur dans chaque formule ?",
+corr:`<ol><li>ρ = 222 ÷ 200 = <b>1,11 g/mL</b>, soit <b>1 110 g/L</b>.</li><li>200 mL = 0,200 L, donc Cm = 30 ÷ 0,200 = <b>150 g/L</b>.</li><li>ρ utilise la masse de toute la solution (222 g), alors que Cm utilise seulement la masse de soluté (30 g). Même unité, mais grandeurs différentes.</li><li>L'huile se place <b>au-dessus</b>, car 0,92 g/mL &lt; 1,11 g/mL.</li></ol>`}
+]},
+{L:"C",titre:"Changements d'état, tests, chromatographie",
+resolu:{enonce:`<p>On chauffe un liquide incolore. Sa température monte de 20 °C à 78 °C, reste à 78 °C pendant 5 minutes, puis remonte.</p><p>Températures d'ébullition : eau 100 °C ; éthanol 78 °C ; acétone 56 °C.</p><ol><li>Ce liquide est-il un corps pur ou un mélange ?</li><li>Identifie-le.</li></ol>`,
+etapes:[
+{t:"Je repère l'indice clé dans l'énoncé.",h:"La température reste constante pendant 5 minutes : c'est un palier."},
+{t:"J'applique la règle du cours.",h:"Un palier pendant un changement d'état est la signature d'un corps pur."},
+{t:"J'identifie le changement d'état.",h:"On chauffe un liquide et la température se stabilise : c'est l'ébullition."},
+{t:"Je compare aux données et je conclus.",h:"Le palier est à 78 °C : 1. c'est un <b>corps pur</b> ; 2. c'est de l'<b>éthanol</b>."}]},
+exos:[
+{niv:1,enonce:`<p>Nomme chaque changement d'état :</p><ol type="a"><li>Un glaçon fond dans un verre.</li><li>De la buée se forme sur une vitre froide.</li><li>De la neige carbonique disparaît en fumée sans devenir liquide.</li><li>De l'eau placée au congélateur devient de la glace.</li><li>Du givre se forme directement à partir de la vapeur d'eau de l'air.</li><li>Une flaque d'eau disparaît au soleil.</li></ol>`,
+indice:"Pour chaque cas, écris d'abord « état de départ → état d'arrivée », puis cherche le nom dans le schéma des 6 changements d'état.",
+corr:`<ol type="a"><li>Fusion.</li><li>Liquéfaction.</li><li>Sublimation.</li><li>Solidification.</li><li>Condensation.</li><li>Vaporisation (évaporation).</li></ol>`},
+{niv:2,enonce:`<p>On réalise quatre tests :</p><ul><li>Tube 1 : une bûchette incandescente se rallume.</li><li>Tube 2 : on approche une flamme et on entend une légère détonation.</li><li>Tube 3 : le gaz barbote dans l'eau de chaux, qui se trouble.</li><li>Liquide 4 : versé sur du sulfate de cuivre anhydre blanc, il le fait devenir bleu.</li></ul><ol><li>Identifie le gaz de chacun des tubes 1, 2 et 3.</li><li>Que peut-on dire du liquide 4 ?</li><li>Peut-on affirmer que le liquide 4 est de l'eau pure ? Justifie.</li></ol>`,
+indice:"Utilise le tableau des tests. Pour la question 3, demande-toi ce que le test prouve… et ce qu'il ne prouve pas.",
+corr:`<ol><li>Tube 1 : <b>dioxygène</b>. Tube 2 : <b>dihydrogène</b>. Tube 3 : <b>dioxyde de carbone</b>.</li><li>Le liquide 4 <b>contient de l'eau</b>.</li><li><b>Non</b> : le test montre la présence d'eau, pas l'absence d'autres espèces. Ce pourrait être de l'eau salée, par exemple.</li></ol>`},
+{niv:3,enonce:`<p>On dépose sur la ligne de départ : M (sirop de menthe), J (colorant jaune E102) et B (colorant bleu E131). Après élution, J et B donnent une tache chacun, et M donne deux taches : l'une à la hauteur de J, l'autre à la hauteur de B.</p><ol><li>Pourquoi trace-t-on la ligne de dépôt au crayon à papier ?</li><li>Pourquoi doit-elle se trouver au-dessus du niveau de l'éluant ?</li><li>Quel est le rôle de l'éluant ?</li><li>Le sirop de menthe est-il un corps pur ou un mélange ? Justifie.</li><li>Quels colorants contient-il ? Justifie.</li><li>Comment s'appelle la figure obtenue ?</li></ol>`,
+indice:"Regarde le schéma de la CCM : il ressemble beaucoup à cette situation (A, B, C).",
+corr:`<ol><li>Le crayon ne migre pas avec l'éluant, contrairement à l'encre qui ajouterait des taches.</li><li>Sinon les dépôts se dissoudraient dans l'éluant au lieu de monter.</li><li>Il monte le long du support et entraîne les espèces à des vitesses différentes, ce qui les sépare.</li><li>C'est un <b>mélange</b> : il donne deux taches.</li><li>Il contient <b>E102</b> et <b>E131</b>, car ses taches sont à la même hauteur que celles de J et de B.</li><li>Un <b>chromatogramme</b>.</li></ol>`}
+]},
+{L:"D",titre:"Concentration en masse et dissolution",
+resolu:{enonce:`<p>L'eau de Dalibour contient 0,100 g de sulfate de cuivre pour 100 mL de solution. Calcule sa concentration en masse en sulfate de cuivre.</p>`,
+etapes:[
+{t:"Je repère les données et le soluté.",h:"Soluté : sulfate de cuivre. m(soluté) = 0,100 g ; V(solution) = 100 mL."},
+{t:"J'écris la formule.",h:`Cm = m(soluté) ÷ V(solution)`},
+{t:"Je convertis le volume en litres.",h:"100 mL = 0,100 L"},
+{t:"Je calcule.",h:"Cm = 0,100 ÷ 0,100 = 1,00 g/L"},
+{t:"Je conclus.",h:"La concentration en masse en sulfate de cuivre est de <b>1,00 g/L</b>."}]},
+exos:[
+{niv:1,enonce:`<p>On dissout 5,0 g de glucose pour obtenir 250 mL de solution. Calcule la concentration en masse en glucose.</p>`,
+indice:"Même méthode que l'exercice résolu. N'oublie pas la conversion en litres.",
+corr:`<p>250 mL = 0,250 L, donc Cm = 5,0 ÷ 0,250 = <b>20 g/L</b>.</p>`},
+{niv:2,enonce:`<p>On veut préparer 200 mL d'une solution de sulfate de cuivre de concentration en masse 12 g/L.</p><ol><li>Calcule la masse de sulfate de cuivre à peser.</li><li>Rédige le protocole de préparation, en nommant la verrerie.</li></ol>`,
+indice:"On cherche une masse : m = Cm × V, avec V en litres. Pour le protocole, relis l'écran « Le protocole de dissolution ».",
+corr:`<ol><li>200 mL = 0,200 L, donc m = 12 × 0,200 = <b>2,4 g</b>.</li><li>Peser 2,4 g de sulfate de cuivre dans une coupelle (balance tarée). Verser de l'eau distillée à mi-hauteur dans une fiole jaugée de 200 mL. Introduire le solide avec un entonnoir. Rincer coupelle et entonnoir avec la pissette au-dessus de la fiole. Boucher et agiter jusqu'à dissolution complète. Compléter jusqu'au trait de jauge. Boucher et agiter.</li></ol>`},
+{niv:2,enonce:`<p>Un jus de fruit contient 40 mg de vitamine C pour 100 mL.</p><ol><li>Calcule la concentration en masse en vitamine C, en g/L.</li><li>Un adolescent a besoin de 110 mg de vitamine C par jour. Quel volume de jus devrait-il boire si c'était sa seule source ? Donne le résultat en mL.</li></ol>`,
+indice:"Convertis d'abord les mg en g (on divise par 1 000). Pour la question 2, on cherche un volume : V = m ÷ Cm.",
+corr:`<ol><li>40 mg = 0,040 g et 100 mL = 0,100 L, donc Cm = 0,040 ÷ 0,100 = <b>0,40 g/L</b>.</li><li>110 mg = 0,110 g, donc V = 0,110 ÷ 0,40 = 0,275 L, soit <b>275 mL</b>.</li></ol>`},
+{niv:3,enonce:`<p>Une analyse porte sur 5,0 mL de sang. On y trouve 4,0 × 10⁻³ g de glucose et 1,1 × 10⁻³ g de potassium.</p><p>Valeurs normales : glucose de 0,70 à 1,10 g/L ; potassium de 140 à 200 mg/L.</p><ol><li>Calcule la concentration en masse en glucose. Est-elle normale ?</li><li>Calcule la concentration en masse en potassium, en g/L puis en mg/L. Est-elle normale ?</li></ol>`,
+indice:"5,0 mL = 5,0 × 10⁻³ L. Pour passer des g/L aux mg/L, on multiplie par 1 000.",
+corr:`<ol><li>Cm(glucose) = 4,0 × 10⁻³ ÷ 5,0 × 10⁻³ = <b>0,80 g/L</b> : entre 0,70 et 1,10 g/L, elle est <b>normale</b>.</li><li>Cm(potassium) = 1,1 × 10⁻³ ÷ 5,0 × 10⁻³ = <b>0,22 g/L</b>, soit <b>220 mg/L</b> : supérieure à 200 mg/L, elle est <b>anormale</b> (trop élevée).</li></ol>`}
+]},
+{L:"E",titre:"Dilution",
+resolu:{enonce:`<p>On dispose d'une solution mère S0 de sulfate de cuivre à 25 g/L. On veut préparer 100 mL de solution fille à 2,5 g/L.</p><ol><li>Quel volume de solution mère faut-il prélever ?</li><li>Calcule le facteur de dilution.</li><li>Quelle verrerie faut-il utiliser ?</li></ol>`,
+etapes:[
+{t:"Je fais l'inventaire des données.",h:TAB(`<tr><th>Mère</th><th>Fille</th></tr><tr><td>Ci = 25 g/L</td><td>Cf = 2,5 g/L</td></tr><tr><td>Vp = ?</td><td>Vf = 100 mL</td></tr>`)},
+{t:"J'écris la formule, puis je l'isole.",h:"Ci × Vp = Cf × Vf, donc Vp = (Cf × Vf) ÷ Ci"},
+{t:"Je calcule (Vf en mL, donc Vp en mL).",h:"Vp = (2,5 × 100) ÷ 25 = <b>10 mL</b>"},
+{t:"Je calcule le facteur de dilution et je vérifie.",h:"F = Ci ÷ Cf = 25 ÷ 2,5 = <b>10</b>. Vérification : Vf ÷ Vp = 100 ÷ 10 = 10 ✔"},
+{t:"Je choisis la verrerie.",h:"Une pipette jaugée de 10 mL avec une propipette, et une fiole jaugée de 100 mL."}]},
+exos:[
+{niv:1,enonce:`<p>On prélève 25 mL d'une solution à 3,0 g/L, que l'on dilue dans une fiole jaugée de 50 mL.</p><ol><li>Calcule la concentration de la solution fille.</li><li>Calcule le facteur de dilution.</li></ol>`,
+indice:"Fais le tableau mère / fille comme dans l'exercice résolu. On cherche Cf = (Ci × Vp) ÷ Vf.",
+corr:`<ol><li>Cf = (3,0 × 25) ÷ 50 = <b>1,5 g/L</b>.</li><li>F = Vf ÷ Vp = 50 ÷ 25 = <b>2</b>. Vérification : 3,0 ÷ 1,5 = 2 ✔</li></ol>`},
+{niv:2,enonce:`<p>À partir d'une solution S0 de dichromate de potassium à 3,0 g/L, on prépare cinq solutions dans des fioles jaugées de 50 mL.</p>${TAB(`<tr><th>Solution</th><th class="c">S1</th><th class="c">S2</th><th class="c">S3</th><th class="c">S4</th><th class="c">S5</th></tr><tr><td>Vp (mL)</td><td class="c">25</td><td class="c">20</td><td class="c">15</td><td class="c">10</td><td class="c">5</td></tr><tr><td>Cf (g/L)</td><td class="c">?</td><td class="c">?</td><td class="c">?</td><td class="c">?</td><td class="c">?</td></tr>`)}<ol><li>Complète le tableau.</li><li>Un flacon indique 1,0 g/L. Entre quelles solutions se situe sa teinte ?</li></ol><p><i>Compare ensuite avec ta feuille de TP.</i></p>`,
+indice:"La même formule sert cinq fois : Cf = (3,0 × Vp) ÷ 50.",
+corr:`${TAB(`<tr><th>Solution</th><th class="c">S1</th><th class="c">S2</th><th class="c">S3</th><th class="c">S4</th><th class="c">S5</th></tr><tr><td>Cf (g/L)</td><td class="c">1,5</td><td class="c">1,2</td><td class="c">0,9</td><td class="c">0,6</td><td class="c">0,3</td></tr>`)}<p>1,0 g/L est compris entre 0,9 g/L (S3) et 1,2 g/L (S2) : sa teinte est <b>entre S3 et S2</b>.</p>${PIEGE('Sur la feuille de TP, les valeurs 0,5 ; 0,4… et la réponse « entre S2 et S1 » sont à corriger avec ce tableau.','À corriger sur ta feuille')}`},
+{niv:2,enonce:`<p>On dilue 20 fois une solution à 40 g/L pour obtenir 100 mL de solution fille.</p><ol><li>Calcule la concentration de la solution fille.</li><li>Calcule le volume à prélever.</li></ol>`,
+indice:"Utilise F = Ci ÷ Cf = Vf ÷ Vp avec F = 20.",
+corr:`<ol><li>Cf = Ci ÷ F = 40 ÷ 20 = <b>2,0 g/L</b>.</li><li>Vp = Vf ÷ F = 100 ÷ 20 = <b>5,0 mL</b>.</li></ol>`},
+{niv:3,enonce:`<p>On dispose d'une solution S0 à 20 g/L, qu'on ne doit utiliser qu'une seule fois. On veut préparer S1 (100 mL à 2,0 g/L) à partir de S0, puis S2 (50 mL à 0,40 g/L) à partir de S1.</p><ol><li>Calcule le volume à prélever pour S1 et le facteur de dilution.</li><li>Calcule le volume à prélever pour S2 et le facteur de dilution.</li><li>Quel serait le facteur si l'on préparait S2 directement à partir de S0 ? Quel volume faudrait-il prélever ?</li><li>Pourquoi procède-t-on en deux étapes ?</li></ol>`,
+indice:"Pour S2, la solution mère n'est plus S0 mais S1 : Ci = 2,0 g/L.",
+corr:`<ol><li>Vp = (2,0 × 100) ÷ 20 = <b>10 mL</b> ; F = 20 ÷ 2,0 = <b>10</b>.</li><li>Vp = (0,40 × 50) ÷ 2,0 = <b>10 mL</b> ; F = 2,0 ÷ 0,40 = <b>5</b>.</li><li>F = 20 ÷ 0,40 = <b>50</b>, donc Vp = 50 ÷ 50 = <b>1,0 mL</b>.</li><li>Prélever 1,0 mL avec précision est difficile : la moindre erreur a un effet important. En deux étapes, on prélève 10 mL à chaque fois, ce qui est plus précis. On remarque que 10 × 5 = 50.</li></ol>`}
+]},
+{L:"F",titre:"Proportionnalité et graphiques",
+resolu:{enonce:`<p>Un palet glisse sur la glace. On mesure :</p>${TAB(`<tr><th>t (s)</th><td class="c">0</td><td class="c">1</td><td class="c">2</td><td class="c">3</td><td class="c">4</td></tr><tr><th>d (m)</th><td class="c">0</td><td class="c">1,5</td><td class="c">3,0</td><td class="c">4,5</td><td class="c">6,0</td></tr>`)}<ol><li>La distance est-elle proportionnelle au temps ?</li><li>Quelle serait l'allure du graphique d = f(t) ?</li><li>Quelle est la vitesse du palet ?</li></ol>`,
+etapes:[
+{t:"Je calcule d ÷ t pour chaque colonne (sauf t = 0 : on ne divise pas par zéro).",h:"1,5 ÷ 1 = 1,5 ; 3,0 ÷ 2 = 1,5 ; 4,5 ÷ 3 = 1,5 ; 6,0 ÷ 4 = 1,5"},
+{t:"J'observe si le rapport est constant.",h:"Il vaut toujours 1,5 : d est <b>proportionnelle</b> à t."},
+{t:"Je décris le graphique.",h:"Une <b>droite passant par l'origine</b>."},
+{t:"J'interprète le coefficient avec son unité.",h:"a = d ÷ t = 1,5, en m ÷ s : c'est la vitesse, <b>v = 1,5 m/s</b>."}]},
+exos:[
+{niv:1,enonce:`<p>Pour chaque tableau, indique si d est proportionnelle à t. Justifie par un calcul.</p><p><b>Tableau 1</b></p>${TAB(`<tr><th>t (s)</th><td class="c">1</td><td class="c">2</td><td class="c">3</td><td class="c">4</td></tr><tr><th>d (m)</th><td class="c">2,0</td><td class="c">4,0</td><td class="c">6,0</td><td class="c">8,0</td></tr>`)}<p><b>Tableau 2</b></p>${TAB(`<tr><th>t (s)</th><td class="c">1</td><td class="c">2</td><td class="c">3</td><td class="c">4</td></tr><tr><th>d (m)</th><td class="c">2,0</td><td class="c">4,0</td><td class="c">6,5</td><td class="c">9,5</td></tr>`)}`,
+indice:"Calcule d ÷ t dans chaque colonne, comme dans l'exercice résolu.",
+corr:`<ul><li>Tableau 1 : d ÷ t = 2,0 partout. Rapport constant : d est <b>proportionnelle</b> à t.</li><li>Tableau 2 : d ÷ t = 2,0 ; 2,0 ; 2,17 ; 2,375. Rapport non constant : d n'est <b>pas proportionnelle</b> à t.</li></ul>`},
+{niv:2,enonce:`<p>La droite d = f(t) passe par l'origine et par le point (t = 2,5 s ; d = 5,0 m).</p><ol><li>Calcule le coefficient directeur avec son unité. Que représente-t-il ?</li><li>Quelle distance est parcourue en 4,0 s ?</li><li>Au bout de combien de temps le palet a-t-il parcouru 7,0 m ?</li></ol>`,
+indice:"a = ordonnée ÷ abscisse. Ensuite, d = a × t et t = d ÷ a.",
+corr:`<ol><li>a = 5,0 ÷ 2,5 = <b>2,0 m/s</b> : c'est la vitesse du palet.</li><li>d = 2,0 × 4,0 = <b>8,0 m</b>.</li><li>t = 7,0 ÷ 2,0 = <b>3,5 s</b>.</li></ol>`},
+{niv:2,enonce:`<p>On a mesuré :</p>${TAB(`<tr><th>t (s)</th><td class="c">1,0</td><td class="c">2,0</td><td class="c">3,0</td><td class="c">4,0</td></tr><tr><th>d (m)</th><td class="c">2,1</td><td class="c">3,9</td><td class="c">6,2</td><td class="c">7,9</td></tr>`)}<ol><li>Pourquoi les points ne sont-ils pas parfaitement alignés, alors que la vitesse est constante ?</li><li>Comment trace-t-on la droite qui modélise ces mesures ?</li><li>La droite moyenne passe par (4,0 s ; 8,0 m). Calcule la vitesse.</li><li>Pourquoi utilise-t-on un point de la droite plutôt qu'un point de mesure ?</li></ol>`,
+indice:"Relis l'écran « La droite moyenne ».",
+corr:`<ol><li>Les mesures de t et de d, souvent faites à partir d'une vidéo, ne sont jamais parfaitement précises.</li><li>On trace la droite passant par l'origine qui laisse à peu près autant de points au-dessus qu'en dessous.</li><li>v = 8,0 ÷ 4,0 = <b>2,0 m/s</b>.</li><li>Un point de mesure contient une erreur ; la droite compense ces erreurs.</li></ol>`},
+{niv:3,enonce:`<p>On lâche un objet sur la Lune et on mesure :</p>${TAB(`<tr><th>t (s)</th><td class="c">1</td><td class="c">2</td><td class="c">3</td><td class="c">4</td></tr><tr><th>d (m)</th><td class="c">0,8</td><td class="c">3,2</td><td class="c">7,2</td><td class="c">12,8</td></tr>`)}<ol><li>Calcule d ÷ t pour chaque colonne. d est-elle proportionnelle à t ?</li><li>La vitesse est-elle constante ?</li><li>Calcule t², puis d ÷ t². Que conclure ?</li></ol>`,
+indice:"t² = t × t. Par exemple, pour t = 3 s, t² = 9 s².",
+corr:`<ol><li>d ÷ t = 0,8 ; 1,6 ; 2,4 ; 3,2 : pas constant, donc d n'est <b>pas proportionnelle</b> à t.</li><li><b>Non</b> : la distance parcourue chaque seconde augmente, l'objet accélère.</li><li>t² = 1 ; 4 ; 9 ; 16 et d ÷ t² = 0,8 partout : d est <b>proportionnelle à t²</b>, avec un coefficient de 0,8 m/s². Le graphique d = f(t²) est une droite passant par l'origine.</li></ol>`},
+{niv:3,enonce:`<p>Au TP1, on a dissous différentes masses de sulfate de cuivre dans des fioles de 100 mL.</p>${TAB(`<tr><th>Solution</th><td class="c">S1</td><td class="c">S2</td><td class="c">S3</td><td class="c">S4</td></tr><tr><th>m (g)</th><td class="c">0,5</td><td class="c">1,5</td><td class="c">3,5</td><td class="c">6,5</td></tr>`)}<ol><li>Calcule Cm pour chaque solution.</li><li>Calcule Cm ÷ m pour chaque solution. Que conclure ?</li><li>Montre que ce coefficient est égal à 1 ÷ V et donne son unité.</li><li>Quelle masse faudrait-il dissoudre pour obtenir 50 g/L ?</li></ol>`,
+indice:"V = 100 mL = 0,100 L. Pour la question 3, remplace Cm par m ÷ V dans le rapport Cm ÷ m.",
+corr:`<ol><li>Cm = m ÷ 0,100 : <b>5 ; 15 ; 35 ; 65 g/L</b>.</li><li>Cm ÷ m = 10 pour toutes les solutions : rapport constant, donc Cm est <b>proportionnelle</b> à m.</li><li>Cm ÷ m = (m ÷ V) ÷ m = 1 ÷ V = 1 ÷ 0,100 = <b>10 L⁻¹</b> (« par litre »).</li><li>m = Cm × V = 50 × 0,100 = <b>5,0 g</b>.</li></ol>`}
+]}
+];
+
+/* ---------- État et sauvegarde ---------- */
+const KEY='revision-ds-spc2-v1';
+let S={mode:'notions',bloc:0,ecran:0,seen:{},qi:0,qa:{},qfilt:false,fam:0,etapes:{},corr:{},ind:{}};
+try{const r=localStorage.getItem(KEY);if(r){S=Object.assign(S,JSON.parse(r));}}catch(e){}
+function save(){try{localStorage.setItem(KEY,JSON.stringify(S));}catch(e){}}
+
+function ecransDe(i){
+  const b=BLOCS[i];const list=b.ecrans.slice();
+  if(b.recall)list.push({titre:"Teste-toi",recall:b.recall});
+  return list;
+}
+function progBloc(i){const n=ecransDe(i).length;let v=0;for(let k=0;k<n;k++){if(S.seen[i+'-'+k])v++;}return v/n;}
+function score(){let s=0;for(const k in S.qa){if(QUIZ[k]&&S.qa[k]===QUIZ[k].a)s++;}return s;}
+function nbRep(){return Object.keys(S.qa).length;}
+function faitsFam(f){return FAMS[f].exos.filter((_,i)=>S.corr[f+'-'+i]).length;}
+
+/* ---------- Vues ---------- */
+function vHeader(){
+  const tubes=[1,2,3,4,5].map(i=>{const p=progBloc(i);return `<span class="tube" title="${BLOCS[i].court} : ${Math.round(p*100)} %"><i style="opacity:${(0.1+0.9*p).toFixed(2)}"></i></span>`;}).join('');
+  const m=(id,lib,cpt)=>`<button data-action="mode" data-mode="${id}" aria-pressed="${S.mode===id}">${lib}${cpt?`<span class="cpt">${cpt}</span>`:''}</button>`;
+  return `<header class="top"><div class="top-inner">
+  <div class="titre"><h1>Révision du DS de physique-chimie</h1><p>Corps purs et mélanges, dissolution, dilution</p></div>
+  <div class="teinte" role="img" aria-label="Progression dans les 5 blocs de notions">${tubes}<span class="teinte-leg">plus c'est foncé, plus tu as avancé</span></div>
+  <nav class="modes" aria-label="Parties">${m('notions','Notions')}${m('quiz','Quiz',nbRep()+'/'+QUIZ.length)}${m('exos','Exercices')}</nav>
+  </div></header>`;
+}
+
+function vNotions(){
+  const ecs=ecransDe(S.bloc);
+  if(S.ecran>=ecs.length)S.ecran=0;
+  S.seen[S.bloc+'-'+S.ecran]=1;save();
+  const e=ecs[S.ecran];
+  const nav=BLOCS.map((b,i)=>{
+    const p=progBloc(i);const num=(i>=1&&i<=5)?i:'';
+    return `<button class="nav-bloc" data-action="bloc" data-bloc="${i}" aria-current="${i===S.bloc}"><span class="num ${num===''?'vide':''} ${p===1&&num!==''?'fini':''}">${num}</span><span class="lib">${b.court}</span></button>`;}).join('');
+  let corps;
+  if(e.recall){
+    corps=`<p>Réponds dans ta tête, <b>sans regarder</b> les écrans précédents, puis affiche la réponse pour vérifier.</p>`+
+    e.recall.map((r,i)=>`<div class="rappel"><p class="q">${r.q}</p><button class="btn" data-action="reveal" data-target="rep-${i}" aria-expanded="false" aria-controls="rep-${i}">Afficher la réponse</button><div class="rep" id="rep-${i}" hidden>${r.a}</div></div>`).join('')+
+    `<p class="aide">Une réponse te manque ? Reviens sur l'écran concerné avant de passer au bloc suivant.</p>`;
+  } else corps=e.html;
+  const dernierBloc=S.bloc===BLOCS.length-1, dernierEcran=S.ecran===ecs.length-1;
+  let suiv;
+  if(!dernierEcran)suiv=`<button class="btn prim" data-action="next">Écran suivant</button>`;
+  else if(!dernierBloc)suiv=`<button class="btn prim" data-action="next">Bloc suivant : ${BLOCS[S.bloc+1].court}</button>`;
+  else suiv=`<button class="btn prim" data-action="mode" data-mode="quiz">Commencer le quiz</button>`;
+  const prec=(S.bloc===0&&S.ecran===0)?'<span></span>':`<button class="btn" data-action="prev">Écran précédent</button>`;
+  return `<div class="wrap"><aside class="nav" aria-label="Blocs de notions">${nav}</aside>
+  <article class="ecran" aria-labelledby="t-ecran">
+    <div class="contexte"><span>${BLOCS[S.bloc].titre}</span><span class="dots" aria-label="Écran ${S.ecran+1} sur ${ecs.length}">${ecs.map((_,k)=>`<span class="${k<=S.ecran?'on':''}"></span>`).join('')}</span></div>
+    <h2 id="t-ecran" tabindex="-1">${e.titre}</h2>
+    <div class="contenu">${corps}</div>
+    <nav class="pager" aria-label="Navigation entre les écrans">${prec}${suiv}</nav>
+  </article></div>`;
+}
+
+function vQuiz(){
+  const n=QUIZ.length;
+  if(S.qi>=n)return vBilan();
+  const q=QUIZ[S.qi];const rep=S.qa[S.qi];const fait=rep!==undefined;
+  const opts=q.o.map((o,i)=>{
+    let c='';if(fait){if(i===q.a)c='ok';else if(i===rep)c='ko';else c='dim';}
+    return `<button class="opt ${c}" data-action="qopt" data-i="${i}" ${fait?'disabled':''}><span class="lettre">${'ABCD'[i]}</span><span>${o}</span></button>`;}).join('');
+  let fb='<p class="aide">Choisis une réponse. L\'explication s\'affichera juste après.</p>';
+  if(fait){fb=rep===q.a?`<div class="fb ok" role="status"><strong>Bonne réponse.</strong><p>${q.j}</p></div>`:`<div class="fb ko" role="status"><strong>Ce n'est pas ça : la bonne réponse est ${'ABCD'[q.a]}.</strong><p>${q.j}</p></div>`;}
+  return `<div class="wrap solo"><div>
+  <div class="quiz-top"><span>${q.s}</span><span>Question ${S.qi+1} sur ${n}</span><span>Bonnes réponses : ${score()}</span></div>
+  <div class="barre"><i style="width:${(S.qi/n*100).toFixed(1)}%"></i></div>
+  <article class="ecran"><h2 id="t-ecran" tabindex="-1">${q.q}</h2><div class="opts">${opts}</div>${fb}
+  <nav class="pager">${S.qi>0?'<button class="btn" data-action="qprev">Question précédente</button>':'<span></span>'}
+  <button class="btn prim" data-action="qnext" ${fait?'':'disabled'}>${S.qi===n-1?'Voir la correction complète':'Question suivante'}</button></nav>
+  </article></div></div>`;
+}
+
+function vBilan(){
+  const n=QUIZ.length,s=score(),r=nbRep();
+  let msg=s>=25?'Très solide : relis seulement les questions ratées.':s>=18?'Bonne base : revois les écrans liés à tes erreurs, puis refais le quiz demain.':'Reprends les blocs concernés par tes erreurs, puis refais le quiz demain : l\'espacement aide à retenir.';
+  const items=QUIZ.map((q,i)=>{
+    const rep=S.qa[i];const etat=rep===undefined?'vide':rep===q.a?'juste':'faux';
+    if(S.qfilt&&etat==='juste')return '';
+    const lib=etat==='juste'?'Juste':etat==='faux'?'Faux':'Sans réponse';
+    return `<div class="bilan-item ${etat}"><span class="etiq ${etat}">${lib}</span><h3>Q${i+1}. ${q.q}</h3>
+    ${etat==='faux'?`<p>Ta réponse : ${'ABCD'[rep]}. ${q.o[rep]}</p>`:''}
+    <p><b>Bonne réponse : ${'ABCD'[q.a]}. ${q.o[q.a]}</b></p><p>${q.j}</p></div>`;}).join('');
+  return `<div class="wrap solo"><div style="max-width:800px">
+  <article class="ecran"><h2 id="t-ecran" tabindex="-1">Correction du quiz</h2>
+  <p>Tu as <b>${s} bonnes réponses sur ${n}</b>${r<n?` (${n-r} questions sans réponse)`:''}. ${msg}</p>
+  <div class="filtres"><button class="btn" data-action="qfilt" aria-pressed="${S.qfilt}">${S.qfilt?'Afficher toutes les questions':'Afficher seulement mes erreurs'}</button>
+  <button class="btn prim" data-action="qrestart">Recommencer le quiz</button>
+  <button class="btn" data-action="mode" data-mode="exos">Passer aux exercices</button></div></article>
+  ${items||'<p class="aide">Aucune erreur : bravo.</p>'}</div></div>`;
+}
+
+function vExos(){
+  const f=FAMS[S.fam];const k=S.etapes[S.fam]||0;const nE=f.resolu.etapes.length;
+  const tabs=FAMS.map((x,i)=>`<button data-action="fam" data-fam="${i}" aria-pressed="${i===S.fam}"><span class="lettre-f">${x.L}</span>${x.titre}<span class="fait">${faitsFam(i)}/${x.exos.length}</span></button>`).join('');
+  const etapes=f.resolu.etapes.slice(0,k).map((e,i)=>`<li class="${i===k-1?'apparait':''}"><strong>${e.t}</strong><div>${e.h}</div></li>`).join('');
+  const btnsEt=k<nE?`<div class="actions"><button class="btn prim" data-action="step">${k===0?'Afficher la première étape':'Étape suivante'}</button><button class="btn" data-action="stepall">Tout afficher</button></div>`:`<p class="aide">Tu as vu toute la méthode. Applique-la maintenant, seul(e), aux exercices ci-dessous.</p>`;
+  const niv=['','Pour démarrer','Pour s\'entraîner','Pour aller plus loin'];
+  const exos=f.exos.map((e,i)=>{const key=S.fam+'-'+i;return `<article class="exo" aria-labelledby="ex-${key}">
+    <h3 id="ex-${key}">Exercice ${f.L}${i+1} <span class="niv" aria-label="niveau ${e.niv} sur 3">${'★'.repeat(e.niv)}${'☆'.repeat(3-e.niv)}</span><span class="niv-lib">${niv[e.niv]}</span></h3>
+    ${e.enonce}
+    <div class="actions"><button class="btn" data-action="ind" data-key="${key}" aria-expanded="${!!S.ind[key]}">${S.ind[key]?'Masquer l\'indice':'Afficher un indice'}</button>
+    <button class="btn ${S.corr[key]?'':'prim'}" data-action="corr" data-key="${key}" aria-expanded="${!!S.corr[key]}">${S.corr[key]?'Masquer la correction':'Voir la correction'}</button></div>
+    <div class="indice" ${S.ind[key]?'':'hidden'}>💡 ${e.indice}</div>
+    <div class="corr" ${S.corr[key]?'':'hidden'}><strong>Correction</strong>${e.corr}</div></article>`;}).join('');
+  return `<div class="wrap solo"><div>
+  <p class="intro-exos">Choisis une famille. Commence par l'exercice résolu : essaie de trouver chaque étape avant de l'afficher. Puis fais les exercices du plus simple au plus difficile, et n'ouvre la correction qu'après avoir écrit ta réponse.</p>
+  <div class="fams" role="group" aria-label="Familles d'exercices">${tabs}</div>
+  <section class="resolu" aria-labelledby="t-ecran"><h2 id="t-ecran" tabindex="-1">Exercice résolu ${f.L} : ${f.titre}</h2>
+  <div class="enonce">${f.resolu.enonce}</div>
+  ${k>0?`<ol class="etapes">${etapes}</ol>`:''}${btnsEt}</section>
+  <h2 class="exos-titre" style="margin-top:1.6rem">À toi de jouer</h2>${exos}</div></div>`;
+}
+
+function vFooter(){return `<footer class="pied"><span>Ta progression est enregistrée sur cet appareil.</span><button class="btn lien" data-action="reset">Effacer ma progression</button></footer>`;}
+
+function render(focus){
+  const app=document.getElementById('app');
+  const main=S.mode==='notions'?vNotions():S.mode==='quiz'?vQuiz():vExos();
+  app.innerHTML=vHeader()+`<main id="main">${main}</main>`+vFooter();
+  if(focus){window.scrollTo(0,0);const h=document.getElementById('t-ecran');if(h)h.focus({preventScroll:true});}
+}
+
+/* ---------- Interactions ---------- */
+document.addEventListener('click',ev=>{
+  const b=ev.target.closest('[data-action]');if(!b)return;
+  const a=b.dataset.action;
+  if(a==='mode'){S.mode=b.dataset.mode;save();render(true);}
+  else if(a==='bloc'){S.bloc=+b.dataset.bloc;S.ecran=0;save();render(true);}
+  else if(a==='next'){const n=ecransDe(S.bloc).length;if(S.ecran<n-1)S.ecran++;else if(S.bloc<BLOCS.length-1){S.bloc++;S.ecran=0;}save();render(true);}
+  else if(a==='prev'){if(S.ecran>0)S.ecran--;else if(S.bloc>0){S.bloc--;S.ecran=ecransDe(S.bloc).length-1;}save();render(true);}
+  else if(a==='reveal'){const t=document.getElementById(b.dataset.target);const open=t.hidden;t.hidden=!open;b.setAttribute('aria-expanded',open);b.textContent=open?'Masquer la réponse':'Afficher la réponse';if(open)t.classList.add('apparait');}
+  else if(a==='qopt'){if(S.qa[S.qi]===undefined){S.qa[S.qi]=+b.dataset.i;save();render(false);const fb=document.querySelector('.fb');if(fb)fb.scrollIntoView({block:'nearest',behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth'});const nx=document.querySelector('[data-action="qnext"]');if(nx)nx.focus({preventScroll:true});}}
+  else if(a==='qnext'){S.qi++;save();render(true);}
+  else if(a==='qprev'){if(S.qi>0)S.qi--;save();render(true);}
+  else if(a==='qrestart'){S.qa={};S.qi=0;S.qfilt=false;save();render(true);}
+  else if(a==='qfilt'){S.qfilt=!S.qfilt;save();render(false);}
+  else if(a==='fam'){S.fam=+b.dataset.fam;save();render(true);}
+  else if(a==='step'){S.etapes[S.fam]=(S.etapes[S.fam]||0)+1;save();render(false);}
+  else if(a==='stepall'){S.etapes[S.fam]=FAMS[S.fam].resolu.etapes.length;save();render(false);}
+  else if(a==='ind'){const k=b.dataset.key;S.ind[k]=!S.ind[k];save();render(false);}
+  else if(a==='corr'){const k=b.dataset.key;S.corr[k]=!S.corr[k];save();render(false);}
+  else if(a==='reset'){if(confirm('Effacer toute ta progression (notions, quiz et exercices) ?')){S={mode:'notions',bloc:0,ecran:0,seen:{},qi:0,qa:{},qfilt:false,fam:0,etapes:{},corr:{},ind:{}};save();render(true);}}
+});
+document.addEventListener('keydown',ev=>{
+  if(S.mode!=='notions'||ev.altKey||ev.ctrlKey||ev.metaKey)return;
+  if(ev.key==='ArrowRight'){const n=document.querySelector('[data-action="next"]');if(n){ev.preventDefault();n.click();}}
+  if(ev.key==='ArrowLeft'){const p=document.querySelector('[data-action="prev"]');if(p){ev.preventDefault();p.click();}}
+});
+render(false);
+</script>
+</body>
+</html>
