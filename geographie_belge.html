@@ -1,0 +1,990 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Réviser : la production laitière en Wallonie</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=Epilogue:wght@600;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#edf1f3; --surface:#ffffff; --surface2:#f4f7f8; --ink:#1b2a33; --muted:#566771; --line:#d3dce1;
+  --accent:#2e6a3b; --accent-ink:#ffffff; --accentsoft:#dfeddb;
+  --wheat:#e6c872; --meadow:#a5cb90; --dairy:#2f6b3a;
+  --flandre:#dcd6c4; --wallonie:#b9d4ae; --bxl:#56687a; --cfl:#dcd6c4; --cfr:#c9ddee; --germ:#35587a;
+  --land:#e3e8e4; --sea:#d5e5ef; --river:#3f86ba; --halo:#ffffff;
+  --ok:#2b7a4b; --okbg:#e1f2e6; --ko:#b3332b; --kobg:#fae3e0; --shown:#8a6d1e; --shownbg:#fbf1d6;
+  --fs:17px;
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#11181c; --surface:#1a2328; --surface2:#212c32; --ink:#e5ecef; --muted:#9daeb7; --line:#33424a;
+    --accent:#7cc08a; --accent-ink:#0e1a12; --accentsoft:#1f3a26;
+    --wheat:#8c7535; --meadow:#4e7a45; --dairy:#3b7f48;
+    --flandre:#4e4a3c; --wallonie:#3d5838; --bxl:#a9b8c6; --cfl:#4e4a3c; --cfr:#2f4b63; --germ:#7fa8d1;
+    --land:#2a3439; --sea:#1a2c37; --river:#6fb0df; --halo:#1a2328;
+    --ok:#6fcf97; --okbg:#173527; --ko:#ff8a80; --kobg:#3d1f1d; --shown:#e9c46a; --shownbg:#3a3118;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#11181c; --surface:#1a2328; --surface2:#212c32; --ink:#e5ecef; --muted:#9daeb7; --line:#33424a;
+  --accent:#7cc08a; --accent-ink:#0e1a12; --accentsoft:#1f3a26;
+  --wheat:#8c7535; --meadow:#4e7a45; --dairy:#3b7f48;
+  --flandre:#4e4a3c; --wallonie:#3d5838; --bxl:#a9b8c6; --cfl:#4e4a3c; --cfr:#2f4b63; --germ:#7fa8d1;
+  --land:#2a3439; --sea:#1a2c37; --river:#6fb0df; --halo:#1a2328;
+  --ok:#6fcf97; --okbg:#173527; --ko:#ff8a80; --kobg:#3d1f1d; --shown:#e9c46a; --shownbg:#3a3118;
+}
+*,*::before,*::after{box-sizing:border-box}
+[hidden]{display:none !important}
+html{scroll-padding-top:calc(env(safe-area-inset-top,0px) + 64px)}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 var(--fs)/1.55 'Atkinson Hyperlegible',system-ui,-apple-system,'Segoe UI',sans-serif}
+body.spaced{letter-spacing:.05em;word-spacing:.14em;line-height:1.8}
+h1,h2,h3,h4{font-family:'Epilogue','Atkinson Hyperlegible',system-ui,sans-serif;margin:0;line-height:1.15}
+p{margin:.5em 0}
+button,select,textarea{font:inherit;color:inherit;letter-spacing:inherit}
+:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+.wrap{max-width:1060px;margin:0 auto;padding:0 18px}
+.muted{color:var(--muted)} .small{font-size:.86em}
+
+/* barre du haut */
+.topbar{position:sticky;top:env(safe-area-inset-top,0px);z-index:10;background:var(--bg);border-bottom:1px solid var(--line)}
+.bar{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:9px 18px;flex-wrap:wrap}
+.brand{font-weight:700;font-size:.92em}
+.tools{display:flex;gap:6px;flex-wrap:wrap}
+.tool{border:1px solid var(--line);background:var(--surface);border-radius:999px;padding:5px 12px;font-size:.85em;cursor:pointer}
+.tool[aria-pressed="true"]{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+
+/* en-tête */
+.hero{display:grid;grid-template-columns:1fr 1.05fr;gap:28px;align-items:center;padding:30px 0 10px}
+.hero h1{font-size:clamp(2.4rem,7vw,4.4rem);font-weight:800;letter-spacing:-.035em;line-height:.95}
+.hero h1 span{display:block;font-size:.42em;letter-spacing:-.01em;font-weight:600;color:var(--muted);margin-top:.5em;line-height:1.2}
+.lede{font-size:1.08em;max-width:34em}
+.heromap{margin:0;background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:10px 10px 6px}
+.heromap figcaption{font-size:.84em;color:var(--muted);padding:2px 8px 4px}
+@media (max-width:760px){.hero{grid-template-columns:1fr;gap:14px;padding-top:20px}}
+
+/* navigation des parties */
+.modnav{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:8px;margin:20px 0 14px}
+.modbtn{text-align:left;border:1px solid var(--line);background:var(--surface);border-radius:12px;padding:10px 12px;cursor:pointer;display:flex;flex-direction:column;gap:2px;min-height:64px}
+.modbtn b{font-size:.95em;line-height:1.25}
+.modbtn span{font-size:.78em;color:var(--muted)}
+.modbtn.cur{border-color:var(--accent);box-shadow:inset 0 0 0 2px var(--accent)}
+.modbtn.full span{color:var(--ok);font-weight:700}
+
+/* panneau */
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:20px 20px 24px;margin-bottom:28px}
+.phead h2{font-size:1.55em;font-weight:800;letter-spacing:-.015em}
+.phead p{margin:.3em 0 0}
+.keybox{margin:14px 0;border:1px solid var(--line);border-left:6px solid var(--accent);border-radius:10px;background:var(--surface2)}
+.keybox summary{cursor:pointer;padding:10px 14px;font-weight:700}
+.keybox ul{margin:0;padding:0 18px 12px 34px}
+.keybox li{margin:.35em 0;max-width:62em}
+.steps{display:flex;flex-wrap:wrap;gap:6px;margin:12px 0 4px}
+.stp{border:1px solid var(--line);background:var(--surface2);border-radius:999px;padding:5px 12px;font-size:.84em;cursor:pointer}
+.stp.cur{background:var(--ink);color:var(--surface);border-color:var(--ink)}
+.stp.ok:not(.cur){border-color:var(--ok);color:var(--ok);font-weight:700}
+.stepbody{border-top:1px solid var(--line);margin-top:12px;padding-top:16px}
+.stepbody>h3{font-size:1.2em;margin-bottom:6px}
+.nextrow{display:flex;justify-content:flex-end;margin-top:22px;padding-top:14px;border-top:1px dashed var(--line)}
+
+/* commun */
+.lead{color:var(--muted);max-width:44em}
+.msg{min-height:1.4em;font-weight:700;max-width:46em}
+.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin:10px 0}
+.row.center{justify-content:center}
+.btn{border:0;background:var(--accent);color:var(--accent-ink);border-radius:10px;padding:9px 16px;font-weight:700;cursor:pointer}
+.btn.ghost{background:transparent;color:var(--ink);box-shadow:inset 0 0 0 1.5px var(--line)}
+.btn.ok{background:var(--okbg);color:var(--ok);box-shadow:inset 0 0 0 2px var(--ok)}
+.btn.ko{background:var(--kobg);color:var(--ko);box-shadow:inset 0 0 0 2px var(--ko)}
+.btn:disabled{cursor:default}
+.q{border:1px solid var(--line);border-radius:12px;padding:12px 14px;margin:10px 0;background:var(--surface)}
+.stmt{font-weight:700;margin-top:0}
+.fb{border-radius:8px;padding:8px 12px;margin:8px 0 0}
+.fb.ok{background:var(--okbg);color:var(--ink);border-left:5px solid var(--ok)}
+.fb.ko{background:var(--kobg);color:var(--ink);border-left:5px solid var(--ko)}
+.opts{display:grid;gap:6px}
+.opt{text-align:left;border:1.5px solid var(--line);background:var(--surface2);border-radius:10px;padding:9px 12px;cursor:pointer}
+.opt.ok{border-color:var(--ok);background:var(--okbg)}
+.opt.ko{border-color:var(--ko);background:var(--kobg)}
+.opt.dim{opacity:.55}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin:8px 0}
+.chip{border:1.5px solid var(--line);background:var(--surface2);border-radius:999px;padding:6px 13px;cursor:pointer;text-align:left}
+.chip.sel{border-color:var(--accent);background:var(--accentsoft);box-shadow:0 0 0 2px var(--accent)}
+.chip.used{opacity:.45}
+.chip.ok{border-color:var(--ok);background:var(--okbg)}
+.chip.ko{border-color:var(--ko);background:var(--kobg)}
+.chip.strike.on{text-decoration:line-through;text-decoration-thickness:2px;color:var(--muted)}
+.chip.card{border-radius:10px;display:block;width:100%}
+.why{display:block;font-size:.85em;margin-top:4px;color:var(--ink)}
+.counter{font-weight:700;margin:4px 0}
+.progress{height:8px;background:var(--surface2);border:1px solid var(--line);border-radius:99px;overflow:hidden;margin-bottom:10px}
+.progress i{display:block;height:100%;background:var(--accent)}
+.done-box{border:2px solid var(--ok);background:var(--okbg);border-radius:12px;padding:12px 16px;margin:14px 0}
+.done-box .big{font:800 2.2em 'Epilogue',sans-serif;margin:0}
+.note{background:var(--surface2);border-radius:10px;padding:10px 14px;border:1px solid var(--line);max-width:46em}
+
+/* cartes-éclair et association */
+.flash{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;width:100%;max-width:560px;min-height:210px;margin:8px auto;border:2px solid var(--line);border-radius:16px;background:var(--surface2);padding:22px;cursor:pointer;text-align:center}
+.flash.flipped{background:var(--accentsoft);border-color:var(--accent)}
+.flash .term{font:800 1.7em 'Epilogue',sans-serif}
+.flash .term.small{font-size:1.05em}
+.flash .def{font-size:1.08em;max-width:30em}
+.flash .ex,.flash .tap{font-size:.88em;color:var(--muted)}
+.match{display:grid;grid-template-columns:.8fr 1.4fr;gap:10px}
+.col{display:grid;gap:6px;align-content:start}
+.tile{text-align:left;border:1.5px solid var(--line);background:var(--surface2);border-radius:10px;padding:8px 11px;cursor:pointer}
+.tile.term{font-weight:700}
+.tile.sel{border-color:var(--accent);box-shadow:0 0 0 2px var(--accent);background:var(--accentsoft)}
+.tile.ok{border-color:var(--ok);background:var(--okbg);opacity:.7}
+@media (max-width:600px){.match{grid-template-columns:1fr 1.3fr;font-size:.92em}}
+
+/* classement */
+.bins{display:grid;grid-template-columns:repeat(var(--cols,2),1fr);gap:10px;margin:10px 0}
+@media (max-width:640px){.bins{grid-template-columns:1fr}}
+.bin{border:1.5px solid var(--line);border-radius:12px;background:var(--surface2);display:flex;flex-direction:column}
+.binhead{border:0;background:transparent;text-align:left;padding:10px 12px;cursor:pointer;display:flex;flex-direction:column;gap:2px;border-bottom:1px dashed var(--line)}
+.binhead .drop{font-size:.78em;color:var(--accent);font-weight:700;min-height:1.1em}
+.binlist{display:grid;gap:6px;padding:8px;min-height:48px}
+.bin-A{border-top:6px solid #3d8a4c}.bin-C{border-top:6px solid #c0622e}.bin-P{border-top:6px solid #3f7fb5}.bin-V{border-top:6px solid #8d4a9e}
+
+/* ordre */
+.order{list-style:none;counter-reset:o;padding:0;margin:10px 0;display:grid;gap:6px;max-width:720px}
+.order li{counter-increment:o;display:flex;align-items:center;gap:10px;border:1.5px solid var(--line);border-radius:10px;padding:7px 8px 7px 12px;background:var(--surface2)}
+.order li::before{content:counter(o);font:800 1em 'Epilogue',sans-serif;color:var(--muted);min-width:1.2em}
+.order li.ok{border-color:var(--ok);background:var(--okbg)}
+.order li.ko{border-color:var(--ko);background:var(--kobg)}
+.order li.shown{border-color:var(--shown);background:var(--shownbg)}
+.otext{flex:1}
+.obtns{display:flex;gap:4px}
+.mini{border:1px solid var(--line);background:var(--surface);border-radius:8px;width:36px;height:34px;cursor:pointer;font-weight:700}
+.mini:disabled{opacity:.3}
+
+/* texte à trous */
+.cloze p{line-height:2.25;max-width:48em}
+select.blank{border:1.5px solid var(--accent);border-radius:8px;background:var(--surface);padding:3px 6px;margin:0 2px;max-width:100%}
+select.blank.ok{border-color:var(--ok);background:var(--okbg)}
+select.blank.ko{border-color:var(--ko);background:var(--kobg)}
+select.blank.shown{border-color:var(--shown);background:var(--shownbg)}
+
+/* cartes */
+.map{width:100%;height:auto;display:block}
+.mapbox{max-width:640px;margin:8px auto;background:var(--surface2);border:1px solid var(--line);border-radius:14px;padding:6px}
+.m-sea{fill:var(--sea)} .m-fl{fill:var(--flandre)} .m-wa{fill:var(--wallonie)} .m-bxl{fill:var(--bxl)}
+.m-cfl{fill:var(--cfl)} .m-cfr{fill:var(--cfr)} .m-germ{fill:var(--germ)} .m-plain{fill:var(--land)} .m-muted{fill:var(--land)}
+.m-wheat{fill:var(--wheat)} .m-meadow{fill:var(--meadow)} .m-dairy{fill:var(--dairy)}
+.m-outline{fill:none;stroke:var(--ink);stroke-width:1.3;stroke-linejoin:round}
+.m-lang{fill:none;stroke:var(--ink);stroke-width:2;stroke-dasharray:6 3}
+.m-river{fill:none;stroke:var(--river);stroke-width:1.7;stroke-linejoin:round}
+.m-sillon{fill:none;stroke:var(--river);stroke-width:9;stroke-opacity:.3;stroke-linecap:round;stroke-linejoin:round}
+.m-lead{stroke:var(--ink);stroke-width:1}
+.m-thin{stroke:var(--ink);stroke-width:.8}
+.m-lab{font:700 12.5px 'Atkinson Hyperlegible',sans-serif;fill:var(--ink);paint-order:stroke;stroke:var(--halo);stroke-width:3.5px;stroke-linejoin:round}
+.m-lab.sm{font-size:11px}
+.m-lab.it{font-style:italic;font-weight:400;fill:var(--muted)}
+.m-lab.inv{fill:#fff;stroke:#1f4a28}
+.city{fill:var(--ink);stroke:var(--halo);stroke-width:1.6}
+.cityhit{fill:transparent;cursor:pointer}
+.cg.ok .city{fill:var(--ok)} .cg.ko .city{fill:var(--ko)}
+.cg:focus{outline:none} .cg:focus-visible .cityhit{stroke:var(--accent);stroke-width:2.5}
+.tg{cursor:pointer}
+.tg .tgc{fill:var(--surface);stroke:var(--accent);stroke-width:2;stroke-dasharray:3 2}
+.tg.filled .tgc{stroke-dasharray:none;fill:var(--accentsoft)}
+.tg.ok .tgc{stroke:var(--ok);fill:var(--okbg)} .tg.ko .tgc{stroke:var(--ko);fill:var(--kobg)} .tg.shown .tgc{stroke:var(--shown);fill:var(--shownbg)}
+.tg:focus{outline:none} .tg:focus-visible .tgc{stroke-width:4}
+.tgq{font:800 13px 'Epilogue',sans-serif;fill:var(--accent)}
+.zone{stroke:var(--halo);stroke-width:1.2}
+.zone.pick{cursor:pointer}
+.zone.pick:hover{filter:brightness(1.06)}
+.zone.zsel{stroke:var(--ink);stroke-width:3}
+.zone:focus{outline:none} .zone:focus-visible{stroke:var(--accent);stroke-width:4}
+.seg{display:inline-flex;border:1.5px solid var(--line);border-radius:10px;overflow:hidden}
+.seg button{border:0;background:var(--surface);padding:7px 12px;cursor:pointer}
+.seg button[aria-pressed="true"]{background:var(--ink);color:var(--surface);font-weight:700}
+.tog{border:1.5px solid var(--line);background:var(--surface);border-radius:10px;padding:7px 12px;cursor:pointer}
+.tog[aria-pressed="true"]{border-color:var(--accent);background:var(--accentsoft);font-weight:700}
+.prompt{font:800 1.12em 'Epilogue',sans-serif;margin:8px 0}
+
+/* zones cartes 5-7 */
+.zlayout{display:grid;grid-template-columns:1.1fr 1fr;gap:16px;align-items:start}
+@media (max-width:760px){.zlayout{grid-template-columns:1fr}}
+.zinfo{border:1px solid var(--line);border-radius:12px;padding:12px 14px;background:var(--surface2);min-height:200px}
+.zinfo h4{font-size:1.05em;margin-bottom:4px}
+.zinfo dl{margin:8px 0 0;display:grid;grid-template-columns:auto 1fr;gap:6px 10px}
+.zinfo dt{font-weight:700;white-space:nowrap}
+.zinfo dd{margin:0}
+.zlink{margin-top:10px;padding:8px 10px;border-radius:8px;background:var(--accentsoft);font-weight:700}
+
+/* schémas divers */
+.flow{display:flex;flex-wrap:wrap;align-items:stretch;gap:0;margin:10px 0 4px}
+.flow .fs{flex:1 1 120px;border:1.5px solid var(--line);border-radius:12px;padding:10px;background:var(--surface2);text-align:center;position:relative;margin-right:22px}
+.flow .fs:last-child{margin-right:0}
+.flow .fs::after{content:'';position:absolute;right:-17px;top:50%;border:7px solid transparent;border-left:10px solid var(--muted);transform:translateY(-50%)}
+.flow .fs:last-child::after{display:none}
+.flow .fs b{display:block}
+.flow .bio{border-color:var(--accent);background:var(--accentsoft)}
+.flowcap{font-size:.86em;color:var(--muted);margin:0 0 10px}
+.bars{display:grid;gap:8px;max-width:640px;margin:10px 0}
+.brow{display:grid;grid-template-columns:minmax(120px,210px) 1fr;gap:10px;align-items:center}
+.btrack{position:relative;height:26px;background:var(--surface2);border:1px solid var(--line);border-radius:6px}
+.bfill{position:absolute;top:0;bottom:0;left:0;background:var(--accent);border-radius:5px 0 0 5px}
+.brange{position:absolute;top:0;bottom:0;background:repeating-linear-gradient(45deg,var(--accent),var(--accent) 4px,var(--accentsoft) 4px,var(--accentsoft) 8px)}
+.bval{position:absolute;top:50%;transform:translateY(-50%);font-weight:700;font-size:.85em;padding-left:6px;white-space:nowrap}
+.cost .bfill{background:#c0622e}.cost .brange{background:repeating-linear-gradient(45deg,#c0622e,#c0622e 4px,var(--kobg) 4px,var(--kobg) 8px)}
+.div{display:grid;gap:8px;max-width:640px;margin:10px 0}
+.drow{display:grid;grid-template-columns:minmax(120px,190px) 1fr 1fr;align-items:center;gap:0}
+.dneg,.dpos{height:24px;position:relative}
+.dneg{border-right:2px solid var(--ink)}
+.dneg i{position:absolute;right:0;top:3px;bottom:3px;background:#c0622e;border-radius:4px 0 0 4px}
+.dpos i{position:absolute;left:0;top:3px;bottom:3px;background:var(--accent);border-radius:0 4px 4px 0}
+.dneg span{position:absolute;top:50%;transform:translateY(-50%);font-weight:700;font-size:.85em}
+.dpos span{position:absolute;top:50%;transform:translateY(-50%);font-weight:700;font-size:.85em}
+.zoomwrap{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:10px 0}
+@media (max-width:760px){.zoomwrap{grid-template-columns:1fr}}
+.zbox{border:1.5px solid var(--line);border-radius:12px;padding:6px 8px 8px;background:var(--surface)}
+.zbox .zl{display:block;font-size:.88em;font-weight:700;margin:0 0 5px 2px}
+.zbox.z0{background:#e7eef3}.zbox.z1{background:#dde8e2}.zbox.z2{background:#d2e3d4}.zbox.z3{background:#c5dcc6}.zbox.z4{background:#b7d4b8}.zbox.z5{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .zbox.z0{background:#1f2a31}:root:not([data-theme="light"]) .zbox.z1{background:#20302a}:root:not([data-theme="light"]) .zbox.z2{background:#22372b}:root:not([data-theme="light"]) .zbox.z3{background:#243f2d}:root:not([data-theme="light"]) .zbox.z4{background:#274830}}
+.card2{border:1px solid var(--line);border-radius:12px;padding:12px;background:var(--surface2)}
+.card2 h4{font-size:1em;margin-bottom:4px}
+.compass{max-width:340px;margin:0 auto}
+.cp-t{font:700 12px 'Atkinson Hyperlegible',sans-serif;fill:var(--ink)}
+.cp-a{stroke:var(--muted);stroke-width:1.5;fill:none}
+.cp-c{fill:var(--accent)}
+
+/* documents */
+.docnav{display:flex;flex-wrap:wrap;gap:5px;margin:6px 0 10px}
+.docnav button{border:1.5px solid var(--line);background:var(--surface2);border-radius:8px;padding:4px 10px;cursor:pointer;font-weight:700;font-size:.86em}
+.docnav button.cur{background:var(--ink);color:var(--surface);border-color:var(--ink)}
+.docnav button.ok:not(.cur){border-color:var(--ok);color:var(--ok)}
+.docnav button.ko:not(.cur){border-color:var(--ko);color:var(--ko)}
+.doc{border:1.5px solid var(--ink);border-radius:4px;padding:12px 14px;background:var(--surface);max-width:46em}
+.dochead{display:flex;gap:10px;align-items:baseline}
+.docnum{font:800 1.1em 'Epilogue',sans-serif;border:1.5px solid var(--ink);padding:0 7px;border-radius:3px}
+.dochead h4{font-size:1.05em}
+.fiche{margin:10px 0 0;display:grid;grid-template-columns:auto 1fr;gap:6px 12px;background:var(--surface2);border-radius:10px;padding:10px 12px;max-width:46em}
+.fiche dt{font-weight:700}
+.fiche dd{margin:0}
+.tablewrap{overflow-x:auto;margin:10px 0;border:1px solid var(--line);border-radius:10px}
+table{border-collapse:collapse;width:100%;min-width:720px;font-size:.9em}
+th,td{border-bottom:1px solid var(--line);padding:8px 10px;text-align:left;vertical-align:top}
+th{background:var(--surface2)}
+.acvp{display:grid;grid-template-columns:minmax(110px,.8fr) 1fr 1fr;gap:6px;max-width:760px}
+.acvp .h{font-weight:700;font-size:.9em;padding:6px;color:var(--muted);align-self:end}
+.acvp .rh{font-weight:700;font-size:.9em;padding:8px;border-radius:10px;background:var(--surface2);display:flex;align-items:center}
+.acell{border:2px solid var(--line);border-radius:12px;padding:10px;background:var(--surface);cursor:pointer;text-align:left;min-height:84px}
+.acell b{display:block;font:800 1.05em 'Epilogue',sans-serif}
+.acell.seen{background:var(--surface2)}
+.acell.A{border-color:#3d8a4c}.acell.C{border-color:#c0622e}.acell.P{border-color:#3f7fb5}.acell.V{border-color:#8d4a9e}
+.acell.cur{box-shadow:0 0 0 3px var(--accent)}
+@media (max-width:560px){.acvp{grid-template-columns:1fr 1fr}.acvp .h.e,.acvp .rh{grid-column:1/-1}}
+textarea{width:100%;min-height:92px;border:1.5px solid var(--line);border-radius:10px;padding:8px 10px;background:var(--surface);resize:vertical}
+.grid4{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+@media (max-width:640px){.grid4{grid-template-columns:1fr}}
+.grid4 label{font-weight:700;display:block;margin-bottom:4px}
+.model ul{margin:4px 0;padding-left:20px}
+.check label{display:flex;gap:8px;align-items:flex-start;margin:5px 0;cursor:pointer}
+.check input{width:20px;height:20px;margin-top:3px;accent-color:var(--accent)}
+footer{color:var(--muted);font-size:.84em;padding:0 0 30px}
+@media (prefers-reduced-motion:no-preference){.flash,.opt,.chip,.tile{transition:background-color .15s,border-color .15s}}
+</style>
+</head>
+<body>
+<header class="topbar">
+  <div class="bar">
+    <span class="brand">Géographie, thème 2 : la production laitière en Wallonie</span>
+    <div class="tools">
+      <button type="button" class="tool" id="bFs" aria-pressed="false">Texte plus grand</button>
+      <button type="button" class="tool" id="bSp" aria-pressed="false">Espacer les lettres</button>
+    </div>
+  </div>
+</header>
+<main class="wrap">
+  <section class="hero">
+    <div>
+      <h1>Le lait wallon<span>d’où il vient, où on le produit, pourquoi les éleveurs souffrent</span></h1>
+      <p class="lede">Révise la leçon partie par partie : d’abord les mots, puis les cartes, les documents et la grille ACVP. Termine par le quiz pour vérifier ce que tu as retenu.</p>
+      <p class="small muted">Chapitre 1 : les ressources, moteurs du développement et défis globaux.</p>
+    </div>
+    <figure class="heromap" id="heroMap">
+      <figcaption>Au nord du sillon Sambre-et-Meuse, les cultures. Au sud et surtout à l’est, les prairies et les vaches laitières.</figcaption>
+    </figure>
+  </section>
+  <nav class="modnav" id="modnav" aria-label="Parties de la leçon"></nav>
+  <section class="panel" id="panel"></section>
+  <footer>Contenus tirés des documents du cours (cartes 1 à 7, documents 1 à 8). Les cartes de cette page sont des schémas simplifiés : pour les détails, reviens aux cartes de ton cours.</footer>
+</main>
+<script>
+'use strict';
+/* ---------- outils ---------- */
+const NS='http://www.w3.org/2000/svg';
+function setA(el,a){if(!a)return;for(const[k,v]of Object.entries(a)){if(v==null||v===false)continue;if(k.startsWith('on')&&typeof v==='function')el.addEventListener(k.slice(2),v);else el.setAttribute(k,v===true?'':String(v));}}
+function add(el,kids){kids.flat(Infinity).forEach(c=>{if(c==null||c===false)return;el.append(c.nodeType?c:document.createTextNode(String(c)));});}
+function h(t,a,...k){const e=document.createElement(t);setA(e,a);add(e,k);return e;}
+function s(t,a,...k){const e=document.createElementNS(NS,t);setA(e,a);add(e,k);return e;}
+const shuffle=a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;};
+const chunk=(a,n)=>{const r=[];for(let i=0;i<a.length;i+=n)r.push(a.slice(i,i+n));return r;};
+function tap(el,fn){el.setAttribute('tabindex','0');el.setAttribute('role','button');el.addEventListener('click',fn);el.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();fn(e);}});}
+function need(n,cb){let c=0;return()=>{c++;if(c===n)cb();};}
+const msgEl=()=>h('p',{class:'msg','aria-live':'polite'});
+
+/* ---------- sauvegarde ---------- */
+const KEY='revision-lait-wallonie-v1';
+let store={done:{},seen:{},best:null,texts:{}};
+try{const r=localStorage.getItem(KEY);if(r){const o=JSON.parse(r);store=Object.assign(store,o);}}catch(e){}
+function save(){try{localStorage.setItem(KEY,JSON.stringify(store));}catch(e){}}
+
+/* ---------- géométrie (schéma simplifié) ---------- */
+const P=([lo,la])=>[+((lo-2.2)*101.76).toFixed(1),+((51.75-la)*160).toFixed(1)];
+const pathD=pts=>'M'+pts.map(p=>P(p).join(' ')).join(' L')+' Z';
+const lineD=pts=>'M'+pts.map(p=>P(p).join(' ')).join(' L');
+const NORTH=[[2.54,51.09],[2.80,51.20],[3.10,51.31],[3.37,51.37],[3.52,51.28],[3.80,51.21],[3.98,51.27],[4.24,51.37],[4.43,51.36],[4.55,51.48],[4.76,51.50],[5.04,51.47],[5.10,51.43],[5.24,51.30],[5.52,51.29],[5.85,51.15],[5.76,51.00],[5.64,50.85],[5.70,50.76]];
+const SOUTH=[[6.02,50.75],[6.17,50.63],[6.27,50.52],[6.41,50.33],[6.13,50.13],[5.98,50.17],[5.83,50.05],[5.74,49.90],[5.90,49.66],[5.82,49.55],[5.47,49.50],[5.30,49.66],[5.10,49.77],[4.87,49.80],[4.85,49.95],[4.88,50.15],[4.70,50.10],[4.68,49.99],[4.43,49.94],[4.15,49.98],[4.22,50.27],[4.02,50.36],[3.66,50.34],[3.61,50.49],[3.28,50.53],[3.20,50.72],[3.10,50.76]];
+const WTAIL=[[3.02,50.77],[2.86,50.71],[2.62,50.81]];
+const LANG=[[3.10,50.76],[3.45,50.76],[3.80,50.74],[4.10,50.70],[4.25,50.72],[4.45,50.70],[4.65,50.77],[4.95,50.76],[5.20,50.72],[5.45,50.73],[5.70,50.76]];
+const BE=[...NORTH,...SOUTH,...WTAIL];
+const FL=[...NORTH,...LANG.slice(1,-1).reverse(),[3.10,50.76],...WTAIL];
+const WA=[[5.70,50.76],...SOUTH,...LANG.slice(1,-1)];
+const BXL=Array.from({length:14},(_,i)=>{const a=i/14*2*Math.PI;return[4.37+0.10*Math.cos(a),50.84+0.055*Math.sin(a)];});
+const GERM1=[[5.93,50.75],[6.02,50.75],[6.17,50.63],[6.12,50.55],[6.00,50.58],[5.93,50.66]];
+const GERM2=[[6.27,50.52],[6.41,50.33],[6.13,50.13],[6.02,50.20],[6.05,50.35],[6.18,50.48]];
+const SILLON=[[3.78,50.44],[3.95,50.45],[4.20,50.44],[4.44,50.41],[4.70,50.44],[4.87,50.47],[5.05,50.50],[5.24,50.52],[5.45,50.58],[5.57,50.63],[5.70,50.74]];
+const ESCAUT=[[3.30,50.48],[3.39,50.61],[3.45,50.78],[3.58,50.92],[3.72,51.05],[4.00,51.08],[4.20,51.13],[4.40,51.24],[4.30,51.37]];
+const SAMBRE=[[4.02,50.31],[4.20,50.36],[4.44,50.41],[4.70,50.44],[4.87,50.47]];
+const MEUSE=[[4.83,50.14],[4.91,50.26],[4.87,50.47],[5.05,50.50],[5.24,50.52],[5.45,50.58],[5.57,50.63],[5.70,50.76],[5.72,50.95],[5.82,51.12]];
+const SEA=[[2.2,51.75],[3.9,51.75],[3.62,51.45],[3.37,51.37],[3.10,51.31],[2.80,51.20],[2.54,51.09],[2.2,50.98]];
+const ZA=[...LANG,...SILLON.slice(0,-1).reverse(),[3.61,50.49],[3.28,50.53],[3.20,50.72]];
+const ZB=[...SILLON.slice(0,-1),[5.75,50.52],[5.90,50.40],[5.98,50.20],...SOUTH.slice(5,24)];
+const ZC=[[5.70,50.76],[6.02,50.75],[6.17,50.63],[6.27,50.52],[6.41,50.33],[6.13,50.13],[5.98,50.17],[5.98,50.20],[5.90,50.40],[5.75,50.52],[5.57,50.63]];
+
+const CITIES={
+ bruges:{n:'Bruges',p:[3.22,51.21],pd:'de Flandre-Occidentale',r:'F',dx:0,dy:-9,a:'middle'},
+ gand:{n:'Gand',p:[3.72,51.05],pd:'de Flandre-Orientale',r:'F',dx:0,dy:-9,a:'middle'},
+ anvers:{n:'Anvers',p:[4.40,51.22],pd:'d’Anvers',r:'F',dx:0,dy:-9,a:'middle'},
+ louvain:{n:'Louvain',p:[4.70,50.88],pd:'du Brabant flamand',r:'F',dx:8,dy:4,a:'start'},
+ hasselt:{n:'Hasselt',p:[5.34,50.93],pd:'du Limbourg',r:'F',dx:0,dy:-9,a:'middle'},
+ mons:{n:'Mons',p:[3.95,50.45],pd:'du Hainaut',r:'W',dx:-8,dy:4,a:'end'},
+ wavre:{n:'Wavre',p:[4.61,50.72],pd:'du Brabant wallon',r:'W',dx:8,dy:5,a:'start'},
+ namur:{n:'Namur',p:[4.87,50.47],pd:'de Namur',r:'W',dx:8,dy:5,a:'start'},
+ liege:{n:'Liège',p:[5.57,50.63],pd:'de Liège',r:'W',dx:0,dy:-9,a:'middle'},
+ arlon:{n:'Arlon',p:[5.82,49.68],pd:'du Luxembourg',r:'W',dx:-8,dy:4,a:'end'}
+};
+
+function txt(svg,t,p,cls,anchor,dx,dy){const[x,y]=P(p);const e=s('text',{x:x+(dx||0),y:y+(dy||0),'text-anchor':anchor||'middle',class:cls||'m-lab'},t);svg.append(e);return e;}
+function lead(svg,a,b){const[x1,y1]=P(a),[x2,y2]=P(b);svg.append(s('line',{x1,y1,x2,y2,class:'m-lead'}));}
+let uid=0;
+function belgiumMap(o){
+  o=Object.assign({mode:'regions',rivers:false,neigh:false,chefs:true,chefLabels:true,areaLabels:true,riverLabels:true},o||{});
+  const id='hatch'+(++uid);
+  const svg=s('svg',{viewBox:'0 0 458 384',class:'map',role:'img','aria-label':o.aria||'Carte schématique de la Belgique'});
+  svg.append(s('defs',{},s('pattern',{id,width:6,height:6,patternUnits:'userSpaceOnUse',patternTransform:'rotate(45)'},s('rect',{width:6,height:6,class:'m-cfl'}),s('rect',{width:3,height:6,class:'m-cfr'}))));
+  svg.append(s('path',{d:pathD(SEA),class:'m-sea'}));
+  if(o.mode==='regions'){svg.append(s('path',{d:pathD(FL),class:'m-fl'}),s('path',{d:pathD(WA),class:'m-wa'}),s('path',{d:pathD(BXL),class:'m-bxl'}));}
+  else if(o.mode==='communautes'){svg.append(s('path',{d:pathD(FL),class:'m-cfl'}),s('path',{d:pathD(WA),class:'m-cfr'}),s('path',{d:pathD(GERM1),class:'m-germ'}),s('path',{d:pathD(GERM2),class:'m-germ'}),s('path',{d:pathD(BXL),fill:'url(#'+id+')',class:'m-thin'}));}
+  else svg.append(s('path',{d:pathD(BE),class:'m-plain'}));
+  svg.append(s('path',{d:pathD(BE),class:'m-outline'}));
+  if(o.mode!=='plain')svg.append(s('path',{d:lineD(LANG),class:'m-lang'}));
+  if(o.rivers){
+    svg.append(s('path',{d:lineD(SILLON),class:'m-sillon'}));
+    [ESCAUT,SAMBRE,MEUSE].forEach(r=>svg.append(s('path',{d:lineD(r),class:'m-river'})));
+    if(o.riverLabels){txt(svg,'Escaut',[3.40,50.90],'m-lab it sm','end');txt(svg,'Sambre',[4.12,50.28],'m-lab it sm');txt(svg,'Meuse',[5.00,50.20],'m-lab it sm','start');txt(svg,'sillon Sambre-et-Meuse',[4.62,50.36],'m-lab it sm');}
+  }
+  if(o.areaLabels&&o.mode==='regions'){
+    txt(svg,'Région flamande',[4.45,51.08]);txt(svg,'Région wallonne',[5.0,50.08]);
+    lead(svg,[3.58,50.855],[4.27,50.84]);txt(svg,'Bruxelles-Capitale',[3.56,50.84],'m-lab sm','end');
+  }
+  if(o.areaLabels&&o.mode==='communautes'){
+    txt(svg,'Communauté flamande',[4.45,51.08]);txt(svg,'Communauté française',[4.95,50.08]);
+    lead(svg,[3.58,50.855],[4.27,50.84]);txt(svg,'Bruxelles : les deux',[3.56,50.84],'m-lab sm','end');
+    lead(svg,[6.33,50.84],[6.07,50.68]);txt(svg,'Communauté',[6.62,50.93],'m-lab sm','end');txt(svg,'germanophone',[6.62,50.86],'m-lab sm','end');
+  }
+  if(o.neigh){txt(svg,'Mer du Nord',[2.62,51.56],'m-lab it');txt(svg,'Pays-Bas',[4.85,51.66],'m-lab it');txt(svg,'Allemagne',[6.2,51.05],'m-lab it');txt(svg,'Luxembourg (pays)',[6.2,49.58],'m-lab it sm');txt(svg,'France',[3.4,49.75],'m-lab it');}
+  if(o.chefs)Object.values(CITIES).forEach(c=>{const[x,y]=P(c.p);svg.append(s('circle',{cx:x,cy:y,r:3.6,class:'city'}));if(o.chefLabels)txt(svg,c.n,c.p,'m-lab sm',c.a,c.dx,c.dy);});
+  return svg;
+}
+const ZINFO={
+ A:{name:'Nord du sillon Sambre-et-Meuse',where:'Hesbaye, Brabant wallon, nord du Hainaut',
+   c5:'Beaucoup de communes en blanc : moins de 15 % d’exploitations laitières.',
+   c6:'Zones hesbino-brabançonne et des plaines et vallées scaldisiennes : des plaines basses.',
+   c7:'Région limoneuse : la SAU couvre 64,5 % du territoire (258 849 ha, le record). Surtout des grandes cultures : céréales, betteraves, pommes de terre, maïs.',
+   link:'Sols riches et plats → grandes cultures → peu de vaches laitières.'},
+ B:{name:'Sud du sillon Sambre-et-Meuse',where:'Condroz, Fagne, Famenne, Ardenne, Lorraine',
+   c5:'Des communes en gris moyen : plus d’exploitations laitières qu’au nord.',
+   c6:'Condroz, Fagne-Famenne, Basse et moyenne Ardenne, Lorraine : un relief qui monte vers l’Ardenne.',
+   c7:'Le Condroz (51 % de SAU) garde des cultures. Plus au sud, la part de SAU baisse (37,7 % en Fagne) et les prairies permanentes dominent. Ardenne : 103 888 ha de SAU.',
+   link:'Relief plus haut, sols moins riches → l’herbe plutôt que les cultures → élevage.'},
+ C:{name:'Est de la Wallonie',where:'Région herbagère (autour de Verviers) et Haute Ardenne (Eupen, Saint-Vith)',
+   c5:'Les communes les plus foncées : 75 % ou plus des exploitations sont laitières.',
+   c6:'Haute Ardenne et Ardenne centro-orientale : les zones les plus hautes, plus fraîches et plus humides.',
+   c7:'Région herbagère : seulement 29,5 % de SAU, mais ses camemberts sont presque entièrement « prairies permanentes ».',
+   link:'Climat frais et humide → l’herbe pousse très bien → prairies → vaches laitières.'}
+};
+function zonesMap(o){
+  o=o||{};
+  const svg=s('svg',{viewBox:'55 130 395 250',class:'map',role:o.onPick?'group':'img','aria-label':'Carte schématique de la Wallonie en trois zones agricoles'});
+  svg.append(s('path',{d:pathD(SEA),class:'m-sea'}),s('path',{d:pathD(FL),class:'m-muted'}),s('path',{d:pathD(BXL),class:'m-muted'}));
+  [['A',ZA,'m-wheat'],['B',ZB,'m-meadow'],['C',ZC,'m-dairy']].forEach(([id,pts,c])=>{
+    const p=s('path',{d:pathD(pts),class:'zone '+c+(o.sel===id?' zsel':'')+(o.onPick?' pick':'')});
+    if(o.onPick){tap(p,()=>o.onPick(id));p.setAttribute('aria-label',ZINFO[id].name);}
+    svg.append(p);
+  });
+  svg.append(s('path',{d:pathD(BE),class:'m-outline'}),s('path',{d:lineD(SILLON),class:'m-sillon'}),s('path',{d:lineD(SAMBRE),class:'m-river'}),s('path',{d:lineD(MEUSE),class:'m-river'}));
+  txt(svg,'Grandes cultures',[4.45,50.62]);txt(svg,'Prairies',[5.05,50.02]);
+  txt(svg,'≥ 75 %',[6.16,50.47],'m-lab inv sm');txt(svg,'laitier',[6.16,50.40],'m-lab inv sm');
+  txt(svg,'sillon Sambre-et-Meuse',[3.72,50.34],'m-lab it sm');
+  [['Liège',[5.57,50.63],'middle',0,-9],['Namur',[4.87,50.47],'start',7,13],['Charleroi',[4.44,50.41],'middle',0,-9],['Arlon',[5.82,49.68],'end',-7,4]].forEach(([n,p,a,dx,dy])=>{const[x,y]=P(p);svg.append(s('circle',{cx:x,cy:y,r:3.2,class:'city'}));txt(svg,n,p,'m-lab sm',a,dx,dy);});
+  if(o.label)txt(svg,'Flandre',[4.1,50.84],'m-lab it sm');
+  return svg;
+}
+
+/* ---------- contenus ---------- */
+const VOCAB=[
+ {t:'Ressource',d:'Ce que l’être humain prend dans la nature pour répondre à ses besoins.',ex:'le lait, l’eau, le bois.'},
+ {t:'Ressource renouvelable',d:'Ressource qui se reconstitue naturellement, à l’échelle d’une vie humaine, si on ne l’épuise pas.',ex:'le lait : les vaches en produisent chaque jour.'},
+ {t:'Biosphère',d:'L’ensemble des êtres vivants de la Terre : plantes, animaux, humains.',ex:'l’herbe, la vache.'},
+ {t:'Lithosphère',d:'La partie solide de la Terre : les roches et les sols.',ex:'le charbon, le sable.'},
+ {t:'Hydrosphère',d:'L’ensemble de l’eau de la Terre.',ex:'les océans, les rivières.'},
+ {t:'Atmosphère',d:'La couche d’air qui entoure la Terre.',ex:'le vent.'},
+ {t:'Lactation',d:'La période pendant laquelle une vache produit du lait après avoir eu un veau.',ex:'environ 10 mois pour une vache laitière.'},
+ {t:'Élevage intensif',d:'Élevage qui cherche à produire le plus possible, avec des races sélectionnées pour leur rendement.',ex:'des vaches Prim’Holstein.'},
+ {t:'Rendement',d:'La quantité produite par animal (ou par hectare).',ex:'28 litres de lait par jour et par vache.'},
+ {t:'Localiser',d:'Dire où se trouve un lieu en zoomant du plus grand espace au plus petit.',ex:'hémisphère Nord, Europe, Belgique, Wallonie.'},
+ {t:'Situer',d:'Dire où se trouve un lieu par rapport à des repères proches, avec les points cardinaux.',ex:'à l’est de Liège, près de la frontière allemande.'},
+ {t:'Région (en Belgique)',d:'Entité qui gère un territoire et son économie, dont l’agriculture.',ex:'Région flamande, Région wallonne, Région de Bruxelles-Capitale.'},
+ {t:'Communauté (en Belgique)',d:'Entité liée à la langue, qui gère la culture et l’enseignement.',ex:'flamande, française, germanophone.'},
+ {t:'Chef-lieu',d:'La ville principale d’une province, où siège son administration.',ex:'Arlon pour la province de Luxembourg.'},
+ {t:'Sillon Sambre-et-Meuse',d:'Les vallées de la Sambre et de la Meuse, qui traversent la Wallonie d’ouest en est.',ex:'Charleroi, Namur, Liège.'},
+ {t:'Zone bioclimatique',d:'Zone qui a un même climat, un même relief et des sols proches, donc une même végétation.',ex:'la Haute Ardenne.'},
+ {t:'SAU',d:'Superficie agricole utilisée (ou utile) : la surface utilisée par l’agriculture, cultures et prairies.',ex:'64,5 % de la Région limoneuse.'},
+ {t:'Prairie permanente',d:'Terrain couvert d’herbe toute l’année, pour faire paître les animaux ou faire du foin.',ex:'le sud et l’est de la Wallonie.'},
+ {t:'Grandes cultures',d:'Cultures sur de grandes surfaces : céréales, betteraves, pommes de terre, maïs.',ex:'le nord de la Wallonie.'},
+ {t:'Quotas laitiers',d:'Quantité maximale de lait que chaque producteur de l’UE avait le droit de produire.',ex:'supprimés en 2015.'},
+ {t:'Surproduction',d:'Situation où l’on produit plus que ce qui est acheté : les prix baissent.',ex:'après la fin des quotas.'},
+ {t:'Coûts de production',d:'Tout ce que coûte la production : aliments, énergie, machines, salaire de l’éleveur.',ex:'43 à 45 cents par litre, salaire compris.'},
+ {t:'FCO',d:'Fièvre catarrhale ovine ou « langue bleue » : maladie virale des ruminants, sans danger pour l’humain.',ex:'baisse de la production en août 2024.'},
+ {t:'Circuit court',d:'Vente avec au maximum un intermédiaire entre le producteur et le consommateur.',ex:'la vente à la ferme.'},
+ {t:'Cheptel',d:'L’ensemble des animaux d’une exploitation.',ex:'+67 % de vaches par ferme entre 1990 et 2012.'},
+ {t:'Horeca',d:'Le secteur des hôtels, restaurants et cafés.',ex:'fermé pendant le Covid, il achetait moins de lait.'},
+ {t:'Grille ACVP',d:'Grille qui analyse une activité dans un lieu : atouts, contraintes, potentialités, vulnérabilités.',ex:'la grille ACVP du secteur laitier wallon.'}
+];
+
+const DOCS=[
+ {n:1,titre:'Le prix du lait n’a été « rentable » qu’une fois en quatre ans',res:'Un article de 2024 montre, avec des infographies, qu’entre 2020 et 2023 le prix du lait n’a été rentable pour les éleveurs wallons qu’une seule année : 2022.',
+  o:['Le prix payé aux éleveurs est presque toujours trop bas pour être rentable.','Les Wallons ne boivent plus de lait.','Les vaches wallonnes produisent trop peu de lait.'],
+  pb:'Prix du lait trop bas, rarement rentable.',rep:'Les éleveurs gagnent mal leur vie.',reg:'Wallonie',date:'2020 à 2023 (seule exception : 2022)'},
+ {n:2,titre:'Impact de la FCO : forte baisse de la production en août',res:'Le Comité du lait constate une forte baisse de la production wallonne en août 2024 : 101,3 millions de litres contre 107,7 en août 2023, soit −5,93 %. Il la relie à l’explosion des cas de fièvre catarrhale ovine.',
+  o:['Une maladie animale (la FCO) fait chuter la production.','Les éleveurs ont décidé de produire moins pour faire monter les prix.','La sécheresse a détruit les prairies.'],
+  pb:'Épidémie de FCO dans les troupeaux.',rep:'Production en baisse : −5,93 % en août 2024 par rapport à août 2023.',reg:'Wallonie',date:'Été 2024, surtout août'},
+ {n:3,titre:'La fin des quotas laitiers',res:'En 2015, l’Union européenne supprime les quotas laitiers pour libéraliser le marché. Une surproduction suit et les prix, déjà bas, chutent. La Commission rachète 4 milliards de litres, stockés sous forme de 380 000 tonnes de lait en poudre.',
+  o:['La fin des quotas provoque une surproduction qui fait chuter les prix.','L’UE manque de lait et doit en importer.','Le lait en poudre est interdit en Europe.'],
+  pb:'Fin des quotas, donc surproduction.',rep:'Chute des prix, survie de nombreuses exploitations menacées ; énormes stocks de lait en poudre.',reg:'Union européenne',date:'2015'},
+ {n:4,titre:'La FCO, c’est quoi ?',res:'La fièvre catarrhale ovine (maladie de la langue bleue) est une maladie virale des ruminants : moutons, vaches, chèvres. Elle ne touche pas l’humain et ne change pas la qualité du lait, mais elle coûte cher.',
+  o:['Une maladie des ruminants a de lourdes conséquences économiques.','Une maladie rend le lait dangereux à boire.','Une maladie touche surtout les éleveurs eux-mêmes.'],
+  pb:'Maladie virale des ruminants (FCO).',rep:'Pertes économiques : animaux malades, marchés étrangers qui se ferment.',reg:'Non précisé',date:'Non précisé'},
+ {n:5,titre:'Un prix sous les coûts de production',res:'Le président de l’European Milk Board explique que le lait est payé 30 à 33 cents le litre, alors que le produire coûte 43 à 45 cents en comptant le salaire de l’éleveur. Le graphique montre un prix qui monte et descend fortement d’une année à l’autre.',
+  o:['Le prix ne couvre pas les coûts de production et change beaucoup d’une année à l’autre.','Le prix du lait augmente chaque année, de façon régulière.','Les éleveurs gagnent trop d’argent.'],
+  pb:'Prix inférieur aux coûts de production, et très instable.',rep:'Les éleveurs paient leurs factures mais ne se versent pas de salaire.',reg:'Europe (syndicat de 100 000 producteurs), Belgique',date:'Graphique d’environ 2000 à 2018'},
+ {n:6,titre:'Le Covid-19 : trop de lait, pas assez d’acheteurs',res:'Pendant la crise du coronavirus, les exportations (vers la Chine, l’Italie) sont freinées et l’Horeca est fermé. La demande baisse alors que la production est au plus haut. Le prix baisse chaque jour ; les petits producteurs ne peuvent plus vendre sur les marchés.',
+  o:['La pandémie fait baisser la demande alors que l’offre reste haute : les prix chutent.','Les vaches ont attrapé le coronavirus.','Les consommateurs boivent beaucoup plus de lait.'],
+  pb:'Crise du Covid-19 : demande en baisse, offre au plus haut.',rep:'Prix du litre en chute, sous les coûts ; l’agriculture familiale risque de disparaître.',reg:'Belgique (et Europe)',date:'2020'},
+ {n:7,titre:'Des reportages sur le malaise des agriculteurs',res:'Deux reportages (La Une et France 2) montrent le mal-être des éleveurs : ils ne vivent plus de leur travail, les fermes disparaissent, l’endettement explose. Des solutions existent : circuit court, bio, coopératives paysannes.',
+  o:['Les éleveurs n’arrivent plus à vivre de leur travail.','Les reportages sur l’agriculture sont trop rares.','Les consommateurs préfèrent le bio.'],
+  pb:'Les agriculteurs ne vivent plus de leur travail.',rep:'Fermes qui disparaissent, endettement, mal-être. Pistes : circuit court, bio, coopératives.',reg:'Belgique et France',date:'Non précisé'},
+ {n:8,titre:'Moins de fermes, mais plus grandes',res:'Le lait représente 23 % de la valeur agricole wallonne. Entre 1990 et 2012 : −68 % d’éleveurs, −48 % de vaches, mais +67 % de vaches par ferme et +252 % de lait par ferme. Le volume total reste assez stable.',
+  o:['Les petites fermes disparaissent et les autres grandissent : moins de fermes, mais plus grandes.','La Belgique produit de moins en moins de lait.','Chaque vache produit moins qu’avant.'],
+  pb:'Concentration de l’élevage : disparition des petites fermes.',rep:'−68 % d’éleveurs ; les fermes restantes s’agrandissent et produisent beaucoup plus.',reg:'Wallonie',date:'1990 à 2012'}
+];
+
+const ACVP_ITEMS=[
+ {t:'Au sud du sillon Sambre-et-Meuse, la SAU est surtout faite de prairies permanentes.',b:'A',why:'Caractéristique du lieu, favorable : l’herbe nourrit les vaches.'},
+ {t:'Un climat frais et humide qui fait bien pousser l’herbe (Ardenne, région herbagère).',b:'A',why:'Élément naturel du lieu, favorable à l’élevage.'},
+ {t:'Le lait est une ressource renouvelable, produite chaque jour.',b:'A',why:'La ressource se renouvelle : c’est favorable.'},
+ {t:'La Wallonie est proche de grands pays acheteurs (Allemagne, Pays-Bas, France).',b:'A',why:'La position du lieu aide à vendre : favorable.'},
+ {t:'Le prix du lait dépend du marché européen et mondial, et il est souvent trop bas.',b:'C',why:'C’est le contexte dans lequel l’élevage doit se faire, et il le gêne.'},
+ {t:'Produire un litre coûte 43 à 45 cents, salaire de l’éleveur compris.',b:'C',why:'Un coût élevé qui rend l’activité difficile.'},
+ {t:'Des maladies animales comme la FCO peuvent toucher les troupeaux.',b:'C',why:'Un risque venu de l’extérieur qui gêne la production.'},
+ {t:'Au nord du sillon, les terres fertiles sont occupées par les grandes cultures.',b:'C',why:'Élément du lieu qui laisse peu de place à l’élevage au nord.'},
+ {t:'Le lait représente 23 % de la valeur de la production agricole wallonne.',b:'P',why:'Apport positif de l’élevage à la région.'},
+ {t:'Les troupeaux entretiennent les paysages de prairies.',b:'P',why:'Effet positif de l’élevage sur le lieu.'},
+ {t:'Vendre en circuit court : à la ferme, dans les petits magasins.',b:'P',why:'Possibilité de développement pour demain.'},
+ {t:'Se tourner vers le bio et les coopératives paysannes.',b:'P',why:'Piste d’avenir positive (doc. 7).'},
+ {t:'Beaucoup de fermes disparaissent (−68 % d’éleveurs entre 1990 et 2012).',b:'V',why:'Effet négatif de l’évolution de l’élevage sur la région.'},
+ {t:'Les éleveurs s’endettent et vivent un vrai mal-être.',b:'V',why:'Fragilité créée par l’activité elle-même.'},
+ {t:'L’élevage intensif abîme la santé des vaches (fertilité, métabolisme).',b:'V',why:'Impact négatif de la façon d’élever.'},
+ {t:'Trop de lait produit : surproduction et chute des prix après 2015.',b:'V',why:'L’activité fragilise tout le secteur.'}
+];
+const ACVP_DEF={
+ A:{n:'Atouts',d:'Ce qui, dans le lieu, favorise l’élevage laitier.',ex:'Les prairies permanentes du sud et de l’est.'},
+ C:{n:'Contraintes',d:'Ce qui, dans le lieu ou dans son contexte, gêne l’élevage laitier.',ex:'Un prix du lait bas, fixé par le marché.'},
+ P:{n:'Potentialités',d:'Les effets positifs que l’élevage apporte au lieu, aujourd’hui ou demain.',ex:'Entretenir les paysages, vendre en circuit court.'},
+ V:{n:'Vulnérabilités',d:'Les effets négatifs et les fragilités que l’élevage crée pour le lieu.',ex:'La disparition des petites fermes.'}
+};
+
+const QCM=[
+ {q:'D’où vient le lait ?',o:['De la biosphère','De la lithosphère','De l’hydrosphère','De l’atmosphère'],w:'Le lait est produit par un être vivant, la vache, qui mange de l’herbe : il vient de la biosphère, l’ensemble du vivant.',m:1},
+ {q:'Pourquoi le lait est-il une ressource renouvelable ?',o:['Les vaches en produisent de nouveau chaque jour, tant qu’on les élève','Il existe des réserves de lait dans le sous-sol','On le fabrique en usine avec de l’eau','Il ne peut jamais manquer, quoi qu’on fasse'],w:'La ressource se reconstitue en permanence grâce aux animaux vivants.',m:1},
+ {q:'Combien de litres par jour produit en moyenne une vache laitière ?',o:['Environ 28 litres','Environ 4 litres','Environ 100 litres','Environ 1 litre'],w:'Une vache élevée pour sa viande donne environ 4 L par jour : la vache laitière en donne 7 fois plus, pendant environ 10 mois.',m:1},
+ {q:'Quelle race est citée comme race à haut rendement laitier ?',o:['La Prim’Holstein','Le Blanc-Bleu Belge','La Charolaise','La Limousine'],w:'Le Blanc-Bleu Belge, la Charolaise et la Limousine sont des races élevées pour leur viande.',m:1},
+ {q:'Quel est un effet négatif de l’élevage intensif sur les vaches ?',o:['Des problèmes de fertilité, de métabolisme et de santé','Elles vivent plus longtemps','Elles donnent moins de lait','Elles mangent moins'],w:'Sélectionner les vaches les plus productives les fragilise ; elles sont abattues après leur 3e lactation.',m:1},
+ {q:'Localiser un lieu, c’est…',o:['Dire où il est en zoomant du plus grand espace au plus petit','Dire où il est par rapport à des repères proches','Donner seulement sa latitude','Dessiner son plan'],w:'Localiser = zoomer (hémisphère, continent, pays, région…). Utiliser des repères proches, c’est situer.',m:2},
+ {q:'Laquelle de ces phrases est une situation ?',o:['Les exploitations laitières sont à l’est de Liège, près de la frontière allemande.','Les exploitations laitières sont dans l’hémisphère Nord.','Les exploitations laitières sont sur le continent européen.','Les exploitations laitières sont en Belgique.'],w:'Situer, c’est utiliser des repères proches (une ville, une frontière) et les points cardinaux.',m:2},
+ {q:'Quelles sont les trois régions de Belgique ?',o:['Flamande, wallonne et Bruxelles-Capitale','Flamande, française et germanophone','Hainaut, Namur et Liège','Nord, Centre et Sud'],w:'Flamande, française et germanophone, ce sont les trois communautés (liées à la langue).',m:2},
+ {q:'Quel est le chef-lieu de la province de Luxembourg ?',o:['Arlon','Luxembourg','Bastogne','Neufchâteau'],w:'Luxembourg est la capitale du Grand-Duché de Luxembourg, un pays voisin.',m:2},
+ {q:'Quel est le chef-lieu de la province du Hainaut ?',o:['Mons','Charleroi','Tournai','Namur'],w:'Charleroi est la plus grande ville du Hainaut, mais le chef-lieu est Mons.',m:2},
+ {q:'Quel est le chef-lieu de la province du Brabant wallon ?',o:['Wavre','Louvain','Bruxelles','Nivelles'],w:'Louvain est le chef-lieu du Brabant flamand.',m:2},
+ {q:'Où se trouve la Communauté germanophone ?',o:['À l’est, dans la province de Liège, près de l’Allemagne','Au nord, près des Pays-Bas','Autour de Bruxelles','Au sud, dans la province de Luxembourg'],w:'Elle occupe l’est de la province de Liège, le long de la frontière allemande, en Région wallonne.',m:2},
+ {q:'Quelles villes se trouvent sur le sillon Sambre-et-Meuse ?',o:['Charleroi, Namur et Liège','Bruges, Gand et Anvers','Arlon, Bastogne et Neufchâteau','Wavre, Louvain et Hasselt'],w:'Le sillon suit la Sambre (Charleroi, Namur) puis la Meuse (Namur, Liège).',m:2},
+ {q:'Sur la carte 5, où la part d’exploitations laitières est-elle la plus forte (75 % ou plus) ?',o:['À l’est de la Wallonie, près de l’Allemagne','Au centre, dans le Brabant wallon','À l’ouest, près de Tournai','Au sud, près d’Arlon'],w:'Les communes les plus foncées sont à l’est : région herbagère et Haute Ardenne.',m:2},
+ {q:'Que signifie SAU ?',o:['Superficie agricole utilisée','Surface alimentaire unique','Secteur agricole urbain','Surface animale utile'],w:'C’est la surface utilisée par l’agriculture. On dit aussi « surface agricole utile ».',m:2},
+ {q:'Quelle région agricole a la plus grande part de SAU (64,5 %) ?',o:['La Région limoneuse','La Région herbagère','L’Ardenne','La Fagne'],w:'La Région limoneuse, au nord, a aussi la plus grande SAU en hectares (258 849 ha).',m:2},
+ {q:'Au nord de la Wallonie, la SAU est surtout occupée par…',o:['des grandes cultures (céréales, betteraves, pommes de terre, maïs)','des prairies permanentes','des forêts','des vignes'],w:'« Grandes cultures au nord, prairies au sud » : c’est le titre du texte de la carte 7.',m:2},
+ {q:'Pourquoi les éleveurs laitiers sont-ils nombreux au sud et à l’est ?',o:['Les prairies permanentes y dominent : l’herbe nourrit les vaches','Les sols y sont les plus fertiles pour le blé','Il y a plus de grandes villes','C’est plus près de la mer'],w:'Il faut relier les cartes : prairies (carte 7) et zones fraîches et humides (carte 6) = beaucoup d’exploitations laitières (carte 5).',m:2},
+ {q:'En 2015, qu’a fait l’Union européenne ?',o:['Elle a supprimé les quotas laitiers','Elle a créé les quotas laitiers','Elle a interdit le lait en poudre','Elle a fermé ses frontières au lait'],w:'Sans quotas, les éleveurs ont produit plus : surproduction, puis chute des prix.',m:3},
+ {q:'Qu’a fait la Commission européenne pour stabiliser les prix après 2015 ?',o:['Elle a racheté le lait en trop et l’a stocké en poudre','Elle a fait jeter le lait','Elle a doublé les quotas','Elle a interdit d’exporter'],w:'4 milliards de litres rachetés, stockés sous forme de 380 000 tonnes de poudre, pour les revendre quand les prix remonteraient.',m:3},
+ {q:'La FCO, c’est…',o:['une maladie virale des ruminants, sans danger pour l’humain','une maladie qui rend le lait dangereux','un syndicat d’éleveurs','une race de vache'],w:'Ses conséquences sont économiques : animaux malades, production en baisse, marchés étrangers fermés.',m:3},
+ {q:'D’après le document 2, de combien la production wallonne a-t-elle baissé en août 2024 par rapport à août 2023 ?',o:['5,93 %','0,65 %','1,45 %','50 %'],w:'0,65 % correspond aux six premiers mois et 1,45 % au mois de juillet : la baisse s’aggrave en août, avec la FCO.',m:3},
+ {q:'Selon le document 5, combien coûte la production d’un litre de lait, salaire de l’éleveur compris ?',o:['43 à 45 cents','30 à 33 cents','15 cents','1 euro'],w:'Le lait est payé 30 à 33 cents : l’éleveur paie ses factures mais ne se paie pas.',m:3},
+ {q:'Pourquoi le Covid-19 a-t-il fait baisser le prix du lait ?',o:['La demande a baissé (exportations, Horeca) alors que l’offre était au plus haut','Les vaches ont été malades du Covid','Les quotas ont été rétablis','Le lait est devenu dangereux'],w:'Quand l’offre dépasse la demande, le prix baisse.',m:3},
+ {q:'Entre 1990 et 2012, le nombre d’éleveurs laitiers wallons a…',o:['baissé de 68 %','augmenté de 68 %','baissé de 252 %','doublé'],w:'Dans le même temps, chaque ferme produit 252 % de lait en plus : les fermes se concentrent.',m:3},
+ {q:'Quelles solutions sont proposées dans le document 7 ?',o:['Circuit court, bio, coopératives paysannes','Importer plus de lait étranger','Remplacer les vaches par des machines','Augmenter la taille de toutes les fermes'],w:'Ces solutions aident les éleveurs à mieux vendre leur lait et à garder plus de valeur.',m:3},
+ {q:'Dans la grille ACVP, un atout est…',o:['un élément du lieu favorable à l’activité','un impact négatif de l’activité sur le lieu','un élément du lieu défavorable à l’activité','un impact positif de l’activité'],w:'Site → aménagement, côté positif : atout.',m:4},
+ {q:'« La disparition des petites fermes » est, dans la grille ACVP…',o:['une vulnérabilité','un atout','une contrainte','une potentialité'],w:'C’est un effet négatif de l’évolution de l’élevage sur le lieu (aménagement → site).',m:4},
+ {q:'« Des prairies permanentes abondantes au sud du sillon » est…',o:['un atout','une vulnérabilité','une potentialité','une contrainte'],w:'Cela décrit le lieu, et c’est favorable à l’élevage.',m:4},
+ {q:'« Développer la vente en circuit court » est…',o:['une potentialité','une contrainte','un atout','une vulnérabilité'],w:'C’est une possibilité positive que l’élevage peut apporter au lieu.',m:4}
+];
+const VF=[
+ {s:'Le lait est une ressource non renouvelable.',v:false,why:['Une vache en produit chaque jour pendant sa lactation : la ressource se reconstitue.','Le lait vient de la lithosphère.','Il faut des millions d’années pour produire du lait.'],e:'Le lait est une ressource renouvelable de la nature vivante.',m:1},
+ {s:'Dans l’élevage intensif, une vache laitière vit en général jusqu’à 20 ans.',v:false,why:['Elle est généralement abattue après sa troisième lactation, alors qu’elle pourrait vivre jusqu’à 20 ans.','Elle vit plus de 30 ans.','Elle est abattue dès sa naissance.'],e:'Sa vie est beaucoup plus courte que ce qu’elle pourrait vivre.',m:1},
+ {s:'La Communauté germanophone se trouve en Région wallonne.',v:true,why:['Elle occupe l’est de la province de Liège, qui fait partie de la Wallonie.','C’est une quatrième région de Belgique.','Elle se trouve en Flandre, près des Pays-Bas.'],e:'Une communauté (langue) n’est pas une région (territoire) : la Communauté germanophone est en Région wallonne.',m:2},
+ {s:'Bruxelles-Capitale fait partie de la Région flamande.',v:false,why:['C’est une région à part entière, même si elle est entourée par la Flandre.','Elle fait partie de la Région wallonne.','Elle n’est dans aucune région, c’est une province.'],e:'La Belgique compte trois régions : flamande, wallonne et Bruxelles-Capitale.',m:2},
+ {s:'Le nord de la Wallonie compte peu d’exploitations laitières.',v:true,why:['Sa SAU est surtout occupée par des grandes cultures (céréales, betteraves…).','Il n’y a aucune terre agricole au nord.','Le climat y est trop froid pour les vaches.'],e:'Carte 7 + carte 5 : grandes cultures au nord, donc souvent moins de 15 % d’exploitations laitières.',m:2},
+ {s:'La fièvre catarrhale ovine rend le lait dangereux pour l’humain.',v:false,why:['C’est une maladie strictement animale : ses effets sont économiques.','Le virus passe dans le lait.','Elle ne touche que les moutons.'],e:'Elle touche les ruminants (dont les vaches) mais pas l’humain ni la qualité du lait.',m:3},
+ {s:'La fin des quotas laitiers, en 2015, a fait monter les prix.',v:false,why:['Elle a entraîné une surproduction, donc une baisse des prix.','Les quotas n’avaient jamais existé.','Elle a fait baisser la production de lait.'],e:'Plus de lait que d’acheteurs : les prix, déjà bas, ont chuté.',m:3},
+ {s:'Entre 1990 et 2012, il y a moins de fermes laitières, mais chaque ferme produit plus.',v:true,why:['−68 % d’éleveurs, mais +252 % de lait par ferme : les fermes s’agrandissent.','Les vaches ont disparu de Wallonie.','Chaque ferme a moins de vaches qu’avant.'],e:'C’est la concentration de l’élevage ; le volume total de lait reste assez stable.',m:3},
+ {s:'Au début des années 2020, le prix du lait couvrait largement les coûts de production.',v:false,why:['Il n’a été rentable qu’en 2022 entre 2020 et 2023, et 33 cents par litre ne couvrent pas les coûts avec salaire.','Le lait était payé 1 euro le litre.','Les coûts de production étaient presque nuls.'],e:'Docs 1, 5 et 6 : le prix reste souvent sous les coûts.',m:3},
+ {s:'Une contrainte est un impact négatif de l’élevage sur le lieu.',v:false,why:['Une contrainte est un élément du lieu défavorable à l’activité ; l’impact négatif, c’est une vulnérabilité.','Une contrainte est un élément favorable.','Une contrainte est une solution d’avenir.'],e:'Contraintes : site → aménagement. Vulnérabilités : aménagement → site.',m:4}
+];
+
+/* ---------- composants d'exercice ---------- */
+function keyBox(items,open){const d=h('details',{class:'keybox'},h('summary',{},'Points clés à retenir'),h('ul',{},items.map(t=>h('li',{},t))));if(open)d.open=true;return d;}
+
+function strikeGroups(root,groups,done){
+  const st=groups.map(g=>g.items.map(()=>false));let checked=false;const box=h('div');const msg=msgEl();
+  function draw(){box.replaceChildren();groups.forEach((g,gi)=>{const row=h('div',{class:'chips'});
+    g.items.forEach((it,ii)=>{const on=st[gi][ii];let c='chip strike'+(on?' on':'');if(checked)c+=(on===!it.ok)?' ok':' ko';
+      row.append(h('button',{type:'button',class:c,'aria-pressed':String(on),onclick:()=>{st[gi][ii]=!st[gi][ii];checked=false;msg.textContent='';draw();}},it.t));});
+    const q=h('div',{class:'q'},h('p',{class:'stmt'},g.q),row);
+    if(checked){const errs=g.items.filter((it,ii)=>st[gi][ii]===it.ok);if(errs.length)q.append(h('p',{class:'fb ko'},errs.map(e=>e.why).join(' ')));}
+    box.append(q);});}
+  draw();
+  root.append(h('p',{class:'lead'},'Touche les notions fausses pour les barrer (touche encore pour annuler), puis vérifie.'),box,
+    h('div',{class:'row'},h('button',{type:'button',class:'btn',onclick:()=>{checked=true;draw();
+      const bad=groups.reduce((a,g,gi)=>a+g.items.filter((it,ii)=>st[gi][ii]===it.ok).length,0);
+      if(!bad){msg.textContent='Tout est juste : le lait vient de la biosphère, de la nature vivante, et c’est une ressource renouvelable.';done();}
+      else msg.textContent=bad+(bad>1?' erreurs':' erreur')+'. Lis l’indice en rouge et corrige.';}},'Vérifier')),msg);
+}
+
+function cloze(root,paras,done,lead){
+  const blanks=[];let tries=0;const wrap=h('div',{class:'cloze'});
+  paras.forEach(parts=>{const p=h('p');parts.forEach(x=>{if(typeof x==='string')p.append(x);else{
+    const sel=h('select',{class:'blank','aria-label':'Mot manquant'},h('option',{value:''},'choisir…'),shuffle(x.a).map(o=>h('option',{value:o},o)));
+    sel.addEventListener('change',()=>sel.classList.remove('ok','ko','shown'));blanks.push({sel,x});p.append(sel);}});wrap.append(p);});
+  const msg=msgEl();
+  const bShow=h('button',{type:'button',class:'btn ghost',hidden:true,onclick:()=>{blanks.forEach(b=>{b.sel.value=b.x.a[0];b.sel.classList.remove('ko','ok');b.sel.classList.add('shown');});msg.textContent='Voici la correction. Relis le texte en entier, puis refais l’exercice plus tard sans aide.';}},'Voir la correction');
+  const bCheck=h('button',{type:'button',class:'btn',onclick:()=>{tries++;let ok=0,empty=0;
+    blanks.forEach(b=>{b.sel.classList.remove('ok','ko','shown');if(!b.sel.value){empty++;return;}if(b.sel.value===b.x.a[0]){b.sel.classList.add('ok');ok++;}else b.sel.classList.add('ko');});
+    if(ok===blanks.length){msg.textContent=tries===1?'Parfait du premier coup !':'Tout est juste !';bShow.hidden=true;if(done)done();}
+    else{msg.textContent=ok+' sur '+blanks.length+' justes.'+(empty?' Il reste '+empty+' trou'+(empty>1?'s':'')+' à remplir.':' Change les mots en rouge.');if(tries>=2)bShow.hidden=false;}}},'Vérifier');
+  root.append(lead?h('p',{class:'lead'},lead):null,wrap,h('div',{class:'row'},bCheck,bShow),msg);
+}
+
+function orderList(root,o,done){
+  const items=o.items;let cur=shuffle(items.map((_,i)=>i));while(cur.every((v,i)=>v===i))cur=shuffle(cur);
+  let marks=null,tries=0;const ol=h('ol',{class:'order'});const msg=msgEl();
+  const bShow=h('button',{type:'button',class:'btn ghost',hidden:true,onclick:()=>{cur=items.map((_,i)=>i);marks=cur.map(()=>'shown');draw();msg.textContent='Voici le bon ordre. Lis-le de haut en bas.';}},'Voir la correction');
+  function mv(i,d){const j=i+d;if(j<0||j>=cur.length)return;[cur[i],cur[j]]=[cur[j],cur[i]];marks=null;msg.textContent='';draw();const b=ol.children[j]&&ol.children[j].querySelector(d<0?'[aria-label="Monter"]':'[aria-label="Descendre"]');if(b&&!b.disabled)b.focus();}
+  function draw(){ol.replaceChildren();cur.forEach((v,i)=>ol.append(h('li',{class:marks?marks[i]:''},h('span',{class:'otext'},items[v]),h('span',{class:'obtns'},
+    h('button',{type:'button',class:'mini','aria-label':'Monter',disabled:i===0,onclick:()=>mv(i,-1)},'↑'),
+    h('button',{type:'button',class:'mini','aria-label':'Descendre',disabled:i===cur.length-1,onclick:()=>mv(i,1)},'↓')))));}
+  draw();
+  root.append(o.lead?h('p',{class:'lead'},o.lead):null,ol,h('div',{class:'row'},h('button',{type:'button',class:'btn',onclick:()=>{tries++;marks=cur.map((v,i)=>v===i?'ok':'ko');draw();
+    const bad=marks.filter(m=>m==='ko').length;if(!bad){msg.textContent=o.win||'Bon ordre !';if(done)done();}
+    else{msg.textContent=bad+(bad>1?' éléments mal placés':' élément mal placé')+' (en rouge).';if(tries>=2)bShow.hidden=false;}}},'Vérifier'),bShow),msg);
+}
+
+function sortBins(root,o,done){
+  const items=o.items,place=items.map(()=>null),bad=new Set(),good=new Set();let sel=null,tries=0;
+  const order=shuffle(items.map((_,i)=>i));const pool=h('div',{class:'chips'});const binBox=h('div',{class:'bins',style:'--cols:'+(o.cols||o.bins.length)});const msg=msgEl();
+  const bShow=h('button',{type:'button',class:'btn ghost',hidden:true,onclick:()=>{items.forEach((it,i)=>{place[i]=it.b;good.add(i);bad.delete(i);});sel=null;draw();msg.textContent='Voici la correction. Relis chaque colonne.';}},'Voir la correction');
+  function pick(i){sel=sel===i?null:i;draw();}
+  function draw(){
+    pool.replaceChildren();const rest=order.filter(i=>place[i]===null);
+    if(!rest.length)pool.append(h('p',{class:'small muted'},'Toutes les cartes sont classées.'));
+    rest.forEach(i=>pool.append(h('button',{type:'button',class:'chip'+(o.wide?' card':'')+(sel===i?' sel':''),'aria-pressed':String(sel===i),onclick:()=>pick(i)},items[i].t)));
+    binBox.replaceChildren();
+    o.bins.forEach(b=>{const list=h('div',{class:'binlist'});
+      order.filter(i=>place[i]===b.id).forEach(i=>list.append(h('button',{type:'button',class:'chip card'+(bad.has(i)?' ko':'')+(good.has(i)?' ok':'')+(sel===i?' sel':''),onclick:()=>pick(i)},items[i].t,bad.has(i)?h('span',{class:'why'},'Indice : '+items[i].why):null)));
+      binBox.append(h('div',{class:'bin bin-'+b.id},h('button',{type:'button',class:'binhead',onclick:()=>{if(sel===null){msg.textContent='Touche d’abord une carte, puis cette case.';return;}place[sel]=b.id;bad.delete(sel);good.delete(sel);sel=null;msg.textContent='';draw();}},
+        h('strong',{},b.label),b.desc?h('span',{class:'small muted'},b.desc):null,h('span',{class:'drop'},sel!==null?'Déposer ici':'')),list));});
+  }
+  draw();
+  root.append(o.lead?h('p',{class:'lead'},o.lead):null,pool,binBox,h('div',{class:'row'},h('button',{type:'button',class:'btn',onclick:()=>{
+    const left=place.filter(p=>p===null).length;if(left){msg.textContent='Il reste '+left+' carte'+(left>1?'s':'')+' à classer.';return;}
+    tries++;bad.clear();good.clear();items.forEach((it,i)=>{if(place[i]===it.b)good.add(i);else bad.add(i);});sel=null;draw();
+    if(!bad.size){msg.textContent='Tout est bien classé !';if(done)done();}
+    else{msg.textContent=bad.size+' carte'+(bad.size>1?'s':'')+' mal classée'+(bad.size>1?'s':'')+'. Lis l’indice, touche la carte, puis la bonne case.';if(tries>=2)bShow.hidden=false;}}},'Vérifier'),bShow),msg);
+}
+
+/* ---------- étapes : mots-clés ---------- */
+function stepFlash(root,done){
+  let queue=shuffle(VOCAB.map((_,i)=>i)),known=0,flipped=false;const total=VOCAB.length;
+  function draw(){root.replaceChildren();
+    root.append(h('p',{class:'lead'},'Lis le mot, essaie de le définir dans ta tête, puis retourne la carte. Sois honnête : « À revoir » remet la carte plus loin dans le paquet.'));
+    if(!queue.length){root.append(h('div',{class:'done-box'},h('p',{},'Bravo : tu connais les '+total+' mots-clés.'),h('button',{type:'button',class:'btn',onclick:()=>{queue=shuffle(VOCAB.map((_,i)=>i));known=0;draw();}},'Recommencer')));done();return;}
+    const v=VOCAB[queue[0]];
+    root.append(h('p',{class:'counter'},'Mots sus : '+known+' sur '+total),h('div',{class:'progress'},h('i',{style:'width:'+Math.round(known/total*100)+'%'})));
+    root.append(h('button',{type:'button',class:'flash'+(flipped?' flipped':''),onclick:()=>{flipped=!flipped;draw();}},flipped?[h('span',{class:'term small'},v.t),h('span',{class:'def'},v.d),h('span',{class:'ex'},'Exemple : '+v.ex)]:[h('span',{class:'term'},v.t),h('span',{class:'tap'},'Touche pour voir la définition')]));
+    if(flipped)root.append(h('div',{class:'row center'},h('button',{type:'button',class:'btn ghost',onclick:()=>{queue.push(queue.shift());flipped=false;draw();}},'À revoir'),h('button',{type:'button',class:'btn',onclick:()=>{queue.shift();known++;flipped=false;draw();}},'Je savais')));
+  }
+  draw();
+}
+function stepMatch(root,done){
+  const rounds=chunk(shuffle(VOCAB),6);let r=0;
+  function round(){root.replaceChildren();const items=rounds[r],defs=shuffle(items),ok=new Set();let sel=null;
+    const msg=msgEl(),L=h('div',{class:'col'}),R=h('div',{class:'col'});
+    function paint(){L.replaceChildren();R.replaceChildren();
+      items.forEach(v=>L.append(h('button',{type:'button',class:'tile term'+(ok.has(v.t)?' ok':'')+(sel===v.t?' sel':''),disabled:ok.has(v.t),'aria-pressed':String(sel===v.t),onclick:()=>{sel=v.t;msg.textContent='';paint();}},v.t)));
+      defs.forEach(v=>R.append(h('button',{type:'button',class:'tile'+(ok.has(v.t)?' ok':''),disabled:ok.has(v.t),onclick:()=>{
+        if(!sel){msg.textContent='Choisis d’abord un mot à gauche.';return;}
+        if(sel===v.t){ok.add(v.t);msg.textContent='Oui : « '+v.t+' ».';sel=null;}
+        else{const w=VOCAB.find(x=>x.t===sel);msg.textContent='Pas celle-ci pour « '+sel+' ». Indice : '+w.ex;}
+        paint();
+        if(ok.size===items.length){if(r<rounds.length-1)root.append(h('div',{class:'done-box'},h('p',{},'Série réussie.'),h('button',{type:'button',class:'btn',onclick:()=>{r++;round();}},'Série suivante')));
+          else{root.append(h('div',{class:'done-box'},h('p',{},'Toutes les séries sont réussies.'),h('button',{type:'button',class:'btn ghost',onclick:()=>{r=0;round();}},'Recommencer')));done();}}
+      }},v.d)));}
+    root.append(h('p',{class:'lead'},'Touche un mot, puis sa définition. Série '+(r+1)+' sur '+rounds.length+'.'),h('div',{class:'match'},L,R),msg);paint();}
+  round();
+}
+
+/* ---------- étapes : le lait, une ressource ---------- */
+function stepSource(root,done){
+  root.append(h('div',{class:'flow','aria-label':'Schéma : d’où vient le lait'},
+    h('div',{class:'fs'},h('b',{},'Soleil et pluie'),h('span',{class:'small muted'},'font pousser')),
+    h('div',{class:'fs bio'},h('b',{},'L’herbe des prairies'),h('span',{class:'small'},'vivant')),
+    h('div',{class:'fs bio'},h('b',{},'La vache'),h('span',{class:'small'},'vivant')),
+    h('div',{class:'fs bio'},h('b',{},'Le lait'),h('span',{class:'small'},'produit chaque jour'))),
+    h('p',{class:'flowcap'},'Les cases vertes appartiennent à la biosphère, le monde vivant. Tant que les vaches mangent de l’herbe et ont des veaux, le lait se renouvelle.'));
+  strikeGroups(root,[
+    {q:'Le lait vient de :',items:[{t:'l’atmosphère',ok:false,why:'L’atmosphère, c’est l’air : le lait n’en vient pas.'},{t:'la biosphère',ok:true,why:'La biosphère, c’est le vivant : la vache en fait partie. Ne la barre pas.'},{t:'l’hydrosphère',ok:false,why:'L’hydrosphère, c’est l’eau (océans, rivières).'},{t:'la lithosphère',ok:false,why:'La lithosphère, ce sont les roches et les sols.'}]},
+    {q:'C’est une ressource qui provient de :',items:[{t:'la nature vivante',ok:true,why:'Une vache est vivante : ne barre pas « nature vivante ».'},{t:'la nature inanimée',ok:false,why:'La nature inanimée (roches, eau, air) ne produit pas de lait.'}]},
+    {q:'C’est une ressource :',items:[{t:'renouvelable',ok:true,why:'Les vaches produisent du lait chaque jour : ne barre pas « renouvelable ».'},{t:'non renouvelable',ok:false,why:'Une ressource non renouvelable s’épuise (pétrole, charbon). Le lait se reconstitue.'}]}
+  ],done);
+}
+function stepCows(root,done){
+  root.append(h('p',{class:'lead'},'Compare les deux barres : c’est la sélection des races à haut rendement laitier qui fait la différence.'),
+    h('div',{class:'bars'},
+      h('div',{class:'brow'},h('span',{},'Vache élevée pour sa viande'),h('div',{class:'btrack'},h('div',{class:'bfill',style:'width:'+(4/30*100)+'%'}),h('span',{class:'bval',style:'left:'+(4/30*100)+'%'},'≈ 4 L par jour'))),
+      h('div',{class:'brow'},h('span',{},'Vache laitière (Prim’Holstein)'),h('div',{class:'btrack'},h('div',{class:'bfill',style:'width:'+(28/30*100)+'%'}),h('span',{class:'bval',style:'left:4px;color:var(--accent-ink)'},'≈ 28 L par jour, pendant 10 mois')))),
+    h('div',{class:'zoomwrap'},
+      h('div',{class:'card2'},h('h4',{},'Ce qu’on gagne'),h('p',{},'Une production laitière qui a très fortement augmenté ces dernières décennies.')),
+      h('div',{class:'card2'},h('h4',{},'Ce que ça coûte aux vaches'),h('p',{},'Des problèmes de fertilité, de métabolisme et de santé. Une vie très courte : abattue après sa 3e lactation, alors qu’elle pourrait vivre jusqu’à 20 ans.'))));
+  cloze(root,[
+    ['Une vache élevée pour sa viande produit naturellement environ ',{a:['4 litres','28 litres','50 litres']},' de lait par jour. Une vache laitière de race ',{a:['Prim’Holstein','Blanc-Bleu Belge','Charolaise']},' en produit en moyenne ',{a:['28 litres','4 litres','100 litres']},' par jour pendant ',{a:['10 mois','3 mois','2 ans']},'.'],
+    ['Mais l’élevage ',{a:['intensif','bio','familial']},' et la sélection des races les plus productives créent des problèmes de fertilité, de métabolisme et de ',{a:['santé','couleur','taille']},'. Les vaches laitières sont généralement abattues après leur ',{a:['troisième','première','dixième']},' période de lactation, alors qu’elles pourraient vivre jusqu’à ',{a:['20 ans','5 ans','50 ans']},'.']
+  ],done,'Complète le texte sans regarder plus haut, si tu peux.');
+}
+
+/* ---------- étapes : localiser et situer ---------- */
+function zoomBoxes(levels){let inner=null;for(let i=levels.length-1;i>=0;i--){inner=h('div',{class:'zbox z'+i},h('span',{class:'zl'},levels[i]),inner);}return inner;}
+function compassEBC(){
+  const svg=s('svg',{viewBox:'0 0 320 230',class:'map compass',role:'img','aria-label':'Schéma : les repères autour de l’École belge de Casablanca'});
+  svg.append(s('text',{x:160,y:16,'text-anchor':'middle',class:'cp-t'},'N'),s('line',{x1:160,y1:22,x2:160,y2:40,class:'cp-a'}));
+  const pts=[['Océan Atlantique',55,55,'nord-ouest'],['Casablanca',245,45,'nord-est'],['Gare Casa-Voyageurs',262,85,'nord-est'],['Aéroport Mohammed V',240,190,'sud-est']];
+  pts.forEach(([n,x,y])=>{svg.append(s('line',{x1:160,y1:118,x2:x,y2:y,class:'cp-a','stroke-dasharray':'4 3'}),s('circle',{cx:x,cy:y,r:4,class:'cp-c'}),s('text',{x,y:y+(y>118?18:-9),'text-anchor':'middle',class:'cp-t'},n));});
+  svg.append(s('circle',{cx:160,cy:118,r:9,class:'cp-c'}),s('text',{x:160,y:146,'text-anchor':'middle',class:'cp-t'},'École belge (EBC)'));
+  return svg;
+}
+function stepMethod(root,done){
+  root.append(h('p',{class:'lead'},'Exemple travaillé en classe : l’École belge de Casablanca. Observe d’abord, puis entraîne-toi.'),
+    h('div',{class:'zoomwrap'},
+      h('div',{},h('h4',{},'Localiser : je zoome'),h('p',{class:'small muted'},'Du plus grand espace au plus petit, en 5 éléments ou plus.'),
+        zoomBoxes(['Hémisphère Nord','Entre le tropique du Cancer et le cercle polaire arctique','Continent africain','Maroc','Province de Nouaceur','Dar Bouazza : l’École belge'])),
+      h('div',{},h('h4',{},'Situer : je prends des repères'),h('p',{class:'small muted'},'Points cardinaux + repères proches.'),compassEBC(),
+        h('p',{class:'small'},'Attention au sens : l’aéroport est au sud-est de l’école, donc l’école est au nord-ouest de l’aéroport.'))));
+  sortBins(root,{lead:'Classe chaque morceau de phrase : sert-il à localiser (zoomer) ou à situer (repères proches) ?',cols:2,
+    bins:[{id:'L',label:'Localiser',desc:'je zoome'},{id:'S',label:'Situer',desc:'je prends des repères'}],
+    items:[{t:'dans l’hémisphère Nord',b:'L',why:'Un grand espace dans le zoom : on localise.'},{t:'sur le continent européen',b:'L',why:'Un continent fait partie du zoom.'},{t:'en Région wallonne',b:'L',why:'Une région fait partie du zoom.'},{t:'entre le tropique du Cancer et le cercle polaire arctique',b:'L',why:'Une grande bande de la Terre : étape du zoom.'},
+      {t:'au sud du sillon Sambre-et-Meuse',b:'S',why:'Un point cardinal + un repère proche : on situe.'},{t:'à l’est de Liège',b:'S',why:'Point cardinal + une ville repère.'},{t:'près de la frontière allemande',b:'S',why:'Une frontière voisine sert de repère.'},{t:'à proximité de l’océan Atlantique',b:'S',why:'Un repère proche du lieu.'}]},done);
+}
+function stepZoom(root,done){
+  orderList(root,{lead:'Remets le zoom dans l’ordre pour localiser les régions laitières belges, du plus grand espace au plus petit.',
+    items:['dans l’hémisphère Nord','entre le tropique du Cancer et le cercle polaire arctique','sur le continent européen','en Belgique','en Région wallonne','surtout dans l’est de la province de Liège'],
+    win:'Bon ordre ! Tu viens de localiser : c’est la même méthode que pour l’École belge.'},done);
+}
+function stepExplore(root,done){
+  let mode='regions',rivers=false,neigh=true,chefs=true;const seen=new Set(['regions']);let fired=false;
+  const NOTES={regions:'Trois régions : flamande au nord, wallonne au sud, Bruxelles-Capitale au centre. L’agriculture est gérée par les régions.',
+    communautes:'Trois communautés, liées à la langue : flamande, française et germanophone (à l’est, dans la province de Liège). À Bruxelles, les communautés flamande et française sont présentes.',
+    rivers:'Le sillon Sambre-et-Meuse relie Charleroi, Namur et Liège. Il sépare le nord de la Wallonie (cultures) du sud (prairies).'};
+  const holder=h('div',{class:'mapbox'}),note=h('p',{class:'note'});const bR=h('button',{type:'button'},'Régions'),bC=h('button',{type:'button'},'Communautés');
+  const tCh=h('button',{type:'button',class:'tog'},'Chefs-lieux'),tRi=h('button',{type:'button',class:'tog'},'Fleuves et sillon'),tNe=h('button',{type:'button',class:'tog'},'Pays voisins');
+  function draw(){holder.replaceChildren(belgiumMap({mode,rivers,neigh,chefs,aria:'Carte schématique de la Belgique : '+(mode==='regions'?'les régions':'les communautés')}));
+    bR.setAttribute('aria-pressed',String(mode==='regions'));bC.setAttribute('aria-pressed',String(mode==='communautes'));
+    tCh.setAttribute('aria-pressed',String(chefs));tRi.setAttribute('aria-pressed',String(rivers));tNe.setAttribute('aria-pressed',String(neigh));
+    note.textContent=NOTES[mode]+(rivers?' '+NOTES.rivers:'');
+    if(!fired&&seen.has('regions')&&seen.has('communautes')&&seen.has('rivers')){fired=true;done();}}
+  bR.onclick=()=>{mode='regions';seen.add(mode);draw();};bC.onclick=()=>{mode='communautes';seen.add(mode);draw();};
+  tCh.onclick=()=>{chefs=!chefs;draw();};tRi.onclick=()=>{rivers=!rivers;if(rivers)seen.add('rivers');draw();};tNe.onclick=()=>{neigh=!neigh;draw();};
+  root.append(h('p',{class:'lead'},'Explore les cartes 1 à 4 de ton cours en une seule carte. Affiche les régions, puis les communautés, puis le sillon Sambre-et-Meuse.'),
+    h('div',{class:'row'},h('div',{class:'seg',role:'group','aria-label':'Découpage'},bR,bC),tCh,tRi,tNe),holder,note);
+  draw();
+}
+function placeLabels(root,o,done){
+  const svg=o.svg,T=o.targets,placed={},state={};let sel=null,tries=0;const layer=s('g');svg.append(layer);
+  const chips=h('div',{class:'chips'}),msg=msgEl();const order=shuffle(T.map(t=>t.id));const lab=id=>T.find(t=>t.id===id).label;
+  const bShow=h('button',{type:'button',class:'btn ghost',hidden:true,onclick:()=>{T.forEach(t=>{placed[t.id]=t.id;state[t.id]='shown';});sel=null;draw();msg.textContent='Voici la correction. Observe bien, puis recommence plus tard.';}},'Voir la correction');
+  function draw(){layer.replaceChildren();
+    T.forEach(t=>{const[x,y]=P(t.p);const g=s('g',{class:'tg '+(state[t.id]||'')+(placed[t.id]?' filled':'')});
+      g.append(s('circle',{cx:x,cy:y,r:12,class:'tgc'}));
+      if(placed[t.id])g.append(s('text',{x,y:y+25,'text-anchor':'middle',class:'m-lab sm'},lab(placed[t.id])));else g.append(s('text',{x,y:y+4.5,'text-anchor':'middle',class:'tgq'},'?'));
+      tap(g,()=>{if(sel!==null){for(const k in placed)if(placed[k]===sel){delete placed[k];delete state[k];}placed[t.id]=sel;delete state[t.id];sel=null;msg.textContent='';}
+        else if(placed[t.id]){delete placed[t.id];delete state[t.id];}else msg.textContent='Choisis d’abord une étiquette sous la carte.';draw();});
+      g.setAttribute('aria-label',placed[t.id]?'Emplacement : '+lab(placed[t.id]):'Emplacement vide');layer.append(g);});
+    chips.replaceChildren();order.forEach(id=>{const used=Object.values(placed).includes(id);chips.append(h('button',{type:'button',class:'chip'+(sel===id?' sel':'')+(used?' used':''),'aria-pressed':String(sel===id),onclick:()=>{sel=sel===id?null:id;draw();}},lab(id)));});}
+  draw();
+  root.append(h('p',{class:'lead'},o.lead),h('div',{class:'mapbox'},svg),chips,h('div',{class:'row'},h('button',{type:'button',class:'btn',onclick:()=>{tries++;let ok=0,empty=0;
+    T.forEach(t=>{if(!placed[t.id]){empty++;state[t.id]='';return;}if(placed[t.id]===t.id){state[t.id]='ok';ok++;}else state[t.id]='ko';});draw();
+    if(ok===T.length){msg.textContent='Toutes les étiquettes sont bien placées !';if(done)done();}
+    else{msg.textContent=ok+' sur '+T.length+' bien placées.'+(empty?' Il reste '+empty+' emplacement'+(empty>1?'s':'')+' vide'+(empty>1?'s':'')+'.':'')+' Touche une étiquette rouge pour la retirer.';if(tries>=2)bShow.hidden=false;}}},'Vérifier'),bShow),msg);
+}
+function stepLabels(root,done){
+  placeLabels(root,{lead:'Touche une étiquette, puis le cercle où elle va. Touche un cercle rempli pour le vider.',
+    svg:belgiumMap({mode:'regions',rivers:true,riverLabels:false,areaLabels:false,chefs:false}),
+    targets:[{id:'mer',p:[2.62,51.50],label:'Mer du Nord'},{id:'nl',p:[4.85,51.60],label:'Pays-Bas'},{id:'de',p:[6.30,50.95],label:'Allemagne'},{id:'lu',p:[6.22,49.78],label:'Luxembourg (pays)'},{id:'fr',p:[3.40,49.85],label:'France'},
+      {id:'fl',p:[4.45,51.10],label:'Région flamande'},{id:'wa',p:[5.10,50.10],label:'Région wallonne'},{id:'bx',p:[4.37,50.84],label:'Bruxelles-Capitale'},{id:'si',p:[4.66,50.43],label:'Sillon Sambre-et-Meuse'}]},done);
+}
+function stepChefs(root,done){
+  const svg=belgiumMap({mode:'regions',chefs:false,areaLabels:true});const layer=s('g');svg.append(layer);
+  const queue=shuffle(Object.keys(CITIES)),found=new Set();let wrong=null,errors=0;const prompt=h('p',{class:'prompt','aria-live':'polite'}),msg=msgEl();
+  function ask(){prompt.textContent=queue.length?'Touche le chef-lieu de la province '+CITIES[queue[0]].pd+'.':'Les 10 chefs-lieux sont trouvés'+(errors?' ('+errors+' erreur'+(errors>1?'s':'')+').':', sans erreur !');}
+  function draw(){layer.replaceChildren();Object.entries(CITIES).forEach(([k,c])=>{const[x,y]=P(c.p);const g=s('g',{class:'cg'+(found.has(k)?' ok':'')+(wrong===k?' ko':'')});
+    g.append(s('circle',{cx:x,cy:y,r:13,class:'cityhit'}),s('circle',{cx:x,cy:y,r:5,class:'city'}));
+    if(found.has(k)||wrong===k)g.append(s('text',{x:x+c.dx,y:y+c.dy,'text-anchor':c.a,class:'m-lab sm'},c.n));
+    g.setAttribute('aria-label',found.has(k)?c.n:'Ville inconnue');tap(g,()=>pick(k));layer.append(g);});}
+  function pick(k){if(!queue.length)return;const target=queue[0];
+    if(k===target){found.add(k);queue.shift();wrong=null;msg.textContent='Oui : '+CITIES[k].n+' est le chef-lieu de la province '+CITIES[k].pd+'.';if(!queue.length)done();}
+    else if(found.has(k))msg.textContent=CITIES[k].n+' est déjà trouvée.';
+    else{errors++;wrong=k;msg.textContent='Non : ce point, c’est '+CITIES[k].n+', chef-lieu de la province '+CITIES[k].pd+'. Essaie encore.';}
+    draw();ask();}
+  draw();ask();
+  root.append(h('p',{class:'lead'},'Retrouve les 10 chefs-lieux (carte 1). Une erreur te montre le nom du point touché : sers-t’en pour t’orienter.'),prompt,h('div',{class:'mapbox'},svg),msg,
+    h('div',{class:'row'},h('button',{type:'button',class:'btn ghost',onclick:()=>{root.replaceChildren();stepChefs(root,done);}},'Recommencer')));
+}
+function stepProv(root,done){
+  sortBins(root,{lead:'Classe chaque province (et son chef-lieu) dans la bonne région.',cols:3,
+    bins:[{id:'F',label:'Région flamande',desc:'au nord'},{id:'W',label:'Région wallonne',desc:'au sud'},{id:'B',label:'Ni l’une ni l’autre',desc:'une région à part'}],
+    items:[{t:'Flandre-Occidentale (Bruges)',b:'F',why:'Bruges est au nord-ouest, près de la mer du Nord.'},{t:'Flandre-Orientale (Gand)',b:'F',why:'Gand est au nord, sur l’Escaut.'},{t:'Anvers (Anvers)',b:'F',why:'Anvers est au nord, près des Pays-Bas.'},{t:'Brabant flamand (Louvain)',b:'F',why:'« Flamand » est dans son nom.'},{t:'Limbourg (Hasselt)',b:'F',why:'Hasselt est au nord-est, près des Pays-Bas.'},
+      {t:'Hainaut (Mons)',b:'W',why:'Mons est au sud-ouest, près de la France.'},{t:'Brabant wallon (Wavre)',b:'W',why:'« Wallon » est dans son nom.'},{t:'Namur (Namur)',b:'W',why:'Namur est sur la Meuse, au centre-sud.'},{t:'Liège (Liège)',b:'W',why:'Liège est à l’est, sur la Meuse.'},{t:'Luxembourg (Arlon)',b:'W',why:'Arlon est tout au sud, près du Grand-Duché.'},
+      {t:'Bruxelles-Capitale (19 communes)',b:'B',why:'Bruxelles-Capitale est une région à elle seule, entourée par la Flandre.'}]},done);
+}
+function stepZones(root,done){
+  let sel=null;const visited=new Set();let fired=false;const holder=h('div',{class:'mapbox'}),info=h('div',{class:'zinfo','aria-live':'polite'});
+  function draw(){holder.replaceChildren(zonesMap({sel,onPick:id=>{sel=id;visited.add(id);draw();}}));
+    info.replaceChildren();
+    if(!sel)info.append(h('p',{class:'muted'},'Touche une zone de la carte pour voir ce que disent les cartes 5, 6 et 7 à son sujet.'));
+    else{const z=ZINFO[sel];info.append(h('h4',{},z.name),h('p',{class:'small muted'},z.where),h('dl',{},h('dt',{},'Carte 5'),h('dd',{},z.c5),h('dt',{},'Carte 6'),h('dd',{},z.c6),h('dt',{},'Carte 7'),h('dd',{},z.c7)),h('p',{class:'zlink'},'Le lien : '+z.link));}
+    info.append(h('p',{class:'small muted'},'Zones consultées : '+visited.size+' sur 3.'));
+    if(!fired&&visited.size===3){fired=true;done();}}
+  root.append(h('p',{class:'lead'},'La consigne demande de créer des liens entre les documents. Ici, les trois cartes sont réunies pour chaque zone de la Wallonie.'),h('div',{class:'zlayout'},holder,info));
+  draw();
+}
+function stepWrite(root,done){
+  const d=need(2,done);
+  root.append(h('h4',{},'A. Relier les cartes'));
+  cloze(root,[['Sur la carte 7, le nord de la Wallonie est surtout couvert de ',{a:['grandes cultures','prairies permanentes','forêts']},'. Sur la carte 5, on y trouve ',{a:['peu','beaucoup']},' d’exploitations laitières. Au sud du sillon et surtout à l’',{a:['est','ouest']},', la SAU est surtout faite de ',{a:['prairies permanentes','grandes cultures','vignes']},' : les vaches y trouvent l’herbe dont elles ont besoin. C’est pourquoi la part d’exploitations laitières y atteint ',{a:['75 % ou plus','moins de 15 %','0 %']},'. La carte 6 montre que cette zone correspond à la ',{a:['Haute Ardenne','Région limoneuse','Campine hennuyère']},', une zone plus fraîche et plus humide.']],d);
+  root.append(h('h4',{style:'margin-top:22px'},'B. Localiser puis situer les régions laitières'));
+  cloze(root,[
+    ['Localisation : les régions laitières belges se trouvent dans l’hémisphère ',{a:['Nord','Sud']},', entre le tropique du Cancer et le cercle polaire ',{a:['arctique','antarctique']},', sur le continent ',{a:['européen','africain']},', en ',{a:['Belgique','France','Allemagne']},', surtout en Région ',{a:['wallonne','flamande']},', dans l’est de la province de ',{a:['Liège','Hainaut','Namur']},'.'],
+    ['Situation : elles sont situées au ',{a:['sud','nord']},' du sillon Sambre-et-Meuse, à l’',{a:['est','ouest']},' de Liège, autour de Verviers et d’Eupen, près de la frontière avec l’',{a:['Allemagne','Espagne']},'.']],d,'Ce texte complète la réponse commencée dans ton cahier.');
+}
+
+/* ---------- étapes : enjeux et défis ---------- */
+function stepDocs(root,done){
+  const ans=DOCS.map(()=>null),opts=DOCS.map(d=>shuffle(d.o.map((t,i)=>({t,i}))));let i=0,fired=false,showTable=false;
+  function fiche(d){return h('dl',{class:'fiche'},h('dt',{},'Problème'),h('dd',{},d.pb),h('dt',{},'Répercussions'),h('dd',{},d.rep),h('dt',{},'Région'),h('dd',{},d.reg),h('dt',{},'Date'),h('dd',{},d.date));}
+  function draw(){root.replaceChildren();const d=DOCS[i];
+    root.append(h('p',{class:'lead'},'Comme dans le tableau de la page 8 : pour chaque document, cible le réel problème. La fiche (répercussions, région, date) s’affiche ensuite.'));
+    root.append(h('div',{class:'docnav',role:'group','aria-label':'Documents'},DOCS.map((x,k)=>h('button',{type:'button',class:(k===i?'cur':'')+(ans[k]===0?' ok':ans[k]!=null?' ko':''),'aria-current':k===i?'true':null,onclick:()=>{i=k;draw();}},'Doc. '+x.n))));
+    root.append(h('article',{class:'doc'},h('div',{class:'dochead'},h('span',{class:'docnum'},d.n),h('h4',{},d.titre)),h('p',{},d.res)));
+    const q=h('div',{class:'q'},h('p',{class:'stmt'},'Quel est le réel problème évoqué ?'));const ol=h('div',{class:'opts'});const a=ans[i];
+    opts[i].forEach(o=>ol.append(h('button',{type:'button',class:'opt'+(a!==null&&o.i===0?' ok':'')+(a===o.i&&o.i!==0?' ko':'')+(a!==null&&o.i!==0&&a!==o.i?' dim':''),disabled:a!==null,onclick:()=>{ans[i]=o.i;draw();}},o.t)));
+    q.append(ol);if(a!==null){q.append(h('p',{class:'fb '+(a===0?'ok':'ko')},a===0?'Oui, c’est bien le cœur du document.':'Non : relis le document. Le réel problème est « '+d.o[0]+' »'),fiche(d));}
+    root.append(q);
+    root.append(h('div',{class:'row'},h('button',{type:'button',class:'btn ghost',disabled:i===0,onclick:()=>{i--;draw();}},'Document précédent'),h('button',{type:'button',class:'btn',disabled:i===DOCS.length-1,onclick:()=>{i++;draw();}},'Document suivant')));
+    const n=ans.filter(x=>x!==null).length;
+    root.append(h('p',{class:'small muted'},'Documents analysés : '+n+' sur 8.'));
+    if(n===8){if(!fired){fired=true;done();}
+      root.append(h('button',{type:'button',class:'btn ghost',onclick:()=>{showTable=!showTable;draw();}},showTable?'Cacher le tableau':'Voir le tableau complet'));
+      if(showTable)root.append(h('div',{class:'tablewrap'},h('table',{},h('thead',{},h('tr',{},['Doc.','Problème','Répercussions','Région','Date'].map(t=>h('th',{scope:'col'},t)))),h('tbody',{},DOCS.map(x=>h('tr',{},h('td',{},x.n),h('td',{},x.pb),h('td',{},x.rep),h('td',{},x.reg),h('td',{},x.date)))))));}
+  }
+  draw();
+}
+function stepFigures(root,done){
+  const d=need(2,done);const sc=v=>(v/50*100)+'%';
+  root.append(h('h4',{},'Prix et coûts d’un litre de lait (doc. 5)'),
+    h('div',{class:'bars'},
+      h('div',{class:'brow'},h('span',{},'Prix payé à l’éleveur'),h('div',{class:'btrack'},h('div',{class:'bfill',style:'width:'+sc(30)}),h('div',{class:'brange',style:'left:'+sc(30)+';width:'+sc(3)}),h('span',{class:'bval',style:'left:'+sc(33)},'30 à 33 cents'))),
+      h('div',{class:'brow cost'},h('span',{},'Coûts sans salaire'),h('div',{class:'btrack'},h('div',{class:'bfill',style:'width:'+sc(30)}),h('div',{class:'brange',style:'left:'+sc(30)+';width:'+sc(3)}),h('span',{class:'bval',style:'left:'+sc(33)},'30 à 33 cents'))),
+      h('div',{class:'brow cost'},h('span',{},'Coûts avec le salaire de l’éleveur'),h('div',{class:'btrack'},h('div',{class:'bfill',style:'width:'+sc(43)}),h('div',{class:'brange',style:'left:'+sc(43)+';width:'+sc(2)}),h('span',{class:'bval',style:'left:'+sc(45)},'43 à 45')))),
+    h('p',{class:'note'},'Il manque 10 à 15 cents par litre pour que l’éleveur puisse se payer un salaire.'));
+  cloze(root,[['Le lait est payé ',{a:['30 à 33 cents','43 à 45 cents','1 euro']},' le litre. Le produire coûte ',{a:['43 à 45 cents','20 cents','30 à 33 cents']},' si l’on compte le salaire de l’éleveur. Les éleveurs peuvent payer leurs factures, mais ',{a:['pas se verser de salaire','s’enrichir','embaucher des ouvriers']},'.']],d);
+  const dr=(lab,v)=>{const w=Math.abs(v)/260*100;return h('div',{class:'drow'},h('span',{},lab),h('div',{class:'dneg'},v<0?[h('i',{style:'width:'+w+'%'}),h('span',{style:'right:calc('+w+'% + 4px)'},v+' %')]:null),h('div',{class:'dpos'},v>0?[h('i',{style:'width:'+w+'%'}),h('span',{style:'left:calc('+w+'% + 4px)'},'+'+v+' %')]:null));};
+  root.append(h('h4',{style:'margin-top:22px'},'Ce qui a changé entre 1990 et 2012 (doc. 8)'),
+    h('div',{class:'div'},dr('Nombre d’éleveurs',-68),dr('Nombre de vaches laitières',-48),dr('Vaches par ferme',67),dr('Lait produit par ferme',252)),
+    h('p',{class:'note'},'Moins de fermes, mais des fermes plus grandes qui produisent beaucoup plus : le volume total de lait reste assez stable.'));
+  cloze(root,[['Entre 1990 et 2012, le nombre d’éleveurs laitiers wallons a ',{a:['baissé de 68 %','augmenté de 68 %','baissé de 48 %']},', et le nombre de vaches laitières a ',{a:['baissé de 48 %','augmenté de 67 %','baissé de 68 %']},'. Mais chaque ferme a en moyenne ',{a:['67 % de vaches en plus','67 % de vaches en moins','252 % de vaches en plus']},' et produit ',{a:['252 % de lait en plus','252 % de lait en moins','48 % de lait en plus']},'. Au total, le volume de lait produit en Belgique est resté ',{a:['assez stable','en forte baisse','en forte hausse']},'.']],d);
+}
+function stepTimeline(root,done){
+  orderList(root,{lead:'Range les événements du plus ancien au plus récent. Cette frise t’aidera pour le texte sur les enjeux « depuis les années 2000 ».',
+    items:['1990 à 2012 : les fermes laitières deviennent moins nombreuses mais plus grandes (doc. 8)','2015 : fin des quotas laitiers, puis surproduction (doc. 3)','2020 : crise du Covid-19, exportations et Horeca à l’arrêt (doc. 6)','2022 : seule année « rentable » pour le prix du lait entre 2020 et 2023 (doc. 1)','2024 : épidémie de FCO, production en forte baisse en août (doc. 2)'],
+    win:'Bon ordre ! Remarque : les crises se succèdent sans laisser aux éleveurs le temps de se relever.'},done);
+}
+function stepChains(root,done){
+  const d=need(2,done);
+  root.append(h('h4',{},'Chaîne 1 : la fin des quotas (doc. 3)'));
+  orderList(root,{lead:'Remets les causes et les conséquences dans l’ordre.',items:['L’Union européenne supprime les quotas laitiers (2015).','Les éleveurs produisent davantage : c’est la surproduction.','Il y a plus de lait que d’acheteurs : les prix chutent.','La survie de nombreuses exploitations est menacée.']},d);
+  root.append(h('h4',{style:'margin-top:22px'},'Chaîne 2 : la crise du Covid-19 (doc. 6)'));
+  orderList(root,{items:['Le coronavirus freine les exportations et fait fermer l’Horeca.','La demande de lait baisse alors que l’offre est au plus haut.','Le prix du litre descend de jour en jour.','Le prix ne couvre plus les coûts : l’agriculture familiale risque de disparaître.']},d);
+}
+function stepSynth(root,done){
+  const part2=h('div',{hidden:true});
+  root.append(h('p',{class:'lead'},'Dernière consigne de la page 11 : rédiger un petit texte, avec tes mots, sur les grands enjeux du secteur laitier wallon depuis les années 2000. Commence par compléter ce texte modèle.'));
+  cloze(root,[['Depuis les années 2000, le secteur laitier wallon traverse plusieurs crises. D’abord, le prix du lait payé aux éleveurs est souvent ',{a:['trop bas','trop élevé']},' et il varie beaucoup : il ne couvre pas les ',{a:['coûts de production','quotas','exportations']},' quand on compte le salaire de l’éleveur. En ',{a:['2015','2020','2024']},', la fin des quotas laitiers a provoqué une ',{a:['surproduction','pénurie']},' qui a fait chuter les prix. Des crises imprévues aggravent la situation : le ',{a:['Covid-19','Brexit']},' a bloqué les exportations et fermé l’Horeca en 2020, puis la ',{a:['FCO','sécheresse']},' a fait baisser la production en 2024. Résultat : beaucoup de petites fermes ',{a:['disparaissent','s’agrandissent']},' pendant que les autres grandissent, et de nombreux éleveurs s’endettent. Pour s’en sortir, certains misent sur les ',{a:['circuits courts','grandes surfaces','importations']},', le bio ou les coopératives.']],()=>{part2.hidden=false;done();});
+  const ta=h('textarea',{'aria-label':'Mon texte sur les enjeux du secteur laitier',placeholder:'Écris ici ton texte, avec tes propres mots…'});ta.value=store.texts.synth||'';ta.addEventListener('input',()=>{store.texts.synth=ta.value;save();});
+  const checks=['J’ai parlé du prix du lait (bas et instable).','J’ai comparé le prix et les coûts de production.','J’ai cité la fin des quotas (2015) et la surproduction.','J’ai cité au moins une crise : Covid-19 (2020) ou FCO (2024).','J’ai parlé de la disparition des fermes ou de l’endettement.','J’ai cité au moins une solution.','J’ai utilisé mes propres mots, sans recopier les documents.'];
+  store.texts.chk=store.texts.chk||[];
+  part2.append(h('h4',{style:'margin-top:22px'},'À toi : ton propre texte'),h('p',{class:'lead'},'Cache le texte modèle dans ta tête : reformule, change l’ordre, ajoute des exemples chiffrés. Ton texte reste enregistré sur cet appareil.'),ta,
+    h('div',{class:'check'},h('p',{class:'stmt'},'Relis-toi et coche :'),checks.map((c,k)=>{const cb=h('input',{type:'checkbox'});cb.checked=!!store.texts.chk[k];cb.addEventListener('change',()=>{store.texts.chk[k]=cb.checked;save();});return h('label',{},cb,h('span',{},c));})));
+  root.append(part2);
+}
+
+/* ---------- étapes : grille ACVP ---------- */
+function acvpBoard(onPick,cur,seen){
+  const cell=id=>h('button',{type:'button',class:'acell '+id+(seen&&seen.has(id)?' seen':'')+(cur===id?' cur':''),onclick:()=>onPick&&onPick(id)},h('b',{},ACVP_DEF[id].n),h('span',{class:'small'},id==='A'||id==='P'?'positif':'négatif'));
+  return h('div',{class:'acvp'},h('span',{class:'h e'}),h('span',{class:'h'},'Positif'),h('span',{class:'h'},'Négatif'),
+    h('div',{class:'rh'},'Site → aménagement : en quoi le lieu favorise-t-il ou gêne-t-il l’élevage ?'),cell('A'),cell('C'),
+    h('div',{class:'rh'},'Aménagement → site : quels effets positifs ou négatifs l’élevage a-t-il sur le lieu ?'),cell('P'),cell('V'));
+}
+function stepACVPIntro(root,done){
+  let cur=null;const seen=new Set();let fired=false;const box=h('div'),info=h('div',{class:'note','aria-live':'polite'});
+  function draw(){box.replaceChildren(acvpBoard(id=>{cur=id;seen.add(id);draw();},cur,seen));
+    info.replaceChildren(cur?[h('p',{class:'stmt'},ACVP_DEF[cur].n),h('p',{},ACVP_DEF[cur].d),h('p',{class:'small'},'Exemple : '+ACVP_DEF[cur].ex)]:h('p',{},'Touche chaque case de la grille pour découvrir ce qu’elle contient.'));
+    if(!fired&&seen.size===4){fired=true;info.append(h('p',{class:'zlink'},'Astuce : si la phrase décrit le lieu (sol, climat, prix du marché…), c’est A ou C. Si elle décrit ce que l’élevage apporte ou abîme, c’est P ou V.'));done();}
+    else if(fired)info.append(h('p',{class:'zlink'},'Astuce : si la phrase décrit le lieu (sol, climat, prix du marché…), c’est A ou C. Si elle décrit ce que l’élevage apporte ou abîme, c’est P ou V.'));}
+  root.append(h('p',{class:'lead'},'Le site, c’est le lieu (la Wallonie, ses sols, son climat, son marché). L’aménagement, c’est l’activité humaine : l’élevage laitier.'),box,info);
+  draw();
+}
+function stepACVPSort(root,done){
+  sortBins(root,{lead:'Classe les 16 cartes dans la grille ACVP du secteur laitier wallon. Touche une carte, puis une case.',cols:2,wide:true,
+    bins:[{id:'A',label:'Atouts',desc:'le lieu favorise l’élevage'},{id:'C',label:'Contraintes',desc:'le lieu gêne l’élevage'},{id:'P',label:'Potentialités',desc:'l’élevage apporte du positif'},{id:'V',label:'Vulnérabilités',desc:'l’élevage crée du négatif, des fragilités'}],
+    items:ACVP_ITEMS},done);
+}
+function stepACVPOwn(root,done){
+  store.texts.acvp=store.texts.acvp||{};const grid=h('div',{class:'grid4'});
+  ['A','C','P','V'].forEach(id=>{const ta=h('textarea',{id:'ta'+id});ta.value=store.texts.acvp[id]||'';ta.addEventListener('input',()=>{store.texts.acvp[id]=ta.value;save();});grid.append(h('div',{},h('label',{for:'ta'+id},ACVP_DEF[id].n+' ('+ACVP_DEF[id].d.toLowerCase().replace(/\.$/,'')+')'),ta));});
+  const model=h('div',{class:'grid4 model',hidden:true},['A','C','P','V'].map(id=>h('div',{class:'card2'},h('h4',{},ACVP_DEF[id].n),h('ul',{},ACVP_ITEMS.filter(x=>x.b===id).map(x=>h('li',{},x.t))))));
+  root.append(h('p',{class:'lead'},'La consigne demande une grille ACVP sur une feuille à part. Prépare-la ici avec tes mots (elle reste enregistrée sur cet appareil), puis compare avec le modèle.'),
+    h('p',{class:'stmt'},'Titre : Grille ACVP sur le secteur laitier en Wallonie'),grid,
+    h('div',{class:'row'},h('button',{type:'button',class:'btn',onclick:e=>{model.hidden=!model.hidden;e.target.textContent=model.hidden?'Comparer avec un modèle':'Cacher le modèle';if(!model.hidden)done();}},'Comparer avec un modèle')),model);
+}
+
+/* ---------- quiz ---------- */
+function stepQuiz(root,done){
+  let items,idx,pts,max,missed;
+  function start(){items=shuffle(shuffle(QCM).slice(0,9).map(q=>({k:'q',q})).concat(shuffle(VF).slice(0,3).map(q=>({k:'v',q}))));idx=0;pts=0;max=items.reduce((a,it)=>a+(it.k==='q'?1:2),0);missed=[];show();}
+  function show(){root.replaceChildren();if(idx>=items.length)return end();const it=items[idx];
+    root.append(h('p',{class:'lead'},'12 questions tirées au hasard parmi 40 : refais le quiz plusieurs jours de suite, les questions changent. Les « vrai ou faux » demandent aussi une justification.'),
+      h('p',{class:'counter'},'Question '+(idx+1)+' sur '+items.length),h('div',{class:'progress'},h('i',{style:'width:'+Math.round(idx/items.length*100)+'%'})));
+    const box=h('div',{class:'q'});root.append(box);
+    const next=h('button',{type:'button',class:'btn',hidden:true,onclick:()=>{idx++;show();}},idx===items.length-1?'Voir mon score':'Question suivante');
+    if(it.k==='q')qcm(box,it.q,ok=>{if(ok)pts++;else missed.push(it);next.hidden=false;});else vf(box,it.q,p=>{pts+=p;if(p<2)missed.push(it);next.hidden=false;});
+    root.append(h('div',{class:'row'},next));}
+  function qcm(box,q,cb){const opts=shuffle(q.o.map((t,i)=>({t,i})));let a=null;
+    function d(){box.replaceChildren(h('p',{class:'stmt'},q.q));const ol=h('div',{class:'opts'});
+      opts.forEach(o=>ol.append(h('button',{type:'button',class:'opt'+(a!==null&&o.i===0?' ok':'')+(a===o.i&&o.i!==0?' ko':'')+(a!==null&&o.i!==0&&a!==o.i?' dim':''),disabled:a!==null,onclick:()=>{a=o.i;d();cb(a===0);}},o.t)));
+      box.append(ol);if(a!==null)box.append(h('p',{class:'fb '+(a===0?'ok':'ko')},(a===0?'Exact. ':'Non. La bonne réponse : '+q.o[0]+'. ')+q.w));}
+    d();}
+  function vf(box,q,cb){let v=null,w=null;const ord=shuffle(q.why.map((t,i)=>({t,i})));
+    function d(){box.replaceChildren(h('p',{class:'stmt'},'Vrai ou faux ? '+q.s));const row=h('div',{class:'row'});
+      [['Vrai',true],['Faux',false]].forEach(([l,val])=>row.append(h('button',{type:'button',class:'btn ghost'+(v!==null&&val===q.v?' ok':'')+(v===val&&val!==q.v?' ko':''),disabled:v!==null,onclick:()=>{v=val;d();}},l)));box.append(row);
+      if(v!==null){box.append(h('p',{class:'fb '+(v===q.v?'ok':'ko')},(v===q.v?'Oui, c’est ':'Non, c’est ')+(q.v?'vrai':'faux')+'. Choisis maintenant la bonne justification :'));
+        const ol=h('div',{class:'opts'});ord.forEach(o=>ol.append(h('button',{type:'button',class:'opt'+(w!==null&&o.i===0?' ok':'')+(w===o.i&&o.i!==0?' ko':'')+(w!==null&&o.i!==0&&w!==o.i?' dim':''),disabled:w!==null,onclick:()=>{w=o.i;d();cb((v===q.v?1:0)+(w===0?1:0));}},o.t)));box.append(ol);
+        if(w!==null)box.append(h('p',{class:'fb '+(w===0?'ok':'ko')},(w===0?'Bonne justification. ':'Ce n’est pas la bonne raison. La bonne : '+q.why[0]+' ')+q.e));}}
+    d();}
+  function end(){const pct=Math.round(pts/max*100);if(store.best==null||pct>store.best){store.best=pct;save();}
+    const verdict=pct>=85?'Excellent : la leçon est bien en mémoire.':pct>=60?'Bien : revois les questions ratées, puis refais le quiz demain.':'Reprends les parties indiquées ci-dessous, puis refais le quiz.';
+    root.append(h('div',{class:'done-box'},h('p',{class:'big'},pts+' / '+max),h('p',{},verdict+' Meilleur score : '+store.best+' %.'),h('button',{type:'button',class:'btn',onclick:start},'Nouveau quiz')));
+    if(missed.length){root.append(h('h4',{},'À revoir'));missed.forEach(it=>{const q=it.q;root.append(h('div',{class:'q'},h('p',{class:'stmt'},it.k==='q'?q.q:'Vrai ou faux ? '+q.s),
+      h('p',{},it.k==='q'?'Réponse : '+q.o[0]+'. '+q.w:'Réponse : '+(q.v?'vrai':'faux')+'. '+q.why[0]),
+      h('button',{type:'button',class:'btn ghost',onclick:()=>openModule(q.m,0)},'Revoir : '+MODS[q.m].title)));});}
+    done();refreshNav();}
+  start();
+}
+
+/* ---------- parties ---------- */
+const MODS=[
+ {id:'mots',title:'Mots-clés',sub:'Le vocabulaire d’abord : il libère ta mémoire pour lire les cartes et les documents.',
+  key:['Une ressource vient de la nature ; le lait vient de la biosphère et il est renouvelable.','Localiser = zoomer ; situer = repères proches + points cardinaux.','SAU = superficie agricole utilisée. Prairies permanentes au sud, grandes cultures au nord.','ACVP = atouts, contraintes, potentialités, vulnérabilités.'],
+  steps:[{t:'Cartes-éclair',r:stepFlash},{t:'Associer mot et définition',r:stepMatch}]},
+ {id:'res',title:'1. Le lait, une ressource',sub:'D’où vient le lait, et ce que l’élevage intensif change pour les vaches.',
+  key:['Le lait vient de la biosphère : il est produit par un être vivant, la vache, qui mange de l’herbe.','C’est une ressource de la nature vivante, et une ressource renouvelable.','Une vache laitière (race Prim’Holstein) donne environ 28 L par jour pendant 10 mois, contre 4 L pour une vache élevée pour sa viande.','Revers de l’élevage intensif : problèmes de fertilité, de métabolisme et de santé ; les vaches sont abattues après leur 3e lactation alors qu’elles pourraient vivre 20 ans.'],
+  steps:[{t:'D’où vient le lait ?',r:stepSource},{t:'Les vaches laitières en chiffres',r:stepCows}]},
+ {id:'loc',title:'2. Localiser et situer',sub:'Où sont les éleveurs laitiers en Belgique, et pourquoi là ?',
+  key:['Localiser = zoomer du plus grand espace au plus petit : hémisphère, entre tropique et cercle polaire, continent, pays, région, province.','Situer = placer par rapport à des repères proches, avec les points cardinaux : villes, fleuves, frontières.','La Belgique : 3 régions (flamande, wallonne, Bruxelles-Capitale), 3 communautés (flamande, française, germanophone), 10 provinces.','Nord du sillon Sambre-et-Meuse : grandes cultures, peu d’exploitations laitières. Sud et surtout est (région herbagère, Haute Ardenne) : prairies permanentes, jusqu’à 75 % d’exploitations laitières et plus.'],
+  steps:[{t:'Localiser ou situer ?',r:stepMethod},{t:'Le zoom',r:stepZoom},{t:'Explorer la carte',r:stepExplore},{t:'Placer les étiquettes',r:stepLabels},{t:'Les chefs-lieux',r:stepChefs},{t:'Provinces et régions',r:stepProv},{t:'Lire les cartes 5, 6 et 7',r:stepZones},{t:'Relier et rédiger',r:stepWrite}]},
+ {id:'enj',title:'3. Enjeux et défis',sub:'Pourquoi tant d’éleveurs laitiers sont-ils en difficulté ?',
+  key:['Un prix du lait bas et instable, souvent sous les coûts de production : 30 à 33 cents payés, 43 à 45 cents de coûts avec salaire.','2015 : fin des quotas laitiers, donc surproduction, donc chute des prix.','Des crises : le Covid-19 en 2020, la FCO en 2024.','1990 à 2012 : moins de fermes mais plus grandes ; endettement et mal-être des éleveurs.','Des pistes : circuit court, bio, coopératives paysannes.'],
+  steps:[{t:'Enquête sur les 8 documents',r:stepDocs},{t:'Les chiffres clés',r:stepFigures},{t:'La frise',r:stepTimeline},{t:'Causes et conséquences',r:stepChains},{t:'Rédiger la synthèse',r:stepSynth}]},
+ {id:'acvp',title:'4. Grille ACVP',sub:'Analyser le secteur laitier wallon en quatre cases.',
+  key:['Site → aménagement : atouts (+) et contraintes (−) du lieu pour l’élevage.','Aménagement → site : potentialités (+) et vulnérabilités (−), les effets de l’élevage sur le lieu.','Astuce : la phrase décrit le lieu ? A ou C. Elle décrit ce que l’élevage apporte ou abîme ? P ou V.'],
+  steps:[{t:'Comprendre la grille',r:stepACVPIntro},{t:'Classer les cartes',r:stepACVPSort},{t:'Ta grille',r:stepACVPOwn}]},
+ {id:'quiz',title:'Quiz final',sub:'Vérifie ce que tu as compris et retenu.',steps:[{t:'Quiz',r:stepQuiz}]}
+];
+
+/* ---------- navigation ---------- */
+const nav=document.getElementById('modnav'),panel=document.getElementById('panel');
+let cur={mi:0,si:0};let pillBox=null;
+function stepDone(mi,si){return !!store.done[MODS[mi].id+':'+si];}
+function refreshNav(){nav.replaceChildren();MODS.forEach((m,i)=>{const n=m.steps.filter((_,k)=>stepDone(i,k)).length;const full=n===m.steps.length;
+  nav.append(h('button',{type:'button',class:'modbtn'+(i===cur.mi?' cur':'')+(full?' full':''),'aria-current':i===cur.mi?'true':null,onclick:()=>openModule(i,0)},h('b',{},m.title),h('span',{},m.id==='quiz'?(store.best!=null?'Meilleur score : '+store.best+' %':'Pas encore fait'):(full?'Terminé':n+' sur '+m.steps.length+' étapes'))));});
+  if(pillBox)paintPills();}
+function paintPills(){const m=MODS[cur.mi];pillBox.replaceChildren();if(m.steps.length<2)return;m.steps.forEach((st,k)=>pillBox.append(h('button',{type:'button',class:'stp'+(k===cur.si?' cur':'')+(stepDone(cur.mi,k)?' ok':''),'aria-current':k===cur.si?'step':null,onclick:()=>openModule(cur.mi,k)},(stepDone(cur.mi,k)?'✓ ':'')+st.t)));}
+function openModule(mi,si,noScroll){const m=MODS[mi];if(!m||!m.steps[si])return;cur={mi,si};panel.replaceChildren();
+  panel.append(h('div',{class:'phead'},h('h2',{},m.title),h('p',{class:'muted'},m.sub)));
+  if(m.key){const first=!store.seen[m.id];store.seen[m.id]=true;save();panel.append(keyBox(m.key,first));}
+  pillBox=h('div',{class:'steps',role:'group','aria-label':'Étapes'});panel.append(pillBox);paintPills();
+  const st=m.steps[si];const body=h('div',{class:'stepbody'});const area=h('div');
+  body.append(h('h3',{},st.t),area);panel.append(body);
+  st.r(area,()=>{const k=m.id+':'+si;if(!store.done[k]){store.done[k]=true;save();}refreshNav();});
+  const nr=h('div',{class:'nextrow'});
+  if(si<m.steps.length-1)nr.append(h('button',{type:'button',class:'btn ghost',onclick:()=>openModule(mi,si+1)},'Étape suivante : '+m.steps[si+1].t));
+  else if(mi<MODS.length-1)nr.append(h('button',{type:'button',class:'btn ghost',onclick:()=>openModule(mi+1,0)},'Partie suivante : '+MODS[mi+1].title));
+  panel.append(nr);
+  refreshNav();
+  if(!noScroll)panel.scrollIntoView({behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth',block:'start'});
+}
+
+/* ---------- accessibilité ---------- */
+const bFs=document.getElementById('bFs'),bSp=document.getElementById('bSp');
+function applyA11y(){document.documentElement.style.setProperty('--fs',store.big?'20px':'17px');document.body.classList.toggle('spaced',!!store.spaced);bFs.setAttribute('aria-pressed',String(!!store.big));bSp.setAttribute('aria-pressed',String(!!store.spaced));}
+bFs.onclick=()=>{store.big=!store.big;save();applyA11y();};bSp.onclick=()=>{store.spaced=!store.spaced;save();applyA11y();};
+applyA11y();
+
+document.getElementById('heroMap').prepend(zonesMap({label:true}));
+openModule(0,0,true);
+</script>
+</body>
+</html>
