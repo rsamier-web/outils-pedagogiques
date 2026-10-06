@@ -1,0 +1,1389 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Du relatif à Pythagore</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;500;600;700&family=Noto+Sans+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+/* Mise en page : une fenêtre KDE — barre de titre, panneau latéral « Emplacements », vue principale à onglets */
+:root{
+  --window:#eff0f1; --view:#fcfcfc; --header:#e3e5e7; --alt:#f4f5f6; --btn:#f7f8f8; --field:#ffffff;
+  --text:#232629; --muted:#5b646d; --border:#c2c7cb; --line:#dde0e3; --hover:rgba(61,174,233,.09);
+  --accent:#3daee9; --accent-ink:#1a6c9c; --accent-soft:rgba(61,174,233,.15);
+  --good:#1e8a4f; --good-soft:rgba(39,174,96,.11); --bad:#c0364a; --bad-soft:rgba(218,68,83,.09);
+  --warn:#b85900; --warn-soft:rgba(246,116,0,.11);
+  --plus:#1a6c9c; --minus:#b85900; --area:#2b8fc8; --area-soft:rgba(61,174,233,.17); --len:#8a3fb0; --len-soft:rgba(142,68,173,.13);
+  --font:"Noto Sans",ui-sans-serif,system-ui,"Segoe UI",Roboto,Arial,sans-serif;
+  --mono:"Noto Sans Mono",ui-monospace,Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --window:#232629; --view:#1b1e20; --header:#2a2e32; --alt:#202326; --btn:#2c3136; --field:#141618;
+  --text:#eff0f1; --muted:#a2aab2; --border:#434a51; --line:#33383d; --hover:rgba(61,174,233,.11);
+  --accent:#3daee9; --accent-ink:#72c6f0; --accent-soft:rgba(61,174,233,.2);
+  --good:#41c77f; --good-soft:rgba(39,174,96,.16); --bad:#f26b7d; --bad-soft:rgba(218,68,83,.16);
+  --warn:#ff9d45; --warn-soft:rgba(246,116,0,.16);
+  --plus:#72c6f0; --minus:#ff9d45; --area:#5bbcf0; --area-soft:rgba(61,174,233,.2); --len:#c690e6; --len-soft:rgba(155,89,182,.22);
+  color-scheme:dark }}
+:root[data-theme="dark"]{
+  --window:#232629; --view:#1b1e20; --header:#2a2e32; --alt:#202326; --btn:#2c3136; --field:#141618;
+  --text:#eff0f1; --muted:#a2aab2; --border:#434a51; --line:#33383d; --hover:rgba(61,174,233,.11);
+  --accent:#3daee9; --accent-ink:#72c6f0; --accent-soft:rgba(61,174,233,.2);
+  --good:#41c77f; --good-soft:rgba(39,174,96,.16); --bad:#f26b7d; --bad-soft:rgba(218,68,83,.16);
+  --warn:#ff9d45; --warn-soft:rgba(246,116,0,.16);
+  --plus:#72c6f0; --minus:#ff9d45; --area:#5bbcf0; --area-soft:rgba(61,174,233,.2); --len:#c690e6; --len-soft:rgba(155,89,182,.22);
+  color-scheme:dark }
+
+*,*::before,*::after{box-sizing:border-box}
+body{margin:0;background:var(--window);color:var(--text);font-family:var(--font)}
+.app{font-size:15px;line-height:1.55;min-height:100vh;display:flex;flex-direction:column}
+.app.big{font-size:18px;line-height:1.75;letter-spacing:.015em;word-spacing:.06em}
+button,input{font:inherit;color:inherit;letter-spacing:inherit}
+h2,h3,h4{text-wrap:balance;margin:0;line-height:1.3}
+p{margin:0}
+b{font-weight:600}
+:focus-visible{outline:2px solid var(--accent);outline-offset:1px;border-radius:3px}
+sup{font-size:.7em;line-height:0}
+.rad{white-space:nowrap}
+.rad-sign{padding-right:.04em}
+.rad-in{border-top:1.5px solid currentColor;padding:0 .14em 0 .1em}
+.p{color:var(--plus);font-weight:600}.m{color:var(--minus);font-weight:600}
+.ca{color:var(--area);font-weight:600}.cl{color:var(--len);font-weight:600}
+.muted{color:var(--muted)}
+.num{font-variant-numeric:tabular-nums}
+
+/* Barre de titre */
+.titlebar{position:sticky;top:env(safe-area-inset-top,0px);z-index:10;display:flex;align-items:center;gap:.7em;padding:.4em 16px;background:var(--header);border-bottom:1px solid var(--border);min-height:46px}
+.titlebar svg{flex:none}
+.tb-name{font-weight:600}
+.tb-sub{color:var(--muted);font-size:.87em}
+.spacer{flex:1}
+.prog{display:flex;align-items:center;gap:.55em;font-size:.85em;color:var(--muted);font-variant-numeric:tabular-nums}
+.bar{width:110px;height:6px;border-radius:3px;background:var(--line);overflow:hidden}
+.bar>span{display:block;height:100%;background:var(--accent);transition:width .3s}
+.switch{display:inline-flex;align-items:center;gap:.45em;font-size:.87em;cursor:pointer;background:none;border:0;padding:.3em .2em}
+.switch .track{width:30px;height:16px;border-radius:8px;border:1px solid var(--border);background:var(--field);position:relative;transition:background .2s}
+.switch .track::after{content:"";position:absolute;top:2px;left:2px;width:10px;height:10px;border-radius:50%;background:var(--muted);transition:transform .2s,background .2s}
+.switch[aria-checked="true"] .track{background:var(--accent-soft);border-color:var(--accent)}
+.switch[aria-checked="true"] .track::after{transform:translateX(14px);background:var(--accent)}
+
+/* Structure */
+.layout{flex:1;display:grid;grid-template-columns:232px minmax(0,1fr)}
+.sidebar{border-right:1px solid var(--border);padding:12px 8px;display:flex;flex-direction:column;gap:2px}
+.side-cap{font-size:.74em;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;padding:.5em .75em .35em}
+.side-item{display:flex;align-items:center;gap:.65em;width:100%;padding:.45em .7em;border:1px solid transparent;border-radius:4px;background:none;text-align:left;cursor:pointer}
+.side-item:hover{background:var(--hover)}
+.side-item[aria-current="page"]{background:var(--accent-soft);border-color:var(--accent)}
+.side-item .ic{width:22px;height:22px;flex:none;color:var(--muted)}
+.side-item[aria-current="page"] .ic{color:var(--accent-ink)}
+.side-item .cnt{margin-left:auto;font-size:.8em;color:var(--muted);font-variant-numeric:tabular-nums}
+.side-foot{margin-top:auto;padding:1em .5em .3em;display:grid;gap:.4em;font-size:.85em}
+.linkbtn{background:none;border:0;padding:0;color:var(--muted);text-decoration:underline;cursor:pointer;text-align:left}
+.main{background:var(--view);min-width:0;display:flex;flex-direction:column}
+.wrap{max-width:880px;width:100%;margin:0 auto;padding-inline:28px}
+.mod-head{padding-block:1.5em 1em}
+.mod-head h2{font-size:1.5em;font-weight:600}
+.mod-head p{color:var(--muted);margin-top:.25em;max-width:62ch}
+.tabs-bar{border-bottom:1px solid var(--border);background:var(--view);position:sticky;top:calc(env(safe-area-inset-top,0px) + 46px);z-index:5}
+.tabs{display:flex;overflow-x:auto;scrollbar-width:none}
+.tab{flex:none;padding:.6em 1em;border:0;border-bottom:2px solid transparent;background:none;cursor:pointer;color:var(--muted);display:flex;align-items:center;gap:.45em}
+.tab:hover{color:var(--text);background:var(--hover)}
+.tab[aria-selected="true"]{color:var(--text);border-bottom-color:var(--accent);font-weight:600}
+.tab .tn{font-size:.75em;width:1.6em;height:1.6em;border-radius:50%;border:1px solid currentColor;display:grid;place-items:center;font-weight:600}
+.page{padding-block:1.6em 4em;display:grid;gap:1.4em}
+.lead{color:var(--muted);font-size:.93em}
+
+/* Cadres et sections */
+.frame{background:var(--view);border:1px solid var(--line);border-radius:5px;padding:1em 1.1em}
+.sec{display:grid;gap:.7em}
+.sec h3{font-size:1.12em;font-weight:600;display:flex;gap:.55em;align-items:baseline}
+.sec h3 .sn{color:var(--accent-ink);font-variant-numeric:tabular-nums}
+.sec p{max-width:66ch}
+.two{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,250px),1fr));gap:.8em}
+.two .frame{display:grid;gap:.4em;align-content:start;background:var(--alt)}
+.two h4{font-size:.98em;font-weight:600}
+.ex{font-size:1.12em;font-variant-numeric:tabular-nums;padding:.35em .7em;background:var(--alt);border-left:3px solid var(--accent);border-radius:0 3px 3px 0;justify-self:start}
+.two .ex{background:var(--view)}
+.keep{border:1px solid var(--accent);background:var(--accent-soft);border-radius:5px;padding:.9em 1.1em;display:grid;gap:.5em}
+.keep h4{font-size:.8em;text-transform:uppercase;letter-spacing:.08em;color:var(--accent-ink)}
+.keep ul{margin:0;padding-left:1.2em;display:grid;gap:.3em}
+.legend{display:flex;flex-wrap:wrap;gap:1em;font-size:.88em;color:var(--muted);align-items:center}
+.sw{display:inline-block;width:.85em;height:.85em;border-radius:2px;vertical-align:-.05em;margin-right:.35em}
+.sw-p{background:var(--plus)}.sw-m{background:var(--minus)}.sw-a{background:var(--area)}.sw-l{background:var(--len)}
+table.signs{border-collapse:collapse;font-size:1.05em;text-align:center}
+table.signs th,table.signs td{border:1px solid var(--line);padding:.35em .9em}
+table.signs th{background:var(--alt);font-weight:600}
+.prio{margin:0;padding-left:1.4em;display:grid;gap:.15em}
+.sq-table{display:grid;grid-template-columns:repeat(auto-fill,minmax(6.4em,1fr));gap:.4em}
+.sq-table div{border:1px solid var(--line);border-radius:3px;padding:.3em .5em;text-align:center;font-variant-numeric:tabular-nums;background:var(--alt)}
+.chain{display:flex;flex-wrap:wrap;align-items:center;gap:.6em;font-size:1.15em}
+.chain .box{border:1px solid var(--border);border-radius:4px;padding:.25em .7em;background:var(--alt)}
+.chain .arr{font-size:.75em;color:var(--muted);text-align:center;line-height:1.2}
+
+/* Boutons, champs */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:.4em;padding:.35em .95em;border:1px solid var(--border);border-radius:3px;background:var(--btn);cursor:pointer;min-height:2.2em}
+.btn:hover{border-color:var(--accent)}
+.btn.primary{border-color:var(--accent);background:var(--accent-soft)}
+.btn.small{min-height:1.9em;padding:.2em .7em;font-size:.88em}
+.btn:disabled{opacity:.5;cursor:default}
+.row{display:flex;flex-wrap:wrap;gap:.5em;align-items:center}
+.field{padding:.35em .6em;border:1px solid var(--border);border-radius:3px;background:var(--field);width:7.5em;min-height:2.2em;font-variant-numeric:tabular-nums}
+.field:focus{border-color:var(--accent);outline:none;box-shadow:0 0 0 1px var(--accent)}
+.field.sm{width:4.5em;text-align:center}
+.seg{display:inline-flex;border:1px solid var(--border);border-radius:3px;overflow:hidden}
+.seg button{border:0;background:var(--btn);padding:.35em .9em;cursor:pointer}
+.seg button+button{border-left:1px solid var(--border)}
+.seg button[aria-pressed="true"]{background:var(--accent-soft);color:var(--accent-ink);font-weight:600}
+input[type=range]{accent-color:var(--accent);width:100%;min-width:0}
+.ctrls{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,230px),1fr));gap:.8em 1.4em}
+.ctrl{display:grid;gap:.15em}
+.ctrl label{font-size:.88em;color:var(--muted);display:flex;justify-content:space-between;gap:1em}
+.ctrl output{color:var(--text);font-weight:600;font-variant-numeric:tabular-nums}
+
+/* Messages type KMessageWidget */
+.msg{display:flex;gap:.65em;align-items:flex-start;padding:.6em .85em;border:1px solid var(--accent);background:var(--accent-soft);border-radius:4px}
+.msg .mi{flex:none;width:1.35em;height:1.35em;border-radius:50%;display:grid;place-items:center;font-size:.8em;font-weight:700;color:var(--view);background:var(--accent);margin-top:.12em}
+.msg.good{border-color:var(--good);background:var(--good-soft)}.msg.good .mi{background:var(--good)}
+.msg.bad{border-color:var(--bad);background:var(--bad-soft)}.msg.bad .mi{background:var(--bad)}
+.msg.warn{border-color:var(--warn);background:var(--warn-soft)}.msg.warn .mi{background:var(--warn)}
+.msg>div{min-width:0}
+
+/* Manipulations */
+.lab{display:grid;gap:1em}
+.svgbox{overflow-x:auto}
+.svgbox svg{display:block;width:100%;height:auto;max-width:100%}
+.fig{display:block;width:100%;max-width:300px;height:auto}
+.readout{font-size:1.15em;font-variant-numeric:tabular-nums;display:grid;gap:.3em}
+.readout .big{font-size:1.3em;font-weight:600}
+.lab-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:1.2em;align-items:center}
+.chips{display:flex;flex-wrap:wrap;gap:.35em}
+.chip{border:1px solid var(--border);border-radius:3px;background:var(--btn);padding:.2em .55em;cursor:pointer;font-variant-numeric:tabular-nums;font-size:.9em}
+.chip[aria-pressed="true"]{border-color:var(--accent);background:var(--accent-soft);font-weight:600}
+.factor{font-size:1.2em;min-width:3.4em}
+svg text{font-family:var(--font)}
+.ax{stroke:var(--text);stroke-width:1.5}
+.tk{stroke:var(--muted);stroke-width:1}
+.tl{fill:var(--muted);font-size:13px}
+.tl0{fill:var(--text);font-weight:700}
+.arc-p{fill:none;stroke:var(--plus);stroke-width:2.5}
+.arc-m{fill:none;stroke:var(--minus);stroke-width:2.5}
+.ah-p{fill:var(--plus)}.ah-m{fill:var(--minus)}
+.lbl-p{fill:var(--plus);font-weight:700;font-size:15px}.lbl-m{fill:var(--minus);font-weight:700;font-size:15px}
+.dot-a{fill:var(--view);stroke:var(--text);stroke-width:2}
+.dot-r{fill:var(--accent);stroke:var(--accent-ink);stroke-width:1.5}
+.tag-t{fill:var(--text);font-size:12px;font-weight:600}
+.sq-fill{fill:var(--area-soft);stroke:var(--area);stroke-width:2}
+.sq-grid{stroke:var(--area);stroke-width:.7;opacity:.55}
+.sq-lab{fill:var(--text);font-weight:700;paint-order:stroke;stroke:var(--view);stroke-width:4;stroke-linejoin:round}
+.side-t{fill:var(--len);font-weight:700}
+.len-line{stroke:var(--len);stroke-width:3}
+.lenmark{fill:var(--len)}
+.areamark{fill:var(--area)}
+.leg{stroke:var(--area);stroke-width:3}
+.hyp{stroke:var(--len);stroke-width:3.5}
+.tri-fill{fill:var(--alt);stroke:none}
+.ra{fill:none;stroke:var(--text);stroke-width:1.5}
+.vx{fill:var(--text);font-size:15px;font-weight:700}
+.sl{fill:var(--area);font-size:13px;font-weight:600}
+.sl-h{fill:var(--len)}
+.leg-sq{fill:var(--area-soft);stroke:var(--area)}
+.hyp-sq{fill:var(--len-soft);stroke:var(--len)}
+.tri-main{fill:var(--view);stroke:var(--text)}
+.g-line{stroke-width:1;opacity:.5}
+.g-leg{stroke:var(--area)}.g-hyp{stroke:var(--len)}
+.interval{stroke:var(--accent);stroke-width:5;stroke-linecap:round;opacity:.55}
+
+/* Mémoriser */
+.card{min-height:10em;display:grid;place-items:center;text-align:center;padding:1.4em;border:1px solid var(--border);border-radius:6px;background:var(--alt);font-size:1.12em}
+.card.back{background:var(--accent-soft);border-color:var(--accent)}
+.card .side{font-size:.7em;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin-bottom:.6em}
+.drill-q{font-size:1.6em;font-weight:600;font-variant-numeric:tabular-nums}
+.dots{display:flex;gap:4px;flex-wrap:wrap}
+.dots span{width:10px;height:10px;border-radius:50%;border:1px solid var(--border);background:var(--field)}
+.dots span.ok{background:var(--good);border-color:var(--good)}
+.dots span.ko{background:var(--bad);border-color:var(--bad)}
+.dots span.cur{border-color:var(--accent);box-shadow:0 0 0 2px var(--accent-soft)}
+
+/* Quiz */
+.q-prompt{font-size:1.15em;font-weight:500}
+.opts{display:grid;gap:.5em}
+.opt{display:flex;gap:.75em;align-items:center;width:100%;text-align:left;padding:.55em .8em;border:1px solid var(--border);border-radius:4px;background:var(--btn);cursor:pointer}
+.opt:hover:not(:disabled){border-color:var(--accent)}
+.opt:disabled{cursor:default}
+.opt .letter{flex:none;width:1.7em;height:1.7em;border-radius:3px;border:1px solid var(--border);display:grid;place-items:center;font-size:.82em;font-weight:600;background:var(--view)}
+.opt.right{border-color:var(--good);background:var(--good-soft)}
+.opt.wrong{border-color:var(--bad);background:var(--bad-soft)}
+
+/* Exercices */
+.fam-nav{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,13em),1fr));gap:.45em}
+.fam-btn{display:flex;align-items:center;gap:.55em;padding:.45em .7em;border:1px solid var(--border);border-radius:4px;background:var(--btn);cursor:pointer;text-align:left}
+.fam-btn:hover{border-color:var(--accent)}
+.fam-btn[aria-pressed="true"]{border-color:var(--accent);background:var(--accent-soft)}
+.fam-n{flex:none;width:1.65em;height:1.65em;border-radius:50%;border:1px solid var(--accent);color:var(--accent-ink);display:grid;place-items:center;font-size:.8em;font-weight:600}
+.fam-t{flex:1;font-size:.92em;line-height:1.3}
+.fam-c{font-size:.78em;color:var(--muted);font-variant-numeric:tabular-nums}
+.fam-c.full{color:var(--good);font-weight:600}
+.fam-head{display:grid;gap:.25em}
+.fam-head h3{font-size:1.2em;font-weight:600}
+.badge{display:inline-flex;align-items:center;gap:.35em;font-size:.75em;text-transform:uppercase;letter-spacing:.08em;font-weight:600;color:var(--accent-ink);border:1px solid var(--accent);border-radius:3px;padding:.1em .5em;background:var(--accent-soft)}
+.worked{display:grid;gap:.8em;border-color:var(--accent)}
+.worked-head{display:flex;flex-wrap:wrap;gap:.6em;align-items:center;font-size:.9em}
+.prompt{font-size:1.08em;max-width:66ch}
+.expr{font-size:1.3em;font-weight:500;font-variant-numeric:tabular-nums}
+.steps{list-style:none;counter-reset:s;padding:0;margin:0;display:grid;gap:.7em}
+.steps li{counter-increment:s;display:grid;grid-template-columns:1.9em minmax(0,1fr);gap:.55em;align-items:start}
+.steps li::before{content:counter(s);width:1.75em;height:1.75em;border-radius:50%;border:1px solid var(--accent);color:var(--accent-ink);display:grid;place-items:center;font-size:.82em;font-weight:600;background:var(--view)}
+.steps .st{font-weight:600}
+.steps .sd{font-variant-numeric:tabular-nums}
+.res{font-weight:600;font-size:1.08em;padding:.4em .75em;border:1px solid var(--good);background:var(--good-soft);border-radius:4px;justify-self:start}
+.exlist{display:grid;gap:1em}
+.excard{display:grid;gap:.75em}
+.excard.done{border-color:var(--good)}
+.ex-top{display:flex;flex-wrap:wrap;align-items:center;gap:.6em;font-size:.88em;color:var(--muted)}
+.ex-top .t{font-weight:600;color:var(--text);font-size:1.05em}
+.stars{display:inline-flex;gap:1px;vertical-align:-.15em}
+.stars svg{width:1em;height:1em}
+.star-on{fill:#f6b400}.star-off{fill:none;stroke:var(--muted);stroke-width:1.3}
+.solved{color:var(--good);font-weight:600}
+.method{border:1px dashed var(--border);border-radius:4px;padding:.55em .8em;font-size:.92em;background:var(--alt)}
+.method ol{margin:.3em 0 0;padding-left:1.3em;display:grid;gap:.15em}
+.answer{display:flex;flex-wrap:wrap;gap:.5em;align-items:center}
+.answer label{font-size:.9em;color:var(--muted)}
+.ineq{display:flex;flex-wrap:wrap;align-items:center;gap:.45em;font-size:1.12em}
+.choices{display:flex;flex-wrap:wrap;gap:.5em}
+.choices .btn[aria-pressed="true"]{border-color:var(--accent);background:var(--accent-soft)}
+.corr{display:grid;gap:.75em;border-top:1px solid var(--line);padding-top:.8em}
+.corr h4{font-size:.8em;text-transform:uppercase;letter-spacing:.08em;color:var(--muted)}
+.next-row{display:flex;justify-content:flex-end;border-top:1px solid var(--line);padding-top:1em}
+
+@media (max-width:800px){
+  .layout{grid-template-columns:1fr}
+  .sidebar{flex-direction:row;overflow-x:auto;border-right:0;border-bottom:1px solid var(--border);padding:8px 16px;gap:6px;background:var(--window)}
+  .side-cap,.side-foot{display:none}
+  .side-item{flex:none;width:auto}
+  .side-item .cnt{display:none}
+  .wrap{padding-inline:16px}
+  .tb-sub{display:none}
+  .bar{width:56px}
+  .tabs-bar{position:static}
+  .lab-grid{grid-template-columns:1fr}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style>
+
+<div id="root"></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.3.1/umd/react.production.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.3.1/umd/react-dom.production.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/htm@3.1.1/dist/htm.umd.js"></script>
+<script>
+const { useState, useEffect, useMemo } = React;
+const html = htm.bind(React.createElement);
+
+/* ---------- Outils ---------- */
+const store = {
+  get(k, d){ try{ const v = localStorage.getItem("drp_" + k); return v == null ? d : JSON.parse(v); }catch(e){ return d; } },
+  set(k, v){ try{ localStorage.setItem("drp_" + k, JSON.stringify(v)); }catch(e){} }
+};
+const fmt = x => { const r = Math.round(x * 10000) / 10000; const s = String(Math.abs(r)).replace(".", ","); return (r < 0 ? "−" : "") + s; };
+const sg = v => v > 0 ? "+" + fmt(v) : v < 0 ? fmt(v) : "0";
+const parseNum = s => {
+  if (s == null) return NaN;
+  const t = String(s).trim().replace(/\s/g, "").replace(/[−–]/g, "-").replace(",", ".");
+  if (!/^[+-]?(\d+\.?\d*|\.\d+)$/.test(t)) return NaN;
+  return parseFloat(t);
+};
+const near = (a, b, tol) => Math.abs(a - b) <= (tol == null ? 1e-6 : tol);
+const fm = h => String(h)
+  .replace(/√\{([^}]*)\}/g, '<span class="rad"><span class="rad-sign">√</span><span class="rad-in">$1</span></span>')
+  .replace(/\^(\d)/g, "<sup>$1</sup>");
+const H = ({ h, as = "span", className }) => React.createElement(as, { className, dangerouslySetInnerHTML: { __html: fm(h) } });
+const Rad = ({ children }) => html`<span className="rad"><span className="rad-sign">√</span><span className="rad-in">${children}</span></span>`;
+const ri = (a, b) => a + Math.floor(Math.random() * (b - a + 1));
+const shuffle = arr => { const a = arr.slice(); for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; };
+
+/* ---------- Petits composants ---------- */
+const ICON = { good: "✓", bad: "✕", warn: "!", info: "i" };
+function Msg({ kind = "info", children }){
+  return html`<div className=${"msg " + kind} role=${kind === "bad" || kind === "warn" ? "alert" : "status"}><span className="mi" aria-hidden="true">${ICON[kind]}</span><div>${children}</div></div>`;
+}
+function Stars({ n }){
+  const p = "M8 1.2l2 4.3 4.7.6-3.4 3.3.8 4.7L8 11.8 3.9 14.1l.8-4.7L1.3 6.1 6 5.5z";
+  return html`<span className="stars" aria-label=${"Difficulté " + n + " sur 3"}>${[1,2,3].map(i => html`<svg key=${i} viewBox="0 0 16 16" aria-hidden="true"><path d=${p} className=${i <= n ? "star-on" : "star-off"}/></svg>`)}</span>`;
+}
+function Sec({ n, title, children }){
+  return html`<section className="sec">${title && html`<h3>${n != null && html`<span className="sn">${n}.</span>`}<span>${title}</span></h3>`}${children}</section>`;
+}
+function Keep({ items }){
+  return html`<div className="keep"><h4>Je retiens</h4><ul>${items.map((t, i) => html`<li key=${i}><${H} h=${t}/></li>`)}</ul></div>`;
+}
+
+/* Triangle rectangle de référence : R = angle droit, P en haut, Q à droite. [PQ] = hypoténuse */
+function TriFig({ f }){
+  return html`<svg className="fig" viewBox="0 0 270 160" role="img" aria-label=${"Triangle " + f.P + f.R + f.Q + " rectangle en " + f.R}>
+    <polygon points="70,130 70,28 230,130" className="tri-fill"/>
+    <line x1="70" y1="130" x2="70" y2="28" className="leg"/>
+    <line x1="70" y1="130" x2="230" y2="130" className="leg"/>
+    <line x1="70" y1="28" x2="230" y2="130" className="hyp"/>
+    <polyline points="70,116 84,116 84,130" className="ra"/>
+    <text x="56" y="148" className="vx">${f.R}</text>
+    <text x="58" y="24" className="vx">${f.P}</text>
+    <text x="236" y="148" className="vx">${f.Q}</text>
+    ${f.rp && html`<text x="62" y="84" textAnchor="end" className="sl">${f.rp}</text>`}
+    ${f.rq && html`<text x="150" y="150" textAnchor="middle" className="sl">${f.rq}</text>`}
+    ${f.pq && html`<text x="156" y="70" className="sl sl-h">${f.pq}</text>`}
+  </svg>`;
+}
+
+/* ---------- Manipulations ---------- */
+function NumberLab(){
+  const [a, setA] = useState(-3);
+  const [b, setB] = useState(5);
+  const [op, setOp] = useState("+");
+  const mv = op === "+" ? b : -b;
+  const r = a + mv;
+  const X = v => 40 + (v + 10) * 26;
+  const y0 = 100;
+  const h = Math.min(66, 16 + Math.abs(mv) * 9);
+  const xa = X(a), xr = X(r);
+  const cls = mv >= 0 ? "p" : "m";
+  const ticks = [];
+  for (let v = -10; v <= 10; v++) ticks.push(v);
+  return html`<div className="lab">
+    <div className="frame lab">
+      <div className="svgbox"><svg viewBox="0 0 600 150" role="img" aria-label=${"Droite graduée : départ " + fmt(a) + ", arrivée " + fmt(r)}>
+        <defs>
+          <marker id="ah-p" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" className="ah-p"/></marker>
+          <marker id="ah-m" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" className="ah-m"/></marker>
+        </defs>
+        <line x1="30" y1=${y0} x2="570" y2=${y0} className="ax"/>
+        ${ticks.map(v => html`<g key=${v}><line x1=${X(v)} y1=${y0 - (v === 0 ? 8 : 5)} x2=${X(v)} y2=${y0 + (v === 0 ? 8 : 5)} className=${v === 0 ? "ax" : "tk"}/><text x=${X(v)} y=${y0 + 22} textAnchor="middle" className=${"tl" + (v === 0 ? " tl0" : "")}>${fmt(v)}</text></g>`)}
+        ${mv !== 0 && html`<path d=${"M" + xa + "," + (y0 - 7) + " Q" + (xa + xr) / 2 + "," + (y0 - 7 - h * 2) + " " + xr + "," + (y0 - 7)} className=${"arc-" + cls} markerEnd=${"url(#ah-" + cls + ")"}/>`}
+        ${mv !== 0 && html`<text x=${(xa + xr) / 2} y=${y0 - 13 - h} textAnchor="middle" className=${"lbl-" + cls}>${sg(mv)}</text>`}
+        <circle cx=${xa} cy=${y0} r="6" className="dot-a"/>
+        <circle cx=${xr} cy=${y0} r="6" className="dot-r"/>
+        <text x=${xa} y=${y0 + 42} textAnchor="middle" className="tag-t">départ</text>
+        ${r !== a && html`<text x=${xr} y=${y0 + 42} textAnchor="middle" className="tag-t">arrivée</text>`}
+      </svg></div>
+      <div className="row"><div className="seg" role="group" aria-label="Opération">
+        <button aria-pressed=${op === "+"} onClick=${() => setOp("+")}>Ajouter</button>
+        <button aria-pressed=${op === "−"} onClick=${() => setOp("−")}>Soustraire</button>
+      </div></div>
+      <div className="ctrls">
+        <div className="ctrl"><label htmlFor="nl-a">Nombre de départ <output>${sg(a)}</output></label><input id="nl-a" type="range" min="-5" max="5" step="0.5" value=${a} onChange=${e => setA(+e.target.value)}/></div>
+        <div className="ctrl"><label htmlFor="nl-b">Nombre ${op === "+" ? "ajouté" : "soustrait"} <output>${sg(b)}</output></label><input id="nl-b" type="range" min="-5" max="5" step="0.5" value=${b} onChange=${e => setB(+e.target.value)}/></div>
+      </div>
+      <div className="readout">
+        <div className="big">(${sg(a)}) ${op} (${sg(b)})${op === "−" ? html` = (${sg(a)}) + (<span className=${b > 0 ? "m" : "p"}>${sg(-b)}</span>)` : ""} = ${fmt(r)}</div>
+        <div className="muted" style=${{ fontSize: ".85em" }}>${op === "−" ? "Soustraire " + sg(b) + ", c'est ajouter son opposé " + sg(-b) + ". " : ""}${mv === 0 ? "Je ne bouge pas." : "Je pars de " + fmt(a) + " et je me déplace de " + fmt(Math.abs(mv)) + (mv > 0 ? " vers la droite." : " vers la gauche.")}</div>
+      </div>
+    </div>
+    <p className="legend"><span><span className="sw sw-p"></span>flèche vers la droite : on ajoute un positif</span><span><span className="sw sw-m"></span>flèche vers la gauche : on ajoute un négatif</span></p>
+  </div>`;
+}
+
+function SignLab(){
+  const [fs, setFs] = useState([-2, 3, -1, 4]);
+  const neg = fs.filter(v => v < 0).length;
+  const prod = fs.reduce((p, v) => p * v, 1);
+  const toggle = i => setFs(fs.map((v, k) => k === i ? -v : v));
+  const add = () => fs.length < 6 && setFs([...fs, [2, 5, 3, 1, 2, 3][fs.length]]);
+  const del = () => fs.length > 2 && setFs(fs.slice(0, -1));
+  return html`<div className="frame lab">
+    <p>Clique sur un facteur pour changer son signe.</p>
+    <div className="row">${fs.map((v, i) => html`<${React.Fragment} key=${i}>${i > 0 && html`<span aria-hidden="true">×</span>`}<button className="btn factor" onClick=${() => toggle(i)} aria-label=${"Facteur " + (i + 1) + " : " + sg(v) + ". Changer le signe"}><span className=${v < 0 ? "m" : "p"}>(${sg(v)})</span></button><//>`)}</div>
+    <div className="row"><button className="btn small" onClick=${add} disabled=${fs.length >= 6}>Ajouter un facteur</button><button className="btn small" onClick=${del} disabled=${fs.length <= 2}>Retirer un facteur</button></div>
+    <div className="readout">
+      <div>Facteurs négatifs : <b>${neg}</b> → nombre <b>${neg % 2 === 0 ? "pair" : "impair"}</b> → produit <b className=${prod < 0 ? "m" : "p"}>${prod < 0 ? "négatif" : "positif"}</b></div>
+      <div className="big">Produit = ${sg(prod)}</div>
+    </div>
+  </div>`;
+}
+
+function SquareLab(){
+  const [n, setN] = useState(4);
+  const S = 280, c = S / n;
+  const lines = [];
+  for (let k = 1; k < n; k++){ lines.push([k * c, 0, k * c, S]); lines.push([0, k * c, S, k * c]); }
+  return html`<div className="frame lab">
+    <div className="lab-grid">
+      <div className="svgbox"><svg viewBox="-34 -8 330 330" role="img" aria-label=${"Carré de côté " + n + ", aire " + n * n}>
+        <rect x="0" y="0" width=${S} height=${S} className="sq-fill"/>
+        ${lines.map((l, i) => html`<line key=${i} x1=${l[0]} y1=${l[1]} x2=${l[2]} y2=${l[3]} className="sq-grid"/>`)}
+        <line x1="0" y1=${S + 12} x2=${S} y2=${S + 12} className="len-line"/>
+        <text x=${S / 2} y=${S + 34} textAnchor="middle" className="side-t" style=${{ fontSize: "16px" }}>côté ${n}</text>
+        <line x1="-12" y1="0" x2="-12" y2=${S} className="len-line"/>
+        <text x="-20" y=${S / 2} textAnchor="middle" className="side-t" style=${{ fontSize: "16px" }} transform=${"rotate(-90 -20 " + S / 2 + ")"}>côté ${n}</text>
+        <text x=${S / 2} y=${S / 2 + 10} textAnchor="middle" className="sq-lab" style=${{ fontSize: "28px" }}>${n * n}</text>
+      </svg></div>
+      <div className="lab">
+        <div className="ctrl"><label htmlFor="sq-n">Longueur du côté <output>${n}</output></label><input id="sq-n" type="range" min="1" max="15" step="1" value=${n} onChange=${e => setN(+e.target.value)}/></div>
+        <div className="readout">
+          <div className="big"><span className="cl">${n}</span><sup>2</sup> = ${n} × ${n} = <span className="ca">${n * n}</span></div>
+          <div className="muted" style=${{ fontSize: ".85em" }}>Le carré contient ${n} rangées de ${n} petits carrés : ${n * n} petits carrés en tout.</div>
+        </div>
+        <p className="legend"><span><span className="sw sw-l"></span>longueur du côté</span><span><span className="sw sw-a"></span>aire</span></p>
+      </div>
+    </div>
+    <div><p className="muted" style=${{ fontSize: ".88em", marginBottom: ".4em" }}>Les carrés parfaits de 1 à 15 (clique pour les voir) :</p>
+    <div className="chips">${Array.from({ length: 15 }, (_, i) => i + 1).map(k => html`<button key=${k} className="chip" aria-pressed=${k === n} onClick=${() => setN(k)}>${k}² = ${k * k}</button>`)}</div></div>
+  </div>`;
+}
+
+function RootLab(){
+  const [A, setA] = useState(31);
+  const s = Math.sqrt(A);
+  const n = Math.floor(s + 1e-9);
+  const perfect = n * n === A;
+  const X = t => 30 + t * (620 / 15);
+  const side = (s / 15) * 200;
+  return html`<div className="frame lab">
+    <div className="ctrl"><label htmlFor="rt-a">Aire du carré (nombre sous la racine) <output>${A}</output></label><input id="rt-a" type="range" min="0" max="225" step="1" value=${A} onChange=${e => setA(+e.target.value)}/></div>
+    <div className="lab-grid">
+      <div className="svgbox"><svg viewBox="0 0 250 250" role="img" aria-label=${"Carré d'aire " + A}>
+        <rect x="30" y=${220 - side} width=${side} height=${side} className="sq-fill"/>
+        <line x1="30" y1="232" x2=${30 + side} y2="232" className="len-line"/>
+        ${side > 0 && html`<text x=${30 + side / 2} y="248" textAnchor="middle" className="side-t" style=${{ fontSize: "14px" }}>côté ≈ ${fmt(Math.round(s * 100) / 100)}</text>`}
+        ${side > 40 && html`<text x=${30 + side / 2} y=${226 - side / 2} textAnchor="middle" className="sq-lab" style=${{ fontSize: "18px" }}>aire ${A}</text>`}
+      </svg></div>
+      <div className="readout">
+        ${perfect
+          ? html`<div><b>${A}</b> est un carré parfait : ${n}² = ${A}.</div><div className="big"><${Rad}>${A}<//> = ${n}</div>`
+          : html`<div><span className="ca">${n}² = ${n * n}</span> ${"<"} <b>${A}</b> ${"<"} <span className="ca">${n + 1}² = ${(n + 1) * (n + 1)}</span></div>
+                 <div className="big"><span className="cl">${n}</span> ${"<"} <${Rad}>${A}<//> ${"<"} <span className="cl">${n + 1}</span></div>
+                 <div className="muted" style=${{ fontSize: ".85em" }}>Calculatrice : <${Rad}>${A}<//> ≈ ${fmt(Math.round(s * 1000) / 1000)}… soit ${fmt(Math.round(s * 10) / 10)} au dixième.</div>`}
+      </div>
+    </div>
+    <div className="svgbox"><svg viewBox="0 0 680 128" role="img" aria-label="Deux graduations alignées : les carrés au-dessus, les entiers au-dessous">
+      <text x="30" y="14" className="tl" style=${{ fill: "var(--area)", fontWeight: 600 }}>carrés (sous la racine)</text>
+      <text x="30" y="126" className="tl" style=${{ fill: "var(--len)", fontWeight: 600 }}>entiers (racines)</text>
+      <line x1="30" y1="66" x2="650" y2="66" className="ax"/>
+      ${!perfect && html`<line x1=${X(n)} y1="66" x2=${X(n + 1)} y2="66" className="interval"/>`}
+      ${Array.from({ length: 16 }, (_, k) => html`<g key=${k}>
+        <line x1=${X(k)} y1="59" x2=${X(k)} y2="73" className="tk"/>
+        <text x=${X(k)} y="46" textAnchor="middle" style=${{ fontSize: "12px", fill: "var(--area)" }}>${k * k}</text>
+        <text x=${X(k)} y="94" textAnchor="middle" style=${{ fontSize: "13px", fill: "var(--len)", fontWeight: 600 }}>${k}</text>
+      </g>`)}
+      <line x1=${X(s)} y1="24" x2=${X(s)} y2="104" stroke="var(--accent)" strokeWidth="2"/>
+      <circle cx=${X(s)} cy="66" r="5" className="dot-r"/>
+    </svg></div>
+    <p className="muted" style=${{ fontSize: ".88em" }}>Au-dessus : le nombre sous la racine se place entre deux carrés. Au-dessous, juste en face : sa racine se place entre les deux entiers correspondants.</p>
+  </div>`;
+}
+
+function PythLab({ interactive = true, a0 = 3, b0 = 4 }){
+  const [b, setB] = useState(a0);
+  const [c, setC] = useState(b0);
+  const h2 = b * b + c * c, h = Math.sqrt(h2);
+  /* Le dessin est mis à l'échelle en pixels (environ 400 px de large) pour que textes et traits gardent une taille lisible */
+  const pad = 1.6;
+  const minX = -c - pad, maxX = b + c + pad, minY = -b - pad, maxY = c + b + pad;
+  const W = maxX - minX, Hh = maxY - minY;
+  const k = 400 / Math.max(W, Hh);
+  const P = (x, y) => [x * k, -y * k];
+  const pts = arr => arr.map(p => P(p[0], p[1]).join(",")).join(" ");
+  const A = [0, 0], B = [b, 0], C = [0, c];
+  const sqAB = [A, B, [b, -b], [0, -b]];
+  const sqAC = [A, C, [-c, c], [-c, 0]];
+  const sqBC = [B, [b + c, b], [c, c + b], C];
+  const fs = 15;
+  const vb = [minX * k, -maxY * k, W * k, Hh * k].join(" ");
+  const cen = q => { const x = q.reduce((t, p) => t + p[0], 0) / 4, y = q.reduce((t, p) => t + p[1], 0) / 4; return P(x, y); };
+  const grid = (O, U, V, cls) => {
+    const L = Math.hypot(U[0], U[1]);
+    if (Math.abs(L - Math.round(L)) > 1e-9 || L < 2) return [];
+    const out = [], n = Math.round(L);
+    for (let j = 1; j < n; j++){
+      const t = j / n;
+      const p1 = [O[0] + U[0] * t, O[1] + U[1] * t], q1 = [p1[0] + V[0], p1[1] + V[1]];
+      const p2 = [O[0] + V[0] * t, O[1] + V[1] * t], q2 = [p2[0] + U[0], p2[1] + U[1]];
+      out.push([P(p1[0], p1[1]), P(q1[0], q1[1]), cls], [P(p2[0], p2[1]), P(q2[0], q2[1]), cls]);
+    }
+    return out;
+  };
+  const lines = [...grid(A, [b, 0], [0, -b], "g-leg"), ...grid(A, [0, c], [-c, 0], "g-leg"), ...grid(B, [c, b], [-b, c], "g-hyp")];
+  const ra = Math.min(14, Math.min(b, c) * k * .3);
+  const [Bx, By] = P(b, 0), [Cx, Cy] = P(0, c);
+  const lab = (q, t, col) => { const p = cen(q); return html`<text x=${p[0]} y=${p[1] + fs * .35} textAnchor="middle" className="sq-lab" style=${{ fontSize: fs + "px", fill: col }}>${t}</text>`; };
+  return html`<div className="frame lab">
+    <div className="lab-grid">
+      <div className="svgbox"><svg viewBox=${vb} role="img" aria-label=${"Triangle ABC rectangle en A avec AB = " + fmt(b) + " et AC = " + fmt(c)} style=${{ maxHeight: "400px" }}>
+        <polygon points=${pts(sqAB)} className="leg-sq" strokeWidth="1.5"/>
+        <polygon points=${pts(sqAC)} className="leg-sq" strokeWidth="1.5"/>
+        <polygon points=${pts(sqBC)} className="hyp-sq" strokeWidth="1.5"/>
+        ${lines.map((l, i) => html`<line key=${i} x1=${l[0][0]} y1=${l[0][1]} x2=${l[1][0]} y2=${l[1][1]} className=${"g-line " + l[2]}/>`)}
+        <polygon points=${pts([A, B, C])} className="tri-main" strokeWidth="2"/>
+        <line x1="0" y1="0" x2=${Bx} y2=${By} className="leg"/>
+        <line x1="0" y1="0" x2=${Cx} y2=${Cy} className="leg"/>
+        <line x1=${Bx} y1=${By} x2=${Cx} y2=${Cy} className="hyp"/>
+        <polyline points=${ra + ",0 " + ra + "," + (-ra) + " 0," + (-ra)} className="ra"/>
+        <text x="-8" y="18" textAnchor="end" className="vx" style=${{ fontSize: "16px" }}>A</text>
+        <text x=${Bx + 7} y=${By + 18} className="vx" style=${{ fontSize: "16px" }}>B</text>
+        <text x="-8" y=${Cy - 6} textAnchor="end" className="vx" style=${{ fontSize: "16px" }}>C</text>
+        ${lab(sqAB, "AB² = " + fmt(b * b), "var(--area)")}
+        ${lab(sqAC, "AC² = " + fmt(c * c), "var(--area)")}
+        ${lab(sqBC, "BC² = " + fmt(h2), "var(--len)")}
+      </svg></div>
+      <div className="lab">
+        ${interactive && html`<div className="ctrls" style=${{ gridTemplateColumns: "1fr" }}>
+          <div className="ctrl"><label htmlFor="py-b">Longueur AB <output>${fmt(b)}</output></label><input id="py-b" type="range" min="1" max="8" step="0.5" value=${b} onChange=${e => setB(+e.target.value)}/></div>
+          <div className="ctrl"><label htmlFor="py-c">Longueur AC <output>${fmt(c)}</output></label><input id="py-c" type="range" min="1" max="8" step="0.5" value=${c} onChange=${e => setC(+e.target.value)}/></div>
+        </div>`}
+        <div className="readout" style=${{ fontSize: "1.02em" }}>
+          <div><span className="ca">AB² + AC²</span> = ${fmt(b * b)} + ${fmt(c * c)} = <b>${fmt(h2)}</b></div>
+          <div><span className="cl">BC²</span> = <b>${fmt(h2)}</b></div>
+          <div className="big">BC = <${Rad}>${fmt(h2)}<//> ${Number.isInteger(Math.round(h * 1e6) / 1e6) ? "= " + fmt(h) : "≈ " + fmt(Math.round(h * 10) / 10)}</div>
+        </div>
+        <p className="legend"><span><span className="sw sw-a"></span>côtés de l'angle droit</span><span><span className="sw sw-l"></span>hypoténuse</span></p>
+        ${interactive && html`<p className="muted" style=${{ fontSize: ".85em" }}>Essaie 3 et 4, puis 6 et 8 : avec des nombres entiers, tu peux compter les petits carrés.</p>`}
+      </div>
+    </div>
+  </div>`;
+}
+
+function TriTester(){
+  const [v, setV] = useState(["6", "8", "10"]);
+  const nums = v.map(parseNum);
+  const ok = nums.every(x => !isNaN(x) && x > 0);
+  let out = null;
+  if (!ok) out = html`<${Msg} kind="warn">Écris trois longueurs positives (par exemple 5 ; 12 ; 13).<//>`;
+  else {
+    const sorted = nums.map((x, i) => [x, "abc"[i]]).sort((p, q) => q[0] - p[0]);
+    const [g, x, y] = sorted.map(p => p[0]);
+    if (g >= x + y) out = html`<${Msg} kind="warn">Ces trois longueurs ne forment pas un triangle : le plus grand côté est trop long (${fmt(g)} ≥ ${fmt(x)} + ${fmt(y)}).<//>`;
+    else {
+      const G = Math.round(g * g * 1e6) / 1e6, S = Math.round((x * x + y * y) * 1e6) / 1e6;
+      const eq = near(G, S, 1e-9);
+      out = html`<div className="readout">
+        <div>Plus grand côté : <b className="cl">${fmt(g)}</b> → ${fmt(g)}² = <b>${fmt(G)}</b></div>
+        <div>Les deux autres : ${fmt(x)}² + ${fmt(y)}² = ${fmt(x * x)} + ${fmt(y * y)} = <b>${fmt(S)}</b></div>
+        <${Msg} kind=${eq ? "good" : "bad"}>${eq ? "Égalité : d'après la réciproque du théorème de Pythagore, le triangle est rectangle." : "Pas d'égalité (" + fmt(G) + " ≠ " + fmt(S) + ") : le triangle n'est pas rectangle."}<//>
+      </div>`;
+    }
+  }
+  return html`<div className="frame lab">
+    <p>Écris les longueurs des trois côtés d'un triangle.</p>
+    <div className="row">${[0, 1, 2].map(i => html`<input key=${i} id=${"tt-" + i} className="field sm" aria-label=${"Côté " + (i + 1)} value=${v[i]} onChange=${e => { const c = [...v]; c[i] = e.target.value; setV(c); }}/>`)}<span className="muted">(même unité)</span></div>
+    ${out}
+  </div>`;
+}
+
+function MiniLine(){
+  const X = v => 200 + v * 34;
+  return html`<div className="svgbox" style=${{ maxWidth: "460px" }}><svg viewBox="0 0 400 86" role="img" aria-label="−3 et +3 sont à la même distance de zéro">
+    <line x1="20" y1="56" x2="380" y2="56" className="ax"/>
+    ${[-5,-4,-3,-2,-1,0,1,2,3,4,5].map(v => html`<g key=${v}><line x1=${X(v)} y1="51" x2=${X(v)} y2="61" className=${v === 0 ? "ax" : "tk"}/><text x=${X(v)} y="78" textAnchor="middle" className=${"tl" + (v === 0 ? " tl0" : "")}>${fmt(v)}</text></g>`)}
+    <line x1=${X(-3)} y1="30" x2=${X(0)} y2="30" stroke="var(--minus)" strokeWidth="2"/>
+    <line x1=${X(0)} y1="30" x2=${X(3)} y2="30" stroke="var(--plus)" strokeWidth="2"/>
+    <text x=${X(-1.5)} y="22" textAnchor="middle" className="lbl-m">3</text>
+    <text x=${X(1.5)} y="22" textAnchor="middle" className="lbl-p">3</text>
+    <circle cx=${X(-3)} cy="56" r="6" fill="var(--minus)"/>
+    <circle cx=${X(3)} cy="56" r="6" fill="var(--plus)"/>
+  </svg></div>`;
+}
+
+/* ---------- Contenus « Comprendre » ---------- */
+function CompRel(){
+  return html`
+  <${Sec} n=${1} title="Un nombre relatif : un signe et une distance à zéro">
+    <p><span className="m">−3</span> et <span className="p">+3</span> sont à la même distance de zéro, 3, mais de chaque côté. Ce sont deux nombres <b>opposés</b>.</p>
+    <${MiniLine}/>
+  <//>
+  <${Sec} n=${2} title="Additionner deux relatifs">
+    <div className="two">
+      <div className="frame"><h4>Même signe</h4><p>J'additionne les distances à zéro et je garde le signe commun.</p><p className="ex">(<span className="m">−3</span>) + (<span className="m">−4</span>) = <span className="m">−7</span></p></div>
+      <div className="frame"><h4>Signes contraires</h4><p>Je soustrais les distances à zéro et je garde le signe du nombre le plus éloigné de zéro.</p><p className="ex">(<span className="m">−7</span>) + (<span className="p">+2</span>) = <span className="m">−5</span></p></div>
+    </div>
+  <//>
+  <${Sec} n=${3} title="Soustraire, c'est ajouter l'opposé">
+    <p className="ex">(+3) − (<span className="m">−5</span>) = (+3) + (<span className="p">+5</span>) = 8</p>
+    <p>Retirer une dette de 5 €, c'est comme recevoir 5 €.</p>
+  <//>
+  <${Sec} n=${4} title="Multiplier et diviser : la règle des signes">
+    <div className="svgbox"><table className="signs"><thead><tr><th>× ou ÷</th><th className="p">+</th><th className="m">−</th></tr></thead>
+      <tbody><tr><th className="p">+</th><td className="p">+</td><td className="m">−</td></tr><tr><th className="m">−</th><td className="m">−</td><td className="p">+</td></tr></tbody></table></div>
+    <p>Avec plusieurs facteurs, je compte les nombres négatifs : <b>pair → positif</b>, <b>impair → négatif</b>.</p>
+  <//>
+  <${Sec} n=${5} title="Les priorités opératoires">
+    <ol className="prio"><li>Parenthèses</li><li>Puissances (les carrés)</li><li>Multiplications et divisions</li><li>Additions et soustractions</li></ol>
+    <p>À priorité égale, je calcule de gauche à droite.</p>
+    <p className="ex">5 − 2 × (−3) = 5 − (−6) = 11</p>
+  <//>
+  <${Keep} items=${["Même signe : j'additionne. Signes contraires : je soustrais.", "Soustraire un nombre, c'est ajouter son opposé.", "Produit ou quotient : je compte les négatifs (pair → +, impair → −).", "Parenthèses, puis × et ÷, puis + et −."]}/>`;
+}
+function CompCar(){
+  return html`
+  <${Sec} n=${1} title="Le carré d'un nombre">
+    <p>Le carré de <i>a</i> se note <i>a</i><sup>2</sup> et se lit « <i>a</i> au carré ». C'est le nombre multiplié <b>par lui-même</b>.</p>
+    <p className="ex"><i>a</i><sup>2</sup> = <i>a</i> × <i>a</i>     5<sup>2</sup> = 5 × 5 = 25</p>
+  <//>
+  <${Sec} n=${2} title="Pourquoi « carré » ? Une aire">
+    <p>Un carré de côté <span className="cl">4</span> contient 4 rangées de 4 petits carrés : son aire est <span className="ca">4<sup>2</sup> = 16</span>. L'onglet Manipuler te permet de le voir pour chaque côté.</p>
+  <//>
+  <${Msg} kind="warn"><b>Piège.</b> 3<sup>2</sup> = 3 × 3 = 9, et non 3 × 2 = 6. L'exposant 2 indique combien de fois on écrit le nombre dans le produit.<//>
+  <${Sec} n=${3} title="Le carré d'un nombre négatif">
+    <p>(−5)<sup>2</sup> = (−5) × (−5) = 25 : deux facteurs négatifs donnent un positif. <b>Un carré n'est jamais négatif.</b></p>
+  <//>
+  <${Sec} n=${4} title="Les carrés parfaits à connaître">
+    <p>Un carré parfait est le carré d'un nombre entier. Ces quinze-là servent tout le temps avec Pythagore.</p>
+    <div className="sq-table">${Array.from({ length: 15 }, (_, i) => i + 1).map(k => html`<div key=${k}>${k}<sup>2</sup> = <b>${k * k}</b></div>`)}</div>
+  <//>
+  <${Keep} items=${["a^2 = a × a (et pas a × 2).", "L'aire d'un carré de côté c est c^2.", "Un carré est toujours positif ou nul.", "Je connais par cœur les carrés de 1 à 15."]}/>`;
+}
+function CompRac(){
+  return html`
+  <${Sec} n=${1} title="La racine carrée défait le carré">
+    <p>La racine carrée de <i>a</i>, notée <${Rad}><i>a</i><//>, est le nombre <b>positif</b> dont le carré vaut <i>a</i>.</p>
+    <div className="chain"><span className="box cl">7</span><span className="arr">au carré<br/>→</span><span className="box ca">49</span><span className="arr">racine<br/>→</span><span className="box cl">7</span></div>
+    <p><${Rad}>49<//> = 7, car 7 × 7 = 49 et 7 est positif.</p>
+  <//>
+  <${Sec} n=${2} title="Aire et côté">
+    <p>Un carré d'aire <span className="ca">64 cm²</span> a un côté de <span className="cl"><${Rad}>64<//> = 8 cm</span>. La racine carrée d'une aire donne la longueur du côté.</p>
+  <//>
+  <${Sec} n=${3} title="Quand existe-t-elle ?">
+    <p>Seulement pour un nombre positif ou nul. <${Rad}>0<//> = 0, <${Rad}>1<//> = 1. <${Rad}>−9<//> n'existe pas : aucun carré n'est négatif.</p>
+  <//>
+  <${Sec} n=${4} title="Racine exacte ou valeur approchée">
+    <div className="two">
+      <div className="frame"><h4>Carré parfait</h4><p>La racine est un entier.</p><p className="ex"><${Rad}>144<//> = 12</p></div>
+      <div className="frame"><h4>Pas un carré parfait</h4><p>J'encadre, puis je donne une valeur approchée.</p><p className="ex">5 ${"<"} <${Rad}>31<//> ${"<"} 6     <${Rad}>31<//> ≈ 5,6</p></div>
+    </div>
+  <//>
+  <${Sec} n=${5} title="Encadrer une racine entre deux entiers">
+    <p>31 est entre les carrés parfaits 25 et 36. Donc <${Rad}>31<//> est entre leurs racines, 5 et 6.</p>
+    <p className="ex">25 ${"<"} 31 ${"<"} 36   donc   5 ${"<"} <${Rad}>31<//> ${"<"} 6</p>
+  <//>
+  <${Msg} kind="warn"><b>Piège fréquent.</b> Les <span className="ca">carrés</span> encadrent le nombre <b>sous</b> la racine ; les <span className="cl">entiers</span> encadrent la racine. On n'écrit jamais 25 ${"<"} <${Rad}>31<//> ${"<"} 36, ni 1 ${"<"} <${Rad}>3<//> ${"<"} 4 : on écrit 1 ${"<"} 3 ${"<"} 4, donc 1 ${"<"} <${Rad}>3<//> ${"<"} 2.<//>
+  <${Keep} items=${["√{a} est le nombre positif dont le carré vaut a.", "Une longueur est positive : si x^2 = n, alors x = √{n}.", "Pour encadrer √{n}, je cherche les deux carrés parfaits qui entourent n.", "√{a + b} n'est pas égal à √{a} + √{b}."]}/>`;
+}
+function CompPyt(){
+  return html`
+  <${Sec} n=${1} title="Le vocabulaire du triangle rectangle">
+    <div className="lab-grid">
+      <${TriFig} f=${{ R: "A", P: "C", Q: "B", rp: "", rq: "", pq: "hypoténuse" }}/>
+      <p>ABC est rectangle en A. L'<b className="cl">hypoténuse</b> est le côté <b>opposé à l'angle droit</b> : [BC]. C'est toujours le plus long côté. Les deux autres, [AB] et [AC], sont les <b className="ca">côtés de l'angle droit</b>.</p>
+    </div>
+  <//>
+  <${Sec} n=${2} title="Le théorème de Pythagore">
+    <p className="ex">Si ABC est rectangle en A, alors <span className="cl">BC<sup>2</sup></span> = <span className="ca">AB<sup>2</sup> + AC<sup>2</sup></span></p>
+    <p>En aires : le carré construit sur l'hypoténuse a la même aire que les deux autres carrés réunis. C'est ce que montre le puzzle de Périgal vu en classe. Ici, avec AB = 3 et AC = 4 : 9 + 16 = 25 petits carrés.</p>
+    <${PythLab} interactive=${false} a0=${3} b0=${4}/>
+  <//>
+  <${Sec} n=${3} title="Deux calculs possibles">
+    <div className="two">
+      <div className="frame"><h4>Je cherche l'hypoténuse</h4><p>J'<b>additionne</b> les carrés, puis je prends la racine.</p><p className="ex">BC<sup>2</sup> = 6<sup>2</sup> + 8<sup>2</sup> = 100<br/>BC = <${Rad}>100<//> = 10</p></div>
+      <div className="frame"><h4>Je cherche un côté de l'angle droit</h4><p>Je <b>soustrais</b> : hypoténuse<sup>2</sup> − l'autre côté<sup>2</sup>.</p><p className="ex">AC<sup>2</sup> = 10<sup>2</sup> − 6<sup>2</sup> = 64<br/>AC = <${Rad}>64<//> = 8</p></div>
+    </div>
+  <//>
+  <${Sec} n=${4} title="La réciproque : prouver qu'un triangle est rectangle">
+    <p>Je compare le carré du plus grand côté avec la somme des carrés des deux autres.</p>
+    <div className="two">
+      <div className="frame"><h4>Égalité</h4><p>Le triangle est rectangle (réciproque du théorème de Pythagore).</p></div>
+      <div className="frame"><h4>Pas d'égalité</h4><p>Le triangle n'est pas rectangle.</p></div>
+    </div>
+  <//>
+  <${Sec} n=${5} title="Rédiger en trois lignes">
+    <div className="frame" style=${{ background: "var(--alt)" }}>
+      <p>Le triangle ABC est rectangle en A, son hypoténuse est [BC].</p>
+      <p>D'après le théorème de Pythagore : BC<sup>2</sup> = AB<sup>2</sup> + AC<sup>2</sup></p>
+      <p>Je remplace, je calcule, puis je prends la racine carrée.</p>
+    </div>
+  <//>
+  <${Keep} items=${["L'hypoténuse est en face de l'angle droit.", "Hypoténuse cherchée : j'additionne les carrés. Côté cherché : je soustrais.", "Je termine toujours par une racine carrée.", "Réciproque : égalité → rectangle ; pas d'égalité → pas rectangle."]}/>`;
+}
+
+/* ---------- Données : exercices ---------- */
+const S = (t, d) => [t, d];
+
+const REL_FAM = [
+  { title: "Additionner deux relatifs", goal: "Choisir entre additionner et soustraire les distances à zéro, puis trouver le signe.",
+    method: ["Je regarde les signes : identiques ou contraires ?", "Même signe : j'additionne les distances à zéro. Signes contraires : je les soustrais.", "Je mets le signe commun, ou celui du nombre le plus éloigné de zéro."],
+    worked: { q: "Calcule <span class='expr'>(−7,5) + (+3,2)</span>", steps: [
+      S("Je regarde les signes", "−7,5 est négatif, +3,2 est positif : les signes sont <b>contraires</b>."),
+      S("Je soustrais les distances à zéro", "Distances à zéro : 7,5 et 3,2. Signes contraires, donc je soustrais : 7,5 − 3,2 = 4,3."),
+      S("Je trouve le signe", "Le plus éloigné de zéro est −7,5 (car 7,5 &gt; 3,2). Le résultat est négatif."),
+      S("Résultat", "(−7,5) + (+3,2) = <b>−4,3</b>")] },
+    ex: [
+      { lv: 1, q: "<span class='expr'>(−9) + (+14)</span>", type: "num", a: 5, hint: "Les signes sont contraires : soustrais les distances à zéro.",
+        c: [S("Signes", "−9 et +14 : signes contraires."), S("Distances", "14 − 9 = 5."), S("Signe", "+14 est le plus éloigné de zéro : résultat positif."), S("Résultat", "(−9) + (+14) = <b>5</b>")] },
+      { lv: 1, q: "<span class='expr'>(−3,5) + (−2,7)</span>", type: "num", a: -6.2, hint: "Même signe : additionne les distances à zéro et garde le signe −.",
+        c: [S("Signes", "Les deux nombres sont négatifs : même signe."), S("Distances", "3,5 + 2,7 = 6,2."), S("Signe", "Je garde le signe commun : −."), S("Résultat", "(−3,5) + (−2,7) = <b>−6,2</b>")] },
+      { lv: 2, q: "<span class='expr'>(+8,4) + (−11)</span>", type: "num", a: -2.6, hint: "Signes contraires. Lequel est le plus éloigné de zéro ?",
+        c: [S("Signes", "+8,4 et −11 : signes contraires."), S("Distances", "11 − 8,4 = 2,6."), S("Signe", "−11 est le plus éloigné de zéro : résultat négatif."), S("Résultat", "(+8,4) + (−11) = <b>−2,6</b>")] },
+      { lv: 3, q: "<span class='expr'>(−12,75) + (+4,5) + (+6,25)</span>", type: "num", a: -2, hint: "Commence par additionner les deux nombres positifs.",
+        c: [S("Je regroupe les positifs", "(+4,5) + (+6,25) = +10,75."), S("Il reste deux nombres", "(−12,75) + (+10,75) : signes contraires, 12,75 − 10,75 = 2."), S("Signe", "−12,75 est le plus éloigné de zéro : résultat négatif."), S("Résultat", "<b>−2</b>")] }
+    ] },
+  { title: "Soustraire deux relatifs", goal: "Transformer une soustraction en addition de l'opposé.",
+    method: ["Je recopie le premier nombre.", "Je change « − » en « + » et je remplace le nombre qui suit par son opposé.", "Je calcule l'addition obtenue."],
+    worked: { q: "Calcule <span class='expr'>(−5) − (−8)</span>", steps: [
+      S("Je transforme", "Soustraire −8, c'est ajouter son opposé +8 : (−5) − (−8) = (−5) + (+8)."),
+      S("J'additionne", "Signes contraires : 8 − 5 = 3. +8 est le plus éloigné de zéro : résultat positif."),
+      S("Résultat", "(−5) − (−8) = <b>3</b>")] },
+    ex: [
+      { lv: 1, q: "<span class='expr'>(+4) − (−6)</span>", type: "num", a: 10, hint: "Soustraire −6, c'est ajouter +6.",
+        c: [S("Je transforme", "(+4) − (−6) = (+4) + (+6)."), S("J'additionne", "Même signe : 4 + 6 = 10."), S("Résultat", "<b>10</b>")] },
+      { lv: 1, q: "<span class='expr'>(−9) − (+3)</span>", type: "num", a: -12, hint: "Soustraire +3, c'est ajouter −3.",
+        c: [S("Je transforme", "(−9) − (+3) = (−9) + (−3)."), S("J'additionne", "Même signe : 9 + 3 = 12, je garde −."), S("Résultat", "<b>−12</b>")] },
+      { lv: 2, q: "<span class='expr'>(−2,4) − (−5,1)</span>", type: "num", a: 2.7, hint: "Transforme d'abord en addition de l'opposé.",
+        c: [S("Je transforme", "(−2,4) − (−5,1) = (−2,4) + (+5,1)."), S("J'additionne", "Signes contraires : 5,1 − 2,4 = 2,7. +5,1 est le plus loin de zéro : positif."), S("Résultat", "<b>2,7</b>")] },
+      { lv: 3, q: "<span class='expr'>(+1,5) − (+7,8) − (−0,3)</span>", type: "num", a: -6, hint: "Transforme les deux soustractions, puis calcule de gauche à droite.",
+        c: [S("Je transforme", "(+1,5) + (−7,8) + (+0,3)."), S("De gauche à droite", "(+1,5) + (−7,8) = −6,3."), S("Je termine", "(−6,3) + (+0,3) = −6."), S("Résultat", "<b>−6</b>")] }
+    ] },
+  { title: "Enchaîner additions et soustractions", goal: "Supprimer les parenthèses puis regrouper positifs et négatifs.",
+    method: ["Je supprime les parenthèses : +(+a) → +a ; +(−a) → −a ; −(+a) → −a ; −(−a) → +a.", "Je regroupe les nombres positifs, puis les nombres négatifs.", "Je calcule chaque groupe, puis je les combine."],
+    worked: { q: "Calcule <span class='expr'>6 − (−4) + (−9) − (+2)</span>", steps: [
+      S("Sans parenthèses", "6 − (−4) devient 6 + 4 ; + (−9) devient − 9 ; − (+2) devient − 2. J'obtiens : 6 + 4 − 9 − 2."),
+      S("Je regroupe", "Positifs : 6 + 4 = 10. Négatifs : −9 − 2 = −11."),
+      S("Je combine", "10 − 11 = −1."),
+      S("Résultat", "<b>−1</b>")] },
+    ex: [
+      { lv: 1, q: "<span class='expr'>−5 + 9 − 8 + 3</span>", type: "num", a: -1, hint: "Regroupe +9 et +3, puis −5 et −8.",
+        c: [S("Positifs", "9 + 3 = 12."), S("Négatifs", "−5 − 8 = −13."), S("Je combine", "12 − 13 = −1."), S("Résultat", "<b>−1</b>")] },
+      { lv: 2, q: "<span class='expr'>4 − (−3) + (−10)</span>", type: "num", a: -3, hint: "− (−3) devient + 3.",
+        c: [S("Sans parenthèses", "4 + 3 − 10."), S("Je calcule", "4 + 3 = 7 ; 7 − 10 = −3."), S("Résultat", "<b>−3</b>")] },
+      { lv: 2, q: "<span class='expr'>−2,5 + (−1,5) − (−6)</span>", type: "num", a: 2, hint: "+ (−1,5) devient − 1,5 et − (−6) devient + 6.",
+        c: [S("Sans parenthèses", "−2,5 − 1,5 + 6."), S("Négatifs", "−2,5 − 1,5 = −4."), S("Je combine", "−4 + 6 = 2."), S("Résultat", "<b>2</b>")] },
+      { lv: 3, q: "<span class='expr'>8 − 12 + 3,5 − (−2,5) − (+7)</span>", type: "num", a: -5, hint: "Écris d'abord la ligne sans parenthèses : 8 − 12 + 3,5 + 2,5 − 7.",
+        c: [S("Sans parenthèses", "8 − 12 + 3,5 + 2,5 − 7."), S("Positifs", "8 + 3,5 + 2,5 = 14."), S("Négatifs", "−12 − 7 = −19."), S("Je combine", "14 − 19 = −5."), S("Résultat", "<b>−5</b>")] }
+    ] },
+  { title: "Multiplier et diviser", goal: "Trouver le signe d'abord, calculer ensuite.",
+    method: ["Je compte les nombres négatifs.", "Pair → résultat positif. Impair → résultat négatif.", "Je calcule avec les distances à zéro, sans les signes."],
+    worked: { q: "Calcule <span class='expr'>(−4,5) × (−6)</span>", steps: [
+      S("Je compte les négatifs", "Deux facteurs négatifs : c'est un nombre pair."),
+      S("Le signe", "Pair → le résultat est positif."),
+      S("Le calcul sans les signes", "4,5 × 6 = 27."),
+      S("Résultat", "(−4,5) × (−6) = <b>27</b>")] },
+    ex: [
+      { lv: 1, q: "<span class='expr'>(−7) × (+8)</span>", type: "num", a: -56, hint: "Un seul facteur négatif : impair.",
+        c: [S("Signe", "Un facteur négatif : impair → négatif."), S("Calcul", "7 × 8 = 56."), S("Résultat", "<b>−56</b>")] },
+      { lv: 1, q: "<span class='expr'>(−63) ÷ (−7)</span>", type: "num", a: 9, hint: "Deux nombres négatifs : pair.",
+        c: [S("Signe", "Deux négatifs : pair → positif."), S("Calcul", "63 ÷ 7 = 9."), S("Résultat", "<b>9</b>")] },
+      { lv: 2, q: "<span class='expr'>(−2) × (−3) × (−5)</span>", type: "num", a: -30, hint: "Compte les facteurs négatifs : il y en a trois.",
+        c: [S("Signe", "Trois facteurs négatifs : impair → négatif."), S("Calcul", "2 × 3 × 5 = 30."), S("Résultat", "<b>−30</b>")] },
+      { lv: 2, q: "<span class='expr'>(−14,4) ÷ (+4)</span>", type: "num", a: -3.6, hint: "Un seul nombre négatif.",
+        c: [S("Signe", "Un négatif : impair → négatif."), S("Calcul", "14,4 ÷ 4 = 3,6."), S("Résultat", "<b>−3,6</b>")] },
+      { lv: 3, q: "<span class='expr'>(−0,25) × (−7) × (−4)</span>", type: "num", a: -7, hint: "Regroupe 0,25 et 4 : leur produit est simple.",
+        c: [S("Signe", "Trois facteurs négatifs : impair → négatif."), S("Calcul astucieux", "Je regroupe 0,25 × 4 = 1, puis 1 × 7 = 7."), S("Résultat", "<b>−7</b>")] }
+    ] },
+  { title: "Priorités opératoires", goal: "Calculer dans le bon ordre en réécrivant la ligne à chaque étape.",
+    method: ["Je calcule d'abord ce qui est entre parenthèses.", "Puis les multiplications et divisions, de gauche à droite.", "Enfin les additions et soustractions, de gauche à droite.", "Je réécris toute la ligne après chaque étape."],
+    worked: { q: "Calcule <span class='expr'>−3 + (4 − 10) × (−2)</span>", steps: [
+      S("Les parenthèses", "4 − 10 = −6. La ligne devient : −3 + (−6) × (−2)."),
+      S("La multiplication", "(−6) × (−2) = 12 (deux négatifs). La ligne devient : −3 + 12."),
+      S("L'addition", "−3 + 12 = 9."),
+      S("Résultat", "<b>9</b>")] },
+    ex: [
+      { lv: 1, q: "<span class='expr'>7 − 3 × (−4)</span>", type: "num", a: 19, hint: "La multiplication passe avant la soustraction.", alt: [[-16, "Tu as calculé 7 − 3 en premier. La multiplication est prioritaire."]],
+        c: [S("Multiplication", "3 × (−4) = −12. La ligne devient : 7 − (−12)."), S("Soustraction", "7 − (−12) = 7 + 12 = 19."), S("Résultat", "<b>19</b>")] },
+      { lv: 2, q: "<span class='expr'>(−20) ÷ 4 − 6</span>", type: "num", a: -11, hint: "La division d'abord.",
+        c: [S("Division", "(−20) ÷ 4 = −5. La ligne devient : −5 − 6."), S("Soustraction", "−5 − 6 = −11."), S("Résultat", "<b>−11</b>")] },
+      { lv: 2, q: "<span class='expr'>−2 × (5 − 9) + 18 ÷ (−3)</span>", type: "num", a: 2, hint: "Parenthèses, puis la multiplication et la division, puis l'addition.",
+        c: [S("Parenthèses", "5 − 9 = −4. La ligne devient : −2 × (−4) + 18 ÷ (−3)."), S("× et ÷", "−2 × (−4) = 8 et 18 ÷ (−3) = −6. La ligne devient : 8 + (−6)."), S("Addition", "8 − 6 = 2."), S("Résultat", "<b>2</b>")] },
+      { lv: 3, q: "<span class='expr'>(−3) × (−4) − (−15) ÷ 5 + (−1 − 6) × 2</span>", type: "num", a: 1, hint: "Commence par (−1 − 6). Ensuite, trois calculs prioritaires.",
+        c: [S("Parenthèses", "−1 − 6 = −7. La ligne devient : (−3) × (−4) − (−15) ÷ 5 + (−7) × 2."), S("× et ÷", "(−3) × (−4) = 12 ; (−15) ÷ 5 = −3 ; (−7) × 2 = −14. La ligne devient : 12 − (−3) + (−14)."), S("+ et −", "12 + 3 − 14 = 1."), S("Résultat", "<b>1</b>")] }
+    ] },
+  { title: "Problèmes avec des relatifs", goal: "Traduire un texte en un calcul avec des relatifs.",
+    method: ["Je lis la question finale.", "Je traduis : hausse, gain, montée → + ; baisse, perte, descente → −.", "J'écris un seul calcul, puis je le calcule.", "Je vérifie que le résultat est plausible et je rédige une phrase."],
+    worked: { q: "Au lever du jour, il fait −4 °C. La température monte de 7 °C, puis baisse de 5,5 °C. Quelle est la température finale ?", steps: [
+      S("Je traduis", "Départ : −4. Monte de 7 : +7. Baisse de 5,5 : −5,5."),
+      S("J'écris le calcul", "−4 + 7 − 5,5"),
+      S("Je calcule", "−4 + 7 = 3, puis 3 − 5,5 = −2,5."),
+      S("Je vérifie et je rédige", "La température a d'abord dépassé 0 puis est redescendue : un résultat un peu sous 0 est plausible. <b>La température finale est −2,5 °C.</b>")] },
+    ex: [
+      { lv: 1, q: "Un plongeur est à −12 m. Il remonte de 5 m, puis redescend de 8 m. À quelle altitude est-il ? (en m, avec son signe)", type: "num", a: -15, unit: "m", hint: "Remonter → +5. Redescendre → −8.",
+        c: [S("Je traduis", "−12 + 5 − 8"), S("Je calcule", "−12 + 5 = −7, puis −7 − 8 = −15."), S("Phrase", "<b>Le plongeur est à −15 m</b>, soit 15 m sous la surface.")] },
+      { lv: 2, q: "Un plongeur est à −20 m. Il remonte en 4 paliers identiques de 3,5 m. À quelle altitude est-il ? (en m)", type: "num", a: -6, unit: "m", hint: "4 paliers de +3,5 : c'est 4 × 3,5.",
+        c: [S("Je traduis", "−20 + 4 × 3,5"), S("Priorité", "4 × 3,5 = 14."), S("Je termine", "−20 + 14 = −6."), S("Phrase", "<b>Le plongeur est à −6 m.</b>")] },
+      { lv: 2, q: "Lina commence un quiz avec 10 points. Une bonne réponse rapporte 3 points, une mauvaise fait perdre 2,5 points. Elle a 6 bonnes et 8 mauvaises réponses. Quel est son score final ?", type: "num", a: 8, unit: "points", hint: "Calcule 10 + 6 × 3 + 8 × (−2,5).",
+        c: [S("Je traduis", "10 + 6 × 3 + 8 × (−2,5)"), S("Les produits", "6 × 3 = 18 ; 8 × (−2,5) = −20."), S("Je termine", "10 + 18 − 20 = 8."), S("Phrase", "<b>Le score final de Lina est 8 points.</b>")] },
+      { lv: 3, q: "Un drone vole à 40 m d'altitude. Il descend de 30 m en 4 étapes identiques. Quelle est la variation d'altitude à chaque étape ? (en m, avec son signe)", type: "num", a: -7.5, unit: "m", hint: "Une descente totale de 30 m, c'est −30. Partage en 4.", alt: [[7.5, "La valeur est bonne, mais une descente se note avec un signe −."]],
+        c: [S("Je traduis", "Descente totale : −30 m, partagée en 4 étapes."), S("Je calcule", "(−30) ÷ 4 = −7,5."), S("Je vérifie", "4 × (−7,5) = −30. L'altitude de départ (40 m) ne sert pas pour cette question."), S("Phrase", "<b>À chaque étape, l'altitude varie de −7,5 m.</b>")] }
+    ] }
+];
+
+const CAR_FAM = [
+  { title: "Calculer un carré", goal: "Écrire le carré comme un produit, puis le calculer.",
+    method: ["J'écris a^2 = a × a.", "Je calcule le produit (je peux décomposer : 13 × 13 = 13 × 10 + 13 × 3).", "Si a est négatif, le carré est positif."],
+    worked: { q: "Calcule <span class='expr'>13^2</span>", steps: [
+      S("J'écris le produit", "13^2 = 13 × 13"),
+      S("Je décompose", "13 × 10 = 130 et 13 × 3 = 39."),
+      S("J'additionne", "130 + 39 = 169."),
+      S("Résultat", "13^2 = <b>169</b>. Ce n'est pas 13 × 2 = 26.")] },
+    ex: [
+      { lv: 1, q: "<span class='expr'>9^2</span>", type: "num", a: 81, hint: "9^2 = 9 × 9.", alt: [[18, "Attention : 9^2 = 9 × 9, et non 9 × 2."]],
+        c: [S("Produit", "9^2 = 9 × 9"), S("Résultat", "<b>81</b>")] },
+      { lv: 1, q: "<span class='expr'>12^2</span>", type: "num", a: 144, hint: "12 × 12 = 12 × 10 + 12 × 2.", alt: [[24, "Attention : 12^2 = 12 × 12, et non 12 × 2."]],
+        c: [S("Produit", "12^2 = 12 × 12"), S("Décomposition", "12 × 10 = 120 ; 12 × 2 = 24 ; 120 + 24 = 144."), S("Résultat", "<b>144</b>")] },
+      { lv: 2, q: "<span class='expr'>(−7)^2</span>", type: "num", a: 49, hint: "(−7) × (−7) : deux facteurs négatifs.", alt: [[-49, "Deux facteurs négatifs donnent un résultat positif."]],
+        c: [S("Produit", "(−7)^2 = (−7) × (−7)"), S("Signe", "Deux facteurs négatifs → positif."), S("Résultat", "7 × 7 = <b>49</b>")] },
+      { lv: 2, q: "<span class='expr'>0,5^2</span>", type: "num", a: 0.25, hint: "0,5 × 0,5 : c'est la moitié de 0,5.", alt: [[1, "Tu as calculé 0,5 × 2. Le carré, c'est 0,5 × 0,5."]],
+        c: [S("Produit", "0,5^2 = 0,5 × 0,5"), S("Calcul", "La moitié de 0,5 : 0,25."), S("Remarque", "Le carré d'un nombre compris entre 0 et 1 est plus petit que lui."), S("Résultat", "<b>0,25</b>")] },
+      { lv: 3, q: "<span class='expr'>2,5^2 + 1,5^2</span>", type: "num", a: 8.5, hint: "Les carrés sont prioritaires : calcule-les avant d'additionner.", alt: [[16, "Tu as calculé (2,5 + 1,5)^2. Les carrés se calculent d'abord, séparément."]],
+        c: [S("Premier carré", "2,5^2 = 2,5 × 2,5 = 6,25"), S("Second carré", "1,5^2 = 1,5 × 1,5 = 2,25"), S("Somme", "6,25 + 2,25 = 8,5"), S("Résultat", "<b>8,5</b>")] }
+    ] },
+  { title: "Reconnaître un carré parfait", goal: "Savoir si un nombre est le carré d'un entier.",
+    method: ["Je cherche un entier n tel que n^2 soit égal au nombre.", "Je m'aide de la liste : 1, 4, 9, 16, 25, 36, 49, 64, 81, 100, 121, 144, 169, 196, 225.", "Le nombre est dans la liste → carré parfait. Il tombe entre deux → non."],
+    worked: { q: "196 et 150 sont-ils des carrés parfaits ?", steps: [
+      S("Pour 196", "14^2 = 14 × 14 = 196. Donc <b>196 est un carré parfait</b> : 196 = 14^2."),
+      S("Pour 150", "12^2 = 144 et 13^2 = 169. 150 est entre les deux."),
+      S("Conclusion", "Aucun entier n'a 150 pour carré : <b>150 n'est pas un carré parfait</b>.")] },
+    ex: [
+      { lv: 1, q: "121 est-il un carré parfait ?", type: "choice", opts: ["Oui", "Non"], a: 0, hint: "Essaie 11 × 11.",
+        c: [S("Je cherche", "11^2 = 11 × 11 = 121."), S("Conclusion", "<b>Oui</b> : 121 = 11^2.")] },
+      { lv: 1, q: "90 est-il un carré parfait ?", type: "choice", opts: ["Oui", "Non"], a: 1, hint: "Compare avec 9^2 et 10^2.",
+        c: [S("J'encadre", "9^2 = 81 et 10^2 = 100 : 81 &lt; 90 &lt; 100."), S("Conclusion", "<b>Non</b> : aucun entier entre 9 et 10.")] },
+      { lv: 2, q: "Écris 225 sous la forme a^2, avec a entier positif. Que vaut a ?", type: "num", a: 15, hint: "225 se termine par 5 : essaie un nombre qui finit par 5.",
+        c: [S("Je cherche", "15 × 15 = 225."), S("Résultat", "225 = 15^2, donc <b>a = 15</b>.")] },
+      { lv: 3, q: "Parmi 40 ; 64 ; 110 ; 169 ; 200, combien sont des carrés parfaits ?", type: "num", a: 2, hint: "Teste chaque nombre avec la liste des carrés parfaits.",
+        c: [S("40", "36 &lt; 40 &lt; 49 : non."), S("64", "64 = 8^2 : oui."), S("110", "100 &lt; 110 &lt; 121 : non."), S("169", "169 = 13^2 : oui."), S("200", "196 &lt; 200 &lt; 225 : non."), S("Résultat", "<b>2</b> carrés parfaits : 64 et 169.")] }
+    ] },
+  { title: "Aire d'un carré", goal: "Passer de la longueur du côté à l'aire.",
+    method: ["Aire d'un carré de côté c : A = c × c = c^2.", "J'écris l'unité d'aire : cm², m², mm²."],
+    worked: { q: "Un carré a pour côté 7,5 cm. Quelle est son aire ?", steps: [
+      S("La formule", "A = c^2 = 7,5^2"),
+      S("Le calcul", "7,5 × 7,5 = 56,25"),
+      S("Avec l'unité", "L'aire est <b>56,25 cm²</b>.")] },
+    ex: [
+      { lv: 1, q: "Un carré a pour côté 6 cm. Quelle est son aire ?", type: "num", a: 36, unit: "cm²", hint: "6 × 6.", alt: [[24, "Tu as calculé le périmètre (4 × 6). L'aire, c'est 6 × 6."], [12, "Attention : 6^2 = 6 × 6."]],
+        c: [S("Formule", "A = 6^2 = 6 × 6"), S("Résultat", "<b>36 cm²</b>")] },
+      { lv: 2, q: "Un carré a pour côté 1,2 m. Quelle est son aire ?", type: "num", a: 1.44, unit: "m²", hint: "1,2 × 1,2 : calcule 12 × 12, puis place la virgule.",
+        c: [S("Formule", "A = 1,2^2 = 1,2 × 1,2"), S("Calcul", "12 × 12 = 144, et deux chiffres après la virgule au total : 1,44."), S("Résultat", "<b>1,44 m²</b>")] },
+      { lv: 2, q: "Un carré a pour côté 25 mm. Quelle est son aire ?", type: "num", a: 625, unit: "mm²", hint: "25 × 25 = 25 × 20 + 25 × 5.",
+        c: [S("Formule", "A = 25^2 = 25 × 25"), S("Décomposition", "25 × 20 = 500 ; 25 × 5 = 125 ; 500 + 125 = 625."), S("Résultat", "<b>625 mm²</b>")] },
+      { lv: 3, q: "Un carré a pour côté 4 cm. On double la longueur de son côté. Par combien son aire est-elle multipliée ?", type: "num", a: 4, hint: "Calcule l'aire avant (côté 4) et après (côté 8).", alt: [[2, "Le côté est multiplié par 2, mais l'aire ? Compare 4^2 et 8^2."]],
+        c: [S("Avant", "Côté 4 cm : aire 4^2 = 16 cm²."), S("Après", "Côté 8 cm : aire 8^2 = 64 cm²."), S("Comparaison", "64 ÷ 16 = 4."), S("Résultat", "L'aire est multipliée par <b>4</b> : quand le côté double, l'aire est multipliée par 2 × 2.")] }
+    ] }
+];
+
+const RAC_FAM = [
+  { title: "Racine carrée exacte", goal: "Trouver la racine d'un carré parfait.",
+    method: ["Je cherche le nombre positif qui, multiplié par lui-même, donne le nombre sous la racine.", "Je vérifie : réponse × réponse = nombre sous la racine."],
+    worked: { q: "Calcule <span class='expr'>√{144}</span>", steps: [
+      S("Je cherche", "Quel nombre positif multiplié par lui-même donne 144 ? 12 × 12 = 144."),
+      S("Je vérifie", "12 est positif et 12^2 = 144."),
+      S("Résultat", "√{144} = <b>12</b>")] },
+    ex: [
+      { lv: 1, q: "<span class='expr'>√{81}</span>", type: "num", a: 9, hint: "Quel nombre fois lui-même donne 81 ?", alt: [[40.5, "La racine n'est pas la moitié. Cherche n tel que n × n = 81."]],
+        c: [S("Je cherche", "9 × 9 = 81."), S("Résultat", "√{81} = <b>9</b>")] },
+      { lv: 1, q: "<span class='expr'>√{169}</span>", type: "num", a: 13, hint: "C'est un carré entre 12^2 = 144 et 14^2 = 196.",
+        c: [S("Je cherche", "13 × 13 = 169."), S("Résultat", "√{169} = <b>13</b>")] },
+      { lv: 2, q: "<span class='expr'>√{0,25}</span>", type: "num", a: 0.5, hint: "Quel nombre décimal fois lui-même donne 0,25 ?", alt: [[0.05, "0,05 × 0,05 = 0,0025. Essaie 0,5 × 0,5."]],
+        c: [S("Je cherche", "0,5 × 0,5 = 0,25."), S("Résultat", "√{0,25} = <b>0,5</b>")] },
+      { lv: 2, q: "<span class='expr'>√{400}</span>", type: "num", a: 20, hint: "400 = 4 × 100.",
+        c: [S("Je cherche", "20 × 20 = 400."), S("Résultat", "√{400} = <b>20</b>")] },
+      { lv: 3, q: "<span class='expr'>√{36} + √{64}</span>", type: "num", a: 14, hint: "Calcule chaque racine séparément, puis additionne.", alt: [[10, "Tu as calculé √{36 + 64} = √{100}. Ici, chaque racine se calcule à part."]],
+        c: [S("Première racine", "√{36} = 6"), S("Seconde racine", "√{64} = 8"), S("Somme", "6 + 8 = 14"), S("Attention", "√{36 + 64} = √{100} = 10 : ce n'est pas le même calcul. On ne peut pas additionner sous la racine."), S("Résultat", "<b>14</b>")] }
+    ] },
+  { title: "De l'aire au côté", goal: "Retrouver la longueur du côté d'un carré à partir de son aire.",
+    method: ["Le côté c d'un carré d'aire A vérifie c^2 = A.", "c est une longueur, donc positive : c = √{A}.", "Si la racine n'est pas exacte, je donne une valeur approchée."],
+    worked: { q: "Un carré a une aire de 225 cm². Quelle est la longueur de son côté ?", steps: [
+      S("L'égalité", "c^2 = 225"),
+      S("La racine", "c est une longueur positive : c = √{225}."),
+      S("Le calcul", "15 × 15 = 225, donc √{225} = 15."),
+      S("Résultat", "Le côté mesure <b>15 cm</b>.")] },
+    ex: [
+      { lv: 1, q: "Un carré a une aire de 49 cm². Quelle est la longueur de son côté ?", type: "num", a: 7, unit: "cm", hint: "c = √{49}.", alt: [[12.25, "Tu as divisé l'aire par 4 : c'est la méthode du périmètre. Il faut la racine carrée."]],
+        c: [S("Égalité", "c^2 = 49, donc c = √{49}."), S("Calcul", "7 × 7 = 49."), S("Résultat", "<b>7 cm</b>")] },
+      { lv: 1, q: "Un carré a une aire de 100 m². Quelle est la longueur de son côté ?", type: "num", a: 10, unit: "m", hint: "c = √{100}.",
+        c: [S("Égalité", "c^2 = 100, donc c = √{100}."), S("Calcul", "10 × 10 = 100."), S("Résultat", "<b>10 m</b>")] },
+      { lv: 2, q: "Un carré a une aire de 2,25 cm². Quelle est la longueur de son côté ?", type: "num", a: 1.5, unit: "cm", hint: "Essaie un nombre entre 1 et 2 qui finit par 5.",
+        c: [S("Égalité", "c = √{2,25}."), S("Calcul", "1,5 × 1,5 = 2,25."), S("Résultat", "<b>1,5 cm</b>")] },
+      { lv: 3, q: "Un carré a une aire de 50 cm². Donne la longueur de son côté au dixième près. (calculatrice autorisée)", type: "num", a: 7.1, unit: "cm", round: true, hint: "Encadre d'abord : 49 &lt; 50 &lt; 64.",
+        c: [S("Égalité", "c = √{50}."), S("Encadrement", "49 &lt; 50 &lt; 64 donc 7 &lt; √{50} &lt; 8."), S("Calculatrice", "√{50} ≈ 7,071…"), S("Arrondi", "Chiffre des centièmes : 7, donc j'arrondis au-dessus : 7,1."), S("Résultat", "Le côté mesure environ <b>7,1 cm</b>.")] }
+    ] },
+  { title: "Encadrer une racine", goal: "Placer une racine entre deux entiers consécutifs.",
+    method: ["Je cherche les deux carrés parfaits consécutifs qui entourent le nombre sous la racine.", "J'écris : n^2 &lt; nombre &lt; (n+1)^2.", "Je prends les racines : n &lt; √{nombre} &lt; n + 1."],
+    worked: { q: "Encadre <span class='expr'>√{55}</span> entre deux entiers consécutifs.", steps: [
+      S("Les carrés autour de 55", "7^2 = 49 et 8^2 = 64. Donc 49 &lt; 55 &lt; 64."),
+      S("Je passe aux racines", "√{49} = 7 et √{64} = 8."),
+      S("Résultat", "<b>7 &lt; √{55} &lt; 8</b>"),
+      S("À ne pas écrire", "49 &lt; √{55} &lt; 64 est faux : les carrés encadrent 55, pas √{55}.")] },
+    ex: [
+      { lv: 1, type: "pair", rad: "40", q: "Encadre √{40} entre deux entiers consécutifs.", a: [6, 7], hint: "Quels carrés parfaits entourent 40 ?",
+        c: [S("Carrés", "36 &lt; 40 &lt; 49, c'est-à-dire 6^2 &lt; 40 &lt; 7^2."), S("Résultat", "<b>6 &lt; √{40} &lt; 7</b>")] },
+      { lv: 1, type: "pair", rad: "90", q: "Encadre √{90} entre deux entiers consécutifs.", a: [9, 10], hint: "Quels carrés parfaits entourent 90 ?",
+        c: [S("Carrés", "81 &lt; 90 &lt; 100, c'est-à-dire 9^2 &lt; 90 &lt; 10^2."), S("Résultat", "<b>9 &lt; √{90} &lt; 10</b>")] },
+      { lv: 2, type: "pair", rad: "115", q: "Encadre √{115} entre deux entiers consécutifs.", a: [10, 11], hint: "100 et 121 sont des carrés parfaits.",
+        c: [S("Carrés", "100 &lt; 115 &lt; 121, c'est-à-dire 10^2 &lt; 115 &lt; 11^2."), S("Résultat", "<b>10 &lt; √{115} &lt; 11</b>")] },
+      { lv: 2, type: "pair", rad: "3", q: "Encadre √{3} entre deux entiers consécutifs.", a: [1, 2], hint: "Les carrés parfaits autour de 3 sont 1 et 4.",
+        c: [S("Carrés", "1 &lt; 3 &lt; 4, c'est-à-dire 1^2 &lt; 3 &lt; 2^2."), S("Résultat", "<b>1 &lt; √{3} &lt; 2</b>"), S("À ne pas écrire", "1 &lt; √{3} &lt; 4 : le 4 est un carré, il encadre 3 et non √{3}.")] },
+      { lv: 3, type: "pair", rad: "200", q: "Encadre √{200} entre deux entiers consécutifs.", a: [14, 15], hint: "Pense aux derniers carrés de ta liste : 196 et 225.",
+        c: [S("Carrés", "196 &lt; 200 &lt; 225, c'est-à-dire 14^2 &lt; 200 &lt; 15^2."), S("Résultat", "<b>14 &lt; √{200} &lt; 15</b>")] }
+    ] },
+  { title: "Compléter un encadrement", goal: "Trouver un nombre sous la racine qui respecte un encadrement donné.",
+    method: ["Je mets au carré les deux entiers donnés.", "Le nombre sous la racine doit être strictement entre ces deux carrés.", "Je choisis un entier dans cet intervalle (il y a souvent plusieurs réponses)."],
+    worked: { q: "Complète par un entier : <span class='expr'>3 &lt; √{…} &lt; 4</span>", steps: [
+      S("Je mets au carré", "3^2 = 9 et 4^2 = 16."),
+      S("La condition", "Il faut 9 &lt; … &lt; 16 (strictement)."),
+      S("Les réponses possibles", "10, 11, 12, 13, 14 ou 15. Par exemple : <b>3 &lt; √{12} &lt; 4</b>."),
+      S("Vérification", "√{12} ≈ 3,46 : c'est bien entre 3 et 4.")] },
+    ex: [
+      { lv: 1, type: "range", lo: 5, hi: 6, q: "Complète par un entier.", a: [25, 36], hint: "5^2 = 25 et 6^2 = 36.",
+        c: [S("Carrés", "5^2 = 25 et 6^2 = 36."), S("Condition", "25 &lt; … &lt; 36."), S("Réponses", "Tout entier de 26 à 35, par exemple <b>5 &lt; √{30} &lt; 6</b>.")] },
+      { lv: 2, type: "range", lo: 11, hi: 12, q: "Complète par un entier.", a: [121, 144], hint: "11^2 = 121 et 12^2 = 144.",
+        c: [S("Carrés", "11^2 = 121 et 12^2 = 144."), S("Condition", "121 &lt; … &lt; 144."), S("Réponses", "Tout entier de 122 à 143, par exemple <b>11 &lt; √{130} &lt; 12</b>.")] },
+      { lv: 2, type: "range", lo: 1, hi: 2, q: "Complète par un entier.", a: [1, 4], hint: "1^2 = 1 et 2^2 = 4.",
+        c: [S("Carrés", "1^2 = 1 et 2^2 = 4."), S("Condition", "1 &lt; … &lt; 4."), S("Réponses", "2 ou 3 : <b>1 &lt; √{2} &lt; 2</b> ou <b>1 &lt; √{3} &lt; 2</b>.")] },
+      { lv: 3, type: "choice", q: "Peut-on compléter <span class='expr'>0 &lt; √{…} &lt; 1</span> par un nombre entier ?", opts: ["Oui", "Non, c'est impossible"], a: 1, hint: "Mets 0 et 1 au carré. Y a-t-il un entier entre les deux ?",
+        c: [S("Carrés", "0^2 = 0 et 1^2 = 1."), S("Condition", "Il faudrait un entier strictement entre 0 et 1."), S("Conclusion", "Aucun entier n'existe entre 0 et 1 : <b>c'est impossible</b>. Avec un décimal, ce serait possible : 0 &lt; √{0,5} &lt; 1.")] }
+    ] },
+  { title: "Valeur approchée au dixième", goal: "Utiliser la calculatrice et contrôler le résultat avec un encadrement.",
+    method: ["J'encadre d'abord la racine entre deux entiers.", "J'utilise la calculatrice.", "J'arrondis au dixième : chiffre des centièmes de 0 à 4 → je garde ; de 5 à 9 → j'augmente.", "Je vérifie que la valeur est dans l'encadrement."],
+    worked: { q: "Donne une valeur approchée au dixième de <span class='expr'>√{30}</span>.", steps: [
+      S("J'encadre", "25 &lt; 30 &lt; 36, donc 5 &lt; √{30} &lt; 6."),
+      S("Calculatrice", "√{30} ≈ 5,477…"),
+      S("J'arrondis", "Chiffre des centièmes : 7 (entre 5 et 9), j'augmente le dixième : 5,5."),
+      S("Je vérifie", "5,5 est bien entre 5 et 6. <b>√{30} ≈ 5,5</b>")] },
+    ex: [
+      { lv: 1, q: "Valeur approchée au dixième de <span class='expr'>√{12}</span> (calculatrice autorisée)", type: "num", a: 3.5, round: true, hint: "Encadre : 9 &lt; 12 &lt; 16. La calculatrice affiche 3,464…",
+        c: [S("Encadrement", "9 &lt; 12 &lt; 16, donc 3 &lt; √{12} &lt; 4."), S("Calculatrice", "√{12} ≈ 3,464…"), S("Arrondi", "Centièmes : 6, j'augmente : 3,5."), S("Résultat", "<b>√{12} ≈ 3,5</b>")] },
+      { lv: 2, q: "Valeur approchée au dixième de <span class='expr'>√{45}</span>", type: "num", a: 6.7, round: true, hint: "Encadre entre 6 et 7.",
+        c: [S("Encadrement", "36 &lt; 45 &lt; 49, donc 6 &lt; √{45} &lt; 7."), S("Calculatrice", "√{45} ≈ 6,708…"), S("Arrondi", "Centièmes : 0, je garde : 6,7."), S("Résultat", "<b>√{45} ≈ 6,7</b>")] },
+      { lv: 2, q: "Valeur approchée au dixième de <span class='expr'>√{60}</span>", type: "num", a: 7.7, round: true, hint: "Encadre entre 7 et 8.",
+        c: [S("Encadrement", "49 &lt; 60 &lt; 64, donc 7 &lt; √{60} &lt; 8."), S("Calculatrice", "√{60} ≈ 7,746…"), S("Arrondi", "Centièmes : 4, je garde : 7,7."), S("Résultat", "<b>√{60} ≈ 7,7</b>")] },
+      { lv: 3, q: "Valeur approchée au dixième de <span class='expr'>√{150}</span>", type: "num", a: 12.2, round: true, hint: "Encadre entre 12 et 13.",
+        c: [S("Encadrement", "144 &lt; 150 &lt; 169, donc 12 &lt; √{150} &lt; 13."), S("Calculatrice", "√{150} ≈ 12,247…"), S("Arrondi", "Centièmes : 4, je garde : 12,2."), S("Résultat", "<b>√{150} ≈ 12,2</b>")] }
+    ] }
+];
+
+const fig = (R, P, Q, rp, rq, pq) => ({ R, P, Q, rp, rq, pq });
+const PYT_FAM = [
+  { title: "Repérer l'hypoténuse", goal: "Trouver l'hypoténuse et écrire l'égalité de Pythagore.",
+    method: ["Je repère le sommet de l'angle droit (« rectangle en … »).", "L'hypoténuse est le côté qui ne contient pas ce sommet.", "J'écris : hypoténuse^2 = somme des carrés des deux autres côtés."],
+    worked: { q: "MNP est rectangle en N. Écris l'égalité de Pythagore.", fig: fig("N", "M", "P", "", "", "?"), steps: [
+      S("L'angle droit", "Il est en N."),
+      S("L'hypoténuse", "C'est le côté qui ne contient pas N : <b>[MP]</b>."),
+      S("L'égalité", "<b>MP^2 = MN^2 + NP^2</b>")] },
+    ex: [
+      { lv: 1, q: "RST est rectangle en S. Quelle est son hypoténuse ?", type: "choice", opts: ["[RS]", "[ST]", "[RT]"], a: 2, hint: "Cherche le côté qui ne contient pas la lettre S.",
+        c: [S("Angle droit", "En S."), S("Hypoténuse", "Le côté sans S : <b>[RT]</b>.")] },
+      { lv: 1, q: "EFG est rectangle en E. Quelle égalité est juste ?", type: "choice", opts: ["EF^2 = EG^2 + FG^2", "FG^2 = EF^2 + EG^2", "EG^2 = EF^2 + FG^2"], a: 1, hint: "L'hypoténuse est seule d'un côté du signe =.",
+        c: [S("Angle droit", "En E."), S("Hypoténuse", "Le côté sans E : [FG]."), S("Égalité", "<b>FG^2 = EF^2 + EG^2</b>")] },
+      { lv: 2, q: "Dans le triangle IJK, on sait que IK^2 = IJ^2 + JK^2. En quel sommet est l'angle droit ?", type: "choice", opts: ["I", "J", "K"], a: 1, hint: "[IK] est l'hypoténuse. Quel sommet n'est pas sur [IK] ?",
+        c: [S("Hypoténuse", "Le côté seul : [IK]."), S("Angle droit", "Il est en face de l'hypoténuse, au sommet qui n'est pas sur [IK] : <b>J</b>.")] }
+    ] },
+  { title: "Calculer l'hypoténuse", goal: "Additionner les carrés des côtés de l'angle droit, puis prendre la racine.",
+    method: ["Je cite le triangle rectangle et son hypoténuse.", "J'écris l'égalité de Pythagore.", "Je remplace par les longueurs et je calcule l'hypoténuse^2.", "Je prends la racine carrée (valeur exacte, puis approchée si besoin)."],
+    worked: { q: "ABC est rectangle en A, avec AB = 6 cm et AC = 8 cm. Calcule BC.", fig: fig("A", "B", "C", "6 cm", "8 cm", "?"), steps: [
+      S("Le triangle", "ABC est rectangle en A, son hypoténuse est [BC]."),
+      S("L'égalité", "D'après le théorème de Pythagore : BC^2 = AB^2 + AC^2"),
+      S("Je remplace", "BC^2 = 6^2 + 8^2 = 36 + 64 = 100"),
+      S("La racine", "BC = √{100} = 10. <b>BC = 10 cm</b>")] },
+    ex: [
+      { lv: 1, q: "DEF est rectangle en D, DE = 5 cm et DF = 12 cm. Calcule EF.", fig: fig("D", "E", "F", "5 cm", "12 cm", "?"), type: "num", a: 13, unit: "cm", hint: "EF^2 = 5^2 + 12^2.", alt: [[17, "Tu as additionné les longueurs. Il faut additionner les carrés, puis prendre la racine."], [169, "Tu as trouvé EF^2. Il reste à prendre la racine carrée."]],
+        c: [S("Le triangle", "DEF est rectangle en D, son hypoténuse est [EF]."), S("L'égalité", "EF^2 = DE^2 + DF^2"), S("Je remplace", "EF^2 = 25 + 144 = 169"), S("La racine", "EF = √{169} = <b>13 cm</b>")] },
+      { lv: 2, q: "KLM est rectangle en L, KL = 9 cm et LM = 12 cm. Calcule KM.", fig: fig("L", "K", "M", "9 cm", "12 cm", "?"), type: "num", a: 15, unit: "cm", hint: "L'hypoténuse est [KM].", alt: [[21, "Tu as additionné les longueurs. Il faut additionner les carrés."], [225, "Tu as trouvé KM^2. Prends la racine carrée."]],
+        c: [S("Le triangle", "KLM est rectangle en L, son hypoténuse est [KM]."), S("L'égalité", "KM^2 = KL^2 + LM^2"), S("Je remplace", "KM^2 = 81 + 144 = 225"), S("La racine", "KM = √{225} = <b>15 cm</b>")] },
+      { lv: 2, q: "RST est rectangle en R, RS = 4 cm et RT = 7 cm. Calcule ST au dixième près.", fig: fig("R", "S", "T", "4 cm", "7 cm", "?"), type: "num", a: 8.1, unit: "cm", round: true, hint: "ST^2 = 16 + 49. La racine n'est pas exacte.", alt: [[65, "Tu as trouvé ST^2. Prends la racine carrée."], [11, "Tu as additionné les longueurs. Il faut additionner les carrés."]],
+        c: [S("Le triangle", "RST est rectangle en R, son hypoténuse est [ST]."), S("L'égalité", "ST^2 = RS^2 + RT^2"), S("Je remplace", "ST^2 = 16 + 49 = 65"), S("La racine", "ST = √{65} (valeur exacte) ≈ 8,06…"), S("Arrondi", "<b>ST ≈ 8,1 cm</b>")] },
+      { lv: 3, q: "UVW est rectangle en U, UV = 3,5 cm et UW = 4,2 cm. Calcule VW au dixième près.", fig: fig("U", "V", "W", "3,5 cm", "4,2 cm", "?"), type: "num", a: 5.5, unit: "cm", round: true, hint: "Calcule 3,5^2 et 4,2^2 avec soin.", alt: [[29.89, "Tu as trouvé VW^2. Prends la racine carrée."], [7.7, "Tu as additionné les longueurs. Il faut additionner les carrés."]],
+        c: [S("Le triangle", "UVW est rectangle en U, son hypoténuse est [VW]."), S("L'égalité", "VW^2 = UV^2 + UW^2"), S("Les carrés", "3,5^2 = 12,25 et 4,2^2 = 17,64."), S("La somme", "VW^2 = 12,25 + 17,64 = 29,89"), S("La racine", "VW = √{29,89} ≈ 5,467… donc <b>VW ≈ 5,5 cm</b>")] }
+    ] },
+  { title: "Calculer un côté de l'angle droit", goal: "Soustraire : hypoténuse^2 moins le côté connu^2.",
+    method: ["J'écris l'égalité de Pythagore, avec l'hypoténuse seule d'un côté.", "Je remplace par les valeurs connues.", "Je trouve le carré cherché par soustraction : hypoténuse^2 − côté connu^2.", "Je prends la racine carrée."],
+    worked: { q: "DEF est rectangle en D, avec EF = 13 cm et DE = 5 cm. Calcule DF.", fig: fig("D", "E", "F", "5 cm", "?", "13 cm"), steps: [
+      S("L'égalité", "DEF est rectangle en D : EF^2 = DE^2 + DF^2"),
+      S("Je remplace", "13^2 = 5^2 + DF^2, soit 169 = 25 + DF^2"),
+      S("Je soustrais", "DF^2 = 169 − 25 = 144"),
+      S("La racine", "DF = √{144} = 12. <b>DF = 12 cm</b>"),
+      S("Piège évité", "On n'additionne pas 169 + 25 : l'hypoténuse est le plus grand côté, DF doit être plus petit que 13.")] },
+    ex: [
+      { lv: 1, q: "ABC est rectangle en A, BC = 10 cm et AB = 6 cm. Calcule AC.", fig: fig("A", "B", "C", "6 cm", "?", "10 cm"), type: "num", a: 8, unit: "cm", hint: "AC^2 = 10^2 − 6^2.", alt: [[11.7, "Tu as additionné les carrés. On cherche un côté de l'angle droit : on soustrait."], [4, "Tu as soustrait les longueurs. Il faut soustraire les carrés : 100 − 36."], [64, "Tu as trouvé AC^2. Prends la racine carrée."]],
+        c: [S("L'égalité", "BC^2 = AB^2 + AC^2"), S("Je remplace", "100 = 36 + AC^2"), S("Je soustrais", "AC^2 = 100 − 36 = 64"), S("La racine", "AC = √{64} = <b>8 cm</b>")] },
+      { lv: 2, q: "GHI est rectangle en H, GI = 17 cm et GH = 8 cm. Calcule HI.", fig: fig("H", "G", "I", "8 cm", "?", "17 cm"), type: "num", a: 15, unit: "cm", hint: "L'hypoténuse est [GI] : 289 − 64.", alt: [[18.8, "Tu as additionné les carrés. On cherche un côté de l'angle droit : on soustrait."], [225, "Tu as trouvé HI^2. Prends la racine carrée."], [9, "Tu as soustrait les longueurs. Il faut soustraire les carrés."]],
+        c: [S("L'égalité", "GI^2 = GH^2 + HI^2"), S("Je remplace", "289 = 64 + HI^2"), S("Je soustrais", "HI^2 = 289 − 64 = 225"), S("La racine", "HI = √{225} = <b>15 cm</b>")] },
+      { lv: 2, q: "MNO est rectangle en M, NO = 9 cm et MN = 4 cm. Calcule MO au dixième près.", fig: fig("M", "N", "O", "4 cm", "?", "9 cm"), type: "num", a: 8.1, unit: "cm", round: true, hint: "MO^2 = 81 − 16.", alt: [[9.8, "Tu as additionné les carrés. On cherche un côté de l'angle droit : on soustrait."], [65, "Tu as trouvé MO^2. Prends la racine carrée."], [5, "Tu as soustrait les longueurs. Il faut soustraire les carrés."]],
+        c: [S("L'égalité", "NO^2 = MN^2 + MO^2"), S("Je remplace", "81 = 16 + MO^2"), S("Je soustrais", "MO^2 = 81 − 16 = 65"), S("La racine", "MO = √{65} ≈ 8,06… donc <b>MO ≈ 8,1 cm</b>")] },
+      { lv: 3, q: "PQR est rectangle en P, QR = 7,5 cm et PQ = 4,5 cm. Calcule PR.", fig: fig("P", "Q", "R", "4,5 cm", "?", "7,5 cm"), type: "num", a: 6, unit: "cm", hint: "7,5^2 = 56,25 et 4,5^2 = 20,25.", alt: [[8.7, "Tu as additionné les carrés. On cherche un côté de l'angle droit : on soustrait."], [36, "Tu as trouvé PR^2. Prends la racine carrée."], [3, "Tu as soustrait les longueurs. Il faut soustraire les carrés."]],
+        c: [S("L'égalité", "QR^2 = PQ^2 + PR^2"), S("Les carrés", "7,5^2 = 56,25 et 4,5^2 = 20,25."), S("Je soustrais", "PR^2 = 56,25 − 20,25 = 36"), S("La racine", "PR = √{36} = <b>6 cm</b>")] }
+    ] },
+  { title: "Rectangle ou pas ?", goal: "Utiliser la réciproque, ou montrer qu'un triangle n'est pas rectangle.",
+    method: ["Je repère le plus grand côté.", "Je calcule séparément : le carré du plus grand côté, puis la somme des carrés des deux autres.", "Égalité → rectangle (réciproque). Pas d'égalité → pas rectangle."],
+    worked: { q: "Un triangle ABC a pour côtés AB = 6 cm, AC = 8 cm et BC = 10 cm. Est-il rectangle ?", steps: [
+      S("Le plus grand côté", "[BC], qui mesure 10 cm."),
+      S("D'une part", "BC^2 = 10^2 = 100"),
+      S("D'autre part", "AB^2 + AC^2 = 36 + 64 = 100"),
+      S("Conclusion", "BC^2 = AB^2 + AC^2. D'après la réciproque du théorème de Pythagore, <b>ABC est rectangle en A</b>.")] },
+    ex: [
+      { lv: 1, q: "Un triangle a pour côtés 5 cm, 12 cm et 13 cm. Est-il rectangle ?", type: "choice", opts: ["Rectangle", "Pas rectangle"], a: 0, hint: "Compare 13^2 et 5^2 + 12^2.",
+        c: [S("Plus grand côté", "13 cm : 13^2 = 169."), S("Les deux autres", "5^2 + 12^2 = 25 + 144 = 169."), S("Conclusion", "Égalité : <b>le triangle est rectangle</b>.")] },
+      { lv: 2, q: "Un triangle a pour côtés 6 cm, 7 cm et 9 cm. Est-il rectangle ?", type: "choice", opts: ["Rectangle", "Pas rectangle"], a: 1, hint: "Compare 9^2 et 6^2 + 7^2.",
+        c: [S("Plus grand côté", "9 cm : 9^2 = 81."), S("Les deux autres", "6^2 + 7^2 = 36 + 49 = 85."), S("Conclusion", "81 ≠ 85 : <b>le triangle n'est pas rectangle</b>.")] },
+      { lv: 2, q: "Un triangle a pour côtés 2,8 cm, 4,5 cm et 5,3 cm. Est-il rectangle ?", type: "choice", opts: ["Rectangle", "Pas rectangle"], a: 0, hint: "Calcule 5,3^2, puis 2,8^2 + 4,5^2.",
+        c: [S("Plus grand côté", "5,3 cm : 5,3^2 = 28,09."), S("Les deux autres", "2,8^2 + 4,5^2 = 7,84 + 20,25 = 28,09."), S("Conclusion", "Égalité : <b>le triangle est rectangle</b>.")] },
+      { lv: 3, q: "Un triangle a pour côtés 20 m, 21 m et 30 m. Est-il rectangle ?", type: "choice", opts: ["Rectangle", "Pas rectangle"], a: 1, hint: "Compare 30^2 et 20^2 + 21^2.",
+        c: [S("Plus grand côté", "30 m : 30^2 = 900."), S("Les deux autres", "20^2 + 21^2 = 400 + 441 = 841."), S("Conclusion", "900 ≠ 841 : <b>le triangle n'est pas rectangle</b>.")] }
+    ] },
+  { title: "Problèmes avec Pythagore", goal: "Repérer un triangle rectangle caché dans une situation.",
+    method: ["Je fais un schéma à main levée et je repère le triangle rectangle.", "Je repère ce que je cherche : l'hypoténuse ou un côté de l'angle droit ?", "J'applique la bonne méthode, puis je réponds par une phrase avec l'unité."],
+    worked: { q: "Une échelle de 5 m est appuyée contre un mur vertical. Son pied est à 1,4 m du mur. À quelle hauteur arrive le haut de l'échelle ?", fig: fig("M", "H", "E", "h", "1,4 m", "5 m"), steps: [
+      S("Le triangle rectangle", "Le mur est perpendiculaire au sol : le triangle MHE est rectangle en M (M : pied du mur, H : haut de l'échelle, E : pied de l'échelle)."),
+      S("Ce que je cherche", "L'échelle [HE] est l'hypoténuse. Je cherche h = MH, un côté de l'angle droit : je soustrais."),
+      S("Le calcul", "h^2 = 5^2 − 1,4^2 = 25 − 1,96 = 23,04"),
+      S("La racine", "h = √{23,04} = 4,8"),
+      S("Phrase", "<b>Le haut de l'échelle arrive à 4,8 m de hauteur.</b>")] },
+    ex: [
+      { lv: 1, q: "Un écran rectangulaire mesure 16 cm sur 12 cm. Quelle est la longueur de sa diagonale ?", type: "num", a: 20, unit: "cm", hint: "La diagonale coupe le rectangle en deux triangles rectangles. C'est l'hypoténuse.", alt: [[28, "Tu as additionné les longueurs. Il faut additionner les carrés."], [400, "Tu as trouvé le carré de la diagonale. Prends la racine."]],
+        c: [S("Triangle", "Les côtés du rectangle forment un angle droit ; la diagonale est l'hypoténuse."), S("Calcul", "d^2 = 16^2 + 12^2 = 256 + 144 = 400"), S("Racine", "d = √{400} = 20"), S("Phrase", "<b>La diagonale mesure 20 cm.</b>")] },
+      { lv: 2, q: "Un terrain rectangulaire mesure 24 m sur 7 m. Quelle est la longueur de sa diagonale ?", type: "num", a: 25, unit: "m", hint: "Même méthode que pour l'écran.", alt: [[31, "Tu as additionné les longueurs. Il faut additionner les carrés."], [625, "Tu as trouvé le carré de la diagonale. Prends la racine."]],
+        c: [S("Triangle", "La diagonale est l'hypoténuse d'un triangle rectangle de côtés 24 m et 7 m."), S("Calcul", "d^2 = 576 + 49 = 625"), S("Racine", "d = √{625} = 25"), S("Phrase", "<b>La diagonale mesure 25 m.</b>")] },
+      { lv: 3, q: "Un cerf-volant est retenu par une ficelle tendue de 26 m, tenue au sol. Il se trouve à la verticale d'un point situé à 10 m de la personne. À quelle hauteur vole-t-il ?", type: "num", a: 24, unit: "m", hint: "La ficelle est l'hypoténuse. Tu cherches un côté de l'angle droit.", alt: [[27.9, "Tu as additionné les carrés. La hauteur est un côté de l'angle droit : on soustrait."]],
+        c: [S("Triangle", "La verticale est perpendiculaire au sol : triangle rectangle. La ficelle (26 m) est l'hypoténuse."), S("Calcul", "h^2 = 26^2 − 10^2 = 676 − 100 = 576"), S("Racine", "h = √{576} = 24"), S("Phrase", "<b>Le cerf-volant vole à 24 m de hauteur.</b>")] },
+      { lv: 3, q: "Dans un triangle ABC, H est le pied de la hauteur issue de A, et H est sur [BC]. On sait que AB = 10 cm, BH = 6 cm et HC = 12 cm. Calcule l'aire du triangle ABC.", type: "num", a: 72, unit: "cm²", hint: "Calcule d'abord la hauteur AH dans le triangle ABH, rectangle en H.", alt: [[144, "Tu as oublié de diviser par 2 dans la formule de l'aire d'un triangle."], [48, "Tu as utilisé BH comme base. La base est BC = BH + HC = 18 cm."]],
+        c: [S("Triangle rectangle", "La hauteur est perpendiculaire à (BC) : ABH est rectangle en H, d'hypoténuse [AB]."), S("La hauteur", "AH^2 = AB^2 − BH^2 = 100 − 36 = 64, donc AH = 8 cm."), S("La base", "BC = BH + HC = 6 + 12 = 18 cm."), S("L'aire", "Aire = base × hauteur ÷ 2 = 18 × 8 ÷ 2 = 72."), S("Phrase", "<b>L'aire du triangle ABC est 72 cm².</b>")] }
+    ] }
+];
+
+/* ---------- Quiz ---------- */
+const QUIZ = {
+  rel: [
+    { q: "(−5) + (+3) = ?", o: ["−8", "−2", "2", "8"], a: 1, e: "Signes contraires : 5 − 3 = 2. Le plus éloigné de zéro est −5 : le résultat est −2." },
+    { q: "(+4) − (−6) = ?", o: ["−2", "2", "10", "−10"], a: 2, e: "Soustraire −6, c'est ajouter +6 : 4 + 6 = 10." },
+    { q: "Quel est le signe de (−2) × (−3) × (−1) × (+5) ?", o: ["Positif", "Négatif"], a: 1, e: "Trois facteurs négatifs : un nombre impair, donc le produit est négatif." },
+    { q: "(−36) ÷ (+4) = ?", o: ["9", "−9", "−32", "−40"], a: 1, e: "Un seul négatif : résultat négatif. 36 ÷ 4 = 9, donc −9." },
+    { q: "5 − 2 × (−3) = ?", o: ["−9", "9", "11", "−1"], a: 2, e: "La multiplication d'abord : 2 × (−3) = −6. Puis 5 − (−6) = 5 + 6 = 11." },
+    { q: "« La température baisse de 4,5 °C » se traduit par :", o: ["+4,5", "−4,5", "× 4,5"], a: 1, e: "Une baisse se traduit par un nombre négatif : −4,5." }
+  ],
+  car: [
+    { q: "6^2 = ?", o: ["12", "36", "62", "8"], a: 1, e: "6^2 = 6 × 6 = 36. Ce n'est pas 6 × 2." },
+    { q: "Lequel est un carré parfait ?", o: ["50", "81", "150", "20"], a: 1, e: "81 = 9^2. Les autres tombent entre deux carrés parfaits." },
+    { q: "(−5)^2 = ?", o: ["−25", "25", "−10", "10"], a: 1, e: "(−5) × (−5) = 25 : deux négatifs donnent un positif." },
+    { q: "Aire d'un carré de côté 1,1 cm ?", o: ["2,2 cm²", "1,21 cm²", "12,1 cm²", "4,4 cm²"], a: 1, e: "1,1 × 1,1 = 1,21. (4,4 est le périmètre, en cm.)" },
+    { q: "15^2 = 225. Combien vaut 14^2 ?", o: ["186", "196", "169", "211"], a: 1, e: "14 × 14 = 196. Astuce : 15^2 − 15 − 14 = 225 − 29 = 196." }
+  ],
+  rac: [
+    { q: "√{49} = ?", o: ["7", "24,5", "−7", "2 401"], a: 0, e: "7 × 7 = 49 et 7 est positif. La racine n'est pas la moitié." },
+    { q: "√{0} = ?", o: ["0", "1", "N'existe pas"], a: 0, e: "0 × 0 = 0, donc √{0} = 0." },
+    { q: "Entre quels entiers se trouve √{70} ?", o: ["7 et 8", "8 et 9", "64 et 81", "69 et 71"], a: 1, e: "64 &lt; 70 &lt; 81, donc 8 &lt; √{70} &lt; 9." },
+    { q: "Si 3 &lt; √{x} &lt; 4, x peut valoir :", o: ["3,5", "12", "20", "4"], a: 1, e: "Il faut 9 &lt; x &lt; 16. Parmi les propositions, seul 12 convient." },
+    { q: "√{−9} :", o: ["vaut 3", "vaut −3", "n'existe pas"], a: 2, e: "Un carré n'est jamais négatif : aucun nombre n'a −9 pour carré." },
+    { q: "Valeur approchée au dixième de √{2} (√{2} ≈ 1,414…) :", o: ["1,4", "1,5", "1,41", "2"], a: 0, e: "Chiffre des centièmes : 1, je garde. √{2} ≈ 1,4 (1,41 est au centième)." }
+  ],
+  pyt: [
+    { q: "Dans un triangle rectangle, l'hypoténuse est :", o: ["le côté opposé à l'angle droit", "le plus petit côté", "un côté de l'angle droit"], a: 0, e: "L'hypoténuse est en face de l'angle droit ; c'est le plus long côté." },
+    { q: "KLM est rectangle en L. Quelle égalité est juste ?", o: ["KM^2 = KL^2 + LM^2", "KL^2 = KM^2 + LM^2", "LM^2 = KL^2 + KM^2", "KM = KL + LM"], a: 0, e: "L'angle droit est en L : l'hypoténuse est [KM], seule d'un côté du =." },
+    { q: "Les côtés de l'angle droit mesurent 3 et 4. L'hypoténuse mesure :", o: ["7", "5", "25", "12"], a: 1, e: "3^2 + 4^2 = 9 + 16 = 25, et √{25} = 5. (25 est le carré de l'hypoténuse.)" },
+    { q: "Un triangle de côtés 4, 5 et 6 est-il rectangle ?", o: ["Oui", "Non"], a: 1, e: "6^2 = 36 et 4^2 + 5^2 = 41. 36 ≠ 41 : il n'est pas rectangle." },
+    { q: "Fin d'un calcul : AB^2 = 50. Alors AB = ?", o: ["25", "√{50} ≈ 7,1", "2 500", "50"], a: 1, e: "AB est une longueur positive : AB = √{50} ≈ 7,1." },
+    { q: "Pour calculer un côté de l'angle droit, je :", o: ["additionne les carrés", "fais hypoténuse^2 − autre côté^2", "soustrais les longueurs"], a: 1, e: "L'hypoténuse^2 est la somme des deux autres carrés : on retire le carré connu." }
+  ]
+};
+
+/* ---------- Cartes mémoire et calcul éclair ---------- */
+const CARDS = {
+  rel: [
+    ["Additionner deux nombres de même signe ?", "J'additionne les distances à zéro et je garde le signe commun. (−3) + (−4) = −7"],
+    ["Additionner deux nombres de signes contraires ?", "Je soustrais les distances à zéro. Je garde le signe du plus éloigné de zéro. (−7) + (+2) = −5"],
+    ["Soustraire un nombre ?", "C'est ajouter son opposé. 3 − (−5) = 3 + 5 = 8"],
+    ["Signe d'un produit de plusieurs facteurs ?", "Je compte les négatifs : pair → positif ; impair → négatif."],
+    ["−(−a) = ?", "+a"],
+    ["L'ordre des priorités ?", "Parenthèses, puissances, × et ÷, puis + et −. À égalité : de gauche à droite."]
+  ],
+  car: [
+    ["a^2 signifie…", "a × a (et non a × 2)"],
+    ["Aire d'un carré de côté c ?", "c × c = c^2"],
+    ["(−4)^2 = ?", "16 : un carré est toujours positif ou nul."],
+    ["Qu'est-ce qu'un carré parfait ?", "Le carré d'un nombre entier : 1, 4, 9, 16, 25…"],
+    ["13^2, 14^2, 15^2 ?", "169, 196, 225"]
+  ],
+  rac: [
+    ["√{a}, c'est…", "le nombre positif dont le carré vaut a."],
+    ["√{a} existe quand…", "a est positif ou nul."],
+    ["Comment encadrer √{31} ?", "25 &lt; 31 &lt; 36, donc 5 &lt; √{31} &lt; 6."],
+    ["Si x^2 = n et que x est une longueur…", "x = √{n}"],
+    ["√{a + b} = √{a} + √{b} ?", "Non ! √{9 + 16} = 5, mais √{9} + √{16} = 7."]
+  ],
+  pyt: [
+    ["L'hypoténuse ?", "Le côté opposé à l'angle droit, le plus long."],
+    ["Le théorème de Pythagore ?", "Si ABC est rectangle en A, alors BC^2 = AB^2 + AC^2."],
+    ["La réciproque ?", "Si BC^2 = AB^2 + AC^2, alors ABC est rectangle en A."],
+    ["Je cherche l'hypoténuse : je…", "additionne les carrés, puis je prends la racine."],
+    ["Je cherche un côté de l'angle droit : je…", "soustrais : hypoténuse^2 − côté connu^2, puis racine."],
+    ["Les trois lignes de rédaction ?", "1. Le triangle … est rectangle en …, son hypoténuse est […]. 2. D'après le théorème de Pythagore : … 3. Je remplace, je calcule, racine."]
+  ]
+};
+const DRILLS = {
+  rel: { title: "Calcul éclair : sommes et différences", gen(){
+    let a = ri(-12, 12), b = ri(-12, 12); if (a === 0) a = 7; if (b === 0) b = -4;
+    const minus = Math.random() < .5;
+    const r = minus ? a - b : a + b;
+    return { q: "(" + sg(a) + ") " + (minus ? "−" : "+") + " (" + sg(b) + ")", a: r,
+      e: minus ? "(" + sg(a) + ") + (" + sg(-b) + ") = " + fmt(r) : (Math.sign(a) === Math.sign(b) ? "Même signe : " : "Signes contraires : ") + "le résultat est " + fmt(r) + "." };
+  } },
+  car: { title: "Calcul éclair : les carrés de 1 à 15", gen(){ const n = ri(1, 15); return { q: n + "^2", a: n * n, e: n + " × " + n + " = " + n * n }; } },
+  rac: { title: "Calcul éclair : les racines exactes", gen(){ const n = ri(0, 15); return { q: "√{" + n * n + "}", a: n, e: n + " × " + n + " = " + n * n }; } },
+  pyt: { title: "Calcul éclair : les carrés utiles", gen(){ const n = ri(2, 15); return { q: n + "^2", a: n * n, e: n + " × " + n + " = " + n * n }; } }
+};
+
+/* ---------- Modules ---------- */
+const MODULES = [
+  { id: "rel", name: "Nombres relatifs", goal: "Calculer avec des nombres positifs et négatifs, dans le bon ordre.", Comp: CompRel, Manip: () => html`<${Sec} title="Additionner et soustraire sur la droite graduée"><p>Choisis un nombre de départ et un nombre à ajouter ou à soustraire. Observe la flèche.</p><${NumberLab}/><//><${Sec} title="Le compteur de signes moins"><${SignLab}/><//>`, fam: REL_FAM },
+  { id: "car", name: "Carré d'un nombre", goal: "Calculer un carré et le relier à l'aire d'un carré.", Comp: CompCar, Manip: () => html`<${Sec} title="Du côté à l'aire"><p>Fais varier le côté : l'aire du carré est le carré de son côté.</p><${SquareLab}/><//>`, fam: CAR_FAM },
+  { id: "rac", name: "Racine carrée", goal: "Trouver une racine exacte, l'encadrer, en donner une valeur approchée.", Comp: CompRac, Manip: () => html`<${Sec} title="De l'aire au côté"><p>Fais varier l'aire : observe le côté du carré et l'encadrement de sa racine.</p><${RootLab}/><//>`, fam: RAC_FAM },
+  { id: "pyt", name: "Théorème de Pythagore", goal: "Calculer une longueur dans un triangle rectangle et prouver qu'un triangle est rectangle.", Comp: CompPyt, Manip: () => html`<${Sec} title="Le laboratoire de Pythagore"><p>Change les côtés de l'angle droit : l'aire du grand carré reste toujours égale à la somme des deux autres.</p><${PythLab}/><//><${Sec} title="Testeur de triangle (réciproque)"><${TriTester}/><//>`, fam: PYT_FAM }
+];
+MODULES.forEach(m => m.fam.forEach((f, fi) => f.ex.forEach((e, ei) => { e.id = m.id + "." + fi + "." + ei; })));
+const ALL_EX = MODULES.reduce((n, m) => n + m.fam.reduce((k, f) => k + f.ex.length, 0), 0);
+
+/* ---------- Mémoriser ---------- */
+function Cards({ cards }){
+  const [deck, setDeck] = useState(() => cards.map((_, i) => i));
+  const [flip, setFlip] = useState(false);
+  const [rounds, setRounds] = useState(0);
+  if (!deck.length) return html`<div className="frame lab"><${Msg} kind="good">Paquet terminé : tu as retrouvé toutes les cartes${rounds > cards.length ? " (certaines après plusieurs passages, c'est normal)" : ""}.<//><div className="row"><button className="btn" onClick=${() => { setDeck(shuffle(cards.map((_, i) => i))); setRounds(0); }}>Reprendre le paquet</button></div></div>`;
+  const c = cards[deck[0]];
+  const know = () => { setDeck(deck.slice(1)); setFlip(false); setRounds(rounds + 1); };
+  const again = () => { setDeck([...deck.slice(1), deck[0]]); setFlip(false); setRounds(rounds + 1); };
+  return html`<div className="lab">
+    <p className="muted" style=${{ fontSize: ".88em" }}>Cartes restantes : ${deck.length} sur ${cards.length}. Essaie de répondre de tête avant de retourner la carte.</p>
+    <div className=${"card" + (flip ? " back" : "")} aria-live="polite"><div><div className="side">${flip ? "Réponse" : "Question"}</div><${H} h=${flip ? c[1] : c[0]}/></div></div>
+    <div className="row">${!flip
+      ? html`<button className="btn primary" onClick=${() => setFlip(true)}>Retourner la carte</button>`
+      : html`<button className="btn primary" onClick=${know}>Je savais</button><button className="btn" onClick=${again}>À revoir plus tard</button>`}</div>
+  </div>`;
+}
+function Drill({ d }){
+  const N = 10;
+  const [i, setI] = useState(0);
+  const [q, setQ] = useState(() => d.gen());
+  const [val, setVal] = useState("");
+  const [res, setRes] = useState([]);
+  const [fb, setFb] = useState(null);
+  const done = i >= N;
+  const submit = e => {
+    e.preventDefault();
+    if (fb){ setI(i + 1); setQ(d.gen()); setVal(""); setFb(null); return; }
+    const v = parseNum(val);
+    if (isNaN(v)){ setFb({ kind: "warn", t: "Écris un nombre." }); return; }
+    const ok = near(v, q.a);
+    setRes([...res, ok]);
+    setFb({ kind: ok ? "good" : "bad", t: ok ? "Juste." : "La réponse était " + fmt(q.a) + ". " + q.e });
+  };
+  if (done){
+    const score = res.filter(Boolean).length;
+    return html`<div className="frame lab"><${Msg} kind=${score >= 8 ? "good" : "info"}>Série terminée : ${score} bonnes réponses sur ${N}. ${score >= 8 ? "Ces calculs deviennent automatiques." : "Refais une série demain : répéter à quelques jours d'intervalle aide à retenir."}<//><div className="row"><button className="btn primary" onClick=${() => { setI(0); setRes([]); setQ(d.gen()); setVal(""); setFb(null); }}>Nouvelle série</button></div></div>`;
+  }
+  return html`<form className="frame lab" onSubmit=${submit}>
+    <div className="dots" aria-label=${"Question " + (i + 1) + " sur " + N}>${Array.from({ length: N }, (_, k) => html`<span key=${k} className=${k < res.length ? (res[k] ? "ok" : "ko") : k === i ? "cur" : ""}></span>`)}</div>
+    <div className="drill-q"><${H} h=${q.q + " = ?"}/></div>
+    <div className="answer"><label htmlFor="drill-in">Ta réponse</label><input id="drill-in" className="field" autoComplete="off" value=${val} onChange=${e => { setVal(e.target.value); if (fb && fb.kind === "warn") setFb(null); }} readOnly=${!!fb && fb.kind !== "warn"}/>
+      <button className="btn primary" type="submit">${fb && fb.kind !== "warn" ? "Question suivante" : "Valider"}</button></div>
+    ${fb && html`<${Msg} kind=${fb.kind}><${H} h=${fb.t}/><//>`}
+    <p className="muted" style=${{ fontSize: ".82em" }}>Pas de chronomètre : prends le temps de calculer juste. La touche Entrée valide.</p>
+  </form>`;
+}
+
+/* ---------- Quiz ---------- */
+function Quiz({ qs, onNew }){
+  const [i, setI] = useState(0);
+  const [pick, setPick] = useState(null);
+  const [score, setScore] = useState(0);
+  const [done, setDone] = useState(false);
+  if (done) return html`<div className="frame lab"><${Msg} kind=${score >= qs.length - 1 ? "good" : "info"}>Score : ${score} sur ${qs.length}. ${score === qs.length ? "Parfait." : "Relis les explications des questions manquées dans l'onglet Comprendre."}<//><div className="row"><button className="btn primary" onClick=${() => { if (onNew) onNew(); setI(0); setPick(null); setScore(0); setDone(false); }}>${onNew ? "Nouvelle série" : "Recommencer"}</button></div></div>`;
+  const q = qs[i];
+  const choose = k => { if (pick != null) return; setPick(k); if (k === q.a) setScore(score + 1); };
+  const next = () => { if (i + 1 < qs.length){ setI(i + 1); setPick(null); } else setDone(true); };
+  return html`<div className="frame lab">
+    <div className="row" style=${{ justifyContent: "space-between" }}><span className="muted" style=${{ fontSize: ".85em" }}>Question ${i + 1} sur ${qs.length}${q.mod ? " · " + q.mod : ""}</span><span className="muted num" style=${{ fontSize: ".85em" }}>Score : ${score}</span></div>
+    <div className="q-prompt"><${H} h=${q.q}/></div>
+    <div className="opts">${q.o.map((o, k) => html`<button key=${k} className=${"opt" + (pick != null && k === q.a ? " right" : "") + (pick === k && k !== q.a ? " wrong" : "")} onClick=${() => choose(k)} disabled=${pick != null}><span className="letter">${"ABCD"[k]}</span><${H} h=${o}/></button>`)}</div>
+    ${pick != null && html`<${Msg} kind=${pick === q.a ? "good" : "bad"}><b>${pick === q.a ? "Bonne réponse. " : "Ce n'est pas ça. "}</b><${H} h=${q.e}/><//>`}
+    ${pick != null && html`<div className="row"><button className="btn primary" onClick=${next}>${i + 1 < qs.length ? "Question suivante" : "Voir mon score"}</button></div>`}
+  </div>`;
+}
+
+/* ---------- Exercices ---------- */
+function evaluate(ex, vals, tries){
+  const again = tries >= 1 ? " Tu peux demander un indice ou regarder la correction." : " Reprends ta démarche étape par étape.";
+  if (ex.type === "choice"){
+    if (vals[0] === ex.a) return { ok: true, kind: "good", msg: "C'est juste. Bravo !" };
+    return { ok: false, kind: "bad", msg: "Pas encore." + again };
+  }
+  if (ex.type === "pair"){
+    const v = parseNum(vals[0]), w = parseNum(vals[1]);
+    if (isNaN(v) || isNaN(w)) return { ok: false, kind: "warn", msg: "Écris un nombre entier dans chaque case." };
+    if (v === ex.a[0] && w === ex.a[1]) return { ok: true, kind: "good", msg: "C'est juste. Bravo !" };
+    if (v === ex.a[0] * ex.a[0] && w === ex.a[1] * ex.a[1]) return { ok: false, kind: "bad", msg: "Tu as écrit les carrés qui encadrent " + ex.rad + ". Prends maintenant leurs racines : ce sont elles qui encadrent √{" + ex.rad + "}." };
+    if (w !== v + 1) return { ok: false, kind: "bad", msg: "Les deux entiers doivent être consécutifs (l'un juste après l'autre)." + again };
+    return { ok: false, kind: "bad", msg: "Pas encore. Cherche les carrés parfaits qui entourent " + ex.rad + "." };
+  }
+  const v = parseNum(vals[0]);
+  if (isNaN(v)) return { ok: false, kind: "warn", msg: "Écris un nombre, par exemple −2,5 ou 7,1." };
+  if (ex.type === "range"){
+    const lo2 = ex.a[0], hi2 = ex.a[1];
+    if (!Number.isInteger(v)) return { ok: false, kind: "bad", msg: "Choisis un nombre entier." };
+    if (v > lo2 && v < hi2) return { ok: true, kind: "good", msg: "C'est juste : " + ex.lo + " &lt; √{" + v + "} &lt; " + ex.hi + ". D'autres réponses étaient possibles." };
+    if (v === lo2 || v === hi2) return { ok: false, kind: "bad", msg: "Les inégalités sont strictes : √{" + v + "} vaut exactement " + (v === lo2 ? ex.lo : ex.hi) + "." };
+    if (v >= ex.lo && v <= ex.hi) return { ok: false, kind: "bad", msg: "Tu as cherché entre " + ex.lo + " et " + ex.hi + ". Mets d'abord ces deux entiers au carré." };
+    return { ok: false, kind: "bad", msg: "Pas encore." + again };
+  }
+  if (near(v, ex.a, ex.tol)) return { ok: true, kind: "good", msg: "C'est juste. Bravo !" };
+  if (ex.alt) for (const [x, m] of ex.alt) if (near(v, x, .06)) return { ok: false, kind: "bad", msg: m };
+  if (ex.a !== 0 && near(v, -ex.a)) return { ok: false, kind: "bad", msg: "La valeur est bonne, mais le signe ne l'est pas. Recompte les signes." };
+  if (ex.round && Math.abs(v - ex.a) < .1) return { ok: false, kind: "bad", msg: "Tu y es presque : vérifie l'arrondi au dixième (regarde le chiffre des centièmes)." };
+  return { ok: false, kind: "bad", msg: "Pas encore." + again };
+}
+
+function ExCard({ ex, n, method, signed, solved, onSolved }){
+  const [vals, setVals] = useState(["", ""]);
+  const [fb, setFb] = useState(null);
+  const [hint, setHint] = useState(false);
+  const [corr, setCorr] = useState(false);
+  const [tries, setTries] = useState(0);
+  const [showM, setShowM] = useState(ex.lv === 1);
+  const id = "ex-" + ex.id.replace(/\./g, "-");
+  const setV = (j, v) => { const c = [...vals]; c[j] = v; setVals(c); setFb(null); };
+  const verify = vv => { const r = evaluate(ex, vv || vals, tries); setFb(r); if (r.ok) onSolved(ex.id); else if (r.kind === "bad") setTries(tries + 1); };
+  const flipSign = () => { const v = vals[0].trim(); setV(0, /^[−-]/.test(v) ? v.replace(/^[−-]/, "") : "−" + v.replace(/^\+/, "")); };
+  let input;
+  if (ex.type === "choice") input = html`<div className="choices" role="group" aria-label="Choisis une réponse">${ex.opts.map((o, k) => html`<button key=${k} className="btn" aria-pressed=${vals[0] === k} onClick=${() => { const c = [k, ""]; setVals(c); verify(c); }}><${H} h=${o}/></button>`)}</div>`;
+  else if (ex.type === "pair") input = html`<form className="answer" onSubmit=${e => { e.preventDefault(); verify(); }}>
+      <div className="ineq"><input id=${id + "-a"} className="field sm" aria-label="Entier de gauche" autoComplete="off" value=${vals[0]} onChange=${e => setV(0, e.target.value)}/><span>${"<"}</span><${Rad}>${ex.rad}<//><span>${"<"}</span><input id=${id + "-b"} className="field sm" aria-label="Entier de droite" autoComplete="off" value=${vals[1]} onChange=${e => setV(1, e.target.value)}/></div>
+      <button className="btn primary" type="submit">Vérifier</button></form>`;
+  else if (ex.type === "range") input = html`<form className="answer" onSubmit=${e => { e.preventDefault(); verify(); }}>
+      <div className="ineq"><span>${ex.lo} ${"<"}</span><span className="rad"><span className="rad-sign">√</span><span className="rad-in" style=${{ padding: ".15em .2em" }}><input id=${id} className="field sm" aria-label="Nombre sous la racine" autoComplete="off" value=${vals[0]} onChange=${e => setV(0, e.target.value)}/></span></span><span>${"<"} ${ex.hi}</span></div>
+      <button className="btn primary" type="submit">Vérifier</button></form>`;
+  else input = html`<form className="answer" onSubmit=${e => { e.preventDefault(); verify(); }}>
+      <label htmlFor=${id}>Ta réponse</label>
+      <input id=${id} className="field" autoComplete="off" value=${vals[0]} onChange=${e => setV(0, e.target.value)}/>
+      ${signed && html`<button type="button" className="btn small" onClick=${flipSign} aria-label="Changer le signe">±</button>`}
+      ${ex.unit && html`<span>${ex.unit}</span>`}
+      <button className="btn primary" type="submit">Vérifier</button></form>`;
+  return html`<article className=${"frame excard" + (solved ? " done" : "")}>
+    <div className="ex-top"><span className="t">Exercice ${n}</span><${Stars} n=${ex.lv}/>${solved && html`<span className="solved">✓ réussi</span>`}</div>
+    <div className="prompt"><${H} h=${ex.q}/></div>
+    ${ex.fig && html`<${TriFig} f=${ex.fig}/>`}
+    ${ex.lv < 3 && (showM
+      ? html`<div className="method"><b>Méthode</b><ol>${method.map((t, k) => html`<li key=${k}><${H} h=${t}/></li>`)}</ol>${ex.lv === 2 && html`<button className="linkbtn" onClick=${() => setShowM(false)}>Masquer</button>`}</div>`
+      : html`<div><button className="linkbtn" onClick=${() => setShowM(true)}>Revoir la méthode</button></div>`)}
+    ${input}
+    ${fb && html`<${Msg} kind=${fb.kind}><${H} h=${fb.msg}/><//>`}
+    <div className="row">
+      <button className="btn small" onClick=${() => setHint(!hint)} aria-expanded=${hint}>${hint ? "Masquer l'indice" : "Indice"}</button>
+      <button className="btn small" onClick=${() => setCorr(!corr)} aria-expanded=${corr}>${corr ? "Masquer la correction" : "Voir la correction"}</button>
+    </div>
+    ${hint && html`<${Msg} kind="info"><${H} h=${ex.hint}/><//>`}
+    ${corr && html`<div className="corr"><h4>Correction détaillée</h4><ol className="steps">${ex.c.map(([t, d], k) => html`<li key=${k}><div><div className="st"><${H} h=${t}/></div><${H} as="div" className="sd" h=${d}/></div></li>`)}</ol></div>`}
+  </article>`;
+}
+
+function Worked({ w }){
+  const [k, setK] = useState(1);
+  const all = k >= w.steps.length;
+  return html`<section className="frame worked">
+    <div className="worked-head"><span className="badge">Exemple résolu</span><span className="muted">Lis une étape, comprends-la, puis passe à la suivante.</span></div>
+    <div className="prompt"><${H} h=${w.q}/></div>
+    ${w.fig && html`<${TriFig} f=${w.fig}/>`}
+    <ol className="steps" aria-live="polite">${w.steps.slice(0, k).map(([t, d], j) => html`<li key=${j}><div><div className="st"><${H} h=${t}/></div><${H} as="div" className="sd" h=${d}/></div></li>`)}</ol>
+    ${all
+      ? html`<${Msg} kind="info">Avant les exercices : explique-toi à voix haute pourquoi chaque étape est nécessaire.<//>`
+      : html`<div className="row"><button className="btn primary" onClick=${() => setK(k + 1)}>Étape suivante (${k + 1} sur ${w.steps.length})</button><button className="btn" onClick=${() => setK(w.steps.length)}>Tout afficher</button></div>`}
+  </section>`;
+}
+
+function Exercises({ m, solved, onSolved }){
+  const [fi, setFi] = useState(0);
+  const f = m.fam[fi];
+  return html`<div className="page" style=${{ paddingTop: 0 }}>
+    <p className="lead">Les familles sont rangées de la plus simple à la plus complexe. Dans chacune : un exemple résolu, puis des exercices de plus en plus difficiles. L'aide diminue avec la difficulté.</p>
+    <div className="fam-nav">${m.fam.map((g, k) => { const d = g.ex.filter(e => solved.has(e.id)).length; return html`<button key=${k} className="fam-btn" aria-pressed=${k === fi} onClick=${() => setFi(k)}><span className="fam-n">${k + 1}</span><span className="fam-t">${g.title}</span><span className=${"fam-c" + (d === g.ex.length ? " full" : "")}>${d}/${g.ex.length}</span></button>`; })}</div>
+    <div className="fam-head"><h3>Famille ${fi + 1} · ${f.title}</h3><p className="muted"><${H} h=${f.goal}/></p></div>
+    <${Worked} key=${m.id + fi} w=${f.worked}/>
+    <div className="exlist">${f.ex.map((e, k) => html`<${ExCard} key=${e.id} ex=${e} n=${k + 1} method=${f.method} signed=${m.id === "rel"} solved=${solved.has(e.id)} onSolved=${onSolved}/>`)}</div>
+    ${fi + 1 < m.fam.length && html`<div className="next-row"><button className="btn primary" onClick=${() => { setFi(fi + 1); window.scrollTo({ top: 0 }); }}>Famille suivante : ${m.fam[fi + 1].title} →</button></div>`}
+  </div>`;
+}
+
+/* ---------- Vues ---------- */
+const TABS = [["comprendre", "Comprendre"], ["manipuler", "Manipuler"], ["memoriser", "Mémoriser"], ["quiz", "Quiz"], ["exercices", "S'exercer"]];
+const TAB_LEAD = {
+  comprendre: "Les idées essentielles, une à la fois. Prends le temps de lire chaque exemple.",
+  manipuler: "Fais bouger les curseurs et observe ce qui change.",
+  memoriser: "Retrouver de tête une notion la fixe dans la mémoire. Réponds avant de vérifier.",
+  quiz: "Une question à la fois, avec une explication après chaque réponse."
+};
+
+function ModuleView({ m, tab, setTab, solved, onSolved }){
+  const ti = TABS.findIndex(t => t[0] === tab);
+  const C = m.Comp, Mp = m.Manip;
+  const go = t => { setTab(t); window.scrollTo({ top: 0 }); };
+  return html`<${React.Fragment}>
+    <div className="wrap mod-head"><h2>${m.name}</h2><p>${m.goal}</p></div>
+    <div className="tabs-bar"><div className="wrap"><div className="tabs" role="tablist">${TABS.map(([k, l], i) => html`<button key=${k} role="tab" className="tab" aria-selected=${k === tab} onClick=${() => go(k)}><span className="tn">${i + 1}</span>${l}</button>`)}</div></div></div>
+    <div className="wrap">
+      ${tab !== "exercices" && html`<div className="page">
+        <p className="lead">${TAB_LEAD[tab]}</p>
+        ${tab === "comprendre" && html`<${C}/>`}
+        ${tab === "manipuler" && html`<${Mp}/>`}
+        ${tab === "memoriser" && html`<${Sec} title="Cartes mémoire"><${Cards} key=${m.id} cards=${CARDS[m.id]}/><//><${Sec} title=${DRILLS[m.id].title}><${Drill} key=${m.id} d=${DRILLS[m.id]}/><//>`}
+        ${tab === "quiz" && html`<${Quiz} key=${m.id} qs=${QUIZ[m.id]}/>`}
+        <div className="next-row"><button className="btn primary" onClick=${() => go(TABS[ti + 1][0])}>Étape suivante : ${TABS[ti + 1][1]} →</button></div>
+      </div>`}
+      ${tab === "exercices" && html`<div style=${{ paddingTop: "1.6em" }}><${Exercises} key=${m.id} m=${m} solved=${solved} onSolved=${onSolved}/></div>`}
+    </div>
+  <//>`;
+}
+
+const MOD_NAMES = { rel: "Relatifs", car: "Carrés", rac: "Racines", pyt: "Pythagore" };
+function Bilan(){
+  const make = () => shuffle(Object.keys(QUIZ).flatMap(k => QUIZ[k].map(q => ({ ...q, mod: MOD_NAMES[k] })))).slice(0, 10);
+  const [qs, setQs] = useState(make);
+  const [n, setN] = useState(0);
+  return html`<${React.Fragment}>
+    <div className="wrap mod-head"><h2>Bilan mélangé</h2><p>Dix questions tirées au hasard dans les quatre chapitres. Mélanger les notions oblige à choisir la bonne méthode, comme dans un contrôle.</p></div>
+    <div className="wrap"><div className="page"><${Quiz} key=${n} qs=${qs} onNew=${() => { setQs(make()); setN(n + 1); }}/></div></div>
+  <//>`;
+}
+
+const ICONS = {
+  rel: html`<svg className="ic" viewBox="0 0 22 22" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round"><path d="M5 7h12M11 2.5v9M5 17.5h12"/></svg>`,
+  car: html`<svg className="ic" viewBox="0 0 22 22" fill="none" stroke="currentColor" strokeWidth="1.5"><rect x="3.5" y="3.5" width="15" height="15" rx="1"/><path d="M8.5 3.5v15M13.5 3.5v15M3.5 8.5h15M3.5 13.5h15" strokeWidth=".9"/></svg>`,
+  rac: html`<svg className="ic" viewBox="0 0 22 22" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinejoin="round" strokeLinecap="round"><path d="M2.5 12.5l2.5-1.2 3.5 7.2 4-15h7"/></svg>`,
+  pyt: html`<svg className="ic" viewBox="0 0 22 22" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinejoin="round"><path d="M4 18.5V3.5l14 15z"/><path d="M4 15h3.5v3.5" strokeWidth="1.1"/></svg>`,
+  bilan: html`<svg className="ic" viewBox="0 0 22 22" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M3 7h11M11 4l3 3-3 3M19 15H8M11 12l-3 3 3 3"/></svg>`
+};
+
+function App(){
+  const [mod, setMod] = useState(() => store.get("mod", "rel"));
+  const [tab, setTab] = useState(() => store.get("tab", "comprendre"));
+  const [solved, setSolved] = useState(() => new Set(store.get("solved", [])));
+  const [big, setBig] = useState(() => store.get("big", false));
+  const [confirmReset, setConfirmReset] = useState(false);
+  useEffect(() => store.set("mod", mod), [mod]);
+  useEffect(() => store.set("tab", tab), [tab]);
+  useEffect(() => store.set("big", big), [big]);
+  useEffect(() => store.set("solved", [...solved]), [solved]);
+  const onSolved = id => setSolved(s => s.has(id) ? s : new Set([...s, id]));
+  const m = MODULES.find(x => x.id === mod);
+  const count = mm => { let d = 0, t = 0; mm.fam.forEach(f => f.ex.forEach(e => { t++; if (solved.has(e.id)) d++; })); return [d, t]; };
+  const pick = id => { setMod(id); window.scrollTo({ top: 0 }); };
+  return html`<div className=${"app" + (big ? " big" : "")}>
+    <header className="titlebar">
+      <svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true"><rect x="1" y="1" width="22" height="22" rx="4" fill="var(--accent)"/><path d="M5 13l2-1 3 6 4-12h5" fill="none" stroke="var(--view)" strokeWidth="2" strokeLinejoin="round" strokeLinecap="round"/></svg>
+      <span className="tb-name">Du relatif à Pythagore</span><span className="tb-sub">Mathématiques 4e</span>
+      <span className="spacer"></span>
+      <button className="switch" role="switch" aria-checked=${big} onClick=${() => setBig(!big)}><span className="track"></span>Texte agrandi</button>
+      <span className="prog" title="Exercices réussis"><span className="bar"><span style=${{ width: (solved.size / ALL_EX * 100) + "%" }}></span></span>${solved.size}/${ALL_EX}</span>
+    </header>
+    <div className="layout">
+      <nav className="sidebar" aria-label="Chapitres">
+        <div className="side-cap">Chapitres</div>
+        ${MODULES.map(x => { const [d, t] = count(x); return html`<button key=${x.id} className="side-item" aria-current=${mod === x.id ? "page" : undefined} onClick=${() => pick(x.id)}>${ICONS[x.id]}<span>${x.name}</span><span className="cnt">${d}/${t}</span></button>`; })}
+        <div className="side-cap" style=${{ marginTop: ".8em" }}>Révision</div>
+        <button className="side-item" aria-current=${mod === "bilan" ? "page" : undefined} onClick=${() => pick("bilan")}>${ICONS.bilan}<span>Bilan mélangé</span></button>
+        <div className="side-foot">
+          <span className="muted">Ta progression reste dans ce navigateur.</span>
+          ${confirmReset
+            ? html`<div className="row"><button className="btn small" onClick=${() => { setSolved(new Set()); setConfirmReset(false); }}>Oui, tout effacer</button><button className="btn small" onClick=${() => setConfirmReset(false)}>Annuler</button></div>`
+            : html`<button className="linkbtn" onClick=${() => setConfirmReset(true)}>Effacer ma progression</button>`}
+        </div>
+      </nav>
+      <main className="main">
+        ${mod === "bilan" ? html`<${Bilan}/>` : html`<${ModuleView} key=${mod} m=${m} tab=${tab} setTab=${setTab} solved=${solved} onSolved=${onSolved}/>`}
+      </main>
+    </div>
+  </div>`;
+}
+
+ReactDOM.createRoot(document.getElementById("root")).render(html`<${App}/>`);
+</script>
+
+</body></html>
