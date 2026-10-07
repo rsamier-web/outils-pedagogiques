@@ -1,0 +1,1132 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Atelier d’argumentation</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;500;600;700&display=swap">
+<style>
+/* Layout: fenêtre façon KDE Plasma (Breeze) — barre d'en-tête, barre latérale des pages, une seule vue de contenu ; une tâche à la fois à l'écran */
+:root{
+  --window:#eff0f1; --view:#fcfcfc; --alt:#f5f6f7; --text:#232629; --muted:#5d6873;
+  --line:#d4d7da; --line-strong:#b8bbbe; --btn:#fcfcfc; --btn-hover:#ffffff;
+  --accent:#3daee9; --accent-text:#1d6fa5; --accent-tint:rgba(61,174,233,.13); --accent-tint-strong:rgba(61,174,233,.26);
+  --pos:#1e8049; --pos-tint:rgba(39,174,96,.12); --neg:#b8323f; --neg-tint:rgba(218,68,83,.11); --neu:#a35200;
+  --c-these:#1d6fa5; --c-arg:#1e8049; --c-expl:#7a3b99; --c-ex:#a35200; --c-conn:#0d7766; --c-hs:#6b737b; --c-concl:#3d5266; --c-intro:#3d5266;
+  --shadow:0 1px 2px rgba(35,38,41,.12);
+  --scrim:rgba(35,38,41,.35);
+  --f-ui:"Noto Sans","Segoe UI",Cantarell,Ubuntu,system-ui,sans-serif;
+  --base:16px; --lh:1.55; --ls:0em; --ws:0em;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --window:#2a2e32; --view:#1b1e20; --alt:#232629; --text:#fcfcfc; --muted:#a3abb3;
+    --line:#3a3f44; --line-strong:#50565c; --btn:#31363b; --btn-hover:#383d42;
+    --accent-text:#5cc3f2; --accent-tint:rgba(61,174,233,.17); --accent-tint-strong:rgba(61,174,233,.32);
+    --pos:#4ccf7e; --pos-tint:rgba(39,174,96,.2); --neg:#f06b78; --neg-tint:rgba(218,68,83,.2); --neu:#f8a14c;
+    --c-these:#5cc3f2; --c-arg:#4ccf7e; --c-expl:#c792e0; --c-ex:#f8a14c; --c-conn:#3fd0b3; --c-hs:#9aa3ab; --c-concl:#aab9c8; --c-intro:#aab9c8;
+    --shadow:0 1px 2px rgba(0,0,0,.45); --scrim:rgba(0,0,0,.5);
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --window:#2a2e32; --view:#1b1e20; --alt:#232629; --text:#fcfcfc; --muted:#a3abb3;
+  --line:#3a3f44; --line-strong:#50565c; --btn:#31363b; --btn-hover:#383d42;
+  --accent-text:#5cc3f2; --accent-tint:rgba(61,174,233,.17); --accent-tint-strong:rgba(61,174,233,.32);
+  --pos:#4ccf7e; --pos-tint:rgba(39,174,96,.2); --neg:#f06b78; --neg-tint:rgba(218,68,83,.2); --neu:#f8a14c;
+  --c-these:#5cc3f2; --c-arg:#4ccf7e; --c-expl:#c792e0; --c-ex:#f8a14c; --c-conn:#3fd0b3; --c-hs:#9aa3ab; --c-concl:#aab9c8; --c-intro:#aab9c8;
+  --shadow:0 1px 2px rgba(0,0,0,.45); --scrim:rgba(0,0,0,.5);
+  color-scheme:dark;
+}
+html{height:100%;box-sizing:border-box;font-size:var(--base)}
+*,*::before,*::after{box-sizing:inherit}
+body{height:100%;margin:0;background:var(--window);color:var(--text);font-family:var(--f-ui);font-size:1rem;line-height:var(--lh);letter-spacing:var(--ls);word-spacing:var(--ws);-webkit-font-smoothing:antialiased}
+#root{height:100%}
+h1,h2,h3{text-wrap:balance;line-height:1.25;margin:0}
+h1{font-size:1.6rem;font-weight:600}
+h2{font-size:1.25rem;font-weight:600}
+h3{font-size:1.05rem;font-weight:600}
+p{margin:0}
+:focus-visible{outline:2px solid var(--accent);outline-offset:1px}
+@media (prefers-reduced-motion: reduce){*{transition:none!important;animation:none!important}}
+
+/* Fenêtre */
+.app{height:100%;display:grid;grid-template-rows:auto 1fr;min-height:0}
+.header{display:flex;align-items:center;gap:.5rem;padding-block:.35rem;padding-inline:1rem;background:var(--window);border-bottom:1px solid var(--line);min-height:3rem;position:relative}
+.header .app-name{font-size:.82rem;color:var(--muted);white-space:nowrap}
+.header .page-name{font-weight:600;font-size:1rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0}
+.header .sep{width:1px;height:1.2rem;background:var(--line)}
+.header .spacer{flex:1}
+.menu-btn{display:none}
+.main{display:grid;grid-template-columns:15.5rem minmax(0,1fr);min-height:0}
+.sidebar{background:var(--window);border-right:1px solid var(--line);overflow-y:auto;padding:.6rem .5rem;display:flex;flex-direction:column;gap:2px}
+.side-label{font-size:.75rem;font-weight:600;color:var(--muted);padding:.75rem .65rem .3rem;letter-spacing:.03em}
+.side-label:first-child{padding-top:.25rem}
+.nav-item{display:flex;align-items:center;gap:.65rem;width:100%;padding:.45rem .6rem;border-radius:4px;border:1px solid transparent;background:none;color:var(--text);font:inherit;font-size:.95rem;text-align:left;cursor:pointer;letter-spacing:0;word-spacing:0}
+.nav-item:hover{background:var(--accent-tint)}
+.nav-item.active{background:var(--accent-tint-strong);border-color:color-mix(in srgb,var(--accent) 55%,transparent)}
+.nav-item .lbl{flex:1;min-width:0}
+.nav-item .num{font-size:.75rem;color:var(--muted);font-variant-numeric:tabular-nums;width:1rem;text-align:right}
+.nav-item .st{font-size:.72rem;color:var(--muted);font-variant-numeric:tabular-nums}
+.nav-item .st.done{color:var(--pos)}
+.content{background:var(--view);overflow-y:auto;min-width:0}
+.page{max-width:47rem;margin:0 auto;padding-block:1.5rem 3rem;padding-inline:1.25rem;display:flex;flex-direction:column;gap:1.25rem}
+.lead{color:var(--muted);max-width:62ch}
+.scrim{display:none}
+@media (max-width:780px){
+  .menu-btn{display:inline-flex}
+  .header .app-name,.header .sep{display:none}
+  .main{grid-template-columns:minmax(0,1fr)}
+  .sidebar{position:fixed;top:0;bottom:0;left:0;width:min(18rem,86vw);z-index:30;transform:translateX(-102%);transition:transform .18s ease;box-shadow:0 0 18px rgba(0,0,0,.25);padding-top:calc(.75rem + env(safe-area-inset-top,0px));padding-bottom:calc(.75rem + env(safe-area-inset-bottom,0px))}
+  .sidebar.open{transform:none}
+  .scrim.open{display:block;position:fixed;inset:0;background:var(--scrim);z-index:25}
+  .page{padding-block:1.1rem 2.5rem;padding-inline:1rem}
+}
+
+/* Contrôles Breeze */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:.45rem;font:inherit;font-size:.95rem;letter-spacing:0;word-spacing:0;color:var(--text);background:var(--btn);border:1px solid var(--line-strong);border-radius:4px;padding:.4rem .9rem;min-height:2.25rem;cursor:pointer;box-shadow:var(--shadow);transition:border-color .12s,background .12s}
+.btn:hover{border-color:var(--accent);background:var(--btn-hover)}
+.btn:active{background:var(--accent-tint-strong)}
+.btn:disabled{opacity:.5;cursor:default;border-color:var(--line-strong);background:var(--btn)}
+.btn-primary{border-color:var(--accent);background:var(--accent-tint)}
+.btn-primary:hover{background:var(--accent-tint-strong)}
+.btn-flat{background:transparent;border-color:transparent;box-shadow:none}
+.btn-flat:hover{background:var(--accent-tint);border-color:transparent}
+.btn-sm{font-size:.85rem;padding:.2rem .55rem;min-height:1.9rem}
+.btn-icon{padding:.35rem;min-width:2.25rem}
+.btn.on{background:var(--accent-tint-strong);border-color:var(--accent)}
+.actions{display:flex;flex-wrap:wrap;gap:.5rem;align-items:center}
+.actions .spacer{flex:1}
+
+.tabs{display:flex;border-bottom:1px solid var(--line);overflow-x:auto;scrollbar-width:thin}
+.tab{flex:none;font:inherit;font-size:.93rem;letter-spacing:0;word-spacing:0;padding:.55rem 1rem;border:none;border-bottom:2px solid transparent;background:none;color:var(--muted);cursor:pointer;white-space:nowrap;display:inline-flex;gap:.4rem;align-items:center}
+.tab:hover{color:var(--text);background:var(--accent-tint)}
+.tab.active{color:var(--text);border-bottom-color:var(--accent);font-weight:600}
+.tab .ok{color:var(--pos)}
+
+.frame{border:1px solid var(--line);border-radius:5px;background:var(--alt);padding:1rem 1.1rem}
+.card{border:1px solid var(--line);border-radius:5px;background:var(--view);padding:1.1rem 1.2rem;box-shadow:var(--shadow);display:flex;flex-direction:column;gap:.9rem}
+.eyebrow{font-size:.75rem;font-weight:600;color:var(--muted);letter-spacing:.06em;text-transform:uppercase}
+
+.msg{display:flex;gap:.6rem;align-items:flex-start;border:1px solid;border-radius:5px;padding:.7rem .9rem}
+.msg svg{flex:none;margin-top:.15rem}
+.msg-pos{border-color:color-mix(in srgb,var(--pos) 60%,transparent);background:var(--pos-tint)}
+.msg-pos svg{color:var(--pos)}
+.msg-neg{border-color:color-mix(in srgb,var(--neg) 60%,transparent);background:var(--neg-tint)}
+.msg-neg svg{color:var(--neg)}
+.msg-info{border-color:color-mix(in srgb,var(--accent) 55%,transparent);background:var(--accent-tint)}
+.msg-info svg{color:var(--accent-text)}
+.msg .body{display:flex;flex-direction:column;gap:.35rem;min-width:0}
+
+.progress{height:4px;border-radius:2px;background:var(--line);overflow:hidden}
+.progress>span{display:block;height:100%;background:var(--accent);transition:width .25s}
+.count{font-size:.85rem;color:var(--muted);font-variant-numeric:tabular-nums}
+
+/* Rôles (signalisation) */
+.k-these{--c:var(--c-these)} .k-arg{--c:var(--c-arg)} .k-expl{--c:var(--c-expl)} .k-ex{--c:var(--c-ex)}
+.k-conn{--c:var(--c-conn)} .k-hs{--c:var(--c-hs)} .k-concl{--c:var(--c-concl)} .k-intro{--c:var(--c-intro)}
+.chip{display:inline-flex;align-items:center;font-size:.7rem;font-weight:700;letter-spacing:.05em;text-transform:uppercase;word-spacing:0;padding:.08rem .45rem;border-radius:3px;color:var(--c);background:color-mix(in srgb,var(--c) 13%,transparent);border:1px solid color-mix(in srgb,var(--c) 35%,transparent);white-space:nowrap;line-height:1.5}
+.seg{color:var(--c);background:color-mix(in srgb,var(--c) 11%,transparent);border-radius:3px;padding:.04em .18em;-webkit-box-decoration-break:clone;box-decoration-break:clone}
+.seg.k-conn{background:none;font-weight:700;padding:0}
+.seg.k-blank{display:inline-block;min-width:5.5rem;border-bottom:2px dashed var(--accent);color:var(--accent-text);background:none;text-align:center;font-weight:600}
+.nocolor .seg:not(.k-blank){color:inherit;background:none}
+.nocolor .chip{color:var(--text);background:transparent;border-color:var(--line-strong)}
+.legend{display:flex;flex-wrap:wrap;gap:.4rem}
+
+.para{display:flex;flex-direction:column;gap:.5rem;align-items:flex-start}
+.para p{font-size:1.06rem;line-height:calc(var(--lh) + .2)}
+.rows{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:.45rem}
+.row{display:grid;grid-template-columns:7.5rem minmax(0,1fr);gap:.6rem;align-items:baseline}
+.row .chip{justify-self:start}
+@media (max-width:520px){.row{grid-template-columns:minmax(0,1fr);gap:.2rem}}
+.keys{display:flex;flex-wrap:wrap;gap:.4rem}
+.key{border:1px solid var(--line-strong);border-radius:3px;padding:.1rem .55rem;background:var(--view);font-weight:600;font-size:.95rem}
+
+.choices{display:flex;flex-direction:column;gap:.5rem}
+.choice{display:flex;gap:.7rem;align-items:flex-start;width:100%;text-align:left;font:inherit;line-height:var(--lh);letter-spacing:var(--ls);word-spacing:var(--ws);color:var(--text);background:var(--btn);border:1px solid var(--line-strong);border-radius:4px;padding:.7rem .9rem;cursor:pointer;box-shadow:var(--shadow)}
+.choice:hover:not(:disabled){border-color:var(--accent)}
+.choice:disabled{cursor:default}
+.choice .mark{flex:none;width:1.4rem;height:1.4rem;border-radius:50%;border:1px solid var(--line-strong);display:grid;place-items:center;font-size:.75rem;font-weight:700;color:var(--muted);margin-top:.1rem}
+.choice.ok{border-color:var(--pos);background:var(--pos-tint)}
+.choice.ok .mark{border-color:var(--pos);color:var(--pos)}
+.choice.no{border-color:var(--neg);background:var(--neg-tint)}
+.choice.no .mark{border-color:var(--neg);color:var(--neg)}
+.choice.dim{opacity:.55}
+.trio{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:.6rem}
+@media (max-width:520px){.trio{grid-template-columns:minmax(0,1fr)}}
+.trio .btn{min-height:3rem;font-weight:600;flex-direction:column;gap:.1rem}
+.btn.res-ok,.btn.res-ok:disabled{border-color:var(--pos);background:var(--pos-tint);opacity:1}
+.btn.res-no,.btn.res-no:disabled{border-color:var(--neg);background:var(--neg-tint);opacity:1}
+.trio .btn small{font-weight:400;font-size:.78rem;color:var(--muted)}
+
+/* Accueil */
+.path{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;border:1px solid var(--line);border-radius:5px;overflow:hidden;background:var(--view)}
+.path li+li{border-top:1px solid var(--line)}
+.path button{display:grid;grid-template-columns:2rem minmax(0,1fr) auto;gap:.8rem;align-items:center;width:100%;padding:.8rem 1rem;background:none;border:none;font:inherit;color:var(--text);text-align:left;cursor:pointer;letter-spacing:0;word-spacing:0}
+.path button:hover{background:var(--accent-tint)}
+.path .n{width:2rem;height:2rem;border-radius:50%;display:grid;place-items:center;border:1px solid var(--line-strong);font-weight:600;font-variant-numeric:tabular-nums;color:var(--muted)}
+.path .n.done{border-color:var(--pos);color:var(--pos);background:var(--pos-tint)}
+.path .t{font-weight:600}
+.path .d{font-size:.88rem;color:var(--muted)}
+.status{font-size:.78rem;padding:.1rem .5rem;border-radius:10px;border:1px solid var(--line-strong);color:var(--muted);white-space:nowrap;font-variant-numeric:tabular-nums}
+.status.done{border-color:var(--pos);color:var(--pos)}
+.status.started{border-color:var(--accent);color:var(--accent-text)}
+.tips{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:.75rem}
+@media (max-width:640px){.tips{grid-template-columns:minmax(0,1fr)}}
+.tip{display:flex;flex-direction:column;gap:.35rem}
+.tip svg{color:var(--accent-text)}
+.tip p{font-size:.92rem;color:var(--muted)}
+
+/* Vocabulaire */
+.word{display:flex;flex-direction:column;gap:.3rem;align-items:flex-start}
+.word .w{font-size:2rem;font-weight:600;line-height:1.2}
+.word .syl{font-size:1.15rem;letter-spacing:.06em;color:var(--accent-text);font-weight:500}
+.word .nat{font-size:.85rem;color:var(--muted);font-style:italic}
+.def{font-size:1.1rem}
+.dl{display:grid;grid-template-columns:auto minmax(0,1fr);gap:.4rem .9rem;margin:0}
+.dl dt{font-size:.8rem;font-weight:600;color:var(--muted);padding-top:.15rem}
+.dl dd{margin:0}
+@media (max-width:520px){.dl{grid-template-columns:minmax(0,1fr)} .dl dd{margin-bottom:.4rem}}
+
+/* Exemples résolus */
+.subject{display:flex;flex-direction:column;gap:.35rem}
+.subject .q{font-size:1.2rem;font-weight:600}
+.stepper{display:flex;gap:.3rem;flex-wrap:wrap}
+.stepper button{display:flex;align-items:center;gap:.4rem;font:inherit;font-size:.82rem;letter-spacing:0;word-spacing:0;background:none;border:1px solid transparent;border-radius:14px;padding:.15rem .6rem .15rem .2rem;color:var(--muted);cursor:pointer}
+.stepper button:disabled{cursor:default}
+.stepper .dot{width:1.5rem;height:1.5rem;border-radius:50%;display:grid;place-items:center;border:1px solid var(--line-strong);font-weight:600;font-variant-numeric:tabular-nums}
+.stepper .cur{color:var(--text);border-color:var(--accent);background:var(--accent-tint)}
+.stepper .cur .dot{border-color:var(--accent);background:var(--accent);color:#fff}
+.stepper .past .dot{border-color:var(--pos);color:var(--pos)}
+.stepper .ttl{display:inline}
+@media (max-width:640px){.stepper .ttl{display:none} .stepper .cur .ttl{display:inline}}
+.done-list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:.3rem;font-size:.9rem;color:var(--muted)}
+.done-list li{display:flex;gap:.5rem;align-items:baseline}
+.done-list svg{color:var(--pos);flex:none;position:relative;top:.2rem}
+.badge{font-size:.72rem;font-weight:600;padding:.05rem .5rem;border-radius:3px;border:1px solid var(--accent);color:var(--accent-text);background:var(--accent-tint);white-space:nowrap}
+.why{border-top:1px dashed var(--line-strong);padding-top:.75rem;display:flex;flex-direction:column;gap:.5rem;align-items:flex-start}
+.why p{color:var(--muted)}
+
+/* Relier */
+.kernels{display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);gap:.6rem;align-items:center}
+.kernel{border:1px solid var(--line);background:var(--alt);border-radius:4px;padding:.7rem .85rem;font-size:1.05rem}
+.plus{color:var(--muted);font-weight:600}
+@media (max-width:560px){.kernels{grid-template-columns:minmax(0,1fr)} .plus{justify-self:center}}
+details.box{border:1px solid var(--line);border-radius:5px;background:var(--alt)}
+details.box summary{cursor:pointer;padding:.6rem .9rem;font-weight:600;font-size:.93rem}
+details.box .inner{padding:0 .9rem .9rem;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.6rem 1.2rem}
+@media (max-width:560px){details.box .inner{grid-template-columns:minmax(0,1fr)}}
+.cgroup h3{font-size:.85rem;color:var(--muted);font-weight:600;margin-bottom:.15rem}
+.cgroup p{font-size:.95rem}
+
+/* Ordonner */
+.zone{display:flex;flex-direction:column;gap:.45rem;min-height:3rem}
+.zone-label{font-size:.8rem;font-weight:600;color:var(--muted)}
+.slot{display:flex;gap:.7rem;align-items:flex-start;width:100%;text-align:left;font:inherit;line-height:var(--lh);letter-spacing:var(--ls);word-spacing:var(--ws);color:var(--text);background:var(--btn);border:1px solid var(--line-strong);border-radius:4px;padding:.6rem .8rem;cursor:pointer;box-shadow:var(--shadow)}
+.slot:hover{border-color:var(--accent)}
+.slot .pos{flex:none;width:1.5rem;height:1.5rem;border-radius:3px;background:var(--accent-tint-strong);color:var(--accent-text);display:grid;place-items:center;font-size:.8rem;font-weight:700;font-variant-numeric:tabular-nums;margin-top:.1rem}
+.slot.ok{border-color:var(--pos);background:var(--pos-tint)}
+.slot.ok .pos{background:var(--pos);color:var(--view)}
+.slot.no{border-color:var(--neg);background:var(--neg-tint)}
+.slot.no .pos{background:var(--neg);color:var(--view)}
+.slot .tx{min-width:0}
+.empty{border:1px dashed var(--line-strong);border-radius:4px;padding:.8rem;color:var(--muted);font-size:.9rem;text-align:center}
+.hl{font-weight:700;color:var(--c-conn);background:color-mix(in srgb,var(--c-conn) 14%,transparent);border-radius:3px;padding:0 .15em}
+
+/* Plan */
+.field{display:flex;flex-direction:column;gap:.3rem}
+.field label{font-size:.88rem;font-weight:600;display:flex;gap:.5rem;align-items:center;flex-wrap:wrap}
+.field .hint{font-weight:400;color:var(--muted);font-size:.82rem}
+textarea,select,input[type=text]{font:inherit;color:var(--text);background:var(--view);border:1px solid var(--line-strong);border-radius:4px;padding:.5rem .65rem;width:100%;line-height:var(--lh);letter-spacing:var(--ls);word-spacing:var(--ws)}
+textarea{resize:vertical;min-height:4.2rem}
+textarea:focus,select:focus,input:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 1px var(--accent)}
+.group{display:flex;flex-direction:column;gap:.75rem;border-left:3px solid var(--c);padding-left:.9rem}
+.assembled{display:flex;flex-direction:column;gap:.8rem;font-size:1.04rem}
+.checks{display:flex;flex-direction:column;gap:.35rem}
+.checks label{display:flex;gap:.6rem;align-items:flex-start;cursor:pointer}
+.checks input{width:1.1rem;height:1.1rem;margin-top:.2rem;accent-color:var(--accent);flex:none}
+
+/* Réglages */
+.pop{position:absolute;right:.75rem;top:calc(100% + 4px);z-index:40;width:min(19rem,calc(100vw - 1.5rem));background:var(--view);border:1px solid var(--line-strong);border-radius:5px;box-shadow:0 4px 16px rgba(0,0,0,.18);padding:.9rem;display:flex;flex-direction:column;gap:.85rem}
+.pop .lbl{font-size:.8rem;font-weight:600;color:var(--muted);margin-bottom:.3rem}
+.seg-ctl{display:flex}
+.seg-ctl .btn{border-radius:0;flex:1;box-shadow:none}
+.seg-ctl .btn:first-child{border-radius:4px 0 0 4px}
+.seg-ctl .btn:last-child{border-radius:0 4px 4px 0}
+.seg-ctl .btn+.btn{margin-left:-1px}
+.switch{display:flex;justify-content:space-between;align-items:center;gap:.8rem;cursor:pointer;font-size:.93rem}
+.switch input{appearance:none;-webkit-appearance:none;width:2.4rem;height:1.3rem;border-radius:.65rem;background:var(--line-strong);position:relative;cursor:pointer;flex:none;transition:background .15s;margin:0}
+.switch input::after{content:"";position:absolute;top:2px;left:2px;width:calc(1.3rem - 4px);height:calc(1.3rem - 4px);border-radius:50%;background:var(--view);transition:transform .15s;box-shadow:var(--shadow)}
+.switch input:checked{background:var(--accent)}
+.switch input:checked::after{transform:translateX(1.1rem)}
+.pop-scrim{position:fixed;inset:0;z-index:35}
+
+.notes{display:flex;flex-direction:column;gap:1rem;max-width:66ch}
+.notes ul{margin:0;padding-left:1.2rem;display:flex;flex-direction:column;gap:.45rem}
+.notes .ref{color:var(--muted);font-size:.88rem}
+.big-score{font-size:2.2rem;font-weight:600;font-variant-numeric:tabular-nums;line-height:1.1}
+</style>
+
+<div id="root"><p style="padding:2rem;font-family:sans-serif">Chargement de l’atelier…</p></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.3.1/umd/react.production.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.3.1/umd/react-dom.production.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/htm@3.1.1/dist/htm.umd.js"></script>
+<script>
+const { useState, useEffect, useMemo, useContext, createContext, Fragment } = React;
+const html = htm.bind(React.createElement);
+
+/* ---------- Utilitaires ---------- */
+const NB = ' ';
+const fr = s => String(s).replace(/ ([?!:;»])/g, NB + '$1').replace(/« /g, '«' + NB);
+const shuffle = a => { const b = a.slice(); for (let i = b.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [b[i], b[j]] = [b[j], b[i]]; } return b; };
+const KEY = 'atelier-argumentation-v1';
+const loadStore = () => { try { const r = localStorage.getItem(KEY); return r ? JSON.parse(r) : {}; } catch (e) { return {}; } };
+const saveStore = o => { try { localStorage.setItem(KEY, JSON.stringify(o)); } catch (e) {} };
+const CAN_SPEAK = typeof window !== 'undefined' && 'speechSynthesis' in window && typeof SpeechSynthesisUtterance !== 'undefined';
+function speak(text) {
+  try {
+    const s = window.speechSynthesis; s.cancel();
+    const u = new SpeechSynthesisUtterance(text); u.lang = 'fr-FR'; u.rate = 0.88;
+    const v = (s.getVoices() || []).find(v => v.lang && v.lang.toLowerCase().startsWith('fr')); if (v) u.voice = v;
+    s.speak(u);
+  } catch (e) {}
+}
+const segsText = segs => segs.map(s => s[1]).join(' ');
+
+const ICONS = {
+  home: 'M3 11 12 4l9 7M5 9.5V20h5v-6h4v6h5V9.5',
+  words: 'M5 4.5A1.5 1.5 0 0 1 6.5 3H19v15H6.5A1.5 1.5 0 0 0 5 19.5zM5 19.5A1.5 1.5 0 0 0 6.5 21H19v-3M9 7h6M9 10.5h6',
+  bulb: 'M9.5 18h5M10.5 21h3M12 3a6 6 0 0 0-3.8 10.6c.6.6.8 1.3.8 2.4h6c0-1.1.2-1.8.8-2.4A6 6 0 0 0 12 3z',
+  sort: 'M4 3.5h16v5H4zM12 8.5v3M6 11.5h12M6 11.5V15M12 11.5V15M18 11.5V15M3.5 15h5v5.5h-5zM9.5 15h5v5.5h-5zM15.5 15h5v5.5h-5z',
+  link: 'M10 14a4 4 0 0 0 5.7 0l3-3a4 4 0 0 0-5.7-5.7l-1 1M14 10a4 4 0 0 0-5.7 0l-3 3a4 4 0 0 0 5.7 5.7l1-1',
+  order: 'M9 6h11M9 12h11M9 18h11M4 4.5 5.5 3.5V8.5M3.8 10.8a1.3 1.3 0 0 1 2.4.6c0 .9-2.4 2.1-2.4 2.6h2.4M3.8 16.3h2.3l-1.3 1.6a1.2 1.2 0 1 1-1 2',
+  plan: 'M4 20h4L19 9l-4-4L4 16zM13.5 6.5l4 4',
+  info: 'M12 21a9 9 0 1 0 0-18 9 9 0 0 0 0 18zM12 11v5.5M12 7.6v.4',
+  menu: 'M4 7h16M4 12h16M4 17h16',
+  speaker: 'M4 9.5v5h3.5L12 18V6L7.5 9.5zM15.5 9.5a3.5 3.5 0 0 1 0 5M18 7a7 7 0 0 1 0 10',
+  sliders: 'M4 7h9M17 7h3M15 5v4M4 17h3M11 17h9M9 15v4',
+  check: 'M5 12.5 10 17.5 19 7',
+  x: 'M6.5 6.5l11 11M17.5 6.5l-11 11',
+  left: 'M14.5 6l-6 6 6 6',
+  right: 'M9.5 6l6 6-6 6',
+  reset: 'M4.5 12a7.5 7.5 0 1 0 2.3-5.4M4.5 4v4h4',
+  copy: 'M9 9h11v11H9zM5 15H4V4h11v1',
+  eye: 'M2.5 12S6 5.5 12 5.5 21.5 12 21.5 12 18 18.5 12 18.5 2.5 12 2.5 12zM12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6z'
+};
+function Icon({ n, s = 18 }) {
+  return html`<svg width=${s} height=${s} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d=${ICONS[n]} /></svg>`;
+}
+
+/* ---------- Données ---------- */
+const CATS = { these: 'Thèse', arg: 'Argument', expl: 'Explication', ex: 'Exemple', conn: 'Connecteur', hs: 'Hors sujet', concl: 'Conclusion', intro: 'Introduction' };
+
+const VOCAB = [
+  { w: 'argumenter', syl: 'ar · gu · men · ter', nat: 'verbe', def: 'Donner des raisons pour défendre une idée.', ctx: '« Vous argumenterez votre réponse. »', att: 'Ne pas seulement donner ton avis : dire pourquoi tu le penses.' },
+  { w: 'justifier', syl: 'jus · ti · fier', nat: 'verbe', def: 'Expliquer pourquoi on pense quelque chose, avec des preuves.', ctx: '« Justifiez votre point de vue. »', att: 'Après chaque idée, ajouter « parce que… » ou « en effet… ».' },
+  { w: 'la thèse', syl: 'la · thè · se', nat: 'nom féminin', def: 'L’idée principale que l’on défend dans tout le texte.', ctx: '« Quelle thèse défendez-vous ? »', att: 'Écrire clairement ta réponse à la question, dès l’introduction.' },
+  { w: 'un argument', syl: 'un · ar · gu · ment', nat: 'nom masculin', def: 'Une raison qui soutient la thèse. Il répond à la question « Pourquoi ? ».', ctx: '« Vous donnerez au moins deux arguments. »', att: 'Trouver au moins deux raisons différentes.' },
+  { w: 'un exemple', syl: 'un · e · xem · ple', nat: 'nom masculin', def: 'Un fait précis (un cas réel, un chiffre, un livre, un film) qui montre qu’un argument est vrai.', ctx: '« Appuyez-vous sur des exemples précis. »', att: 'Citer quelque chose de concret : un nom, un lieu, une situation.' },
+  { w: 'illustrer', syl: 'il · lus · trer', nat: 'verbe', def: 'Montrer une idée à l’aide d’un exemple précis.', ctx: '« Illustrez vos arguments par des exemples. »', att: 'Après chaque argument, ajouter « Par exemple, … ».' },
+  { w: 'nuancer', syl: 'nu · an · cer', nat: 'verbe', def: 'Montrer qu’une idée n’est pas vraie dans tous les cas ; apporter une limite.', ctx: '« Vous nuancerez votre réponse. »', att: 'Ajouter « mais », « cependant » ou « sauf si… ».' },
+  { w: 'discuter', syl: 'dis · cu · ter', nat: 'verbe', def: 'Dans un sujet : examiner une idée en donnant des arguments pour et contre.', ctx: '« Discutez cette affirmation. »', att: 'Présenter les deux côtés, puis donner ton avis.' },
+  { w: 'dans quelle mesure', syl: 'dans · quelle · me · sure', nat: 'expression', def: 'Jusqu’à quel point quelque chose est vrai.', ctx: '« Dans quelle mesure les réseaux sociaux rapprochent-ils les gens ? »', att: 'Une réponse nuancée : « oui, en partie, mais… ».' },
+  { w: 'convaincre', syl: 'con · vain · cre', nat: 'verbe', def: 'Faire changer d’avis quelqu’un en utilisant des raisons logiques.', ctx: '« Vous chercherez à convaincre le lecteur. »', att: 'Utiliser des arguments solides et des exemples vrais.' },
+  { w: 'persuader', syl: 'per · sua · der', nat: 'verbe', def: 'Faire changer d’avis quelqu’un en touchant ses émotions.', ctx: '« Persuadez vos camarades de… »', att: 'Toucher les sentiments du lecteur : peur, joie, colère, pitié.' },
+  { w: 'un contre-argument', syl: 'un · con · tre · ar · gu · ment', nat: 'nom masculin', def: 'Un argument qui va contre la thèse.', ctx: '« Envisagez les arguments contraires. »', att: 'Présenter l’idée opposée, puis montrer ses limites.' },
+  { w: 'réfuter', syl: 'ré · fu · ter', nat: 'verbe', def: 'Montrer qu’une idée ou un argument est faux.', ctx: '« Réfutez la thèse adverse. »', att: 'Expliquer pourquoi l’autre idée ne tient pas.' },
+  { w: 'selon vous', syl: 'se · lon · vous', nat: 'expression', def: 'D’après toi : on te demande ton avis personnel.', ctx: '« Selon vous, faut-il… ? »', att: 'Donner ton avis avec « je pense que », puis le justifier.' },
+  { w: 'un enjeu', syl: 'un · en · jeu', nat: 'nom masculin', def: 'Ce que l’on peut gagner ou perdre ; ce qui est important dans une question.', ctx: '« Quels sont les enjeux de ce débat ? »', att: 'Dire pourquoi la question est importante et pour qui.' }
+];
+
+const WE = [
+  { id: 'we1', label: 'Exemple 1', mode: 'Guidé', sujet: 'Faut-il interdire le téléphone portable au lycée ?', steps: [
+    { t: 'Comprendre le sujet', sum: 'Question fermée : je réponds oui ou non, puis je justifie.', body: [
+      { p: 'Je lis le sujet deux fois. Je repère les mots-clés :' },
+      { keys: ['interdire', 'le téléphone portable', 'au lycée'] },
+      { p: 'Le sujet commence par « Faut-il… ? ». C’est une question fermée : je dois répondre oui ou non, puis expliquer pourquoi.' },
+      { p: 'Je reformule avec mes mots : « Est-ce qu’on doit empêcher les élèves d’utiliser leur téléphone au lycée ? »' }
+    ], why: 'Si je comprends mal le sujet, tout mon texte sera hors sujet. Reformuler avec mes mots me permet de vérifier que j’ai compris.' },
+    { t: 'Prendre position', sum: 'Thèse : il faut interdire le téléphone pendant les cours.', body: [
+      { p: 'Je choisis ma réponse. C’est ma thèse : l’idée que je vais défendre dans tout le texte.' },
+      { seg: [['these', 'Je pense qu’il faut interdire le téléphone portable pendant les cours.']] },
+      { p: 'J’ai précisé « pendant les cours ». Ma thèse est nuancée, donc plus facile à défendre.' }
+    ], why: 'La thèse est le fil rouge du texte. Chaque argument devra la soutenir.' },
+    { t: 'Trouver des arguments', sum: 'Deux arguments : la concentration, les moqueries.', body: [
+      { p: 'Je cherche des raisons. Je me pose la question : « Pourquoi faut-il l’interdire ? »' },
+      { list: [['arg', 'Le téléphone empêche de se concentrer.'], ['arg', 'Le téléphone peut servir à se moquer des autres.']] }
+    ], why: 'Un argument répond à la question « Pourquoi ? ». Deux arguments bien développés valent mieux que cinq idées rapides.' },
+    { t: 'Expliquer et donner un exemple', sum: 'Argument 1 : explication et exemple trouvés.', body: [
+      { p: 'Pour l’argument 1, j’ajoute une explication (comment ça se passe ?) et un exemple (un cas précis).' },
+      { list: [['arg', 'Le téléphone empêche de se concentrer.'], ['expl', 'Chaque notification attire l’attention et coupe le travail.'], ['ex', 'Un élève qui lit un message pendant un exercice perd le fil de ce qu’il faisait.']] }
+    ], why: 'L’explication montre le lien entre l’argument et la thèse. L’exemple rend l’argument concret et crédible.' },
+    { t: 'Rédiger le paragraphe', sum: 'Paragraphe rédigé avec des connecteurs.', body: [
+      { p: 'J’assemble les trois morceaux. Les connecteurs relient les phrases et montrent leur rôle.' },
+      { seg: [['conn', 'Tout d’abord,'], ['arg', 'le téléphone empêche les élèves de se concentrer.'], ['conn', 'En effet,'], ['expl', 'chaque notification attire l’attention et coupe le travail.'], ['conn', 'Par exemple,'], ['ex', 'un élève qui lit un message pendant un exercice perd le fil de ce qu’il faisait.']] },
+      { p: 'Ordre du paragraphe : Argument → Explication → Exemple.' }
+    ], why: 'Les connecteurs aident le lecteur à suivre le raisonnement. Ils aident aussi celui qui écrit à organiser ses phrases.' }
+  ] },
+  { id: 'we2', label: 'Exemple 2', mode: 'À compléter', sujet: 'Les devoirs à la maison sont-ils utiles ?', steps: [
+    { t: 'Comprendre le sujet', sum: 'Question fermée sur l’utilité des devoirs.', body: [
+      { p: 'Mots-clés :' },
+      { keys: ['les devoirs à la maison', 'utiles'] },
+      { p: '« Utile » veut dire : qui aide, qui sert à quelque chose. C’est une question fermée.' },
+      { p: 'Je reformule : « Est-ce que les devoirs aident vraiment les élèves à apprendre ? »' }
+    ], why: 'Définir le mot important du sujet (ici « utiles ») évite de partir dans une mauvaise direction.' },
+    { t: 'Prendre position', sum: 'Thèse : les devoirs sont utiles s’ils ne sont pas trop longs.', body: [
+      { seg: [['these', 'Je pense que les devoirs à la maison sont utiles, s’ils ne sont pas trop longs.']] },
+      { p: 'J’ai ajouté une condition. C’est une façon de nuancer ma thèse.' }
+    ], why: 'Une thèse nuancée montre que j’ai réfléchi aux limites de mon idée.' },
+    { t: 'Trouver des arguments', sum: 'Deux arguments : la mémoire, l’autonomie.', body: [
+      { list: [['arg', 'Les devoirs permettent de mieux retenir les leçons.'], ['arg', 'Les devoirs apprennent à travailler seul.']] }
+    ], why: 'Chaque argument est une raison différente. Je pourrai faire un paragraphe pour chacun.' },
+    { t: 'Expliquer et donner un exemple', sum: 'Argument 1 : explication et exemple trouvés.', body: [
+      { list: [['arg', 'Les devoirs permettent de mieux retenir les leçons.'], ['expl', 'Revoir une leçon quelques heures plus tard aide la mémoire à la garder.'], ['ex', 'Relire sa leçon d’histoire le soir aide à mieux s’en souvenir au contrôle.']] }
+    ], why: 'Explication et exemple ne disent pas la même chose : l’une explique le mécanisme, l’autre montre un cas réel.' },
+    { t: 'Rédiger le paragraphe', sum: 'Paragraphe choisi et vérifié.', choose: {
+      prompt: 'À toi. Lis les trois paragraphes. Lequel suit l’ordre Argument → Explication → Exemple ?',
+      options: [
+        { text: 'Par exemple, relire sa leçon d’histoire le soir aide au contrôle. Les devoirs, c’est bien.', ok: false, fb: 'Ce paragraphe commence par l’exemple. L’argument est trop vague (« c’est bien ») et il n’y a pas d’explication.' },
+        { text: 'Tout d’abord, les devoirs permettent de mieux retenir les leçons. En effet, revoir une leçon quelques heures plus tard aide la mémoire à la garder. Par exemple, relire sa leçon d’histoire le soir aide à mieux s’en souvenir au contrôle.', ok: true, fb: 'Bravo. L’argument vient d’abord, puis l’explication, puis un exemple précis. Les connecteurs annoncent chaque étape.' },
+        { text: 'Les devoirs permettent de mieux retenir les leçons. Les devoirs apprennent aussi à travailler seul. Et ils sont utiles.', ok: false, fb: 'Ce paragraphe empile des arguments sans les expliquer et sans exemple. Un paragraphe développe un seul argument.' }
+      ] }, body: [
+      { seg: [['conn', 'Tout d’abord,'], ['arg', 'les devoirs permettent de mieux retenir les leçons.'], ['conn', 'En effet,'], ['expl', 'revoir une leçon quelques heures plus tard aide la mémoire à la garder.'], ['conn', 'Par exemple,'], ['ex', 'relire sa leçon d’histoire le soir aide à mieux s’en souvenir au contrôle.']] }
+    ], why: 'Reconnaître un paragraphe bien construit est la première étape pour en écrire un.' }
+  ] },
+  { id: 'we3', label: 'Exemple 3', mode: 'À toi', sujet: 'Faut-il porter un uniforme à l’école ?', steps: [
+    { t: 'Comprendre le sujet', sum: 'Question fermée sur l’uniforme.', body: [
+      { keys: ['porter un uniforme', 'à l’école'] },
+      { p: 'Question fermée. Je reformule : « Est-ce que tous les élèves devraient porter les mêmes vêtements à l’école ? »' }
+    ], why: 'Même quand le sujet paraît simple, je le reformule pour vérifier que je l’ai compris.' },
+    { t: 'Prendre position', sum: 'Thèse : l’uniforme est une bonne idée.', body: [
+      { seg: [['these', 'Je pense que porter un uniforme à l’école est une bonne idée.']] }
+    ], why: 'Je donne ma réponse clairement, en une phrase.' },
+    { t: 'Trouver un argument', sum: 'Argument : l’uniforme réduit les moqueries.', choose: {
+      prompt: 'Quelle phrase est un argument qui soutient la thèse ?',
+      options: [
+        { text: 'L’uniforme coûte de l’argent aux familles.', ok: false, fb: 'C’est une raison contre l’uniforme. Elle soutient la thèse opposée : c’est un contre-argument.' },
+        { text: 'Au Japon, beaucoup d’élèves portent un uniforme.', ok: false, fb: 'C’est un fait précis, pas une raison. Il ne répond pas à « Pourquoi est-ce une bonne idée ? ».' },
+        { text: 'L’uniforme réduit les moqueries sur les vêtements.', ok: true, fb: 'Oui. C’est une raison, et elle va dans le sens de la thèse.' }
+      ] }, body: [
+      { list: [['arg', 'L’uniforme réduit les moqueries sur les vêtements.']] }
+    ], why: 'Test utile : un argument répond à « Pourquoi ? » et va dans le même sens que la thèse.' },
+    { t: 'Choisir un exemple', sum: 'Exemple : les vêtements de marque.', choose: {
+      prompt: 'Quel exemple illustre cet argument ?',
+      options: [
+        { text: 'Dans certains collèges, des élèves sont moqués parce que leurs vêtements ne sont pas de marque ; avec un uniforme, cette différence disparaît.', ok: true, fb: 'Oui. C’est une situation précise qui montre que l’argument est vrai.' },
+        { text: 'Les uniformes sont souvent bleu marine.', ok: false, fb: 'C’est vrai parfois, mais cela ne prouve rien sur les moqueries. Cette phrase n’est pas pertinente.' },
+        { text: 'Je pense que l’uniforme, c’est bien.', ok: false, fb: 'C’est un avis, pas un exemple. Un exemple est un fait précis.' }
+      ] }, body: [
+      { list: [['arg', 'L’uniforme réduit les moqueries sur les vêtements.'], ['expl', 'Tous les élèves portent la même tenue, donc personne n’est jugé sur ses habits.'], ['ex', 'Dans certains collèges, des élèves sont moqués parce que leurs vêtements ne sont pas de marque.']] }
+    ], why: 'Un bon exemple est précis et il prouve l’argument. Un détail vrai mais sans lien ne sert à rien.' },
+    { t: 'Relier les phrases', sum: 'Paragraphe rédigé avec « En effet ».', choose: {
+      prompt: 'Quel connecteur faut-il pour introduire l’explication ?',
+      ctx: [['conn', 'Tout d’abord,'], ['arg', 'l’uniforme réduit les moqueries sur les vêtements.'], ['blank', '…'], ['expl', 'tous les élèves portent la même tenue, donc personne n’est jugé sur ses habits.']],
+      options: [
+        { text: 'Pourtant,', ok: false, fb: '« Pourtant » marque une opposition. Ici, la phrase ne s’oppose pas à l’argument : elle l’explique.' },
+        { text: 'En effet,', ok: true, fb: 'Oui. « En effet » annonce une explication : il montre pourquoi l’argument est vrai.' },
+        { text: 'Enfin,', ok: false, fb: '« Enfin » annonce le dernier élément d’une liste. Ici, on veut expliquer l’argument.' }
+      ] }, body: [
+      { seg: [['conn', 'Tout d’abord,'], ['arg', 'l’uniforme réduit les moqueries sur les vêtements.'], ['conn', 'En effet,'], ['expl', 'tous les élèves portent la même tenue, donc personne n’est jugé sur ses habits.'], ['conn', 'Par exemple,'], ['ex', 'dans certains collèges, des élèves sont moqués parce que leurs vêtements ne sont pas de marque ; avec un uniforme, cette différence disparaît.']] }
+    ], why: 'Chaque connecteur a un rôle précis. Le choisir, c’est décider du lien entre deux idées.' }
+  ] }
+];
+
+const SORT = [
+  { id: 's0', sujet: 'Faut-il pratiquer un sport régulièrement ?', these: 'Oui, il faut pratiquer un sport régulièrement.', items: [
+    { t: 'Le sport aide à rester en bonne santé.', a: 'arg', fb: 'C’est une raison générale. Elle répond à « Pourquoi faire du sport ? ».' },
+    { t: 'L’OMS recommande aux adolescents au moins une heure d’activité physique par jour.', a: 'ex', fb: 'C’est un fait précis : une organisation réelle et un chiffre. Il illustre l’argument de la santé.' },
+    { t: 'Faire du sport en équipe permet de se faire des amis.', a: 'arg', fb: 'C’est une raison. Elle répond à « Pourquoi ? » : pour créer des liens.' },
+    { t: 'Dans mon club de basket, j’ai rencontré mes meilleurs amis.', a: 'ex', fb: 'C’est un cas précis, vécu. Il illustre l’argument sur l’amitié.' },
+    { t: 'La tour Eiffel mesure plus de 300 mètres.', a: 'hs', fb: 'C’est vrai, mais cela n’a aucun lien avec le sport. Cela n’aide pas à répondre.' },
+    { t: 'Mon cousin préfère les films d’action aux comédies.', a: 'hs', fb: 'Cette phrase parle de films. Elle n’aide pas à défendre la thèse.' }
+  ] },
+  { id: 's1', sujet: 'Les jeux vidéo sont-ils mauvais pour les jeunes ?', these: 'Non, les jeux vidéo ne sont pas forcément mauvais pour les jeunes.', items: [
+    { t: 'Certains jeux vidéo font travailler la réflexion.', a: 'arg', fb: 'C’est une raison générale qui soutient la thèse.' },
+    { t: 'Dans Minecraft, il faut planifier ses constructions avant de les réaliser.', a: 'ex', fb: 'C’est un jeu précis et une action précise. Il illustre l’argument sur la réflexion.' },
+    { t: 'Les jeux en ligne peuvent apprendre à coopérer.', a: 'arg', fb: 'C’est une raison : elle répond à « Pourquoi ne sont-ils pas mauvais ? ».' },
+    { t: 'Dans un jeu en équipe, les joueurs doivent se parler pour gagner la partie.', a: 'ex', fb: 'C’est une situation concrète qui montre la coopération.' },
+    { t: 'Les manettes de console ont souvent deux joysticks.', a: 'hs', fb: 'Cette phrase décrit un objet. Elle ne dit pas si les jeux sont bons ou mauvais.' },
+    { t: 'J’aime manger des pâtes le soir.', a: 'hs', fb: 'Aucun lien avec les jeux vidéo. Cette phrase ne sert pas la thèse.' }
+  ] },
+  { id: 's2', sujet: 'Faut-il encore lire des livres à l’époque d’Internet ?', these: 'Oui, il faut continuer à lire des livres.', items: [
+    { t: 'La lecture enrichit le vocabulaire.', a: 'arg', fb: 'C’est une raison de lire. Elle répond à « Pourquoi ? ».' },
+    { t: 'Dans Le Petit Prince, le lecteur découvre le verbe « apprivoiser ».', a: 'ex', fb: 'C’est un livre précis et un mot précis. Il illustre l’argument sur le vocabulaire.' },
+    { t: 'Lire un roman développe l’imagination.', a: 'arg', fb: 'C’est une raison générale qui soutient la thèse.' },
+    { t: 'En lisant Harry Potter, chaque lecteur imagine à sa façon le château de Poudlard.', a: 'ex', fb: 'C’est une œuvre précise et une situation précise. Il illustre l’argument sur l’imagination.' },
+    { t: 'Internet a été inventé au XXe siècle.', a: 'hs', fb: 'Cette phrase parle d’Internet, mais elle ne donne aucune raison de lire. Attention : un mot du sujet ne suffit pas à rendre une phrase pertinente.' },
+    { t: 'Les bus de ma ville sont verts.', a: 'hs', fb: 'Aucun lien avec la lecture. Cette phrase ne sert pas la thèse.' }
+  ] }
+];
+
+const LINK = [
+  { a: 'Le sport est bon pour la santé.', b: 'Il renforce le cœur.', opts: ['car', 'mais', 'donc'], ok: 'car', role: 'cause', res: [['', 'Le sport est bon pour la santé'], ['conn', 'car'], ['', 'il renforce le cœur.']], fb: '« Car » annonce la cause : la 2e phrase explique pourquoi la 1re est vraie.' },
+  { a: 'Les écrans fatiguent les yeux.', b: 'Il faut faire des pauses.', opts: ['car', 'donc', 'par exemple'], ok: 'donc', role: 'conséquence', res: [['', 'Les écrans fatiguent les yeux,'], ['conn', 'donc'], ['', 'il faut faire des pauses.']], fb: '« Donc » annonce une conséquence : la fatigue entraîne le besoin de pauses.' },
+  { a: 'L’uniforme coûte de l’argent.', b: 'Il évite les moqueries.', opts: ['donc', 'de plus', 'mais'], ok: 'mais', role: 'opposition', res: [['', 'L’uniforme coûte de l’argent,'], ['conn', 'mais'], ['', 'il évite les moqueries.']], fb: '« Mais » oppose deux idées : un inconvénient, puis un avantage.' },
+  { a: 'La lecture enrichit le vocabulaire.', b: 'Elle développe l’imagination.', opts: ['De plus,', 'Pourtant,', 'Car'], ok: 'De plus,', role: 'ajout', res: [['', 'La lecture enrichit le vocabulaire.'], ['conn', 'De plus,'], ['', 'elle développe l’imagination.']], fb: '« De plus » ajoute un deuxième argument qui va dans le même sens.' },
+  { a: 'Les jeux en ligne apprennent à coopérer.', b: 'Dans un jeu en équipe, les joueurs doivent se parler pour gagner.', opts: ['Donc,', 'Par exemple,', 'Mais'], ok: 'Par exemple,', role: 'exemple', res: [['', 'Les jeux en ligne apprennent à coopérer.'], ['conn', 'Par exemple,'], ['', 'dans un jeu en équipe, les joueurs doivent se parler pour gagner.']], fb: '« Par exemple » annonce un cas précis qui illustre l’idée.' },
+  { a: 'Les devoirs sont utiles.', b: 'Ils ne doivent pas être trop longs.', opts: ['C’est pourquoi', 'Cependant,', 'Par exemple,'], ok: 'Cependant,', role: 'nuance', res: [['', 'Les devoirs sont utiles.'], ['conn', 'Cependant,'], ['', 'ils ne doivent pas être trop longs.']], fb: '« Cependant » apporte une limite à l’idée : il sert à nuancer.' },
+  { a: 'Beaucoup de lycéens dorment peu.', b: 'Ils utilisent leur téléphone tard le soir.', opts: ['parce qu’', 'pourtant', 'de plus'], ok: 'parce qu’', role: 'cause', res: [['', 'Beaucoup de lycéens dorment peu'], ['conn', 'parce qu’'], ['', 'ils utilisent leur téléphone tard le soir.']], fb: '« Parce que » annonce la cause. Devant « ils », il devient « parce qu’ ».' },
+  { a: 'Le téléphone distrait les élèves.', b: 'Certains lycées l’interdisent en classe.', opts: ['car', 'C’est pourquoi', 'Par exemple,'], ok: 'C’est pourquoi', role: 'conséquence', res: [['', 'Le téléphone distrait les élèves.'], ['conn', 'C’est pourquoi'], ['', 'certains lycées l’interdisent en classe.']], fb: '« C’est pourquoi » annonce une conséquence : l’interdiction vient de la distraction.' }
+];
+
+const CONN_BOX = [
+  { h: 'Ajouter une idée', c: 'd’abord, ensuite, de plus, enfin' },
+  { h: 'Expliquer (la cause)', c: 'car, parce que, en effet' },
+  { h: 'Donner un exemple', c: 'par exemple, comme, notamment' },
+  { h: 'Montrer une conséquence', c: 'donc, c’est pourquoi, ainsi' },
+  { h: 'Opposer ou nuancer', c: 'mais, pourtant, cependant' },
+  { h: 'Conclure', c: 'en conclusion, pour conclure, finalement' }
+];
+
+const ORDER = [
+  { id: 'o1', label: 'Paragraphe 1', kind: 'phrases', sujet: 'Faut-il pratiquer un sport régulièrement ?', items: [
+    { t: 'Tout d’abord, le sport permet de rester en bonne santé.', c: 'Tout d’abord,', r: 'arg' },
+    { t: 'En effet, il renforce le cœur et les muscles.', c: 'En effet,', r: 'expl' },
+    { t: 'Par exemple, marcher trente minutes par jour aide à garder un cœur en forme.', c: 'Par exemple,', r: 'ex' },
+    { t: 'Ainsi, faire du sport régulièrement protège notre corps.', c: 'Ainsi,', r: 'concl' }
+  ] },
+  { id: 'o2', label: 'Paragraphe 2', kind: 'phrases', sujet: 'Faut-il encore lire des livres à l’époque d’Internet ?', items: [
+    { t: 'Ensuite, la lecture développe l’imagination.', c: 'Ensuite,', r: 'arg' },
+    { t: 'En effet, quand on lit, on doit se représenter soi-même les lieux et les personnages.', c: 'En effet,', r: 'expl' },
+    { t: 'Par exemple, dans un roman d’aventure, le lecteur imagine les paysages décrits.', c: 'Par exemple,', r: 'ex' },
+    { t: 'C’est pourquoi lire reste utile, même à l’époque des écrans.', c: 'C’est pourquoi', r: 'concl' }
+  ] },
+  { id: 'o3', label: 'Texte complet', kind: 'parties', sujet: 'Faut-il interdire le téléphone portable au lycée ?', items: [
+    { t: 'Aujourd’hui, presque tous les lycéens ont un téléphone portable. On peut donc se demander s’il faut l’interdire au lycée. Je pense qu’il faut l’interdire pendant les cours.', c: 'Aujourd’hui,', r: 'intro' },
+    { t: 'Tout d’abord, le téléphone empêche de se concentrer. En effet, chaque notification coupe le travail. Par exemple, un élève qui lit un message pendant un exercice perd le fil de ce qu’il faisait.', c: 'Tout d’abord,', r: 'arg' },
+    { t: 'De plus, le téléphone peut servir à se moquer des autres. En effet, une photo prise en classe peut circuler très vite. Par exemple, une photo gênante peut être envoyée à toute la classe en quelques secondes.', c: 'De plus,', r: 'arg' },
+    { t: 'En conclusion, le téléphone doit être interdit pendant les cours, car il nuit à la concentration et peut blesser. Il peut cependant rester utile pendant les pauses pour joindre sa famille.', c: 'En conclusion,', r: 'concl' }
+  ] }
+];
+
+const PLAN_SUBJECTS = [
+  'Faut-il limiter le temps passé sur les écrans ?',
+  'Le travail en groupe aide-t-il à mieux apprendre ?',
+  'Faut-il porter un uniforme à l’école ?',
+  'Les devoirs à la maison sont-ils utiles ?',
+  'Faut-il pratiquer un sport régulièrement ?'
+];
+const PLAN_FIELDS = [
+  { g: 'intro', k: 'these', role: 'these', label: 'Ma thèse', start: 'Je pense que ', hint: 'Ta réponse à la question, en une phrase.' },
+  { g: 'p1', k: 'a1', role: 'arg', label: 'Argument 1', start: 'Tout d’abord, ', hint: 'Une raison. Elle répond à « Pourquoi ? ».' },
+  { g: 'p1', k: 'e1', role: 'expl', label: 'Explication', start: 'En effet, ', hint: 'Comment ça se passe ? Pourquoi c’est vrai ?' },
+  { g: 'p1', k: 'x1', role: 'ex', label: 'Exemple', start: 'Par exemple, ', hint: 'Un fait précis : un cas, un lieu, un chiffre, une œuvre.' },
+  { g: 'p2', k: 'a2', role: 'arg', label: 'Argument 2', start: 'De plus, ', hint: 'Une autre raison, différente de la première.' },
+  { g: 'p2', k: 'e2', role: 'expl', label: 'Explication', start: 'En effet, ', hint: 'Comment ça se passe ? Pourquoi c’est vrai ?' },
+  { g: 'p2', k: 'x2', role: 'ex', label: 'Exemple', start: 'Par exemple, ', hint: 'Un fait précis.' },
+  { g: 'concl', k: 'cc', role: 'concl', label: 'Conclusion', start: 'En conclusion, ', hint: 'Redis ta thèse et rappelle tes deux arguments.' }
+];
+const PLAN_GROUPS = [
+  { g: 'intro', t: 'Introduction', role: 'these' },
+  { g: 'p1', t: 'Paragraphe 1', role: 'arg' },
+  { g: 'p2', t: 'Paragraphe 2', role: 'arg' },
+  { g: 'concl', t: 'Conclusion', role: 'concl' }
+];
+const CHECKS = [
+  'J’ai donné mon avis clairement dans l’introduction.',
+  'Chaque paragraphe parle d’un seul argument.',
+  'Chaque argument a une explication.',
+  'Chaque argument a un exemple précis.',
+  'J’ai utilisé des connecteurs pour relier mes phrases.',
+  'J’ai relu mon texte à voix haute.'
+];
+
+/* ---------- Contexte ---------- */
+const Ctx = createContext(null);
+const useApp = () => useContext(Ctx);
+
+/* ---------- Petits composants ---------- */
+function SpeakBtn({ text, label = 'Écouter' }) {
+  const { store } = useApp();
+  if (!CAN_SPEAK || store.settings.tts === false) return null;
+  return html`<button className="btn btn-flat btn-sm" onClick=${() => speak(text)} title="Lire à voix haute"><${Icon} n="speaker" s=${16} /><span>${label}</span></button>`;
+}
+function Segs({ segs }) {
+  return html`<span>${segs.map(([k, t], i) => html`<${Fragment} key=${i}>${i > 0 ? ' ' : ''}<span className=${k ? 'seg k-' + k : ''}>${fr(t)}</span><//>`)}</span>`;
+}
+const Chip = ({ k }) => html`<span className=${'chip k-' + k}>${CATS[k]}</span>`;
+function Legend({ keys = ['these', 'arg', 'expl', 'ex', 'conn'] }) {
+  return html`<div className="legend" aria-label="Légende des couleurs">${keys.map(k => html`<${Chip} key=${k} k=${k} />`)}</div>`;
+}
+function Msg({ kind, title, children }) {
+  return html`<div className=${'msg msg-' + kind} role="status"><${Icon} n=${kind === 'pos' ? 'check' : kind === 'neg' ? 'x' : 'info'} /><div className="body">${title ? html`<strong>${title}</strong>` : null}${children}</div></div>`;
+}
+function Progress({ value, max }) {
+  return html`<div className="progress" role="progressbar" aria-valuemin="0" aria-valuemax=${max} aria-valuenow=${value}><span style=${{ width: (max ? (value / max) * 100 : 0) + '%' }}></span></div>`;
+}
+function Block({ b }) {
+  if (b.p) return html`<p>${fr(b.p)}</p>`;
+  if (b.keys) return html`<div className="keys">${b.keys.map(k => html`<span key=${k} className="key">${k}</span>`)}</div>`;
+  if (b.seg) return html`<div className="para"><p><${Segs} segs=${b.seg} /></p><${SpeakBtn} text=${segsText(b.seg)} /></div>`;
+  if (b.list) return html`<ul className="rows">${b.list.map(([k, t], i) => html`<li key=${i} className="row"><${Chip} k=${k} /><span>${fr(t)}</span></li>`)}</ul>`;
+  return null;
+}
+function Tabs({ items, value, onChange }) {
+  return html`<div className="tabs" role="tablist">${items.map(it => html`<button key=${it.id} role="tab" aria-selected=${value === it.id} className=${'tab' + (value === it.id ? ' active' : '')} onClick=${() => onChange(it.id)}>${it.label}${it.done ? html`<span className="ok" aria-label="terminé"><${Icon} n="check" s=${14} /></span>` : null}</button>`)}</div>`;
+}
+
+/* ---------- Pages ---------- */
+const PATH = [
+  { id: 'vocab', n: 'Les mots des sujets', d: 'Comprendre les mots qui reviennent dans les consignes.' },
+  { id: 'ex', n: 'Exemples résolus', d: 'Observer un paragraphe construit étape par étape, puis le compléter.' },
+  { id: 'sort', n: 'Argument ou exemple ?', d: 'Reconnaître le rôle de chaque phrase.' },
+  { id: 'link', n: 'Relier les idées', d: 'Choisir le bon connecteur pour joindre deux phrases.' },
+  { id: 'order', n: 'Remettre dans l’ordre', d: 'Reconstruire un paragraphe, puis un texte entier.' },
+  { id: 'plan', n: 'Mon plan', d: 'Préparer et assembler ton propre texte.' }
+];
+function statusOf(id, p) {
+  p = p || {};
+  if (id === 'vocab') { const v = p.vocab || {}; const n = (v.learn ? 1 : 0) + (v.quiz != null ? 1 : 0); return { n, max: 2 }; }
+  if (id === 'ex') { const e = p.ex || {}; return { n: WE.filter(w => e[w.id]).length, max: 3 }; }
+  if (id === 'sort') { const s = p.sort || {}; return { n: SORT.filter(x => s[x.id] != null).length, max: 3 }; }
+  if (id === 'link') return { n: p.link != null ? 1 : 0, max: 1 };
+  if (id === 'order') { const o = p.order || {}; return { n: ORDER.filter(x => o[x.id]).length, max: 3 }; }
+  if (id === 'plan') return { n: p.plan ? 1 : 0, max: 1 };
+  return { n: 0, max: 1 };
+}
+function StatusPill({ id }) {
+  const { store } = useApp();
+  const s = statusOf(id, store.prog);
+  if (s.n >= s.max) return html`<span className="status done">Terminé</span>`;
+  if (s.n > 0) return html`<span className="status started">${s.n} / ${s.max}</span>`;
+  return html`<span className="status">À faire</span>`;
+}
+
+function Home() {
+  const { go, store } = useApp();
+  return html`<div className="page">
+    <div style=${{ display: 'flex', flexDirection: 'column', gap: '.5rem' }}>
+      <h1>Écrire un texte argumentatif, une étape à la fois</h1>
+      <p className="lead">Un texte argumentatif défend une idée avec des raisons et des exemples. Ici, tu apprends chaque pièce séparément, puis tu les assembles.</p>
+    </div>
+    <section style=${{ display: 'flex', flexDirection: 'column', gap: '.6rem' }}>
+      <h2>Ton parcours</h2>
+      <p className="lead" style=${{ fontSize: '.92rem' }}>Les activités sont rangées dans l’ordre conseillé. Tu peux revenir à une activité quand tu veux.</p>
+      <ol className="path">${PATH.map((it, i) => {
+        const s = statusOf(it.id, store.prog);
+        return html`<li key=${it.id}><button onClick=${() => go(it.id)}>
+          <span className=${'n' + (s.n >= s.max ? ' done' : '')}>${s.n >= s.max ? html`<${Icon} n="check" s=${16} />` : i + 1}</span>
+          <span><span className="t">${it.n}</span><br /><span className="d">${fr(it.d)}</span></span>
+          <${StatusPill} id=${it.id} />
+        </button></li>`;
+      })}</ol>
+    </section>
+    <section className="frame" style=${{ display: 'flex', flexDirection: 'column', gap: '.9rem' }}>
+      <h2>Comment ça marche</h2>
+      <div className="tips">
+        <div className="tip"><${Icon} n="right" /><strong>Une chose à la fois</strong><p>Chaque écran te demande une seule tâche. Tu avances à ton rythme.</p></div>
+        <div className="tip"><${Icon} n="eye" /><strong>Les couleurs t’aident</strong><p>Chaque rôle de phrase a sa couleur et son étiquette, partout dans l’atelier.</p></div>
+        <div className="tip"><${Icon} n="speaker" /><strong>Dis-le d’abord</strong><p>Écoute les phrases, puis dis ta propre phrase à voix haute avant de l’écrire.</p></div>
+      </div>
+      <${Legend} keys=${['these', 'arg', 'expl', 'ex', 'conn', 'hs']} />
+    </section>
+  </div>`;
+}
+
+/* -- Vocabulaire -- */
+function Vocab() {
+  const [tab, setTab] = useState('learn');
+  const { store } = useApp();
+  const v = (store.prog && store.prog.vocab) || {};
+  return html`<div className="page">
+    <div><h1>Les mots des sujets</h1><p className="lead">Ces mots reviennent souvent dans les sujets. Si tu les comprends, tu sais ce qu’on attend de toi.</p></div>
+    <${Tabs} value=${tab} onChange=${setTab} items=${[{ id: 'learn', label: 'Apprendre', done: v.learn }, { id: 'quiz', label: 'S’entraîner', done: v.quiz != null }]} />
+    ${tab === 'learn' ? html`<${VocabLearn} />` : html`<${VocabQuiz} />`}
+  </div>`;
+}
+function VocabLearn() {
+  const { setProg } = useApp();
+  const [queue, setQueue] = useState(() => VOCAB.map((_, i) => i));
+  const [shown, setShown] = useState(false);
+  const [known, setKnown] = useState(0);
+  const total = VOCAB.length;
+  if (!queue.length) {
+    return html`<div className="card"><${Msg} kind="pos" title="Tu as vu tous les mots.">Passe à « S’entraîner » pour vérifier ce que tu as retenu. Reviens ici dans quelques jours : revoir les mots plus tard aide à les garder.</${Msg}>
+      <div className="actions"><button className="btn" onClick=${() => { setQueue(VOCAB.map((_, i) => i)); setKnown(0); setShown(false); }}><${Icon} n="reset" s=${16} />Recommencer</button></div></div>`;
+  }
+  const w = VOCAB[queue[0]];
+  const rate = ok => {
+    const rest = queue.slice(1);
+    const nq = ok ? rest : rest.concat(queue[0]);
+    if (ok) setKnown(known + 1);
+    setQueue(nq); setShown(false);
+    if (!nq.length) setProg('vocab', { learn: true });
+  };
+  return html`<div style=${{ display: 'flex', flexDirection: 'column', gap: '.75rem' }}>
+    <div className="actions"><span className="count">${known} / ${total} mots sus</span></div>
+    <${Progress} value=${known} max=${total} />
+    <div className="card">
+      <div className="word"><span className="w">${w.w}</span><span className="syl">${w.syl}</span><span className="nat">${w.nat}</span></div>
+      <div className="actions"><${SpeakBtn} text=${w.w} label="Écouter le mot" /></div>
+      ${!shown ? html`<${Fragment}>
+        <${Msg} kind="info">Dis à voix haute ce que ce mot veut dire. Ensuite, regarde la définition.</${Msg}>
+        <div className="actions"><button className="btn btn-primary" onClick=${() => setShown(true)}>Voir la définition</button></div>
+      <//>` : html`<${Fragment}>
+        <p className="def">${fr(w.def)}</p>
+        <dl className="dl">
+          <dt>Dans un sujet</dt><dd>${fr(w.ctx)}</dd>
+          <dt>Ce qu’on attend</dt><dd>${fr(w.att)}</dd>
+        </dl>
+        <div className="actions"><${SpeakBtn} text=${w.def + ' ' + w.ctx} label="Écouter la définition" /></div>
+        <div className="actions"><span className="count">Est-ce que tu le savais ?</span><span className="spacer"></span>
+          <button className="btn" onClick=${() => rate(false)}>Pas encore</button>
+          <button className="btn btn-primary" onClick=${() => rate(true)}>Je savais</button>
+        </div>
+      <//>`}
+    </div>
+    <p className="count">Les mots marqués « Pas encore » reviennent à la fin de la liste.</p>
+  </div>`;
+}
+function VocabQuiz() {
+  const { store, setProg } = useApp();
+  const N = 8;
+  const make = () => shuffle(VOCAB.map((_, i) => i)).slice(0, N).map(i => {
+    const others = shuffle(VOCAB.map((_, j) => j).filter(j => j !== i)).slice(0, 2);
+    return { i, opts: shuffle([i, ...others]) };
+  });
+  const [qs, setQs] = useState(make);
+  const [k, setK] = useState(0);
+  const [pick, setPick] = useState(null);
+  const [score, setScore] = useState(0);
+  const best = store.prog.vocab && store.prog.vocab.quiz;
+  if (k >= N) {
+    return html`<div className="card">
+      <span className="eyebrow">Résultat</span><span className="big-score">${score} / ${N}</span>
+      ${score >= 7 ? html`<${Msg} kind="pos">Très bien. Tu connais le sens de ces mots.</${Msg}>` : html`<${Msg} kind="info">Revois les mots dans « Apprendre », puis réessaie.</${Msg}>`}
+      ${best != null ? html`<p className="count">Meilleur score : ${Math.max(best, score)} / ${N}</p>` : null}
+      <div className="actions"><button className="btn btn-primary" onClick=${() => { setQs(make()); setK(0); setPick(null); setScore(0); }}><${Icon} n="reset" s=${16} />Nouvelle série</button></div>
+    </div>`;
+  }
+  const q = qs[k]; const w = VOCAB[q.i];
+  const answer = j => { if (pick != null) return; setPick(j); if (j === q.i) setScore(score + 1); };
+  const next = () => {
+    const nk = k + 1; setK(nk); setPick(null);
+    if (nk >= N) { const prev = (store.prog.vocab || {}).quiz; setProg('vocab', { quiz: prev != null ? Math.max(prev, score) : score }); }
+  };
+  return html`<div style=${{ display: 'flex', flexDirection: 'column', gap: '.75rem' }}>
+    <div className="actions"><span className="count">Question ${k + 1} sur ${N}</span><span className="spacer"></span><span className="count">${score} bonne${score > 1 ? 's' : ''} réponse${score > 1 ? 's' : ''}</span></div>
+    <${Progress} value=${k} max=${N} />
+    <div className="card">
+      <span className="eyebrow">Que veut dire ce mot ?</span>
+      <div className="word"><span className="w">${w.w}</span><span className="syl">${w.syl}</span></div>
+      <div className="actions"><${SpeakBtn} text=${w.w} /></div>
+      <div className="choices">${q.opts.map((j, n) => {
+        let cls = 'choice';
+        if (pick != null) { if (j === q.i) cls += ' ok'; else if (j === pick) cls += ' no'; else cls += ' dim'; }
+        return html`<button key=${j} className=${cls} disabled=${pick != null} onClick=${() => answer(j)}><span className="mark">${'ABC'[n]}</span><span>${fr(VOCAB[j].def)}</span></button>`;
+      })}</div>
+      ${pick != null ? html`<${Fragment}>
+        ${pick === q.i ? html`<${Msg} kind="pos" title="Exact.">${fr(w.ctx)} : ${fr(w.att)}</${Msg}>` : html`<${Msg} kind="neg" title="Pas tout à fait.">« ${w.w} » veut dire : ${fr(w.def)}</${Msg}>`}
+        <div className="actions"><span className="spacer"></span><button className="btn btn-primary" onClick=${next}>${k + 1 < N ? 'Question suivante' : 'Voir le résultat'}<${Icon} n="right" s=${16} /></button></div>
+      <//>` : null}
+    </div>
+  </div>`;
+}
+
+/* -- Exemples résolus -- */
+function Examples() {
+  const { store, setProg } = useApp();
+  const exDone = (store.prog && store.prog.ex) || {};
+  const [wi, setWi] = useState(0);
+  const [si, setSi] = useState(0);
+  const [picked, setPicked] = useState({});
+  const [whyOpen, setWhyOpen] = useState(false);
+  const we = WE[wi]; const nSteps = we.steps.length;
+  const choose = id => { setWi(WE.findIndex(w => w.id === id)); setSi(0); setPicked({}); setWhyOpen(false); };
+  const finished = si >= nSteps;
+  const st = finished ? null : we.steps[si];
+  const key = wi + '-' + si;
+  const pk = picked[key];
+  const solved = st && (!st.choose || (pk != null && st.choose.options[pk].ok));
+  const next = () => {
+    if (si < nSteps - 1) { setSi(si + 1); setWhyOpen(false); }
+    else { setSi(nSteps); setProg('ex', { [we.id]: true }); }
+  };
+  const last = we.steps[nSteps - 1].body.find(b => b.seg);
+  return html`<div className="page">
+    <div><h1>Exemples résolus</h1><p className="lead">Observe comment on construit un paragraphe argumentatif. L’exemple 1 est entièrement guidé. Ensuite, tu fais toi-même une partie des étapes.</p></div>
+    <${Tabs} value=${we.id} onChange=${choose} items=${WE.map(w => ({ id: w.id, label: w.label + ' · ' + w.mode, done: exDone[w.id] }))} />
+    <div className="frame subject"><span className="eyebrow">Sujet</span><span className="q">${fr(we.sujet)}</span><div className="actions"><${SpeakBtn} text=${we.sujet} /></div></div>
+    <div className="stepper" aria-label="Étapes">${we.steps.map((s, i) => {
+      const c = i === si ? 'cur' : i < si ? 'past' : '';
+      return html`<button key=${i} className=${c} disabled=${i > si} onClick=${() => { if (i <= si) { setSi(i); setWhyOpen(false); } }} aria-current=${i === si ? 'step' : undefined}>
+        <span className="dot">${i < si ? html`<${Icon} n="check" s=${13} />` : i + 1}</span><span className="ttl">${s.t}</span></button>`;
+    })}</div>
+    ${si > 0 && !finished ? html`<ul className="done-list" aria-label="Étapes déjà faites">${we.steps.slice(0, si).map((s, i) => html`<li key=${i}><${Icon} n="check" s=${14} /><span>${fr(s.sum)}</span></li>`)}</ul>` : null}
+    ${finished ? html`<div className="card">
+      <${Msg} kind="pos" title="Exemple terminé.">Voici le paragraphe final. Relis-le à voix haute en suivant les couleurs.</${Msg}>
+      ${last ? html`<${Block} b=${last} />` : null}
+      <${Legend} />
+      <div className="actions">
+        <button className="btn" onClick=${() => { setSi(0); setPicked({}); }}><${Icon} n="reset" s=${16} />Revoir cet exemple</button>
+        <span className="spacer"></span>
+        ${wi < WE.length - 1 ? html`<button className="btn btn-primary" onClick=${() => choose(WE[wi + 1].id)}>Exemple suivant<${Icon} n="right" s=${16} /></button>` : null}
+      </div>
+    </div>` : html`<div className="card">
+      <div className="actions"><span className="eyebrow">Étape ${si + 1} sur ${nSteps}</span>${st.choose ? html`<span className="badge">À toi</span>` : null}</div>
+      <h2>${st.t}</h2>
+      ${st.choose ? html`<${Fragment}>
+        <p><strong>${fr(st.choose.prompt)}</strong></p>
+        ${st.choose.ctx ? html`<div className="frame para"><p><${Segs} segs=${st.choose.ctx} /></p></div>` : null}
+        <div className="choices">${st.choose.options.map((o, n) => {
+          let cls = 'choice';
+          if (pk != null) { if (n === pk) cls += o.ok ? ' ok' : ' no'; else if (solved) cls += ' dim'; }
+          return html`<button key=${n} className=${cls} disabled=${solved} onClick=${() => setPicked({ ...picked, [key]: n })}><span className="mark">${'ABC'[n]}</span><span>${fr(o.text)}</span></button>`;
+        })}</div>
+        ${pk != null ? html`<${Msg} kind=${st.choose.options[pk].ok ? 'pos' : 'neg'}>${fr(st.choose.options[pk].fb)}${!st.choose.options[pk].ok ? ' Essaie une autre réponse.' : ''}</${Msg}>` : null}
+      <//>` : null}
+      ${solved ? st.body.map((b, i) => html`<${Block} key=${i} b=${b} />`) : null}
+      ${solved ? html`<div className="why">
+        ${whyOpen ? html`<${Fragment}><strong>Pourquoi cette étape ?</strong><p>${fr(st.why)}</p><//>` : html`<${Fragment}><p>Avant de continuer : à ton avis, pourquoi fait-on cette étape ? Réponds dans ta tête, puis vérifie.</p><button className="btn btn-sm" onClick=${() => setWhyOpen(true)}>Vérifier ma réponse</button><//>`}
+      </div>` : null}
+      <div className="actions">
+        <button className="btn" disabled=${si === 0} onClick=${() => { setSi(si - 1); setWhyOpen(false); }}><${Icon} n="left" s=${16} />Étape précédente</button>
+        <span className="spacer"></span>
+        <button className="btn btn-primary" disabled=${!solved} onClick=${next}>${si < nSteps - 1 ? 'Étape suivante' : 'Terminer'}<${Icon} n="right" s=${16} /></button>
+      </div>
+    </div>`}
+  </div>`;
+}
+
+/* -- Trier -- */
+function Sort() {
+  const { store, setProg } = useApp();
+  const done = (store.prog && store.prog.sort) || {};
+  const [sid, setSid] = useState(SORT[0].id);
+  const [run, setRun] = useState(0);
+  const set = SORT.find(s => s.id === sid);
+  const order = useMemo(() => shuffle(set.items.map((_, i) => i)), [sid, run]);
+  const [pos, setPos] = useState(0);
+  const [ans, setAns] = useState(null);
+  const [score, setScore] = useState(0);
+  const reset = id => { if (id) setSid(id); setRun(run + 1); setPos(0); setAns(null); setScore(0); };
+  const n = set.items.length;
+  const it = pos < n ? set.items[order[pos]] : null;
+  const answer = a => { if (ans) return; setAns(a); if (a === it.a) setScore(score + 1); };
+  const next = () => {
+    const np = pos + 1; setPos(np); setAns(null);
+    if (np >= n) setProg('sort', { [sid]: score });
+  };
+  return html`<div className="page">
+    <div><h1>Argument ou exemple ?</h1><p className="lead">Lis chaque phrase. Décide si c’est un argument, un exemple, ou si elle n’a pas de lien avec le sujet.</p></div>
+    <${Tabs} value=${sid} onChange=${id => reset(id)} items=${SORT.map((s, i) => ({ id: s.id, label: 'Sujet ' + (i + 1), done: done[s.id] != null }))} />
+    <div className="frame subject">
+      <span className="eyebrow">Sujet</span><span className="q">${fr(set.sujet)}</span>
+      <div className="row" style=${{ marginTop: '.3rem' }}><${Chip} k="these" /><span>${fr(set.these)}</span></div>
+    </div>
+    <details className="box"><summary>Rappel : comment les reconnaître</summary><div className="inner">
+      <div className="cgroup"><h3>Argument</h3><p>Une raison générale. Il répond à « Pourquoi ? ».</p></div>
+      <div className="cgroup"><h3>Exemple</h3><p>Un fait précis : une personne, un lieu, un chiffre, une œuvre. On peut dire « Par exemple » devant.</p></div>
+      <div className="cgroup"><h3>Hors sujet</h3><p>La phrase peut être vraie, mais elle n’aide pas à défendre la thèse.</p></div>
+    </div></details>
+    ${it ? html`<div style=${{ display: 'flex', flexDirection: 'column', gap: '.75rem' }}>
+      <div className="actions"><span className="count">Phrase ${pos + 1} sur ${n}</span><span className="spacer"></span><span className="count">Score : ${score}</span></div>
+      <${Progress} value=${pos} max=${n} />
+      <div className="card">
+        <p style=${{ fontSize: '1.15rem' }}>${fr(it.t)}</p>
+        <div className="actions"><${SpeakBtn} text=${it.t} /></div>
+        <div className="trio">
+          ${[['arg', 'Argument', 'une raison'], ['ex', 'Exemple', 'un fait précis'], ['hs', 'Hors sujet', 'aucun lien']].map(([k, l, s]) => {
+            let cls = 'btn';
+            if (ans) { if (k === it.a) cls += ' res-ok'; else if (k === ans) cls += ' res-no'; }
+            return html`<button key=${k} className=${cls} disabled=${!!ans && k !== it.a && k !== ans} onClick=${() => answer(k)}>${l}<small>${s}</small></button>`;
+          })}
+        </div>
+        ${ans ? html`<${Fragment}>
+          <${Msg} kind=${ans === it.a ? 'pos' : 'neg'} title=${ans === it.a ? 'Bonne réponse.' : 'Réponse attendue : ' + CATS[it.a] + '.'}>${fr(it.fb)}</${Msg}>
+          <div className="actions"><span className="spacer"></span><button className="btn btn-primary" onClick=${next}>${pos + 1 < n ? 'Phrase suivante' : 'Voir le résultat'}<${Icon} n="right" s=${16} /></button></div>
+        <//>` : null}
+      </div>
+    </div>` : html`<div className="card">
+      <span className="eyebrow">Résultat</span><span className="big-score">${score} / ${n}</span>
+      ${score >= n - 1 ? html`<${Msg} kind="pos">Très bien. Tu sais distinguer une raison, un fait précis et une phrase hors sujet.</${Msg}>` : html`<${Msg} kind="info">Relis le rappel, puis recommence. Pose-toi la question : « Est-ce une raison, ou un cas précis ? »</${Msg}>`}
+      <div className="actions"><button className="btn" onClick=${() => reset()}><${Icon} n="reset" s=${16} />Recommencer</button><span className="spacer"></span>
+        ${SORT.findIndex(s => s.id === sid) < SORT.length - 1 ? html`<button className="btn btn-primary" onClick=${() => reset(SORT[SORT.findIndex(s => s.id === sid) + 1].id)}>Sujet suivant<${Icon} n="right" s=${16} /></button>` : null}
+      </div>
+    </div>`}
+  </div>`;
+}
+
+/* -- Relier -- */
+function ConnBox({ open }) {
+  return html`<details className="box" open=${open}><summary>Boîte à connecteurs</summary><div className="inner">${CONN_BOX.map(g => html`<div key=${g.h} className="cgroup"><h3>${g.h}</h3><p><span className="seg k-conn">${g.c}</span></p></div>`)}</div></details>`;
+}
+function LinkPage() {
+  const { store, setProg } = useApp();
+  const [k, setK] = useState(0);
+  const [pick, setPick] = useState(null);
+  const [score, setScore] = useState(0);
+  const N = LINK.length;
+  const it = k < N ? LINK[k] : null;
+  const answer = o => { if (pick) return; setPick(o); if (o === it.ok) setScore(score + 1); };
+  const next = () => { const nk = k + 1; setK(nk); setPick(null); if (nk >= N) setProg('link', score); };
+  return html`<div className="page">
+    <div><h1>Relier les idées</h1><p className="lead">Deux phrases courtes deviennent une phrase plus riche. Choisis le connecteur qui montre le bon lien entre les deux idées.</p></div>
+    <${ConnBox} open=${false} />
+    ${it ? html`<div style=${{ display: 'flex', flexDirection: 'column', gap: '.75rem' }}>
+      <div className="actions"><span className="count">Paire ${k + 1} sur ${N}</span><span className="spacer"></span><span className="count">Score : ${score}</span></div>
+      <${Progress} value=${k} max=${N} />
+      <div className="card">
+        <div className="kernels"><div className="kernel">${fr(it.a)}</div><span className="plus">+</span><div className="kernel">${fr(it.b)}</div></div>
+        <p><strong>Quel lien y a-t-il entre ces deux idées ?</strong></p>
+        <div className="trio">${it.opts.map(o => {
+          let cls = 'btn';
+          if (pick) { if (o === it.ok) cls += ' res-ok'; else if (o === pick) cls += ' res-no'; }
+          return html`<button key=${o} className=${cls} disabled=${!!pick && o !== it.ok && o !== pick} onClick=${() => answer(o)}>${o}</button>`;
+        })}</div>
+        ${pick ? html`<${Fragment}>
+          <${Msg} kind=${pick === it.ok ? 'pos' : 'neg'} title=${pick === it.ok ? 'Oui : lien de ' + it.role + '.' : 'Le bon lien ici : ' + it.role + '.'}>${fr(it.fb)}</${Msg}>
+          <div className="frame para"><span className="eyebrow">Phrase reliée</span><p><${Segs} segs=${it.res} /></p><${SpeakBtn} text=${segsText(it.res)} /></div>
+          <p className="count">Dis la phrase reliée à voix haute avant de continuer.</p>
+          <div className="actions"><span className="spacer"></span><button className="btn btn-primary" onClick=${next}>${k + 1 < N ? 'Paire suivante' : 'Voir le résultat'}<${Icon} n="right" s=${16} /></button></div>
+        <//>` : null}
+      </div>
+    </div>` : html`<div className="card">
+      <span className="eyebrow">Résultat</span><span className="big-score">${score} / ${N}</span>
+      ${score >= N - 1 ? html`<${Msg} kind="pos">Très bien. Tu choisis les connecteurs selon le lien entre les idées.</${Msg}>` : html`<${Msg} kind="info">Garde la boîte à connecteurs ouverte et recommence.</${Msg}>`}
+      <div className="actions"><button className="btn btn-primary" onClick=${() => { setK(0); setPick(null); setScore(0); }}><${Icon} n="reset" s=${16} />Recommencer</button></div>
+    </div>`}
+  </div>`;
+}
+
+/* -- Ordonner -- */
+function OrderPage() {
+  const { store, setProg } = useApp();
+  const done = (store.prog && store.prog.order) || {};
+  const [oid, setOid] = useState(ORDER[0].id);
+  return html`<div className="page">
+    <div><h1>Remettre dans l’ordre</h1><p className="lead">Touche les morceaux dans le bon ordre pour reconstruire le texte. Touche un morceau placé pour le retirer.</p></div>
+    <${Tabs} value=${oid} onChange=${setOid} items=${ORDER.map(o => ({ id: o.id, label: o.label, done: done[o.id] }))} />
+    <${OrderEx} key=${oid} ex=${ORDER.find(o => o.id === oid)} onDone=${() => setProg('order', { [oid]: true })} next=${() => { const i = ORDER.findIndex(o => o.id === oid); if (i < ORDER.length - 1) setOid(ORDER[i + 1].id); }} isLast=${ORDER[ORDER.length - 1].id === oid} />
+  </div>`;
+}
+function OrderEx({ ex, onDone, next, isLast }) {
+  const init = () => { let p = shuffle(ex.items.map((_, i) => i)); if (p.every((v, i) => v === i)) p = p.reverse(); return p; };
+  const [pool, setPool] = useState(init);
+  const [placed, setPlaced] = useState([]);
+  const [checked, setChecked] = useState(false);
+  const [hint, setHint] = useState(false);
+  const add = i => { setPool(pool.filter(x => x !== i)); setPlaced(placed.concat(i)); setChecked(false); };
+  const remove = i => { setPlaced(placed.filter(x => x !== i)); setPool(pool.concat(i)); setChecked(false); };
+  const okCount = placed.filter((v, i) => v === i).length;
+  const allOk = checked && okCount === ex.items.length;
+  const check = () => { setChecked(true); if (placed.every((v, i) => v === i)) onDone(); };
+  const text = it => {
+    if (!hint || !it.t.startsWith(it.c)) return fr(it.t);
+    return html`<${Fragment}><span className="hl">${it.c}</span>${fr(it.t.slice(it.c.length))}<//>`;
+  };
+  return html`<${Fragment}>
+    <div className="frame subject"><span className="eyebrow">Sujet</span><span className="q">${fr(ex.sujet)}</span>
+      <p className="count">${ex.kind === 'phrases' ? 'Remets les 4 phrases du paragraphe dans l’ordre.' : 'Remets les 4 parties du texte dans l’ordre.'}</p></div>
+    <div className="actions">
+      <button className=${'btn btn-sm' + (hint ? ' on' : '')} aria-pressed=${hint} onClick=${() => setHint(!hint)}><${Icon} n="eye" s=${16} />${hint ? 'Masquer l’indice' : 'Montrer l’indice'}</button>
+      <button className="btn btn-sm" onClick=${() => { setPool(init()); setPlaced([]); setChecked(false); }}><${Icon} n="reset" s=${16} />Recommencer</button>
+    </div>
+    ${hint ? html`<${Msg} kind="info">Regarde les premiers mots de chaque morceau. Ils disent si le morceau annonce, ajoute, explique, illustre ou conclut.</${Msg}>` : null}
+    <div className="zone">
+      <span className="zone-label">Ton texte</span>
+      ${placed.length ? placed.map((i, p) => {
+        const it = ex.items[i]; const st = checked ? (i === p ? ' ok' : ' no') : '';
+        return html`<button key=${i} className=${'slot' + st} onClick=${() => remove(i)} aria-label=${'Retirer le morceau ' + (p + 1)}><span className="pos">${p + 1}</span><span className="tx">${text(it)}</span></button>`;
+      }) : html`<div className="empty">Touche un morceau ci-dessous pour commencer.</div>`}
+    </div>
+    ${pool.length ? html`<div className="zone">
+      <span className="zone-label">Morceaux à placer</span>
+      ${pool.map(i => html`<button key=${i} className="slot" onClick=${() => add(i)}><span className="pos" style=${{ background: 'transparent', border: '1px solid var(--line-strong)' }}></span><span className="tx">${text(ex.items[i])}</span></button>`)}
+    </div>` : null}
+    ${!pool.length && !checked ? html`<div className="actions"><span className="spacer"></span><button className="btn btn-primary" onClick=${check}><${Icon} n="check" s=${16} />Vérifier</button></div>` : null}
+    ${checked && allOk ? html`<div className="card">
+      <${Msg} kind="pos" title="Bravo, tout est dans l’ordre.">Voici le rôle de chaque morceau.</${Msg}>
+      <ul className="rows">${ex.items.map((it, i) => html`<li key=${i} className="row"><${Chip} k=${it.r} /><span>${fr(it.t)}</span></li>`)}</ul>
+      <div className="actions"><${SpeakBtn} text=${ex.items.map(i => i.t).join(' ')} label="Écouter le texte" /><span className="spacer"></span>
+        ${!isLast ? html`<button className="btn btn-primary" onClick=${next}>Exercice suivant<${Icon} n="right" s=${16} /></button>` : null}</div>
+    </div>` : null}
+    ${checked && !allOk ? html`<${Msg} kind="neg" title=${okCount + ' morceau' + (okCount > 1 ? 'x' : '') + ' sur ' + ex.items.length + ' bien placé' + (okCount > 1 ? 's' : '') + '.'}>Les morceaux en rouge ne sont pas à la bonne place. Touche-les pour les retirer, puis replace-les.${!hint ? ' Tu peux aussi afficher l’indice.' : ''}</${Msg}>` : null}
+  <//>`;
+}
+
+/* -- Plan -- */
+function Plan() {
+  const { store, setStore, setProg } = useApp();
+  const plan = store.plan || {};
+  const f = plan.f || {};
+  const sujet = plan.sujet || PLAN_SUBJECTS[0];
+  const custom = plan.custom || '';
+  const checks = plan.checks || {};
+  const [view, setView] = useState('write');
+  const [copied, setCopied] = useState('');
+  const upd = patch => setStore(s => ({ ...s, plan: { ...(s.plan || {}), ...patch } }));
+  const val = fd => (f[fd.k] != null ? f[fd.k] : fd.start);
+  const setF = (k, v) => upd({ f: { ...f, [k]: v } });
+  const realSujet = sujet === '__custom' ? custom : sujet;
+  const filled = fd => { const v = val(fd).trim(); return v.length > fd.start.trim().length + 3; };
+  const nFilled = PLAN_FIELDS.filter(filled).length;
+  const paragraphs = PLAN_GROUPS.map(g => ({ g, parts: PLAN_FIELDS.filter(fd => fd.g === g.g && filled(fd)).map(fd => ({ role: fd.role, t: val(fd).trim() })) })).filter(p => p.parts.length);
+  const plain = paragraphs.map(p => p.parts.map(x => x.t).join(' ')).join('\n\n');
+  const copy = () => {
+    const done = () => { setCopied('Texte copié.'); setTimeout(() => setCopied(''), 2500); };
+    try { navigator.clipboard.writeText(plain).then(done, () => setCopied('Sélectionne le texte et copie-le à la main.')); } catch (e) { setCopied('Sélectionne le texte et copie-le à la main.'); }
+  };
+  return html`<div className="page">
+    <div><h1>Mon plan</h1><p className="lead">Prépare ton texte morceau par morceau. Pour chaque case : dis ta phrase à voix haute, puis écris-la. Les débuts de phrase sont déjà là ; tu peux les changer.</p></div>
+    <${Tabs} value=${view} onChange=${v => { setView(v); if (v === 'read' && nFilled >= 4) setProg('plan', true); }} items=${[{ id: 'write', label: 'Préparer' }, { id: 'read', label: 'Mon texte' }]} />
+    ${view === 'write' ? html`<${Fragment}>
+      <div className="field">
+        <label htmlFor="plan-sujet">Sujet</label>
+        <select id="plan-sujet" value=${sujet} onChange=${e => upd({ sujet: e.target.value })}>
+          ${PLAN_SUBJECTS.map(s => html`<option key=${s} value=${s}>${s}</option>`)}
+          <option value="__custom">Un autre sujet (je l’écris)</option>
+        </select>
+        ${sujet === '__custom' ? html`<input id="plan-custom" type="text" placeholder="Écris ton sujet ici" value=${custom} onChange=${e => upd({ custom: e.target.value })} />` : null}
+      </div>
+      <div className="actions"><span className="count">${nFilled} case${nFilled > 1 ? 's' : ''} remplie${nFilled > 1 ? 's' : ''} sur ${PLAN_FIELDS.length}</span></div>
+      <${Progress} value=${nFilled} max=${PLAN_FIELDS.length} />
+      ${PLAN_GROUPS.map(g => html`<section key=${g.g} className=${'group k-' + g.role}>
+        <h2>${g.t}</h2>
+        ${PLAN_FIELDS.filter(fd => fd.g === g.g).map(fd => html`<div key=${fd.k} className="field">
+          <label htmlFor=${'plan-' + fd.k}><${Chip} k=${fd.role} />${fd.label}<span className="hint">${fr(fd.hint)}</span></label>
+          <textarea id=${'plan-' + fd.k} rows="2" value=${val(fd)} onChange=${e => setF(fd.k, e.target.value)}></textarea>
+        </div>`)}
+      </section>`)}
+      <${ConnBox} open=${false} />
+      <div className="actions"><button className="btn" onClick=${() => upd({ f: {}, checks: {} })}><${Icon} n="reset" s=${16} />Tout effacer</button><span className="spacer"></span>
+        <button className="btn btn-primary" onClick=${() => { setView('read'); if (nFilled >= 4) setProg('plan', true); }}>Assembler mon texte<${Icon} n="right" s=${16} /></button></div>
+      <p className="count">Ton brouillon reste enregistré dans ce navigateur.</p>
+    <//>` : html`<${Fragment}>
+      ${realSujet ? html`<div className="frame subject"><span className="eyebrow">Sujet</span><span className="q">${fr(realSujet)}</span></div>` : null}
+      ${paragraphs.length ? html`<div className="card">
+        <div className="assembled">${paragraphs.map(p => html`<p key=${p.g.g}><${Segs} segs=${p.parts.map(x => [x.role, x.t])} /></p>`)}</div>
+        <${Legend} keys=${['these', 'arg', 'expl', 'ex', 'concl']} />
+        <div className="actions"><${SpeakBtn} text=${plain} label="Écouter mon texte" /><span className="spacer"></span>
+          <button className="btn" onClick=${copy}><${Icon} n="copy" s=${16} />Copier le texte</button></div>
+        ${copied ? html`<p className="count" role="status">${copied}</p>` : null}
+      </div>` : html`<${Msg} kind="info">Ton texte est vide pour l’instant. Remplis quelques cases dans « Préparer ».</${Msg}>`}
+      <section className="frame" style=${{ display: 'flex', flexDirection: 'column', gap: '.6rem' }}>
+        <h2>Je vérifie mon texte</h2>
+        <div className="checks">${CHECKS.map((c, i) => html`<label key=${i}><input id=${'check-' + i} type="checkbox" checked=${!!checks[i]} onChange=${e => upd({ checks: { ...checks, [i]: e.target.checked } })} /><span>${fr(c)}</span></label>`)}</div>
+        ${CHECKS.every((_, i) => checks[i]) ? html`<${Msg} kind="pos">Tout est vérifié. Ton texte a la structure d’un texte argumentatif.</${Msg}>` : null}
+      </section>
+      <div className="actions"><button className="btn" onClick=${() => setView('write')}><${Icon} n="left" s=${16} />Modifier</button></div>
+    <//>`}
+  </div>`;
+}
+
+/* -- Notes pour l'adulte -- */
+function Notes() {
+  return html`<div className="page"><div className="notes">
+    <div><h1>Notes pour l’adulte</h1><p className="lead">Pour l’orthophoniste, l’enseignant ou le parent qui accompagne l’élève.</p></div>
+    <section><h2>Principes de conception</h2><ul>
+      <li><strong>Pré-apprentissage du vocabulaire des consignes.</strong> Syllabation, écoute, définition simple, mot en contexte, puis rappel actif. <span className="ref">Approche phonologique-sémantique : Lowe, Henry, Müller et Joffe, 2018.</span></li>
+      <li><strong>Exemples résolus, puis estompage.</strong> Exemple 1 complet, exemple 2 avec la dernière étape à faire, exemple 3 avec trois étapes à faire. <span className="ref">Renkl et Atkinson ; effet de renversement de l’expertise, Kalyuga.</span></li>
+      <li><strong>Auto-explication.</strong> À chaque étape, l’élève se demande pourquoi elle existe avant de voir la réponse.</li>
+      <li><strong>Segmentation et rythme contrôlé.</strong> Une tâche par écran ; l’élève avance quand il est prêt. <span className="ref">Mayer, principes de segmentation et de pré-entraînement.</span></li>
+      <li><strong>Signalisation.</strong> Une couleur et une étiquette par rôle (thèse, argument, explication, exemple, connecteur), identiques dans toutes les activités. Désactivables dans les réglages.</li>
+      <li><strong>Combinaison de phrases.</strong> Relier deux phrases noyaux par un connecteur choisi selon le lien logique. <span className="ref">Graham et Perin, 2007 ; Saddler et Graham, 2005.</span></li>
+      <li><strong>Planification guidée et autorégulation.</strong> Organisateur graphique avec amorces de phrases, puis liste d’autovérification. <span className="ref">Inspiré du modèle SRSD, Harris et Graham.</span></li>
+      <li><strong>Appui oral.</strong> Lecture à voix haute par synthèse vocale et consigne de dire la phrase avant de l’écrire.</li>
+    </ul></section>
+    <section><h2>Conseils d’utilisation</h2><ul>
+      <li>Séances courtes (15 à 20 minutes), deux ou trois fois par semaine.</li>
+      <li>Faire le premier exemple résolu ensemble, en pensant à voix haute.</li>
+      <li>Revenir au vocabulaire à plusieurs jours d’intervalle plutôt qu’en une seule fois.</li>
+      <li>Passer à l’activité suivante quand l’élève réussit environ 4 items sur 5, sans aide.</li>
+      <li>Pour la production, autoriser le clavier ou la dictée vocale si l’écriture manuscrite coûte trop.</li>
+      <li>Remplacer progressivement les amorces de phrases du plan par des phrases entièrement libres.</li>
+    </ul></section>
+    <p className="count">Les progrès et le brouillon sont enregistrés uniquement dans le navigateur utilisé.</p>
+  </div></div>`;
+}
+
+/* -- Réglages -- */
+function Settings({ onClose }) {
+  const { store, setSettings } = useApp();
+  const s = store.settings;
+  return html`<${Fragment}>
+    <div className="pop-scrim" onClick=${onClose}></div>
+    <div className="pop" role="dialog" aria-label="Affichage">
+      <div><div className="lbl">Taille du texte</div>
+        <div className="seg-ctl">${[['m', 'Normal'], ['l', 'Grand'], ['xl', 'Très grand']].map(([k, l]) => html`<button key=${k} className=${'btn btn-sm' + (s.size === k ? ' on' : '')} aria-pressed=${s.size === k} onClick=${() => setSettings({ size: k })}>${l}</button>`)}</div></div>
+      <label className="switch" htmlFor="set-airy"><span>Texte aéré</span><input id="set-airy" type="checkbox" checked=${!!s.airy} onChange=${e => setSettings({ airy: e.target.checked })} /></label>
+      <label className="switch" htmlFor="set-colors"><span>Couleurs des rôles</span><input id="set-colors" type="checkbox" checked=${s.colors !== false} onChange=${e => setSettings({ colors: e.target.checked })} /></label>
+      ${CAN_SPEAK ? html`<label className="switch" htmlFor="set-tts"><span>Boutons « Écouter »</span><input id="set-tts" type="checkbox" checked=${s.tts !== false} onChange=${e => setSettings({ tts: e.target.checked })} /></label>` : null}
+    </div>
+  <//>`;
+}
+
+/* ---------- Application ---------- */
+const PAGES = {
+  home: { t: 'Accueil', icon: 'home', C: Home },
+  vocab: { t: 'Les mots des sujets', icon: 'words', C: Vocab },
+  ex: { t: 'Exemples résolus', icon: 'bulb', C: Examples },
+  sort: { t: 'Argument ou exemple ?', icon: 'sort', C: Sort },
+  link: { t: 'Relier les idées', icon: 'link', C: LinkPage },
+  order: { t: 'Remettre dans l’ordre', icon: 'order', C: OrderPage },
+  plan: { t: 'Mon plan', icon: 'plan', C: Plan },
+  notes: { t: 'Notes pour l’adulte', icon: 'info', C: Notes }
+};
+
+function App() {
+  const [store, setStore] = useState(() => {
+    const s = loadStore();
+    return { settings: { size: 'm', airy: false, colors: true, tts: true, ...(s.settings || {}) }, prog: s.prog || {}, plan: s.plan || {} };
+  });
+  const initial = (() => { const h = (location.hash || '').slice(1); return PAGES[h] ? h : 'home'; })();
+  const [page, setPage] = useState(initial);
+  const [drawer, setDrawer] = useState(false);
+  const [pop, setPop] = useState(false);
+
+  useEffect(() => { saveStore(store); }, [store]);
+  useEffect(() => {
+    const r = document.documentElement.style; const s = store.settings;
+    r.setProperty('--base', s.size === 'xl' ? '20px' : s.size === 'l' ? '18px' : '16px');
+    r.setProperty('--lh', s.airy ? '1.85' : '1.55');
+    r.setProperty('--ls', s.airy ? '.025em' : '0em');
+    r.setProperty('--ws', s.airy ? '.12em' : '0em');
+  }, [store.settings]);
+
+  const go = p => { setPage(p); setDrawer(false); try { history.replaceState(null, '', '#' + p); } catch (e) {} const c = document.querySelector('.content'); if (c) c.scrollTop = 0; };
+  const setProg = (k, v) => setStore(s => {
+    const cur = s.prog[k];
+    const nv = (v && typeof v === 'object' && !Array.isArray(v)) ? { ...(cur && typeof cur === 'object' ? cur : {}), ...v } : v;
+    return { ...s, prog: { ...s.prog, [k]: nv } };
+  });
+  const setSettings = patch => setStore(s => ({ ...s, settings: { ...s.settings, ...patch } }));
+  const ctx = { store, setStore, setProg, setSettings, go };
+  const P = PAGES[page];
+
+  const navItem = (id, num) => {
+    const p = PAGES[id]; const st = num ? statusOf(id, store.prog) : null;
+    return html`<button key=${id} className=${'nav-item' + (page === id ? ' active' : '')} aria-current=${page === id ? 'page' : undefined} onClick=${() => go(id)}>
+      ${num ? html`<span className="num">${num}</span>` : null}<${Icon} n=${p.icon} /><span className="lbl">${p.t}</span>
+      ${st ? html`<span className=${'st' + (st.n >= st.max ? ' done' : '')}>${st.n >= st.max ? html`<${Icon} n="check" s=${14} />` : st.max > 1 && st.n > 0 ? st.n + '/' + st.max : ''}</span>` : null}
+    </button>`;
+  };
+
+  return html`<${Ctx.Provider} value=${ctx}>
+    <div className=${'app' + (store.settings.colors === false ? ' nocolor' : '')}>
+      <header className="header">
+        <button className="btn btn-flat btn-icon menu-btn" aria-label="Ouvrir le menu" onClick=${() => setDrawer(true)}><${Icon} n="menu" /></button>
+        <span className="app-name">Atelier d’argumentation</span><span className="sep"></span>
+        <span className="page-name">${P.t}</span>
+        <span className="spacer"></span>
+        <button className=${'btn btn-flat' + (pop ? ' on' : '')} aria-expanded=${pop} onClick=${() => setPop(!pop)}><${Icon} n="sliders" /><span>Affichage</span></button>
+        ${pop ? html`<${Settings} onClose=${() => setPop(false)} />` : null}
+      </header>
+      <div className="main">
+        <div className=${'scrim' + (drawer ? ' open' : '')} onClick=${() => setDrawer(false)}></div>
+        <nav className=${'sidebar' + (drawer ? ' open' : '')} aria-label="Activités">
+          ${navItem('home')}
+          <div className="side-label">Parcours</div>
+          ${PATH.map((it, i) => navItem(it.id, i + 1))}
+          <div className="side-label">Aide</div>
+          ${navItem('notes')}
+        </nav>
+        <main className="content"><${P.C} key=${page} /></main>
+      </div>
+    </div>
+  <//>`;
+}
+
+ReactDOM.createRoot(document.getElementById('root')).render(html`<${App} />`);
+</script>
+
+</body></html>
