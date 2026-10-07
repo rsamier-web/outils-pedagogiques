@@ -1,0 +1,1519 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Les composants du système immunitaire</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Noto+Sans+Mono:wght@400;500&display=swap">
+<style>
+/* Layout : application façon KDE Breeze — barre d'outils, barre latérale de navigation, vue centrale dans un cadre. */
+:root{
+  --win:#eff0f1; --view:#fcfcfc; --alt:#f4f5f6; --fg:#232629; --fg2:#5f6a74; --line:#d5d9dc; --line2:#b8bfc5;
+  --accent:#3daee9; --accent-strong:#1d87bf; --accent-bg:#e2f2fb;
+  --pos:#27ae60; --pos-fg:#1c7d45; --pos-bg:#e3f4ea;
+  --neg:#da4453; --neg-fg:#b22a39; --neg-bg:#fae5e7;
+  --neu:#f67400; --neu-fg:#a94f00; --neu-bg:#fdeedd;
+  --sang:#da4453; --sang-bg:#f9e0e3; --lymphe:#27ae60; --lymphe-bg:#dcf1e4; --inter-bg:#e9f4fa;
+  --prim:#f67400; --sec:#8e5bb5; --body:#e3e6e9; --tissue:#f3ece2; --tissue-line:#cdbda6;
+  --nuc:#6d4fa3; --cyto:#ece6f5; --gr:#dc5664; --gran:#e08a3a;
+  --font:"Noto Sans","Segoe UI",system-ui,-apple-system,sans-serif;
+  --mono:"Noto Sans Mono",ui-monospace,"DejaVu Sans Mono",monospace;
+  --r:4px;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --win:#202326; --view:#141618; --alt:#1b1d20; --fg:#fcfcfc; --fg2:#a7b0b8; --line:#363b41; --line2:#4c535a;
+    --accent:#3daee9; --accent-strong:#6cc4f0; --accent-bg:#163647;
+    --pos:#27ae60; --pos-fg:#62d394; --pos-bg:#14301e;
+    --neg:#da4453; --neg-fg:#f2808c; --neg-bg:#3a1a1f;
+    --neu:#f67400; --neu-fg:#ffa451; --neu-bg:#382410;
+    --sang:#e65866; --sang-bg:#381b20; --lymphe:#3cc174; --lymphe-bg:#142d1d; --inter-bg:#132733;
+    --prim:#ff8a24; --sec:#b48ad8; --body:#2b3035; --tissue:#2f2a24; --tissue-line:#6b5e4c;
+    --nuc:#b49ae0; --cyto:#2c2740; --gr:#e86a76; --gran:#f0a050;
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --win:#202326; --view:#141618; --alt:#1b1d20; --fg:#fcfcfc; --fg2:#a7b0b8; --line:#363b41; --line2:#4c535a;
+  --accent:#3daee9; --accent-strong:#6cc4f0; --accent-bg:#163647;
+  --pos:#27ae60; --pos-fg:#62d394; --pos-bg:#14301e;
+  --neg:#da4453; --neg-fg:#f2808c; --neg-bg:#3a1a1f;
+  --neu:#f67400; --neu-fg:#ffa451; --neu-bg:#382410;
+  --sang:#e65866; --sang-bg:#381b20; --lymphe:#3cc174; --lymphe-bg:#142d1d; --inter-bg:#132733;
+  --prim:#ff8a24; --sec:#b48ad8; --body:#2b3035; --tissue:#2f2a24; --tissue-line:#6b5e4c;
+  --nuc:#b49ae0; --cyto:#2c2740; --gr:#e86a76; --gran:#f0a050;
+  color-scheme:dark;
+}
+html{font-size:15px}
+html.big{font-size:17px}
+body{background:var(--win);color:var(--fg);font-family:var(--font);font-size:1rem;line-height:1.6}
+*{box-sizing:border-box}
+h1,h2,h3{text-wrap:balance;line-height:1.3;margin:0}
+h1{font-size:1.55rem;font-weight:600}
+h2{font-size:1.2rem;font-weight:600}
+h3{font-size:1.05rem;font-weight:600}
+p{margin:0}
+strong{font-weight:600}
+.num{font-variant-numeric:tabular-nums}
+button{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+@media (prefers-reduced-motion: reduce){*{transition:none!important;animation:none!important}}
+
+/* Barre d'outils */
+.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:10;background:var(--view);border-bottom:1px solid var(--line);display:flex;align-items:center;gap:12px;padding:8px 16px;min-height:52px}
+.top .ttl{display:flex;flex-direction:column;min-width:0;flex:1}
+.top .ttl b{font-weight:600;font-size:1rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.top .ttl span{font-size:.8rem;color:var(--fg2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.meter{display:flex;align-items:center;gap:8px;font-size:.8rem;color:var(--fg2)}
+.meter .bar{width:90px;height:6px;border-radius:3px;background:var(--line);overflow:hidden}
+.meter .bar i{display:block;height:100%;background:var(--accent);transition:width .3s}
+@media(max-width:620px){.meter .bar{width:50px}.top .ttl span{display:none}}
+
+/* Structure */
+.shell{display:grid;grid-template-columns:270px minmax(0,1fr);max-width:1240px;margin:0 auto}
+.side{position:sticky;top:52px;align-self:start;max-height:calc(100vh - 52px);overflow:auto;padding:14px 10px 30px;border-right:1px solid var(--line)}
+.side .grp{font-size:.75rem;color:var(--fg2);padding:12px 10px 4px;letter-spacing:.02em}
+.navi{display:flex;align-items:center;gap:8px;width:100%;text-align:left;border:1px solid transparent;background:none;border-radius:3px;padding:6px 10px;cursor:pointer;font-size:.93rem;line-height:1.35}
+.navi:hover{background:color-mix(in srgb,var(--accent) 12%,transparent)}
+.navi[aria-current="page"]{background:color-mix(in srgb,var(--accent) 22%,transparent);border-color:var(--accent)}
+.navi .n{width:20px;height:20px;flex:none;border-radius:50%;border:1px solid var(--line2);font-size:.72rem;display:grid;place-items:center;color:var(--fg2)}
+.navi .n.done{background:var(--pos);border-color:var(--pos);color:var(--view)}
+.navi .lab{flex:1;min-width:0}
+.navi .cnt{font-size:.75rem;color:var(--fg2)}
+main{min-width:0;padding:24px 28px 80px}
+.wrap{max-width:880px;margin:0 auto;display:flex;flex-direction:column;gap:20px}
+@media(max-width:860px){
+  .shell{grid-template-columns:1fr}
+  .side{position:sticky;top:52px;z-index:9;max-height:none;border-right:0;border-bottom:1px solid var(--line);background:var(--win);display:flex;gap:4px;overflow-x:auto;padding:8px 16px}
+  .side .grp{display:none}
+  .navi{width:auto;white-space:nowrap;flex:none}
+  main{padding:16px 16px 64px}
+}
+
+/* Cadres */
+.frame{background:var(--view);border:1px solid var(--line);border-radius:var(--r);padding:22px 26px;display:flex;flex-direction:column;gap:14px}
+@media(max-width:620px){.frame{padding:16px}}
+.eyebrow{font-size:.8rem;color:var(--fg2)}
+.goal{color:var(--fg2);font-size:.95rem}
+.prose{max-width:66ch;display:flex;flex-direction:column;gap:10px}
+.sep{height:1px;background:var(--line);margin:4px 0}
+.muted{color:var(--fg2)}
+.small{font-size:.86rem}
+
+/* Messages (KMessageWidget) */
+.msg{border:1px solid var(--accent);background:var(--accent-bg);border-radius:var(--r);padding:10px 14px;display:flex;gap:10px;align-items:flex-start}
+.msg .ic{flex:none;width:18px;height:18px;margin-top:2px}
+.msg .bd{min-width:0;display:flex;flex-direction:column;gap:4px}
+.msg .bd b.h{font-weight:600}
+.msg.pos{border-color:var(--pos);background:var(--pos-bg)}
+.msg.neg{border-color:var(--neg);background:var(--neg-bg)}
+.msg.neu{border-color:var(--neu);background:var(--neu-bg)}
+.msg ul{margin:0;padding-left:1.2em}
+
+/* Boutons */
+.row{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.btn{font-size:.92rem;min-height:32px;padding:4px 14px;border:1px solid var(--line2);border-radius:3px;background:var(--view);cursor:pointer;line-height:1.3}
+.btn:hover:not(:disabled){border-color:var(--accent)}
+.btn.primary{border-color:var(--accent);background:var(--accent-bg)}
+.btn.primary:hover:not(:disabled){background:color-mix(in srgb,var(--accent) 30%,var(--view))}
+.btn.flat{border-color:transparent;background:transparent}
+.btn.flat:hover:not(:disabled){background:var(--alt);border-color:var(--line)}
+.btn:disabled{opacity:.5;cursor:default}
+.btn[aria-pressed="true"]{border-color:var(--accent);background:var(--accent-bg)}
+
+/* Onglets */
+.tabs{display:flex;border-bottom:1px solid var(--line);overflow-x:auto;gap:2px}
+.tab{border:0;background:none;padding:8px 14px;border-bottom:2px solid transparent;color:var(--fg2);cursor:pointer;white-space:nowrap;font-size:.93rem}
+.tab:hover{color:var(--fg)}
+.tab[aria-selected="true"]{color:var(--fg);border-bottom-color:var(--accent)}
+.tab small{font-size:.75rem;color:var(--fg2);margin-left:6px}
+
+/* Pastilles */
+.pill{display:inline-block;font-size:.76rem;line-height:1.5;padding:0 8px;border-radius:10px;border:1px solid var(--line2);color:var(--fg2);white-space:nowrap}
+.pill.acc{border-color:var(--accent);color:var(--accent-strong);background:var(--accent-bg)}
+.pill.st-ok{border-color:var(--pos);color:var(--pos-fg);background:var(--pos-bg)}
+.pill.st-haut{border-color:var(--neg);color:var(--neg-fg);background:var(--neg-bg)}
+.pill.st-bas{border-color:var(--neu);color:var(--neu-fg);background:var(--neu-bg)}
+.pill.c-prim{border-color:var(--prim);color:var(--neu-fg)}
+.pill.c-sec{border-color:var(--sec);color:var(--sec)}
+.pill.c-vais{border-color:var(--lymphe);color:var(--pos-fg)}
+
+/* Tableaux */
+.tblwrap{overflow-x:auto;border:1px solid var(--line);border-radius:var(--r)}
+table{border-collapse:collapse;width:100%;font-size:.92rem}
+th,td{text-align:left;padding:8px 12px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-weight:600;background:var(--alt)}
+tr:last-child td{border-bottom:0}
+
+/* Schémas */
+.fig{border:1px solid var(--line);border-radius:var(--r);background:var(--view);overflow-x:auto}
+.fig svg{display:block;width:100%;height:auto}
+.fig.scroll svg{min-width:640px}
+svg text{font-family:var(--font);fill:var(--fg)}
+.cap{font-size:.84rem;color:var(--fg2)}
+
+/* Stepper du schéma d'échanges */
+.stepper{display:flex;flex-direction:column;gap:10px}
+.dots{display:flex;gap:6px;flex-wrap:wrap}
+.dot{width:28px;height:28px;border-radius:50%;border:1px solid var(--line2);background:var(--view);cursor:pointer;font-size:.8rem}
+.dot[aria-current="step"]{border-color:var(--accent);background:var(--accent-bg);font-weight:600}
+.steptext{min-height:4.8em;border:1px solid var(--line);border-radius:var(--r);padding:10px 14px;background:var(--alt)}
+.steptext b.h{display:block;margin-bottom:2px}
+.ex-arrow{transition:opacity .25s}
+.dim{opacity:.13}
+
+/* Exercices */
+.ex{border:1px solid var(--line);border-radius:var(--r);background:var(--view);padding:16px 18px;display:flex;flex-direction:column;gap:12px}
+.ex.compact{background:var(--alt)}
+.ex-head{display:flex;align-items:center;gap:10px;flex-wrap:wrap;font-size:.82rem;color:var(--fg2)}
+.lvl{display:inline-flex;gap:3px;align-items:center}
+.lvl i{width:8px;height:8px;border-radius:50%;border:1px solid var(--accent)}
+.lvl i.on{background:var(--accent)}
+.ex-head .st{margin-left:auto}
+.prompt{font-size:1rem;max-width:70ch}
+.opts{display:flex;flex-direction:column;gap:6px}
+.opt{display:flex;gap:10px;align-items:flex-start;width:100%;text-align:left;padding:8px 12px;border:1px solid var(--line);border-radius:3px;background:var(--view);cursor:pointer;line-height:1.45}
+.opt:hover{border-color:var(--accent)}
+.opt .mk{width:16px;height:16px;flex:none;border:1px solid var(--line2);border-radius:50%;margin-top:2px;background:var(--view)}
+.opt.cb .mk{border-radius:2px;display:grid;place-items:center}
+.opt[aria-checked="true"] .mk{border:5px solid var(--accent)}
+.opt.cb[aria-checked="true"] .mk{border:1px solid var(--accent);background:var(--accent)}
+.opt.cb[aria-checked="true"] .mk::after{content:"";width:8px;height:4px;border-left:2px solid var(--view);border-bottom:2px solid var(--view);transform:rotate(-45deg) translate(1px,-1px)}
+.opt.good{border-color:var(--pos);background:var(--pos-bg)}
+.opt.bad{border-color:var(--neg);background:var(--neg-bg)}
+.items{display:flex;flex-direction:column;border:1px solid var(--line);border-radius:3px}
+.item{display:flex;gap:10px;align-items:center;justify-content:space-between;flex-wrap:wrap;padding:8px 12px;border-bottom:1px solid var(--line)}
+.item:last-child{border-bottom:0}
+.item .t{flex:1 1 240px;min-width:0;display:flex;gap:8px;align-items:flex-start}
+.item.good{background:var(--pos-bg)}
+.item.bad{background:var(--neg-bg)}
+.seg{display:inline-flex;flex-wrap:wrap;border:1px solid var(--line2);border-radius:3px;overflow:hidden}
+.seg button{border:0;border-right:1px solid var(--line2);background:var(--view);padding:4px 10px;cursor:pointer;font-size:.86rem;min-height:30px}
+.seg button:last-child{border-right:0}
+.seg button:hover{background:var(--alt)}
+.seg button[aria-pressed="true"]{background:var(--accent-bg);box-shadow:inset 0 0 0 1px var(--accent);font-weight:500}
+.ord .pos{width:24px;height:24px;flex:none;border-radius:50%;background:var(--alt);border:1px solid var(--line2);display:grid;place-items:center;font-size:.78rem}
+.ord .mv{display:flex;gap:4px}
+.ord .mv button{width:32px;height:30px;border:1px solid var(--line2);border-radius:3px;background:var(--view);cursor:pointer}
+.ord .mv button:disabled{opacity:.35;cursor:default}
+.fill{line-height:2.3;max-width:70ch}
+select{font:inherit;font-size:.92rem;color:var(--fg);background:var(--view);border:1px solid var(--line2);border-radius:3px;padding:3px 6px;max-width:100%}
+select.good{border-color:var(--pos);background:var(--pos-bg)}
+select.bad{border-color:var(--neg);background:var(--neg-bg)}
+textarea{font:inherit;color:var(--fg);background:var(--view);border:1px solid var(--line2);border-radius:3px;padding:8px 10px;width:100%;min-height:110px;resize:vertical}
+textarea:focus,select:focus{border-color:var(--accent);outline:none;box-shadow:0 0 0 1px var(--accent)}
+.feedback{font-size:.92rem}
+.corr{border:1px solid var(--line);border-radius:3px;background:var(--alt);padding:10px 14px;display:flex;flex-direction:column;gap:6px}
+.corr .h{font-size:.8rem;color:var(--fg2);font-weight:600}
+.corr ol{margin:0;padding-left:1.3em;display:flex;flex-direction:column;gap:4px}
+.crit{display:flex;flex-direction:column;gap:4px}
+.crit label{display:flex;gap:8px;align-items:flex-start;cursor:pointer}
+.crit input{margin-top:5px;accent-color:var(--accent)}
+.mark{flex:none;width:18px;height:18px;border-radius:50%;display:grid;place-items:center;font-size:.72rem;font-weight:700;color:var(--view)}
+.mark.ok{background:var(--pos)} .mark.ko{background:var(--neg)}
+.lvlhead{display:flex;align-items:center;gap:10px;font-size:.88rem;color:var(--fg2);margin-top:6px}
+.lvlhead::after{content:"";flex:1;height:1px;background:var(--line)}
+
+/* Exercice résolu */
+.worked{border:1px solid var(--accent);border-radius:var(--r);background:var(--view);padding:16px 18px;display:flex;flex-direction:column;gap:12px}
+.wsteps{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:10px;counter-reset:w}
+.wsteps li{display:grid;grid-template-columns:26px minmax(0,1fr);gap:10px;counter-increment:w}
+.wsteps li::before{content:counter(w);width:24px;height:24px;border-radius:50%;background:var(--accent-bg);border:1px solid var(--accent);display:grid;place-items:center;font-size:.8rem;font-weight:600}
+.ws-why{font-size:.86rem;color:var(--fg2);margin-top:2px}
+.answer{border:1px solid var(--pos);background:var(--pos-bg);border-radius:3px;padding:10px 14px}
+.answer .h{font-size:.8rem;font-weight:600;color:var(--pos-fg);margin-bottom:2px}
+
+/* Barres de valeurs (analyse) */
+.rbs{display:flex;flex-direction:column;gap:2px}
+.rb{display:grid;grid-template-columns:minmax(120px,190px) minmax(0,1fr);gap:4px 14px;align-items:center;padding:8px 0;border-bottom:1px solid var(--line)}
+.rb:last-child{border-bottom:0}
+.rb-l{display:flex;flex-direction:column;min-width:0}
+.rb-label{font-weight:500;font-size:.93rem}
+.rb-vr{font-size:.78rem;color:var(--fg2)}
+.rb-r{display:flex;flex-direction:column;gap:4px;min-width:0}
+.rb-top{display:flex;gap:8px;align-items:center;flex-wrap:wrap;font-size:.9rem}
+.rb-track{position:relative;height:10px;border-radius:5px;background:var(--alt);border:1px solid var(--line)}
+.rb-band{position:absolute;top:-1px;bottom:-1px;background:color-mix(in srgb,var(--pos) 30%,transparent);border-left:2px solid var(--pos);border-right:2px solid var(--pos)}
+.rb-mark{position:absolute;top:50%;width:14px;height:14px;border-radius:50%;transform:translate(-50%,-50%);border:2px solid var(--view);background:var(--pos)}
+.rb-mark.st-haut{background:var(--neg)} .rb-mark.st-bas{background:var(--neu)}
+.rbgrp{font-size:.8rem;color:var(--fg2);padding-top:10px;font-weight:600}
+@media(max-width:560px){.rb{grid-template-columns:1fr}}
+
+/* Cartes de contenu */
+.cols{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:12px}
+.box{border:1px solid var(--line);border-radius:var(--r);padding:14px;display:flex;flex-direction:column;gap:8px;min-width:0;background:var(--view)}
+.box ul{margin:0;padding-left:1.15em;display:flex;flex-direction:column;gap:2px}
+.box .fact{font-size:.86rem;color:var(--fg2)}
+.cellfig{display:flex;align-items:flex-end;justify-content:center;gap:14px;min-height:120px;padding:6px;background:var(--alt);border-radius:3px}
+.scale{display:flex;align-items:flex-end;gap:20px;flex-wrap:wrap;padding:14px;justify-content:center}
+.scale figure{margin:0;display:flex;flex-direction:column;align-items:center;gap:4px;font-size:.8rem;color:var(--fg2);text-align:center}
+.sbar{display:flex;flex-direction:column;align-items:center;gap:2px;font-size:.75rem;color:var(--fg2)}
+.sbar i{display:block;height:4px;background:var(--fg)}
+
+/* Corps */
+.bodygrid{display:grid;grid-template-columns:minmax(220px,320px) minmax(0,1fr);gap:18px;align-items:start}
+@media(max-width:700px){.bodygrid{grid-template-columns:1fr}.bodygrid .fig{max-width:330px;margin:0 auto;width:100%}}
+.mk-o{cursor:pointer}
+.mk-o circle.hit{fill:var(--view);stroke-width:2}
+.mk-o:hover circle.hit,.mk-o.sel circle.hit{fill:var(--accent-bg);stroke:var(--accent)}
+.mk-o.good circle.hit{fill:var(--pos-bg);stroke:var(--pos)}
+.mk-o.bad circle.hit{fill:var(--neg-bg);stroke:var(--neg)}
+.mk-o text{font-size:9px;font-weight:600;text-anchor:middle;dominant-baseline:central;pointer-events:none}
+.mk-o:focus-visible{outline:none}
+.mk-o:focus-visible circle.hit{stroke:var(--accent);stroke-width:3}
+.legend{display:flex;gap:12px;flex-wrap:wrap;font-size:.84rem;color:var(--fg2)}
+.legend span{display:inline-flex;align-items:center;gap:6px}
+.legend i{width:10px;height:10px;border-radius:50%;display:inline-block}
+.lab-list{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:6px}
+.lab-row{display:flex;gap:8px;align-items:center}
+.lab-row .no{width:22px;height:22px;flex:none;border-radius:50%;border:1px solid var(--line2);display:grid;place-items:center;font-size:.78rem;font-weight:600}
+.lab-row select{flex:1;min-width:0}
+
+/* Arbre */
+.tnode{cursor:pointer}
+.tnode rect{fill:var(--view);stroke-width:1.5}
+.tnode.root rect{stroke:var(--fg2)}
+.tnode.mye rect{stroke:var(--sang)}
+.tnode.lym rect{stroke:var(--lymphe)}
+.tnode:hover rect{fill:var(--alt)}
+.tnode.sel rect{fill:var(--accent-bg);stroke:var(--accent);stroke-width:2.5}
+.tnode text{font-size:12.5px;text-anchor:middle}
+.tnode:focus-visible{outline:none}
+.tnode:focus-visible rect{stroke:var(--accent);stroke-width:3}
+.tline{fill:none;stroke:var(--line2);stroke-width:1.5}
+.tline.dash{stroke-dasharray:4 4}
+
+/* Fiche mémo */
+.k{border-radius:2px;padding:0 2px;font-weight:600}
+.hidek .k{background:var(--accent-bg);color:transparent;cursor:pointer;border-bottom:1px dashed var(--accent)}
+.hidek .k.show{color:var(--fg);background:transparent;border-bottom-color:transparent;cursor:default}
+.memo{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px}
+.memo .box h3{font-size:.98rem}
+.memo ul{margin:0;padding-left:1.1em;display:flex;flex-direction:column;gap:4px;font-size:.93rem}
+
+/* Quiz */
+.qprog{display:flex;gap:4px;flex-wrap:wrap}
+.qprog i{width:22px;height:6px;border-radius:3px;background:var(--line)}
+.qprog i.ok{background:var(--pos)} .qprog i.ko{background:var(--neg)} .qprog i.cur{background:var(--accent)}
+.flow{display:flex;flex-wrap:wrap;align-items:stretch;gap:6px}
+.flow .st{border:1px solid var(--line2);border-radius:3px;padding:8px 10px;font-size:.88rem;background:var(--view);flex:1 1 130px;min-width:0}
+.flow .st.bad{border-color:var(--neg);background:var(--neg-bg)}
+.flow .st.good{border-color:var(--pos);background:var(--pos-bg)}
+.flow .ar{align-self:center;color:var(--fg2)}
+.potent{display:flex;flex-direction:column;gap:8px}
+.pt{display:grid;grid-template-columns:150px minmax(0,1fr);gap:12px;align-items:center}
+.pt .bar{height:22px;border-radius:3px;background:color-mix(in srgb,var(--accent) 35%,var(--view));border:1px solid var(--accent)}
+.pt .nm{font-weight:600}
+.pt .d{grid-column:2;font-size:.86rem;color:var(--fg2);margin-top:-4px}
+@media(max-width:560px){.pt{grid-template-columns:1fr}.pt .d{grid-column:1}}
+.homesteps{margin:0;padding-left:1.3em;display:flex;flex-direction:column;gap:6px}
+.footnav{display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap}
+details summary{cursor:pointer;color:var(--fg2);font-size:.9rem}
+details[open] summary{margin-bottom:8px}
+</style>
+
+<div id="root"></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.3.1/umd/react.production.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.3.1/umd/react-dom.production.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/htm@3.1.1/dist/htm.umd.js"></script>
+<script>
+(function(){
+const {useState, useEffect, useContext, createContext} = React;
+const html = htm.bind(React.createElement);
+const KEY = 'immuno-s5-v1';
+
+/* ---------- utilitaires ---------- */
+function load(){ try { return JSON.parse(localStorage.getItem(KEY)) || {}; } catch(e){ return {}; } }
+function save(p){ try { localStorage.setItem(KEY, JSON.stringify(p)); } catch(e){} }
+function rich(s){
+  if (typeof s !== 'string') return s;
+  return s.split(/(\*\*[^*]+\*\*)/g).map((p,i)=> (p.startsWith('**') && p.endsWith('**')) ? html`<strong key=${i}>${p.slice(2,-2)}</strong>` : p);
+}
+const fmt = v => v.toLocaleString('fr-FR', {maximumFractionDigits:1});
+function rnd(seed){ let s = seed; return ()=>{ s = (s*9301+49297)%233280; return s/233280; }; }
+function pts(n, R, seed){ const r = rnd(seed); const out=[]; while(out.length<n){ const x=(r()*2-1)*R, y=(r()*2-1)*R; if(x*x+y*y<=R*R) out.push([x,y]); } return out; }
+
+const Prog = createContext(null);
+
+function Icon({kind}){
+  const c = {info:'var(--accent)', pos:'var(--pos)', neu:'var(--neu)', neg:'var(--neg)'}[kind] || 'var(--accent)';
+  const glyph = kind==='pos' ? 'M5 9.5l2.6 2.6L13 6.5' : kind==='neu' ? 'M9 5v5M9 12.6v.4' : 'M9 8v5M9 5.4v.4';
+  return html`<svg className="ic" viewBox="0 0 18 18" aria-hidden="true"><circle cx="9" cy="9" r="8" fill=${c}/><path d=${glyph} stroke="#fcfcfc" strokeWidth="1.8" fill="none" strokeLinecap="round" strokeLinejoin="round"/></svg>`;
+}
+function Msg({kind='info', title, children}){
+  return html`<div className=${'msg '+kind} role="note"><${Icon} kind=${kind}/><div className="bd">${title ? html`<b className="h">${title}</b>` : null}${children}</div></div>`;
+}
+
+/* ---------- cellules (dessins à l'échelle, unité = µm) ---------- */
+function Cell({type, scale=6, label}){
+  const half = {hematie:4.6, plaquette:2.2, lympho:5.2, neutro:7, eosino:7.4, baso:6.6, mono:10, macro:13.5}[type] || 8;
+  const s = half*2*scale;
+  let g = null;
+  if (type==='hematie') g = html`<g><circle r="3.7" className="s-gr"/><circle r="1.7" className="s-grc"/></g>`;
+  else if (type==='plaquette') g = html`<g><ellipse rx="1.5" ry="0.95" transform="rotate(-20)" className="s-plq"/><circle cx="0.3" cy="0.1" r="0.3" className="s-nuc"/></g>`;
+  else if (type==='lympho') g = html`<g><circle r="4.6" className="s-cyto"/><circle cx="-0.35" cy="-0.1" r="3.85" className="s-nuc"/></g>`;
+  else if (type==='neutro') g = html`<g><circle r="6.2" className="s-cyto"/>${pts(38,5.6,7).map((p,i)=>html`<circle key=${i} cx=${p[0]} cy=${p[1]} r="0.24" className="s-fine"/>`)}<path d="M-2.4,-0.8 Q-1.2,1.4 0,1.3 Q1.2,1.2 2.4,-0.6" className="s-link"/><circle cx="-2.4" cy="-0.8" r="1.7" className="s-nuc"/><circle cx="0" cy="1.35" r="1.55" className="s-nuc"/><circle cx="2.45" cy="-0.6" r="1.65" className="s-nuc"/></g>`;
+  else if (type==='eosino') g = html`<g><circle r="6.6" className="s-cyto"/>${pts(22,5.7,11).map((p,i)=>html`<circle key=${i} cx=${p[0]} cy=${p[1]} r="0.62" className="s-gran"/>`)}<path d="M-1.9,0 L1.9,0" className="s-link"/><circle cx="-2" cy="0" r="1.95" className="s-nuc"/><circle cx="2" cy="0" r="1.95" className="s-nuc"/></g>`;
+  else if (type==='baso') g = html`<g><circle r="5.9" className="s-cyto"/><circle cx="-1" cy="0" r="2.3" className="s-nuc" opacity=".45"/><circle cx="1.5" cy="0.6" r="2" className="s-nuc" opacity=".45"/>${pts(26,5,23).map((p,i)=>html`<circle key=${i} cx=${p[0]} cy=${p[1]} r="0.55" className="s-dgran"/>`)}</g>`;
+  else if (type==='mono') g = html`<g><circle r="9.1" className="s-cyto"/><path d="M-5,-2.5 C-5,-6 4,-6.2 5.2,-2.2 C6.3,1.4 4,4.6 0.4,4.2 C-1.2,4 -0.6,1.2 -2.6,1.4 C-4.4,1.6 -5,0.6 -5,-2.5Z" className="s-nuc"/></g>`;
+  else if (type==='macro') g = html`<g><path d="M-11,-2 C-12.5,-8 -6,-12.6 0,-11 C5,-13 11.5,-8 11,-2 C13,3 9,9.5 3,10 C-1,13 -8,11 -10,5 C-13,3 -10,1 -11,-2Z" className="s-cyto"/><ellipse cx="-1.5" cy="0" rx="4.2" ry="3.2" className="s-nuc"/><circle cx="5" cy="-4" r="1.3" className="s-grc"/><circle cx="4" cy="4.5" r="1" className="s-grc"/><circle cx="-6.5" cy="5" r="0.9" className="s-grc"/></g>`;
+  return html`<svg viewBox=${(-half)+' '+(-half)+' '+(half*2)+' '+(half*2)} width=${s} height=${s} role="img" aria-label=${label || type} style=${{overflow:'visible'}}>${g}</svg>`;
+}
+
+/* ---------- barre de valeur (analyse sanguine) ---------- */
+function RangeBar({label, val, lo, hi, unit, lt}){
+  const span = hi-lo;
+  let min = lt ? 0 : Math.max(0, lo-span*0.7), max = hi+span*0.7;
+  if (val>max) max = val*1.08;
+  if (val<min) min = Math.max(0, val*0.9);
+  const p = v => ((v-min)/(max-min))*100;
+  const st = val<lo ? 'bas' : val>hi ? 'haut' : 'ok';
+  const word = {bas:'en dessous', haut:'au-dessus', ok:'dans les normes'}[st];
+  return html`<div className="rb">
+    <div className="rb-l"><span className="rb-label">${label}</span><span className="rb-vr num">VR : ${lt ? '< '+fmt(hi) : fmt(lo)+' à '+fmt(hi)} ${unit}</span></div>
+    <div className="rb-r">
+      <div className="rb-top"><span className="num">${fmt(val)} ${unit}</span><span className=${'pill st-'+st}>${word}</span></div>
+      <div className="rb-track" aria-hidden="true"><div className="rb-band" style=${{left:p(lo)+'%', width:(p(hi)-p(lo))+'%'}}></div><div className=${'rb-mark st-'+st} style=${{left:p(val)+'%'}}></div></div>
+    </div>
+  </div>`;
+}
+
+/* ---------- arbre de l'hématopoïèse ---------- */
+const TREE = [
+  {id:'csh', x:380, y:14, w:250, h:50, l1:'Cellule souche', l2:'hématopoïétique', lin:'root'},
+  {id:'mye', x:260, y:104, w:170, h:44, l1:'Cellule souche', l2:'myéloïde', lin:'mye', n:1},
+  {id:'lym', x:645, y:104, w:170, h:44, l1:'Cellule souche', l2:'lymphoïde', lin:'lym', n:2},
+  {id:'mas', x:60, y:198, w:94, h:40, l1:'Mastocytes', lin:'mye', n:3},
+  {id:'hem', x:160, y:198, w:94, h:40, l1:'Hématies', lin:'mye', n:4},
+  {id:'pla', x:260, y:198, w:94, h:40, l1:'Plaquettes', lin:'mye', n:5},
+  {id:'mon', x:360, y:198, w:94, h:40, l1:'Monocytes', lin:'mye', n:6},
+  {id:'gra', x:460, y:198, w:94, h:40, l1:'Granulocytes', lin:'mye', n:7},
+  {id:'lb', x:590, y:198, w:94, h:40, l1:'Lympho. B', lin:'lym', n:8},
+  {id:'lt', x:700, y:198, w:94, h:40, l1:'Lympho. T', lin:'lym', n:9},
+  {id:'mac', x:360, y:282, w:170, h:44, l1:'Macrophages,', l2:'cellules dendritiques', lin:'mye'}
+];
+const TREE_INFO = {
+  csh:{t:'Cellule souche hématopoïétique', d:"Cellule souche **multipotente** de la **moelle osseuse rouge**. Elle se renouvelle et donne naissance à **toutes** les cellules du sang."},
+  mye:{t:'Cellule souche myéloïde', d:"Première descendante de la cellule souche hématopoïétique, aux possibilités plus restreintes. Elle donne les **hématies**, les **plaquettes**, les **granulocytes**, les **monocytes** et les **mastocytes**."},
+  lym:{t:'Cellule souche lymphoïde', d:"Elle donne les **lymphocytes B et T**, les seuls leucocytes à réponse **spécifique**."},
+  mas:{t:'Mastocytes', d:"Leucocytes installés dans les **tissus**. Ils participent notamment aux réactions allergiques."},
+  hem:{t:'Hématies (globules rouges)', d:"Transportent le **dioxygène** et le **dioxyde de carbone** grâce à l'hémoglobine."},
+  pla:{t:'Plaquettes', d:"Fragments de cellules qui interviennent dans la **coagulation** du sang."},
+  mon:{t:'Monocytes', d:"Les plus gros leucocytes, noyau en haricot. En entrant dans les tissus, ils se différencient en **macrophages** ou en **cellules dendritiques**."},
+  gra:{t:'Granulocytes (polynucléaires)', d:"Les leucocytes les plus nombreux : **neutrophiles**, **éosinophiles** et **basophiles**. Noyau lobé, cytoplasme granuleux."},
+  lb:{t:'Lymphocytes B', d:"Naissent **et** achèvent leur maturation dans la **moelle osseuse** (B comme *bone marrow*). Ils gagnent ensuite les organes lymphoïdes secondaires."},
+  lt:{t:'Lymphocytes T', d:"Naissent dans la moelle osseuse puis migrent vers le **thymus** pour y achever leur maturation (T comme thymus)."},
+  mac:{t:'Macrophages et cellules dendritiques', d:"Formes que prennent les monocytes une fois **dans les tissus**."}
+};
+function Tree({mode='learn', sel, onSel}){
+  const N = Object.fromEntries(TREE.map(n=>[n.id,n]));
+  const bot = n => n.y+n.h;
+  const lines = [
+    `M${N.csh.x},${bot(N.csh)} V84 M${N.mye.x},84 H${N.lym.x} M${N.mye.x},84 V${N.mye.y} M${N.lym.x},84 V${N.lym.y}`,
+    `M${N.mye.x},${bot(N.mye)} V172 M60,172 H460 ${['mas','hem','pla','mon','gra'].map(k=>`M${N[k].x},172 V198`).join(' ')}`,
+    `M${N.lym.x},${bot(N.lym)} V172 M590,172 H700 M590,172 V198 M700,172 V198`
+  ];
+  const nodes = TREE.filter(n => mode==='learn' || n.id!=='mac');
+  return html`<svg viewBox=${mode==='learn' ? '0 0 760 340' : '0 0 760 250'} role="img" aria-label="Schéma de la formation des cellules du sang à partir de la cellule souche hématopoïétique">
+    ${lines.map((d,i)=>html`<path key=${i} d=${d} className="tline"/>`)}
+    ${mode==='learn' ? html`<g><path d=${`M360,238 V282`} className="tline dash"/><text x="368" y="266" fontSize="11" style=${{fill:'var(--fg2)'}}>dans les tissus</text>
+      <text x="590" y="258" fontSize="11" textAnchor="middle" style=${{fill:'var(--fg2)'}}>maturation :</text><text x="590" y="273" fontSize="11.5" textAnchor="middle" fontWeight="600">moelle osseuse</text>
+      <text x="700" y="258" fontSize="11" textAnchor="middle" style=${{fill:'var(--fg2)'}}>maturation :</text><text x="700" y="273" fontSize="11.5" textAnchor="middle" fontWeight="600">thymus</text>
+      <text x="12" y="34" fontSize="11" style=${{fill:'var(--fg2)'}}>Dans la moelle</text><text x="12" y="48" fontSize="11" style=${{fill:'var(--fg2)'}}>osseuse rouge</text></g>` : null}
+    ${nodes.map(n=>{
+      const blank = mode==='blank' && n.n;
+      const cls = 'tnode '+n.lin+(sel===n.id?' sel':'');
+      const cy = n.y+n.h/2;
+      return html`<g key=${n.id} className=${cls} tabIndex=${mode==='learn'?0:-1} role=${mode==='learn'?'button':null} aria-label=${mode==='learn'?TREE_INFO[n.id].t:null}
+          onClick=${()=>mode==='learn' && onSel(n.id)} onKeyDown=${e=>{ if(mode==='learn' && (e.key==='Enter'||e.key===' ')){ e.preventDefault(); onSel(n.id);} }}>
+        <rect x=${n.x-n.w/2} y=${n.y} width=${n.w} height=${n.h} rx="4"/>
+        ${blank ? html`<g><circle cx=${n.x} cy=${cy} r="11" fill="var(--accent-bg)" stroke="var(--accent)"/><text x=${n.x} y=${cy+4.5} fontWeight="600" style=${{fontSize:'12.5px'}}>${n.n}</text></g>`
+          : n.l2 ? html`<g><text x=${n.x} y=${cy-3}>${n.l1}</text><text x=${n.x} y=${cy+13}>${n.l2}</text></g>` : html`<text x=${n.x} y=${cy+4.5}>${n.l1}</text>`}
+      </g>`;
+    })}
+  </svg>`;
+}
+
+/* ---------- figures d'exercices ---------- */
+function Figure({fig}){
+  if (!fig) return null;
+  if (fig.cells) return html`<div className="cellfig" role="img" aria-label="Cellules observées au microscope (schéma)">
+    ${fig.cells.map((c,i)=>html`<figure key=${i} style=${{margin:0,display:'flex',flexDirection:'column',alignItems:'center',gap:'4px'}}><${Cell} type=${c} scale=${7}/><figcaption className="cap">${c==='hematie' ? 'hématie (repère)' : 'cellule à identifier'}</figcaption></figure>`)}
+  </div>`;
+  if (fig.range) return html`<div className="rbs" style=${{border:'1px solid var(--line)',borderRadius:'4px',padding:'4px 14px'}}><${RangeBar} ...${fig.range}/></div>`;
+  if (fig.tree) return html`<div className="fig scroll"><${Tree} mode="blank"/></div>`;
+  return null;
+}
+
+/* ---------- exercice générique ---------- */
+function initResp(ex){
+  return {qcm:null, multi:[], classify:{}, order:ex.shuffle ? ex.shuffle.slice() : null, fill:{}, match:{}, open:''}[ex.type];
+}
+function blanks(ex){ return ex.parts.filter(p=>typeof p!=='string'); }
+function complete(ex, r){
+  switch(ex.type){
+    case 'qcm': return r!==null;
+    case 'multi': return r.length>0;
+    case 'classify': return ex.items.every((_,i)=>r[i]!==undefined);
+    case 'order': return true;
+    case 'fill': return blanks(ex).every((_,i)=>r[i]!==undefined && r[i]!=='');
+    case 'match': return ex.rows.every((_,i)=>r[i]!==undefined && r[i]!=='');
+    default: return true;
+  }
+}
+function evaluate(ex, r){
+  switch(ex.type){
+    case 'qcm': return {ok:r===ex.answer, score:r===ex.answer?1:0, total:1};
+    case 'multi': {
+      const per = ex.options.map((_,i)=> r.includes(i)===ex.answers.includes(i));
+      const ok = per.every(Boolean); return {ok, per, score:per.filter(Boolean).length, total:per.length};
+    }
+    case 'classify': { const per = ex.items.map((it,i)=>r[i]===it.c); return {ok:per.every(Boolean), per, score:per.filter(Boolean).length, total:per.length}; }
+    case 'order': { const per = r.map((v,i)=>v===i); return {ok:per.every(Boolean), per, score:per.filter(Boolean).length, total:per.length}; }
+    case 'fill': { const per = blanks(ex).map((b,i)=>Number(r[i])===b.a); return {ok:per.every(Boolean), per, score:per.filter(Boolean).length, total:per.length}; }
+    case 'match': { const per = ex.rows.map((row,i)=>Number(r[i])===row.a); return {ok:per.every(Boolean), per, score:per.filter(Boolean).length, total:per.length}; }
+  }
+  return {ok:false};
+}
+function Lvl({n}){
+  const names = ['', 'Niveau 1 · Reconnaître', 'Niveau 2 · Appliquer', 'Niveau 3 · Transférer'];
+  return html`<span className="lvl" title=${names[n]}><i className="on"></i><i className=${n>=2?'on':''}></i><i className=${n>=3?'on':''}></i><span style=${{marginLeft:'6px'}}>${names[n]}</span></span>`;
+}
+function Mark({ok}){ return html`<span className=${'mark '+(ok?'ok':'ko')} aria-label=${ok?'juste':'à revoir'}>${ok?'✓':'✗'}</span>`; }
+
+function Exercise({ex, num, compact}){
+  const {prog, mark} = useContext(Prog);
+  const [r, setR] = useState(()=>initResp(ex));
+  const [res, setRes] = useState(null);
+  const [tried, setTried] = useState(false);
+  const [showS, setShowS] = useState(false);
+  const [showD, setShowD] = useState(false);
+  const [hint, setHint] = useState(false);
+  const [crit, setCrit] = useState({});
+  const [revealed, setRevealed] = useState(false);
+  const status = prog[ex.id];
+  const upd = v => { setR(v); setRes(null); };
+
+  const check = () => {
+    const e = evaluate(ex, r); setRes(e); setTried(true);
+    mark(ex.id, e.ok ? 'ok' : 'ko');
+  };
+  const per = res && res.per;
+
+  let body = null;
+  if (ex.type==='qcm' || ex.type==='multi'){
+    const multi = ex.type==='multi';
+    body = html`<div className="opts" role=${multi?'group':'radiogroup'}>
+      ${ex.options.map((o,i)=>{
+        const on = multi ? r.includes(i) : r===i;
+        let cls = 'opt'+(multi?' cb':'');
+        if (res && on) cls += (multi ? (ex.answers.includes(i)?' good':' bad') : (res.ok?' good':' bad'));
+        if (res && multi && !on && ex.answers.includes(i) && res.ok) cls += ' good';
+        return html`<button key=${i} className=${cls} role=${multi?'checkbox':'radio'} aria-checked=${on?'true':'false'}
+          onClick=${()=> upd(multi ? (on ? r.filter(x=>x!==i) : [...r, i]) : i)}><span className="mk"></span><span>${rich(o)}</span></button>`;
+      })}
+    </div>`;
+  } else if (ex.type==='classify'){
+    body = html`<div className="items">${ex.items.map((it,i)=>html`<div key=${i} className=${'item'+(per?(per[i]?' good':' bad'):'')}>
+      <div className="t">${per ? html`<${Mark} ok=${per[i]}/>` : null}<span>${rich(it.t)}</span></div>
+      <div className="seg" role="group" aria-label=${'Choix pour : '+it.t}>${ex.cats.map((c,j)=>html`<button key=${j} aria-pressed=${r[i]===j?'true':'false'} onClick=${()=>upd({...r,[i]:j})}>${c}</button>`)}</div>
+    </div>`)}</div>`;
+  } else if (ex.type==='order'){
+    const mv = (pos, d) => { const a = r.slice(); const t = a[pos]; a[pos] = a[pos+d]; a[pos+d] = t; upd(a); };
+    body = html`<div className="items ord">${r.map((idx,pos)=>html`<div key=${idx} className=${'item'+(per?(per[pos]?' good':' bad'):'')}>
+      <div className="t"><span className="pos">${pos+1}</span><span>${rich(ex.items[idx])}</span></div>
+      <div className="mv"><button aria-label="Monter" disabled=${pos===0} onClick=${()=>mv(pos,-1)}>↑</button><button aria-label="Descendre" disabled=${pos===r.length-1} onClick=${()=>mv(pos,1)}>↓</button></div>
+    </div>`)}</div>`;
+  } else if (ex.type==='fill'){
+    let b = -1;
+    body = html`<p className="fill">${ex.parts.map((p,i)=>{
+      if (typeof p==='string') return html`<span key=${i}>${rich(p)}</span>`;
+      b++; const k = b;
+      return html`<select key=${i} aria-label=${'Trou '+(k+1)} className=${per?(per[k]?'good':'bad'):''} value=${r[k]===undefined?'':r[k]} onChange=${e=>upd({...r,[k]:e.target.value})}>
+        <option value="">— choisir —</option>${p.o.map((o,j)=>html`<option key=${j} value=${j}>${o}</option>`)}</select>`;
+    })}</p>`;
+  } else if (ex.type==='match'){
+    body = html`<div className="items">${ex.rows.map((row,i)=>html`<div key=${i} className=${'item'+(per?(per[i]?' good':' bad'):'')}>
+      <div className="t">${per ? html`<${Mark} ok=${per[i]}/>` : null}<span>${rich(row.t)}</span></div>
+      <select aria-label=${'Réponse pour : '+row.t} value=${r[i]===undefined?'':r[i]} onChange=${e=>upd({...r,[i]:e.target.value})} style=${{flex:'0 1 260px'}}>
+        <option value="">— choisir —</option>${ex.options.map((o,j)=>html`<option key=${j} value=${j}>${o}</option>`)}</select>
+    </div>`)}</div>`;
+  } else if (ex.type==='open'){
+    const nCrit = ex.criteria.length, nOk = Object.values(crit).filter(Boolean).length;
+    body = html`<div style=${{display:'flex',flexDirection:'column',gap:'10px'}}>
+      <textarea id=${'ta-'+ex.id} aria-label="Ta réponse" placeholder="Écris ta réponse ici, en phrases complètes." value=${r} onChange=${e=>setR(e.target.value)}></textarea>
+      ${!revealed ? html`<div className="row"><button className="btn primary" onClick=${()=>{setRevealed(true); setTried(true); if(status!=='ok') mark(ex.id,'seen');}}>Comparer avec la réponse attendue</button>${ex.hint ? html`<button className="btn flat" onClick=${()=>setHint(!hint)}>${hint?'Masquer l’indice':'Indice'}</button>` : null}</div>` : html`<div className="corr">
+        <span className="h">Réponse attendue</span><p>${rich(ex.model)}</p>
+        <div className="sep"></div>
+        <span className="h">Coche ce que ta réponse contient</span>
+        <div className="crit">${ex.criteria.map((c,i)=>html`<label key=${i}><input type="checkbox" id=${ex.id+'-c'+i} checked=${!!crit[i]} onChange=${e=>{ const n={...crit,[i]:e.target.checked}; setCrit(n); if(Object.values(n).filter(Boolean).length===nCrit) mark(ex.id,'ok'); }}/><span>${rich(c)}</span></label>`)}</div>
+        <p className="small muted">${nOk}/${nCrit} critère${nCrit>1?'s':''} présent${nOk>1?'s':''}. ${nOk===nCrit ? 'Ta réponse est complète.' : 'Complète ta réponse avec ce qui manque, puis coche à nouveau.'}</p>
+      </div>`}
+    </div>`;
+  }
+
+  const stPill = status==='ok' ? html`<span className="pill st-ok st">réussi</span>` : status==='ko' ? html`<span className="pill st-bas st">à retravailler</span>` : status==='seen' ? html`<span className="pill acc st">fait</span>` : null;
+  const ok = complete(ex, r);
+  return html`<article className=${'ex'+(compact?' compact':'')} id=${'ex-'+ex.id}>
+    <div className="ex-head">${num ? html`<b style=${{color:'var(--fg)'}}>Exercice ${num}</b>` : null}${ex.level && !compact ? html`<${Lvl} n=${ex.level}/>` : null}${stPill}</div>
+    <div className="prompt">${rich(ex.prompt)}</div>
+    <${Figure} fig=${ex.fig}/>
+    ${body}
+    ${hint && ex.type!=='open' ? html`<${Msg} kind="info" title="Indice"><p>${rich(ex.hint)}</p><//>` : null}
+    ${hint && ex.type==='open' && !revealed ? html`<${Msg} kind="info" title="Indice"><p>${rich(ex.hint)}</p><//>` : null}
+    ${ex.type!=='open' ? html`<div className="row">
+      <button className="btn primary" disabled=${!ok} onClick=${check}>Vérifier</button>
+      ${ex.hint ? html`<button className="btn flat" onClick=${()=>setHint(!hint)}>${hint?'Masquer l’indice':'Indice'}</button>` : null}
+      ${!ok ? html`<span className="small muted">Réponds à tout avant de vérifier.</span>` : null}
+    </div>` : null}
+    ${res ? html`<p className="feedback" role="status">${res.ok ? html`<b style=${{color:'var(--pos-fg)'}}>Juste.</b>` : html`<span><b style=${{color:'var(--neg-fg)'}}>Pas encore.</b> ${res.total>1 ? res.score+' / '+res.total+' réponses justes. ' : ''}Modifie ta réponse et vérifie à nouveau, ou ouvre la correction.</span>`}</p>` : null}
+    ${tried ? html`<div className="row">
+      <button className="btn" aria-pressed=${showS?'true':'false'} onClick=${()=>setShowS(!showS)}>Correction simple</button>
+      <button className="btn" aria-pressed=${showD?'true':'false'} onClick=${()=>setShowD(!showD)}>Correction détaillée</button>
+    </div>` : null}
+    ${tried && showS ? html`<div className="corr"><span className="h">Correction simple</span><p>${rich(ex.simple || ex.model)}</p></div>` : null}
+    ${tried && showD ? html`<div className="corr"><span className="h">Correction détaillée</span>${Array.isArray(ex.detail) ? html`<ol>${ex.detail.map((d,i)=>html`<li key=${i}>${rich(d)}</li>`)}</ol>` : html`<p>${rich(ex.detail)}</p>`}</div>` : null}
+  </article>`;
+}
+
+/* ---------- exercice résolu ---------- */
+function Worked({w}){
+  const [n, setN] = useState(1);
+  const all = n>=w.steps.length;
+  return html`<section className="worked" aria-label="Exercice résolu">
+    <div className="row"><span className="pill acc">Exercice résolu</span><h3>${w.title}</h3></div>
+    <p className="prompt"><span className="muted">Consigne : </span>${rich(w.consigne)}</p>
+    <${Figure} fig=${w.fig}/>
+    <ol className="wsteps">${w.steps.slice(0,n).map((s,i)=>html`<li key=${i}><div><div>${rich(s.t)}</div>${s.why ? html`<div className="ws-why">${rich(s.why)}</div>` : null}</div></li>`)}</ol>
+    ${!all ? html`<div className="row"><button className="btn primary" onClick=${()=>setN(n+1)}>Étape suivante (${n+1}/${w.steps.length})</button><button className="btn flat" onClick=${()=>setN(w.steps.length)}>Tout afficher</button></div>`
+      : html`<div className="answer"><div className="h">Réponse rédigée</div><p>${rich(w.answer)}</p></div>`}
+  </section>`;
+}
+
+/* =========================================================
+   DONNÉES : familles d'exercices
+   ========================================================= */
+const FAMILIES = [
+{ id:'A', short:'Échanges', title:'Échanges sang – liquide interstitiel – lymphe', lesson:'echanges',
+  goal:'Décrire le trajet du liquide entre le sang, les cellules et la lymphe.',
+  worked:{ title:"D'où vient la lymphe ?", consigne:"Explique en quelques phrases d'où provient la lymphe.",
+    steps:[
+      {t:"**Point de départ** : le sang circule dans les capillaires sanguins.", why:"On part de ce que l'on connaît déjà : le sang."},
+      {t:"Une partie du **plasma** traverse la paroi très fine des capillaires. Ce liquide baigne les cellules : c'est le **liquide interstitiel**.", why:"Les globules rouges, eux, restent dans le capillaire."},
+      {t:"Le liquide interstitiel est le **milieu de vie** des cellules : il leur apporte O₂ et nutriments, et reçoit leur CO₂ et leurs déchets."},
+      {t:"La plus grande partie de ce liquide **retourne** dans les capillaires sanguins. L'**excès** entre dans les capillaires lymphatiques : il devient la **lymphe**.", why:"Le mot-clé de la réponse est « excès »."}
+    ],
+    answer:"La lymphe provient du plasma sanguin. Le plasma sort des capillaires sanguins et forme le liquide interstitiel qui baigne les cellules. L'excès de liquide interstitiel, qui ne retourne pas dans le sang, entre dans les capillaires lymphatiques : c'est la lymphe." },
+  ex:[
+    {id:'A1', level:1, type:'qcm', prompt:"Quel liquide est le **milieu de vie direct** des cellules des tissus ?",
+      options:["Le sang","Le liquide interstitiel","La lymphe","Le plasma contenu dans les capillaires"], answer:1,
+      simple:"Le liquide interstitiel.",
+      detail:["Les cellules des tissus ne sont pas en contact direct avec le sang.","Elles baignent dans le **liquide interstitiel**, formé à partir du plasma.","Tous les échanges passent par lui : O₂ et nutriments vers les cellules, CO₂ et déchets vers le sang."]},
+    {id:'A2', level:1, type:'classify', prompt:"Vrai ou faux ?", cats:['Vrai','Faux'],
+      items:[
+        {t:"Les globules rouges passent dans la lymphe.", c:1},
+        {t:"Les globules blancs peuvent sortir des capillaires sanguins.", c:0},
+        {t:"La lymphe finit par retourner dans le sang.", c:0},
+        {t:"Les cellules des tissus échangent directement avec le sang.", c:1},
+        {t:"Le capillaire lymphatique est fermé à une extrémité (en cul-de-sac).", c:0}],
+      simple:"Faux · Vrai · Vrai · Faux · Vrai.",
+      detail:["**Globules rouges** : ils restent dans les vaisseaux sanguins. On n'en trouve ni dans le liquide interstitiel ni dans la lymphe.","**Globules blancs** : ils se déforment et traversent la paroi des capillaires (c'est la **diapédèse**).","La lymphe est ramenée au sang par le **canal thoracique** et une **veine sous-clavière**.","Les cellules échangent avec le **liquide interstitiel**, qui sert d'intermédiaire avec le sang.","Les capillaires lymphatiques commencent **en cul-de-sac** dans les tissus : ils récoltent le liquide en excès, ils ne forment pas une boucle."]},
+    {id:'A3', level:2, type:'order', prompt:"Remets dans l'ordre le trajet d'une goutte de liquide (de haut en bas).",
+      items:["Plasma dans un capillaire sanguin","Traverse la paroi du capillaire sanguin","Liquide interstitiel autour des cellules","Entre dans un capillaire lymphatique : c'est la lymphe","Traverse un ganglion lymphatique","Rejoint le sang par une veine sous-clavière"], shuffle:[2,5,0,3,1,4],
+      hint:"Le trajet commence et finit dans le sang.",
+      simple:"Plasma → sortie du capillaire → liquide interstitiel → capillaire lymphatique (lymphe) → ganglion → veine sous-clavière.",
+      detail:["Le liquide part du **sang** : c'est du plasma.","Il **sort** du capillaire sanguin à travers sa paroi.","Il devient **liquide interstitiel** et baigne les cellules.","L'excès entre dans un **capillaire lymphatique** : on l'appelle maintenant **lymphe**.","La lymphe est **filtrée** dans les ganglions lymphatiques.","Elle **retourne au sang** par le canal thoracique et une veine sous-clavière : la boucle est bouclée."]},
+    {id:'A4', level:3, type:'open', prompt:"Après l'ablation de ganglions sous l'aisselle (lors de l'opération d'un cancer du sein), certaines patientes ont le bras qui gonfle : c'est un **lymphœdème**. Explique ce phénomène à l'aide du cours.",
+      hint:"Que devient l'excès de liquide interstitiel du bras quand la lymphe ne circule plus bien ?",
+      model:"Normalement, l'excès de liquide interstitiel est évacué par les capillaires et les vaisseaux lymphatiques ; la lymphe passe par les ganglions avant de rejoindre le sang. Si les ganglions de l'aisselle sont retirés, la lymphe du bras circule mal. Le liquide interstitiel s'accumule alors dans les tissus du bras : le bras gonfle.",
+      criteria:["Je rappelle que la lymphe évacue l'**excès de liquide interstitiel**","J'explique que l'ablation des ganglions **gêne la circulation** de la lymphe","Je conclus que le liquide **s'accumule** dans les tissus, d'où le gonflement"],
+      detail:["Rappel : le liquide interstitiel en excès est drainé par le système lymphatique.","La lymphe du bras passe par les **ganglions de l'aisselle** avant de rejoindre le sang.","Sans ces ganglions, le drainage est ralenti ou bloqué.","Le liquide reste dans les tissus : il s'accumule, le volume du bras augmente."]}
+  ]},
+{ id:'B', short:'Anatomie', title:'Anatomie du système lymphatique', lesson:'anatomie',
+  goal:'Situer et classer les organes lymphoïdes, et relier chacun à son rôle.',
+  worked:{ title:'Primaire ou secondaire ?', consigne:"Classe le **thymus** et la **rate** parmi les organes lymphoïdes et justifie.",
+    steps:[
+      {t:"Rappelle le **critère** : un organe lymphoïde **primaire** est un lieu où les lymphocytes **naissent ou deviennent matures**. Un organe **secondaire** est un lieu où les lymphocytes matures **rencontrent les agresseurs**.", why:"Sans critère, on classe au hasard. On commence donc par lui."},
+      {t:"**Thymus** : les lymphocytes T y achèvent leur maturation. → organe **primaire**."},
+      {t:"**Rate** : elle filtre le sang ; les lymphocytes matures y rencontrent les agresseurs présents dans le sang. → organe **secondaire**."}
+    ],
+    answer:"Le thymus est un organe lymphoïde primaire, car les lymphocytes T y deviennent matures. La rate est un organe lymphoïde secondaire, car les lymphocytes matures y rencontrent les agresseurs présents dans le sang." },
+  ex:[
+    {id:'B1', level:1, type:'classify', prompt:"Classe chaque élément du système lymphatique.", cats:['Primaire','Secondaire','Vaisseau'],
+      items:[{t:"Moelle osseuse rouge",c:0},{t:"Thymus",c:0},{t:"Ganglion lymphatique",c:1},{t:"Rate",c:1},{t:"Amygdales",c:1},{t:"Végétations",c:1},{t:"Paroi de l'appendice",c:1},{t:"Follicules lymphoïdes de l'intestin grêle",c:1},{t:"Canal thoracique",c:2},{t:"Veine lymphatique",c:2}],
+      simple:"Primaires : moelle osseuse rouge, thymus. Vaisseaux : canal thoracique, veine lymphatique. Tous les autres sont des organes secondaires.",
+      detail:["**Primaires** = lieux de naissance et de maturation des lymphocytes : la **moelle osseuse rouge** (naissance de tous les lymphocytes, maturation des LB) et le **thymus** (maturation des LT).","**Secondaires** = lieux de rencontre avec les agresseurs : ganglions, rate, amygdales, végétations, appendice, follicules de l'intestin.","**Vaisseaux** = ils transportent la lymphe : canal thoracique, veine lymphatique, vaisseaux lymphatiques."]},
+    {id:'B2', level:2, type:'fill', prompt:"Complète le texte.",
+      parts:["Tous les lymphocytes naissent dans la ",{o:['moelle osseuse rouge','rate','thymus'],a:0},". Les lymphocytes T terminent leur maturation dans le ",{o:['ganglion','thymus','foie'],a:1},". Une fois matures, ils migrent vers les organes lymphoïdes ",{o:['primaires','secondaires'],a:1},", par exemple les ",{o:['ganglions','os','muscles'],a:0},". La lymphe rejoint le sang par le ",{o:['canal thoracique','capillaire sanguin','thymus'],a:0},"."],
+      simple:"moelle osseuse rouge · thymus · secondaires · ganglions · canal thoracique.",
+      detail:["Naissance : **moelle osseuse rouge** (organe primaire).","Maturation des LT : **thymus** (organe primaire).","Après la maturation, les lymphocytes vont là où ils rencontreront les agresseurs : les organes **secondaires** (ganglions, rate…).","Le **canal thoracique** est le plus grand vaisseau lymphatique ; il déverse la lymphe dans une veine sous-clavière."]},
+    {id:'B3', level:2, type:'qcm', prompt:"Pendant une angine, Lina sent de petites « boules » douloureuses sous la mâchoire. De quoi s'agit-il ?",
+      options:["Des ganglions lymphatiques qui réagissent à l'infection","Le thymus qui grossit","Des globules rouges accumulés","Les végétations"], answer:0,
+      simple:"Des ganglions lymphatiques gonflés.",
+      detail:["Les ganglions du cou filtrent la lymphe qui vient de la gorge.","Lors d'une infection, les lymphocytes y rencontrent les agresseurs et s'y multiplient : le ganglion gonfle.","C'est un signe que le système immunitaire travaille, et une preuve que les ganglions participent à la défense."]},
+    {id:'B4', level:3, type:'open', prompt:"Les amygdales, les végétations et les follicules de l'intestin sont placés près de l'entrée du nez, de la bouche et du tube digestif. **Pourquoi cet emplacement est-il utile ?**",
+      hint:"Par où les microbes entrent-ils le plus souvent dans le corps ?",
+      model:"Le nez, la bouche et l'intestin sont des portes d'entrée des microbes (air inspiré, aliments). Ces organes lymphoïdes secondaires y sont placés pour que les lymphocytes rencontrent les agresseurs très tôt, dès leur entrée, et déclenchent rapidement une réponse.",
+      criteria:["Je cite les **portes d'entrée** (air, aliments)","Je dis que ce sont des **organes lymphoïdes secondaires**","J'explique que les lymphocytes y rencontrent les agresseurs **tôt / rapidement**"],
+      detail:["Repère les lieux : nez (air), bouche et gorge (air et aliments), intestin (aliments).","Ce sont les endroits où les microbes entrent le plus.","Un organe lymphoïde secondaire est un lieu de **rencontre** entre lymphocytes et agresseurs.","Le placer à l'entrée permet d'intercepter les agresseurs avant qu'ils ne se répandent."]}
+  ]},
+{ id:'C', short:'Cellules', title:'Identifier les cellules du sang', lesson:'cellules',
+  goal:'Reconnaître les cellules du sang à partir de leur aspect et de leur rôle.',
+  worked:{ title:'Quelle est cette cellule ?', consigne:"Une cellule mesure 15 à 20 µm, a un noyau en forme de **haricot** et un cytoplasme **abondant**. Identifie-la.",
+    fig:{cells:['mono','hematie']},
+    steps:[
+      {t:"Relève les **indices** : grande taille (15 à 20 µm), noyau en haricot, cytoplasme abondant.", why:"On ne devine pas : on part des observations."},
+      {t:"Compare avec les trois familles de leucocytes : **granulocyte** = noyau lobé, cytoplasme granuleux ; **lymphocyte** = petit, noyau rond ; **monocyte** = gros, noyau en haricot."},
+      {t:"Tous les indices correspondent au **monocyte**."},
+      {t:"Va plus loin : s'il quitte le sang pour entrer dans un tissu, il devient un **macrophage**.", why:"C'est souvent la question suivante en évaluation."}
+    ],
+    answer:"C'est un monocyte : c'est le plus gros des leucocytes et son noyau a la forme d'un haricot. Dans les tissus, il devient un macrophage." },
+  ex:[
+    {id:'C1', level:1, type:'qcm', prompt:"Quelle cellule transporte le dioxygène (O₂) ?",
+      options:["L'hématie (globule rouge)","La plaquette","Le lymphocyte","Le monocyte"], answer:0,
+      simple:"L'hématie.", detail:["Les hématies contiennent l'**hémoglobine**, une protéine qui fixe l'O₂ et le CO₂.","Les plaquettes servent à la coagulation ; les lymphocytes et les monocytes, à la défense."]},
+    {id:'C2', level:1, type:'classify', prompt:"À quel type de leucocyte correspond chaque description ?", cats:['Granulocyte','Monocyte','Lymphocyte'],
+      items:[{t:"Noyau lobé, cytoplasme granuleux",c:0},{t:"Noyau rond qui occupe presque toute la cellule",c:2},{t:"Noyau en forme de haricot",c:1},{t:"Les plus nombreux des leucocytes",c:0},{t:"Les seuls à agir de manière spécifique",c:2},{t:"Deviennent des macrophages dans les tissus",c:1},{t:"Peuvent vivre plusieurs années",c:2}],
+      simple:"G · L · M · G · L · M · L.",
+      detail:["**Granulocytes** : noyau lobé (d'où l'ancien nom « polynucléaires »), cytoplasme granuleux, les plus nombreux, vie courte.","**Monocytes** : les plus gros, noyau en haricot, deviennent macrophages dans les tissus.","**Lymphocytes** : les plus petits, noyau rond, réponse spécifique, peuvent vivre des années."]},
+    {id:'C3', level:2, type:'qcm', prompt:"Observe la cellule de gauche, dessinée à la même échelle que l'hématie. Qu'est-ce que c'est ?", fig:{cells:['lympho','hematie']},
+      options:["Un lymphocyte","Un monocyte","Un granulocyte","Une plaquette"], answer:0,
+      simple:"Un lymphocyte.", detail:["Taille proche de celle de l'hématie : c'est un **petit** leucocyte.","Le noyau est **rond** et occupe presque toute la cellule ; le cytoplasme est **réduit**.","Ces deux indices désignent le lymphocyte."]},
+    {id:'C4', level:2, type:'qcm', prompt:"Et celle-ci ?", fig:{cells:['neutro','hematie']},
+      options:["Un lymphocyte","Un monocyte","Un granulocyte","Une hématie"], answer:2,
+      simple:"Un granulocyte (ici un neutrophile).", detail:["Le noyau est découpé en **lobes** : on croit voir plusieurs noyaux.","Le cytoplasme contient de **fines granulations**.","Noyau lobé + granulations = **granulocyte** (polynucléaire)."]},
+    {id:'C5', level:3, type:'open', prompt:"Un élève affirme : « Les globules blancs ne se trouvent que dans le sang. » **Corrige** cette affirmation avec au moins deux exemples du cours.",
+      hint:"Relis la partie « Dans les tissus » et pense aux ganglions.",
+      model:"C'est faux. Les leucocytes circulent dans le sang, mais aussi partout dans l'organisme : ils traversent la paroi des capillaires et se trouvent dans le liquide interstitiel et dans la lymphe. Les monocytes deviennent des macrophages dans les tissus ; on trouve aussi des mastocytes et des cellules dendritiques dans les tissus ; les lymphocytes se rassemblent dans les organes lymphoïdes comme les ganglions et la rate.",
+      criteria:["Je dis que l'affirmation est **fausse**","Je cite au moins un lieu **hors du sang** (tissus, lymphe, ganglions…)","Je donne au moins **deux exemples** de leucocytes présents hors du sang"],
+      detail:["Commence par trancher : l'affirmation est fausse.","Lieux : liquide interstitiel, lymphe, tissus, organes lymphoïdes.","Exemples : macrophages (monocytes devenus tissulaires), mastocytes, cellules dendritiques, lymphocytes des ganglions."]}
+  ]},
+{ id:'D', short:'Analyse', title:'Interpréter une analyse sanguine', lesson:'analyse',
+  goal:"Comparer une valeur à sa valeur de référence et en tirer une hypothèse.",
+  worked:{ title:'Le patient n°2', consigne:"Leucocytes du patient n°2 : **14 600 /mm³** (valeurs de référence : 4 400 à 10 000 /mm³). Diagnostic : infection. Interprète.",
+    fig:{range:{label:'Leucocytes', val:14600, lo:4400, hi:10000, unit:'/mm³'}},
+    steps:[
+      {t:"**Lis** la valeur et la valeur de référence (VR) : 14 600 /mm³ ; VR de 4 400 à 10 000 /mm³."},
+      {t:"**Compare** : 14 600 > 10 000. La valeur est **au-dessus** des normes.", why:"On compare à la borne qui est dépassée."},
+      {t:"**Nomme** : c'est une augmentation du nombre de leucocytes."},
+      {t:"**Interprète** : les leucocytes servent à défendre l'organisme ; ils deviennent plus nombreux quand il lutte contre une **infection**.", why:"Cela concorde avec le diagnostic du médecin."}
+    ],
+    answer:"Chez le patient n°2, le nombre de leucocytes (14 600 /mm³) dépasse la valeur de référence (10 000 /mm³ au maximum). Leur nombre augmente lors d'une infection : les leucocytes participent donc à la défense de l'organisme." },
+  ex:[
+    {id:'D1', level:1, type:'classify', prompt:"Chaque valeur est-elle en dessous, dans ou au-dessus des valeurs de référence (VR) ?", cats:['En dessous','Normale','Au-dessus'],
+      items:[{t:"Hématies : 4 372 000 /mm³ (VR 4 000 000 à 5 000 000)",c:1},{t:"Hémoglobine : 11,9 g/100 mL (VR 11,5 à 15)",c:1},{t:"Leucocytes : 2 100 /mm³ (VR 3 500 à 10 000)",c:0},{t:"Plaquettes : 209 000 /mm³ (VR 150 000 à 500 000)",c:1},{t:"Éosinophiles : 1 200 /mm³ (VR < 500)",c:2},{t:"Lymphocytes : 2 567 /mm³ (VR 1 000 à 4 000)",c:1}],
+      simple:"Normale · Normale · En dessous · Normale · Au-dessus · Normale.",
+      detail:["Méthode : place la valeur entre les deux bornes de la VR.","11,9 est supérieur à 11,5 : l'hémoglobine est **normale**, même si elle est proche de la limite basse.","2 100 est inférieur à 3 500 : leucocytes **en dessous**.","« VR < 500 » signifie : toute valeur inférieure à 500 est normale. 1 200 est donc **au-dessus**."]},
+    {id:'D2', level:2, type:'qcm', prompt:"Reprends l'analyse de ton cours (personne en bonne santé) : hématies 4 372 000 /mm³, hémoglobine 11,9 g/100 mL, leucocytes 9 700 /mm³, plaquettes 209 000 /mm³, vitesse de sédimentation 2 mm. **Cette analyse révèle-t-elle des résultats normaux ?**",
+      options:["Oui, toutes les valeurs sont dans les valeurs de référence","Non, l'hémoglobine est trop basse","Non, les leucocytes sont trop élevés","On ne peut pas savoir sans le diagnostic"], answer:0,
+      simple:"Oui : toutes les valeurs sont comprises dans les valeurs de référence.",
+      detail:["Hémoglobine : 11,9 ≥ 11,5 → normale (proche de la limite basse, mais dans les normes).","Leucocytes : 9 700 ≤ 10 000 → normaux.","Hématies, plaquettes et vitesse de sédimentation (2 mm, VR < 10) sont aussi dans les normes.","Conclusion : l'analyse est normale, ce qui correspond à une personne en bonne santé."]},
+    {id:'D3', level:2, type:'qcm', prompt:"Analyse de Sami : hématies 3 200 000 /mm³ (VR 4 000 000 à 5 000 000), hémoglobine 9,4 g/100 mL (VR 11,5 à 15). Il est souvent fatigué et essoufflé. **Quelle hypothèse ?**",
+      options:["Une anémie : il manque de globules rouges et d'hémoglobine","Une infection","Une allergie","Une immunodépression"], answer:0,
+      simple:"Une anémie.", detail:["Les deux valeurs sont **en dessous** des VR.","Moins d'hématies et d'hémoglobine = moins d'O₂ transporté vers les cellules.","D'où la fatigue et l'essoufflement : c'est une **anémie**."]},
+    {id:'D4', level:3, type:'match', prompt:"Associe chaque patient à l'hypothèse la plus probable.",
+      options:["Infection (bactérienne)","Allergie ou parasites","Immunodépression (défenses affaiblies)","Anémie"],
+      rows:[{t:"Patient A : neutrophiles 9 800 /mm³ (VR 2 000 à 7 500), fièvre",a:0},{t:"Patient B : éosinophiles 1 400 /mm³ (VR < 500), éternuements chaque printemps",a:1},{t:"Patient C : leucocytes 1 900 /mm³ (VR 3 500 à 10 000), infections à répétition",a:2},{t:"Patient D : hématies 3 500 000 /mm³ (VR 4 000 000 à 5 000 000)",a:3}],
+      simple:"A → infection · B → allergie ou parasites · C → immunodépression · D → anémie.",
+      detail:["A : les **neutrophiles** augmentent surtout lors d'infections bactériennes ; la fièvre le confirme.","B : les **éosinophiles** augmentent lors d'allergies ou de parasitoses ; les éternuements saisonniers évoquent une allergie.","C : trop **peu** de leucocytes = défenses affaiblies → infections fréquentes.","D : trop **peu** d'hématies = anémie."]},
+    {id:'D5', level:3, type:'open', prompt:"Rédige, comme dans ton cours, l'**observation** puis la **déduction**. Patient 1 : leucocytes 8 600 /mm³, aucune infection. Patient 2 : leucocytes 14 600 /mm³, infection. VR : 4 400 à 10 000 /mm³.",
+      hint:"Observation = ce que tu vois dans les chiffres. Déduction = ce que tu en conclus sur le rôle des leucocytes.",
+      model:"Observation : chez le patient 1, toutes les valeurs sont dans les normes ; chez le patient 2, le nombre de leucocytes est plus élevé que la valeur de référence (14 600 > 10 000 /mm³). Déduction : le nombre de leucocytes augmente lors d'une infection, pour lutter contre celle-ci ; les leucocytes ont donc un rôle de défense de l'organisme.",
+      criteria:["Je **compare** les deux patients","Je cite les **chiffres** et la valeur de référence","Je sépare **observation** et **déduction**","Je conclus sur le **rôle de défense** des leucocytes"],
+      detail:["Observation : décrire sans expliquer (« est plus élevé que… »).","Appuyer l'observation par des chiffres.","Déduction : relier l'observation au diagnostic (infection).","Conclure sur la fonction : défense de l'organisme."]}
+  ]},
+{ id:'E', short:'Souches', title:'Cellules souches', lesson:'souches',
+  goal:"Définir une cellule souche, classer ses types et raisonner sur l'expérience de Till et McCulloch.",
+  worked:{ title:'Quel type de cellule souche ?', consigne:"Classe la **cellule souche hématopoïétique** et justifie.",
+    steps:[
+      {t:"Rappelle le **critère** de classement : le nombre de types de cellules qu'elle peut produire.", why:"Toti > pluri > multi > uni."},
+      {t:"La cellule souche hématopoïétique donne **toutes les cellules du sang** : hématies, leucocytes, plaquettes."},
+      {t:"Elle ne donne **pas** de neurones ni de cellules de la peau : elle reste dans **une seule lignée**, la lignée sanguine."},
+      {t:"Une seule lignée → cellule souche **multipotente**. Cohérent : elle est présente chez l'**adulte**, dans la moelle osseuse."}
+    ],
+    answer:"La cellule souche hématopoïétique est multipotente : elle peut donner tous les types de cellules sanguines, mais seulement ceux de la lignée sanguine. Elle est présente chez l'adulte, dans la moelle osseuse rouge." },
+  ex:[
+    {id:'E1', level:1, type:'fill', prompt:"Complète la définition.",
+      parts:["Une cellule souche est une cellule non ",{o:['différenciée','vivante','sanguine'],a:0}," qui possède deux propriétés : l'",{o:['auto-renouvellement','hémoglobine','immunité'],a:0}," (elle donne deux cellules filles identiques à elle) et la capacité de ",{o:['différenciation','coagulation','phagocytose'],a:0}," en différents types de cellules."],
+      simple:"différenciée · auto-renouvellement · différenciation.",
+      detail:["« Non différenciée » : elle n'est pas encore spécialisée (pas encore neurone, hématie…).","**Auto-renouvellement** : elle se divise en deux cellules identiques à elle-même, ce qui maintient le stock.","**Différenciation** : elle peut produire des cellules spécialisées."]},
+    {id:'E2', level:1, type:'order', prompt:"Range les cellules souches de la **plus grande** à la **plus petite** capacité de différenciation.",
+      items:["Totipotente","Pluripotente","Multipotente","Unipotente"], shuffle:[2,0,3,1],
+      simple:"Totipotente → pluripotente → multipotente → unipotente.",
+      detail:["**Toti** (tout) : tous les types, y compris les annexes embryonnaires.","**Pluri** : tous les types sauf les annexes embryonnaires.","**Multi** : plusieurs types, mais d'une seule lignée.","**Uni** : un seul type."]},
+    {id:'E3', level:2, type:'classify', prompt:"Quel est le type de chaque cellule souche ?", cats:['Toti','Pluri','Multi','Uni'],
+      items:[{t:"Le zygote (cellule-œuf)",c:0},{t:"Une cellule de l'embryon au stade 2 cellules",c:0},{t:"Une cellule de l'embryon au 6e jour",c:1},{t:"Une cellule souche hématopoïétique d'un adulte",c:2},{t:"Une cellule souche qui ne donne que des kératinocytes (peau)",c:3}],
+      simple:"Toti · Toti · Pluri · Multi · Uni.",
+      detail:["Zygote et premières divisions : **totipotentes**.","Entre le 4e et le 8e jour : **pluripotentes**.","Cellule souche hématopoïétique : une seule lignée (sang) → **multipotente**.","Cellule qui ne donne qu'un type (kératinocytes) → **unipotente**."]},
+    {id:'E4', level:3, type:'qcm', prompt:"Variante de l'expérience : on irradie une souris à dose létale, puis on lui injecte du **sang** (et non de la moelle) d'une souris identique. Elle meurt en quelques jours. **Que peut-on conclure ?**",
+      options:["Les cellules du sang injectées ne peuvent pas reconstituer toutes les lignées : seules les cellules souches de la moelle en sont capables","Le sang injecté était malade","L'irradiation ne touche pas la moelle osseuse","Les globules rouges sont des cellules souches"], answer:0,
+      hint:"Compare avec la souris qui survit dans l'expérience de Till et McCulloch : qu'a-t-elle reçu de différent ?",
+      simple:"Seules les cellules souches de la moelle osseuse peuvent reconstituer toutes les cellules du sang.",
+      detail:["Une seule chose change par rapport à l'expérience de référence : on injecte du **sang** au lieu de **moelle**.","Les cellules du sang sont déjà **différenciées** : elles ne se renouvellent pas et vivent peu de temps.","Elles ne peuvent donc pas reconstituer le tissu hématopoïétique détruit.","La survie exige les **cellules souches hématopoïétiques**, présentes dans la moelle."]},
+    {id:'E5', level:3, type:'open', prompt:"Rédige les **observations** et la **conclusion** de l'expérience de Till et McCulloch (1961).",
+      hint:"Deux lots de souris irradiées : l'un ne reçoit rien, l'autre reçoit de la moelle osseuse.",
+      model:"Observations : les souris dont la moelle osseuse est détruite par irradiation meurent en quelques jours. Les souris irradiées qui reçoivent une injection de moelle osseuse survivent : toutes les lignées de cellules sanguines sont reconstituées. Conclusion : la moelle osseuse contient des cellules souches hématopoïétiques capables de reconstituer toutes les cellules du sang.",
+      criteria:["Je décris le **lot sans injection** (mort)","Je décris le **lot avec injection de moelle** (survie, lignées reconstituées)","Je conclus sur les **cellules souches hématopoïétiques** de la moelle"],
+      detail:["Observation 1 : irradiation → destruction du tissu hématopoïétique → mort.","Observation 2 : irradiation + moelle → reconstitution de toutes les lignées → survie.","Seule différence entre les deux lots : la moelle. C'est donc elle qui contient les cellules capables de refaire le sang."]}
+  ]},
+{ id:'F', short:'Hématopoïèse', title:'Naissance et maturation des cellules du sang', lesson:'hemato',
+  goal:"Retrouver l'origine de chaque cellule du sang et le lieu de maturation des lymphocytes.",
+  worked:{ title:"Le parcours d'un lymphocyte T", consigne:"Retrace le parcours d'un lymphocyte T, de sa naissance jusqu'à son lieu d'action.",
+    steps:[
+      {t:"**Naissance** : dans la moelle osseuse rouge, à partir d'une cellule souche hématopoïétique, via une cellule souche **lymphoïde**."},
+      {t:"**Migration** : le lymphocyte T encore immature quitte la moelle et rejoint le **thymus**.", why:"Moyen mnémotechnique : T comme thymus."},
+      {t:"**Maturation** dans le thymus : il devient capable de défendre l'organisme, il devient **immunocompétent**."},
+      {t:"**Action** : il migre vers les organes lymphoïdes **secondaires** (ganglions, rate…), où les réponses immunes seront engagées."}
+    ],
+    answer:"Le lymphocyte T naît dans la moelle osseuse rouge à partir d'une cellule souche lymphoïde. Il migre vers le thymus, où il achève sa maturation et devient immunocompétent. Il rejoint ensuite les organes lymphoïdes secondaires, comme les ganglions et la rate." },
+  ex:[
+    {id:'F1', level:1, type:'classify', prompt:"De quelle lignée provient chaque cellule ?", cats:['Myéloïde','Lymphoïde'],
+      items:[{t:"Hématies",c:0},{t:"Plaquettes",c:0},{t:"Granulocytes",c:0},{t:"Monocytes",c:0},{t:"Mastocytes",c:0},{t:"Macrophages",c:0},{t:"Lymphocytes B",c:1},{t:"Lymphocytes T",c:1}],
+      simple:"Seuls les lymphocytes B et T sont de la lignée lymphoïde ; tout le reste est myéloïde.",
+      detail:["Lignée **lymphoïde** : uniquement les lymphocytes B et T.","Lignée **myéloïde** : hématies, plaquettes, granulocytes, monocytes, mastocytes.","Les macrophages viennent des monocytes : ils sont donc aussi myéloïdes."]},
+    {id:'F2', level:2, type:'match', prompt:"Complète le schéma de ton cours : associe chaque case numérotée à la bonne cellule.", fig:{tree:true},
+      options:["Cellule souche lymphoïde","Cellule souche myéloïde","Granulocytes","Hématies","Lymphocytes B","Lymphocytes T","Mastocytes","Monocytes","Plaquettes"],
+      rows:[{t:"Case 1",a:1},{t:"Case 2",a:0},{t:"Case 3",a:6},{t:"Case 4",a:3},{t:"Case 5",a:8},{t:"Case 6",a:7},{t:"Case 7",a:2},{t:"Case 8",a:4},{t:"Case 9",a:5}],
+      hint:"La branche de droite ne donne que deux types de cellules : ceux qui agissent de façon spécifique.",
+      simple:"1 myéloïde · 2 lymphoïde · 3 mastocytes · 4 hématies · 5 plaquettes · 6 monocytes · 7 granulocytes · 8 LB · 9 LT.",
+      detail:["La branche à **deux** cellules filles est la lignée **lymphoïde** (case 2) → LB (8) et LT (9).","L'autre branche est la lignée **myéloïde** (case 1) → cinq types de cellules.","L'ordre des cases 3 à 7 reprend celui de la feuille du cours : mastocytes, hématies, plaquettes, monocytes, granulocytes."]},
+    {id:'F3', level:2, type:'qcm', prompt:"Où les lymphocytes B achèvent-ils leur maturation ?",
+      options:["Dans la moelle osseuse rouge","Dans le thymus","Dans la rate","Dans le sang"], answer:0,
+      hint:"B comme… « moelle osseuse » en anglais.",
+      simple:"Dans la moelle osseuse rouge.", detail:["Les LB naissent **et** deviennent matures dans la moelle osseuse (B comme *bone marrow*).","Seuls les LT migrent vers le thymus."]},
+    {id:'F4', level:3, type:'qcm', prompt:"Un bébé naît **sans thymus**. Que peut-on prévoir ?",
+      options:["Ses lymphocytes T ne peuvent pas devenir matures : ses défenses spécifiques sont affaiblies et il fera plus d'infections","Il n'aura pas de globules rouges","Il n'aura pas de lymphocytes B","Il n'aura pas de plaquettes"], answer:0,
+      simple:"Pas de LT matures → défenses affaiblies.",
+      detail:["Le thymus est le lieu de maturation des **lymphocytes T**.","Sans thymus, les LT restent immatures : ils ne sont pas immunocompétents.","Les autres cellules (hématies, plaquettes, LB) naissent et mûrissent dans la moelle : elles ne sont pas directement touchées.","Conséquence : des défenses spécifiques affaiblies, donc des infections plus fréquentes."]},
+    {id:'F5', level:3, type:'open', prompt:"Explique ce que signifie la **maturation** d'un lymphocyte et pourquoi elle est indispensable.",
+      model:"La maturation est l'étape au cours de laquelle un lymphocyte devient capable de défendre l'organisme : il devient immunocompétent. Elle a lieu dans la moelle osseuse pour les LB et dans le thymus pour les LT. Sans maturation, les lymphocytes ne pourraient pas défendre l'organisme ; une fois matures, ils migrent vers les organes lymphoïdes secondaires où les réponses immunes sont engagées.",
+      criteria:["Je définis la maturation : devenir **immunocompétent**","Je cite les **lieux** (moelle pour LB, thymus pour LT)","J'explique la **conséquence** : sans maturation, pas de défense ; ensuite, migration vers les organes secondaires"],
+      detail:["Définition : devenir capable de défendre l'organisme (immunocompétent).","Lieux : moelle osseuse (LB), thymus (LT).","Après : migration vers les organes lymphoïdes secondaires."]}
+  ]}
+];
+
+/* vérifications rapides en fin de chaque partie de cours */
+const QUICK = {
+  echanges:[
+    {id:'q-ech-1', type:'qcm', prompt:"Les globules rouges peuvent-ils sortir des capillaires sanguins ?", options:["Oui, comme le plasma","Non, ils restent dans le sang","Oui, ils passent dans la lymphe"], answer:1, simple:"Non, ils restent dans le sang.", detail:"Seuls le plasma (une partie) et les globules blancs traversent la paroi des capillaires."},
+    {id:'q-ech-2', type:'qcm', prompt:"La lymphe provient…", options:["du liquide interstitiel en excès","des globules rouges","de la moelle osseuse","de l'air respiré"], answer:0, simple:"Du liquide interstitiel en excès.", detail:"Plasma → liquide interstitiel → l'excès entre dans les capillaires lymphatiques et devient la lymphe."}],
+  anatomie:[
+    {id:'q-ana-1', type:'multi', prompt:"Coche les **deux** organes lymphoïdes primaires.", options:["Moelle osseuse rouge","Rate","Thymus","Ganglions","Amygdales"], answers:[0,2], simple:"La moelle osseuse rouge et le thymus.", detail:"Ce sont les lieux de naissance et de maturation des lymphocytes. Les autres sont des organes secondaires."},
+    {id:'q-ana-2', type:'qcm', prompt:"Le canal thoracique sert à…", options:["ramener la lymphe dans le sang","produire les lymphocytes T","filtrer l'air","transporter l'O₂"], answer:0, simple:"Ramener la lymphe dans le sang.", detail:"C'est le plus grand vaisseau lymphatique ; il se jette dans une veine sous-clavière."}],
+  cellules:[
+    {id:'q-cel-1', type:'qcm', prompt:"Les plus nombreux des leucocytes sont les…", options:["lymphocytes","monocytes","granulocytes","plaquettes"], answer:2, simple:"Granulocytes.", detail:"4 500 à 5 500 /mm³, contre 300 à 600 /mm³ pour les monocytes. Les plaquettes ne sont pas des leucocytes."},
+    {id:'q-cel-2', type:'qcm', prompt:"Un leucocyte qui quitte le sang et devient macrophage est un…", options:["lymphocyte","monocyte","granulocyte","mastocyte"], answer:1, simple:"Monocyte.", detail:"Dans les tissus, le monocyte se différencie en macrophage (ou en cellule dendritique)."}],
+  analyse:[
+    {id:'q-anl-1', type:'qcm', prompt:"Plaquettes : 95 000 /mm³ (VR 150 000 à 500 000). Cette valeur est…", options:["dans les normes","au-dessus des normes","en dessous des normes"], answer:2, simple:"En dessous des normes.", detail:"95 000 est inférieur à la borne basse, 150 000."},
+    {id:'q-anl-2', type:'qcm', prompt:"Une augmentation du nombre de leucocytes évoque surtout…", options:["une anémie","une infection","un manque de plaquettes","une allergie aux médicaments"], answer:1, simple:"Une infection.", detail:"Les leucocytes se multiplient pour lutter contre l'infection."}],
+  souches:[
+    {id:'q-sou-1', type:'qcm', prompt:"Quelles sont les deux propriétés d'une cellule souche ?", options:["Auto-renouvellement et différenciation","Transport d'O₂ et coagulation","Division rapide et mort rapide","Spécificité et mémoire"], answer:0, simple:"Auto-renouvellement et différenciation.", detail:"Elle se renouvelle (deux cellules filles identiques) et peut produire des cellules spécialisées."},
+    {id:'q-sou-2', type:'qcm', prompt:"Une cellule souche de l'embryon au 6e jour est…", options:["totipotente","pluripotente","multipotente","unipotente"], answer:1, simple:"Pluripotente.", detail:"Entre le 4e et le 8e jour, les cellules souches peuvent donner tous les types cellulaires sauf les annexes embryonnaires."}],
+  hemato:[
+    {id:'q-hem-1', type:'qcm', prompt:"Les plaquettes proviennent de la cellule souche…", options:["myéloïde","lymphoïde","thymique"], answer:0, simple:"Myéloïde.", detail:"La lignée lymphoïde ne donne que les lymphocytes B et T."},
+    {id:'q-hem-2', type:'qcm', prompt:"Les lymphocytes T achèvent leur maturation dans…", options:["la moelle osseuse","le thymus","la rate","les ganglions"], answer:1, simple:"Le thymus.", detail:"T comme thymus. Les LB, eux, restent dans la moelle (B comme bone marrow)."}]
+};
+
+const QUIZ = [
+  {q:"Le sang est composé de…", o:["55 % de plasma et 45 % de cellules","45 % de plasma et 55 % de cellules","90 % de cellules","100 % de plasma"], a:0, e:"55 % de plasma, 45 % de cellules (surtout des hématies).", m:'cellules'},
+  {q:"Le liquide qui baigne directement les cellules s'appelle…", o:["la lymphe","le plasma","le liquide interstitiel","le sérum"], a:2, e:"Le liquide interstitiel provient du plasma et sert d'intermédiaire entre sang et cellules.", m:'echanges'},
+  {q:"On trouve des globules rouges…", o:["dans le sang, la lymphe et le liquide interstitiel","uniquement dans le sang","uniquement dans la lymphe","dans la lymphe et le liquide interstitiel"], a:1, e:"Les hématies ne traversent pas la paroi des capillaires.", m:'echanges'},
+  {q:"La lymphe retourne dans le sang par…", o:["les capillaires sanguins","le canal thoracique et une veine sous-clavière","la rate","le thymus"], a:1, e:"Les vaisseaux lymphatiques convergent vers le canal thoracique, qui se jette dans une veine sous-clavière.", m:'anatomie'},
+  {q:"Lequel est un organe lymphoïde primaire ?", o:["La rate","Un ganglion","Le thymus","Une amygdale"], a:2, e:"Primaires : moelle osseuse rouge et thymus.", m:'anatomie'},
+  {q:"Quel leucocyte a un noyau en forme de haricot ?", o:["Le monocyte","Le lymphocyte","Le neutrophile","Le basophile"], a:0, e:"Le monocyte : le plus gros, noyau en haricot, cytoplasme abondant.", m:'cellules'},
+  {q:"Les seuls leucocytes à agir de façon spécifique sont…", o:["les granulocytes","les monocytes","les lymphocytes","les mastocytes"], a:2, e:"Chaque lymphocyte reconnaît un agresseur précis.", m:'cellules'},
+  {q:"Leucocytes : 14 600 /mm³ (VR 4 400 à 10 000). Hypothèse ?", o:["Anémie","Infection","Analyse normale","Manque de plaquettes"], a:1, e:"Au-dessus des normes : les leucocytes se multiplient pour lutter contre une infection.", m:'analyse'},
+  {q:"Le zygote est une cellule souche…", o:["totipotente","pluripotente","multipotente","unipotente"], a:0, e:"Il peut donner tous les types cellulaires, annexes embryonnaires comprises.", m:'souches'},
+  {q:"L'expérience de Till et McCulloch montre que…", o:["le thymus produit les globules rouges","la moelle osseuse contient des cellules capables de reconstituer toutes les cellules du sang","l'irradiation renforce l'immunité","le sang peut remplacer la moelle"], a:1, e:"Seules les souris qui reçoivent de la moelle survivent : elle contient les cellules souches hématopoïétiques.", m:'souches'},
+  {q:"Les lymphocytes T achèvent leur maturation dans…", o:["la moelle osseuse","le thymus","les ganglions","la rate"], a:1, e:"T comme thymus.", m:'hemato'},
+  {q:"Dans les tissus, les monocytes deviennent…", o:["des plaquettes","des lymphocytes","des macrophages","des hématies"], a:2, e:"Ils se différencient en macrophages ou en cellules dendritiques.", m:'hemato'}
+];
+
+/* =========================================================
+   COURS
+   ========================================================= */
+const LESSONS = [
+  {id:'echanges', n:1, label:'Sang, lymphe et cellules', fam:'A'},
+  {id:'anatomie', n:2, label:'Anatomie du système lymphatique', fam:'B'},
+  {id:'cellules', n:3, label:'Les cellules du sang', fam:'C'},
+  {id:'analyse', n:4, label:'Lire une analyse sanguine', fam:'D'},
+  {id:'souches', n:5, label:'Les cellules souches', fam:'E'},
+  {id:'hemato', n:6, label:'Naissance des cellules du sang', fam:'F'}
+];
+
+function QuickCheck({id}){
+  const items = QUICK[id] || [];
+  return html`<section className="frame" aria-label="Vérifie que tu as compris">
+    <h2>Vérifie que tu as compris</h2>
+    <p className="small muted">Deux questions pour récupérer l'essentiel de mémoire, sans relire.</p>
+    ${items.map((ex,i)=>html`<${Exercise} key=${ex.id} ex=${ex} num=${i+1} compact=${true}/>`)}
+  </section>`;
+}
+function Lesson({id, title, goal, go, children}){
+  const L = LESSONS.find(l=>l.id===id); const i = LESSONS.indexOf(L);
+  const prev = LESSONS[i-1], next = LESSONS[i+1];
+  const fam = FAMILIES.find(f=>f.id===L.fam);
+  return html`<div className="wrap">
+    <div className="frame">
+      <span className="eyebrow">Cours · partie ${L.n} sur 6</span>
+      <h1>${title}</h1>
+      <p className="goal"><strong>À la fin, tu sauras :</strong> ${goal}</p>
+    </div>
+    ${children}
+    <${QuickCheck} id=${id}/>
+    <div className="frame">
+      <div className="row" style=${{justifyContent:'space-between'}}>
+        <div><b>Pour t'entraîner</b><p className="small muted">Famille ${fam.id} · ${fam.title} : un exercice résolu puis ${fam.ex.length} exercices de difficulté croissante.</p></div>
+        <button className="btn primary" onClick=${()=>go('exercices', fam.id)}>Ouvrir la famille ${fam.id}</button>
+      </div>
+      <div className="sep"></div>
+      <div className="footnav">
+        ${prev ? html`<button className="btn flat" onClick=${()=>go(prev.id)}>← ${prev.label}</button>` : html`<span></span>`}
+        ${next ? html`<button className="btn flat" onClick=${()=>go(next.id)}>${next.label} →</button>` : html`<button className="btn flat" onClick=${()=>go('exercices','A')}>Exercices →</button>`}
+      </div>
+    </div>
+  </div>`;
+}
+
+/* ---- 1. Échanges ---- */
+const STEPS = [
+  {t:"Vue d'ensemble", d:"Trois compartiments : le **sang** dans les capillaires sanguins, le **liquide interstitiel** autour des cellules, la **lymphe** dans les capillaires lymphatiques. Avance étape par étape."},
+  {t:"1. Le plasma sort du sang", d:"Côté artériel, une partie du **plasma** traverse la paroi très fine du capillaire sanguin. Il forme le **liquide interstitiel**."},
+  {t:"2. Apport aux cellules", d:"Le liquide interstitiel apporte aux cellules le **dioxygène (O₂)** et les **nutriments**. C'est leur **milieu de vie**."},
+  {t:"3. Rejet des déchets", d:"Les cellules rejettent leur **CO₂** et leurs **déchets** dans le liquide interstitiel."},
+  {t:"4. Retour dans le sang", d:"Côté veineux, la **plus grande partie** du liquide interstitiel retourne dans le capillaire sanguin, avec le CO₂ et les déchets."},
+  {t:"5. Formation de la lymphe", d:"L'**excès** de liquide interstitiel entre dans le capillaire lymphatique, fermé à une extrémité. Ce liquide s'appelle désormais la **lymphe**."},
+  {t:"6. Les globules blancs circulent", d:"Les **globules blancs** se déforment et traversent la paroi des capillaires (**diapédèse**). Ils patrouillent dans les tissus et la lymphe. Les **globules rouges**, eux, restent dans le sang."},
+  {t:"7. La lymphe rejoint le sang", d:"La lymphe circule vers les **ganglions lymphatiques**, puis rejoint le sang par le **canal thoracique** et une **veine sous-clavière**."}
+];
+function ExchangeDiagram({step}){
+  const on = k => (step===0 || step===k) ? 'ex-arrow' : 'ex-arrow dim';
+  const grX = [40,100,160,220,290,350,410,470,530,600,660];
+  return html`<svg viewBox="0 0 720 390" role="img" aria-label="Schéma des échanges entre capillaire sanguin, liquide interstitiel, cellules et capillaire lymphatique">
+    <defs>
+      ${[['acc','var(--accent-strong)'],['sang','var(--sang)'],['lym','var(--lymphe)'],['fg','var(--fg2)']].map(([k,c])=>html`<marker key=${k} id=${'ar-'+k} viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill=${c}/></marker>`)}
+    </defs>
+    <rect x="0" y="0" width="720" height="390" fill="var(--inter-bg)"/>
+    ${[0,1,2,3,4,5].map(i=>html`<g key=${i}><rect x=${18+i*117} y="16" width="100" height="66" rx="20" fill="var(--tissue)" stroke="var(--tissue-line)"/><circle cx=${68+i*117} cy="49" r="11" fill="var(--nuc)" opacity=".55"/></g>`)}
+    <text x="712" y="100" textAnchor="end" fontSize="12" style=${{fill:'var(--fg2)'}}>cellules d'un tissu</text>
+    <text x="16" y="132" fontSize="13" fontWeight="600" style=${{fill:'var(--accent-strong)'}}>Liquide interstitiel</text>
+    <rect x="250" y="168" width="500" height="36" rx="18" fill="var(--lymphe-bg)" stroke="var(--lymphe)" strokeWidth="1.5"/>
+    <text x="262" y="160" fontSize="13" fontWeight="600" style=${{fill:'var(--lymphe)'}}>Capillaire lymphatique (lymphe)</text>
+    <rect x="-20" y="282" width="760" height="58" fill="var(--sang-bg)" stroke="var(--sang)" strokeWidth="1.5"/>
+    <text x="16" y="274" fontSize="13" fontWeight="600" style=${{fill:'var(--sang)'}}>Capillaire sanguin (sang)</text>
+    ${grX.map((x,i)=>html`<ellipse key=${i} cx=${x} cy=${i%2?318:304} rx="15" ry="8" fill="var(--gr)" opacity=".85"/>`)}
+    <g><circle cx="255" cy="316" r="12" fill="var(--cyto)" stroke="var(--nuc)"/><circle cx="255" cy="316" r="6" fill="var(--nuc)"/></g>
+    <text x="16" y="362" fontSize="12" style=${{fill:'var(--fg2)'}}>côté artériel</text>
+    <text x="704" y="362" fontSize="12" textAnchor="end" style=${{fill:'var(--fg2)'}}>côté veineux</text>
+    <path d="M300,362 H420" stroke="var(--sang)" strokeWidth="1.5" markerEnd="url(#ar-sang)"/>
+    <text x="430" y="366" fontSize="12" style=${{fill:'var(--fg2)'}}>sens du sang</text>
+
+    <g className=${on(1)}><path d="M110,280 V212" stroke="var(--accent-strong)" strokeWidth="2.5" markerEnd="url(#ar-acc)"/><text x="118" y="250" fontSize="12">plasma</text></g>
+    <g className=${on(2)}><path d="M160,198 V90" stroke="var(--accent-strong)" strokeWidth="2.5" markerEnd="url(#ar-acc)"/><text x="168" y="150" fontSize="12">O₂, nutriments</text></g>
+    <g className=${on(3)}><path d="M430,86 V150" stroke="var(--fg2)" strokeWidth="2.5" markerEnd="url(#ar-fg)"/><text x="438" y="126" fontSize="12">CO₂, déchets</text></g>
+    <g className=${on(4)}><path d="M610,212 V278" stroke="var(--sang)" strokeWidth="2.5" markerEnd="url(#ar-sang)"/><text x="602" y="246" fontSize="12" textAnchor="end">retour au sang</text></g>
+    <g className=${on(5)}><path d="M340,244 V208" stroke="var(--lymphe)" strokeWidth="2.5" markerEnd="url(#ar-lym)"/><path d="M500,128 V164" stroke="var(--lymphe)" strokeWidth="2.5" markerEnd="url(#ar-lym)"/><text x="348" y="240" fontSize="12">excès de liquide</text></g>
+    <g className=${on(6)}><path d="M240,282 C236,262 226,250 214,240" stroke="var(--nuc)" strokeWidth="2" fill="none" strokeDasharray="4 3" markerEnd="url(#ar-fg)"/><circle cx="204" cy="232" r="11" fill="var(--cyto)" stroke="var(--nuc)"/><circle cx="204" cy="232" r="5.5" fill="var(--nuc)"/><text x="180" y="262" fontSize="12" textAnchor="end">diapédèse</text></g>
+    <g className=${on(7)}><path d="M540,186 H708" stroke="var(--lymphe)" strokeWidth="2.5" markerEnd="url(#ar-lym)"/><text x="712" y="224" fontSize="12" textAnchor="end">vers les ganglions, puis le sang</text></g>
+  </svg>`;
+}
+function LessonEchanges({go}){
+  const [step, setStep] = useState(0);
+  const s = STEPS[step];
+  return html`<${Lesson} id="echanges" go=${go} title="Sang, liquide interstitiel et lymphe" goal="expliquer comment les cellules sont approvisionnées et d'où vient la lymphe.">
+    <section className="frame">
+      <div className="prose"><p>${rich("Les cellules de ton corps ont besoin d'un **milieu de vie** qui leur apporte ce qu'il faut et emporte leurs déchets. Ce milieu, c'est le **liquide interstitiel**. Le système lymphatique récupère ce liquide en excès et joue aussi un rôle dans la **défense** de l'organisme.")}</p></div>
+      <div className="fig scroll"><${ExchangeDiagram} step=${step}/></div>
+      <div className="stepper">
+        <div className="steptext" aria-live="polite"><b className="h">${s.t}</b><span>${rich(s.d)}</span></div>
+        <div className="row" style=${{justifyContent:'space-between'}}>
+          <div className="dots" role="group" aria-label="Étapes">${STEPS.map((_,i)=>html`<button key=${i} className="dot" aria-current=${i===step?'step':null} aria-label=${i===0?'Vue d’ensemble':'Étape '+i} onClick=${()=>setStep(i)}>${i===0?'≡':i}</button>`)}</div>
+          <div className="row"><button className="btn" disabled=${step===0} onClick=${()=>setStep(step-1)}>Précédent</button><button className="btn primary" disabled=${step===STEPS.length-1} onClick=${()=>setStep(step+1)}>Étape suivante</button></div>
+        </div>
+      </div>
+    </section>
+    <section className="frame">
+      <h2>Trois liquides, trois contenus</h2>
+      <div className="tblwrap"><table>
+        <thead><tr><th></th><th>Sang</th><th>Liquide interstitiel</th><th>Lymphe</th></tr></thead>
+        <tbody>
+          <tr><td><b>Où ?</b></td><td>Vaisseaux sanguins</td><td>Autour des cellules</td><td>Vaisseaux lymphatiques</td></tr>
+          <tr><td><b>Globules rouges</b></td><td>Oui</td><td>Non</td><td>Non</td></tr>
+          <tr><td><b>Globules blancs</b></td><td>Oui</td><td>Oui</td><td>Oui, nombreux</td></tr>
+          <tr><td><b>Origine</b></td><td>—</td><td>Plasma sorti des capillaires</td><td>Liquide interstitiel en excès</td></tr>
+        </tbody>
+      </table></div>
+      <${Msg} kind="pos" title="À retenir"><ul>
+        <li>${rich("Les cellules échangent avec le **liquide interstitiel**, pas directement avec le sang.")}</li>
+        <li>${rich("La **lymphe** est le liquide interstitiel en **excès**, récolté par les capillaires lymphatiques.")}</li>
+        <li>${rich("Les **globules blancs** passent partout ; les **globules rouges** restent dans le sang.")}</li>
+      </ul><//>
+    </section>
+  <//>`;
+}
+
+/* ---- 2. Anatomie ---- */
+const ORGANS = [
+  {id:'veg', no:1, name:'Végétations', cat:'sec', x:139, y:48, role:"Tissu lymphoïde au fond des fosses nasales. Il surveille l'air inspiré."},
+  {id:'amy', no:2, name:'Amygdales', cat:'sec', x:150, y:84, role:"Au fond de la gorge. Elles surveillent l'air et les aliments qui entrent."},
+  {id:'vly', no:3, name:'Veine lymphatique', cat:'vais', x:121, y:120, role:"Gros vaisseau qui ramène la lymphe du côté droit du corps vers le sang (veine sous-clavière droite)."},
+  {id:'gan', no:4, name:'Ganglions lymphatiques', cat:'sec', x:98, y:146, role:"Petits renflements sur le trajet des vaisseaux lymphatiques (cou, aisselles, abdomen, aine, genoux). Ils filtrent la lymphe ; les lymphocytes y rencontrent les agresseurs."},
+  {id:'thy', no:5, name:'Thymus', cat:'prim', x:150, y:156, role:"Derrière le sternum. Les lymphocytes T y achèvent leur maturation (T comme thymus). Il est très développé chez l'enfant."},
+  {id:'can', no:6, name:'Canal thoracique', cat:'vais', x:160, y:206, role:"Le plus grand vaisseau lymphatique. Il remonte le long de la colonne et déverse la lymphe dans la veine sous-clavière gauche."},
+  {id:'rat', no:7, name:'Rate', cat:'sec', x:190, y:238, role:"Filtre le sang ; les lymphocytes y rencontrent les agresseurs présents dans le sang."},
+  {id:'vai', no:8, name:'Vaisseaux lymphatiques', cat:'vais', x:65, y:250, role:"Réseau qui récolte la lymphe dans tout le corps et la conduit vers les ganglions puis vers le sang."},
+  {id:'fol', no:9, name:"Follicules lymphoïdes de l'intestin grêle", cat:'sec', x:150, y:290, role:"Amas de lymphocytes dans la paroi de l'intestin (plaques de Peyer). Ils surveillent ce qui est avalé."},
+  {id:'app', no:10, name:"Paroi de l'appendice", cat:'sec', x:116, y:318, role:"Contient du tissu lymphoïde, comme l'intestin."},
+  {id:'moe', no:11, name:'Moelle osseuse rouge', cat:'prim', x:123, y:430, role:"À l'intérieur des os. Toutes les cellules du sang y naissent ; les lymphocytes B y achèvent leur maturation (B comme bone marrow)."}
+];
+const CAT = {prim:{l:'Organe lymphoïde primaire', c:'var(--prim)'}, sec:{l:'Organe lymphoïde secondaire', c:'var(--sec)'}, vais:{l:'Vaisseau lymphatique', c:'var(--lymphe)'}};
+function Body({mode, filter, sel, onSel, marks}){
+  const dim = cat => filter!=='all' && filter!==cat ? .18 : 1;
+  const shapes = html`<g>
+    <ellipse cx="150" cy="56" rx="28" ry="34"/><rect x="138" y="84" width="24" height="34"/>
+    <path d="M96,116 Q150,106 204,116 Q214,120 214,136 L206,250 Q202,290 210,330 Q212,346 200,348 L100,348 Q88,346 90,330 Q98,290 94,250 L86,136 Q86,120 96,116 Z"/>
+    <path d="M92,120 Q74,124 70,146 L54,318 Q52,334 62,336 Q70,336 72,320 L90,190 Z"/><ellipse cx="60" cy="344" rx="8" ry="12"/>
+    <path d="M208,120 Q226,124 230,146 L246,318 Q248,334 238,336 Q230,336 228,320 L210,190 Z"/><ellipse cx="240" cy="344" rx="8" ry="12"/>
+    <path d="M100,340 L148,340 L144,470 L140,560 Q140,572 128,572 L116,572 Q108,570 110,556 L106,470 Z"/><ellipse cx="122" cy="580" rx="15" ry="7"/>
+    <path d="M200,340 L152,340 L156,470 L160,560 Q160,572 172,572 L184,572 Q192,570 190,556 L194,470 Z"/><ellipse cx="178" cy="580" rx="15" ry="7"/>
+  </g>`;
+  const gang = [[132,104],[168,104],[98,146],[202,146],[140,262],[162,262],[122,340],[178,340],[124,478],[176,478]];
+  return html`<svg viewBox="0 0 300 600" role="img" aria-label="Silhouette humaine avec les organes du système lymphatique">
+    <g fill="none" stroke="var(--line2)" strokeWidth="3">${shapes}</g>
+    <g fill="var(--body)" stroke="none">${shapes}</g>
+    <g opacity=${dim('vais')} stroke="var(--lymphe)" fill="none" strokeLinecap="round">
+      <path d="M84,140 L64,322 M216,140 L236,322 M126,348 L124,560 M174,348 L176,560 M132,104 L146,140 M168,104 L154,140 M98,146 L120,170 M202,146 L180,170 M122,340 L140,300 M178,340 L160,300" strokeWidth="1.3" opacity=".7"/>
+      <path d="M152,280 C151,230 158,170 176,124" strokeWidth="4"/>
+      <path d="M132,112 L118,121" strokeWidth="4"/>
+    </g>
+    <g opacity=${dim('sec')} fill="var(--sec)">
+      ${gang.map((g,i)=>html`<circle key=${i} cx=${g[0]} cy=${g[1]} r="3.4"/>`)}
+      <ellipse cx="139" cy="48" rx="6" ry="3.2" opacity=".75"/>
+      <ellipse cx="144" cy="84" rx="3" ry="4.2" opacity=".75"/><ellipse cx="156" cy="84" rx="3" ry="4.2" opacity=".75"/>
+      <ellipse cx="190" cy="238" rx="9" ry="13" transform="rotate(20 190 238)" opacity=".6"/>
+      <path d="M126,278 q8,-8 16,0 t16,0 t16,0 M128,292 q8,8 16,0 t16,0 t16,0 M130,305 q8,-8 16,0 t16,0" fill="none" stroke="var(--sec)" strokeWidth="2.4" opacity=".6"/>
+      <path d="M124,310 Q118,316 116,326" fill="none" stroke="var(--sec)" strokeWidth="3.5" strokeLinecap="round" opacity=".7"/>
+    </g>
+    <g opacity=${dim('prim')}>
+      <ellipse cx="145" cy="156" rx="6" ry="11" fill="var(--prim)" opacity=".6"/><ellipse cx="155" cy="156" rx="6" ry="11" fill="var(--prim)" opacity=".6"/>
+      <path d="M118,362 q-6,-8 4,-10 q8,0 8,8 L128,490 q8,4 2,12 q-8,4 -12,-4 q-6,-6 2,-8 Z" fill="var(--view)" stroke="var(--prim)" strokeWidth="1.5"/>
+      <path d="M121,372 L125,488" stroke="var(--prim)" strokeWidth="4" opacity=".55"/>
+    </g>
+    ${ORGANS.map(o=>{
+      const st = marks ? (marks[o.id]===undefined ? '' : marks[o.id] ? ' good' : ' bad') : '';
+      return html`<g key=${o.id} className=${'mk-o'+(sel===o.id?' sel':'')+st} opacity=${mode==='explore' ? dim(o.cat) : 1}
+          tabIndex="0" role="button" aria-label=${mode==='explore' ? o.name : 'Repère '+o.no}
+          onClick=${()=>onSel(o.id)} onKeyDown=${e=>{ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); onSel(o.id);} }}>
+        <circle className="hit" cx=${o.x} cy=${o.y} r="9" stroke=${CAT[o.cat].c}/>
+        <text x=${o.x} y=${o.y+.5}>${mode==='label' ? o.no : ''}</text>
+      </g>`;
+    })}
+  </svg>`;
+}
+function LessonAnatomie({go}){
+  const [mode, setMode] = useState('explore');
+  const [filter, setFilter] = useState('all');
+  const [sel, setSel] = useState(null);
+  const [ans, setAns] = useState({});
+  const [marks, setMarks] = useState(null);
+  const {mark} = useContext(Prog);
+  const o = ORGANS.find(x=>x.id===sel);
+  const sorted = ORGANS.slice().sort((a,b)=>a.name.localeCompare(b.name,'fr'));
+  const all = ORGANS.every(x=>ans[x.no]);
+  const verify = () => { const m = {}; ORGANS.forEach(x=>{ m[x.id] = ans[x.no]===x.id; }); setMarks(m); mark('lab-body', Object.values(m).every(Boolean)?'ok':'ko'); };
+  const score = marks ? Object.values(marks).filter(Boolean).length : 0;
+  return html`<${Lesson} id="anatomie" go=${go} title="Anatomie du système lymphatique" goal="situer les organes lymphoïdes et dire s'ils sont primaires ou secondaires.">
+    <section className="frame">
+      <div className="prose"><p>${rich("Le système lymphatique comprend des **vaisseaux** (qui transportent la lymphe) et des **organes lymphoïdes**. On distingue les organes **primaires**, où les lymphocytes naissent et deviennent matures, et les organes **secondaires**, où ils rencontrent les agresseurs.")}</p></div>
+      <div className="tabs" role="tablist">
+        <button className="tab" role="tab" aria-selected=${mode==='explore'} onClick=${()=>{setMode('explore'); setSel(null);}}>Explorer</button>
+        <button className="tab" role="tab" aria-selected=${mode==='label'} onClick=${()=>{setMode('label'); setSel(null); setFilter('all');}}>Légender (11 repères)</button>
+      </div>
+      ${mode==='explore' ? html`<div className="row" role="group" aria-label="Filtrer">
+        ${[['all','Tout'],['prim','Primaires'],['sec','Secondaires'],['vais','Vaisseaux']].map(([k,l])=>html`<button key=${k} className="btn" aria-pressed=${filter===k?'true':'false'} onClick=${()=>setFilter(k)}>${l}</button>`)}
+      </div>` : null}
+      <div className="bodygrid">
+        <div className="fig"><${Body} mode=${mode} filter=${filter} sel=${sel} onSel=${setSel} marks=${mode==='label'?marks:null}/></div>
+        ${mode==='explore' ? html`<div style=${{display:'flex',flexDirection:'column',gap:'12px',minWidth:0}}>
+          <div className="legend">${Object.entries(CAT).map(([k,v])=>html`<span key=${k}><i style=${{background:v.c}}></i>${v.l}</span>`)}</div>
+          ${o ? html`<div className="box"><h3>${o.name}</h3><span><span className=${'pill c-'+o.cat}>${CAT[o.cat].l}</span></span><p>${rich(o.role)}</p></div>`
+              : html`<div className="box"><p className="muted">Clique sur un repère du schéma pour afficher le nom de l'organe et son rôle.</p></div>`}
+          <div className="tblwrap"><table><thead><tr><th>Primaires</th><th>Secondaires</th></tr></thead><tbody><tr>
+            <td>Moelle osseuse rouge<br/>Thymus</td>
+            <td>Ganglions, rate, amygdales, végétations, appendice, follicules de l'intestin grêle</td>
+          </tr></tbody></table></div>
+        </div>` : html`<div style=${{display:'flex',flexDirection:'column',gap:'12px',minWidth:0}}>
+          <p className="small muted">Associe chaque numéro du schéma au bon terme. C'est la légende de la page 16 de ton cours.</p>
+          <div className="lab-list">${ORGANS.map(x=>html`<label key=${x.id} className="lab-row" htmlFor=${'lab-'+x.no}><span className="no" style=${marks?{borderColor:marks[x.id]?'var(--pos)':'var(--neg)'}:null}>${x.no}</span>
+            <select id=${'lab-'+x.no} className=${marks?(marks[x.id]?'good':'bad'):''} value=${ans[x.no]||''} onChange=${e=>{ setAns({...ans,[x.no]:e.target.value}); setMarks(null); }}>
+              <option value="">— choisir —</option>${sorted.map(s=>html`<option key=${s.id} value=${s.id}>${s.name}</option>`)}</select></label>`)}</div>
+          <div className="row"><button className="btn primary" disabled=${!all} onClick=${verify}>Vérifier</button>${marks ? html`<button className="btn" onClick=${()=>{ const a={}; ORGANS.forEach(x=>a[x.no]=x.id); setAns(a); setMarks(null); }}>Afficher la correction</button>` : null}</div>
+          ${marks ? html`<p className="feedback" role="status">${score===11 ? html`<b style=${{color:'var(--pos-fg)'}}>Légende complète.</b>` : html`<span>${score} / 11 justes. Corrige les numéros en rouge.</span>`}</p>` : null}
+        </div>`}
+      </div>
+      <${Msg} kind="pos" title="À retenir"><ul>
+        <li>${rich("**Primaires** : moelle osseuse rouge et thymus. On y **produit** et on y fait **mûrir** les lymphocytes.")}</li>
+        <li>${rich("**Secondaires** : ganglions, rate, amygdales, végétations, appendice, follicules intestinaux. Les lymphocytes y **rencontrent les agresseurs**.")}</li>
+        <li>${rich("La lymphe revient au sang par le **canal thoracique** et la **veine lymphatique**, qui se jettent dans les veines sous-clavières.")}</li>
+      </ul><//>
+    </section>
+  <//>`;
+}
+
+/* ---- 3. Cellules ---- */
+const LEUCO = [
+  {id:'gra', name:'Granulocytes', alt:'ou polynucléaires', cell:'neutro', size:'10 à 14 µm', nb:'4 500 à 5 500 /mm³', aspect:['Noyau **lobé** : on croit voir plusieurs noyaux','Cytoplasme **granuleux**','Les **plus nombreux**'], role:"Trois sortes : **neutrophiles** (bactéries), **éosinophiles** (parasites, allergies), **basophiles** (allergies).", vie:'quelques heures à quelques jours'},
+  {id:'mon', name:'Monocytes', alt:'', cell:'mono', size:'15 à 20 µm', nb:'300 à 600 /mm³', aspect:['Les **plus gros**','Noyau en forme de **haricot**','Cytoplasme **abondant**','Les **moins nombreux**'], role:"Quittent le sang et entrent dans les tissus : ils deviennent alors des **macrophages** ou des **cellules dendritiques**.", vie:'quelques jours dans le sang, plus longtemps dans les tissus'},
+  {id:'lym', name:'Lymphocytes', alt:'B et T', cell:'lympho', size:'7 à 9 µm', nb:'LB : 600 à 800 /mm³ · LT : 1 200 à 1 500 /mm³', aspect:['Les **plus petits**, taille proche d’une hématie','Noyau **arrondi**','Cytoplasme **réduit**'], role:"Les **seuls** à intervenir de manière **spécifique** : chacun reconnaît un agresseur précis.", vie:'jusqu’à plusieurs années'}
+];
+function LessonCellules({go}){
+  const [tab, setTab] = useState('gra');
+  const L = LEUCO.find(l=>l.id===tab);
+  return html`<${Lesson} id="cellules" go=${go} title="Les cellules du sang" goal="nommer les cellules du sang, reconnaître les trois familles de leucocytes et donner leur rôle.">
+    <section className="frame">
+      <h2>De quoi est fait le sang ?</h2>
+      <div role="img" aria-label="Le sang : 55 % de plasma, 45 % de cellules" style=${{display:'flex',height:'34px',borderRadius:'4px',overflow:'hidden',border:'1px solid var(--line)'}}>
+        <div style=${{flex:'55',background:'color-mix(in srgb,var(--neu) 22%,var(--view))',display:'flex',alignItems:'center',paddingLeft:'10px',fontSize:'.88rem'}}><b>Plasma · 55 %</b></div>
+        <div style=${{flex:'45',background:'color-mix(in srgb,var(--sang) 30%,var(--view))',display:'flex',alignItems:'center',paddingLeft:'10px',fontSize:'.88rem'}}><b>Cellules · 45 %</b></div>
+      </div>
+      <div className="tblwrap"><table>
+        <thead><tr><th>Cellule</th><th>Autres noms</th><th>Nombre (adulte)</th><th>Rôle</th></tr></thead>
+        <tbody>
+          <tr><td><div className="row" style=${{gap:'8px',flexWrap:'nowrap'}}><${Cell} type="hematie" scale=${3.4}/><b>Hématies</b></div></td><td>globules rouges, érythrocytes</td><td className="num">4 à 5 millions /mm³</td><td>${rich("Transport de l'**O₂** et du **CO₂** (hémoglobine)")}</td></tr>
+          <tr><td><div className="row" style=${{gap:'8px',flexWrap:'nowrap'}}><${Cell} type="lympho" scale=${3.4}/><b>Leucocytes</b></div></td><td>globules blancs</td><td className="num">3 500 à 10 000 /mm³</td><td>${rich("**Défense** de l'organisme")}</td></tr>
+          <tr><td><div className="row" style=${{gap:'8px',flexWrap:'nowrap'}}><${Cell} type="plaquette" scale=${3.4}/><b>Plaquettes</b></div></td><td>thrombocytes</td><td className="num">150 000 à 500 000 /mm³</td><td>${rich("**Coagulation** du sang")}</td></tr>
+        </tbody>
+      </table></div>
+    </section>
+    <section className="frame">
+      <h2>Les trois familles de leucocytes</h2>
+      <p className="small muted">Les leucocytes circulent dans le sang, mais aussi partout dans l'organisme, prêts à intervenir.</p>
+      <div className="tabs" role="tablist">${LEUCO.map(l=>html`<button key=${l.id} className="tab" role="tab" aria-selected=${tab===l.id} onClick=${()=>setTab(l.id)}>${l.name}</button>`)}</div>
+      <div className="cols" style=${{gridTemplateColumns:'repeat(auto-fit,minmax(240px,1fr))'}}>
+        <div className="cellfig" style=${{minHeight:'190px',alignItems:'center'}}><${Cell} type=${L.cell} scale=${9} label=${L.name}/><${Cell} type="hematie" scale=${9} label="hématie pour comparaison"/></div>
+        <div style=${{display:'flex',flexDirection:'column',gap:'8px',minWidth:0}}>
+          <h3>${L.name} ${L.alt ? html`<span className="muted" style=${{fontWeight:400}}>${L.alt}</span>` : null}</h3>
+          <ul style=${{margin:0,paddingLeft:'1.15em'}}>${L.aspect.map((a,i)=>html`<li key=${i}>${rich(a)}</li>`)}</ul>
+          <p>${rich(L.role)}</p>
+          <p className="small muted num">Taille : ${L.size} · Nombre : ${L.nb} · Durée de vie : ${L.vie}</p>
+        </div>
+      </div>
+      ${tab==='gra' ? html`<div className="scale">${[['neutro','neutrophile'],['eosino','éosinophile'],['baso','basophile']].map(([t,n])=>html`<figure key=${t}><${Cell} type=${t} scale=${6}/><figcaption>${n}</figcaption></figure>`)}</div>` : null}
+      ${tab==='mon' ? html`<div className="scale"><figure><${Cell} type="mono" scale=${5}/><figcaption>monocyte (sang)</figcaption></figure><span className="muted" style=${{alignSelf:'center'}}>→ entre dans un tissu →</span><figure><${Cell} type="macro" scale=${5}/><figcaption>macrophage (tissu)</figcaption></figure></div>` : null}
+    </section>
+    <section className="frame">
+      <h2>Comparer les tailles</h2>
+      <div className="fig"><div className="scale">
+        ${[['hematie','hématie','7 µm'],['plaquette','plaquette','2 à 3 µm'],['lympho','lymphocyte','7 à 9 µm'],['neutro','granulocyte','10 à 14 µm'],['mono','monocyte','15 à 20 µm']].map(([t,n,s])=>html`<figure key=${t}><${Cell} type=${t} scale=${5}/><figcaption><b style=${{color:'var(--fg)'}}>${n}</b><br/>${s}</figcaption></figure>`)}
+        <div className="sbar"><i style=${{width:'50px'}}></i>10 µm</div>
+      </div></div>
+      <p className="cap">Schémas à la même échelle, inspirés des photos au microscope de ton cours.</p>
+      <${Msg} kind="info" title="Dans les tissus aussi"><p>${rich("On trouve d'autres leucocytes dans les tissus : les **mastocytes** et les **cellules dendritiques** (cellules à ramifications).")}</p><//>
+      <${Msg} kind="pos" title="À retenir"><ul>
+        <li>${rich("Gros + noyau en haricot = **monocyte** → **macrophage** dans les tissus.")}</li>
+        <li>${rich("Noyau lobé + granulations, les plus nombreux = **granulocyte** (polynucléaire).")}</li>
+        <li>${rich("Petit + noyau rond, seul à réponse **spécifique** = **lymphocyte** (B ou T).")}</li>
+      </ul><//>
+    </section>
+  <//>`;
+}
+
+/* ---- 4. Analyse ---- */
+const SAIN = {
+  'Globules rouges':[
+    {label:'Hématies', val:4372000, lo:4000000, hi:5000000, unit:'/mm³'},
+    {label:'Hémoglobine', val:11.9, lo:11.5, hi:15, unit:'g/100 mL'},
+    {label:'Hématocrite', val:41.7, lo:37, hi:47, unit:'%'}],
+  'Détail des globules rouges':[
+    {label:'VGM', val:92, lo:80, hi:100, unit:'µm³'},
+    {label:'TCMH', val:30.1, lo:27, hi:32, unit:'pg'},
+    {label:'CCMH', val:32.8, lo:30, hi:35, unit:'%'}],
+  'Globules blancs':[
+    {label:'Leucocytes', val:9700, lo:3500, hi:10000, unit:'/mm³'},
+    {label:'Neutrophiles', val:3291, lo:2000, hi:7500, unit:'/mm³'},
+    {label:'Éosinophiles', val:97, lo:0, hi:500, unit:'/mm³', lt:true},
+    {label:'Basophiles', val:35, lo:0, hi:200, unit:'/mm³', lt:true},
+    {label:'Lymphocytes', val:2567, lo:1000, hi:4000, unit:'/mm³'},
+    {label:'Monocytes', val:683, lo:200, hi:1200, unit:'/mm³'}],
+  'Autres':[
+    {label:'Plaquettes', val:209000, lo:150000, hi:500000, unit:'/mm³'},
+    {label:'Vitesse de sédimentation', val:2, lo:0, hi:10, unit:'mm', lt:true}]
+};
+const PATIENTS = {
+  p1:{t:'Patient n°1 · aucune infection', rows:[{label:'Leucocytes', val:8600, lo:4400, hi:10000, unit:'/mm³'},{label:'Plaquettes', val:311000, lo:150000, hi:400000, unit:'/mm³'}]},
+  p2:{t:'Patient n°2 · infection', rows:[{label:'Leucocytes', val:14600, lo:4400, hi:10000, unit:'/mm³'},{label:'Plaquettes', val:291000, lo:150000, hi:400000, unit:'/mm³'}]}
+};
+function LessonAnalyse({go}){
+  const [who, setWho] = useState('sain');
+  const [detail, setDetail] = useState(false);
+  return html`<${Lesson} id="analyse" go=${go} title="Lire une analyse sanguine" goal="comparer un résultat à sa valeur de référence et proposer une hypothèse.">
+    <section className="frame">
+      <h2>La méthode en trois temps</h2>
+      <div className="cols">
+        <div className="box"><b>1. Lire</b><p className="small">${rich("Repère la **valeur** du patient et la **valeur de référence (VR)** sur la même ligne.")}</p></div>
+        <div className="box"><b>2. Comparer</b><p className="small">${rich("La valeur est-elle **en dessous**, **dans** ou **au-dessus** de l'intervalle ?")}</p></div>
+        <div className="box"><b>3. Interpréter</b><p className="small">${rich("Relie l'écart au **rôle** de la cellule pour proposer une **hypothèse**.")}</p></div>
+      </div>
+      <${Msg} kind="neu" title="Attention"><p>${rich("Les valeurs de référence sont **indicatives** : elles varient selon le laboratoire, le sexe et l'âge. « VR < 500 » veut dire : toute valeur inférieure à 500 est normale.")}</p><//>
+    </section>
+    <section className="frame">
+      <h2>Voir les valeurs</h2>
+      <p className="small muted">La bande verte représente la valeur de référence ; le point, la valeur du patient.</p>
+      <div className="tabs" role="tablist">
+        <button className="tab" role="tab" aria-selected=${who==='sain'} onClick=${()=>setWho('sain')}>Personne en bonne santé</button>
+        <button className="tab" role="tab" aria-selected=${who==='p1'} onClick=${()=>setWho('p1')}>Patient n°1</button>
+        <button className="tab" role="tab" aria-selected=${who==='p2'} onClick=${()=>setWho('p2')}>Patient n°2</button>
+      </div>
+      ${who==='sain' ? html`<div className="rbs">
+        ${Object.entries(SAIN).filter(([g])=>detail || g!=='Détail des globules rouges').map(([g,rows])=>html`<div key=${g}><div className="rbgrp">${g}</div>${rows.map(r=>html`<${RangeBar} key=${r.label} ...${r}/>`)}</div>`)}
+        <div className="row" style=${{paddingTop:'8px'}}><button className="btn flat" onClick=${()=>setDetail(!detail)}>${detail ? 'Masquer VGM, TCMH, CCMH' : 'Afficher aussi VGM, TCMH, CCMH'}</button></div>
+        <${Msg} kind="pos"><p>${rich("Toutes les valeurs sont dans les normes : l'analyse est **normale**. L'hémoglobine (11,9) est proche de la limite basse, mais reste au-dessus de 11,5.")}</p><//>
+      </div>` : html`<div className="rbs">
+        <div className="rbgrp">${PATIENTS[who].t}</div>
+        ${PATIENTS[who].rows.map(r=>html`<${RangeBar} key=${r.label} ...${r}/>`)}
+        ${who==='p2' ? html`<${Msg} kind="neg"><p>${rich("Les **leucocytes** dépassent la valeur de référence : ils se multiplient pour **lutter contre l'infection**. Les leucocytes ont un rôle de **défense**.")}</p><//>` : html`<${Msg} kind="pos"><p>Toutes les valeurs sont dans les normes : cohérent avec l'absence d'infection.</p><//>`}
+      </div>`}
+    </section>
+    <section className="frame">
+      <h2>Ce que peut signifier un écart</h2>
+      <div className="tblwrap"><table>
+        <thead><tr><th>Résultat</th><th>Hypothèse</th><th>Pourquoi ?</th></tr></thead>
+        <tbody>
+          <tr><td>Hématies ou hémoglobine <b>en dessous</b></td><td>Anémie</td><td>Moins d'O₂ transporté : fatigue, essoufflement</td></tr>
+          <tr><td>Leucocytes (ou neutrophiles) <b>au-dessus</b></td><td>Infection</td><td>Les leucocytes se multiplient pour se défendre</td></tr>
+          <tr><td>Éosinophiles <b>au-dessus</b></td><td>Allergie, parasites</td><td>Ils interviennent contre les parasites et dans les allergies</td></tr>
+          <tr><td>Leucocytes <b>en dessous</b></td><td>Immunodépression</td><td>Moins de défenseurs : infections plus fréquentes</td></tr>
+        </tbody>
+      </table></div>
+    </section>
+  <//>`;
+}
+
+/* ---- 5. Cellules souches ---- */
+const POT = [
+  {n:'Totipotentes', w:100, p:"Tous les types de cellules, **annexes embryonnaires comprises**", o:"Zygote et premières divisions de l'embryon", m:"toti = tout"},
+  {n:'Pluripotentes', w:78, p:"Tous les types de cellules **sauf les annexes embryonnaires**", o:"Embryon, du 4e au 8e jour après la fécondation", m:"pluri = presque tout"},
+  {n:'Multipotentes', w:46, p:"Plusieurs types, mais d'**une seule lignée** (selon le tissu)", o:"Embryon et adulte. Ex. : cellules souches hématopoïétiques de la moelle", m:"multi = une famille"},
+  {n:'Unipotentes', w:18, p:"**Un seul type** de cellule", o:"Ex. : cellules souches des kératinocytes, qui ne donnent que des cellules de la peau", m:"uni = un"}
+];
+function LessonSouches({go}){
+  const [pred, setPred] = useState(null);
+  const [obs, setObs] = useState(false);
+  const [concl, setConcl] = useState(false);
+  return html`<${Lesson} id="souches" go=${go} title="Les cellules souches" goal="définir une cellule souche, distinguer quatre types et expliquer l'expérience de Till et McCulloch.">
+    <section className="frame">
+      <h2>Qu'est-ce qu'une cellule souche ?</h2>
+      <p className="prose">${rich("Une cellule **non différenciée** : elle n'est pas encore spécialisée (sanguine, nerveuse, hépatocyte…). Elle possède **deux propriétés** :")}</p>
+      <div className="cols">
+        <div className="box">
+          <svg viewBox="0 0 220 70" style=${{width:'100%',maxWidth:'260px'}} role="img" aria-label="Une cellule souche donne deux cellules identiques">
+            <circle cx="30" cy="35" r="18" fill="var(--accent-bg)" stroke="var(--accent)" strokeWidth="1.5"/><path d="M56,35 H112" stroke="var(--fg2)" strokeWidth="1.5" markerEnd="url(#mk-s)"/>
+            <defs><marker id="mk-s" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0 L10,5 L0,10z" fill="var(--fg2)"/></marker></defs>
+            <circle cx="145" cy="35" r="18" fill="var(--accent-bg)" stroke="var(--accent)" strokeWidth="1.5"/><circle cx="190" cy="35" r="18" fill="var(--accent-bg)" stroke="var(--accent)" strokeWidth="1.5"/>
+          </svg>
+          <b>Auto-renouvellement</b><p className="small">${rich("La cellule mère donne deux cellules filles **identiques** à elle : le stock ne s'épuise pas.")}</p>
+        </div>
+        <div className="box">
+          <svg viewBox="0 0 220 70" style=${{width:'100%',maxWidth:'260px'}} role="img" aria-label="Une cellule souche donne des cellules spécialisées différentes">
+            <circle cx="30" cy="35" r="18" fill="var(--accent-bg)" stroke="var(--accent)" strokeWidth="1.5"/><path d="M56,35 H100" stroke="var(--fg2)" strokeWidth="1.5" markerEnd="url(#mk-s)"/>
+            <ellipse cx="128" cy="35" rx="15" ry="9" fill="var(--gr)"/><circle cx="168" cy="35" r="13" fill="var(--cyto)" stroke="var(--nuc)"/><circle cx="168" cy="35" r="9" fill="var(--nuc)"/><path d="M195,35 l8,-14 M195,35 l12,4 M195,35 l4,14" stroke="var(--sec)" strokeWidth="2"/><circle cx="195" cy="35" r="6" fill="var(--sec)"/>
+          </svg>
+          <b>Différenciation</b><p className="small">${rich("Elle peut produire des **cellules spécialisées** de différents types.")}</p>
+        </div>
+      </div>
+    </section>
+    <section className="frame">
+      <h2>Quatre types, du plus large au plus restreint</h2>
+      <div className="potent">${POT.map(p=>html`<div key=${p.n} className="pt">
+        <div><div className="nm">${p.n}</div><div className="small muted">${p.m}</div></div>
+        <div className="bar" style=${{width:p.w+'%'}} aria-hidden="true"></div>
+        <div className="d">${rich(p.p)}. ${p.o}.</div>
+      </div>`)}</div>
+      <p className="cap">La longueur de la barre représente la capacité de différenciation.</p>
+    </section>
+    <section className="frame">
+      <h2>Comment se forment les cellules du sang ?</h2>
+      <p className="prose">${rich("En 1961, **Till et McCulloch** irradient des souris à **dose létale** : les rayons détruisent leur **tissu hématopoïétique** (le tissu qui fabrique les cellules du sang). Les souris du lot B reçoivent ensuite une injection de **moelle osseuse** d'une souris génétiquement identique.")}</p>
+      <div style=${{display:'flex',flexDirection:'column',gap:'8px'}}>
+        <span className="small"><b>Lot A</b></span>
+        <div className="flow"><div className="st">Irradiation à dose létale</div><span className="ar">→</span><div className="st">Destruction du tissu hématopoïétique</div><span className="ar">→</span><div className=${'st'+(obs?' bad':'')}>${obs ? 'Mort en quelques jours' : '?'}</div></div>
+        <span className="small"><b>Lot B</b></span>
+        <div className="flow"><div className="st">Irradiation à dose létale</div><span className="ar">→</span><div className="st">Injection de moelle osseuse</div><span className="ar">→</span><div className=${'st'+(obs?' good':'')}>${obs ? 'Toutes les lignées sanguines reconstituées : survie' : '?'}</div></div>
+      </div>
+      ${!obs ? html`<div className="box"><b>Prédis d'abord : que va-t-il arriver aux souris du lot B ?</b>
+        <div className="row">${['Elles meurent aussi','Elles survivent'].map((t,i)=>html`<button key=${i} className="btn" aria-pressed=${pred===i?'true':'false'} onClick=${()=>setPred(i)}>${t}</button>`)}</div>
+        ${pred!==null ? html`<div className="row"><span className="small">${pred===1 ? 'Bonne prédiction. Vérifie avec les résultats.' : 'Voyons ce qui s’est réellement passé.'}</span><button className="btn primary" onClick=${()=>setObs(true)}>Afficher les résultats</button></div>` : null}
+      </div>` : html`<div className="corr"><span className="h">Observations</span><p>${rich("Les souris dont la moelle osseuse est détruite **meurent** en quelques jours. Les souris **survivent** grâce à l'injection d'une suspension de moelle osseuse : toutes les lignées de cellules sanguines sont reconstituées.")}</p></div>`}
+      ${obs && !concl ? html`<div className="row"><span className="small muted">Formule ta conclusion dans ta tête, puis compare.</span><button className="btn primary" onClick=${()=>setConcl(true)}>Afficher la conclusion</button></div>` : null}
+      ${concl ? html`<div className="answer"><div className="h">Conclusion</div><p>${rich("La **moelle osseuse** héberge des **cellules souches hématopoïétiques** capables de reconstituer **toutes** les cellules du sang.")}</p></div>` : null}
+      <${Msg} kind="pos" title="À retenir"><ul>
+        <li>${rich("Cellule souche = **auto-renouvellement** + **différenciation**.")}</li>
+        <li>${rich("Toti > pluri > multi > uni : la capacité de différenciation **diminue**.")}</li>
+        <li>${rich("Les cellules du sang viennent de cellules souches **multipotentes** de la moelle : les cellules souches **hématopoïétiques**.")}</li>
+      </ul><//>
+    </section>
+  <//>`;
+}
+
+/* ---- 6. Hématopoïèse ---- */
+function LessonHemato({go}){
+  const [sel, setSel] = useState('csh');
+  const info = TREE_INFO[sel];
+  return html`<${Lesson} id="hemato" go=${go} title="Naissance des cellules du sang" goal="retrouver l'origine de chaque cellule du sang et dire où mûrissent les lymphocytes B et T.">
+    <section className="frame">
+      <p className="prose">${rich("Toutes les cellules sanguines (hématies, leucocytes, plaquettes) dérivent de **cellules souches hématopoïétiques**, multipotentes, situées dans la **moelle osseuse**. Leurs premières descendantes, les cellules souches **myéloïdes** et **lymphoïdes**, ont des possibilités plus restreintes.")}</p>
+      <div className="legend"><span><i style=${{background:'var(--sang)'}}></i>Lignée myéloïde</span><span><i style=${{background:'var(--lymphe)'}}></i>Lignée lymphoïde</span><span className="muted">Clique sur une case pour la décrire.</span></div>
+      <div className="fig scroll"><${Tree} mode="learn" sel=${sel} onSel=${setSel}/></div>
+      <div className="steptext" aria-live="polite"><b className="h">${info.t}</b><span>${rich(info.d)}</span></div>
+    </section>
+    <section className="frame">
+      <h2>La maturation des lymphocytes</h2>
+      <div className="cols">
+        <div className="box"><b>Lymphocytes B</b><p className="small">${rich("Naissent dans la moelle osseuse **et** y achèvent leur maturation.")}</p><p className="small muted">${rich("**B** comme *bone marrow*, moelle osseuse en anglais.")}</p></div>
+        <div className="box"><b>Lymphocytes T</b><p className="small">${rich("Naissent dans la moelle osseuse puis **migrent vers le thymus** pour y être maturés.")}</p><p className="small muted">${rich("**T** comme **thymus**.")}</p></div>
+      </div>
+      <${Msg} kind="pos" title="À retenir"><ul>
+        <li>${rich("Maturation = devenir capable de défendre l'organisme : devenir **immunocompétent**.")}</li>
+        <li>${rich("Ensuite, les LB et LT migrent vers les **organes lymphoïdes secondaires**, où les réponses immunes seront engagées.")}</li>
+        <li>${rich("Lignée lymphoïde → **LB et LT** seulement. Tout le reste vient de la lignée **myéloïde**.")}</li>
+      </ul><//>
+    </section>
+  <//>`;
+}
+
+/* =========================================================
+   EXERCICES, QUIZ, MÉMO, ACCUEIL
+   ========================================================= */
+function Exercises({fam, setFam, go}){
+  const {prog} = useContext(Prog);
+  const F = FAMILIES.find(f=>f.id===fam);
+  const done = f => f.ex.filter(e=>prog[e.id]==='ok'||prog[e.id]==='seen').length;
+  const lvlNames = {1:'Niveau 1 · Reconnaître', 2:'Niveau 2 · Appliquer', 3:'Niveau 3 · Transférer'};
+  let last = 0;
+  return html`<div className="wrap">
+    <div className="frame">
+      <span className="eyebrow">S'entraîner</span>
+      <h1>Exercices par famille</h1>
+      <p className="goal">${rich("Chaque famille commence par un **exercice résolu** : lis-le étape par étape, puis fais les exercices, du niveau 1 au niveau 3. La correction s'ouvre après ta première vérification.")}</p>
+      <div className="tabs" role="tablist">${FAMILIES.map(f=>html`<button key=${f.id} className="tab" role="tab" aria-selected=${fam===f.id} onClick=${()=>setFam(f.id)}>${f.id} · ${f.short}<small className="num">${done(f)}/${f.ex.length}</small></button>`)}</div>
+      <div className="row" style=${{justifyContent:'space-between'}}>
+        <div><h2>Famille ${F.id} · ${F.title}</h2><p className="small muted">${F.goal}</p></div>
+        <button className="btn flat" onClick=${()=>go(F.lesson)}>Revoir le cours</button>
+      </div>
+    </div>
+    <${Worked} key=${'w-'+F.id} w=${F.worked}/>
+    <div className="lvlhead">À toi</div>
+    ${F.ex.map((ex,i)=>{
+      const head = ex.level!==last ? html`<div className="lvlhead" key=${'h'+ex.id}>${lvlNames[ex.level]}</div>` : null;
+      last = ex.level;
+      return html`<div key=${ex.id} style=${{display:'flex',flexDirection:'column',gap:'12px'}}>${head}<${Exercise} ex=${ex} num=${F.id+(i+1)}/></div>`;
+    })}
+    <div className="frame"><div className="footnav">
+      ${FAMILIES.indexOf(F)>0 ? html`<button className="btn flat" onClick=${()=>{ setFam(FAMILIES[FAMILIES.indexOf(F)-1].id); window.scrollTo(0,0); }}>← Famille ${FAMILIES[FAMILIES.indexOf(F)-1].id}</button>` : html`<span></span>`}
+      ${FAMILIES.indexOf(F)<FAMILIES.length-1 ? html`<button className="btn primary" onClick=${()=>{ setFam(FAMILIES[FAMILIES.indexOf(F)+1].id); window.scrollTo(0,0); }}>Famille ${FAMILIES[FAMILIES.indexOf(F)+1].id} →</button>` : html`<button className="btn primary" onClick=${()=>go('quiz')}>Quiz final →</button>`}
+    </div></div>
+  </div>`;
+}
+
+function Quiz({go}){
+  const {mark, prog} = useContext(Prog);
+  const [i, setI] = useState(0);
+  const [sel, setSel] = useState(null);
+  const [val, setVal] = useState(false);
+  const [res, setRes] = useState([]);
+  const end = i>=QUIZ.length;
+  const restart = () => { setI(0); setSel(null); setVal(false); setRes([]); };
+  if (end){
+    const score = res.filter(Boolean).length;
+    const wrong = QUIZ.map((q,k)=>({q,k})).filter(x=>!res[x.k]);
+    return html`<div className="wrap"><div className="frame">
+      <span className="eyebrow">Quiz final</span>
+      <h1 className="num">${score} / ${QUIZ.length}</h1>
+      <p className="goal">${score===QUIZ.length ? 'Tout est juste. Refais ce quiz dans quelques jours pour ancrer durablement.' : score>=9 ? 'Bon résultat. Revois les points ci-dessous, puis refais le quiz plus tard.' : 'Revois les parties indiquées, refais les exercices de la famille, puis retente le quiz.'}</p>
+      ${wrong.length ? html`<div className="items">${wrong.map(({q,k})=>{ const L = LESSONS.find(l=>l.id===q.m); return html`<div key=${k} className="item"><div className="t" style=${{flexDirection:'column',gap:'2px'}}><b>${q.q}</b><span className="small">${q.o[q.a]}. ${q.e}</span></div><button className="btn flat" onClick=${()=>go(q.m)}>Revoir : ${L.label}</button></div>`; })}</div>` : null}
+      <div className="row"><button className="btn primary" onClick=${restart}>Recommencer</button><button className="btn" onClick=${()=>go('memo')}>Fiche mémo</button></div>
+    </div></div>`;
+  }
+  const q = QUIZ[i];
+  const validate = () => { const ok = sel===q.a; const r = [...res]; r[i] = ok; setRes(r); setVal(true);
+    if (i===QUIZ.length-1){ const sc = r.filter(Boolean).length; if (!prog['quiz-best'] || sc > prog['quiz-best']) mark('quiz-best', sc); } };
+  return html`<div className="wrap"><div className="frame">
+    <span className="eyebrow">Quiz final · questions mélangées de tout le chapitre</span>
+    <div className="qprog" aria-hidden="true">${QUIZ.map((_,k)=>html`<i key=${k} className=${k<i ? (res[k]?'ok':'ko') : k===i ? 'cur' : ''}></i>`)}</div>
+    <h2>Question ${i+1} sur ${QUIZ.length}</h2>
+    <p className="prompt">${q.q}</p>
+    <div className="opts" role="radiogroup">${q.o.map((o,k)=>{
+      let cls = 'opt'; if (val && k===q.a) cls+=' good'; else if (val && k===sel) cls+=' bad';
+      return html`<button key=${k} className=${cls} role="radio" aria-checked=${sel===k?'true':'false'} disabled=${val} onClick=${()=>setSel(k)}><span className="mk"></span><span>${o}</span></button>`;
+    })}</div>
+    ${val ? html`<${Msg} kind=${sel===q.a?'pos':'neg'} title=${sel===q.a?'Juste':'La bonne réponse : '+q.o[q.a]}><p>${q.e}</p><//>` : null}
+    <div className="row">${!val ? html`<button className="btn primary" disabled=${sel===null} onClick=${validate}>Valider</button>` : html`<button className="btn primary" onClick=${()=>{ setI(i+1); setSel(null); setVal(false); }}>${i===QUIZ.length-1 ? 'Voir mon score' : 'Question suivante'}</button>`}</div>
+    ${prog['quiz-best']!==undefined ? html`<p className="small muted num">Meilleur score : ${prog['quiz-best']} / ${QUIZ.length}</p>` : null}
+  </div></div>`;
+}
+
+function K({children}){ const [s, setS] = useState(false); return html`<span className=${'k'+(s?' show':'')} onClick=${()=>setS(true)}>${children}</span>`; }
+function Memo(){
+  const [hide, setHide] = useState(false);
+  return html`<div className="wrap">
+    <div className="frame">
+      <span className="eyebrow">Mémoriser</span>
+      <h1>Fiche mémo</h1>
+      <p className="goal">${rich("Active « Cacher les mots-clés », essaie de retrouver chaque mot de mémoire, puis clique dessus pour vérifier. Se tester est plus efficace que relire.")}</p>
+      <div className="row"><button className="btn" aria-pressed=${hide?'true':'false'} onClick=${()=>setHide(!hide)}>${hide?'Afficher les mots-clés':'Cacher les mots-clés'}</button></div>
+    </div>
+    <div className=${'memo'+(hide?' hidek':'')} key=${hide?'h':'v'}>
+      <div className="box"><h3>Sang, liquide interstitiel, lymphe</h3><ul>
+        <li>Les cellules baignent dans le <${K}>liquide interstitiel<//>, issu du <${K}>plasma<//>.</li>
+        <li>L'<${K}>excès<//> de liquide interstitiel entre dans les capillaires lymphatiques : c'est la <${K}>lymphe<//>.</li>
+        <li>Les globules blancs traversent la paroi des capillaires : la <${K}>diapédèse<//>.</li>
+        <li>La lymphe rejoint le sang par le <${K}>canal thoracique<//>.</li>
+      </ul></div>
+      <div className="box"><h3>Organes lymphoïdes</h3><ul>
+        <li>Primaires : <${K}>moelle osseuse rouge<//> et <${K}>thymus<//>.</li>
+        <li>Secondaires : <${K}>ganglions<//>, rate, amygdales, végétations, appendice, follicules intestinaux.</li>
+        <li>Les lymphocytes y <${K}>rencontrent les agresseurs<//>.</li>
+      </ul></div>
+      <div className="box"><h3>Cellules du sang</h3><ul>
+        <li>Sang : <${K}>55 %<//> de plasma, 45 % de cellules.</li>
+        <li>Hématies : transport de l'<${K}>O₂<//> et du CO₂. Plaquettes : <${K}>coagulation<//>.</li>
+        <li>Leucocytes : <${K}>défense<//> de l'organisme.</li>
+      </ul></div>
+      <div className="box"><h3>Trois familles de leucocytes</h3><ul>
+        <li><${K}>Granulocytes<//> : noyau lobé, les plus nombreux.</li>
+        <li><${K}>Monocytes<//> : noyau en haricot → <${K}>macrophages<//> dans les tissus.</li>
+        <li><${K}>Lymphocytes<//> B et T : seuls à agir de façon <${K}>spécifique<//>.</li>
+      </ul></div>
+      <div className="box"><h3>Analyse sanguine</h3><ul>
+        <li>Comparer chaque valeur à la <${K}>valeur de référence<//>.</li>
+        <li>Leucocytes en hausse → <${K}>infection<//>.</li>
+        <li>Hématies en baisse → <${K}>anémie<//>. Leucocytes en baisse → <${K}>immunodépression<//>.</li>
+      </ul></div>
+      <div className="box"><h3>Cellules souches</h3><ul>
+        <li>Deux propriétés : <${K}>auto-renouvellement<//> et <${K}>différenciation<//>.</li>
+        <li>Toti → pluri → <${K}>multi<//> → uni.</li>
+        <li>Till et McCulloch : la moelle contient des cellules souches <${K}>hématopoïétiques<//>.</li>
+      </ul></div>
+      <div className="box"><h3>Hématopoïèse</h3><ul>
+        <li>Lignée <${K}>myéloïde<//> : hématies, plaquettes, granulocytes, monocytes, mastocytes.</li>
+        <li>Lignée <${K}>lymphoïde<//> : lymphocytes B et T.</li>
+        <li>LB mûrissent dans la <${K}>moelle osseuse<//>, LT dans le <${K}>thymus<//> : ils deviennent <${K}>immunocompétents<//>.</li>
+      </ul></div>
+    </div>
+  </div>`;
+}
+
+function Home({go, reset}){
+  const {prog} = useContext(Prog);
+  const quickDone = Object.keys(QUICK).filter(k=>QUICK[k].every(q=>prog[q.id]==='ok')).length;
+  const exAll = FAMILIES.flatMap(f=>f.ex), exDone = exAll.filter(e=>prog[e.id]==='ok'||prog[e.id]==='seen').length;
+  const [confirm, setConfirm] = useState(false);
+  return html`<div className="wrap">
+    <div className="frame">
+      <span className="eyebrow">Biologie · 5e secondaire, sciences générales · UAA5 « L'organisme humain se protège »</span>
+      <h1>Chapitre 2 · Les composants du système immunitaire</h1>
+      <p className="goal">${rich("Le système lymphatique, les cellules du sang, la lecture d'une analyse sanguine, les cellules souches et la naissance des cellules du sang.")}</p>
+      <div className="sep"></div>
+      <h2>Comment travailler</h2>
+      <ol className="homesteps">
+        <li>${rich("Lis **une partie du cours** à la fois. Les schémas s'explorent étape par étape.")}</li>
+        <li>${rich("Réponds aux deux questions **« Vérifie que tu as compris »** sans relire.")}</li>
+        <li>${rich("Ouvre la **famille d'exercices** de la partie : lis l'exercice résolu, puis fais les niveaux 1, 2 et 3.")}</li>
+        <li>${rich("Termine par le **quiz final** et la **fiche mémo** ; refais-les quelques jours plus tard.")}</li>
+      </ol>
+      <div className="row"><button className="btn primary" onClick=${()=>go('echanges')}>Commencer le cours</button><button className="btn" onClick=${()=>go('exercices','A')}>Aller aux exercices</button></div>
+    </div>
+    <div className="frame">
+      <h2>Ta progression</h2>
+      <div className="cols">
+        <div className="box"><span className="muted small">Parties de cours vérifiées</span><b className="num" style=${{fontSize:'1.4rem'}}>${quickDone} / 6</b></div>
+        <div className="box"><span className="muted small">Exercices faits</span><b className="num" style=${{fontSize:'1.4rem'}}>${exDone} / ${exAll.length}</b></div>
+        <div className="box"><span className="muted small">Meilleur score au quiz</span><b className="num" style=${{fontSize:'1.4rem'}}>${prog['quiz-best']!==undefined ? prog['quiz-best']+' / '+QUIZ.length : '—'}</b></div>
+      </div>
+      <p className="small muted">La progression est enregistrée dans ce navigateur uniquement.</p>
+      ${!confirm ? html`<div><button className="btn flat" onClick=${()=>setConfirm(true)}>Effacer ma progression</button></div>` : html`<div className="row"><span className="small">Tout effacer ?</span><button className="btn" onClick=${()=>{ reset(); setConfirm(false); }}>Oui, effacer</button><button className="btn flat" onClick=${()=>setConfirm(false)}>Annuler</button></div>`}
+      <details><summary>Principes pédagogiques utilisés</summary>
+        <div className="prose small">
+          <p>${rich("**Charge cognitive** : le cours est découpé en six parties courtes ; les schémas se dévoilent étape par étape ; les détails secondaires (VGM, TCMH, CCMH) sont repliés.")}</p>
+          <p>${rich("**Apprentissage multimédia** : texte et images côte à côte, couleurs constantes (rouge = sang, vert = lymphe, bleu = liquide interstitiel), cellules dessinées à la même échelle.")}</p>
+          <p>${rich("**Exemple résolu puis estompage** : chaque famille démarre par un raisonnement modélisé, suivi d'exercices de plus en plus autonomes (reconnaître, appliquer, transférer).")}</p>
+          <p>${rich("**Récupération en mémoire** : questions de vérification, quiz mélangé, fiche mémo à trous.")}</p>
+        </div>
+      </details>
+    </div>
+  </div>`;
+}
+
+/* =========================================================
+   APPLICATION
+   ========================================================= */
+const NAV = [
+  {g:'Démarrer', items:[{id:'accueil', label:'Accueil'}]},
+  {g:'Cours', items:LESSONS.map(l=>({id:l.id, label:l.label, n:l.n}))},
+  {g:"S'entraîner", items:[{id:'exercices', label:'Exercices par famille'},{id:'quiz', label:'Quiz final'}]},
+  {g:'Mémoriser', items:[{id:'memo', label:'Fiche mémo'}]}
+];
+const IDS = NAV.flatMap(g=>g.items.map(i=>i.id));
+
+function App(){
+  const [view, setView] = useState(()=>{ const h = (location.hash||'').slice(1); return IDS.includes(h) ? h : 'accueil'; });
+  const [fam, setFam] = useState('A');
+  const [prog, setProg] = useState(load);
+  const [big, setBig] = useState(()=>{ try { return localStorage.getItem(KEY+'-big')==='1'; } catch(e){ return false; } });
+  useEffect(()=>{ document.documentElement.classList.toggle('big', big); try { localStorage.setItem(KEY+'-big', big?'1':'0'); } catch(e){} }, [big]);
+  const go = (v, f) => { if (f) setFam(f); setView(v); try { history.replaceState(null,'','#'+v); } catch(e){} window.scrollTo(0,0); };
+  const mark = (id, st) => setProg(p => { if (p[id]==='ok' && st!=='ok') return p; if (p[id]===st) return p; const n = {...p, [id]:st}; save(n); return n; });
+  const reset = () => { setProg({}); save({}); };
+
+  const exAll = FAMILIES.flatMap(f=>f.ex);
+  const total = exAll.length + Object.values(QUICK).flat().length;
+  const done = exAll.filter(e=>prog[e.id]==='ok'||prog[e.id]==='seen').length + Object.values(QUICK).flat().filter(q=>prog[q.id]==='ok').length;
+  const pct = Math.round(done/total*100);
+  const lessonDone = id => (QUICK[id]||[]).every(q=>prog[q.id]==='ok');
+  const exCount = exAll.filter(e=>prog[e.id]==='ok'||prog[e.id]==='seen').length;
+
+  let page;
+  switch(view){
+    case 'echanges': page = html`<${LessonEchanges} go=${go}/>`; break;
+    case 'anatomie': page = html`<${LessonAnatomie} go=${go}/>`; break;
+    case 'cellules': page = html`<${LessonCellules} go=${go}/>`; break;
+    case 'analyse': page = html`<${LessonAnalyse} go=${go}/>`; break;
+    case 'souches': page = html`<${LessonSouches} go=${go}/>`; break;
+    case 'hemato': page = html`<${LessonHemato} go=${go}/>`; break;
+    case 'exercices': page = html`<${Exercises} fam=${fam} setFam=${setFam} go=${go}/>`; break;
+    case 'quiz': page = html`<${Quiz} go=${go}/>`; break;
+    case 'memo': page = html`<${Memo}/>`; break;
+    default: page = html`<${Home} go=${go} reset=${reset}/>`;
+  }
+
+  return html`<${Prog.Provider} value=${{prog, mark}}>
+    <header className="top">
+      <svg width="28" height="28" viewBox="0 0 28 28" aria-hidden="true"><rect x="1" y="1" width="26" height="26" rx="5" fill="var(--accent-bg)" stroke="var(--accent)"/><circle cx="14" cy="14" r="8" fill="var(--cyto)" stroke="var(--nuc)"/><path d="M10.5,12.5 C10.5,9.5 17.5,9.3 18,12.6 C18.6,15.6 16.5,17.6 14.2,17.3 C13.2,17.2 13.6,15.4 12.3,15.5 C11,15.6 10.5,14.8 10.5,12.5Z" fill="var(--nuc)"/></svg>
+      <div className="ttl"><b>Les composants du système immunitaire</b><span>Biologie · 5e secondaire · UAA5</span></div>
+      <div className="meter" title="Progression"><span className="bar"><i style=${{width:pct+'%'}}></i></span><span className="num">${pct} %</span></div>
+      <button className="btn flat" aria-pressed=${big?'true':'false'} onClick=${()=>setBig(!big)} title="Agrandir le texte">${big ? 'A−' : 'A+'}</button>
+    </header>
+    <div className="shell">
+      <nav className="side" aria-label="Sommaire">
+        ${NAV.map(g=>html`<${React.Fragment} key=${g.g}><div className="grp">${g.g}</div>
+          ${g.items.map(it=>html`<button key=${it.id} className="navi" aria-current=${view===it.id?'page':null} onClick=${()=>go(it.id)}>
+            ${it.n ? html`<span className=${'n'+(lessonDone(it.id)?' done':'')}>${lessonDone(it.id)?'✓':it.n}</span>` : null}
+            <span className="lab">${it.label}</span>
+            ${it.id==='exercices' ? html`<span className="cnt num">${exCount}/${exAll.length}</span>` : null}
+            ${it.id==='quiz' && prog['quiz-best']!==undefined ? html`<span className="cnt num">${prog['quiz-best']}/${QUIZ.length}</span>` : null}
+          </button>`)}
+        <//>`)}
+      </nav>
+      <main>${page}</main>
+    </div>
+  <//>`;
+}
+
+/* classes SVG des cellules */
+const st = document.createElement('style');
+st.textContent = `.s-cyto{fill:var(--cyto);stroke:var(--nuc);stroke-width:.2;stroke-opacity:.55}.s-nuc{fill:var(--nuc)}.s-link{fill:none;stroke:var(--nuc);stroke-width:.8}.s-gr{fill:var(--gr)}.s-grc{fill:var(--view);opacity:.45}.s-gran{fill:var(--gran)}.s-dgran{fill:var(--nuc);opacity:.9}.s-fine{fill:var(--nuc);opacity:.4}.s-plq{fill:var(--sec);opacity:.8}`;
+document.head.appendChild(st);
+
+ReactDOM.createRoot(document.getElementById('root')).render(html`<${App}/>`);
+})();
+</script>
+
+</body></html>
