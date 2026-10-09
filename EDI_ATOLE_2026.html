@@ -1,0 +1,981 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Synthèse ATOLE 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;500;600;700&family=Noto+Sans+Mono:wght@400;500&display=swap">
+<style>
+/* Layout : fenêtre façon « Configuration du système » de KDE — barre latérale de sections à gauche, une page à la fois, contenu en cadres Breeze. */
+:root {
+  --win: #EFF0F1;          /* Cardboard Grey : fond de fenêtre */
+  --view: #FCFCFC;         /* Paper White : fond des vues */
+  --view-alt: #F3F4F5;
+  --line: #D3D7DB;
+  --line-strong: #BDC3C7;  /* Alternate Grey */
+  --ink: #232629;          /* Shade Black */
+  --ink-2: #4A5056;
+  --ink-3: #676E75;
+  --accent: #3DAEE9;       /* Plasma Blue : sélection, focus */
+  --accent-tint: rgba(61, 174, 233, 0.14);
+  --accent-line: rgba(61, 174, 233, 0.6);
+  --data: #2980B9;         /* Abyss Blue : marques 2026 */
+  --data-ctx: #9AA3AA;     /* gris de contexte : années précédentes */
+  --grid: #E4E7EA;
+  --good: #27AE60;
+  --good-tint: rgba(39, 174, 96, 0.14);
+  --warn: #E67700;
+  --warn-tint: rgba(230, 119, 0, 0.13);
+  --neutral-tint: rgba(103, 110, 117, 0.12);
+  --shadow: 0 1px 2px rgba(35, 38, 41, 0.06);
+  --font: "Noto Sans", "Noto Sans UI", "Segoe UI", system-ui, -apple-system, sans-serif;
+  --mono: "Noto Sans Mono", "Hack", "DejaVu Sans Mono", ui-monospace, monospace;
+  --r: 5px;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --win: #31363B; --view: #232629; --view-alt: #2A2E32; --line: #41474D; --line-strong: #565D64;
+    --ink: #EFF0F1; --ink-2: #C8CDD1; --ink-3: #9EA6AD;
+    --accent: #3DAEE9; --accent-tint: rgba(61, 174, 233, 0.18); --accent-line: rgba(61, 174, 233, 0.65);
+    --data: #2E95D3; --data-ctx: #6E767D; --grid: #33393E;
+    --good: #27AE60; --good-tint: rgba(39, 174, 96, 0.2); --warn: #E06C00; --warn-tint: rgba(224, 108, 0, 0.2);
+    --neutral-tint: rgba(158, 166, 173, 0.14); --shadow: none;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --win: #31363B; --view: #232629; --view-alt: #2A2E32; --line: #41474D; --line-strong: #565D64;
+  --ink: #EFF0F1; --ink-2: #C8CDD1; --ink-3: #9EA6AD;
+  --accent: #3DAEE9; --accent-tint: rgba(61, 174, 233, 0.18); --accent-line: rgba(61, 174, 233, 0.65);
+  --data: #2E95D3; --data-ctx: #6E767D; --grid: #33393E;
+  --good: #27AE60; --good-tint: rgba(39, 174, 96, 0.2); --warn: #E06C00; --warn-tint: rgba(224, 108, 0, 0.2);
+  --neutral-tint: rgba(158, 166, 173, 0.14); --shadow: none;
+  color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+body { background: var(--win); color: var(--ink); font-family: var(--font); font-size: 15px; line-height: 1.5; }
+button { font: inherit; color: inherit; }
+:focus-visible { outline: 1px solid var(--accent); outline-offset: 1px; box-shadow: 0 0 0 3px var(--accent-tint); }
+h1, h2, h3 { text-wrap: balance; margin: 0; }
+p { margin: 0; }
+.muted { color: var(--ink-3); }
+.mono { font-family: var(--mono); }
+.tnum { font-variant-numeric: tabular-nums; }
+
+/* ---------- Fenêtre ---------- */
+.app { display: grid; grid-template-columns: 252px minmax(0, 1fr); min-height: 100vh; }
+.side { background: var(--view); border-right: 1px solid var(--line); padding-block: 18px; display: flex; flex-direction: column; gap: 14px; position: sticky; top: env(safe-area-inset-top, 0px); height: 100vh; overflow-y: auto; }
+.side-head { padding-inline: 18px; display: grid; gap: 2px; }
+.side-kicker { font-size: 12px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink-3); font-weight: 600; }
+.side-title { font-size: 19px; font-weight: 600; }
+.side-sub { font-size: 13px; color: var(--ink-3); }
+.nav { display: grid; gap: 2px; padding-inline: 8px; }
+.nav-btn { display: flex; align-items: center; gap: 10px; padding: 7px 10px; border: 1px solid transparent; border-radius: var(--r); background: none; cursor: pointer; text-align: left; font-size: 14.5px; }
+.nav-btn svg { flex: none; color: var(--ink-2); }
+.nav-btn:hover { background: var(--accent-tint); }
+.nav-btn[aria-current="page"] { background: var(--accent-tint); border-color: var(--accent-line); font-weight: 600; }
+.side-foot { margin-top: auto; padding-inline: 18px; font-size: 12.5px; color: var(--ink-3); }
+
+.main { min-width: 0; padding-block: 28px 40px; padding-inline: clamp(16px, 3.4vw, 44px); }
+.page { max-width: 1120px; margin-inline: auto; display: grid; gap: 20px; }
+.page-head { display: grid; gap: 4px; padding-bottom: 14px; border-bottom: 1px solid var(--line); }
+.page-head h1 { font-size: 26px; font-weight: 600; letter-spacing: -0.005em; }
+.page-head p { color: var(--ink-2); font-size: 15px; }
+
+/* ---------- Composants Breeze ---------- */
+.frame { background: var(--view); border: 1px solid var(--line); border-radius: var(--r); box-shadow: var(--shadow); min-width: 0; }
+.frame-head { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 6px 16px; padding: 14px 18px 0; }
+.frame-head h2 { font-size: 16px; font-weight: 600; }
+.frame-head .hint { font-size: 13px; color: var(--ink-3); }
+.frame-body { padding: 14px 18px 18px; min-width: 0; }
+
+.msg { display: grid; grid-template-columns: 20px minmax(0, 1fr); gap: 10px; align-items: start; padding: 11px 14px; border: 1px solid var(--accent-line); background: var(--accent-tint); border-radius: var(--r); font-size: 15px; }
+.msg.warn { border-color: var(--warn); background: var(--warn-tint); }
+.msg.good { border-color: var(--good); background: var(--good-tint); }
+.msg svg { margin-top: 2px; }
+.msg strong { font-weight: 600; }
+
+.section-head { display: flex; align-items: center; gap: 8px; font-size: 13.5px; font-weight: 600; color: var(--ink-2); padding-block: 12px 6px; }
+.section-head::after { content: ""; flex: 1; height: 1px; background: var(--line); }
+.section-head .muted { font-weight: 400; }
+
+.chip { display: inline-flex; align-items: center; gap: 5px; padding: 1px 8px 1px 6px; border-radius: 999px; font-size: 12.5px; font-weight: 500; border: 1px solid var(--line-strong); background: var(--view); white-space: nowrap; }
+.chip.good { border-color: var(--good); background: var(--good-tint); }
+.chip.warn { border-color: var(--warn); background: var(--warn-tint); }
+.chip.neutral { background: var(--neutral-tint); }
+
+.btn { display: inline-flex; align-items: center; gap: 6px; padding: 6px 12px; border: 1px solid var(--line-strong); border-radius: var(--r); background: var(--view); cursor: pointer; font-size: 14px; }
+.btn:hover { border-color: var(--accent); background: var(--accent-tint); }
+.linkbtn { background: none; border: 0; padding: 0; color: var(--data); cursor: pointer; font-size: 14px; font-weight: 500; text-align: left; }
+.linkbtn:hover { text-decoration: underline; }
+
+.pager { display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; padding-top: 6px; }
+
+.legend { display: flex; flex-wrap: wrap; gap: 6px 18px; font-size: 13px; color: var(--ink-2); }
+.legend span { display: inline-flex; align-items: center; gap: 6px; }
+.key-bar { width: 14px; height: 10px; border-radius: 0 2px 2px 0; background: var(--data); }
+.key-bar.ctx { background: var(--data-ctx); }
+.key-tick { width: 2px; height: 14px; background: var(--ink); }
+.key-dot { width: 10px; height: 10px; border-radius: 50%; background: var(--data); }
+.key-dot.ctx { background: var(--data-ctx); }
+.key-ref { width: 2px; height: 14px; background: var(--ink-3); }
+
+blockquote { margin: 0; padding: 8px 12px; border-left: 2px solid var(--line-strong); background: var(--view-alt); border-radius: 0 var(--r) var(--r) 0; font-size: 14.5px; color: var(--ink-2); }
+blockquote cite { display: block; font-style: normal; font-size: 12.5px; color: var(--ink-3); margin-top: 3px; font-family: var(--mono); }
+
+/* ---------- Vue d'ensemble ---------- */
+.hero { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 2fr); gap: 20px; align-items: stretch; }
+.hero-fig { display: grid; align-content: center; gap: 4px; padding: 20px 22px; }
+.hero-fig .label { font-size: 14px; color: var(--ink-2); font-weight: 500; }
+.hero-fig .value { font-size: 56px; font-weight: 600; line-height: 1.05; letter-spacing: -0.02em; }
+.hero-fig .delta { font-size: 13.5px; color: var(--ink-3); }
+.tiles { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+.tile { padding: 14px 16px; display: grid; gap: 3px; align-content: start; }
+.tile .label { font-size: 13.5px; color: var(--ink-2); font-weight: 500; }
+.tile .value { font-size: 28px; font-weight: 600; line-height: 1.15; }
+.tile .sub { font-size: 13px; color: var(--ink-3); }
+
+.waffle { display: grid; grid-template-columns: repeat(20, minmax(0, 1fr)); gap: 4px; }
+.wcell { aspect-ratio: 1 / 1.15; max-width: 100%; border: 0; border-top: 3px solid; border-radius: 3px; display: grid; place-items: center; font-family: var(--mono); font-size: 13px; font-weight: 500; cursor: pointer; padding: 0; }
+.wcell.low { background: var(--warn-tint); border-color: var(--warn); }
+.wcell.mid { background: var(--neutral-tint); border-color: var(--data-ctx); }
+.wcell.ok { background: var(--good-tint); border-color: var(--good); }
+.wcell:hover { outline: 1px solid var(--accent); }
+.waffle-legend { display: flex; flex-wrap: wrap; gap: 8px 14px; margin-bottom: 10px; font-size: 13.5px; }
+
+.keys { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+.key { padding: 16px; display: grid; gap: 8px; align-content: start; }
+.key h3 { font-size: 15.5px; font-weight: 600; }
+.key p { font-size: 14.5px; color: var(--ink-2); }
+
+/* ---------- Graphique en barres des affirmations ---------- */
+.split { display: grid; grid-template-columns: minmax(0, 1.45fr) minmax(0, 1fr); gap: 20px; align-items: start; }
+.sticky { position: sticky; top: calc(env(safe-area-inset-top, 0px) + 16px); scroll-margin-top: 120px; }
+.rows { display: grid; }
+.axisrow, .row { display: grid; grid-template-columns: 30px minmax(0, 1fr) minmax(0, 1.15fr); gap: 10px; align-items: center; }
+.row { padding: 4px 6px; margin-inline: -6px; border: 1px solid transparent; border-radius: var(--r); background: none; cursor: pointer; text-align: left; width: calc(100% + 12px); }
+.row:hover { background: var(--view-alt); }
+.row.is-sel { background: var(--accent-tint); border-color: var(--accent-line); }
+.rnum { font-family: var(--mono); font-size: 13px; color: var(--ink-3); text-align: right; }
+.rlabel { font-size: 14px; line-height: 1.3; min-width: 0; }
+.row.strong .rlabel { font-weight: 600; }
+.track { position: relative; height: 24px; }
+.plot { position: absolute; inset: 0 46px 0 0; }
+.gl { position: absolute; top: -2px; bottom: -2px; width: 1px; background: var(--grid); }
+.bar { position: absolute; left: 0; top: 6px; height: 12px; background: var(--data); border-radius: 0 4px 4px 0; }
+.bar.ctx { background: var(--data-ctx); }
+.tick { position: absolute; top: 2px; height: 20px; width: 2px; margin-left: -1px; background: var(--ink); box-shadow: 0 0 0 1.5px var(--view); border-radius: 1px; }
+.val { position: absolute; top: 50%; transform: translateY(-50%); margin-left: 6px; font-size: 12.5px; font-variant-numeric: tabular-nums; color: var(--ink-2); white-space: nowrap; }
+.axis { position: relative; height: 18px; }
+.axis span { position: absolute; transform: translateX(-50%); font-size: 11.5px; color: var(--ink-3); font-variant-numeric: tabular-nums; }
+
+.detail { display: grid; gap: 14px; }
+.detail-top { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 10px; }
+.detail-top h2 { font-size: 17px; font-weight: 600; }
+.statement { font-size: 16px; line-height: 1.45; }
+.kv { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 4px 12px; font-size: 14px; }
+.kv dt { color: var(--ink-3); }
+.kv dd { margin: 0; }
+.sub-h { font-size: 13px; font-weight: 600; color: var(--ink-2); margin-bottom: 6px; }
+.minis { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); gap: 16px; }
+.mini { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 6px; align-items: end; height: 92px; }
+.mini-col { display: grid; grid-template-rows: auto 1fr auto; height: 100%; text-align: center; gap: 2px; }
+.mini-col .v { font-size: 12px; color: var(--ink-2); font-variant-numeric: tabular-nums; }
+.mini-col .c { display: flex; align-items: flex-end; justify-content: center; }
+.mini-col .c i { display: block; width: min(22px, 100%); border-radius: 3px 3px 0 0; background: var(--data); min-height: 2px; }
+.mini-col .c i.ctx { background: var(--data-ctx); }
+.mini-col .l { font-size: 11.5px; color: var(--ink-3); border-top: 1px solid var(--line); padding-top: 2px; }
+.mini-cap { display: flex; justify-content: space-between; font-size: 11.5px; color: var(--ink-3); margin-top: 3px; }
+
+/* ---------- Notions ---------- */
+.ok-list { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+.ok-item { padding: 14px 16px; display: grid; gap: 8px; align-content: start; }
+.ok-item h3, .fx h3 { font-size: 15px; font-weight: 600; display: flex; align-items: center; gap: 8px; }
+.ok-item .meta, .fx .meta { font-size: 13px; color: var(--ink-3); }
+.fx { padding: 16px; display: grid; gap: 12px; }
+.fx-head { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: baseline; gap: 4px 12px; }
+.fx-cols { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 14px; }
+.fx-cols .lbl { font-size: 12px; text-transform: uppercase; letter-spacing: 0.05em; font-weight: 600; color: var(--ink-3); margin-bottom: 5px; }
+.fx-cols .atole { font-size: 14.5px; padding: 8px 12px; border-left: 2px solid var(--data); background: var(--accent-tint); border-radius: 0 var(--r) var(--r) 0; }
+.fx-grid { display: grid; gap: 12px; }
+
+/* ---------- Comparaison ---------- */
+.svgwrap { width: 100%; }
+.svgwrap svg { display: block; overflow: visible; }
+.svgwrap text { font-family: var(--font); }
+.dumb-line { position: absolute; top: 11px; height: 2px; background: var(--line-strong); }
+.dot { position: absolute; top: 50%; width: 12px; height: 12px; margin: -6px 0 0 -6px; border-radius: 50%; background: var(--data); box-shadow: 0 0 0 2px var(--view); }
+.dot.ctx { background: var(--data-ctx); }
+.diff { position: absolute; right: 0; top: 50%; transform: translateY(-50%); font-size: 12.5px; font-variant-numeric: tabular-nums; color: var(--ink-2); width: 40px; text-align: right; }
+.row.strong .diff { font-weight: 700; color: var(--ink); }
+.rec { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; }
+.rec .frame { padding: 14px; display: grid; gap: 8px; align-content: start; }
+.rec h3 { font-size: 14.5px; font-weight: 600; }
+.rec p { font-size: 13px; color: var(--ink-3); }
+.vrow { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr); gap: 12px; align-items: center; padding-block: 5px; border-bottom: 1px solid var(--grid); }
+.vrow:last-child { border-bottom: 0; }
+.vtrack { position: relative; height: 30px; }
+.vtrack .plot { inset: 0 46px 0 0; }
+.vbar { position: absolute; left: 0; height: 11px; border-radius: 0 4px 4px 0; background: var(--data); }
+.vbar.ctx { background: var(--data-ctx); }
+.vval { position: absolute; margin-left: 6px; font-size: 12px; line-height: 11px; color: var(--ink-2); font-variant-numeric: tabular-nums; }
+.tablewrap { overflow-x: auto; }
+table { border-collapse: collapse; width: 100%; font-size: 14px; font-variant-numeric: tabular-nums; }
+th, td { padding: 7px 10px; text-align: right; border-bottom: 1px solid var(--line); white-space: nowrap; }
+th:first-child, td:first-child { text-align: left; }
+th { font-weight: 600; font-size: 13px; color: var(--ink-2); background: var(--view-alt); }
+tr.hl td { background: var(--accent-tint); font-weight: 600; }
+
+/* ---------- Participants ---------- */
+.prow { grid-template-columns: 92px minmax(0, 1fr); }
+.prow .pid { display: grid; line-height: 1.2; }
+.prow .pid b { font-family: var(--mono); font-weight: 500; font-size: 14px; }
+.prow .pid small { font-size: 12px; color: var(--ink-3); }
+.paxis { grid-template-columns: 92px minmax(0, 1fr); }
+.ref { position: absolute; top: -4px; bottom: -4px; width: 2px; margin-left: -1px; background: var(--ink-3); opacity: 0.55; }
+.group-note { font-size: 13px; color: var(--ink-3); margin: -2px 0 4px; }
+.pscore { font-size: 44px; font-weight: 600; line-height: 1.05; }
+.misslist { display: flex; flex-wrap: wrap; gap: 6px; }
+.misslist .chip { cursor: pointer; font-family: var(--mono); }
+.misslist .chip:hover { border-color: var(--accent); }
+
+/* ---------- Pistes & méthode ---------- */
+.actions { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+.action { padding: 16px; display: grid; gap: 6px; align-content: start; }
+.action h3 { font-size: 15px; font-weight: 600; }
+.action .meta { font-size: 13px; color: var(--ink-3); font-family: var(--mono); }
+.action p { font-size: 14.5px; color: var(--ink-2); }
+.quotes { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+.prose { display: grid; gap: 10px; max-width: 72ch; font-size: 14.5px; color: var(--ink-2); }
+.prose h3 { font-size: 15px; color: var(--ink); font-weight: 600; margin-top: 6px; }
+.prose ul { margin: 0; padding-left: 18px; display: grid; gap: 5px; }
+.prose b { color: var(--ink); font-weight: 600; }
+
+/* ---------- Infobulle ---------- */
+.tip { position: fixed; z-index: 50; pointer-events: none; background: var(--view); border: 1px solid var(--line-strong); border-radius: var(--r); padding: 7px 10px; font-size: 13px; box-shadow: 0 4px 14px rgba(0, 0, 0, 0.14); max-width: 280px; }
+.tip b { font-size: 15px; font-weight: 600; display: block; }
+.tip span { color: var(--ink-2); }
+
+/* ---------- Écrans étroits ---------- */
+@media (max-width: 980px) {
+  .split { grid-template-columns: minmax(0, 1fr); }
+  .sticky { position: static; }
+  .rec { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .hero { grid-template-columns: minmax(0, 1fr); }
+}
+@media (max-width: 820px) {
+  .app { grid-template-columns: minmax(0, 1fr); }
+  .side { position: sticky; top: env(safe-area-inset-top, 0px); height: auto; z-index: 10; flex-direction: column; padding-block: 10px 0; gap: 6px; border-right: 0; border-bottom: 1px solid var(--line); }
+  .side-head { padding-inline: 16px; display: flex; align-items: baseline; gap: 8px; flex-wrap: wrap; }
+  .side-kicker, .side-foot { display: none; }
+  .side-title { font-size: 16px; }
+  .nav { display: flex; overflow-x: auto; padding-inline: 10px; padding-bottom: 8px; scrollbar-width: thin; }
+  .nav-btn { flex: none; padding: 5px 10px; font-size: 14px; }
+  .keys, .tiles, .ok-list, .actions, .quotes, .fx-cols, .minis { grid-template-columns: minmax(0, 1fr); }
+  .waffle { grid-template-columns: repeat(10, minmax(0, 1fr)); }
+}
+@media (max-width: 560px) {
+  .row, .axisrow { grid-template-columns: 24px minmax(0, 1fr); row-gap: 2px; }
+  .row .track, .axisrow .axis { grid-column: 2; }
+  .prow, .paxis { grid-template-columns: 70px minmax(0, 1fr); }
+  .prow .track, .paxis .axis { grid-column: auto; }
+  .rec { grid-template-columns: minmax(0, 1fr); }
+  .vrow { grid-template-columns: minmax(0, 1fr); gap: 2px; }
+  .hero-fig .value { font-size: 48px; }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .row, .nav-btn, .btn, .wcell { transition: background-color 120ms ease, border-color 120ms ease; }
+}
+</style>
+
+<div id="root"></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.3.1/umd/react.production.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.3.1/umd/react-dom.production.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/htm@3.1.1/dist/htm.umd.js"></script>
+<script>
+(function () {
+const { useState, useEffect, useRef, useCallback } = React;
+const html = htm.bind(React.createElement);
+const DATA = {"items":[{"n":1,"full":"Nous sommes plus facilement distraits par ce qui est amusant, plaisant ou nouveau.","exp":"A","y":[83,76,80,78],"prev":80,"franc":70,"dist":[2,3,2,16]},{"n":2,"full":"On peut réaliser correctement et en même temps deux tâches qui demandent de la concentration.","exp":"D","y":[92,76,73,65],"prev":82,"franc":26,"dist":[6,9,5,3]},{"n":3,"full":"Il est fréquent d’essayer, sans s’en rendre compte, de se concentrer sur deux choses à la fois.","exp":"A","y":[83,94,93,96],"prev":89,"franc":52,"dist":[1,0,10,12]},{"n":4,"full":"Il est facile de faire attention aux bonnes choses.","exp":"D","y":[54,76,67,74],"prev":64,"franc":26,"dist":[6,11,3,3]},{"n":5,"full":"Pour réussir une action, il suffit juste de faire attention.","exp":"D","y":[92,88,93,87],"prev":91,"franc":65,"dist":[15,5,2,1]},{"n":6,"full":"Quelle que soit la situation, il faut toujours réfléchir à ce à quoi on doit faire attention.","exp":"D","y":[50,53,40,39],"prev":48,"franc":17,"dist":[4,5,9,5]},{"n":7,"full":"Lorsque nous sommes distraits, notre regard et notre corps se tournent spontanément vers ce qui nous a distrait.","exp":"A","y":[58,88,47,74],"prev":64,"franc":26,"dist":[3,3,11,6]},{"n":8,"full":"Chaque tâche s’accompagne d’une intention sans laquelle il est impossible de se concentrer.","exp":"A","y":[79,88,87,70],"prev":84,"franc":39,"dist":[1,6,7,9]},{"n":9,"full":"Il est facile de réfléchir et d’agir en même temps.","exp":"D","y":[71,65,80,78],"prev":71,"franc":17,"dist":[4,14,4,1]},{"n":10,"full":"Il est facile de garder la même intention en tête pendant plusieurs minutes.","exp":"D","y":[62,76,93,78],"prev":75,"franc":39,"dist":[9,9,5,0]},{"n":11,"full":"Indépendamment de leur caractère agréable ou désagréable, certaines choses attirent spontanément l’attention.","exp":"A","y":[92,100,93,96],"prev":95,"franc":87,"dist":[0,1,2,20]},{"n":12,"full":"Notre attention ne porte pas toujours spontanément sur ce qui est le plus utile.","exp":"A","y":[92,100,87,100],"prev":93,"franc":74,"dist":[0,0,6,17]},{"n":13,"full":"Être prévenu qu’il va bientôt falloir se concentrer aide à l’être.","exp":"A","y":[92,94,87,87],"prev":91,"franc":65,"dist":[0,3,5,15]},{"n":14,"full":"La plupart des erreurs que nous commettons au quotidien ne sont pas dues à une incapacité mais à un oubli de se concentrer.","exp":"A","y":[62,71,87,83],"prev":71,"franc":26,"dist":[2,2,13,6]},{"n":15,"full":"Nous pouvons réaliser des actions mentales que personne ne peut remarquer à part nous-mêmes.","exp":"A","y":[96,94,93,91],"prev":95,"franc":74,"dist":[0,2,4,17]},{"n":16,"full":"Faire attention à la bonne cible ne suffit pas toujours, il faut y réagir de la bonne manière.","exp":"A","y":[92,100,93,100],"prev":95,"franc":52,"dist":[0,0,11,12]},{"n":17,"full":"Notre attention peut être si rapidement détournée qu’il est impossible de rester concentré.","exp":"D","y":[58,71,47,61],"prev":59,"franc":26,"dist":[6,8,5,4]},{"n":18,"full":"Toute tâche exige une attention précise et continue.","exp":"D","y":[92,88,87,96],"prev":89,"franc":83,"dist":[19,3,1,0]},{"n":19,"full":"On peut se rendre compte qu’on a des pensées, tout en restant concentré sur ce que l’on a à faire.","exp":"A","y":[88,59,87,78],"prev":79,"franc":26,"dist":[1,4,12,6]},{"n":20,"full":"Notre attention peut se diriger sur des perceptions mentales que nous sommes seuls à percevoir.","exp":"A","y":[100,100,93,100],"prev":98,"franc":87,"dist":[0,0,3,20]}],"parts":[{"id":"P01","date":"30/09","score":70,"franc":10,"nargs":1,"pct":12,"miss":[2,5,6,8,10,17]},{"id":"P02","date":"30/09","score":85,"franc":12,"nargs":20,"pct":62,"miss":[2,4,6]},{"id":"P03","date":"30/09","score":75,"franc":11,"nargs":20,"pct":22,"miss":[1,2,6,14,17]},{"id":"P04","date":"30/09","score":75,"franc":8,"nargs":2,"pct":22,"miss":[2,6,7,13,17]},{"id":"P05","date":"30/09","score":90,"franc":9,"nargs":7,"pct":85,"miss":[13,15]},{"id":"P06","date":"30/09","score":90,"franc":14,"nargs":0,"pct":85,"miss":[6,17]},{"id":"P07","date":"30/09","score":80,"franc":5,"nargs":0,"pct":38,"miss":[6,9,13,19]},{"id":"P08","date":"30/09","score":85,"franc":9,"nargs":3,"pct":62,"miss":[1,2,6]},{"id":"P09","date":"01/10","score":90,"franc":6,"nargs":0,"pct":85,"miss":[2,14]},{"id":"P10","date":"01/10","score":80,"franc":9,"nargs":18,"pct":38,"miss":[5,6,9,14]},{"id":"P11","date":"01/10","score":90,"franc":15,"nargs":20,"pct":85,"miss":[1,7]},{"id":"P12","date":"01/10","score":80,"franc":8,"nargs":18,"pct":38,"miss":[6,8,9,14]},{"id":"P13","date":"01/10","score":75,"franc":6,"nargs":20,"pct":22,"miss":[1,7,11,15,19]},{"id":"P14","date":"02/10","score":80,"franc":9,"nargs":0,"pct":38,"miss":[7,8,17,19]},{"id":"P15","date":"02/10","score":85,"franc":5,"nargs":4,"pct":62,"miss":[6,17,19]},{"id":"P16","date":"03/10","score":70,"franc":13,"nargs":20,"pct":12,"miss":[2,4,7,8,9,10]},{"id":"P17","date":"03/10","score":100,"franc":19,"nargs":20,"pct":100,"miss":[]},{"id":"P18","date":"04/10","score":90,"franc":11,"nargs":20,"pct":85,"miss":[5,8]},{"id":"P19","date":"05/10","score":80,"franc":5,"nargs":20,"pct":38,"miss":[1,3,4,6]},{"id":"P20","date":"05/10","score":75,"franc":12,"nargs":20,"pct":22,"miss":[4,6,8,10,18]},{"id":"P21","date":"06/10","score":70,"franc":10,"nargs":20,"pct":12,"miss":[4,8,9,10,17,19]},{"id":"P22","date":"06/10","score":80,"franc":12,"nargs":20,"pct":38,"miss":[4,6,10,17]},{"id":"P23","date":"07/10","score":80,"franc":7,"nargs":20,"pct":38,"miss":[2,6,7,17]}],"years":[{"y":2023,"n":24,"mean":79.4,"med":80.0,"min":45,"max":95,"sd":9.9,"ge90":12,"le70":17,"franc":10.2,"args":10.1,"scores":[45,65,70,70,75,75,75,75,80,80,80,80,80,85,85,85,85,85,85,85,85,90,90,95]},{"y":2024,"n":17,"mean":82.9,"med":85,"min":65,"max":95,"sd":7.1,"ge90":18,"le70":12,"franc":10.6,"args":8.2,"scores":[65,70,75,80,80,85,85,85,85,85,85,85,85,85,90,90,95]},{"y":2025,"n":15,"mean":80.3,"med":80,"min":40,"max":95,"sd":13.8,"ge90":47,"le70":13,"franc":10.5,"args":7.1,"scores":[40,65,75,75,75,75,80,80,90,90,90,90,90,95,95]},{"y":2026,"n":23,"mean":81.5,"med":80,"min":70,"max":100,"sd":7.6,"ge90":26,"le70":13,"franc":9.8,"args":12.7,"scores":[70,70,70,75,75,75,75,80,80,80,80,80,80,80,85,85,85,90,90,90,90,90,100]}],"prev":{"n":56,"mean":80.7,"med":85.0,"min":40,"max":95},"voc":[{"k":"Intention","v26":68,"vp":34},{"k":"PAM","v26":42,"vp":15},{"k":"Poutre","v26":26,"vp":10},{"k":"Cycles perception-action","v26":21,"vp":0},{"k":"Fonctions exécutives, mémoire de travail","v26":37,"vp":15},{"k":"Attention divisée, double tâche","v26":26,"vp":15},{"k":"Neurone aimant, neurone chef","v26":21,"vp":29},{"k":"PIM, RAPPEL, pensoscope","v26":0,"vp":0}],"nw26":19,"nwp":41};
+const ITEMS = DATA.items;
+const PARTS = DATA.parts;
+
+/* ---------- Formats ---------- */
+const nf = (v, d) => v.toLocaleString("fr-FR", { minimumFractionDigits: d || 0, maximumFractionDigits: d || 0 });
+const pc = (v, d) => nf(v, d) + " %";
+const sgn = (v) => (v > 0 ? "+" : v < 0 ? "−" : "") + Math.abs(v);
+const q = (t) => "« " + t + " »";
+const band = (v) => (v >= 90 ? "ok" : v >= 75 ? "mid" : "low");
+const BANDS = {
+  low: { label: "Fragile", plural: "fragiles", range: "moins de 75 %", cls: "warn" },
+  mid: { label: "À consolider", plural: "à consolider", range: "75 à 89 %", cls: "neutral" },
+  ok: { label: "Acquise", plural: "acquises", range: "90 % et plus", cls: "good" },
+};
+
+/* ---------- Textes des affirmations ---------- */
+const SHORT = [
+  "Distraits par l'amusant, le plaisant, le nouveau",
+  "Deux tâches de concentration en même temps",
+  "Deux choses à la fois sans s'en rendre compte",
+  "Facile de faire attention aux bonnes choses",
+  "Il suffit de faire attention pour réussir",
+  "Toujours réfléchir à ce à quoi faire attention",
+  "Le regard et le corps suivent la distraction",
+  "Pas de concentration sans intention",
+  "Facile de réfléchir et d'agir en même temps",
+  "Garder la même intention plusieurs minutes",
+  "Certaines choses attirent spontanément l'attention",
+  "L'attention ne va pas d'elle-même au plus utile",
+  "Être prévenu aide à se concentrer",
+  "Erreurs : oubli de se concentrer, pas incapacité",
+  "Actions mentales invisibles pour autrui",
+  "La bonne cible ne suffit pas, il faut bien réagir",
+  "Impossible de rester concentré",
+  "Toute tâche exige une attention continue",
+  "Remarquer ses pensées en restant concentré",
+  "Attention portée sur des perceptions mentales",
+];
+const KEY = [
+  "Le système des désirs et des aversions attire l'attention vers ce qui est plaisant et nouveau. Quand la tâche plaît, c'est un vent dans le dos ; sinon, un vent de face.",
+  "Le cerveau ne traite qu'une tâche à la fois. L'impression de multitâche vient de passages rapides entre tâches automatisées ; deux tâches non automatisées le surchargent.",
+  "Des intentions multiples assaillent le cerveau, qui ne sait pas les prioriser : il court plusieurs lièvres à la fois.",
+  "Le choix des cibles attentionnelles s'apprend souvent par essai-erreur. On dit « fais attention ! » sans dire à quoi ; rendre cet apprentissage explicite aide.",
+  "Se concentrer demande, en plus de l'attention, une intention claire et une manière d'agir précise, qui peut exiger un long apprentissage.",
+  "Seules les poutres hautes et étroites demandent de réfléchir avant d'agir. Avec de bons automatismes et une poutre large, ce serait contre-productif.",
+  "Qu'elle vienne d'un stimulus ou d'une pensée, la distraction réoriente automatiquement le regard et le corps vers un nouvel objectif.",
+  "Il n'y a pas de distraction en soi : une distraction n'existe que par rapport à une intention. Une intention floue favorise distraction et procrastination.",
+  "Mieux vaut séparer réflexion et action, comme le pêcheur de perles qui choisit son endroit hors de l'eau, puis plonge.",
+  "Des PAM surgissent régulièrement dans la conscience. Garder une intention plusieurs minutes est difficile, sauf dans l'expérience de flow.",
+  "Un système automatique détecte les stimuli saillants (bruit, couleur, contraste) et y réoriente l'attention, comme quand la porte de la classe s'ouvre.",
+  "Sans expertise de la tâche, l'attention se porte sur le plus saillant, le plus chargé d'émotion ou le plus habituel.",
+  "Être prévenu permet d'ajuster son niveau d'attention (A vert, orange, rouge). C'est une condition nécessaire, pas suffisante.",
+  "Beaucoup d'erreurs viennent d'un mode automatique mal ajusté à une poutre étroite ou haute : le café versé à côté, les sacs oubliés.",
+  "Dans les cycles perception-action, les actions peuvent être motrices ou mentales.",
+  "Se concentrer suppose une Perception, une Intention et une Manière d'agir : c'est le PIM.",
+  "L'attention peut être détournée automatiquement, mais on peut apprendre à rétablir son équilibre dès les premiers signes, pour ne pas tomber de la poutre.",
+  "Seules les poutres étroites ou hautes exigent une attention précise et continue. En A vert, ce n'est pas nécessaire.",
+  "On peut avoir conscience de ses pensées sans être absorbé par elles. Cela s'entraîne, comme dans la pleine conscience.",
+  "Dans les cycles perception-action, les perceptions peuvent être sensorielles ou mentales.",
+];
+const NOTE = [
+  "Deux lectures différentes : certains confondent le plaisir dans la tâche, qui aide, avec le plaisir qui distrait ; d'autres rappellent à juste titre que le désagréable distrait aussi.",
+  "Le modèle de l'« attention divisée » concurrence celui d'ATOLE. C'est le plus bas niveau des quatre années, en baisse régulière depuis 2023.",
+  "Bien reconnu, souvent illustré par le téléphone ou la prise de notes en réunion.",
+  "« Bonnes choses » est souvent lu comme « choses agréables » : la formulation brouille la notion de cible.",
+  "Bien compris : l'attention est nécessaire mais pas suffisante.",
+  "Point le plus faible, chaque année. Plusieurs participants argumentent dans le bon sens mais cochent « plutôt d'accord » : le « toujours » passe inaperçu.",
+  "Idée qui revient chaque année : une pensée distrairait sans mettre le corps en mouvement. ATOLE dit l'inverse.",
+  "Plus bas niveau des quatre années. Les désaccords citent les tâches automatiques ; l'idée qu'il n'y a pas de distraction en soi n'apparaît dans aucun argument.",
+  "Majoritairement compris. Maximoi, minimoi et le pêcheur de perles ne sont presque pas mobilisés.",
+  "Les PAM et les cycles perception-action sont bien cités. Les erreurs viennent d'un raisonnement « possible, à condition que… ».",
+  "La saillance est bien comprise : bruit fort, lumière vive, changement de l'environnement.",
+  "Acquis : l'attention va vers le plaisant, le nouveau, ce qui interpelle.",
+  "Bien compris et souvent relié aux 3 A. Deux participants craignent l'effet stressant de l'annonce.",
+  "Net progrès par rapport à 2023. Les nuances apportées sont pertinentes : tâche maîtrisée ou non.",
+  "Acquis : calcul mental, petite voix intérieure, imagerie mentale.",
+  "Unanime, mais le PIM n'est jamais nommé et peu d'arguments donnent un exemple concret de manière d'agir.",
+  "Confusion entre « l'attention fluctue, il faut des pauses » et « impossible de rester concentré ». Difficulté récurrente chaque année.",
+  "La notion la mieux ancrée : poutre et 3 A sont cités spontanément.",
+  "Certains restent dans le mode OU (« quand je remarque une pensée, je décroche ») plutôt que dans le mode ET.",
+  "Acquis : pensées, images mentales, souvenirs.",
+];
+const QUOTE = [
+  ["c'est plutôt l'inverse, nous sommes plus facilement attentif par ce qui est amusant, plaisant ou nouveau", "P11"],
+  ["Cela correspond à la capacité d'attention divisée. C'est donc possible mais coûteux.", "P02"],
+  ["nous pensons que cela ne gène pas notre concentration première, mais notre attention va devoir choisir entre ces 2 objets.", "P21"],
+  ["Il est plus facile de faire attention aux choses agréables", "P02"],
+  ["L'attention est nécessaire mais elle n'est pas suffisante.", "P13"],
+  ["je ne suis pas forcement d'accord avec cette formulation ; il y a des actions qui ne nécessitent pas de l'attention en continu", "P22, qui a coché « plutôt d'accord »"],
+  ["Il peut y avoir des distractions internes comme ses pensées", "P16"],
+  ["Certaines actions maîtrisées […] peuvent être réalisées en mode \"pilote automatique\".", "P21"],
+  ["Souvent, c'est plutôt réfléchir avant d'agir.", "P19"],
+  ["3 à 5 cycles perception-action se produisent en l'espace d'une seconde.", "P12"],
+  ["globalement un changement de l'environnement attire l'attention", "P23"],
+  ["D'autres éléments que l'utilité entrent en jeu pour attire notre attention", "P21"],
+  ["être prévenu en amont permet de pouvoir anticiper et se préparer mentalement", "P22"],
+  ["Si c'est quelque chose que l'on sait faire, c'est probable que ce soit un manque de concentration.", "P13"],
+  ["traitement perceptif, pensées, imagerie mentale", "P18"],
+  ["je peux trouver la bonne cible mais ne pas effectuer la bonne tâche (entourer au lieu de souligner par exemple)", "P13"],
+  ["Notre attention doit faire des pauses régulières pour se remobiliser pour à nouveau se concentrer.", "P21"],
+  ["si la poutre est large et le A vert : l'attention peut être relâchée de temps en temps.", "P22"],
+  ["oui, en les constatant seulement sans se focaliser dessus et en les \"laissant\" passer", "P18"],
+  ["notre attention peut se porter sur ce qui se passe dans notre tête, nos sensations, nos émotions, nos souvenirs", "P17"],
+];
+
+/* ---------- Profils des participants ---------- */
+const GROUPS = [
+  { k: "solide", label: "Maîtrise solide", note: "Score élevé et arguments qui mobilisent correctement les notions.", ids: ["P17", "P18", "P11", "P02"] },
+  { k: "irreg", label: "Bonne compréhension, réponses irrégulières", note: "Les notions sont là ; le score sous-estime la compréhension.", ids: ["P22", "P10", "P12", "P20", "P13"] },
+  { k: "fragile", label: "Maîtrise plus fragile", note: "Confusions de fond ou peu d'ancrage dans les notions ATOLE.", ids: ["P19", "P23", "P03", "P16", "P21"] },
+  { k: "peu", label: "Peu d'arguments", note: "Sept arguments ou moins : le score seul ne permet pas de vérifier la compréhension.", ids: ["P05", "P06", "P09", "P08", "P15", "P07", "P14", "P04", "P01"] },
+];
+const PNOTE = {
+  P17: "Toutes les réponses sont justes, presque toujours franches. Bons arguments sur l'attention automatique et volontaire, les 3 A et le retour de l'attention. Vocabulaire à préciser : PAM compris comme « actions à enchaîner », poutre comme « objectif ».",
+  P18: "Les arguments les plus précis du groupe : contact, cible, intensité, tolérance au relâchement, pensées qu'on laisse passer. L'erreur à l'affirmation 5 contredit son propre argument. Signale que certains termes ne correspondent pas à ceux de la formation.",
+  P11: "« Une seule source de contact », « équilibre attentionnel ». Fragile seulement sur le plaisir (affirmation 1) et les distractions internes (affirmation 7).",
+  P02: "Vocabulaire ATOLE riche : neurone aimant, poutre, cycles perception-action. À consolider : la double tâche, vue comme « attention divisée », et l'usage de la poutre.",
+  P22: "Le vocabulaire ATOLE le plus complet du groupe : poutre en trois dimensions, 3 A, marionnette, Maximoi et minimoi. Deux erreurs sur quatre sont contredites par ses propres arguments (affirmations 6 et 17).",
+  P20: "PAM, poutre et niveaux d'attention bien employés. Le raisonnement « possible, à condition que… » la conduit à approuver des affirmations absolues. À l'affirmation 18, l'argument est juste mais la case ne l'est pas.",
+  P10: "Automatismes, cycles perception-action, pauses, décomposition des tâches. Les erreurs aux affirmations 6 et 9 vont avec des arguments justes.",
+  P13: "Très analytique, interroge les formulations. Excellents arguments sur la tâche unique, l'intention et les erreurs du quotidien. Fragile sur la capture automatique (11), le mode ET (19) et les distractions internes (7, 15).",
+  P12: "Raisonne avec la neuropsychologie (fonctions exécutives, mémoire de travail, TDAH) plus qu'avec ATOLE, et lit souvent les affirmations sous l'angle « ça dépend des personnes ». PAM défini comme « processus automatiques ».",
+  P16: "Utilise les personnages ATOLE (neurone aimant, neurone chef), mais pour justifier le multitâche ou une attention facile (affirmations 2, 4 et 10). Un argument hors sujet à l'affirmation 16.",
+  P21: "Bonne sur les automatismes et le découpage en sous-tâches. Assimile les pauses à une impossibilité de rester concentré (17) et reste dans le mode OU (19).",
+  P03: "Raisonne surtout à partir de son expérience, avec peu de notions ATOLE. Idées contraires au programme sur la nouveauté (1), l'attention divisée (2) et le contact « tout ou rien » (14).",
+  P19: "Réponses prudentes : 5 franches seulement. Erreurs révélatrices aux affirmations 3 et 4. Bon réflexe : « réfléchir avant d'agir ».",
+  P23: "Arguments courts et répétitifs (« cibler le bon contact »). Bonnes intuitions, comme l'image mentale avant l'action, mais fragile sur la tâche unique (2) et le maintien de la concentration (17).",
+  P05: "Bon score. Les quelques arguments sont justes : « l'important est d'être en contact ».",
+  P06: "Bon score, sans argument rédigé.",
+  P09: "Bon score, sans argument rédigé.",
+  P08: "Bon score. Un argument révélateur à l'affirmation 2 : « certains fonctionnent même mieux en double tâche ».",
+  P15: "Score correct, réponses prudentes : 5 franches seulement.",
+  P07: "Réponses très prudentes (5 franches seulement), sans argument rédigé.",
+  P14: "Score correct, sans argument rédigé.",
+  P04: "Même profil d'erreurs que P01 (affirmations 2, 6 et 17). Deux arguments seulement.",
+  P01: "Parmi les scores les plus bas. Manque, comme P04, les affirmations 2, 6 et 17 : profil probablement fragile sur la tâche unique et le maintien de la concentration.",
+};
+const PBYID = Object.fromEntries(PARTS.map((p) => [p.id, p]));
+
+/* ---------- Icônes ---------- */
+function Icon({ name, size }) {
+  const s = size || 18;
+  const p = { width: s, height: s, viewBox: "0 0 18 18", fill: "none", stroke: "currentColor", strokeWidth: 1.4, strokeLinecap: "round", strokeLinejoin: "round", "aria-hidden": "true" };
+  switch (name) {
+    case "apercu": return html`<svg ...${p}><rect x="2.5" y="2.5" width="5.5" height="5.5" rx="1"/><rect x="10" y="2.5" width="5.5" height="5.5" rx="1"/><rect x="2.5" y="10" width="5.5" height="5.5" rx="1"/><rect x="10" y="10" width="5.5" height="5.5" rx="1"/></svg>`;
+    case "affirmations": return html`<svg ...${p}><path d="M6.5 4.5h9M6.5 9h9M6.5 13.5h9"/><circle cx="3" cy="4.5" r="0.9" fill="currentColor"/><circle cx="3" cy="9" r="0.9" fill="currentColor"/><circle cx="3" cy="13.5" r="0.9" fill="currentColor"/></svg>`;
+    case "notions": return html`<svg ...${p}><path d="M9 2.5a4.5 4.5 0 0 0-2.6 8.2c.5.4.8.9.8 1.5v.8h3.6v-.8c0-.6.3-1.1.8-1.5A4.5 4.5 0 0 0 9 2.5Z"/><path d="M7.3 15.5h3.4"/></svg>`;
+    case "comparaison": return html`<svg ...${p}><path d="M2.5 15.5h13"/><path d="M4.5 12.5v-3M8 12.5v-7M11.5 12.5v-5M15 12.5v-9"/></svg>`;
+    case "participants": return html`<svg ...${p}><circle cx="6.5" cy="6" r="2.5"/><path d="M2 15c.4-2.5 2.2-4 4.5-4s4.1 1.5 4.5 4"/><circle cx="12.5" cy="6.5" r="2"/><path d="M12 11c2 0 3.6 1.3 4 3.5"/></svg>`;
+    case "pistes": return html`<svg ...${p}><path d="M4 16V2.5"/><path d="M4 3h9l-2 3 2 3H4"/></svg>`;
+    case "methode": return html`<svg ...${p}><circle cx="9" cy="9" r="6.5"/><path d="M9 8v4.5"/><circle cx="9" cy="5.6" r="0.8" fill="currentColor"/></svg>`;
+    case "prev": return html`<svg ...${p} width="14" height="14"><path d="M11 3.5 5.5 9l5.5 5.5"/></svg>`;
+    case "next": return html`<svg ...${p} width="14" height="14"><path d="M7 3.5 12.5 9 7 14.5"/></svg>`;
+    default: return null;
+  }
+}
+function StatusIcon({ kind, size }) {
+  const s = size || 16;
+  if (kind === "good" || kind === "ok")
+    return html`<svg width=${s} height=${s} viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="7" fill="var(--good)"/><path d="M4.8 8.2 7 10.3l4.2-4.6" fill="none" stroke="#FCFCFC" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"/></svg>`;
+  if (kind === "warn" || kind === "low")
+    return html`<svg width=${s} height=${s} viewBox="0 0 16 16" aria-hidden="true"><path d="M8 1.5 15 14H1Z" fill="var(--warn)" strokeLinejoin="round"/><path d="M8 6v3.6" stroke="#FCFCFC" strokeWidth="1.6" strokeLinecap="round"/><circle cx="8" cy="11.7" r="0.9" fill="#FCFCFC"/></svg>`;
+  if (kind === "info")
+    return html`<svg width=${s} height=${s} viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="7" fill="var(--accent)"/><path d="M8 7v4.3" stroke="#FCFCFC" strokeWidth="1.6" strokeLinecap="round"/><circle cx="8" cy="4.8" r="0.95" fill="#FCFCFC"/></svg>`;
+  return html`<svg width=${s} height=${s} viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="6.3" fill="none" stroke="var(--ink-3)" strokeWidth="1.4"/><circle cx="8" cy="8" r="2.4" fill="var(--ink-3)"/></svg>`;
+}
+const Chip = ({ b }) => html`<span className=${"chip " + BANDS[b].cls}><${StatusIcon} kind=${b} size=${13} />${BANDS[b].label}</span>`;
+const Msg = ({ kind, children }) => html`<div className=${"msg " + (kind || "")} role="note"><${StatusIcon} kind=${kind || "info"} size=${18} /><div>${children}</div></div>`;
+const Frame = ({ title, hint, children, extra }) => html`<section className="frame">
+  ${title ? html`<div className="frame-head"><h2>${title}</h2>${hint ? html`<span className="hint">${hint}</span>` : null}</div>` : null}
+  <div className="frame-body">${children}</div>${extra || null}</section>`;
+
+/* ---------- Infobulle partagée ---------- */
+const tipStore = { set: () => {} };
+function useTip() {
+  const set = useCallback((v) => tipStore.set(v), []);
+  return useCallback((content) => ({
+    onPointerMove: (e) => set({ x: e.clientX, y: e.clientY, content }),
+    onPointerLeave: () => set(null),
+    onFocus: (e) => { const r = e.currentTarget.getBoundingClientRect(); set({ x: r.left + r.width / 2, y: r.top, content }); },
+    onBlur: () => set(null),
+  }), [set]);
+}
+function Tip() {
+  const [tip, setTip] = useState(null);
+  useEffect(() => { tipStore.set = setTip; const h = () => setTip(null); window.addEventListener("scroll", h, { passive: true }); return () => { tipStore.set = () => {}; window.removeEventListener("scroll", h); }; }, []);
+  const ref = useRef(null);
+  const [pos, setPos] = useState({ left: -999, top: -999 });
+  useEffect(() => {
+    if (!tip || !ref.current) return;
+    const r = ref.current.getBoundingClientRect();
+    let left = tip.x + 14, top = tip.y - r.height - 10;
+    if (left + r.width > window.innerWidth - 8) left = tip.x - r.width - 14;
+    if (left < 8) left = 8;
+    if (top < 8) top = tip.y + 18;
+    setPos({ left, top });
+  }, [tip]);
+  if (!tip) return null;
+  return html`<div className="tip" ref=${ref} style=${pos} role="tooltip">${tip.content}</div>`;
+}
+
+/* ---------- Petits graphiques ---------- */
+function Likert({ dist, exp }) {
+  const max = Math.max(...dist);
+  const labels = ["1", "2", "3", "4"];
+  return html`<div>
+    <div className="mini" role="img" aria-label=${"Répartition des réponses : " + dist.map((d, i) => labels[i] + " : " + d).join(", ")}>
+      ${dist.map((d, i) => {
+        const right = exp === "A" ? i >= 2 : i <= 1;
+        return html`<div className="mini-col" key=${i}><span className="v">${d}</span><span className="c"><i className=${right ? "" : "ctx"} style=${{ height: (d / max) * 100 + "%" }}></i></span><span className="l">${labels[i]}</span></div>`;
+      })}
+    </div>
+    <div className="mini-cap"><span>Pas du tout d'accord</span><span>Tout à fait d'accord</span></div>
+  </div>`;
+}
+function History({ y }) {
+  const yrs = [2023, 2024, 2025, 2026];
+  return html`<div className="mini" role="img" aria-label=${"Réussite par année : " + yrs.map((a, i) => a + " " + y[i] + " %").join(", ")}>
+    ${y.map((v, i) => html`<div className="mini-col" key=${i}><span className="v">${v}</span><span className="c"><i className=${i === 3 ? "" : "ctx"} style=${{ height: v + "%" }}></i></span><span className="l">${yrs[i]}</span></div>`)}
+  </div>`;
+}
+function Axis({ ticks, min, max, right }) {
+  return html`<div className="axis" aria-hidden="true"><div className="plot" style=${{ right: right == null ? 46 : right }}>
+    ${ticks.map((t) => html`<span key=${t} style=${{ left: ((t - min) / (max - min)) * 100 + "%" }}>${t}</span>`)}
+  </div></div>`;
+}
+const Grid = ({ ticks, min, max }) => ticks.map((t) => html`<span className="gl" key=${"g" + t} style=${{ left: ((t - min) / (max - min)) * 100 + "%" }}></span>`);
+
+function useWidth() {
+  const ref = useRef(null);
+  const [w, setW] = useState(640);
+  useEffect(() => {
+    if (!ref.current) return;
+    setW(Math.round(ref.current.getBoundingClientRect().width));
+    const ro = new ResizeObserver((es) => setW(Math.round(es[0].contentRect.width)));
+    ro.observe(ref.current);
+    return () => ro.disconnect();
+  }, []);
+  return [ref, w];
+}
+
+/* ================= Sections ================= */
+
+function Overview({ go, openItem }) {
+  const sorted = [...ITEMS].sort((a, b) => a.y[3] - b.y[3] || a.n - b.n);
+  const counts = { low: 0, mid: 0, ok: 0 };
+  ITEMS.forEach((it) => counts[band(it.y[3])]++);
+  const tipp = useTip();
+  const y26 = DATA.years[3];
+  return html`
+    <${Msg}><strong>Comment lire les chiffres.</strong> Une réponse est réussie quand elle tombe du bon côté de l'échelle par rapport au corrigé : 3 ou 4 si le corrigé dit « d'accord », 1 ou 2 s'il dit « pas d'accord ». Une réponse franche est un 4 ou un 1 dans le sens attendu.<//>
+    <div className="hero">
+      <section className="frame hero-fig">
+        <span className="label">Réussite moyenne du groupe</span>
+        <span className="value">${pc(y26.mean, 1)}</span>
+        <span className="delta">${sgn(+(y26.mean - DATA.prev.mean).toFixed(1)).replace(".", ",")} point par rapport à 2023–2025 (${pc(DATA.prev.mean, 1)}). Écart non significatif.</span>
+      </section>
+      <div className="tiles">
+        <section className="frame tile"><span className="label">Score le plus bas</span><span className="value">${pc(y26.min)}</span><span className="sub">Personne sous 70 %. Les années précédentes, le minimum descendait à 40 %.</span></section>
+        <section className="frame tile"><span className="label">Arguments rédigés</span><span className="value">${nf(y26.args, 1)}</span><span className="sub">par participant, sur 20 possibles. 8,7 en 2023–2025.</span></section>
+        <section className="frame tile"><span className="label">Affirmations fragiles</span><span className="value">${counts.low} sur 20</span><span className="sub">réussies par moins de 75 % du groupe.</span></section>
+      </div>
+    </div>
+    <${Frame} title="Les 20 affirmations, de la plus fragile à la mieux acquise" hint="Sélectionnez une case pour voir le détail">
+      <div className="waffle-legend">
+        ${["low", "mid", "ok"].map((b) => html`<span key=${b} className=${"chip " + BANDS[b].cls}><${StatusIcon} kind=${b} size=${13} />${counts[b]} ${BANDS[b].plural} · ${BANDS[b].range}</span>`)}
+      </div>
+      <div className="waffle">
+        ${sorted.map((it) => html`<button key=${it.n} className=${"wcell " + band(it.y[3])} onClick=${() => openItem(it.n)}
+            aria-label=${"Affirmation " + it.n + ", " + it.y[3] + " % de réussite"}
+            ...${tipp(html`<b>${pc(it.y[3])}</b><span>${it.n}. ${SHORT[it.n - 1]}</span>`)}>${it.n}</button>`)}
+      </div>
+    <//>
+    <div className="keys">
+      <section className="frame key">
+        <h3>Un groupe dans la moyenne, plus homogène</h3>
+        <p>Niveau comparable aux trois promotions précédentes, mais tous les scores se situent entre 70 et 100 %. P17 obtient le premier 100 % en quatre ans.</p>
+        <button className="linkbtn" onClick=${() => go("comparaison")}>Voir la comparaison</button>
+      </section>
+      <section className="frame key">
+        <h3>Deux fragilités propres à 2026</h3>
+        <p>La double tâche (affirmation 2, 65 %) et le rôle de l'intention (affirmation 8, 70 %) atteignent leur plus bas niveau depuis 2023.</p>
+        <button className="linkbtn" onClick=${() => go("notions")}>Voir les notions</button>
+      </section>
+      <section className="frame key">
+        <h3>Un groupe qui argumente davantage</h3>
+        <p>Intention, PAM et poutre sont deux à trois fois plus cités qu'avant. Le vocabulaire de la neuropsychologie clinique progresse aussi.</p>
+        <button className="linkbtn" onClick=${() => go("participants")}>Voir les participants</button>
+      </section>
+    </div>`;
+}
+
+function ItemDetail({ n }) {
+  const it = ITEMS[n - 1];
+  const b = band(it.y[3]);
+  return html`<section className="frame"><div className="frame-body detail" aria-live="polite">
+    <div className="detail-top"><h2>Affirmation ${n}</h2><${Chip} b=${b} /></div>
+    <p className="statement">${q(it.full)}</p>
+    <dl className="kv">
+      <dt>Corrigé</dt><dd><b>${it.exp === "A" ? "D'accord" : "Pas d'accord"}</b></dd>
+      <dt>Réussite</dt><dd>${pc(it.y[3])} en 2026 · ${pc(it.prev)} en 2023–2025</dd>
+      <dt>Réponses franches</dt><dd>${pc(it.franc)}</dd>
+    </dl>
+    <div className="minis">
+      <div><div className="sub-h">Réponses du groupe 2026</div><${Likert} dist=${it.dist} exp=${it.exp} /></div>
+      <div><div className="sub-h">Réussite par année (%)</div><${History} y=${it.y} /></div>
+    </div>
+    <div><div className="sub-h">Ce que dit le corrigé</div><p style=${{ fontSize: "14.5px" }}>${KEY[n - 1]}</p></div>
+    <div><div className="sub-h">Ce que montrent les arguments</div><p style=${{ fontSize: "14.5px", marginBottom: "8px" }}>${NOTE[n - 1]}</p>
+      <blockquote>${q(QUOTE[n - 1][0])}<cite>${QUOTE[n - 1][1]}</cite></blockquote></div>
+  </div></section>`;
+}
+
+const useDetailScroll = () => {
+  const ref = useRef(null);
+  const reveal = () => { if (window.innerWidth <= 980 && ref.current) { const m = window.matchMedia("(prefers-reduced-motion: reduce)").matches; ref.current.scrollIntoView({ behavior: m ? "auto" : "smooth", block: "start" }); } };
+  return [ref, reveal];
+};
+function Statements({ sel, setSel }) {
+  const tipp = useTip();
+  const [dref, reveal] = useDetailScroll();
+  const ticks = [0, 25, 50, 75, 100];
+  const groups = ["low", "mid", "ok"];
+  const exA = Math.round(ITEMS.filter((i) => i.exp === "A").reduce((s, i) => s + i.y[3], 0) / 12);
+  const exD = Math.round(ITEMS.filter((i) => i.exp === "D").reduce((s, i) => s + i.y[3], 0) / 8);
+  return html`
+    <${Msg} kind="warn"><strong>Le groupe a tendance à approuver.</strong> Les affirmations dont le corrigé est « pas d'accord » sont réussies à ${pc(exD)}, contre ${pc(exA)} pour les autres, surtout quand l'affirmation est absolue (« toujours », « impossible »).<//>
+    <div className="split">
+      <${Frame} title="Réussite par affirmation" hint="Sélectionnez une ligne pour le détail">
+        <div className="legend" style=${{ marginBottom: "10px" }}><span><i className="key-bar"></i>2026</span><span><i className="key-tick"></i>Moyenne 2023–2025</span></div>
+        <div className="axisrow"><span></span><span></span><${Axis} ticks=${ticks} min=${0} max=${100} /></div>
+        ${groups.map((g) => html`<div key=${g}>
+          <div className="section-head"><${StatusIcon} kind=${g} size=${14} />${{ low: "Fragiles", mid: "À consolider", ok: "Acquises" }[g]}<span className="muted">${BANDS[g].range}</span></div>
+          <div className="rows">
+          ${ITEMS.filter((it) => band(it.y[3]) === g).sort((a, b) => a.y[3] - b.y[3] || a.n - b.n).map((it) => html`
+            <button key=${it.n} className=${"row" + (sel === it.n ? " is-sel" : "")} aria-pressed=${sel === it.n} onClick=${() => { setSel(it.n); reveal(); }}
+              ...${tipp(html`<b>${pc(it.y[3])}</b><span>2026 · moyenne 2023–2025 : ${pc(it.prev)}</span>`)}>
+              <span className="rnum">${it.n}</span>
+              <span className="rlabel">${SHORT[it.n - 1]}</span>
+              <span className="track"><span className="plot">
+                <${Grid} ticks=${ticks} min=${0} max=${100} />
+                <span className="bar" style=${{ width: it.y[3] + "%" }}></span>
+                <span className="tick" style=${{ left: it.prev + "%" }}></span>
+                <span className="val" style=${{ left: Math.max(it.y[3], it.prev) + "%" }}>${pc(it.y[3])}</span>
+              </span></span>
+            </button>`)}
+          </div></div>`)}
+      <//>
+      <div className="sticky"><${ItemDetail} n=${sel} /></div>
+    </div>`;
+}
+
+function Notions({ openItem }) {
+  const okList = [
+    ["Poutre et 3 A", "Affirmation 18 · 96 %", QUOTE[17]],
+    ["Capture automatique", "Affirmations 11 et 12 · 96 à 100 %", QUOTE[10]],
+    ["Perceptions et actions mentales", "Affirmations 15 et 20 · 91 à 100 %", QUOTE[14]],
+    ["L'attention ne suffit pas", "Affirmations 5 et 16 · 87 à 100 %", QUOTE[4]],
+  ];
+  const fx = [
+    { t: "Une tâche à la fois", items: [2, 9], said: [["Cela correspond à la capacité d'attention divisée. C'est donc possible mais coûteux.", "P02"]], atole: "Le cerveau ne traite qu'une tâche à la fois et alterne vite entre tâches automatisées. On réfléchit d'abord, on agit ensuite, comme le pêcheur de perles." },
+    { t: "Automatismes et intention", items: [6, 8], said: [["Certaines actions maîtrisées […] peuvent être réalisées en mode \"pilote automatique\".", "P21"]], atole: "Une poutre large se traverse avec ses automatismes, sans y réfléchir. Mais pour se concentrer, il faut une intention : une distraction n'existe que par rapport à elle." },
+    { t: "Rester concentré malgré les distractions", items: [17, 19, 10], said: [["Notre attention doit faire des pauses régulières pour se remobiliser", "P21"], ["au moment où on se rend compte on décroche d'un point de vue attentionnel", "P13"]], atole: "Comme le funambule, on repère tôt le déséquilibre pour se rétablir. On peut remarquer une pensée sans la suivre : c'est le mode ET." },
+    { t: "Les pensées mettent le corps en mouvement", items: [7], said: [["Il peut y avoir des distractions internes comme ses pensées", "P16"]], atole: "Pensée puis Extension : une pensée distractive amorce, elle aussi, un mouvement du regard et du corps. C'est le P–E de RAPPEL." },
+    { t: "Choisir la bonne cible", items: [4], said: [["Il est plus facile de faire attention aux choses agréables", "P02"]], atole: "Le choix des cibles s'apprend, souvent par essai-erreur. Dire « fais attention ! » ne dit pas à quoi faire attention." },
+    { t: "Plaisir et distraction", items: [1], said: [["c'est plutôt l'inverse, nous sommes plus facilement attentif par ce qui est amusant, plaisant ou nouveau", "P11"]], atole: "Le plaisir aide quand il est dans la tâche (vent dans le dos). Il distrait quand il vient d'ailleurs (vent de face)." },
+  ];
+  const lbl = (ns) => (ns.length === 1 ? "Affirmation " : "Affirmations ") + ns.map((n) => n).join(", ").replace(/, (\d+)$/, " et $1") + " · " + ns.map((n) => pc(ITEMS[n - 1].y[3])).join(", ").replace(/, ([^,]+)$/, " et $1");
+  return html`
+    <${Msg}><strong>Ce qui est installé, ce qui reste à construire.</strong> La capture automatique, la poutre et les perceptions mentales sont acquises. Le modèle « une tâche à la fois » et le maintien de la concentration malgré les distractions restent à consolider.<//>
+    <div className="section-head" style=${{ paddingTop: 0 }}><${StatusIcon} kind="ok" size=${14} />Notions bien appropriées</div>
+    <div className="ok-list">
+      ${okList.map(([t, meta, qt]) => html`<section className="frame ok-item" key=${t}><h3>${t}</h3><span className="meta">${meta}</span><blockquote>${q(qt[0])}<cite>${qt[1]}</cite></blockquote></section>`)}
+    </div>
+    <div className="section-head"><${StatusIcon} kind="low" size=${14} />Notions à consolider</div>
+    <div className="fx-grid">
+      ${fx.map((f) => html`<section className="frame fx" key=${f.t}>
+        <div className="fx-head"><h3>${f.t}</h3><button className="linkbtn meta" onClick=${() => openItem(f.items[0])}>${lbl(f.items)}</button></div>
+        <div className="fx-cols">
+          <div><div className="lbl">Ce que disent des participants</div><div style=${{ display: "grid", gap: "6px" }}>${f.said.map(([t, w]) => html`<blockquote key=${w}>${q(t)}<cite>${w}</cite></blockquote>`)}</div></div>
+          <div><div className="lbl">Ce que dit ATOLE</div><p className="atole">${f.atole}</p></div>
+        </div>
+      </section>`)}
+    </div>
+    <${Msg} kind="warn"><strong>Vocabulaire à harmoniser.</strong> PAM est défini comme « Proposition d'Action Maintenant » dans le corrigé et comme « Passer à Autre chose de Mieux » dans le guide 2018. Trois participants lui donnent un autre sens : « processus automatiques », « action sans but précis », « actions à enchaîner ».<//>
+    <${Msg}>Le PIM, RAPPEL et le pensoscope ne sont cités par aucune promotion depuis 2023 : ces outils sont probablement abordés plus tard dans la formation.<//>`;
+}
+
+function StripPlot() {
+  const [ref, w] = useWidth();
+  const tipp = useTip();
+  const min = 40, max = 100, padL = 8, padR = 16;
+  const x = (v) => padL + ((v - min) / (max - min)) * (w - padL - padR);
+  const step = 11, r = 4.5;
+  let yCur = 0;
+  const rows = DATA.years.map((yr) => {
+    const counts = {};
+    yr.scores.forEach((s) => (counts[s] = (counts[s] || 0) + 1));
+    const maxStack = Math.max(...Object.values(counts));
+    const top = yCur + 22;
+    const base = top + maxStack * step + 4;
+    yCur = base + 14;
+    return { yr, counts, top, base };
+  });
+  const H = yCur + 22;
+  const ticks = [40, 50, 60, 70, 80, 90, 100];
+  return html`<div className="svgwrap" ref=${ref}>
+    <svg width=${w} height=${H} role="img" aria-label="Scores individuels par promotion, de 40 à 100 %">
+      ${ticks.map((t) => html`<line key=${t} x1=${x(t)} x2=${x(t)} y1=${0} y2=${H - 22} stroke="var(--grid)" strokeWidth="1" />`)}
+      ${rows.map(({ yr, counts, top, base }) => {
+        const is26 = yr.y === 2026;
+        return html`<g key=${yr.y}>
+          <text x=${padL} y=${top - 8} fontSize="13" fill="var(--ink)" fontWeight=${is26 ? 600 : 400}>${yr.y}<tspan fill="var(--ink-3)" fontWeight="400"> · ${yr.n} participants · moyenne ${pc(yr.mean, 1)}</tspan></text>
+          <line x1=${x(yr.mean)} x2=${x(yr.mean)} y1=${top} y2=${base} stroke="var(--ink)" strokeWidth="2" strokeLinecap="round" />
+          ${Object.entries(counts).map(([s, c]) => html`<g key=${s}>
+            ${Array.from({ length: c }, (_, k) => html`<circle key=${k} cx=${x(+s)} cy=${base - r - k * step} r=${r} fill=${is26 ? "var(--data)" : "var(--data-ctx)"} stroke="var(--view)" strokeWidth="2" />`)}
+            <rect x=${x(+s) - 12} y=${base - c * step - 4} width="24" height=${c * step + 8} fill="transparent" tabIndex="0" role="img"
+              aria-label=${yr.y + " : " + c + " participant" + (c > 1 ? "s" : "") + " à " + s + " %"}
+              ...${tipp(html`<b>${s} %</b><span>${yr.y} · ${c} participant${c > 1 ? "s" : ""}</span>`)} />
+          </g>`)}
+          <line x1=${padL} x2=${w - padR} y1=${base + 1} y2=${base + 1} stroke="var(--line)" strokeWidth="1" />
+        </g>`;
+      })}
+      ${ticks.map((t) => html`<text key=${"t" + t} x=${x(t)} y=${H - 6} fontSize="11.5" fill="var(--ink-3)" textAnchor="middle">${t} %</text>`)}
+    </svg>
+  </div>`;
+}
+
+function Dumbbell({ openItem }) {
+  const tipp = useTip();
+  const min = 30, max = 100, ticks = [40, 60, 80, 100];
+  const xs = (v) => ((v - min) / (max - min)) * 100 + "%";
+  const rows = [...ITEMS].map((it) => ({ ...it, d: it.y[3] - it.prev })).sort((a, b) => a.d - b.d || a.n - b.n);
+  return html`<div>
+    <div className="legend" style=${{ marginBottom: "10px" }}><span><i className="key-dot ctx"></i>2023–2025</span><span><i className="key-dot"></i>2026</span><span className="muted">Écart en points à droite</span></div>
+    <div className="axisrow"><span></span><span></span><${Axis} ticks=${ticks} min=${min} max=${max} /></div>
+    <div className="rows">
+    ${rows.map((it) => {
+      const lo = Math.min(it.prev, it.y[3]), hi = Math.max(it.prev, it.y[3]);
+      return html`<button key=${it.n} className=${"row" + (Math.abs(it.d) >= 10 ? " strong" : "")} onClick=${() => openItem(it.n)}
+        ...${tipp(html`<b>${sgn(it.d)} points</b><span>${pc(it.prev)} en 2023–2025 · ${pc(it.y[3])} en 2026</span>`)}>
+        <span className="rnum">${it.n}</span><span className="rlabel">${SHORT[it.n - 1]}</span>
+        <span className="track"><span className="plot">
+          <${Grid} ticks=${ticks} min=${min} max=${max} />
+          <span className="dumb-line" style=${{ left: xs(lo), width: "calc(" + xs(hi) + " - " + xs(lo) + ")" }}></span>
+          <span className="dot ctx" style=${{ left: xs(it.prev) }}></span>
+          <span className="dot" style=${{ left: xs(it.y[3]) }}></span>
+        </span><span className="diff">${sgn(it.d)}</span></span>
+      </button>`;
+    })}
+    </div></div>`;
+}
+
+function Vocab() {
+  const tipp = useTip();
+  const max = 80, ticks = [0, 20, 40, 60, 80];
+  return html`<div>
+    <div className="legend" style=${{ marginBottom: "6px" }}><span><i className="key-bar"></i>2026 (${DATA.nw26} participants qui argumentent)</span><span><i className="key-bar ctx"></i>2023–2025 (${DATA.nwp})</span></div>
+    <div className="vrow" style=${{ borderBottom: 0, paddingBlock: 0 }}><span></span><div className="axis"><div className="plot">${ticks.map((t) => html`<span key=${t} style=${{ left: (t / max) * 100 + "%" }}>${t} %</span>`)}</div></div></div>
+    ${DATA.voc.map((v) => html`<div className="vrow" key=${v.k}>
+      <span style=${{ fontSize: "14px" }}>${v.k}</span>
+      <span className="vtrack" tabIndex="0" ...${tipp(html`<b>${pc(v.v26)} en 2026</b><span>${pc(v.vp)} en 2023–2025</span>`)} aria-label=${v.k + " : " + v.v26 + " % en 2026, " + v.vp + " % en 2023–2025"}>
+        <span className="plot">
+          <${Grid} ticks=${ticks} min=${0} max=${max} />
+          <span className="vbar" style=${{ top: "3px", width: Math.max((v.v26 / max) * 100, 0.6) + "%" }}></span>
+          <span className="vval" style=${{ top: "3px", left: (v.v26 / max) * 100 + "%" }}>${pc(v.v26)}</span>
+          <span className="vbar ctx" style=${{ top: "16px", width: Math.max((v.vp / max) * 100, 0.6) + "%" }}></span>
+          <span className="vval" style=${{ top: "16px", left: (v.vp / max) * 100 + "%" }}>${pc(v.vp)}</span>
+        </span>
+      </span>
+    </div>`)}
+  </div>`;
+}
+
+function Comparison({ openItem }) {
+  const rec = [
+    [6, "Jamais au-dessus de 53 %. La formulation « toujours » est en cause."],
+    [17, "Entre 47 et 71 % : « l'attention fluctue » lu comme « impossible »."],
+    [7, "Entre 47 et 88 %, avec le même argument chaque année sur les pensées."],
+    [4, "Entre 54 et 76 % : « bonnes choses » lu comme « choses agréables »."],
+  ];
+  return html`
+    <${Msg}><strong>Un niveau stable, un groupe plus resserré.</strong> Les moyennes des quatre promotions ne diffèrent pas significativement. 2026 se distingue par l'absence de score faible et par un volume d'argumentation plus élevé.<//>
+    <${Frame} title="Scores individuels par promotion" hint="Un point par participant · trait vertical : moyenne">
+      <${StripPlot} />
+    <//>
+    <${Frame} title="Écart par affirmation entre 2026 et 2023–2025" hint="Du plus fort recul au plus fort progrès">
+      <${Dumbbell} openItem=${openItem} />
+    <//>
+    <div className="section-head" style=${{ paddingTop: 0 }}><${StatusIcon} kind="low" size=${14} />Difficultés qui reviennent chaque année</div>
+    <div className="rec">
+      ${rec.map(([n, t]) => html`<section className="frame" key=${n}>
+        <h3>${n}. ${SHORT[n - 1]}</h3>
+        <${History} y=${ITEMS[n - 1].y} />
+        <p>${t}</p>
+      </section>`)}
+    </div>
+    <${Frame} title="Vocabulaire mobilisé dans les arguments" hint="Part des participants qui citent la notion au moins une fois">
+      <${Vocab} />
+    <//>
+    <${Frame} title="Indicateurs par promotion">
+      <div className="tablewrap"><table>
+        <thead><tr><th>Promotion</th><th>Participants</th><th>Moyenne</th><th>Médiane</th><th>Min – max</th><th>À 90 % ou plus</th><th>À 70 % ou moins</th><th>Arguments / participant</th></tr></thead>
+        <tbody>${DATA.years.map((y) => html`<tr key=${y.y} className=${y.y === 2026 ? "hl" : ""}><td>${y.y}</td><td>${y.n}</td><td>${pc(y.mean, 1)}</td><td>${pc(y.med)}</td><td>${y.min}–${pc(y.max)}</td><td>${pc(y.ge90)}</td><td>${pc(y.le70)}</td><td>${nf(y.args, 1)}</td></tr>`)}</tbody>
+      </table></div>
+    <//>`;
+}
+
+function PartDetail({ id, openItem }) {
+  const p = PBYID[id];
+  const g = GROUPS.find((g) => g.ids.includes(id));
+  return html`<section className="frame"><div className="frame-body detail" aria-live="polite">
+    <div className="detail-top"><h2 className="mono">${p.id}</h2><span className="chip">${g.label}</span></div>
+    <div><span className="pscore">${pc(p.score)}</span><p className="muted" style=${{ fontSize: "13.5px" }}>Réponse du ${p.date}/2026 · ${p.pct === 100 ? "au-dessus de tous les participants 2023–2025" : p.pct + "e rang centile parmi les participants 2023–2025"}</p></div>
+    <dl className="kv">
+      <dt>Arguments rédigés</dt><dd>${p.nargs} sur 20</dd>
+      <dt>Réponses franches</dt><dd>${p.franc} sur 20</dd>
+    </dl>
+    <div><div className="sub-h">Affirmations manquées</div>
+      ${p.miss.length ? html`<div className="misslist">${p.miss.map((n) => html`<button key=${n} className=${"chip " + BANDS[band(ITEMS[n - 1].y[3])].cls} title=${SHORT[n - 1]} onClick=${() => openItem(n)}>${n}</button>`)}</div>` : html`<p className="muted">Aucune.</p>`}
+    </div>
+    <div><div className="sub-h">Lecture des arguments</div><p style=${{ fontSize: "14.5px" }}>${PNOTE[id]}</p></div>
+  </div></section>`;
+}
+
+function Participants({ sel, setSel, openItem }) {
+  const tipp = useTip();
+  const [dref, reveal] = useDetailScroll();
+  const min = 60, max = 100, ticks = [60, 70, 80, 90, 100];
+  const xs = (v) => ((v - min) / (max - min)) * 100 + "%";
+  return html`
+    <${Msg}><strong>Ce sont les arguments qui distinguent les profils.</strong> Les scores vont de 70 à 100 %. Trois participants du quart inférieur (P13, P20, P22) argumentent bien : leur score sous-estime leur compréhension.<//>
+    <div className="split">
+      <${Frame} title="Score de chaque participant, par profil" hint="Sélectionnez une ligne pour le détail">
+        <div className="legend" style=${{ marginBottom: "10px" }}><span><i className="key-dot"></i>Score 2026</span><span><i className="key-ref"></i>Médiane 2023–2025 (85 %)</span></div>
+        <div className="axisrow paxis"><span></span><${Axis} ticks=${ticks} min=${min} max=${max} /></div>
+        ${GROUPS.map((g) => html`<div key=${g.k}>
+          <div className="section-head">${g.label}</div>
+          <p className="group-note">${g.note}</p>
+          <div className="rows">
+          ${g.ids.map((id) => PBYID[id]).sort((a, b) => b.score - a.score || a.id.localeCompare(b.id)).map((p) => html`
+            <button key=${p.id} className=${"row prow" + (sel === p.id ? " is-sel" : "")} aria-pressed=${sel === p.id} onClick=${() => { setSel(p.id); reveal(); }}
+              ...${tipp(html`<b>${pc(p.score)}</b><span>${p.id} · ${p.nargs} argument${p.nargs > 1 ? "s" : ""} · ${p.miss.length} affirmation${p.miss.length > 1 ? "s" : ""} manquée${p.miss.length > 1 ? "s" : ""}</span>`)}>
+              <span className="pid"><b>${p.id}</b><small>${p.nargs} arg.</small></span>
+              <span className="track"><span className="plot">
+                <${Grid} ticks=${ticks} min=${min} max=${max} />
+                <span className="ref" style=${{ left: xs(DATA.prev.med) }}></span>
+                <span className="dot" style=${{ left: xs(p.score) }}></span>
+                <span className="val" style=${{ left: xs(p.score) }}>${pc(p.score)}</span>
+              </span></span>
+            </button>`)}
+          </div></div>`)}
+      <//>
+      <div className="sticky"><${PartDetail} id=${sel} openItem=${openItem} /></div>
+    </div>`;
+}
+
+function Actions() {
+  const train = [
+    ["Revenir sur la tâche unique", "Affirmations 2 et 9", "Faire vivre une courte double tâche, puis opposer le modèle ATOLE à l'« attention divisée » des bilans. Appui : Maximoi et minimoi, le pêcheur de perles."],
+    ["Travailler l'équilibre du funambule", "Affirmations 7, 17 et 19", "Expérimenter le pensoscope et le P–E de RAPPEL pour montrer qu'une pensée remarquée n'est pas une concentration perdue."],
+    ["Relier intention et distraction", "Affirmations 6 et 8", "Partir de l'écran de télévision au restaurant : c'est une distraction pour qui suit la conversation, pas pour qui regarde le match."],
+    ["Construire des PIM explicites", "Affirmation 16", "Faire formuler Perception, Intention et Manière d'agir sur des situations professionnelles réelles des participants."],
+  ];
+  const quest = [
+    ["Reformuler les affirmations 6 et 4", "Affirmations 6 et 4", "L'affirmation 6 ne dépasse jamais 53 % ; « bonnes choses » est lu comme « choses agréables ». Écrire « bonnes cibles » et retirer l'ambiguïté du « toujours »."],
+    ["Harmoniser la définition de PAM", "Corrigé et guide", "Choisir une seule formule et l'employer dans tous les supports de la formation."],
+    ["Alléger l'argumentation", "Commentaires généraux", "Plusieurs participants trouvent le questionnaire long et redondant. Demander des arguments sur une partie des affirmations seulement."],
+  ];
+  const fb = [
+    ["Un peu long, et pas simple dans l'argumentaire.", "P21"],
+    ["certaines questions manquent de précisions ou certains sujets n'ont peut-être pas été développés sous les mêmes termes.", "P18"],
+    ["j'ai bien perçu que la longueur jouait sur mes capacités à réfléchir et sur ma motivation à me poser des questions.", "P13"],
+    ["de nombreux éléments distracteurs sont venus me rendre visite. J'ai essayé de faire au mieux avec les PIM.", "P22"],
+  ];
+  const Card = ([t, m, p]) => html`<section className="frame action" key=${t}><span className="meta">${m}</span><h3>${t}</h3><p>${p}</p></section>`;
+  return html`
+    <${Msg} kind="good"><strong>Quatre leviers pour la formation, trois pour le questionnaire.</strong> Ils répondent aux fragilités observées cette année et à celles qui reviennent depuis 2023.<//>
+    <div className="section-head" style=${{ paddingTop: 0 }}>Pour la suite de la formation</div>
+    <div className="actions">${train.map(Card)}</div>
+    <div className="section-head">Pour le questionnaire</div>
+    <div className="actions">${quest.map(Card)}</div>
+    <${Frame} title="Ce que les participants disent du questionnaire">
+      <div className="quotes">${fb.map(([t, w]) => html`<blockquote key=${w}>${q(t)}<cite>${w}</cite></blockquote>`)}</div>
+    <//>`;
+}
+
+function Method() {
+  return html`<${Frame}>
+    <div className="prose">
+      <h3>Données</h3>
+      <p>23 réponses du groupe 2026 (30 septembre au 7 octobre) et 56 réponses des promotions 2023, 2024 et 2025 au même questionnaire. Chaque affirmation est notée de 1 (pas du tout d'accord) à 4 (tout à fait d'accord), avec un argument facultatif.</p>
+      <h3>Calculs</h3>
+      <ul>
+        <li><b>Réussite</b> : réponse du bon côté de l'échelle par rapport au corrigé (3–4 ou 1–2).</li>
+        <li><b>Réponse franche</b> : 4 ou 1 dans le sens attendu.</li>
+        <li><b>Rang centile</b> : position d'un score 2026 parmi les 56 scores 2023–2025.</li>
+        <li><b>Vocabulaire</b> : repérage par mots-clés dans les arguments, rapporté aux participants qui ont argumenté.</li>
+        <li><b>Profils</b> : lecture qualitative de l'ensemble des arguments de chaque participant.</li>
+      </ul>
+      <h3>Tests statistiques</h3>
+      <ul>
+        <li>Scores des quatre promotions : Kruskal-Wallis, p = 0,66.</li>
+        <li>2026 face à 2023–2025 : Mann-Whitney, p = 0,77.</li>
+        <li>Écarts par affirmation (Fisher) : aucun significatif, le plus net à l'affirmation 2 (p = 0,14).</li>
+        <li>Baisse de l'affirmation 2 sur quatre ans : ρ = −0,24, p = 0,03.</li>
+      </ul>
+      <h3>Principes de conception de cette page</h3>
+      <ul>
+        <li><b>Segmentation</b> : une section à la fois, au rythme du lecteur.</li>
+        <li><b>Pré-entraînement</b> : les deux définitions utiles sont données avant les chiffres.</li>
+        <li><b>Signalement</b> : un message clé ouvre chaque section ; 2026 en bleu, le contexte en gris.</li>
+        <li><b>Contiguïté spatiale</b> : valeurs, citations et corrigé sont placés à côté de ce qu'ils expliquent.</li>
+        <li><b>Cohérence</b> : aucun élément décoratif ; le détail s'affiche seulement à la demande.</li>
+        <li><b>Redondance évitée</b> : le texte interprète le graphique au lieu de le répéter.</li>
+      </ul>
+    </div>
+  <//>`;
+}
+
+/* ================= Application ================= */
+const SECTIONS = [
+  { id: "apercu", label: "Vue d'ensemble", title: "Vue d'ensemble", sub: "Questionnaire « 20 affirmations sur l'attention » · 23 réponses du 30 septembre au 7 octobre 2026" },
+  { id: "affirmations", label: "Affirmations", title: "Les 20 affirmations", sub: "Réussite du groupe 2026, de la plus fragile à la mieux acquise" },
+  { id: "notions", label: "Notions ATOLE", title: "Notions ATOLE", sub: "Ce que révèlent les 293 arguments rédigés par 19 participants" },
+  { id: "comparaison", label: "Comparaison 2023–2026", title: "Comparaison 2023–2026", sub: "79 réponses au même questionnaire, sur quatre promotions" },
+  { id: "participants", label: "Participants", title: "Participants", sub: "Scores individuels et profils de compréhension" },
+  { id: "pistes", label: "Pistes d'action", title: "Pistes d'action", sub: "Ce que les résultats suggèrent pour la formation et pour le questionnaire" },
+  { id: "methode", label: "Méthode", title: "Méthode", sub: "Sources, calculs et choix de présentation" },
+];
+const readHash = () => { const h = (location.hash || "").slice(1); return SECTIONS.some((s) => s.id === h) ? h : "apercu"; };
+
+function App() {
+  const [sec, setSec] = useState(readHash);
+  const [item, setItem] = useState(6);
+  const [pid, setPid] = useState("P17");
+  const mainRef = useRef(null);
+  useEffect(() => { const f = () => setSec(readHash()); window.addEventListener("hashchange", f); return () => window.removeEventListener("hashchange", f); }, []);
+  const go = useCallback((id) => {
+    tipStore.set(null);
+    setSec(id);
+    try { history.replaceState(null, "", "#" + id); } catch (e) {}
+    window.scrollTo({ top: 0 });
+  }, []);
+  const openItem = useCallback((n) => { setItem(n); go("affirmations"); }, [go]);
+  const i = SECTIONS.findIndex((s) => s.id === sec);
+  const S = SECTIONS[i];
+  let body;
+  if (sec === "apercu") body = html`<${Overview} go=${go} openItem=${openItem} />`;
+  else if (sec === "affirmations") body = html`<${Statements} sel=${item} setSel=${setItem} />`;
+  else if (sec === "notions") body = html`<${Notions} openItem=${openItem} />`;
+  else if (sec === "comparaison") body = html`<${Comparison} openItem=${openItem} />`;
+  else if (sec === "participants") body = html`<${Participants} sel=${pid} setSel=${setPid} openItem=${openItem} />`;
+  else if (sec === "pistes") body = html`<${Actions} />`;
+  else body = html`<${Method} />`;
+  return html`<div className="app">
+      <aside className="side">
+        <div className="side-head"><span className="side-kicker">Programme ATOLE</span><span className="side-title">Groupe 2026</span><span className="side-sub">23 participants · 20 affirmations</span></div>
+        <nav className="nav" aria-label="Sections">
+          ${SECTIONS.map((s) => html`<button key=${s.id} className="nav-btn" aria-current=${s.id === sec ? "page" : undefined} onClick=${() => go(s.id)}><${Icon} name=${s.id} />${s.label}</button>`)}
+        </nav>
+        <div className="side-foot">Questionnaire « 20 affirmations sur l'attention », comparé aux promotions 2023 à 2025.</div>
+      </aside>
+      <main className="main" ref=${mainRef}>
+        <div className="page">
+          <header className="page-head"><h1>${S.title}</h1><p>${S.sub}</p></header>
+          ${body}
+          <div className="pager">
+            ${i > 0 ? html`<button className="btn" onClick=${() => go(SECTIONS[i - 1].id)}><${Icon} name="prev" />${SECTIONS[i - 1].label}</button>` : html`<span></span>`}
+            ${i < SECTIONS.length - 1 ? html`<button className="btn" onClick=${() => go(SECTIONS[i + 1].id)}>${SECTIONS[i + 1].label}<${Icon} name="next" /></button>` : null}
+          </div>
+        </div>
+      </main>
+      <${Tip} />
+    </div>`;
+}
+
+ReactDOM.createRoot(document.getElementById("root")).render(html`<${App} />`);
+})();
+</script>
+
+</body></html>
