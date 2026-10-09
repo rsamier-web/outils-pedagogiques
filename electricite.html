@@ -1,0 +1,1412 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Électricité 3e</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Noto+Sans+Mono:wght@400;600&display=swap">
+<style>
+/* Layout : fenêtre d'application KDE — barre d'outils en haut, barre latérale de navigation (façon Configuration du système), vue de contenu sur fond « view » */
+:root{
+  --window:#eff0f1; --view:#ffffff; --button:#fcfcfc; --alt:#f6f7f7;
+  --fg:#232629; --muted:#5f666c; --border:#c3c7cb; --border-soft:#e0e3e5;
+  --accent:#3daee9; --accent-ink:#1b7cb3; --accent-soft:#dcf0fb;
+  --u:#2459b0; --u-soft:#e2eaf8; --u-2:#7d9fd9;
+  --i:#c4303d; --i-soft:#f9e2e4;
+  --r:#1b7a45; --r-soft:#dff2e6;
+  --ln-a:#1b8f4d; --ln-b:#c2318a;
+  --ok:#1b7a45; --ok-soft:#e3f4e9; --bad:#c4303d; --bad-soft:#fae4e6; --warn:#9a5600; --warn-soft:#fdf1e1;
+  --shadow:0 1px 2px rgba(35,38,41,.07);
+  --font:"Noto Sans","Segoe UI",system-ui,-apple-system,sans-serif;
+  --mono:"Noto Sans Mono",ui-monospace,"DejaVu Sans Mono",Menlo,monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --window:#2a2e32; --view:#1b1e20; --button:#31363b; --alt:#22262a;
+    --fg:#fcfcfc; --muted:#a9b0b6; --border:#4b5056; --border-soft:#363b40;
+    --accent:#3daee9; --accent-ink:#62c1f0; --accent-soft:#1c3747;
+    --u:#86b3ff; --u-soft:#1e2c45; --u-2:#4f73b0;
+    --i:#ff7f8a; --i-soft:#45232a;
+    --r:#62d394; --r-soft:#1b3829;
+    --ln-a:#62d394; --ln-b:#f27cc4;
+    --ok:#62d394; --ok-soft:#1b3829; --bad:#ff7f8a; --bad-soft:#45232a; --warn:#f5ac57; --warn-soft:#40301b;
+    --shadow:0 1px 2px rgba(0,0,0,.35);
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --window:#2a2e32; --view:#1b1e20; --button:#31363b; --alt:#22262a;
+  --fg:#fcfcfc; --muted:#a9b0b6; --border:#4b5056; --border-soft:#363b40;
+  --accent:#3daee9; --accent-ink:#62c1f0; --accent-soft:#1c3747;
+  --u:#86b3ff; --u-soft:#1e2c45; --u-2:#4f73b0;
+  --i:#ff7f8a; --i-soft:#45232a;
+  --r:#62d394; --r-soft:#1b3829;
+  --ln-a:#62d394; --ln-b:#f27cc4;
+  --ok:#62d394; --ok-soft:#1b3829; --bad:#ff7f8a; --bad-soft:#45232a; --warn:#f5ac57; --warn-soft:#40301b;
+  --shadow:0 1px 2px rgba(0,0,0,.35);
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+body{background:var(--window);color:var(--fg);font-family:var(--font);font-size:15px;line-height:1.55}
+button,input,select{font:inherit;color:inherit}
+h1,h2,h3{text-wrap:balance;line-height:1.25;margin:0}
+h1{font-size:1.55rem;font-weight:600}
+h2{font-size:1.18rem;font-weight:600}
+h3{font-size:1rem;font-weight:600}
+p{margin:0}
+sub{font-size:.72em;line-height:0}
+strong{font-weight:600}
+.v-u{color:var(--u);font-weight:600}
+.v-i{color:var(--i);font-weight:600}
+.v-r{color:var(--r);font-weight:600}
+
+/* Barre d'outils */
+.toolbar{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--window);border-bottom:1px solid var(--border);padding:8px 16px;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.app-ico{width:26px;height:26px;flex:none}
+.app-name{font-weight:600;font-size:1rem}
+.app-sub{color:var(--muted);font-size:.85rem}
+.tb-spacer{flex:1}
+.meter{display:flex;align-items:center;gap:8px;font-size:.85rem;color:var(--muted);font-variant-numeric:tabular-nums}
+.meter-track{width:110px;height:6px;border-radius:3px;background:var(--border-soft);overflow:hidden}
+.meter-fill{height:100%;background:var(--accent)}
+
+.layout{display:grid;grid-template-columns:250px minmax(0,1fr);min-height:calc(100% - 50px)}
+.sidebar{border-right:1px solid var(--border);background:var(--window);padding:12px 8px 24px}
+.sidebar nav{position:sticky;top:calc(env(safe-area-inset-top,0px) + 58px);display:flex;flex-direction:column;gap:2px}
+.nav-h{font-size:.72rem;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);padding:12px 10px 4px;font-weight:600}
+.nav-item{display:flex;align-items:center;gap:8px;width:100%;text-align:left;background:transparent;border:1px solid transparent;border-radius:3px;padding:5px 8px;cursor:pointer;font-size:.9rem;line-height:1.3}
+.nav-item:hover{border-color:var(--accent);background:color-mix(in srgb,var(--accent-soft) 55%,transparent)}
+.nav-item[aria-current="page"]{background:var(--accent-soft);border-color:var(--accent)}
+.nav-num{flex:none;width:20px;font-variant-numeric:tabular-nums;color:var(--muted);font-size:.82rem}
+.nav-label{flex:1;min-width:0}
+.nav-badge{flex:none;font-size:.75rem;color:var(--muted);font-variant-numeric:tabular-nums}
+.nav-badge.done{color:var(--ok);font-weight:600}
+.mobile-nav{display:none}
+
+.main{background:var(--view);min-width:0}
+.content{max-width:800px;margin:0 auto;padding-block:28px 64px;padding-inline:28px;display:flex;flex-direction:column;gap:26px}
+.eyebrow{font-size:.76rem;letter-spacing:.06em;text-transform:uppercase;color:var(--accent-ink);font-weight:600}
+.page-head{display:flex;flex-direction:column;gap:6px}
+.lead{color:var(--muted);max-width:65ch}
+section{display:flex;flex-direction:column;gap:12px}
+.prose{max-width:66ch;display:flex;flex-direction:column;gap:10px}
+
+/* Encadré « l'essentiel » */
+.essentiel{border:1px solid var(--border);border-radius:4px;background:var(--alt);padding:16px 18px;display:flex;flex-direction:column;gap:10px}
+.essentiel .tag{font-size:.72rem;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);font-weight:600}
+.formula{font-size:1.65rem;font-weight:600;letter-spacing:.01em;font-variant-numeric:tabular-nums}
+.formula-sm{font-size:1.15rem;font-weight:600}
+.note{font-size:.9rem;color:var(--muted)}
+
+/* Message type KMessageWidget */
+.msg{border:1px solid;border-radius:4px;padding:9px 12px;font-size:.93rem;display:flex;gap:8px;align-items:flex-start}
+.msg.ok{border-color:var(--ok);background:var(--ok-soft)}
+.msg.bad{border-color:var(--bad);background:var(--bad-soft)}
+.msg.warn{border-color:var(--warn);background:var(--warn-soft)}
+.msg.info{border-color:var(--accent);background:var(--accent-soft)}
+.msg-ico{flex:none;width:18px;height:18px;margin-top:2px}
+
+/* Boutons et champs Breeze */
+.btn{background:var(--button);border:1px solid var(--border);border-radius:3px;padding:5px 12px;cursor:pointer;box-shadow:var(--shadow);line-height:1.4;font-size:.92rem}
+.btn:hover{border-color:var(--accent)}
+.btn:active{background:var(--accent-soft)}
+.btn.primary{border-color:var(--accent);background:var(--accent-soft)}
+.btn.sm{padding:3px 9px;font-size:.85rem}
+.btn[aria-expanded="true"]{background:var(--accent-soft);border-color:var(--accent)}
+.btn:disabled{opacity:.5;cursor:default}
+:focus-visible{outline:2px solid var(--accent);outline-offset:1px}
+.btn-row{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.field{background:var(--view);border:1px solid var(--border);border-radius:3px;padding:5px 8px;min-width:0}
+.field:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 1px var(--accent)}
+input.num{width:9em;font-variant-numeric:tabular-nums}
+input[type=range]{accent-color:var(--accent);width:100%}
+.seg{display:inline-flex;border:1px solid var(--border);border-radius:3px;overflow:hidden;background:var(--button);flex-wrap:wrap}
+.seg button{border:0;background:transparent;padding:5px 12px;cursor:pointer;font-size:.9rem;border-right:1px solid var(--border-soft)}
+.seg button:last-child{border-right:0}
+.seg button[aria-pressed="true"]{background:var(--accent-soft);box-shadow:inset 0 -2px 0 var(--accent)}
+
+/* Zone de manipulation */
+.explore{border:1px solid var(--border);border-radius:4px;background:var(--view);display:flex;flex-direction:column}
+.explore-head{padding:10px 14px;border-bottom:1px solid var(--border-soft);background:var(--alt);display:flex;flex-wrap:wrap;gap:6px 14px;align-items:baseline;border-radius:4px 4px 0 0}
+.explore-head h3{font-size:.95rem}
+.explore-head span{font-size:.88rem;color:var(--muted)}
+.fig{overflow-x:auto;padding:12px 10px;display:flex;justify-content:center}
+.fig svg{width:100%;max-width:470px;height:auto;display:block}
+.fig-cap{font-size:.86rem;color:var(--muted);padding:0 14px 12px;text-align:center}
+.controls{border-top:1px solid var(--border-soft);padding:12px 14px;display:flex;flex-direction:column;gap:12px}
+.ctrl{display:flex;flex-direction:column;gap:4px}
+.ctrl label{font-size:.9rem}
+.ctrl-row{display:flex;flex-wrap:wrap;gap:12px 20px;align-items:flex-end}
+.ctrl-row .ctrl{flex:1 1 200px;min-width:0}
+.readouts{display:flex;flex-wrap:wrap;gap:8px}
+.ro{border:1px solid var(--border-soft);border-radius:3px;padding:6px 12px;min-width:110px;background:var(--alt)}
+.ro .k{font-size:.8rem;color:var(--muted)}
+.ro .v{font-size:1.15rem;font-weight:600;font-variant-numeric:tabular-nums}
+.observe{font-size:.92rem}
+.bars{display:flex;flex-direction:column;gap:6px}
+.bar-line{display:grid;grid-template-columns:64px minmax(0,1fr);gap:8px;align-items:center;font-size:.85rem}
+.bar{height:22px;border-radius:2px;background:var(--border-soft);display:flex;overflow:hidden}
+.seg-u1{background:var(--u)}
+.seg-u2{background:var(--u-2)}
+.seg-ug{background:var(--u);opacity:.55}
+.seg-i1{background:var(--i)}
+.seg-i2{background:color-mix(in srgb,var(--i) 55%,var(--view))}
+.seg-ig{background:var(--i);opacity:.55}
+.bar span{transition:width .25s}
+.eq{font-variant-numeric:tabular-nums;font-size:1rem;font-weight:500}
+
+/* SVG */
+.wire{fill:none;stroke:var(--fg);stroke-width:1.6}
+.sym{fill:var(--view);stroke:var(--fg);stroke-width:1.6}
+.sym-line{fill:none;stroke:var(--fg);stroke-width:1.4}
+.sym-t{fill:var(--fg);font-size:13px;font-weight:600;text-anchor:middle;font-family:var(--font)}
+.pole{fill:var(--fg);font-size:14px;font-weight:600;font-family:var(--font)}
+.dot{fill:var(--fg)}
+.lbl{font-size:12.5px;font-family:var(--font);fill:var(--fg);font-weight:600}
+.lbl.u{fill:var(--u)} .lbl.i{fill:var(--i)} .lbl.r{fill:var(--r)} .lbl.m{fill:var(--muted);font-weight:500}
+.arr-i{fill:var(--i)}
+.faded{opacity:.3}
+.flow{fill:none;stroke:var(--i);stroke-width:3;stroke-dasharray:3 13;stroke-linecap:round;animation:flow 1s linear infinite}
+@keyframes flow{to{stroke-dashoffset:-16}}
+.g-grid{stroke:var(--border-soft);stroke-width:1}
+.g-grid.major{stroke:var(--border)}
+.g-axis{stroke:var(--fg);stroke-width:1.4;fill:none}
+.g-txt{fill:var(--muted);font-size:11px;font-family:var(--font);font-variant-numeric:tabular-nums}
+.g-title{fill:var(--fg);font-size:12px;font-family:var(--font);font-weight:600}
+.g-line-a{stroke:var(--ln-a);stroke-width:2.4;fill:none}
+.g-line-b{stroke:var(--ln-b);stroke-width:2.4;fill:none}
+.g-lbl-a{fill:var(--ln-a);font-weight:700;font-size:13px;font-family:var(--font)}
+.g-lbl-b{fill:var(--ln-b);font-weight:700;font-size:13px;font-family:var(--font)}
+.g-guide{stroke:var(--fg);stroke-width:1;stroke-dasharray:4 3;fill:none}
+.g-pt{fill:var(--fg)}
+.tri-txt{font-size:26px;font-weight:700;font-family:var(--font);text-anchor:middle;cursor:pointer}
+.tri-hit{fill:transparent;cursor:pointer}
+.tri-hit:hover + text, .tri-hit:focus + text{text-decoration:underline}
+
+/* Tableaux */
+.tbl-wrap{overflow-x:auto;border:1px solid var(--border);border-radius:4px}
+table{border-collapse:collapse;width:100%;font-size:.92rem}
+th,td{text-align:left;padding:7px 12px;border-bottom:1px solid var(--border-soft);vertical-align:middle}
+th{background:var(--alt);font-weight:600;font-size:.84rem;color:var(--muted)}
+tr:last-child td{border-bottom:0}
+td.cell-ok .field{border-color:var(--ok);background:var(--ok-soft)}
+td.cell-bad .field{border-color:var(--bad);background:var(--bad-soft)}
+
+/* Questions à choix */
+.choice{display:flex;flex-direction:column;gap:10px}
+.choice .q{font-weight:500}
+.opts{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:6px}
+.opt{text-align:left;background:var(--button);border:1px solid var(--border);border-radius:3px;padding:7px 11px;cursor:pointer;line-height:1.4}
+.opt:hover:not(:disabled){border-color:var(--accent);background:color-mix(in srgb,var(--accent-soft) 50%,var(--button))}
+.opt:disabled{cursor:default}
+.opt.ok{border-color:var(--ok);background:var(--ok-soft)}
+.opt.bad{border-color:var(--bad);background:var(--bad-soft)}
+.opt.dim{opacity:.55}
+.check-box{border:1px solid var(--border);border-radius:4px;padding:14px 16px;display:flex;flex-direction:column;gap:10px}
+.check-box .tag{font-size:.72rem;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);font-weight:600}
+
+/* Exemple résolu */
+.worked{border:1px solid var(--accent);border-radius:4px;overflow:hidden}
+.worked-head{background:var(--accent-soft);padding:9px 14px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:6px;align-items:center}
+.worked-head .tag{font-size:.75rem;letter-spacing:.06em;text-transform:uppercase;font-weight:700;color:var(--accent-ink)}
+.worked-body{padding:14px 16px;display:flex;flex-direction:column;gap:12px}
+.steps{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:0;border:1px solid var(--border-soft);border-radius:3px}
+.steps li{display:grid;grid-template-columns:minmax(110px,150px) minmax(0,1fr);gap:12px;padding:8px 12px;border-bottom:1px solid var(--border-soft)}
+.steps li:last-child{border-bottom:0}
+.steps .sk{font-size:.84rem;color:var(--muted);font-weight:600;padding-top:1px}
+.steps li.new{animation:appear .3s ease}
+@keyframes appear{from{background:var(--accent-soft)}to{background:transparent}}
+.steps .pending{color:var(--muted);font-style:italic}
+
+/* Exercices */
+.level-h{display:flex;align-items:baseline;gap:10px;padding-top:4px;border-bottom:1px solid var(--border-soft);padding-bottom:4px}
+.level-h span{font-size:.86rem;color:var(--muted)}
+.ex{border:1px solid var(--border);border-radius:4px;background:var(--view)}
+.ex.solved{border-color:color-mix(in srgb,var(--ok) 60%,var(--border))}
+.ex-head{display:flex;align-items:center;gap:8px;flex-wrap:wrap;padding:8px 14px;border-bottom:1px solid var(--border-soft);background:var(--alt);border-radius:4px 4px 0 0}
+.ex-id{font-weight:700;font-variant-numeric:tabular-nums}
+.chip{font-size:.75rem;border:1px solid var(--border);border-radius:10px;padding:1px 8px;color:var(--muted);background:var(--view)}
+.chip.l1{border-color:var(--accent)}
+.chip.l3{border-color:var(--warn);color:var(--warn)}
+.chip.ok{border-color:var(--ok);color:var(--ok);font-weight:600}
+.ex-body{padding:12px 14px;display:flex;flex-direction:column;gap:12px}
+.guide{font-size:.9rem;border-left:0;background:var(--alt);border:1px dashed var(--border);border-radius:3px;padding:6px 10px}
+.answer-row{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.unit{font-weight:600;min-width:1.5em}
+.panel{border:1px solid var(--border-soft);border-radius:3px;padding:10px 12px;background:var(--alt);font-size:.94rem;display:flex;flex-direction:column;gap:6px}
+.panel .steps{background:var(--view)}
+
+/* Cartes mémo */
+.flash{perspective:1200px;cursor:pointer;min-height:220px}
+.flash-inner{position:relative;min-height:220px;transition:transform .45s;transform-style:preserve-3d}
+.flash.flipped .flash-inner{transform:rotateY(180deg)}
+.flash-face{position:absolute;inset:0;backface-visibility:hidden;border:1px solid var(--border);border-radius:4px;background:var(--view);padding:22px;display:flex;flex-direction:column;justify-content:center;align-items:center;gap:10px;text-align:center}
+.flash-face.back{transform:rotateY(180deg);background:var(--alt);border-color:var(--accent)}
+.flash-face .k{font-size:.72rem;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);font-weight:600}
+.flash-face .t{font-size:1.2rem;font-weight:500;max-width:34ch}
+@media (prefers-reduced-motion: reduce){
+  .flow{animation:none}
+  .flash-inner{transition:none}
+  .bar span{transition:none}
+  .steps li.new{animation:none}
+}
+
+/* Accueil */
+.path{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.path-step{border:1px solid var(--border);border-radius:4px;padding:14px;display:flex;flex-direction:column;gap:8px;background:var(--view)}
+.path-step .n{font-size:.78rem;color:var(--accent-ink);font-weight:700;letter-spacing:.04em}
+.path-step p{font-size:.9rem;color:var(--muted);flex:1}
+.tips{margin:0;padding-left:1.2em;display:flex;flex-direction:column;gap:6px;max-width:66ch}
+.memo-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.memo-card{border:1px solid var(--border);border-radius:4px;padding:12px 14px;display:flex;flex-direction:column;gap:6px}
+.memo-card .when{font-size:.8rem;color:var(--muted);font-weight:600;text-transform:uppercase;letter-spacing:.05em}
+.pager{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;border-top:1px solid var(--border-soft);padding-top:16px}
+.quiz-top{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;font-variant-numeric:tabular-nums;color:var(--muted);font-size:.9rem}
+.score{font-size:2.2rem;font-weight:600;font-variant-numeric:tabular-nums}
+.confirm{display:flex;gap:6px;align-items:center;font-size:.85rem}
+
+@media (max-width: 820px){
+  .layout{grid-template-columns:1fr}
+  .sidebar{display:none}
+  .mobile-nav{display:flex;gap:8px;align-items:center;padding:8px 16px;border-bottom:1px solid var(--border);background:var(--window)}
+  .mobile-nav select{flex:1;min-width:0}
+  .content{padding-inline:16px;padding-block:20px 48px}
+  .path,.memo-grid{grid-template-columns:1fr}
+  .steps li{grid-template-columns:1fr;gap:2px}
+  .app-sub{display:none}
+  .meter-track{width:70px}
+}
+</style>
+
+<div id="root"></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.3.1/umd/react.production.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.3.1/umd/react-dom.production.min.js"></script>
+<script src="https://unpkg.com/htm@3.1.1/dist/htm.umd.js"></script>
+<script>
+const { useState, useEffect } = React;
+const html = htm.bind(React.createElement);
+
+/* ---------- Outils ---------- */
+const STORE_KEY = 'elec3e-progression-v1';
+function loadProgress(){
+  try { const s = localStorage.getItem(STORE_KEY); if (s) { const p = JSON.parse(s); return { visited:p.visited||{}, solved:p.solved||{}, quizBest:p.quizBest??null }; } } catch(e){}
+  return { visited:{}, solved:{}, quizBest:null };
+}
+function saveProgress(p){ try { localStorage.setItem(STORE_KEY, JSON.stringify(p)); } catch(e){} }
+const nf = (n, d=3) => Number(n).toLocaleString('fr-FR', { maximumFractionDigits:d });
+function parseNum(s){
+  const c = String(s).trim().replace(/[a-zA-ZΩµ]+$/,'').replace(/\s/g,'').replace(',', '.');
+  if (c === '' || !/^[-+]?\d*\.?\d+$/.test(c)) return NaN;
+  return Number(c);
+}
+const close = (a,b) => Math.abs(a-b) <= Math.max(1e-9, Math.abs(b)*0.01);
+function shuffle(a){ const r=a.slice(); for(let i=r.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [r[i],r[j]]=[r[j],r[i]]; } return r; }
+function fmt(s){
+  return String(s)
+    .replace(/\$([UIR])(?:_([A-Za-z0-9]+))?\$/g, (m,v,sub) => {
+      const c = v==='U' ? 'v-u' : v==='I' ? 'v-i' : 'v-r';
+      return `<span class="${c}">${v}${sub ? '<sub>'+sub+'</sub>' : ''}</span>`;
+    })
+    .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
+}
+const T = ({ s }) => html`<span dangerouslySetInnerHTML=${{ __html: fmt(s) }}></span>`;
+const P = ({ s, className }) => html`<p className=${className} dangerouslySetInnerHTML=${{ __html: fmt(s) }}></p>`;
+
+/* ---------- Icônes ---------- */
+const Ico = ({ kind }) => {
+  if (kind==='ok') return html`<svg className="msg-ico" viewBox="0 0 18 18"><circle cx="9" cy="9" r="8" fill="var(--ok)"/><path d="M5 9.3l2.6 2.5L13 6.4" fill="none" stroke="var(--view)" strokeWidth="2"/></svg>`;
+  if (kind==='bad') return html`<svg className="msg-ico" viewBox="0 0 18 18"><circle cx="9" cy="9" r="8" fill="var(--bad)"/><path d="M6 6l6 6M12 6l-6 6" stroke="var(--view)" strokeWidth="2"/></svg>`;
+  if (kind==='warn') return html`<svg className="msg-ico" viewBox="0 0 18 18"><path d="M9 1.5l8 14.5H1z" fill="var(--warn)"/><path d="M9 6.5v4.5M9 12.6v1.6" stroke="var(--view)" strokeWidth="2"/></svg>`;
+  return html`<svg className="msg-ico" viewBox="0 0 18 18"><circle cx="9" cy="9" r="8" fill="var(--accent)"/><path d="M9 8v5M9 5v1.6" stroke="var(--view)" strokeWidth="2"/></svg>`;
+};
+const Msg = ({ kind, children }) => html`<div className=${'msg '+kind} role="status"><${Ico} kind=${kind}/><div>${children}</div></div>`;
+
+/* ---------- Symboles de circuit (SVG) ---------- */
+function Sym({ x, y, kind, faded }){
+  const cls = faded ? 'faded' : '';
+  if (kind==='lamp') return html`<g className=${cls}><circle cx=${x} cy=${y} r="13" className="sym"/><path d=${`M${x-9.2} ${y-9.2}L${x+9.2} ${y+9.2}M${x+9.2} ${y-9.2}L${x-9.2} ${y+9.2}`} className="sym-line"/></g>`;
+  if (kind==='res') return html`<rect x=${x-18} y=${y-7} width="36" height="14" className="sym"/>`;
+  if (kind==='resV') return html`<rect x=${x-7} y=${y-18} width="14" height="36" className="sym"/>`;
+  const letter = { amp:'A', volt:'V', motor:'M', gen:'G' }[kind];
+  const r = kind==='gen' ? 17 : 13;
+  return html`<g className=${cls}><circle cx=${x} cy=${y} r=${r} className="sym"/><text x=${x} y=${y+4.5} className="sym-t">${letter}</text></g>`;
+}
+function Arrow({ x, y, dir, cls='arr-i' }){
+  const p = {
+    right:`${x+5},${y} ${x-4},${y-5} ${x-4},${y+5}`,
+    left:`${x-5},${y} ${x+4},${y-5} ${x+4},${y+5}`,
+    down:`${x},${y+5} ${x-5},${y-4} ${x+5},${y-4}`,
+    up:`${x},${y-5} ${x-5},${y+4} ${x+5},${y+4}`
+  }[dir];
+  return html`<polygon points=${p} className=${cls}/>`;
+}
+function Lbl({ x, y, anchor='middle', v, sub, val, cls='' }){
+  const rest = val!=null ? ' = '+val : '';
+  return html`<text x=${x} y=${y} textAnchor=${anchor} className=${'lbl '+cls}>${v}${sub ? html`<tspan dy="4" fontSize="9.5">${sub}</tspan><tspan dy="-4">${rest}</tspan>` : rest}</text>`;
+}
+
+/* Circuit en série : générateur en haut, deux dipôles en bas */
+function SeriesCircuit({ parts=['lamp','lamp'], names=['L₁','L₂'], I=null, U=null }){
+  const xa=155, xb=265;
+  return html`<svg viewBox="0 0 420 210" role="img" aria-label="Schéma d’un circuit en série">
+    <path d="M80 50H340V170H80Z" className="wire"/>
+    <${Sym} x=${210} y=${50} kind="gen"/>
+    <text x="186" y="44" textAnchor="end" className="pole">+</text>
+    <text x="234" y="44" className="pole">−</text>
+    <${Sym} x=${xa} y=${170} kind=${parts[0]}/>
+    <${Sym} x=${xb} y=${170} kind=${parts[1]}/>
+    <text x=${xa} y="200" textAnchor="middle" className="lbl m">${names[0]}</text>
+    <text x=${xb} y="200" textAnchor="middle" className="lbl m">${names[1]}</text>
+    ${I && I[0] && html`<g><${Arrow} x=${80} y=${110} dir="down"/><${Lbl} x=${72} y=${114} anchor="end" v="I" sub=${I[0].sub} val=${I[0].val} cls="i"/></g>`}
+    ${I && I[1] && html`<g><${Arrow} x=${210} y=${170} dir="right"/><${Lbl} x=${210} y=${200} v="I" sub=${I[1].sub} val=${I[1].val} cls="i"/></g>`}
+    ${I && I[2] && html`<g><${Arrow} x=${340} y=${110} dir="up"/><${Lbl} x=${348} y=${114} anchor="start" v="I" sub=${I[2].sub} val=${I[2].val} cls="i"/></g>`}
+    ${U && U.g && html`<${Lbl} x=${210} y=${22} v="U" sub=${U.g.sub} val=${U.g.val} cls="u"/>`}
+    ${U && U.a && html`<${Lbl} x=${xa} y=${146} v="U" sub=${U.a.sub} val=${U.a.val} cls="u"/>`}
+    ${U && U.b && html`<${Lbl} x=${xb} y=${146} v="U" sub=${U.b.sub} val=${U.b.val} cls="u"/>`}
+  </svg>`;
+}
+
+/* Circuit en dérivation : générateur à gauche, deux branches dérivées */
+function ParallelCircuit({ I=null, open=[false,false], names=['L₁','L₂'], parts=['lamp','lamp'] }){
+  const bx=[220,360];
+  const branch = (x,k) => open[k]
+    ? html`<g><path d=${`M${x} 40V138M${x} 158V180`} className="wire"/><path d=${`M${x} 158L${x+13} 140`} className="wire"/><circle cx=${x} cy="158" r="2.4" className="dot"/></g>`
+    : html`<path d=${`M${x} 40V180`} className="wire"/>`;
+  return html`<svg viewBox="0 0 460 215" role="img" aria-label="Schéma d’un circuit en dérivation">
+    <path d="M70 40H360M70 180H360M70 40V180" className="wire"/>
+    ${branch(bx[0],0)}${branch(bx[1],1)}
+    <circle cx="220" cy="40" r="3" className="dot"/><circle cx="220" cy="180" r="3" className="dot"/>
+    <${Sym} x=${70} y=${110} kind="gen"/>
+    <text x="54" y="90" textAnchor="end" className="pole">+</text>
+    <text x="54" y="140" textAnchor="end" className="pole">−</text>
+    <${Sym} x=${bx[0]} y=${105} kind=${parts[0]} faded=${open[0]}/>
+    <${Sym} x=${bx[1]} y=${105} kind=${parts[1]} faded=${open[1]}/>
+    <text x=${bx[0]+20} y="110" className="lbl m">${names[0]}</text>
+    <text x=${bx[1]+20} y="110" className="lbl m">${names[1]}</text>
+    ${I && I[0] && html`<g><${Arrow} x=${140} y=${40} dir="right"/><${Lbl} x=${140} y=${28} v="I" sub=${I[0].sub} val=${I[0].val} cls="i"/></g>`}
+    ${I && I[1] && html`<g><${Arrow} x=${bx[0]} y=${66} dir="down"/><${Lbl} x=${bx[0]+10} y=${70} anchor="start" v="I" sub=${I[1].sub} val=${I[1].val} cls="i"/></g>`}
+    ${I && I[2] && html`<g><${Arrow} x=${bx[1]} y=${66} dir="down"/><${Lbl} x=${bx[1]+10} y=${70} anchor="start" v="I" sub=${I[2].sub} val=${I[2].val} cls="i"/></g>`}
+  </svg>`;
+}
+
+/* Circuit de la loi d'Ohm : générateur, résistor, ampèremètre, voltmètre aux bornes du résistor */
+function OhmCircuit({ R, I, U }){
+  return html`<svg viewBox="0 0 430 215" role="img" aria-label="Schéma : résistor, ampèremètre en série, voltmètre en dérivation">
+    <path d="M80 80H340V190H80Z" className="wire"/>
+    <path d="M165 80V40H197M223 40H255V80" className="wire"/>
+    <circle cx="165" cy="80" r="3" className="dot"/><circle cx="255" cy="80" r="3" className="dot"/>
+    <${Sym} x=${80} y=${135} kind="gen"/>
+    <text x="62" y="115" textAnchor="end" className="pole">+</text>
+    <text x="62" y="165" textAnchor="end" className="pole">−</text>
+    <${Sym} x=${210} y=${80} kind="res"/>
+    <${Sym} x=${210} y=${40} kind="volt"/>
+    <${Sym} x=${340} y=${135} kind="amp"/>
+    <${Arrow} x=${120} y=${80} dir="right"/>
+    ${R!=null && html`<${Lbl} x=${210} y=${105} v="R" val=${R} cls="r"/>`}
+    ${U!=null && html`<${Lbl} x=${210} y=${16} v="U" val=${U} cls="u"/>`}
+    ${I!=null && html`<${Lbl} x=${358} y=${139} anchor="start" v="I" val=${I} cls="i"/>`}
+  </svg>`;
+}
+
+/* Circuit de la notion 1 avec sens du courant */
+function BasicCircuit({ flow }){
+  return html`<svg viewBox="0 0 430 250" role="img" aria-label="Circuit : générateur, lampe, ampèremètre en série, voltmètre aux bornes de la lampe">
+    <path d="M80 50H340V170H80Z" className="wire"/>
+    <path d="M165 170V222H197M223 222H255V170" className="wire"/>
+    <circle cx="165" cy="170" r="3" className="dot"/><circle cx="255" cy="170" r="3" className="dot"/>
+    ${flow && html`<path d="M193 50H80V170H340V50H227" className="flow"/>`}
+    <${Sym} x=${210} y=${50} kind="gen"/>
+    <text x="186" y="44" textAnchor="end" className="pole">+</text>
+    <text x="234" y="44" className="pole">−</text>
+    <${Sym} x=${210} y=${170} kind="lamp"/>
+    <${Sym} x=${340} y=${110} kind="amp"/>
+    <${Sym} x=${210} y=${222} kind="volt"/>
+    <text x="210" y="150" textAnchor="middle" className="lbl m">lampe</text>
+    <text x="358" y="106" className="lbl i">ampèremètre</text>
+    <text x="358" y="121" className="lbl m">en série</text>
+    <text x="270" y="218" className="lbl u">voltmètre</text>
+    <text x="270" y="233" className="lbl m">en dérivation</text>
+    ${flow && html`<g><${Arrow} x=${80} y=${110} dir="down"/><${Arrow} x=${120} y=${170} dir="right"/><${Arrow} x=${340} y=${80} dir="up"/><${Arrow} x=${140} y=${50} dir="left"/></g>`}
+  </svg>`;
+}
+
+/* Graphique caractéristique U = f(I) */
+function Graph({ lines, imax, umax, istep, ustep, ilabel, ulabel, point }){
+  const W=380, H=250, ml=46, mr=22, mt=18, mb=40;
+  const pw=W-ml-mr, ph=H-mt-mb;
+  const sx = i => ml + i/imax*pw;
+  const sy = u => mt + ph - u/umax*ph;
+  const grid=[];
+  for (let i=0;i<=imax+1e-9;i+=istep){ const maj = Math.abs(i/ilabel - Math.round(i/ilabel))<1e-9; grid.push(html`<line key=${'gi'+i} x1=${sx(i)} x2=${sx(i)} y1=${mt} y2=${mt+ph} className=${'g-grid'+(maj?' major':'')}/>`); if(maj) grid.push(html`<text key=${'ti'+i} x=${sx(i)} y=${mt+ph+16} textAnchor="middle" className="g-txt">${nf(i)}</text>`); }
+  for (let u=0;u<=umax+1e-9;u+=ustep){ const maj = Math.abs(u/ulabel - Math.round(u/ulabel))<1e-9; grid.push(html`<line key=${'gu'+u} x1=${ml} x2=${ml+pw} y1=${sy(u)} y2=${sy(u)} className=${'g-grid'+(maj?' major':'')}/>`); if(maj) grid.push(html`<text key=${'tu'+u} x=${ml-7} y=${sy(u)+4} textAnchor="end" className="g-txt">${nf(u)}</text>`); }
+  return html`<svg viewBox=${`0 0 ${W} ${H}`} role="img" aria-label="Caractéristique tension-intensité">
+    ${grid}
+    <path d=${`M${ml} ${mt-6}V${mt+ph}H${ml+pw+8}`} className="g-axis"/>
+    <text x=${ml+4} y=${mt-6} className="g-title">U (V)</text>
+    <text x=${ml+pw} y=${mt+ph+33} textAnchor="end" className="g-title">I (mA)</text>
+    ${lines.map((L,k) => {
+      const iEnd = Math.min(imax, umax*1000/L.R), uEnd = L.R*iEnd/1000;
+      const iL = iEnd*0.72, uL = L.R*iL/1000;
+      return html`<g key=${'l'+k}><line x1=${sx(0)} y1=${sy(0)} x2=${sx(iEnd)} y2=${sy(uEnd)} className=${'g-line-'+L.c}/>
+        <text x=${sx(iL)-8} y=${sy(uL)-6} textAnchor="end" className=${'g-lbl-'+L.c}>${L.name}</text></g>`;
+    })}
+    ${point && html`<g><path d=${`M${sx(0)} ${sy(point.u)}H${sx(point.i)}V${sy(0)}`} className="g-guide"/><circle cx=${sx(point.i)} cy=${sy(point.u)} r="4" className="g-pt"/></g>`}
+  </svg>`;
+}
+
+function Figure({ f }){
+  if (!f) return null;
+  let el = null;
+  if (f.type==='series') el = html`<${SeriesCircuit} ...${f}/>`;
+  else if (f.type==='parallel') el = html`<${ParallelCircuit} ...${f}/>`;
+  else if (f.type==='ohm') el = html`<${OhmCircuit} ...${f}/>`;
+  else if (f.type==='graph') el = html`<${Graph} ...${f}/>`;
+  return html`<div className="fig" style=${{ padding:'4px 0' }}>${el}</div>`;
+}
+
+/* ---------- Contenus : familles d'exercices ---------- */
+const G_COURSE = { type:'graph', imax:80, umax:8, istep:10, ustep:1, ilabel:20, ulabel:1, lines:[{R:250, name:'R₁', c:'a'},{R:100, name:'R₂', c:'b'}] };
+const G_R3 = { type:'graph', imax:80, umax:8, istep:10, ustep:1, ilabel:20, ulabel:1, lines:[{R:200, name:'R₃', c:'a'}] };
+
+const FAMILIES = [
+ { id:'fA', letter:'A', title:'Conversions d’unités', notion:'n6',
+   law:'**1 A = 1 000 mA** et **1 kΩ = 1 000 Ω**. Des mA vers les A, on **divise** par 1 000. Des A vers les mA, on **multiplie** par 1 000.',
+   worked:{ q:'Convertis 50 mA en ampères.', steps:[
+     {k:'Je repère', t:'On part des milliampères (mA) pour aller vers les ampères (A), une unité 1 000 fois plus grande.'},
+     {k:'Je choisis', t:'Vers une unité plus grande, le nombre devient plus petit : on divise par 1 000.'},
+     {k:'Je calcule', t:'50 ÷ 1 000 = 0,05'},
+     {k:'Je conclus', t:'**50 mA = 0,05 A**'} ]},
+   items:[
+    { id:'A1', level:1, q:'Convertis 250 mA en ampères.', answer:0.25, unit:'A', guide:'mA → A : on divise par 1 000.',
+      hint:'Diviser par 1 000 revient à déplacer la virgule de 3 rangs vers la gauche : 250 → 0,250.',
+      simple:'250 mA = 250 ÷ 1 000 = **0,25 A**',
+      detail:[{k:'Je repère',t:'On part de 250 mA et on veut des ampères.'},{k:'Je choisis',t:'1 A = 1 000 mA : on divise par 1 000.'},{k:'Je calcule',t:'250 ÷ 1 000 = 0,25'},{k:'Je conclus',t:'250 mA = **0,25 A**'}]},
+    { id:'A2', level:1, q:'Convertis 0,3 A en milliampères.', answer:300, unit:'mA', guide:'A → mA : on multiplie par 1 000.',
+      hint:'Multiplier par 1 000 revient à déplacer la virgule de 3 rangs vers la droite : 0,300 → 300.',
+      simple:'0,3 A = 0,3 × 1 000 = **300 mA**',
+      detail:[{k:'Je repère',t:'On part de 0,3 A et on veut des milliampères, une unité plus petite.'},{k:'Je choisis',t:'Vers une unité plus petite, le nombre devient plus grand : on multiplie par 1 000.'},{k:'Je calcule',t:'0,3 × 1 000 = 300'},{k:'Je conclus',t:'0,3 A = **300 mA**'}]},
+    { id:'A3', level:2, q:'Convertis 8 mA en ampères.', answer:0.008, unit:'A',
+      hint:'Écris 8 sous la forme 008 pour pouvoir déplacer la virgule de 3 rangs vers la gauche.',
+      simple:'8 mA = 8 ÷ 1 000 = **0,008 A**',
+      detail:[{k:'Je repère',t:'mA → A : on divise par 1 000.'},{k:'Astuce',t:'8 = 008, puis on déplace la virgule de 3 rangs : 0,008.'},{k:'Je conclus',t:'8 mA = **0,008 A**'}]},
+    { id:'A4', level:2, q:'Convertis 0,075 A en milliampères.', answer:75, unit:'mA',
+      hint:'A → mA : la virgule se déplace de 3 rangs vers la droite.',
+      simple:'0,075 A = 0,075 × 1 000 = **75 mA**',
+      detail:[{k:'Je repère',t:'A → mA : on multiplie par 1 000.'},{k:'Je calcule',t:'0,075 × 1 000 = 75'},{k:'Je conclus',t:'0,075 A = **75 mA**'}]},
+    { id:'A5', level:3, q:'Un résistor a une résistance de 1,2 kΩ. Exprime-la en ohms.', answer:1200, unit:'Ω',
+      hint:'Le préfixe kilo (k) veut dire « mille » : 1 kΩ = 1 000 Ω.',
+      simple:'1,2 kΩ = 1,2 × 1 000 = **1 200 Ω**',
+      detail:[{k:'Je repère',t:'kΩ → Ω : on va vers une unité 1 000 fois plus petite.'},{k:'Je choisis',t:'On multiplie par 1 000.'},{k:'Je calcule',t:'1,2 × 1 000 = 1 200'},{k:'Je conclus',t:'1,2 kΩ = **1 200 Ω**'}]},
+    { id:'A6', level:3, type:'choice', q:'Laquelle de ces intensités est la plus grande ?', options:['0,09 A','120 mA','0,1 A','85 mA'], correct:1,
+      hint:'Exprime toutes les valeurs dans la même unité avant de comparer.',
+      simple:'120 mA = 0,12 A : c’est la plus grande valeur.',
+      detail:[{k:'Méthode',t:'On exprime tout en ampères.'},{k:'Conversions',t:'120 mA = 0,12 A et 85 mA = 0,085 A.'},{k:'Comparaison',t:'0,085 A < 0,09 A < 0,1 A < 0,12 A'},{k:'Conclusion',t:'La plus grande intensité est **120 mA**.'}]},
+   ]},
+ { id:'fB', letter:'B', title:'Unicité de l’intensité', notion:'n2',
+   law:'Dans un circuit **en série**, l’intensité est la **même en tous points** : $I$ = $I_1$ = $I_2$.',
+   worked:{ q:'Un circuit en série comporte un générateur, une lampe L et un moteur M. L’ampèremètre placé à la sortie du générateur indique $I_G$ = 0,2 A. Quelle est l’intensité $I_M$ du courant qui traverse le moteur ?',
+     fig:{ type:'series', parts:['lamp','motor'], names:['L','M'], I:[{sub:'G', val:'0,2 A'}, null, {sub:'M', val:'?'}] },
+     steps:[
+     {k:'On sait que', t:'Le circuit est **en série** et $I_G$ = 0,2 A.'},
+     {k:'On utilise', t:'La loi d’unicité de l’intensité : $I_M$ = $I_G$.'},
+     {k:'Calcul', t:'$I_M$ = 0,2 A'},
+     {k:'Conclusion', t:'L’intensité du courant qui traverse le moteur est **0,2 A**.'} ]},
+   items:[
+    { id:'B1', level:1, q:'Deux lampes L₁ et L₂ sont branchées en série. L’intensité du courant qui traverse L₁ vaut $I_1$ = 0,15 A. Quelle est l’intensité $I_2$ du courant qui traverse L₂ ?', answer:0.15, unit:'A',
+      fig:{ type:'series', I:[null,{sub:'1', val:'0,15 A'},{sub:'2', val:'?'}] },
+      guide:'Loi d’unicité : $I_2$ = $I_1$.', hint:'En série, il n’y a qu’un seul chemin : le même débit de charges passe partout.',
+      simple:'$I_2$ = $I_1$ = **0,15 A**',
+      detail:[{k:'On sait que',t:'Circuit en série ; $I_1$ = 0,15 A.'},{k:'On utilise',t:'La loi d’unicité de l’intensité : $I_2$ = $I_1$.'},{k:'Calcul',t:'$I_2$ = 0,15 A'},{k:'Conclusion',t:'L’intensité du courant qui traverse L₂ est **0,15 A**.'}]},
+    { id:'B2', level:1, q:'Dans un circuit en série, un ampèremètre placé avant une lampe indique 0,32 A. On le déplace juste après la lampe. Quelle valeur indique-t-il maintenant ?', answer:0.32, unit:'A',
+      guide:'Loi d’unicité : l’intensité est la même avant et après la lampe.', hint:'La lampe ne « consomme » pas de courant.',
+      simple:'L’intensité ne change pas : **0,32 A**.',
+      detail:[{k:'On sait que',t:'Circuit en série ; intensité avant la lampe : 0,32 A.'},{k:'On utilise',t:'La loi d’unicité de l’intensité.'},{k:'Calcul',t:'$I$ après la lampe = $I$ avant la lampe = 0,32 A'},{k:'Conclusion',t:'L’ampèremètre indique toujours **0,32 A**.'}]},
+    { id:'B3', level:2, q:'Un circuit en série contient un générateur, une lampe, une DEL et un résistor. L’intensité du courant qui traverse la lampe vaut 120 mA. Quelle est, en ampères, l’intensité du courant qui traverse le résistor ?', answer:0.12, unit:'A',
+      hint:'Applique la loi d’unicité, puis convertis : mA → A, on divise par 1 000.',
+      simple:'$I$ = 120 mA = **0,12 A** (même valeur partout en série).',
+      detail:[{k:'On sait que',t:'Circuit en série ; l’intensité dans la lampe vaut 120 mA.'},{k:'On utilise',t:'La loi d’unicité : l’intensité dans le résistor est égale à celle de la lampe.'},{k:'Conversion',t:'120 mA = 120 ÷ 1 000 = 0,12 A'},{k:'Conclusion',t:'Le résistor est traversé par un courant de **0,12 A**.'}]},
+    { id:'B4', level:3, type:'choice', q:'Dans un circuit en série avec deux lampes, Yanis mesure $I_1$ = 0,35 A et $I_2$ = 0,25 A. Que peux-tu en conclure ?',
+      options:['Ses mesures sont correctes : L₁ brille plus fort.','Une mesure est fausse : en série, l’intensité est la même partout.','Le courant s’use en traversant L₁.','C’est normal, L₂ est plus loin du générateur.'], correct:1,
+      hint:'Quelle loi s’applique aux circuits en série ?',
+      simple:'En série, on devrait trouver $I_1$ = $I_2$ : une des mesures est fausse.',
+      detail:[{k:'On sait que',t:'Le circuit est en série.'},{k:'On utilise',t:'La loi d’unicité : $I_1$ = $I_2$.'},{k:'Comparaison',t:'0,35 A ≠ 0,25 A : les mesures ne respectent pas la loi.'},{k:'Conclusion',t:'**Une des mesures est fausse** (ampèremètre mal réglé ou mal lu). Le courant ne s’use pas.'}]},
+    { id:'B5', level:3, q:'Un circuit en série contient un générateur, un moteur et une lampe. Un ampèremètre placé entre le moteur et la lampe indique 85 mA. Exprime en ampères l’intensité du courant qui sort du générateur.', answer:0.085, unit:'A',
+      hint:'Le générateur fait partie de la boucle : la loi d’unicité s’applique aussi à lui.',
+      simple:'$I_G$ = 85 mA = **0,085 A**',
+      detail:[{k:'On sait que',t:'Circuit en série ; $I$ = 85 mA entre le moteur et la lampe.'},{k:'On utilise',t:'La loi d’unicité : $I_G$ = $I$.'},{k:'Conversion',t:'85 mA = 85 ÷ 1 000 = 0,085 A'},{k:'Conclusion',t:'Le courant qui sort du générateur vaut **0,085 A**.'}]},
+   ]},
+ { id:'fC', letter:'C', title:'Additivité des tensions', notion:'n3',
+   law:'Dans un circuit **en série** : $U_G$ = $U_1$ + $U_2$. Pour une tension inconnue : $U_2$ = $U_G$ − $U_1$.',
+   worked:{ q:'Dans un circuit en série, le générateur fournit $U_G$ = 12 V. Le voltmètre mesure $U_L$ = 3 V aux bornes de la lampe. Calcule la tension $U_M$ aux bornes du moteur.',
+     fig:{ type:'series', parts:['lamp','motor'], names:['L','M'], U:{ g:{sub:'G', val:'12 V'}, a:{sub:'L', val:'3 V'}, b:{sub:'M', val:'?'} } },
+     steps:[
+     {k:'On sait que', t:'Le circuit est **en série** ; $U_G$ = 12 V et $U_L$ = 3 V.'},
+     {k:'On utilise', t:'La loi d’additivité des tensions : $U_G$ = $U_L$ + $U_M$, donc $U_M$ = $U_G$ − $U_L$.'},
+     {k:'Calcul', t:'$U_M$ = 12 − 3 = 9 V'},
+     {k:'Conclusion', t:'La tension aux bornes du moteur est **9 V**.'} ]},
+   items:[
+    { id:'C1', level:1, q:'Dans un circuit en série, $U_G$ = 6 V et $U_1$ = 2,5 V. Calcule $U_2$.', answer:3.5, unit:'V',
+      fig:{ type:'series', U:{ g:{sub:'G', val:'6 V'}, a:{sub:'1', val:'2,5 V'}, b:{sub:'2', val:'?'} } },
+      guide:'$U_2$ = $U_G$ − $U_1$', hint:'La tension du générateur se partage entre les deux lampes.',
+      simple:'$U_2$ = 6 − 2,5 = **3,5 V**',
+      detail:[{k:'On sait que',t:'Circuit en série ; $U_G$ = 6 V et $U_1$ = 2,5 V.'},{k:'On utilise',t:'L’additivité des tensions : $U_G$ = $U_1$ + $U_2$, donc $U_2$ = $U_G$ − $U_1$.'},{k:'Calcul',t:'$U_2$ = 6 − 2,5 = 3,5 V'},{k:'Conclusion',t:'La tension aux bornes de L₂ est **3,5 V**.'}]},
+    { id:'C2', level:1, q:'Dans un circuit en série, $U_1$ = 1,8 V et $U_2$ = 4,2 V. Quelle est la tension $U_G$ du générateur ?', answer:6, unit:'V',
+      guide:'$U_G$ = $U_1$ + $U_2$', hint:'On additionne les tensions des dipôles.',
+      simple:'$U_G$ = 1,8 + 4,2 = **6 V**',
+      detail:[{k:'On sait que',t:'Circuit en série ; $U_1$ = 1,8 V et $U_2$ = 4,2 V.'},{k:'On utilise',t:'L’additivité des tensions : $U_G$ = $U_1$ + $U_2$.'},{k:'Calcul',t:'$U_G$ = 1,8 + 4,2 = 6 V'},{k:'Conclusion',t:'Le générateur fournit une tension de **6 V**.'}]},
+    { id:'C3', level:2, q:'Un générateur de 9 V alimente en série une lampe ($U_1$ = 2 V), un moteur ($U_2$ = 4,5 V) et un résistor. Calcule la tension $U_3$ aux bornes du résistor.', answer:2.5, unit:'V',
+      hint:'Avec trois dipôles, la loi devient $U_G$ = $U_1$ + $U_2$ + $U_3$.',
+      simple:'$U_3$ = 9 − 2 − 4,5 = **2,5 V**',
+      detail:[{k:'On sait que',t:'Circuit en série ; $U_G$ = 9 V, $U_1$ = 2 V, $U_2$ = 4,5 V.'},{k:'On utilise',t:'L’additivité des tensions : $U_G$ = $U_1$ + $U_2$ + $U_3$, donc $U_3$ = $U_G$ − $U_1$ − $U_2$.'},{k:'Calcul',t:'$U_3$ = 9 − 2 − 4,5 = 2,5 V'},{k:'Conclusion',t:'La tension aux bornes du résistor est **2,5 V**.'}]},
+    { id:'C4', level:2, q:'Deux lampes identiques sont branchées en série avec un générateur de 12 V. Quelle est la tension aux bornes de chaque lampe ?', answer:6, unit:'V',
+      hint:'Des lampes identiques reçoivent la même tension, et leur somme vaut 12 V.',
+      simple:'$U_1$ = $U_2$ et $U_1$ + $U_2$ = 12 V, donc chaque lampe : **6 V**.',
+      detail:[{k:'On sait que',t:'Circuit en série ; $U_G$ = 12 V ; lampes identiques, donc $U_1$ = $U_2$.'},{k:'On utilise',t:'L’additivité des tensions : $U_1$ + $U_2$ = $U_G$, soit 2 × $U_1$ = 12 V.'},{k:'Calcul',t:'$U_1$ = 12 ÷ 2 = 6 V'},{k:'Conclusion',t:'Chaque lampe a une tension de **6 V** à ses bornes.'}]},
+    { id:'C5', level:3, type:'choice', q:'Un générateur de 4,5 V alimente en série une lampe et un moteur. Un voltmètre indique 5,2 V aux bornes de la lampe. Que penses-tu de cette mesure ?',
+      options:['Elle est possible si le moteur tourne vite.','Elle est impossible : ici, la tension d’un dipôle ne peut pas dépasser celle du générateur.','Elle est normale : la lampe ajoute de la tension.','On ne peut rien dire sans l’intensité.'], correct:1,
+      hint:'Calcule la tension qu’il resterait pour le moteur.',
+      simple:'Il resterait 4,5 − 5,2 = −0,7 V pour le moteur : c’est impossible.',
+      detail:[{k:'On sait que',t:'Circuit en série ; $U_G$ = 4,5 V ; $U_L$ = 5,2 V (mesure annoncée).'},{k:'On utilise',t:'L’additivité des tensions : $U_M$ = $U_G$ − $U_L$.'},{k:'Calcul',t:'$U_M$ = 4,5 − 5,2 = −0,7 V : une tension négative n’a pas de sens ici.'},{k:'Conclusion',t:'**La mesure est fausse** : la tension de la lampe ne peut pas dépasser 4,5 V.'}]},
+   ]},
+ { id:'fD', letter:'D', title:'Additivité des intensités', notion:'n4',
+   law:'Dans un circuit **en dérivation** : $I$ = $I_1$ + $I_2$ (branche principale = somme des branches dérivées). Toutes les intensités dans la **même unité**.',
+   worked:{ q:'Dans un circuit en dérivation, le générateur débite $I_G$ = 0,11 A. L’ampèremètre mesure $I_2$ = 50 mA dans la lampe L₂. Calcule l’intensité $I_1$ dans la lampe L₁.',
+     fig:{ type:'parallel', I:[{sub:'G', val:'0,11 A'},{sub:'1', val:'?'},{sub:'2', val:'50 mA'}] },
+     steps:[
+     {k:'On sait que', t:'Le circuit est **en dérivation** ; $I_G$ = 0,11 A et $I_2$ = 50 mA.'},
+     {k:'On utilise', t:'La loi d’additivité des intensités : $I_G$ = $I_1$ + $I_2$, donc $I_1$ = $I_G$ − $I_2$.'},
+     {k:'Conversion', t:'Même unité obligatoire : $I_2$ = 50 mA = 0,05 A.'},
+     {k:'Calcul', t:'$I_1$ = 0,11 − 0,05 = 0,06 A'},
+     {k:'Conclusion', t:'L’intensité du courant qui traverse L₁ est **0,06 A**.'} ]},
+   items:[
+    { id:'D1', level:1, q:'Dans un circuit en dérivation, $I_1$ = 0,2 A et $I_2$ = 0,3 A. Calcule l’intensité $I$ dans la branche principale.', answer:0.5, unit:'A',
+      fig:{ type:'parallel', I:[{val:'?'},{sub:'1', val:'0,2 A'},{sub:'2', val:'0,3 A'}] },
+      guide:'$I$ = $I_1$ + $I_2$', hint:'Les deux courants se rejoignent dans la branche principale.',
+      simple:'$I$ = 0,2 + 0,3 = **0,5 A**',
+      detail:[{k:'On sait que',t:'Circuit en dérivation ; $I_1$ = 0,2 A et $I_2$ = 0,3 A.'},{k:'On utilise',t:'L’additivité des intensités : $I$ = $I_1$ + $I_2$.'},{k:'Calcul',t:'$I$ = 0,2 + 0,3 = 0,5 A'},{k:'Conclusion',t:'L’intensité dans la branche principale est **0,5 A**.'}]},
+    { id:'D2', level:1, q:'Dans un circuit en dérivation, $I$ = 0,8 A et $I_1$ = 0,35 A. Calcule $I_2$.', answer:0.45, unit:'A',
+      guide:'$I_2$ = $I$ − $I_1$', hint:'Le courant principal se partage entre les deux branches.',
+      simple:'$I_2$ = 0,8 − 0,35 = **0,45 A**',
+      detail:[{k:'On sait que',t:'Circuit en dérivation ; $I$ = 0,8 A et $I_1$ = 0,35 A.'},{k:'On utilise',t:'L’additivité des intensités : $I$ = $I_1$ + $I_2$, donc $I_2$ = $I$ − $I_1$.'},{k:'Calcul',t:'$I_2$ = 0,8 − 0,35 = 0,45 A'},{k:'Conclusion',t:'**0,45 A** traversent la branche 2.'}]},
+    { id:'D3', level:2, q:'Dans un circuit en dérivation, $I$ = 0,25 A et $I_1$ = 90 mA. Calcule $I_2$ en milliampères.', answer:160, unit:'mA',
+      hint:'Convertis d’abord $I$ en mA : 0,25 A = 250 mA.',
+      simple:'$I_2$ = 250 − 90 = **160 mA**',
+      detail:[{k:'On sait que',t:'Circuit en dérivation ; $I$ = 0,25 A et $I_1$ = 90 mA.'},{k:'On utilise',t:'L’additivité des intensités : $I_2$ = $I$ − $I_1$.'},{k:'Conversion',t:'On veut des mA : $I$ = 0,25 × 1 000 = 250 mA.'},{k:'Calcul',t:'$I_2$ = 250 − 90 = 160 mA'},{k:'Conclusion',t:'L’intensité dans la branche 2 est **160 mA**.'}]},
+    { id:'D4', level:2, q:'Deux lampes identiques sont branchées en dérivation. Le générateur débite 0,6 A. Quelle est l’intensité du courant dans chaque lampe ?', answer:0.3, unit:'A',
+      hint:'Lampes identiques : le courant se partage en deux parts égales.',
+      simple:'$I_1$ = $I_2$ = 0,6 ÷ 2 = **0,3 A**',
+      detail:[{k:'On sait que',t:'Circuit en dérivation ; $I$ = 0,6 A ; lampes identiques, donc $I_1$ = $I_2$.'},{k:'On utilise',t:'L’additivité des intensités : $I_1$ + $I_2$ = $I$, soit 2 × $I_1$ = 0,6 A.'},{k:'Calcul',t:'$I_1$ = 0,6 ÷ 2 = 0,3 A'},{k:'Conclusion',t:'Chaque lampe est traversée par **0,3 A**.'}]},
+    { id:'D5', level:3, q:'Un circuit comporte trois branches dérivées. Dans la branche principale, $I$ = 1 A. On mesure $I_1$ = 0,4 A et $I_2$ = 250 mA. Calcule $I_3$ en ampères.', answer:0.35, unit:'A',
+      hint:'Avec trois branches : $I$ = $I_1$ + $I_2$ + $I_3$. Pense à convertir $I_2$.',
+      simple:'$I_3$ = 1 − 0,4 − 0,25 = **0,35 A**',
+      detail:[{k:'On sait que',t:'Trois branches dérivées ; $I$ = 1 A, $I_1$ = 0,4 A, $I_2$ = 250 mA.'},{k:'On utilise',t:'L’additivité des intensités : $I_3$ = $I$ − $I_1$ − $I_2$.'},{k:'Conversion',t:'$I_2$ = 250 mA = 0,25 A'},{k:'Calcul',t:'$I_3$ = 1 − 0,4 − 0,25 = 0,35 A'},{k:'Conclusion',t:'La troisième branche est traversée par **0,35 A**.'}]},
+   ]},
+ { id:'fE', letter:'E', title:'Loi d’Ohm', notion:'n5',
+   law:'Pour un résistor : $U$ = $R$ × $I$, donc $I$ = $U$ ÷ $R$ et $R$ = $U$ ÷ $I$. Unités : **U en V, R en Ω, I en A**.',
+   worked:{ q:'Un résistor de 47 Ω est parcouru par un courant de 0,08 A. Calcule la tension à ses bornes.',
+     fig:{ type:'ohm', R:'47 Ω', I:'0,08 A', U:'?' },
+     steps:[
+     {k:'On sait que', t:'$R$ = 47 Ω et $I$ = 0,08 A (déjà en ampères).'},
+     {k:'On utilise', t:'La loi d’Ohm : $U$ = $R$ × $I$.'},
+     {k:'Calcul', t:'$U$ = 47 × 0,08 = 3,76 V'},
+     {k:'Conclusion', t:'La tension aux bornes du résistor est **3,76 V**.'} ]},
+   items:[
+    { id:'E1', level:1, q:'Un résistor de 100 Ω est traversé par un courant de 0,05 A. Calcule la tension $U$ à ses bornes.', answer:5, unit:'V',
+      fig:{ type:'ohm', R:'100 Ω', I:'0,05 A', U:'?' },
+      guide:'$U$ = $R$ × $I$', hint:'Les unités sont déjà correctes (Ω et A).',
+      simple:'$U$ = 100 × 0,05 = **5 V**',
+      detail:[{k:'On sait que',t:'$R$ = 100 Ω et $I$ = 0,05 A.'},{k:'On utilise',t:'La loi d’Ohm : $U$ = $R$ × $I$.'},{k:'Calcul',t:'$U$ = 100 × 0,05 = 5 V'},{k:'Conclusion',t:'La tension aux bornes du résistor est **5 V**.'}]},
+    { id:'E2', level:1, q:'La tension entre les bornes d’un résistor de 120 Ω est 9 V. Calcule l’intensité du courant qui le traverse.', answer:0.075, unit:'A',
+      guide:'$I$ = $U$ ÷ $R$', hint:'On cherche $I$ : dans $U$ = $R$ × $I$, on divise $U$ par $R$.',
+      simple:'$I$ = 9 ÷ 120 = **0,075 A**',
+      detail:[{k:'On sait que',t:'$U$ = 9 V et $R$ = 120 Ω.'},{k:'On utilise',t:'La loi d’Ohm : $U$ = $R$ × $I$, donc $I$ = $U$ ÷ $R$.'},{k:'Calcul',t:'$I$ = 9 ÷ 120 = 0,075 A'},{k:'Conclusion',t:'L’intensité du courant est **0,075 A** (soit 75 mA).'}]},
+    { id:'E3', level:2, q:'Un résistor soumis à une tension de 4,5 V est traversé par un courant de 0,03 A. Calcule sa résistance $R$.', answer:150, unit:'Ω',
+      hint:'On cherche $R$ : $R$ = $U$ ÷ $I$.',
+      simple:'$R$ = 4,5 ÷ 0,03 = **150 Ω**',
+      detail:[{k:'On sait que',t:'$U$ = 4,5 V et $I$ = 0,03 A.'},{k:'On utilise',t:'La loi d’Ohm : $R$ = $U$ ÷ $I$.'},{k:'Calcul',t:'$R$ = 4,5 ÷ 0,03 = 150 Ω'},{k:'Conclusion',t:'La résistance vaut **150 Ω**.'}]},
+    { id:'E4', level:2, q:'Un résistor de 220 Ω est traversé par un courant de 25 mA. Calcule la tension à ses bornes.', answer:5.5, unit:'V',
+      hint:'Avant d’utiliser la loi d’Ohm, convertis l’intensité en ampères.',
+      simple:'25 mA = 0,025 A ; $U$ = 220 × 0,025 = **5,5 V**',
+      detail:[{k:'On sait que',t:'$R$ = 220 Ω et $I$ = 25 mA.'},{k:'Conversion',t:'$I$ = 25 ÷ 1 000 = 0,025 A'},{k:'On utilise',t:'La loi d’Ohm : $U$ = $R$ × $I$.'},{k:'Calcul',t:'$U$ = 220 × 0,025 = 5,5 V'},{k:'Conclusion',t:'La tension aux bornes du résistor est **5,5 V**.'}]},
+    { id:'E5', level:3, q:'Un résistor de 1,5 kΩ est soumis à une tension de 6 V. Calcule l’intensité du courant, en milliampères.', answer:4, unit:'mA',
+      hint:'Deux conversions : kΩ → Ω avant le calcul, puis A → mA pour la réponse.',
+      simple:'1,5 kΩ = 1 500 Ω ; $I$ = 6 ÷ 1 500 = 0,004 A = **4 mA**',
+      detail:[{k:'On sait que',t:'$U$ = 6 V et $R$ = 1,5 kΩ.'},{k:'Conversion',t:'$R$ = 1,5 × 1 000 = 1 500 Ω'},{k:'On utilise',t:'La loi d’Ohm : $I$ = $U$ ÷ $R$.'},{k:'Calcul',t:'$I$ = 6 ÷ 1 500 = 0,004 A = 4 mA'},{k:'Conclusion',t:'L’intensité du courant est **4 mA**.'}]},
+    { id:'E6', level:3, q:'Un résistor est traversé par 0,2 A quand on lui applique 10 V. Quelle intensité le traverse si on lui applique 4 V ?', answer:0.08, unit:'A',
+      hint:'Calcule d’abord sa résistance avec la première situation. Elle ne change pas.',
+      simple:'$R$ = 10 ÷ 0,2 = 50 Ω, puis $I$ = 4 ÷ 50 = **0,08 A**',
+      detail:[{k:'On sait que',t:'Situation 1 : $U$ = 10 V et $I$ = 0,2 A. Situation 2 : $U$ = 4 V.'},{k:'Étape 1',t:'Loi d’Ohm : $R$ = $U$ ÷ $I$ = 10 ÷ 0,2 = 50 Ω.'},{k:'Étape 2',t:'Même résistor, donc même $R$ : $I$ = $U$ ÷ $R$ = 4 ÷ 50 = 0,08 A.'},{k:'Conclusion',t:'Sous 4 V, le résistor est traversé par **0,08 A**.'}]},
+   ]},
+ { id:'fF', letter:'F', title:'Lecture graphique', notion:'n5',
+   law:'La caractéristique d’un résistor est une **droite qui passe par l’origine**. Pour trouver $R$ : on lit un point ($I$ ; $U$) sur la droite, on **convertit** $I$ en ampères, puis $R$ = $U$ ÷ $I$.',
+   worked:{ q:'Paolo a tracé les caractéristiques de deux résistors R₁ et R₂. Retrouve la valeur de R₁.',
+     fig:{ ...G_COURSE, point:{ i:20, u:5 } },
+     steps:[
+     {k:'Je choisis un point', t:'Sur la droite R₁, je prends un point qui tombe sur un croisement du quadrillage : **I = 20 mA et U = 5 V**.'},
+     {k:'Conversion', t:'$I$ = 20 mA = 0,02 A'},
+     {k:'On utilise', t:'La loi d’Ohm : $R$ = $U$ ÷ $I$.'},
+     {k:'Calcul', t:'$R_1$ = 5 ÷ 0,02 = 250 Ω'},
+     {k:'Conclusion', t:'La résistance R₁ vaut **250 Ω**.'} ]},
+   items:[
+    { id:'F1', level:1, q:'Sur le même graphique, retrouve la valeur de la résistance R₂.', answer:100, unit:'Ω', fig:G_COURSE,
+      guide:'Lis le point de R₂ où $I$ = 60 mA, puis $R$ = $U$ ÷ $I$.', hint:'Pour I = 60 mA, la droite R₂ passe par U = 6 V.',
+      simple:'60 mA = 0,06 A ; $R_2$ = 6 ÷ 0,06 = **100 Ω**',
+      detail:[{k:'Je lis',t:'Sur la droite R₂ : $I$ = 60 mA pour $U$ = 6 V.'},{k:'Conversion',t:'$I$ = 0,06 A'},{k:'On utilise',t:'$R$ = $U$ ÷ $I$'},{k:'Calcul',t:'$R_2$ = 6 ÷ 0,06 = 100 Ω'},{k:'Conclusion',t:'La résistance R₂ vaut **100 Ω**.'}]},
+    { id:'F2', level:2, type:'choice', q:'Sur ce graphique, quelle droite correspond à la plus grande résistance ?', fig:G_COURSE,
+      options:['R₁, la droite la plus pentue','R₂, la droite la moins pentue','Les deux ont la même résistance','On ne peut pas savoir sans calcul'], correct:0,
+      hint:'Compare les tensions des deux résistors pour une même intensité, par exemple 20 mA.',
+      simple:'Pour la même intensité, R₁ demande une tension plus grande : sa résistance est plus grande.',
+      detail:[{k:'Je compare',t:'Pour $I$ = 20 mA : R₁ donne 5 V, R₂ donne 2 V.'},{k:'On utilise',t:'$R$ = $U$ ÷ $I$ : à $I$ égale, plus $U$ est grande, plus $R$ est grande.'},{k:'Conclusion',t:'**R₁** (250 Ω) a la plus grande résistance : c’est la droite la plus pentue.'}]},
+    { id:'F3', level:2, q:'Voici la caractéristique d’un résistor R₃. Retrouve la valeur de sa résistance.', answer:200, unit:'Ω', fig:G_R3,
+      hint:'Cherche un point de la droite situé sur un croisement du quadrillage, par exemple à I = 40 mA.',
+      simple:'Point (40 mA ; 8 V) : $R_3$ = 8 ÷ 0,04 = **200 Ω**',
+      detail:[{k:'Je lis',t:'La droite passe par $I$ = 40 mA et $U$ = 8 V (ou 20 mA et 4 V).'},{k:'Conversion',t:'$I$ = 40 mA = 0,04 A'},{k:'On utilise',t:'$R$ = $U$ ÷ $I$'},{k:'Calcul',t:'$R_3$ = 8 ÷ 0,04 = 200 Ω'},{k:'Conclusion',t:'La résistance R₃ vaut **200 Ω**.'}]},
+    { id:'F4', level:3, q:'Avec ce même résistor R₃, quelle intensité, en mA, obtient-on pour une tension de 5 V ?', answer:25, unit:'mA', fig:G_R3,
+      hint:'5 V ne tombe pas sur un croisement : utilise plutôt la valeur de R₃ et la loi d’Ohm.',
+      simple:'$I$ = 5 ÷ 200 = 0,025 A = **25 mA**',
+      detail:[{k:'On sait que',t:'$R_3$ = 200 Ω (exercice précédent) et $U$ = 5 V.'},{k:'On utilise',t:'La loi d’Ohm : $I$ = $U$ ÷ $R$.'},{k:'Calcul',t:'$I$ = 5 ÷ 200 = 0,025 A'},{k:'Conversion',t:'0,025 A = 25 mA'},{k:'Conclusion',t:'Sous 5 V, l’intensité vaut **25 mA**. Tu peux le vérifier sur le graphique.'}]},
+   ]},
+ { id:'fG', letter:'G', title:'Problèmes en plusieurs étapes', notion:'n6',
+   law:'Repère le **type de circuit** et la **grandeur cherchée**, puis enchaîne les lois une par une. Écris chaque résultat intermédiaire avec son unité.',
+   worked:{ q:'Un générateur de 12 V alimente en série un résistor de 200 Ω et une lampe. La tension aux bornes de la lampe est 4 V. Calcule l’intensité du courant qui traverse la lampe.',
+     fig:{ type:'series', parts:['res','lamp'], names:['R = 200 Ω','L'], U:{ g:{sub:'G', val:'12 V'}, b:{sub:'L', val:'4 V'} }, I:[{val:'?'}, null, null] },
+     steps:[
+     {k:'On sait que', t:'Circuit **en série** ; $U_G$ = 12 V ; $U_L$ = 4 V ; $R$ = 200 Ω.'},
+     {k:'Étape 1', t:'Additivité des tensions : $U_R$ = $U_G$ − $U_L$ = 12 − 4 = 8 V.'},
+     {k:'Étape 2', t:'Loi d’Ohm pour le résistor : $I$ = $U_R$ ÷ $R$ = 8 ÷ 200 = 0,04 A.'},
+     {k:'Étape 3', t:'Unicité de l’intensité : en série, la lampe est traversée par le même courant.'},
+     {k:'Conclusion', t:'L’intensité du courant dans la lampe est **0,04 A**.'} ]},
+   items:[
+    { id:'G1', level:2, q:'Un générateur de 9 V alimente en série un résistor de 150 Ω et un moteur. Le courant vaut 0,02 A. Calcule la tension $U_M$ aux bornes du moteur.', answer:6, unit:'V',
+      fig:{ type:'series', parts:['res','motor'], names:['R = 150 Ω','M'], U:{ g:{sub:'G', val:'9 V'}, b:{sub:'M', val:'?'} }, I:[{val:'0,02 A'}, null, null] },
+      hint:'Calcule d’abord la tension aux bornes du résistor avec la loi d’Ohm.',
+      simple:'$U_R$ = 150 × 0,02 = 3 V ; $U_M$ = 9 − 3 = **6 V**',
+      detail:[{k:'On sait que',t:'Circuit en série ; $U_G$ = 9 V ; $R$ = 150 Ω ; $I$ = 0,02 A.'},{k:'Étape 1',t:'Loi d’Ohm : $U_R$ = $R$ × $I$ = 150 × 0,02 = 3 V.'},{k:'Étape 2',t:'Additivité des tensions : $U_M$ = $U_G$ − $U_R$ = 9 − 3 = 6 V.'},{k:'Conclusion',t:'La tension aux bornes du moteur est **6 V**.'}]},
+    { id:'G2', level:2, q:'Dans un circuit en dérivation, l’intensité dans la branche principale est 0,5 A. La branche 1 contient un résistor de 60 Ω soumis à 12 V. Calcule l’intensité $I_2$ dans la branche 2.', answer:0.3, unit:'A',
+      hint:'Trouve d’abord $I_1$ avec la loi d’Ohm.',
+      simple:'$I_1$ = 12 ÷ 60 = 0,2 A ; $I_2$ = 0,5 − 0,2 = **0,3 A**',
+      detail:[{k:'On sait que',t:'Circuit en dérivation ; $I$ = 0,5 A ; branche 1 : $R$ = 60 Ω et $U$ = 12 V.'},{k:'Étape 1',t:'Loi d’Ohm : $I_1$ = $U$ ÷ $R$ = 12 ÷ 60 = 0,2 A.'},{k:'Étape 2',t:'Additivité des intensités : $I_2$ = $I$ − $I_1$ = 0,5 − 0,2 = 0,3 A.'},{k:'Conclusion',t:'La branche 2 est traversée par **0,3 A**.'}]},
+    { id:'G3', level:3, q:'Un générateur de 6 V alimente en série deux résistors, R₁ = 100 Ω et R₂ = 200 Ω. L’intensité vaut 0,02 A. Calcule $U_2$, puis vérifie la loi d’additivité des tensions.', answer:4, unit:'V',
+      hint:'Le même courant traverse les deux résistors (unicité) : applique la loi d’Ohm à chacun.',
+      simple:'$U_2$ = 200 × 0,02 = **4 V** ; $U_1$ = 2 V et 2 + 4 = 6 V ✓',
+      detail:[{k:'On sait que',t:'Circuit en série ; $U_G$ = 6 V ; $R_1$ = 100 Ω ; $R_2$ = 200 Ω ; $I$ = 0,02 A partout (unicité).'},{k:'Étape 1',t:'Loi d’Ohm : $U_2$ = $R_2$ × $I$ = 200 × 0,02 = 4 V.'},{k:'Vérification',t:'$U_1$ = 100 × 0,02 = 2 V et $U_1$ + $U_2$ = 2 + 4 = 6 V = $U_G$.'},{k:'Conclusion',t:'$U_2$ = **4 V**, et la loi d’additivité des tensions est bien vérifiée.'}]},
+    { id:'G4', level:3, q:'Un générateur de 12 V alimente en série une lampe et un résistor. La tension aux bornes de la lampe est 4,5 V et l’intensité vaut 30 mA. Calcule la résistance $R$ du résistor.', answer:250, unit:'Ω',
+      hint:'Il te faut $U_R$ (additivité des tensions) et $I$ en ampères.',
+      simple:'$U_R$ = 12 − 4,5 = 7,5 V ; $R$ = 7,5 ÷ 0,03 = **250 Ω**',
+      detail:[{k:'On sait que',t:'Circuit en série ; $U_G$ = 12 V ; $U_L$ = 4,5 V ; $I$ = 30 mA.'},{k:'Étape 1',t:'Additivité des tensions : $U_R$ = 12 − 4,5 = 7,5 V.'},{k:'Conversion',t:'$I$ = 30 mA = 0,03 A (le même dans tout le circuit).'},{k:'Étape 2',t:'Loi d’Ohm : $R$ = $U_R$ ÷ $I$ = 7,5 ÷ 0,03 = 250 Ω.'},{k:'Conclusion',t:'La résistance du résistor est **250 Ω**.'}]},
+   ]},
+];
+const ALL_EX = FAMILIES.flatMap(f => f.items);
+
+const FLASH = [
+  ['Que représente l’intensité $I$ ?', 'Le **débit de charges électriques**. Unité : l’ampère (A).'],
+  ['Que représente la tension $U$ ?', 'La **différence d’état électrique** (de potentiel) entre deux points. Unité : le volt (V).'],
+  ['Comment brancher un ampèremètre ?', '**En série**, dans la boucle.'],
+  ['Comment brancher un voltmètre ?', '**En dérivation**, aux bornes du dipôle.'],
+  ['Sens du courant à l’extérieur du générateur ?', 'Du pôle **+** vers le pôle **−**.'],
+  ['Loi d’unicité de l’intensité', 'En **série**, l’intensité est la même partout : $I$ = $I_1$ = $I_2$.'],
+  ['Loi d’additivité des tensions', 'En **série** : $U_G$ = $U_1$ + $U_2$.'],
+  ['Loi d’additivité des intensités', 'En **dérivation** : $I$ = $I_1$ + $I_2$.'],
+  ['Loi d’Ohm', '$U$ = $R$ × $I$ (U en V, R en Ω, I en A).'],
+  ['Calculer $I$ avec $U$ et $R$', '$I$ = $U$ ÷ $R$'],
+  ['Calculer $R$ avec $U$ et $I$', '$R$ = $U$ ÷ $I$'],
+  ['Unité de la résistance', 'L’**ohm** (Ω).'],
+  ['1 A = … mA ?', '**1 A = 1 000 mA**'],
+  ['Allure de la caractéristique d’un résistor', 'Une **droite qui passe par l’origine**.'],
+];
+
+const QUIZ = [
+  { q:'Quelle est l’unité de la tension électrique ?', o:['l’ampère (A)','le volt (V)','l’ohm (Ω)','le watt (W)'], c:1, e:'La tension $U$ se mesure en volts (V), avec un voltmètre.', p:'n1' },
+  { q:'Comment branche-t-on un ampèremètre ?', o:['En dérivation','En série','Uniquement aux bornes du générateur','Peu importe'], c:1, e:'L’ampèremètre mesure le débit de charges : il doit être traversé par le courant, donc en série.', p:'n1' },
+  { q:'À l’extérieur du générateur, le courant circule…', o:['du pôle − vers le pôle +','du pôle + vers le pôle −','dans les deux sens','seulement dans les lampes'], c:1, e:'Par convention, le courant sort par la borne + et revient par la borne −.', p:'n1' },
+  { q:'Dans un circuit en série, l’intensité…', o:['diminue après chaque lampe','est la même en tous points','est plus grande près du générateur','dépend de la place de l’ampèremètre'], c:1, e:'C’est la loi d’unicité de l’intensité : le courant ne « s’use » pas.', p:'n2' },
+  { q:'Circuit en série : $U_G$ = 10 V et $U_1$ = 4 V. Que vaut $U_2$ ?', o:['14 V','6 V','4 V','2,5 V'], c:1, e:'$U_2$ = $U_G$ − $U_1$ = 10 − 4 = 6 V.', p:'n3' },
+  { q:'Circuit en dérivation : $I_1$ = 0,2 A et $I_2$ = 0,15 A. Que vaut $I$ ?', o:['0,05 A','0,35 A','0,2 A','0,03 A'], c:1, e:'$I$ = $I_1$ + $I_2$ = 0,2 + 0,15 = 0,35 A.', p:'n4' },
+  { q:'Quelle relation traduit la loi d’Ohm ?', o:['U = R + I','U = R × I','U = R ÷ I','R = U × I'], c:1, e:'$U$ = $R$ × $I$ : la tension est proportionnelle à l’intensité.', p:'n5' },
+  { q:'45 mA correspondent à…', o:['45 000 A','4,5 A','0,045 A','0,45 A'], c:2, e:'mA → A : on divise par 1 000. 45 ÷ 1 000 = 0,045 A.', p:'n6' },
+  { q:'Un résistor de 200 Ω est soumis à 10 V. L’intensité vaut…', o:['2 000 A','0,05 A','20 A','210 A'], c:1, e:'$I$ = $U$ ÷ $R$ = 10 ÷ 200 = 0,05 A.', p:'n5' },
+  { q:'Circuit en dérivation : tu connais $I$ et $I_2$, tu cherches $I_1$. Quelle loi utilises-tu ?', o:['Unicité de l’intensité','Additivité des tensions','Additivité des intensités','Loi d’Ohm'], c:2, e:'En dérivation, $I$ = $I_1$ + $I_2$, donc $I_1$ = $I$ − $I_2$.', p:'n4' },
+  { q:'La caractéristique U = f(I) d’un résistor est…', o:['une droite qui passe par l’origine','une courbe en cloche','une droite horizontale','une droite qui ne passe pas par l’origine'], c:0, e:'U et I sont proportionnelles : la droite passe par (0 ; 0).', p:'n5' },
+  { q:'Pour une même tension, si la résistance est plus grande, l’intensité est…', o:['plus grande','plus petite','la même','toujours nulle'], c:1, e:'$I$ = $U$ ÷ $R$ : si $R$ augmente, $I$ diminue. Le résistor « freine » davantage le courant.', p:'n5' },
+];
+
+/* ---------- Navigation ---------- */
+const NOTIONS = [
+  { id:'n1', num:1, title:'Tension et intensité', fam:'fA' },
+  { id:'n2', num:2, title:'Unicité de l’intensité', fam:'fB' },
+  { id:'n3', num:3, title:'Additivité des tensions', fam:'fC' },
+  { id:'n4', num:4, title:'Additivité des intensités', fam:'fD' },
+  { id:'n5', num:5, title:'Loi d’Ohm', fam:'fE' },
+  { id:'n6', num:6, title:'Méthode de résolution', fam:'fG' },
+];
+const MEMO = [
+  { id:'cards', title:'Cartes mémo' },
+  { id:'quiz', title:'Quiz final' },
+  { id:'memo', title:'Fiche résumé' },
+];
+const ORDER = ['home', ...NOTIONS.map(n=>n.id), ...FAMILIES.map(f=>f.id), ...MEMO.map(m=>m.id)];
+function pageTitle(id){
+  if (id==='home') return 'Accueil';
+  const n = NOTIONS.find(x=>x.id===id); if (n) return n.num+'. '+n.title;
+  const f = FAMILIES.find(x=>x.id===id); if (f) return f.letter+' · '+f.title;
+  const m = MEMO.find(x=>x.id===id); return m ? m.title : '';
+}
+
+/* ---------- Composants génériques ---------- */
+function Seg({ value, options, onChange, label }){
+  return html`<div className="seg" role="group" aria-label=${label}>
+    ${options.map(o => html`<button key=${o.v} aria-pressed=${value===o.v} onClick=${()=>onChange(o.v)}>${o.l}</button>`)}
+  </div>`;
+}
+function Choice({ q, options, correct, explain, tag='Vérifie ta compréhension' }){
+  const [p, setP] = useState(null);
+  return html`<div className="check-box">
+    <span className="tag">${tag}</span>
+    <${P} className="q" s=${q}/>
+    <div className="opts">
+      ${options.map((o,i) => {
+        let st=''; if (p!==null){ st = i===correct ? 'ok' : (i===p ? 'bad' : 'dim'); }
+        return html`<button key=${i} className=${'opt '+st} disabled=${p!==null} onClick=${()=>setP(i)}><${T} s=${o}/></button>`;
+      })}
+    </div>
+    ${p!==null && html`<${Msg} kind=${p===correct?'ok':'bad'}><strong>${p===correct?'Juste. ':'Pas tout à fait. '}</strong><${T} s=${explain}/><//>`}
+    ${p!==null && p!==correct && html`<div><button className="btn sm" onClick=${()=>setP(null)}>Réessayer</button></div>`}
+  </div>`;
+}
+function Essentiel({ children }){
+  return html`<div className="essentiel"><span className="tag">L’essentiel</span>${children}</div>`;
+}
+function Pager({ page, go }){
+  const i = ORDER.indexOf(page);
+  const prev = ORDER[i-1], next = ORDER[i+1];
+  return html`<div className="pager">
+    ${prev ? html`<button className="btn" onClick=${()=>go(prev)}>← ${pageTitle(prev)}</button>` : html`<span></span>`}
+    ${next && html`<button className="btn primary" onClick=${()=>go(next)}>${pageTitle(next)} →</button>`}
+  </div>`;
+}
+
+/* ---------- Manipulations ---------- */
+function SeriesExplorer({ focus }){
+  const [ug, setUg] = useState(6);
+  const [diff, setDiff] = useState('same');
+  const R1 = 20, R2 = diff==='diff' ? 40 : 20;
+  const I = ug/(R1+R2), U1 = R1*I, U2 = R2*I;
+  const Is = nf(I,3)+' A';
+  const id = 'ug-'+focus;
+  return html`<div className="explore">
+    <div className="explore-head"><h3>Manipule</h3><span>${focus==='I' ? 'Change les réglages et observe les trois ampèremètres.' : 'Change les réglages et observe comment la tension du générateur se partage.'}</span></div>
+    <div className="fig"><${SeriesCircuit}
+      I=${focus==='I' ? [{val:Is},{sub:'1',val:Is},{sub:'2',val:Is}] : null}
+      U=${focus==='U' ? { g:{sub:'G',val:nf(ug,2)+' V'}, a:{sub:'1',val:nf(U1,2)+' V'}, b:{sub:'2',val:nf(U2,2)+' V'} } : null}/></div>
+    <div className="controls">
+      <div className="ctrl-row">
+        <div className="ctrl">
+          <label htmlFor=${id}>Tension du générateur : <strong className="v-u">${nf(ug,1)} V</strong></label>
+          <input id=${id} type="range" min="0" max="12" step="0.5" value=${ug} onChange=${e=>setUg(+e.target.value)}/>
+        </div>
+        <div className="ctrl">
+          <span style=${{fontSize:'.9rem'}}>Lampes</span>
+          <${Seg} label="Type de lampes" value=${diff} onChange=${setDiff} options=${[{v:'same',l:'Identiques'},{v:'diff',l:'Différentes'}]}/>
+        </div>
+      </div>
+      ${focus==='I' ? html`
+        <div className="readouts">
+          <div className="ro"><div className="k">Avant L₁</div><div className="v v-i">${Is}</div></div>
+          <div className="ro"><div className="k">Entre L₁ et L₂</div><div className="v v-i">${Is}</div></div>
+          <div className="ro"><div className="k">Après L₂</div><div className="v v-i">${Is}</div></div>
+        </div>
+        <p className="observe">${ug===0 ? 'Sans tension, aucun courant ne circule.' : 'Quels que soient les réglages, les trois ampèremètres indiquent la même valeur.'}</p>`
+      : html`
+        <div className="bars" aria-hidden="true">
+          <div className="bar-line"><span>Générateur</span><div className="bar"><span className="seg-ug" style=${{width:(ug/12*100)+'%'}}></span></div></div>
+          <div className="bar-line"><span>L₁ + L₂</span><div className="bar"><span className="seg-u1" style=${{width:(U1/12*100)+'%'}}></span><span className="seg-u2" style=${{width:(U2/12*100)+'%'}}></span></div></div>
+        </div>
+        <p className="eq"><${T} s=${`$U_1$ + $U_2$ = ${nf(U1,2)} + ${nf(U2,2)} = ${nf(U1+U2,2)} V = $U_G$`}/></p>
+        <p className="observe">${diff==='same' ? 'Lampes identiques : la tension se partage en deux parts égales.' : 'Lampes différentes : le partage n’est plus égal, mais la somme reste égale à la tension du générateur.'}</p>`}
+    </div>
+  </div>`;
+}
+
+const LAMPS = { A:{ l:'Lampe A', R:60 }, B:{ l:'Lampe B', R:30 }, C:{ l:'Lampe C', R:20 }, off:{ l:'Interrupteur ouvert' } };
+function ParallelExplorer(){
+  const [b1, setB1] = useState('B');
+  const [b2, setB2] = useState('A');
+  const U = 6;
+  const i1 = b1==='off' ? 0 : U/LAMPS[b1].R, i2 = b2==='off' ? 0 : U/LAMPS[b2].R, I = i1+i2;
+  const opt = Object.entries(LAMPS).map(([k,v]) => html`<option key=${k} value=${k}>${v.l}${v.R ? ' ('+nf(U/v.R,2)+' A sous 6 V)' : ''}</option>`);
+  const max = 0.6;
+  return html`<div className="explore">
+    <div className="explore-head"><h3>Manipule</h3><span>Choisis une lampe pour chaque branche, ou ouvre une branche. Le générateur fournit 6 V.</span></div>
+    <div className="fig"><${ParallelCircuit} open=${[b1==='off', b2==='off']}
+      I=${[{val:nf(I,2)+' A'},{sub:'1',val:nf(i1,2)+' A'},{sub:'2',val:nf(i2,2)+' A'}]}/></div>
+    <div className="controls">
+      <div className="ctrl-row">
+        <div className="ctrl"><label htmlFor="b1">Branche 1</label><select id="b1" className="field" value=${b1} onChange=${e=>setB1(e.target.value)}>${opt}</select></div>
+        <div className="ctrl"><label htmlFor="b2">Branche 2</label><select id="b2" className="field" value=${b2} onChange=${e=>setB2(e.target.value)}>${opt}</select></div>
+      </div>
+      <div className="bars" aria-hidden="true">
+        <div className="bar-line"><span>Branches</span><div className="bar"><span className="seg-i1" style=${{width:(i1/max*100)+'%'}}></span><span className="seg-i2" style=${{width:(i2/max*100)+'%'}}></span></div></div>
+        <div className="bar-line"><span>Principale</span><div className="bar"><span className="seg-ig" style=${{width:(I/max*100)+'%'}}></span></div></div>
+      </div>
+      <p className="eq"><${T} s=${`$I_1$ + $I_2$ = ${nf(i1,2)} + ${nf(i2,2)} = ${nf(I,2)} A = $I$`}/></p>
+      <p className="observe">${(b1==='off'||b2==='off') ? 'Une branche ouverte ne laisse passer aucun courant : l’intensité principale baisse, mais l’autre branche n’est pas modifiée.' : 'Le courant principal se partage entre les branches, puis les courants se rejoignent.'}</p>
+    </div>
+  </div>`;
+}
+
+function OhmExplorer(){
+  const [R, setR] = useState(100);
+  const [U, setU] = useState(6);
+  const I = U/R;
+  return html`<div className="explore">
+    <div className="explore-head"><h3>Manipule</h3><span>Règle la résistance et la tension. Le point se déplace sur la caractéristique du résistor.</span></div>
+    <div className="fig"><${OhmCircuit} R=${R+' Ω'} U=${nf(U,1)+' V'} I=${nf(I,3)+' A'}/></div>
+    <div className="controls">
+      <div className="ctrl-row">
+        <div className="ctrl"><label htmlFor="ohm-r">Résistance <strong className="v-r">R = ${R} Ω</strong></label><input id="ohm-r" type="range" min="50" max="500" step="10" value=${R} onChange=${e=>setR(+e.target.value)}/></div>
+        <div className="ctrl"><label htmlFor="ohm-u">Tension <strong className="v-u">U = ${nf(U,1)} V</strong></label><input id="ohm-u" type="range" min="0" max="12" step="0.5" value=${U} onChange=${e=>setU(+e.target.value)}/></div>
+      </div>
+      <div className="readouts">
+        <div className="ro"><div className="k">Intensité</div><div className="v v-i">${nf(I,3)} A</div></div>
+        <div className="ro"><div className="k">soit</div><div className="v v-i">${nf(I*1000,1)} mA</div></div>
+        <div className="ro"><div className="k">Calcul</div><div className="v" style=${{fontSize:'1rem'}}><${T} s=${`$I$ = ${nf(U,1)} ÷ ${R}`}/></div></div>
+      </div>
+      <div className="fig" style=${{padding:0}}><${Graph} imax=${250} umax=${12} istep=${25} ustep=${1} ilabel=${50} ulabel=${2} lines=${[{R, name:'R = '+R+' Ω', c:'a'}]} point=${{ i:I*1000, u:U }}/></div>
+      <p className="observe">Double la tension : l’intensité double aussi. U et I sont proportionnelles. Augmente R : la droite se redresse et, à tension égale, l’intensité diminue.</p>
+    </div>
+  </div>`;
+}
+
+function OhmTriangle(){
+  const [hide, setHide] = useState('I');
+  const res = { U:'$U$ = $R$ × $I$', I:'$I$ = $U$ ÷ $R$', R:'$R$ = $U$ ÷ $I$' }[hide];
+  const L = (k, x, y, cls) => html`<g><rect x=${x-26} y=${y-26} width="52" height="40" className="tri-hit" tabIndex="0" role="button" aria-label=${'Chercher '+k}
+      onClick=${()=>setHide(k)} onKeyDown=${e=>{ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); setHide(k);} }}/>
+    <text x=${x} y=${y} className=${'tri-txt '+cls} style=${{ opacity: hide===k ? .18 : 1 }}>${k}</text></g>`;
+  return html`<div className="explore">
+    <div className="explore-head"><h3>Le triangle de la loi d’Ohm</h3><span>Touche la grandeur que tu cherches : elle se cache, le reste donne le calcul.</span></div>
+    <div className="ctrl-row" style=${{padding:'12px 14px', alignItems:'center'}}>
+      <svg viewBox="0 0 200 160" style=${{width:'200px', maxWidth:'100%', flex:'none'}} role="img" aria-label="Triangle U, R, I">
+        <path d="M100 10L190 150H10Z" fill="var(--alt)" stroke="var(--fg)" strokeWidth="1.6"/>
+        <path d="M45 95H155M100 95V150" stroke="var(--fg)" strokeWidth="1.6"/>
+        ${L('U',100,78,'v-u')}${L('R',70,135,'v-r')}${L('I',130,135,'v-i')}
+        <text x="100" y="134" textAnchor="middle" className="g-txt">×</text>
+      </svg>
+      <div className="ctrl" style=${{gap:'8px'}}>
+        <p className="formula-sm"><${T} s=${res}/></p>
+        <p className="note">Côte à côte : on multiplie. L’un au-dessus de l’autre : on divise.</p>
+        <${Seg} label="Grandeur cherchée" value=${hide} onChange=${setHide} options=${[{v:'U',l:'Je cherche U'},{v:'I',l:'Je cherche I'},{v:'R',l:'Je cherche R'}]}/>
+      </div>
+    </div>
+  </div>`;
+}
+
+const ID_ROWS = [
+  { g:'Tension', ans:{ sym:'U', unit:'volt (V)', app:'voltmètre', br:'en dérivation' } },
+  { g:'Intensité', ans:{ sym:'I', unit:'ampère (A)', app:'ampèremètre', br:'en série' } },
+];
+const ID_OPTS = { sym:['U','I','R'], unit:['volt (V)','ampère (A)','ohm (Ω)'], app:['voltmètre','ampèremètre','ohmmètre'], br:['en série','en dérivation'] };
+const ID_COLS = [['sym','Symbole'],['unit','Unité'],['app','Appareil'],['br','Branchement']];
+function IdentityCard(){
+  const [v, setV] = useState({});
+  const [checked, setChecked] = useState(false);
+  const total = 8;
+  const good = ID_ROWS.reduce((s,r,ri)=> s + ID_COLS.filter(([c])=> v[ri+c]===r.ans[c]).length, 0);
+  return html`<div className="explore">
+    <div className="explore-head"><h3>Manipule</h3><span>Complète la carte d’identité de chaque grandeur, sans regarder le tableau ci-dessus.</span></div>
+    <div style=${{padding:'12px 14px', display:'flex', flexDirection:'column', gap:'12px'}}>
+      <div className="tbl-wrap"><table>
+        <thead><tr><th>Grandeur</th>${ID_COLS.map(([c,l])=>html`<th key=${c}>${l}</th>`)}</tr></thead>
+        <tbody>${ID_ROWS.map((r,ri)=>html`<tr key=${ri}><td><strong>${r.g}</strong></td>
+          ${ID_COLS.map(([c,l])=>{ const key=ri+c; const st = checked && v[key] ? (v[key]===r.ans[c] ? 'cell-ok' : 'cell-bad') : (checked ? 'cell-bad' : '');
+            return html`<td key=${c} className=${st}><select id=${'id-'+key} aria-label=${l+' — '+r.g} className="field" value=${v[key]||''} onChange=${e=>{ setV({...v,[key]:e.target.value}); setChecked(false); }}>
+              <option value="">…</option>${ID_OPTS[c].map(o=>html`<option key=${o} value=${o}>${o}</option>`)}</select></td>`; })}
+        </tr>`)}</tbody>
+      </table></div>
+      <div className="btn-row"><button className="btn primary" onClick=${()=>setChecked(true)}>Vérifier</button><button className="btn" onClick=${()=>{setV({}); setChecked(false);}}>Effacer</button></div>
+      ${checked && html`<${Msg} kind=${good===total?'ok':'warn'}>${good===total ? 'Carte complète et juste. Tu peux passer à la suite.' : `${good} réponse${good>1?'s':''} juste${good>1?'s':''} sur ${total}. Corrige les cases en rouge : relis le tableau si besoin.`}<//>`}
+    </div>
+  </div>`;
+}
+
+const CHOOSER = {
+  'serie-I': { law:'Loi d’unicité de l’intensité', f:'$I$ = $I_1$ = $I_2$' },
+  'serie-U': { law:'Loi d’additivité des tensions', f:'$U_G$ = $U_1$ + $U_2$' },
+  'deriv-I': { law:'Loi d’additivité des intensités', f:'$I$ = $I_1$ + $I_2$' },
+  'deriv-U': { law:'Rappel de 4e : en dérivation, chaque branche a la même tension que le générateur', f:'$U_G$ = $U_1$ = $U_2$' },
+  'res-I': { law:'Loi d’Ohm', f:'$I$ = $U$ ÷ $R$' },
+  'res-U': { law:'Loi d’Ohm', f:'$U$ = $R$ × $I$' },
+  'res-R': { law:'Loi d’Ohm', f:'$R$ = $U$ ÷ $I$' },
+};
+function LawChooser(){
+  const [c, setC] = useState('serie');
+  const [g, setG] = useState('I');
+  const gOpts = c==='res' ? [{v:'U',l:'une tension'},{v:'I',l:'une intensité'},{v:'R',l:'une résistance'}] : [{v:'U',l:'une tension'},{v:'I',l:'une intensité'}];
+  const gg = (c!=='res' && g==='R') ? 'I' : g;
+  const r = CHOOSER[c+'-'+gg];
+  return html`<div className="explore">
+    <div className="explore-head"><h3>Quelle loi choisir ?</h3><span>Réponds aux deux questions.</span></div>
+    <div className="controls" style=${{borderTop:0}}>
+      <div className="ctrl"><span style=${{fontSize:'.9rem'}}>1. Dans quelle situation es-tu ?</span>
+        <${Seg} label="Situation" value=${c} onChange=${setC} options=${[{v:'serie',l:'Circuit en série'},{v:'deriv',l:'Circuit en dérivation'},{v:'res',l:'Un résistor avec R'}]}/></div>
+      <div className="ctrl"><span style=${{fontSize:'.9rem'}}>2. Que cherches-tu ?</span>
+        <${Seg} label="Grandeur cherchée" value=${gg} onChange=${setG} options=${gOpts}/></div>
+      <${Msg} kind="info"><strong>${r.law}</strong><br/><span className="formula-sm"><${T} s=${r.f}/></span><//>
+    </div>
+  </div>`;
+}
+
+/* ---------- Pages Comprendre ---------- */
+function NotionHead({ n, lead }){
+  return html`<div className="page-head"><span className="eyebrow">Comprendre · notion ${n.num} sur 6</span><h1>${n.title}</h1>${lead && html`<p className="lead">${lead}</p>`}</div>`;
+}
+function GoPractice({ fam, go }){
+  const f = FAMILIES.find(x=>x.id===fam);
+  return html`<${Msg} kind="info">Pour t’entraîner sur cette notion : <button className="btn sm" onClick=${()=>go(fam)} style=${{marginLeft:'4px'}}>Exercices ${f.letter} · ${f.title}</button><//>`;
+}
+
+function N1({ go }){
+  const [flow, setFlow] = useState(true);
+  return html`
+    <${NotionHead} n=${NOTIONS[0]} lead="Deux grandeurs décrivent un circuit : la tension et l’intensité. On commence par leur vocabulaire."/>
+    <${Essentiel}>
+      <${P} s="Un **générateur** crée une différence d’état électrique entre ses deux bornes : c’est la **tension** $U$. Elle met en mouvement les **charges électriques** de la boucle. Le débit de ces charges est l’**intensité** $I$ du courant."/>
+      <${P} s="À l’extérieur du générateur, le courant va du pôle **+** vers le pôle **−**."/>
+    <//>
+    <section>
+      <h2>Carte d’identité des deux grandeurs</h2>
+      <div className="tbl-wrap"><table>
+        <thead><tr><th>Grandeur</th><th>Symbole</th><th>Unité</th><th>Appareil de mesure</th><th>Branchement</th></tr></thead>
+        <tbody>
+          <tr><td>Tension</td><td><span className="v-u">U</span></td><td>volt (V)</td><td>voltmètre</td><td><strong>en dérivation</strong></td></tr>
+          <tr><td>Intensité</td><td><span className="v-i">I</span></td><td>ampère (A)</td><td>ampèremètre</td><td><strong>en série</strong></td></tr>
+        </tbody>
+      </table></div>
+    </section>
+    <section>
+      <div className="explore">
+        <div className="explore-head"><h3>Observe</h3><span>Où sont branchés les appareils de mesure ?</span></div>
+        <div className="fig"><${BasicCircuit} flow=${flow}/></div>
+        <p className="fig-cap">L’ampèremètre est placé dans la boucle (en série). Le voltmètre est branché aux bornes de la lampe (en dérivation).</p>
+        <div className="controls"><div className="btn-row"><button className="btn" aria-pressed=${flow} onClick=${()=>setFlow(!flow)}>${flow ? 'Masquer le sens du courant' : 'Montrer le sens du courant'}</button></div></div>
+      </div>
+    </section>
+    <section><${IdentityCard}/></section>
+    <${Choice} q="Pour mesurer l’intensité du courant qui traverse une lampe, on branche l’ampèremètre…" options=${['en dérivation, aux bornes de la lampe','en série avec la lampe','en dehors du circuit']} correct=${1} explain="L’ampèremètre doit être traversé par le même courant que la lampe : on l’insère dans la boucle, en série."/>
+    <${GoPractice} fam="fA" go=${go}/>
+  `;
+}
+function N2({ go }){
+  return html`
+    <${NotionHead} n=${NOTIONS[1]} lead="Dans un circuit en série, il n’y a qu’une seule boucle. Que devient l’intensité d’un point à l’autre ?"/>
+    <${Essentiel}>
+      <${P} s="Dans un circuit **en série**, l’intensité est **identique** en tous points."/>
+      <p className="formula"><${T} s="$I$ = $I_1$ = $I_2$"/></p>
+    <//>
+    <${SeriesExplorer} focus="I"/>
+    <${Msg} kind="warn"><strong>Erreur fréquente. </strong>Le courant ne « s’use » pas en traversant une lampe. La lampe convertit de l’énergie, mais le débit de charges reste le même.<//>
+    <${Choice} q="Deux lampes différentes sont branchées en série. Près de L₁, l’ampèremètre indique 0,25 A. Près de L₂, il indique…" options=${['0,25 A','moins de 0,25 A','plus de 0,25 A','on ne peut pas savoir']} correct=${0} explain="En série, l’intensité est la même partout, même si les lampes sont différentes."/>
+    <${GoPractice} fam="fB" go=${go}/>
+  `;
+}
+function N3({ go }){
+  return html`
+    <${NotionHead} n=${NOTIONS[2]} lead="Toujours en série : comment la tension du générateur se répartit-elle entre les dipôles ?"/>
+    <${Essentiel}>
+      <${P} s="Dans un circuit **en série**, la **somme** des tensions aux bornes des dipôles est égale à la tension du **générateur**."/>
+      <p className="formula"><${T} s="$U_G$ = $U_1$ + $U_2$"/></p>
+      <${P} className="note" s="Pour trouver une tension inconnue : $U_2$ = $U_G$ − $U_1$."/>
+    <//>
+    <${SeriesExplorer} focus="U"/>
+    <${Choice} q="Circuit en série : $U_G$ = 9 V et $U_1$ = 3,5 V. Combien vaut $U_2$ ?" options=${['12,5 V','5,5 V','3,5 V','9 V']} correct=${1} explain="$U_2$ = $U_G$ − $U_1$ = 9 − 3,5 = 5,5 V."/>
+    <${GoPractice} fam="fC" go=${go}/>
+  `;
+}
+function N4({ go }){
+  return html`
+    <${NotionHead} n=${NOTIONS[3]} lead="Dans un circuit en dérivation, le courant rencontre des nœuds : il se partage, puis se rassemble."/>
+    <${Essentiel}>
+      <${P} s="Dans un circuit **en dérivation**, l’intensité dans la **branche principale** (celle du générateur) est égale à la **somme** des intensités des branches dérivées."/>
+      <p className="formula"><${T} s="$I$ = $I_1$ + $I_2$"/></p>
+      <${P} className="note" s="Pour une branche inconnue : $I_1$ = $I$ − $I_2$. Toutes les intensités doivent être dans la même unité."/>
+    <//>
+    <${ParallelExplorer}/>
+    <${Choice} q="Circuit en dérivation : $I$ = 0,5 A et $I_1$ = 0,2 A. Combien vaut $I_2$ ?" options=${['0,7 A','0,3 A','0,2 A','0,5 A']} correct=${1} explain="$I_2$ = $I$ − $I_1$ = 0,5 − 0,2 = 0,3 A."/>
+    <${GoPractice} fam="fD" go=${go}/>
+  `;
+}
+function N5({ go }){
+  return html`
+    <${NotionHead} n=${NOTIONS[4]} lead="Un résistor freine le passage du courant. La loi d’Ohm relie sa tension, son intensité et sa résistance."/>
+    <${Essentiel}>
+      <${P} s="Pour un **résistor**, la tension et l’intensité sont **proportionnelles**. Le coefficient de proportionnalité est la **résistance** $R$, mesurée en **ohms (Ω)**."/>
+      <p className="formula"><${T} s="$U$ = $R$ × $I$"/></p>
+      <${P} className="note" s="Unités obligatoires : $U$ en volts (V), $R$ en ohms (Ω), $I$ en ampères (A), jamais en mA."/>
+    <//>
+    <${OhmExplorer}/>
+    <${OhmTriangle}/>
+    <${Choice} q="Un résistor de 50 Ω est traversé par un courant de 0,2 A. La tension à ses bornes vaut…" options=${['250 V','10 V','0,004 V','50,2 V']} correct=${1} explain="$U$ = $R$ × $I$ = 50 × 0,2 = 10 V."/>
+    <div className="btn-row"><button className="btn" onClick=${()=>go('fE')}>Exercices E · Loi d’Ohm</button><button className="btn" onClick=${()=>go('fF')}>Exercices F · Lecture graphique</button></div>
+  `;
+}
+function N6({ go }){
+  const STEPS = [
+    ['On sait que','Je relève les données avec leurs unités.','$U$ = 9 V et $R$ = 120 Ω.'],
+    ['On utilise','Je nomme la loi et j’écris la formule adaptée.','Loi d’Ohm : $U$ = $R$ × $I$, donc $I$ = $U$ ÷ $R$.'],
+    ['Calcul','Je remplace par les valeurs, en V, A et Ω.','$I$ = 9 ÷ 120 = 0,075 A'],
+    ['Conclusion','Je réponds par une phrase, avec l’unité.','L’intensité du courant est **0,075 A**.'],
+  ];
+  return html`
+    <${NotionHead} n=${NOTIONS[5]} lead="La même démarche en quatre étapes sert pour tous les exercices. Elle libère ta mémoire de travail : tu n’as plus à te demander comment rédiger."/>
+    <section>
+      <h2>Les 4 étapes d’une réponse rédigée</h2>
+      <p className="note">Exemple : la tension aux bornes d’un résistor de 120 Ω est 9 V. Calcule l’intensité.</p>
+      <div className="tbl-wrap"><table>
+        <thead><tr><th>Étape</th><th>Ce que je fais</th><th>Exemple</th></tr></thead>
+        <tbody>${STEPS.map((s,i)=>html`<tr key=${i}><td><strong>${i+1}. ${s[0]}</strong></td><td>${s[1]}</td><td><${T} s=${s[2]}/></td></tr>`)}</tbody>
+      </table></div>
+    </section>
+    <section>
+      <h2>Convertir avant de calculer</h2>
+      <div className="tbl-wrap"><table>
+        <thead><tr><th>Conversion</th><th>Opération</th><th>Exemple</th></tr></thead>
+        <tbody>
+          <tr><td>mA → A</td><td>÷ 1 000</td><td>50 mA = 0,05 A</td></tr>
+          <tr><td>A → mA</td><td>× 1 000</td><td>0,3 A = 300 mA</td></tr>
+          <tr><td>kΩ → Ω</td><td>× 1 000</td><td>1,2 kΩ = 1 200 Ω</td></tr>
+        </tbody>
+      </table></div>
+    </section>
+    <${LawChooser}/>
+    <section>
+      <h2>Les pièges les plus fréquents</h2>
+      <ul className="tips">
+        <li>Additionner ou soustraire une valeur en mA et une valeur en A sans convertir.</li>
+        <li><${T} s="Utiliser des mA dans la loi d’Ohm : $I$ doit être en ampères."/></li>
+        <li>Appliquer une loi du circuit en série à un circuit en dérivation, ou l’inverse.</li>
+        <li>Oublier l’unité dans la phrase réponse.</li>
+      </ul>
+    </section>
+    <${GoPractice} fam="fG" go=${go}/>
+  `;
+}
+
+/* ---------- Exemple résolu ---------- */
+function Worked({ w, famId }){
+  const [n, setN] = useState(0);
+  useEffect(()=>{ setN(0); }, [famId]);
+  const all = n >= w.steps.length;
+  return html`<div className="worked">
+    <div className="worked-head"><span className="tag">Exemple résolu</span><span className="note">Essaie de prévoir chaque étape avant de l’afficher.</span></div>
+    <div className="worked-body">
+      <${P} s=${w.q}/>
+      <${Figure} f=${w.fig}/>
+      <ol className="steps">
+        ${w.steps.slice(0,n).map((s,i)=>html`<li key=${i} className=${i===n-1?'new':''}><span className="sk">${s.k}</span><span><${T} s=${s.t}/></span></li>`)}
+        ${!all && html`<li><span className="sk">${w.steps[n].k}</span><span className="pending">Que fais-tu ici ?</span></li>`}
+      </ol>
+      <div className="btn-row">
+        ${!all && html`<button className="btn primary" onClick=${()=>setN(n+1)}>Étape suivante (${n+1}/${w.steps.length})</button>`}
+        ${!all && html`<button className="btn" onClick=${()=>setN(w.steps.length)}>Tout afficher</button>`}
+        ${all && html`<button className="btn" onClick=${()=>setN(0)}>Recommencer l’exemple</button>`}
+      </div>
+      ${all && html`<${Msg} kind="info">À toi : les exercices ci-dessous suivent la même démarche. Les premiers sont guidés, les guides disparaissent ensuite.<//>`}
+    </div>
+  </div>`;
+}
+
+/* ---------- Exercice ---------- */
+const LEVELS = { 1:'Guidé', 2:'Autonome', 3:'Défi' };
+function Exercise({ ex, solved, onSolved }){
+  const [val, setVal] = useState('');
+  const [fb, setFb] = useState(null);
+  const [tries, setTries] = useState(0);
+  const [panel, setPanel] = useState(null);
+  const [pick, setPick] = useState(null);
+  const isChoice = ex.type==='choice';
+  function check(){
+    const x = parseNum(val);
+    if (isNaN(x)) { setFb({ kind:'warn', msg:'Écris un nombre, par exemple 0,25 (la virgule est acceptée).' }); return; }
+    if (close(x, ex.answer)) { setFb({ kind:'ok', msg:'Juste ! Compare ta rédaction avec la correction détaillée.' }); onSolved(ex.id); return; }
+    const t = tries+1; setTries(t);
+    let msg;
+    if (close(x, ex.answer*1000) || close(x, ex.answer/1000)) msg = 'Presque : ta valeur semble exprimée dans une autre unité. Vérifie les conversions (× ou ÷ 1 000).';
+    else if (t >= 2) msg = 'Pas encore. Ouvre l’indice, ou la correction simple pour comparer.';
+    else msg = 'Pas encore. Relis les données et vérifie la loi utilisée.';
+    setFb({ kind:'bad', msg });
+  }
+  function choose(i){
+    setPick(i);
+    if (i===ex.correct){ setFb({ kind:'ok', msg:'Juste !' }); onSolved(ex.id); }
+    else { setTries(tries+1); setFb({ kind:'bad', msg:'Pas tout à fait. Réfléchis encore ou ouvre l’indice.' }); }
+  }
+  const tog = k => setPanel(panel===k ? null : k);
+  const inputId = 'in-'+ex.id;
+  return html`<article className=${'ex'+(solved?' solved':'')} id=${'ex-'+ex.id}>
+    <div className="ex-head">
+      <span className="ex-id">${ex.id}</span>
+      <span className=${'chip l'+ex.level}>Niveau ${ex.level} · ${LEVELS[ex.level]}</span>
+      ${solved && html`<span className="chip ok">Réussi</span>`}
+    </div>
+    <div className="ex-body">
+      <${P} s=${ex.q}/>
+      <${Figure} f=${ex.fig}/>
+      ${ex.guide && html`<div className="guide">Formule utile : <${T} s=${ex.guide}/></div>`}
+      ${isChoice
+        ? html`<div className="opts">${ex.options.map((o,i)=>{ let st=''; if(pick!==null){ if(i===pick) st = i===ex.correct?'ok':'bad'; }
+            return html`<button key=${i} className=${'opt '+st} onClick=${()=>choose(i)}><${T} s=${o}/></button>`; })}</div>`
+        : html`<div className="answer-row">
+            <label htmlFor=${inputId} className="note">Ta réponse</label>
+            <input id=${inputId} className="field num" inputMode="decimal" autoComplete="off" value=${val}
+              onChange=${e=>{ setVal(e.target.value); if (fb && fb.kind!=='ok') setFb(null); }}
+              onKeyDown=${e=>{ if(e.key==='Enter') check(); }}/>
+            <span className="unit">${ex.unit}</span>
+            <button className="btn primary" onClick=${check}>Vérifier</button>
+          </div>`}
+      ${fb && html`<${Msg} kind=${fb.kind}>${fb.msg}<//>`}
+      <div className="btn-row">
+        <button className="btn sm" aria-expanded=${panel==='hint'} onClick=${()=>tog('hint')}>Indice</button>
+        <button className="btn sm" aria-expanded=${panel==='simple'} onClick=${()=>tog('simple')}>Correction simple</button>
+        <button className="btn sm" aria-expanded=${panel==='detail'} onClick=${()=>tog('detail')}>Correction détaillée</button>
+      </div>
+      ${panel==='hint' && html`<div className="panel"><strong>Indice</strong><${P} s=${ex.hint}/></div>`}
+      ${panel==='simple' && html`<div className="panel"><strong>Correction simple</strong><${P} s=${ex.simple}/></div>`}
+      ${panel==='detail' && html`<div className="panel"><strong>Correction détaillée</strong>
+        <ol className="steps">${ex.detail.map((s,i)=>html`<li key=${i}><span className="sk">${s.k}</span><span><${T} s=${s.t}/></span></li>`)}</ol></div>`}
+    </div>
+  </article>`;
+}
+
+function FamilyPage({ fam, progress, onSolved, go }){
+  const done = fam.items.filter(e=>progress.solved[e.id]).length;
+  const levels = [1,2,3].filter(l => fam.items.some(e=>e.level===l));
+  const notion = NOTIONS.find(n=>n.id===fam.notion);
+  return html`
+    <div className="page-head">
+      <span className="eyebrow">S’entraîner · famille ${fam.letter}</span>
+      <h1>${fam.title}</h1>
+      <p className="lead">${done} exercice${done>1?'s':''} réussi${done>1?'s':''} sur ${fam.items.length}. Lis l’exemple résolu, puis avance niveau par niveau.</p>
+    </div>
+    <details className="essentiel" open>
+      <summary style=${{cursor:'pointer'}}><span className="tag">Rappel</span></summary>
+      <${P} s=${fam.law}/>
+      <div><button className="btn sm" onClick=${()=>go(notion.id)}>Revoir la notion ${notion.num} · ${notion.title}</button></div>
+    </details>
+    <${Worked} w=${fam.worked} famId=${fam.id}/>
+    ${levels.map(l => html`<section key=${fam.id+l}>
+      <div className="level-h"><h2>Niveau ${l} · ${LEVELS[l]}</h2><span>${l===1?'Avec la formule utile.':l===2?'Sans aide affichée.':'Plusieurs étapes ou un piège.'}</span></div>
+      ${fam.items.filter(e=>e.level===l).map(e => html`<${Exercise} key=${e.id} ex=${e} solved=${!!progress.solved[e.id]} onSolved=${onSolved}/>`)}
+    </section>`)}
+  `;
+}
+
+/* ---------- Mémoriser ---------- */
+function Flashcards(){
+  const [queue, setQueue] = useState(()=>shuffle(FLASH.map((_,i)=>i)));
+  const [flip, setFlip] = useState(false);
+  const [known, setKnown] = useState(0);
+  const [again, setAgain] = useState(0);
+  const cur = queue[0];
+  function answer(ok){
+    setFlip(false);
+    if (ok){ setKnown(known+1); setQueue(queue.slice(1)); }
+    else { setAgain(again+1); setQueue([...queue.slice(1), cur]); }
+  }
+  function reset(){ setQueue(shuffle(FLASH.map((_,i)=>i))); setKnown(0); setAgain(0); setFlip(false); }
+  return html`
+    <div className="page-head"><span className="eyebrow">Mémoriser</span><h1>Cartes mémo</h1>
+      <p className="lead">Lis la question et réponds dans ta tête avant de retourner la carte. Les cartes « à revoir » reviennent à la fin du paquet. Refais le paquet sur plusieurs jours.</p></div>
+    <div className="quiz-top"><span>${known} carte${known>1?'s':''} sue${known>1?'s':''} sur ${FLASH.length}</span><span>${queue.length} restante${queue.length>1?'s':''}</span></div>
+    ${cur!==undefined ? html`
+      <div className=${'flash'+(flip?' flipped':'')} onClick=${()=>setFlip(!flip)} role="button" tabIndex="0" aria-label="Retourner la carte"
+        onKeyDown=${e=>{ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); setFlip(!flip);} }}>
+        <div className="flash-inner">
+          <div className="flash-face" aria-hidden=${flip}><span className="k">Question</span><div className="t"><${T} s=${FLASH[cur][0]}/></div><span className="note">Touche la carte pour la retourner</span></div>
+          <div className="flash-face back" aria-hidden=${!flip}><span className="k">Réponse</span><div className="t"><${T} s=${FLASH[cur][1]}/></div></div>
+        </div>
+      </div>
+      <div className="btn-row">
+        ${!flip ? html`<button className="btn primary" onClick=${()=>setFlip(true)}>Voir la réponse</button>`
+          : html`<button className="btn primary" onClick=${()=>answer(true)}>Je savais</button><button className="btn" onClick=${()=>answer(false)}>À revoir</button>`}
+      </div>`
+    : html`<${Msg} kind="ok">Paquet terminé : ${FLASH.length} cartes sues, avec ${again} passage${again>1?'s':''} « à revoir ». Reviens demain pour un nouveau rappel.<//>
+      <div><button className="btn primary" onClick=${reset}>Recommencer le paquet</button></div>`}
+  `;
+}
+
+function Quiz({ progress, setBest, go }){
+  const [order, setOrder] = useState(()=>shuffle(QUIZ.map((_,i)=>i)));
+  const [k, setK] = useState(0);
+  const [pick, setPick] = useState(null);
+  const [score, setScore] = useState(0);
+  const [missed, setMissed] = useState([]);
+  const done = k >= order.length;
+  const q = !done ? QUIZ[order[k]] : null;
+  function choose(i){ if (pick!==null) return; setPick(i); if (i===q.c) setScore(score+1); else setMissed([...missed, order[k]]); }
+  function next(){ const nk = k+1; setK(nk); setPick(null); if (nk>=order.length) setBest(score); }
+  function restart(){ setOrder(shuffle(QUIZ.map((_,i)=>i))); setK(0); setPick(null); setScore(0); setMissed([]); }
+  return html`
+    <div className="page-head"><span className="eyebrow">Mémoriser</span><h1>Quiz final</h1>
+      <p className="lead">${QUIZ.length} questions mélangées sur tout le chapitre. Chaque réponse est expliquée.</p></div>
+    ${!done ? html`
+      <div className="quiz-top"><span>Question ${k+1} sur ${order.length}</span><span>Score : ${score}</span></div>
+      <div className="meter-track" style=${{width:'100%'}}><div className="meter-fill" style=${{width:(k/order.length*100)+'%'}}></div></div>
+      <div className="check-box">
+        <${P} className="q" s=${q.q}/>
+        <div className="opts">${q.o.map((o,i)=>{ let st=''; if(pick!==null){ st = i===q.c ? 'ok' : (i===pick ? 'bad' : 'dim'); }
+          return html`<button key=${k+'-'+i} className=${'opt '+st} disabled=${pick!==null} onClick=${()=>choose(i)}><${T} s=${o}/></button>`; })}</div>
+        ${pick!==null && html`<${Msg} kind=${pick===q.c?'ok':'bad'}><strong>${pick===q.c?'Juste. ':'Pas tout à fait. '}</strong><${T} s=${q.e}/><//>`}
+        ${pick!==null && html`<div><button className="btn primary" onClick=${next}>${k+1<order.length ? 'Question suivante' : 'Voir mon résultat'}</button></div>`}
+      </div>`
+    : html`
+      <div className="check-box">
+        <span className="tag">Résultat</span>
+        <span className="score">${score} / ${order.length}</span>
+        <p className="note">Meilleur score enregistré : ${progress.quizBest ?? score} / ${order.length}</p>
+        ${missed.length ? html`<p>Questions à retravailler :</p>
+          <ul className="tips">${missed.map(i=>{ const n = NOTIONS.find(x=>x.id===QUIZ[i].p); return html`<li key=${i}><${T} s=${QUIZ[i].q}/> <button className="btn sm" onClick=${()=>go(n.id)}>Notion ${n.num}</button></li>`; })}</ul>`
+          : html`<${Msg} kind="ok">Sans faute. Refais le quiz dans quelques jours pour consolider.<//>`}
+        <div><button className="btn primary" onClick=${restart}>Recommencer le quiz</button></div>
+      </div>`}
+  `;
+}
+
+function Memo({ go }){
+  const LAWS = [
+    { when:'Circuit en série', name:'Unicité de l’intensité', f:'$I$ = $I_1$ = $I_2$', p:'n2' },
+    { when:'Circuit en série', name:'Additivité des tensions', f:'$U_G$ = $U_1$ + $U_2$', p:'n3' },
+    { when:'Circuit en dérivation', name:'Additivité des intensités', f:'$I$ = $I_1$ + $I_2$', p:'n4' },
+    { when:'Résistor', name:'Loi d’Ohm', f:'$U$ = $R$ × $I$', p:'n5' },
+  ];
+  return html`
+    <div className="page-head"><span className="eyebrow">Mémoriser</span><h1>Fiche résumé</h1>
+      <p className="lead">L’essentiel du chapitre sur une seule page. Cache-la et essaie de la réécrire de mémoire.</p></div>
+    <section><h2>Les grandeurs</h2>
+      <div className="tbl-wrap"><table>
+        <thead><tr><th>Grandeur</th><th>Définition</th><th>Unité</th><th>Mesure</th></tr></thead>
+        <tbody>
+          <tr><td><span className="v-u">U</span> tension</td><td>différence d’état électrique entre deux points</td><td>volt (V)</td><td>voltmètre en dérivation</td></tr>
+          <tr><td><span className="v-i">I</span> intensité</td><td>débit de charges électriques</td><td>ampère (A)</td><td>ampèremètre en série</td></tr>
+          <tr><td><span className="v-r">R</span> résistance</td><td>coefficient de proportionnalité entre U et I</td><td>ohm (Ω)</td><td>calculée : R = U ÷ I</td></tr>
+        </tbody>
+      </table></div>
+    </section>
+    <section><h2>Les quatre lois</h2>
+      <div className="memo-grid">${LAWS.map(l=>html`<div key=${l.name} className="memo-card"><span className="when">${l.when}</span><h3>${l.name}</h3><p className="formula-sm"><${T} s=${l.f}/></p><div><button className="btn sm" onClick=${()=>go(l.p)}>Revoir</button></div></div>`)}</div>
+    </section>
+    <section><h2>À ne pas oublier</h2>
+      <ul className="tips">
+        <li>1 A = 1 000 mA et 1 kΩ = 1 000 Ω.</li>
+        <li>Le courant va du + vers le − à l’extérieur du générateur.</li>
+        <li>Dans la loi d’Ohm : U en V, R en Ω, I en A.</li>
+        <li>La caractéristique d’un résistor est une droite qui passe par l’origine.</li>
+        <li>Réponse rédigée : on sait que → on utilise → calcul → conclusion avec l’unité.</li>
+      </ul>
+    </section>
+  `;
+}
+
+/* ---------- Accueil ---------- */
+function Home({ progress, go }){
+  const seen = NOTIONS.filter(n=>progress.visited[n.id]).length;
+  const solved = ALL_EX.filter(e=>progress.solved[e.id]).length;
+  return html`
+    <div className="page-head"><span className="eyebrow">Physique-chimie · 3e</span><h1>Électricité : intensité, tension et loi d’Ohm</h1>
+      <p className="lead">Les lois du courant électrique, en petites étapes. Chaque notion se découvre avec un schéma à manipuler, puis s’entraîne avec un exemple résolu suivi d’exercices de plus en plus difficiles.</p></div>
+    <section><h2>Ton parcours</h2>
+      <div className="path">
+        <div className="path-step"><span className="n">ÉTAPE 1</span><h3>Comprendre</h3><p>Six notions courtes, chacune avec un schéma interactif et une question de vérification.</p><span className="note">${seen} notion${seen>1?'s':''} ouverte${seen>1?'s':''} sur 6</span><button className="btn primary" onClick=${()=>go('n1')}>Commencer</button></div>
+        <div className="path-step"><span className="n">ÉTAPE 2</span><h3>S’entraîner</h3><p>Sept familles d’exercices. Un exemple résolu, puis trois niveaux : guidé, autonome, défi.</p><span className="note">${solved} exercice${solved>1?'s':''} réussi${solved>1?'s':''} sur ${ALL_EX.length}</span><button className="btn" onClick=${()=>go('fA')}>Exercices A</button></div>
+        <div className="path-step"><span className="n">ÉTAPE 3</span><h3>Mémoriser</h3><p>Cartes mémo, quiz final et fiche résumé, à reprendre sur plusieurs jours.</p><span className="note">${progress.quizBest!=null ? 'Meilleur score au quiz : '+progress.quizBest+' / '+QUIZ.length : 'Quiz pas encore fait'}</span><button className="btn" onClick=${()=>go('cards')}>Cartes mémo</button></div>
+      </div>
+    </section>
+    <section><h2>Pour bien apprendre</h2>
+      <ul className="tips">
+        <li>Une notion à la fois : termine une page avant de passer à la suivante.</li>
+        <li>Dans l’exemple résolu, essaie de deviner l’étape suivante avant de l’afficher.</li>
+        <li>Fais au moins un essai avant d’ouvrir une correction. Se tromper fait partie de l’apprentissage.</li>
+        <li>Garde les couleurs en tête : <span className="v-u">U en bleu</span>, <span className="v-i">I en rouge</span>, <span className="v-r">R en vert</span>.</li>
+        <li>Reviens aux cartes mémo plusieurs jours de suite : la mémoire se consolide avec des rappels espacés.</li>
+      </ul>
+    </section>
+  `;
+}
+
+/* ---------- Application ---------- */
+function NavItem({ id, num, label, badge, done, page, go }){
+  return html`<button className="nav-item" aria-current=${page===id ? 'page' : undefined} onClick=${()=>go(id)}>
+    <span className="nav-num">${num}</span><span className="nav-label">${label}</span>${badge && html`<span className=${'nav-badge'+(done?' done':'')}>${badge}</span>`}
+  </button>`;
+}
+
+function App(){
+  const [page, setPage] = useState(()=>{ const h = (location.hash||'').slice(1); return ORDER.includes(h) ? h : 'home'; });
+  const [progress, setProgress] = useState(loadProgress);
+  const [confirmReset, setConfirmReset] = useState(false);
+  useEffect(()=>{ saveProgress(progress); }, [progress]);
+  useEffect(()=>{
+    setProgress(p => p.visited[page] ? p : { ...p, visited:{ ...p.visited, [page]:true } });
+    window.scrollTo(0,0);
+  }, [page]);
+  const go = id => setPage(id);
+  const onSolved = id => setProgress(p => p.solved[id] ? p : { ...p, solved:{ ...p.solved, [id]:true } });
+  const setBest = s => setProgress(p => ({ ...p, quizBest: p.quizBest==null ? s : Math.max(p.quizBest, s) }));
+  const solved = ALL_EX.filter(e=>progress.solved[e.id]).length;
+
+  let body;
+  const fam = FAMILIES.find(f=>f.id===page);
+  if (page==='home') body = html`<${Home} progress=${progress} go=${go}/>`;
+  else if (page==='n1') body = html`<${N1} go=${go}/>`;
+  else if (page==='n2') body = html`<${N2} go=${go}/>`;
+  else if (page==='n3') body = html`<${N3} go=${go}/>`;
+  else if (page==='n4') body = html`<${N4} go=${go}/>`;
+  else if (page==='n5') body = html`<${N5} go=${go}/>`;
+  else if (page==='n6') body = html`<${N6} go=${go}/>`;
+  else if (fam) body = html`<${FamilyPage} key=${fam.id} fam=${fam} progress=${progress} onSolved=${onSolved} go=${go}/>`;
+  else if (page==='cards') body = html`<${Flashcards}/>`;
+  else if (page==='quiz') body = html`<${Quiz} progress=${progress} setBest=${setBest} go=${go}/>`;
+  else if (page==='memo') body = html`<${Memo} go=${go}/>`;
+
+  return html`
+    <header className="toolbar">
+      <svg className="app-ico" viewBox="0 0 26 26" aria-hidden="true"><rect x="1" y="1" width="24" height="24" rx="4" fill="var(--accent)"/><path d="M14.5 4L7.5 14.5h5L11 22l7.5-11h-5z" fill="#fff"/></svg>
+      <div><div className="app-name">Électricité 3e</div><div className="app-sub">Intensité, tension et loi d’Ohm</div></div>
+      <span className="tb-spacer"></span>
+      <div className="meter" title="Exercices réussis">
+        <span>${solved}/${ALL_EX.length} exercices</span>
+        <div className="meter-track"><div className="meter-fill" style=${{width:(solved/ALL_EX.length*100)+'%'}}></div></div>
+      </div>
+      ${confirmReset
+        ? html`<span className="confirm">Tout effacer ?<button className="btn sm" onClick=${()=>{ setProgress({visited:{},solved:{},quizBest:null}); setConfirmReset(false); }}>Oui, effacer</button><button className="btn sm" onClick=${()=>setConfirmReset(false)}>Annuler</button></span>`
+        : html`<button className="btn sm" onClick=${()=>setConfirmReset(true)}>Réinitialiser</button>`}
+    </header>
+    <div className="mobile-nav">
+      <label htmlFor="nav-select" className="note">Aller à</label>
+      <select id="nav-select" className="field" value=${page} onChange=${e=>go(e.target.value)}>
+        <option value="home">Accueil</option>
+        <optgroup label="Comprendre">${NOTIONS.map(n=>html`<option key=${n.id} value=${n.id}>${n.num}. ${n.title}</option>`)}</optgroup>
+        <optgroup label="S’entraîner">${FAMILIES.map(f=>html`<option key=${f.id} value=${f.id}>${f.letter} · ${f.title} (${f.items.filter(e=>progress.solved[e.id]).length}/${f.items.length})</option>`)}</optgroup>
+        <optgroup label="Mémoriser">${MEMO.map(m=>html`<option key=${m.id} value=${m.id}>${m.title}</option>`)}</optgroup>
+      </select>
+    </div>
+    <div className="layout">
+      <aside className="sidebar"><nav aria-label="Sommaire">
+        <${NavItem} id="home" num="" label="Accueil" page=${page} go=${go}/>
+        <div className="nav-h">Comprendre</div>
+        ${NOTIONS.map(n=>html`<${NavItem} key=${n.id} id=${n.id} num=${n.num} label=${n.title} badge=${progress.visited[n.id] ? 'vu' : null} page=${page} go=${go}/>`)}
+        <div className="nav-h">S’entraîner</div>
+        ${FAMILIES.map(f=>{ const d=f.items.filter(e=>progress.solved[e.id]).length; return html`<${NavItem} key=${f.id} id=${f.id} num=${f.letter} label=${f.title} badge=${d+'/'+f.items.length} done=${d===f.items.length} page=${page} go=${go}/>`; })}
+        <div className="nav-h">Mémoriser</div>
+        ${MEMO.map(m=>html`<${NavItem} key=${m.id} id=${m.id} num="" label=${m.title} badge=${m.id==='quiz' && progress.quizBest!=null ? progress.quizBest+'/'+QUIZ.length : null} page=${page} go=${go}/>`)}
+      </nav></aside>
+      <main className="main"><div className="content">
+        ${body}
+        <${Pager} page=${page} go=${go}/>
+      </div></main>
+    </div>
+  `;
+}
+
+ReactDOM.createRoot(document.getElementById('root')).render(html`<${App}/>`);
+</script>
+
+</body></html>
