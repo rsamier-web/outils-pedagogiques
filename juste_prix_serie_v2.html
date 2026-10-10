@@ -1,0 +1,842 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Le juste prix en séries</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;600;700&family=Noto+Sans+Mono:wght@500;600&display=swap">
+<style>
+  /* Mise en page : une colonne étroite façon fenêtre KDE, un seul objet à la fois, la ligne au centre de l'attention. */
+  :root {
+    --window: #eff0f1;
+    --view: #fcfcfc;
+    --text: #232629;
+    --muted: #5f6b75;
+    --border: #c3c7cb;
+    --groove: #d5d8db;
+    --accent: #3daee9;
+    --accent-text: #1d6fa5;
+    --accent-soft: #d6eefb;
+    --positive: #27ae60;
+    --positive-soft: #dcf2e5;
+    --neutral: #c25f00;
+    --neutral-soft: #fdebd8;
+    --eliminated: rgba(35, 38, 41, 0.10);
+    --font-ui: "Noto Sans", "Segoe UI", system-ui, sans-serif;
+    --font-num: "Noto Sans Mono", ui-monospace, "DejaVu Sans Mono", monospace;
+    --radius: 4px;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --window: #202326;
+      --view: #141618;
+      --text: #fcfcfc;
+      --muted: #a1a9b1;
+      --border: #3f454b;
+      --groove: #3a4046;
+      --accent: #3daee9;
+      --accent-text: #6cc4f0;
+      --accent-soft: #173446;
+      --positive: #3ec27a;
+      --positive-soft: #163626;
+      --neutral: #f67400;
+      --neutral-soft: #3a2611;
+      --eliminated: rgba(252, 252, 252, 0.09);
+      color-scheme: dark;
+    }
+  }
+  :root[data-theme="dark"] {
+    --window: #202326;
+    --view: #141618;
+    --text: #fcfcfc;
+    --muted: #a1a9b1;
+    --border: #3f454b;
+    --groove: #3a4046;
+    --accent: #3daee9;
+    --accent-text: #6cc4f0;
+    --accent-soft: #173446;
+    --positive: #3ec27a;
+    --positive-soft: #163626;
+    --neutral: #f67400;
+    --neutral-soft: #3a2611;
+    --eliminated: rgba(252, 252, 252, 0.09);
+    color-scheme: dark;
+  }
+
+  html, body { min-height: 100%; }
+  body {
+    background: var(--window);
+    color: var(--text);
+    font-family: var(--font-ui);
+    font-size: 1.0625rem;
+    line-height: 1.5;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .app {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding-block: 20px 40px;
+    padding-inline: 24px;
+  }
+  .screen { display: grid; gap: 16px; }
+  #menu, #end { max-width: 880px; margin-inline: auto; }
+
+  /* Format paysage : objet et message côte à côte, ligne des nombres sur toute la largeur */
+  @media (min-width: 900px) {
+    #game {
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1.25fr);
+      grid-template-areas:
+        "bar bar"
+        "item feedback"
+        "line line"
+        "controls controls"
+        "next next";
+      gap: 18px 20px;
+    }
+    #game > .bar { grid-area: bar; }
+    #game > .item { grid-area: item; }
+    #game > .feedback { grid-area: feedback; }
+    #game > .line-panel { grid-area: line; padding: 96px 36px 20px; }
+    #game > .controls { grid-area: controls; }
+    #game > .next { grid-area: next; }
+    #game .tick-label { font-size: 0.9rem; }
+    #game .handle .value { font-size: 1.35rem; padding: 10px 14px; }
+    #game .controls .primary { min-width: 200px; }
+  }
+  @media (max-width: 520px) {
+    .app { padding-inline: 16px; }
+  }
+  h1, h2, p { margin: 0; }
+  h1 { font-size: 1.5rem; font-weight: 700; text-wrap: balance; }
+  h2 { font-size: 1.15rem; font-weight: 700; text-wrap: balance; }
+  .muted { color: var(--muted); }
+  .num { font-family: var(--font-num); font-variant-numeric: tabular-nums; }
+
+  .panel {
+    background: var(--view);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 16px;
+  }
+
+  /* Boutons façon Breeze */
+  button {
+    font: inherit;
+    font-weight: 600;
+    color: var(--text);
+    background: var(--view);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 8px 16px;
+    min-height: 44px;
+    cursor: pointer;
+  }
+  button:hover:not(:disabled) { border-color: var(--accent); }
+  button:focus-visible, .handle:focus-visible, input:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+  }
+  button.primary {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: #ffffff;
+  }
+  button.primary:hover:not(:disabled) { filter: brightness(0.93); }
+  button:disabled { opacity: 0.45; cursor: not-allowed; }
+  button.square { width: 44px; padding: 0; font-size: 1.4rem; line-height: 1; }
+
+  /* Menu des séries */
+  .intro { display: grid; gap: 6px; }
+  .series-list { display: grid; gap: 10px; }
+  .series {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 6px 16px;
+    align-items: center;
+    background: var(--view);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 14px 16px;
+  }
+  .series.recommended { border-color: var(--accent); box-shadow: inset 3px 0 0 var(--accent); }
+  .series-text { min-width: 0; display: grid; gap: 2px; }
+  .series-meta { font-size: 0.875rem; color: var(--muted); display: flex; flex-wrap: wrap; gap: 4px 14px; }
+  .chip {
+    display: inline-block;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+    color: var(--accent-text);
+    background: var(--accent-soft);
+    border-radius: 3px;
+    padding: 1px 6px;
+    margin-left: 6px;
+    vertical-align: 2px;
+  }
+  .series button { grid-row: 1 / span 2; grid-column: 2; }
+  .option { display: flex; gap: 10px; align-items: flex-start; font-size: 0.95rem; }
+  .option input { width: 20px; height: 20px; margin: 2px 0 0; accent-color: var(--accent); flex-shrink: 0; }
+
+  /* Barre de jeu */
+  .bar { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+  .bar-title { flex: 1 1 auto; min-width: 0; display: grid; gap: 4px; }
+  .bar-title p { font-size: 0.875rem; color: var(--muted); }
+  .progress { height: 6px; background: var(--groove); border-radius: 3px; overflow: hidden; }
+  .progress i { display: block; height: 100%; background: var(--accent); width: 0; transition: width 0.3s; }
+
+  /* Objet */
+  .item { display: flex; gap: 16px; align-items: center; }
+  .item-icon {
+    width: 72px; height: 72px;
+    flex-shrink: 0;
+    display: grid; place-items: center;
+    font-size: 2.6rem; line-height: 1;
+    background: var(--window);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+  }
+  .item-icon svg { width: 46px; height: 46px; }
+  .item-text { min-width: 0; display: grid; gap: 2px; }
+  .item-name { font-size: clamp(1.4rem, 4.5vw, 1.9rem); font-weight: 700; line-height: 1.15; text-wrap: balance; }
+
+  /* Ligne des nombres */
+  .line-panel { padding: 84px 22px 16px; user-select: none; -webkit-user-select: none; }
+  .track { position: relative; height: 64px; touch-action: none; cursor: pointer; }
+  .groove {
+    position: absolute; left: 0; right: 0; top: 14px;
+    height: 6px; border-radius: 3px; background: var(--groove);
+  }
+  .fill {
+    position: absolute; left: 0; top: 14px;
+    height: 6px; border-radius: 3px; background: var(--accent); width: 0;
+  }
+  .out {
+    position: absolute; top: 0; height: 34px;
+    background: var(--eliminated);
+    pointer-events: none;
+  }
+  .win-zone {
+    position: absolute; top: 4px; height: 26px;
+    background: var(--positive-soft);
+    border: 2px solid var(--positive);
+    border-radius: 3px;
+    pointer-events: none;
+  }
+  .tick { position: absolute; top: 24px; width: 1px; height: 6px; background: var(--muted); transform: translateX(-0.5px); }
+  .tick.major { height: 10px; width: 2px; transform: translateX(-1px); background: var(--text); }
+  .tick-label {
+    position: absolute; top: 38px;
+    transform: translateX(-50%);
+    font-family: var(--font-num);
+    font-size: 0.78rem;
+    color: var(--muted);
+    white-space: nowrap;
+  }
+  .guess {
+    position: absolute; top: -2px;
+    transform: translateX(-50%);
+    font-size: 0.7rem; font-weight: 700;
+    color: var(--neutral);
+    pointer-events: none;
+    line-height: 1;
+  }
+  .handle {
+    position: absolute; top: 17px; left: 0;
+    width: 0; height: 0;
+    z-index: 3;
+    cursor: grab;
+  }
+  .handle .knob {
+    position: absolute; left: -12px; top: -12px;
+    width: 24px; height: 24px; border-radius: 50%;
+    background: var(--view);
+    border: 2px solid var(--accent);
+    box-shadow: 0 1px 2px rgba(0,0,0,0.25);
+  }
+  .handle .value {
+    position: absolute; bottom: 22px; left: 0;
+    transform: translateX(-50%);
+    background: var(--accent);
+    color: #ffffff;
+    font-family: var(--font-num);
+    font-weight: 600;
+    font-size: 1.15rem;
+    line-height: 1;
+    padding: 9px 12px;
+    border-radius: var(--radius);
+    white-space: nowrap;
+  }
+  .handle .value::after {
+    content: ""; position: absolute; left: 50%; bottom: -6px; margin-left: -6px;
+    border-left: 6px solid transparent; border-right: 6px solid transparent;
+    border-top: 6px solid var(--accent);
+  }
+  .handle.idle .value { background: var(--muted); }
+  .handle.idle .value::after { border-top-color: var(--muted); }
+  .handle.won .value { background: var(--positive); }
+  .handle.won .value::after { border-top-color: var(--positive); }
+  .handle.won .knob { border-color: var(--positive); }
+  .unit { margin-top: 6px; text-align: right; font-size: 0.85rem; color: var(--muted); }
+
+  .controls { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+  .controls .spacer { flex: 1 1 auto; }
+  .controls .primary { min-width: 140px; font-size: 1.05rem; }
+
+  /* Retour */
+  .feedback {
+    display: flex; gap: 14px; align-items: center;
+    min-height: 88px;
+    border-left: 4px solid var(--border);
+  }
+  .feedback .sign {
+    font-size: 2.2rem; font-weight: 700; line-height: 1;
+    width: 40px; text-align: center; flex-shrink: 0; color: var(--muted);
+  }
+  .feedback .big { font-size: 1.45rem; font-weight: 700; line-height: 1.2; }
+  .feedback .small { color: var(--muted); }
+  .feedback.wrong { border-left-color: var(--neutral); background: var(--neutral-soft); }
+  .feedback.wrong .sign, .feedback.wrong .big { color: var(--neutral); }
+  .feedback.right { border-left-color: var(--positive); background: var(--positive-soft); }
+  .feedback.right .sign, .feedback.right .big { color: var(--positive); }
+  .feedback.right .small, .feedback.wrong .small { color: var(--text); }
+
+  .next { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; }
+  .countdown { flex: 1 1 120px; height: 4px; background: var(--groove); border-radius: 2px; overflow: hidden; }
+  .countdown i { display: block; height: 100%; background: var(--positive); transform-origin: left; }
+
+  /* Bilan */
+  .table-wrap { overflow-x: auto; }
+  table { border-collapse: collapse; width: 100%; min-width: 380px; font-size: 0.95rem; }
+  th, td { text-align: left; padding: 8px 10px; border-bottom: 1px solid var(--border); }
+  th { font-weight: 600; color: var(--muted); font-size: 0.85rem; }
+  td.r, th.r { text-align: right; }
+  .actions { display: flex; gap: 10px; flex-wrap: wrap; }
+  .note { font-size: 0.85rem; color: var(--muted); max-width: 68ch; }
+
+  @media (max-width: 520px) {
+    .line-panel { padding: 80px 16px 14px; }
+    .item-icon { width: 60px; height: 60px; font-size: 2.1rem; }
+    .handle .value { font-size: 1rem; padding: 8px 10px; }
+    .series { grid-template-columns: 1fr; }
+    .series button { grid-row: auto; grid-column: 1; justify-self: start; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .progress i, .countdown i { transition: none !important; }
+  }
+</style>
+
+<div class="app">
+
+  <!-- Écran 1 : choix de la série -->
+  <section id="menu" class="screen">
+    <div class="intro">
+      <h1>Le juste prix en séries</h1>
+      <p class="muted">Place le curseur sur la ligne, puis appuie sur Valider. Une estimation à 10 % près est acceptée.</p>
+    </div>
+    <div class="series-list" id="seriesList"></div>
+    <label class="option" for="optEliminated">
+      <input type="checkbox" id="optEliminated" checked>
+      <span>Griser sur la ligne les zones déjà éliminées par les essais précédents</span>
+    </label>
+    <p class="note">Pour progresser, mieux vaut une série courte tous les deux ou trois jours qu'une longue séance. La série conseillée est celle que tu n'as pas jouée depuis le plus longtemps. Les résultats sont gardés sur cet appareil uniquement.</p>
+  </section>
+
+  <!-- Écran 2 : le jeu -->
+  <section id="game" class="screen" hidden>
+    <div class="bar">
+      <div class="bar-title">
+        <p><span id="gSeries"></span> · objet <span id="gIndex" class="num"></span></p>
+        <div class="progress" aria-hidden="true"><i id="gProgress"></i></div>
+      </div>
+      <button type="button" id="quitBtn">Changer de série</button>
+    </div>
+
+    <div class="panel item">
+      <div class="item-icon" id="itemIcon" aria-hidden="true"></div>
+      <div class="item-text">
+        <p class="item-name" id="itemName"></p>
+        <p class="muted" id="itemDetail"></p>
+      </div>
+    </div>
+
+    <div class="panel line-panel">
+      <div class="track" id="track">
+        <div class="groove"></div>
+        <div id="outLayer"></div>
+        <div class="fill" id="fill"></div>
+        <div id="ticks"></div>
+        <div id="guesses"></div>
+        <div class="handle idle" id="handle" role="slider" tabindex="0"
+             aria-label="Prix estimé en dirhams" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+          <div class="knob"></div>
+          <div class="value" id="valueTag">0 DH</div>
+        </div>
+      </div>
+      <p class="unit">en dirhams (DH)</p>
+    </div>
+
+    <div class="controls">
+      <button type="button" class="square" id="minusBtn" aria-label="Diminuer d'un cran">−</button>
+      <button type="button" class="square" id="plusBtn" aria-label="Augmenter d'un cran">+</button>
+      <span class="muted" id="tries">Essai 1</span>
+      <span class="spacer"></span>
+      <button type="button" class="primary" id="validateBtn" disabled>Valider</button>
+    </div>
+
+    <div class="panel feedback" id="feedback" aria-live="polite">
+      <div class="sign" id="fbSign" aria-hidden="true">?</div>
+      <div>
+        <p class="big" id="fbBig">Ton estimation</p>
+        <p class="small" id="fbSmall">Déplace le curseur, puis valide.</p>
+      </div>
+    </div>
+
+    <div class="next" id="nextBar" hidden>
+      <button type="button" class="primary" id="nextBtn">Objet suivant</button>
+      <div class="countdown" aria-hidden="true"><i id="countBar"></i></div>
+    </div>
+  </section>
+
+  <!-- Écran 3 : bilan -->
+  <section id="end" class="screen" hidden>
+    <div class="intro">
+      <h1 id="endTitle">Série terminée</h1>
+      <p id="endSummary" class="muted"></p>
+    </div>
+    <div class="panel table-wrap">
+      <table>
+        <thead><tr><th>Objet</th><th class="r">Prix moyen</th><th class="r">Essais</th></tr></thead>
+        <tbody id="endBody"></tbody>
+      </table>
+    </div>
+    <div class="actions">
+      <button type="button" class="primary" id="replayBtn">Rejouer cette série</button>
+      <button type="button" id="menuBtn">Choisir une autre série</button>
+    </div>
+    <p class="note">Prix moyens arrondis, relevés ou estimés pour El Jadida et le Maroc en 2026 (annonces Avito, enseignes nationales). Les vrais prix varient selon la marque, la taille et le magasin.</p>
+  </section>
+
+</div>
+
+<script>
+(function () {
+  "use strict";
+
+  var PILLOW = '<svg viewBox="0 0 64 64" aria-hidden="true"><path d="M8 18c6-6 42-6 48 0 4 8 4 20 0 28-6 6-42 6-48 0-4-8-4-20 0-28z" fill="none" stroke="currentColor" stroke-width="3"/><circle cx="32" cy="32" r="3.5" fill="currentColor"/></svg>';
+
+  var SERIES = [
+    {
+      id: "cadeaux", name: "Cadeaux et loisirs", desc: "Ce qu'on offre ou qu'on s'offre",
+      items: [
+        { id: "ecouteurs", name: "Des écouteurs sans fil", detail: "Écouteurs Bluetooth d'entrée de gamme, neufs", price: 400, icon: "🎧" },
+        { id: "instax", name: "Un appareil photo instantané", detail: "Appareil qui imprime la photo tout de suite, neuf", price: 1100, icon: "📷" },
+        { id: "montre", name: "Une montre connectée", detail: "Montre qui compte les pas et affiche les messages", price: 600, icon: "⌚" },
+        { id: "sac", name: "Un sac à main", detail: "Sac à main de magasin, sans grande marque", price: 400, icon: "👜" },
+        { id: "nike", name: "Des baskets Nike", detail: "Paire neuve, achetée en magasin", price: 1200, icon: "👟" },
+        { id: "feutres", name: "Un kit de feutres de coloriage", detail: "Boîte de 24 feutres", price: 80, icon: "🖍️" },
+        { id: "gourde", name: "Une gourde isotherme", detail: "Gourde en métal de 500 ml", price: 150, icon: "🧴" },
+        { id: "switch", name: "Un jeu vidéo Nintendo Switch", detail: "Jeu neuf en boîte", price: 550, icon: "🎮" },
+        { id: "plaid", name: "Un plaid tout doux", detail: "Couverture de canapé en polaire", price: 200, icon: "🧣" },
+        { id: "livre", name: "Un livre illustré", detail: "Album jeunesse à couverture rigide", price: 150, icon: "📖" },
+        { id: "plantedeco", name: "Une plante décorative", detail: "Plante d'intérieur avec son pot", price: 200, icon: "🪴" },
+        { id: "maquillage", name: "Un set de maquillage", detail: "Coffret avec palette, mascara et rouge à lèvres", price: 300, icon: "💄" },
+        { id: "casque", name: "Un casque audio", detail: "Casque Bluetooth qui couvre les oreilles", price: 700, icon: "🎧" },
+        { id: "cartes", name: "Un jeu de cartes", detail: "Jeu de 54 cartes", price: 30, icon: "🃏" }
+      ]
+    },
+    {
+      id: "maison", name: "Équiper la maison", desc: "Meubles et maison à El Jadida",
+      items: [
+        { id: "maison", name: "Une maison", detail: "Maison d'environ 100 m² à El Jadida", price: 1000000, icon: "🏠" },
+        { id: "canape", name: "Un canapé", detail: "Canapé 3 places, neuf", price: 5000, icon: "🛋️" },
+        { id: "biblio", name: "Une bibliothèque", detail: "Bibliothèque en bois pour le salon", price: 2000, icon: "📚" },
+        { id: "chaussures", name: "Un meuble à chaussures", detail: "Meuble fermé pour l'entrée", price: 1000, icon: "🥿" },
+        { id: "tv", name: "Une télévision", detail: "Téléviseur 55 pouces, neuf", price: 4500, icon: "📺" },
+        { id: "plante", name: "Une plante", detail: "Plante d'intérieur en pot, taille moyenne", price: 150, icon: "🌿" },
+        { id: "meubletv", name: "Un meuble télévision", detail: "Meuble TV avec rangements, neuf", price: 2500, icon: "🗄️" },
+        { id: "coussins", name: "Des coussins", detail: "Lot de 4 coussins décoratifs", price: 300, icon: PILLOW, svg: true },
+        { id: "sdb", name: "Un équipement de salle de bains", detail: "Meuble avec vasque et miroir", price: 3000, icon: "🛁" },
+        { id: "lit", name: "Un lit", detail: "Lit 2 places 160 × 200 cm, sans matelas", price: 4500, icon: "🛏️" }
+      ]
+    },
+    {
+      id: "quotidien", name: "La vie de tous les jours", desc: "Du pain à l'appartement",
+      items: [
+        { id: "pain", name: "Un pain rond", detail: "Pain ordinaire (khobz) à la boulangerie", price: 1.2, icon: "🍞" },
+        { id: "stylo", name: "Un stylo à bille", detail: "Stylo simple à la librairie", price: 2, icon: "🖊️" },
+        { id: "eau", name: "Une bouteille d'eau", detail: "Eau minérale, 1,5 litre", price: 6, icon: "💧" },
+        { id: "lait", name: "Un litre de lait", detail: "Brique ou sachet d'un litre", price: 7, icon: "🥛" },
+        { id: "the", name: "Un verre de thé à la menthe", detail: "Servi au café du coin", price: 10, icon: "🍵" },
+        { id: "taxi", name: "Une course en petit taxi", detail: "Trajet court en ville", price: 15, icon: "🚕" },
+        { id: "coiffeur", name: "Une coupe de cheveux", detail: "Chez le coiffeur pour hommes", price: 40, icon: "💈" },
+        { id: "tajine", name: "Un tajine au restaurant", detail: "Restaurant populaire", price: 60, icon: "🍲" },
+        { id: "viande", name: "Un kilo de viande de bœuf", detail: "Chez le boucher", price: 110, icon: "🥩" },
+        { id: "ballon", name: "Un ballon de football", detail: "Taille 5, magasin de sport", price: 150, icon: "⚽" },
+        { id: "cartable", name: "Un cartable", detail: "Cartable d'écolier, neuf", price: 250, icon: "🎒" },
+        { id: "essence", name: "Un plein d'essence", detail: "Environ 40 litres, petite voiture", price: 500, icon: "⛽" },
+        { id: "baskets", name: "Une paire de baskets", detail: "Baskets de marque, neuves", price: 600, icon: "👟" },
+        { id: "velo", name: "Un vélo", detail: "Vélo adulte, neuf", price: 1500, icon: "🚲" },
+        { id: "smartphone", name: "Un smartphone", detail: "Téléphone milieu de gamme, neuf", price: 2500, icon: "📱" },
+        { id: "frigo", name: "Un réfrigérateur", detail: "Réfrigérateur familial, neuf", price: 5000, icon: "🧊" },
+        { id: "ordi", name: "Un ordinateur portable", detail: "Pour l'école ou le bureau", price: 6000, icon: "💻" },
+        { id: "scooter", name: "Un scooter", detail: "Scooter 50 cm³, neuf", price: 12000, icon: "🛵" },
+        { id: "voiture", name: "Une petite voiture neuve", detail: "Citadine d'entrée de gamme", price: 140000, icon: "🚗" },
+        { id: "appart", name: "Un appartement", detail: "80 m² à Casablanca", price: 1100000, icon: "🏢" }
+      ]
+    }
+  ];
+
+  var ALL = [];
+  SERIES.forEach(function (s) { s.items.forEach(function (it) { ALL.push(it); }); });
+  var BY_ID = {};
+  ALL.forEach(function (it) { BY_ID[it.id] = it; });
+
+  var TOLERANCE = 0.10;
+  var AUTO_NEXT_MS = 3500;
+  var MIX_SIZE = 12;
+  var REVIEW_MIN = 3;
+  var HARD_TRIES = 4;
+  var STORE_KEY = "justePrixSeries.v1";
+
+  /* ---------- Mémoire locale (facultative) ---------- */
+  function loadStore() {
+    try {
+      var raw = localStorage.getItem(STORE_KEY);
+      var d = raw ? JSON.parse(raw) : null;
+      if (d && d.items && d.series) return d;
+    } catch (e) {}
+    return { items: {}, series: {}, showEliminated: true };
+  }
+  function saveStore() { try { localStorage.setItem(STORE_KEY, JSON.stringify(store)); } catch (e) {} }
+  var store = loadStore();
+
+  function reviewIds() {
+    return Object.keys(store.items).filter(function (id) {
+      return BY_ID[id] && store.items[id].lastTries >= HARD_TRIES;
+    });
+  }
+
+  /* ---------- Outils ---------- */
+  var $ = function (id) { return document.getElementById(id); };
+  function fmt(n) {
+    var r = Math.round(n * 100) / 100;
+    var opts = Number.isInteger(r) ? {} : { minimumFractionDigits: 2, maximumFractionDigits: 2 };
+    return r.toLocaleString("fr-FR", opts).replace(/[  ]/g, " ");
+  }
+  function shuffle(a) {
+    for (var i = a.length - 1; i > 0; i--) { var j = Math.floor(Math.random() * (i + 1)); var t = a[i]; a[i] = a[j]; a[j] = t; }
+    return a;
+  }
+  function niceStep(raw) {
+    var p = Math.pow(10, Math.floor(Math.log10(raw)));
+    var f = raw / p, n;
+    if (f <= 1) n = 1; else if (f <= 2) n = 2; else if (f <= 2.5) n = 2.5; else if (f <= 5) n = 5; else n = 10;
+    return n * p;
+  }
+  function round2(v) { return Math.round(v * 100) / 100; }
+  function daysAgo(ts) {
+    if (!ts) return null;
+    var a = new Date(ts); a.setHours(0, 0, 0, 0);
+    var b = new Date(); b.setHours(0, 0, 0, 0);
+    return Math.round((b - a) / 86400000);
+  }
+  function agoText(ts) {
+    var d = daysAgo(ts);
+    if (d === null) return "jamais jouée";
+    if (d === 0) return "jouée aujourd'hui";
+    if (d === 1) return "jouée hier";
+    return "jouée il y a " + d + " jours";
+  }
+
+  /* Échelle de la ligne : le prix tombe dans le premier ou le dernier tiers, jamais au milieu */
+  function makeScale(price) {
+    for (var attempt = 0; attempt < 60; attempt++) {
+      var left = Math.random() < 0.5;
+      var target = left ? 0.15 + Math.random() * 0.22 : 0.63 + Math.random() * 0.22;
+      var rawMax = price / target;
+      var major = niceStep(rawMax / 5);
+      var max = Math.ceil(rawMax / major - 1e-9) * major;
+      var pos = price / max;
+      var step = major / 10;
+      var inside = 0;
+      for (var k = 0; k * step <= max + 1e-9; k++) {
+        var v = round2(k * step);
+        if (Math.abs(v - price) <= price * TOLERANCE + 1e-9) inside++;
+      }
+      var okPos = (pos >= 0.12 && pos <= 0.40) || (pos >= 0.60 && pos <= 0.88);
+      if (okPos && inside >= 2) return { max: max, major: major, step: step };
+    }
+    var m = niceStep(price * 3 / 5);
+    return { max: Math.ceil(price * 3 / m) * m, major: m, step: m / 10 };
+  }
+
+  /* ---------- État ---------- */
+  var queue = [], seriesInfo = null, index = 0;
+  var scale = null, value = 0, moved = false, tries = 0, results = [];
+  var lo = 0, hi = Infinity, guesses = [];
+  var locked = false, dragging = false, autoTimer = null;
+
+  var track = $("track"), handle = $("handle"), valueTag = $("valueTag"), fill = $("fill");
+
+  /* ---------- Menu ---------- */
+  function showMenu() {
+    clearTimeout(autoTimer);
+    $("game").hidden = true; $("end").hidden = true; $("menu").hidden = false;
+    $("optEliminated").checked = store.showEliminated !== false;
+
+    var oldest = null, oldestTs = Infinity;
+    SERIES.forEach(function (s) {
+      var info = store.series[s.id];
+      var ts = info && info.last ? info.last : 0;
+      if (ts < oldestTs) { oldestTs = ts; oldest = s.id; }
+    });
+
+    var rows = SERIES.map(function (s) {
+      var prices = s.items.map(function (i) { return i.price; });
+      var info = store.series[s.id];
+      return card(s.id, s.name, s.desc, s.items.length + " objets",
+        "de " + fmt(Math.min.apply(null, prices)) + " à " + fmt(Math.max.apply(null, prices)) + " DH",
+        agoText(info && info.last), s.id === oldest, false);
+    });
+    var mixInfo = store.series.melange;
+    rows.push(card("melange", "Grand mélange", "Objets tirés au hasard dans toutes les séries",
+      MIX_SIZE + " objets", "tous les ordres de grandeur", agoText(mixInfo && mixInfo.last), false, false));
+    var rev = reviewIds();
+    var enough = rev.length >= REVIEW_MIN;
+    rows.push(card("revoir", "À revoir", enough ? "Les objets qui t'ont demandé " + HARD_TRIES + " essais ou plus" :
+      "Se remplit avec les objets qui t'ont demandé " + HARD_TRIES + " essais ou plus",
+      rev.length + " objet" + (rev.length > 1 ? "s" : ""), "", "", false, !enough));
+    $("seriesList").innerHTML = rows.join("");
+
+    Array.prototype.forEach.call(document.querySelectorAll("[data-start]"), function (b) {
+      b.addEventListener("click", function () { startSeries(b.getAttribute("data-start")); });
+    });
+  }
+  function card(id, name, desc, count, range, ago, recommended, disabled) {
+    var meta = [count, range, ago].filter(Boolean).map(function (t) { return "<span>" + t + "</span>"; }).join("");
+    return '<div class="series' + (recommended ? " recommended" : "") + '">' +
+      '<div class="series-text"><h2>' + name + (recommended ? '<span class="chip">Conseillée</span>' : "") + "</h2>" +
+      '<p class="muted">' + desc + "</p></div>" +
+      '<button type="button" ' + (recommended ? 'class="primary" ' : "") + 'data-start="' + id + '"' +
+      (disabled ? " disabled" : "") + ' aria-label="Commencer la série ' + name + '">Commencer</button>' +
+      '<div class="series-meta">' + meta + "</div></div>";
+  }
+
+  $("optEliminated").addEventListener("change", function () {
+    store.showEliminated = this.checked; saveStore();
+  });
+
+  /* ---------- Partie ---------- */
+  function startSeries(id) {
+    var s = SERIES.filter(function (x) { return x.id === id; })[0];
+    if (s) { seriesInfo = { id: s.id, name: s.name }; queue = shuffle(s.items.slice()); }
+    else if (id === "melange") { seriesInfo = { id: id, name: "Grand mélange" }; queue = shuffle(ALL.slice()).slice(0, MIX_SIZE); }
+    else { seriesInfo = { id: id, name: "À revoir" }; queue = shuffle(reviewIds().map(function (k) { return BY_ID[k]; })); }
+    index = 0; results = [];
+    $("menu").hidden = true; $("end").hidden = true; $("game").hidden = false;
+    loadItem();
+  }
+
+  function loadItem() {
+    var item = queue[index];
+    var icon = $("itemIcon");
+    if (item.svg) icon.innerHTML = item.icon; else icon.textContent = item.icon;
+    $("itemName").textContent = item.name;
+    $("itemDetail").textContent = item.detail;
+    $("gSeries").textContent = seriesInfo.name;
+    $("gIndex").textContent = (index + 1) + " / " + queue.length;
+    $("gProgress").style.width = (index / queue.length) * 100 + "%";
+
+    scale = makeScale(item.price);
+    value = 0; moved = false; tries = 0; locked = false;
+    lo = 0; hi = Infinity; guesses = [];
+    handle.setAttribute("aria-valuemax", String(scale.max));
+    handle.className = "handle idle";
+    $("validateBtn").disabled = true;
+    $("tries").textContent = "Essai 1";
+    $("nextBar").hidden = true;
+    setFeedback("", "?", "Ton estimation", "Déplace le curseur, puis valide.");
+    buildTicks(); drawZones(); render();
+  }
+
+  function buildTicks() {
+    var width = track.clientWidth || 600;
+    var nMajor = Math.round(scale.max / scale.major);
+    var spacing = width / nMajor;
+    var labelW = fmt(scale.max).length * 7.5 + 14;
+    var every = Math.max(1, Math.ceil(labelW / spacing));
+    var minor = scale.major / 5, html = "";
+    for (var n = 0; n * minor <= scale.max + 1e-9; n++) {
+      var v = round2(n * minor);
+      var isMajor = n % 5 === 0;
+      var pct = (v / scale.max) * 100;
+      html += '<div class="tick' + (isMajor ? " major" : "") + '" style="left:' + pct + '%"></div>';
+      if (isMajor) {
+        var k = n / 5;
+        if (k % every === 0) html += '<div class="tick-label" style="left:' + pct + '%">' + fmt(v) + "</div>";
+      }
+    }
+    $("ticks").innerHTML = html;
+  }
+
+  function drawZones() {
+    var html = "";
+    if (locked) {
+      var p = queue[index].price;
+      var a = p * (1 - TOLERANCE) / scale.max * 100, b = p * (1 + TOLERANCE) / scale.max * 100;
+      html += '<div class="win-zone" style="left:' + a + "%;width:" + (b - a) + '%"></div>';
+    } else if (store.showEliminated !== false) {
+      if (lo > 0) html += '<div class="out" style="left:0;width:' + (lo / scale.max * 100) + '%"></div>';
+      if (hi < Infinity) html += '<div class="out" style="left:' + (hi / scale.max * 100) + "%;right:0" + '"></div>';
+    }
+    $("outLayer").innerHTML = html;
+    $("guesses").innerHTML = guesses.map(function (g) {
+      return '<div class="guess" style="left:' + (g.v / scale.max * 100) + '%">' + (g.dir > 0 ? "▸" : "◂") + "</div>";
+    }).join("");
+  }
+
+  function render() {
+    var pct = (value / scale.max) * 100;
+    handle.style.left = pct + "%";
+    fill.style.width = pct + "%";
+    valueTag.textContent = fmt(value) + " DH";
+    var w = valueTag.offsetWidth, tw = track.clientWidth, x = pct / 100 * tw;
+    var shift = 0;
+    if (x - w / 2 < -12) shift = -12 - (x - w / 2);
+    if (x + w / 2 > tw + 12) shift = tw + 12 - (x + w / 2);
+    valueTag.style.left = shift + "px";
+    handle.setAttribute("aria-valuenow", String(value));
+    handle.setAttribute("aria-valuetext", fmt(value) + " dirhams");
+  }
+
+  function setValue(v) {
+    if (locked) return;
+    value = Math.min(scale.max, Math.max(0, round2(Math.round(v / scale.step) * scale.step)));
+    if (!moved) { moved = true; handle.classList.remove("idle"); $("validateBtn").disabled = false; }
+    render();
+  }
+
+  function setFeedback(kind, sign, big, small) {
+    $("feedback").className = "panel feedback" + (kind ? " " + kind : "");
+    $("fbSign").textContent = sign;
+    $("fbBig").textContent = big;
+    $("fbSmall").textContent = small;
+  }
+
+  function validate() {
+    if (locked || !moved) return;
+    var price = queue[index].price;
+    tries++;
+    if (Math.abs(value - price) <= price * TOLERANCE + 1e-9) { win(price); return; }
+    $("tries").textContent = "Essai " + (tries + 1);
+    if (value < price) {
+      lo = Math.max(lo, value); guesses.push({ v: value, dir: 1 });
+      setFeedback("wrong", "→", "C'est plus.", "Le prix est plus grand que " + fmt(value) + " DH. Va vers la droite.");
+    } else {
+      hi = Math.min(hi, value); guesses.push({ v: value, dir: -1 });
+      setFeedback("wrong", "←", "C'est moins.", "Le prix est plus petit que " + fmt(value) + " DH. Va vers la gauche.");
+    }
+    drawZones();
+  }
+
+  function win(price) {
+    locked = true;
+    var item = queue[index];
+    results.push({ name: item.name, price: price, tries: tries });
+    var rec = store.items[item.id] || { n: 0 };
+    rec.n += 1; rec.lastTries = tries; rec.last = Date.now();
+    store.items[item.id] = rec; saveStore();
+
+    handle.className = "handle won";
+    $("validateBtn").disabled = true;
+    $("tries").textContent = tries + (tries > 1 ? " essais" : " essai");
+    drawZones();
+    setFeedback("right", "✓", "C'est le juste prix !",
+      "Prix moyen : " + fmt(price) + " DH. Ton estimation : " + fmt(value) + " DH.");
+    $("nextBtn").textContent = index < queue.length - 1 ? "Objet suivant" : "Voir le bilan";
+    $("nextBar").hidden = false;
+    $("gProgress").style.width = ((index + 1) / queue.length) * 100 + "%";
+
+    var bar = $("countBar");
+    var reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    bar.style.transition = "none"; bar.style.transform = "scaleX(1)"; void bar.offsetWidth;
+    if (!reduce) { bar.style.transition = "transform " + AUTO_NEXT_MS + "ms linear"; bar.style.transform = "scaleX(0)"; }
+    clearTimeout(autoTimer);
+    autoTimer = setTimeout(goNext, AUTO_NEXT_MS);
+    $("nextBtn").focus({ preventScroll: true });
+  }
+
+  function goNext() {
+    clearTimeout(autoTimer);
+    if (!locked) return;
+    index++;
+    if (index >= queue.length) { showEnd(); return; }
+    loadItem();
+    handle.focus({ preventScroll: true });
+  }
+
+  function showEnd() {
+    $("game").hidden = true; $("end").hidden = false;
+    var total = results.reduce(function (s, r) { return s + r.tries; }, 0);
+    var avg = total / results.length;
+    var firstTry = results.filter(function (r) { return r.tries === 1; }).length;
+    store.series[seriesInfo.id] = { last: Date.now(), plays: ((store.series[seriesInfo.id] || {}).plays || 0) + 1, avg: avg };
+    saveStore();
+    $("endTitle").textContent = seriesInfo.name + " : série terminée";
+    $("endSummary").textContent = results.length + " objets estimés en " + total + " essais, soit " +
+      avg.toLocaleString("fr-FR", { maximumFractionDigits: 1 }) + " essais par objet en moyenne. " +
+      firstTry + " trouvé" + (firstTry > 1 ? "s" : "") + " du premier coup.";
+    var sorted = results.slice().sort(function (a, b) { return a.price - b.price; });
+    $("endBody").innerHTML = sorted.map(function (r) {
+      return "<tr><td>" + r.name + '</td><td class="r num">' + fmt(r.price) + ' DH</td><td class="r num">' + r.tries + "</td></tr>";
+    }).join("");
+    $("replayBtn").focus({ preventScroll: true });
+  }
+
+  /* ---------- Commandes ---------- */
+  function valueFromX(clientX) {
+    var r = track.getBoundingClientRect();
+    return Math.min(1, Math.max(0, (clientX - r.left) / r.width)) * scale.max;
+  }
+  track.addEventListener("pointerdown", function (e) {
+    if (locked) return;
+    dragging = true;
+    try { track.setPointerCapture(e.pointerId); } catch (err) {}
+    setValue(valueFromX(e.clientX));
+    handle.focus({ preventScroll: true });
+    e.preventDefault();
+  });
+  track.addEventListener("pointermove", function (e) { if (dragging) setValue(valueFromX(e.clientX)); });
+  function stopDrag(e) { dragging = false; try { track.releasePointerCapture(e.pointerId); } catch (err) {} }
+  track.addEventListener("pointerup", stopDrag);
+  track.addEventListener("pointercancel", stopDrag);
+
+  handle.addEventListener("keydown", function (e) {
+    if (locked) { if (e.key === "Enter") { e.preventDefault(); goNext(); } return; }
+    var v = value;
+    switch (e.key) {
+      case "ArrowRight": case "ArrowUp": v += e.shiftKey ? scale.major : scale.step; break;
+      case "ArrowLeft": case "ArrowDown": v -= e.shiftKey ? scale.major : scale.step; break;
+      case "PageUp": v += scale.major; break;
+      case "PageDown": v -= scale.major; break;
+      case "Home": v = 0; break;
+      case "End": v = scale.max; break;
+      case "Enter": e.preventDefault(); validate(); return;
+      default: return;
+    }
+    e.preventDefault();
+    setValue(v);
+  });
+  $("minusBtn").addEventListener("click", function () { setValue(value - scale.step); });
+  $("plusBtn").addEventListener("click", function () { setValue(value + scale.step); });
+  $("validateBtn").addEventListener("click", validate);
+  $("nextBtn").addEventListener("click", goNext);
+  $("quitBtn").addEventListener("click", showMenu);
+  $("menuBtn").addEventListener("click", showMenu);
+  $("replayBtn").addEventListener("click", function () { startSeries(seriesInfo.id); });
+  window.addEventListener("resize", function () { if (!$("game").hidden) { buildTicks(); drawZones(); render(); } });
+
+  showMenu();
+})();
+</script>
+
+</body></html>
