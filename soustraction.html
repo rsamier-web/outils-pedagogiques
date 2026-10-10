@@ -1,0 +1,662 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Soustraire sur la ligne</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;500;600;700&display=swap">
+<style>
+/* Layout : fenêtre d'application façon KDE Breeze — barre d'outils, une colonne de 980px ; la ligne numérique est l'objet central. Code couleur repris de la fiche : magenta = retrait, orange = complément, bleu Breeze = curseur. */
+:root{
+  --window:#eff0f1; --view:#fcfcfc; --btn:#fcfcfc; --fg:#232629; --muted:#646c74;
+  --border:#bdc3c7; --border-soft:#d9dde0; --track:#232629;
+  --accent:#3daee9; --accent-ink:#1b6fa3; --accent-soft:rgba(61,174,233,.14); --accent-soft-2:rgba(61,174,233,.24);
+  --pos:#27ae60; --pos-ink:#1d7a43; --pos-soft:rgba(39,174,96,.11);
+  --neg:#da4453; --neg-ink:#b12a39; --neg-soft:rgba(218,68,83,.09);
+  --ret:#b4246c; --ret-soft:rgba(180,36,108,.09);
+  --comp:#d35400; --comp-soft:rgba(211,84,0,.09);
+  --shadow:0 1px 2px rgba(35,38,41,.07);
+  --font:"Noto Sans","Segoe UI","Helvetica Neue",Arial,sans-serif;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --window:#31363b; --view:#232629; --btn:#3b4045; --fg:#eff0f1; --muted:#a3abb3;
+    --border:#5a6168; --border-soft:#41474d; --track:#dfe3e6;
+    --accent:#3daee9; --accent-ink:#6cc4f2; --accent-soft:rgba(61,174,233,.17); --accent-soft-2:rgba(61,174,233,.28);
+    --pos:#2ecc71; --pos-ink:#6fdc9a; --pos-soft:rgba(46,204,113,.13);
+    --neg:#e25563; --neg-ink:#f2848f; --neg-soft:rgba(226,85,99,.13);
+    --ret:#ec6aa5; --ret-soft:rgba(236,106,165,.13);
+    --comp:#f5a046; --comp-soft:rgba(245,160,70,.13);
+    --shadow:0 1px 2px rgba(0,0,0,.3);
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --window:#31363b; --view:#232629; --btn:#3b4045; --fg:#eff0f1; --muted:#a3abb3;
+  --border:#5a6168; --border-soft:#41474d; --track:#dfe3e6;
+  --accent:#3daee9; --accent-ink:#6cc4f2; --accent-soft:rgba(61,174,233,.17); --accent-soft-2:rgba(61,174,233,.28);
+  --pos:#2ecc71; --pos-ink:#6fdc9a; --pos-soft:rgba(46,204,113,.13);
+  --neg:#e25563; --neg-ink:#f2848f; --neg-soft:rgba(226,85,99,.13);
+  --ret:#ec6aa5; --ret-soft:rgba(236,106,165,.13);
+  --comp:#f5a046; --comp-soft:rgba(245,160,70,.13);
+  --shadow:0 1px 2px rgba(0,0,0,.3);
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+body{background:var(--window);color:var(--fg);font-family:var(--font);font-size:15px;line-height:1.5}
+h1,h2,h3{margin:0;font-weight:600;text-wrap:balance;line-height:1.25}
+h1{font-size:19px} h2{font-size:16px} h3{font-size:15px}
+p{margin:0}
+.muted{color:var(--muted)}
+.small{font-size:13px}
+
+/* Barre d'outils */
+.bar{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--window);border-bottom:1px solid var(--border-soft);padding-block:8px;padding-inline:16px}
+.bar-in{max-width:980px;margin:0 auto;display:flex;align-items:center;gap:10px}
+.app-name{display:flex;align-items:center;gap:9px;font-weight:600;font-size:15px}
+.app-name svg{flex:none}
+.spacer{flex:1}
+
+main{max-width:980px;margin:0 auto;padding-block:20px 48px;padding-inline:16px;display:grid;gap:16px}
+
+/* Boutons Breeze */
+.btn{font:inherit;font-size:14px;color:var(--fg);background:var(--btn);border:1px solid var(--border);border-radius:4px;padding:5px 14px;min-height:34px;display:inline-flex;align-items:center;justify-content:center;gap:8px;cursor:pointer;box-shadow:var(--shadow);transition:border-color .12s,background .12s}
+.btn:hover{border-color:var(--accent)}
+.btn:focus-visible{outline:none;border-color:var(--accent);box-shadow:0 0 0 2px var(--accent-soft-2)}
+.btn.primary{background:var(--accent-soft);border-color:var(--accent);font-weight:600}
+.btn.primary:hover{background:var(--accent-soft-2)}
+.btn:disabled{opacity:.5;cursor:not-allowed;border-color:var(--border)}
+.btn:disabled:hover{border-color:var(--border)}
+.btn.flat{background:transparent;border-color:transparent;box-shadow:none}
+.btn.flat:hover{background:var(--accent-soft);border-color:var(--accent-soft)}
+.btn.big{min-height:44px;font-size:15px;padding:8px 20px}
+.btn[aria-pressed="true"]{background:var(--accent-soft);border-color:var(--accent)}
+.btn svg{flex:none}
+
+.frame{background:var(--view);border:1px solid var(--border-soft);border-radius:5px}
+
+/* Accueil */
+.today{display:flex;flex-wrap:wrap;align-items:center;gap:16px;padding:18px 20px}
+.today .txt{flex:1;min-width:220px;display:grid;gap:3px}
+.label{font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);font-weight:600}
+.section-head{display:flex;align-items:baseline;justify-content:space-between;gap:12px;flex-wrap:wrap;padding-top:6px}
+
+.tech{display:grid;grid-template-columns:minmax(220px,290px) minmax(0,1fr);gap:18px;padding:16px 18px;align-items:center}
+.tech + .tech{border-top:1px solid var(--border-soft)}
+.tech .txt{display:grid;gap:8px;min-width:0}
+.tech .ex{font-size:22px;font-weight:600;font-variant-numeric:tabular-nums}
+.rule{padding:12px 18px;border-top:1px solid var(--border-soft);font-size:14px}
+@media (max-width:760px){.tech{grid-template-columns:minmax(0,1fr)}}
+
+.chip{display:inline-flex;align-items:center;gap:6px;font-size:13px;font-weight:600;padding:2px 10px 2px 8px;border-radius:999px;border:1px solid;width:max-content}
+.chip.ret{color:var(--ret);border-color:var(--ret);background:var(--ret-soft)}
+.chip.comp{color:var(--comp);border-color:var(--comp);background:var(--comp-soft)}
+.chip svg{flex:none}
+
+.list .row{display:grid;grid-template-columns:2em minmax(0,1fr) auto auto;gap:6px 14px;align-items:center;padding:12px 16px}
+.list .row + .row{border-top:1px solid var(--border-soft)}
+.list .row.reco{background:var(--accent-soft)}
+.num{font-variant-numeric:tabular-nums;color:var(--muted);font-weight:600}
+.row .meta{display:flex;flex-wrap:wrap;gap:6px 10px;align-items:center;font-size:13px;color:var(--muted)}
+.row .right{display:flex;align-items:center;gap:10px;justify-content:flex-end}
+.lvl{font-size:12px;padding:1px 7px;border:1px solid var(--border);border-radius:3px;color:var(--muted)}
+.st{font-size:12px;font-weight:600;padding:2px 8px;border-radius:3px;white-space:nowrap}
+.st.new{color:var(--muted);border:1px solid var(--border-soft)}
+.st.work{color:var(--fg);background:var(--border-soft)}
+.st.due{color:var(--accent-ink);background:var(--accent-soft);border:1px solid var(--accent)}
+.st.done{color:var(--pos-ink);background:var(--pos-soft)}
+@media (max-width:620px){
+  .list .row{grid-template-columns:2em minmax(0,1fr)}
+  .list .row .right{grid-column:2;justify-content:flex-start}
+  .list .row .st-cell{grid-column:2}
+}
+.foot{display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between;font-size:13px;color:var(--muted)}
+
+/* Exercice */
+.exhead{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.exhead .t{display:grid;flex:1;min-width:0}
+.prog{display:flex;gap:3px}
+.seg{flex:1;height:6px;border-radius:3px;background:var(--border-soft)}
+.seg.ok{background:var(--pos)} .seg.err{background:var(--neg)} .seg.cur{background:var(--accent)}
+
+.problem{padding:18px 20px;display:grid;gap:14px}
+.eq{display:flex;align-items:center;gap:.3em;font-size:clamp(38px,7vw,54px);font-weight:600;font-variant-numeric:tabular-nums;line-height:1.1;flex-wrap:wrap}
+.eq .n{padding-bottom:2px;border-bottom:4px solid transparent}
+.eq .n.ret{border-color:var(--ret)}
+.eq .n.comp{border-color:var(--comp)}
+.eq .op{color:var(--muted);font-weight:500}
+#answer{font:inherit;width:2.1em;text-align:center;color:var(--fg);background:var(--view);border:2px solid var(--border);border-radius:6px;padding:0 .1em;height:1.3em}
+#answer:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft-2)}
+#answer:disabled{background:var(--window)}
+#answer.ok{border-color:var(--pos)} #answer.err{border-color:var(--neg)}
+.guide{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.instr{font-size:17px;font-weight:500}
+.steps{display:flex;gap:6px;flex-wrap:wrap}
+.step{font-size:13px;color:var(--muted);padding:3px 10px;border-radius:4px;border:1px solid var(--border-soft);display:inline-flex;gap:6px;align-items:center}
+.step b{font-variant-numeric:tabular-nums}
+.step.on{color:var(--fg);border-color:var(--accent);background:var(--accent-soft)}
+.step.done{color:var(--pos-ink);border-color:var(--pos-soft);background:var(--pos-soft)}
+.choices{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.choice{min-height:52px;padding:8px 18px;font-size:15px;font-weight:600}
+.choice.ret{border-color:var(--ret);color:var(--ret);background:var(--ret-soft)}
+.choice.comp{border-color:var(--comp);color:var(--comp);background:var(--comp-soft)}
+.choice.ret:hover,.choice.comp:hover{box-shadow:0 0 0 2px var(--accent-soft-2)}
+
+.linebox{padding:14px 16px 16px;display:grid;gap:12px}
+.linewrap{overflow-x:auto;margin-inline:-4px;padding-inline:4px}
+svg.nl{display:block;width:100%;min-width:620px;height:auto;touch-action:pan-y;user-select:none;-webkit-user-select:none}
+svg.nl.live{cursor:pointer}
+svg.nl:focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:4px}
+.controls{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.kbd{font-size:12px}
+
+.axis{stroke:var(--track);stroke-width:3;stroke-linecap:round}
+.tick{stroke:var(--track);stroke-width:2.5}
+.lbl{fill:var(--fg);font-size:22px;text-anchor:middle;font-family:var(--font);font-variant-numeric:tabular-nums}
+.lbl.on{fill:var(--accent-ink);font-weight:700}
+.lbl.mark{font-weight:700}
+.tag{fill:var(--muted);font-size:15px;text-anchor:middle;font-family:var(--font)}
+.markdot{fill:var(--fg)}
+.target{fill:none;stroke-width:2.5;stroke-dasharray:4 4}
+.arc path{fill:none;stroke-width:3.4;stroke-linecap:round}
+.arc.dim{opacity:.32}
+.arc.dim path{stroke-dasharray:.07 .05}
+.anum{font-size:17px;font-weight:700;text-anchor:middle;font-family:var(--font)}
+.cursor circle{fill:var(--accent);stroke:var(--view);stroke-width:3}
+.cursor .core{fill:var(--view);stroke:none}
+.cursor.locked circle:first-child{opacity:.8}
+.draw{animation:appear .01s linear var(--d) both}
+.draw path{stroke-dasharray:1 1;animation:drawp .38s ease-out var(--d) both}
+.draw text{animation:appear .01s linear calc(var(--d) + 280ms) both}
+@keyframes appear{from{opacity:0}to{opacity:1}}
+@keyframes drawp{from{stroke-dashoffset:1}to{stroke-dashoffset:0}}
+@media (prefers-reduced-motion:reduce){.draw,.draw path,.draw text{animation:none}}
+
+/* Messages (KMessageWidget) */
+.msg{display:flex;gap:12px;padding:12px 14px;border-radius:5px;border:1px solid;align-items:flex-start}
+.msg svg{flex:none;margin-top:2px}
+.msg .body{display:grid;gap:6px;min-width:0;flex:1}
+.msg.ok{background:var(--pos-soft);border-color:var(--pos)}
+.msg.ok svg{color:var(--pos)}
+.msg.err{background:var(--neg-soft);border-color:var(--neg)}
+.msg.err svg{color:var(--neg)}
+.msg.info{background:var(--accent-soft);border-color:var(--accent)}
+.msg.info svg{color:var(--accent)}
+.msg .fix{font-size:22px;font-weight:600;font-variant-numeric:tabular-nums}
+.msg .act{display:flex;gap:8px;flex-wrap:wrap;margin-top:4px}
+
+details.demo{padding:0}
+details.demo summary{cursor:pointer;padding:10px 16px;font-weight:500;list-style-position:inside}
+details.demo summary:focus-visible{outline:2px solid var(--accent);outline-offset:-2px;border-radius:5px}
+details.demo[open] summary{border-bottom:1px solid var(--border-soft)}
+
+/* Bilan */
+.score{display:flex;gap:20px;align-items:center;flex-wrap:wrap;padding:20px}
+.score .big{font-size:52px;font-weight:700;font-variant-numeric:tabular-nums;line-height:1}
+.score .big small{font-size:24px;color:var(--muted);font-weight:500}
+.recap{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:8px;padding:0 20px 20px}
+.it{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:7px 10px;border:1px solid var(--border-soft);border-radius:4px;font-variant-numeric:tabular-nums}
+.it.ok{border-color:var(--pos-soft)} .it.err{border-color:var(--neg);background:var(--neg-soft)}
+.it span:last-child{font-size:12px;color:var(--muted)}
+.actions{display:flex;gap:10px;flex-wrap:wrap}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+</style>
+
+<header class="bar">
+  <div class="bar-in">
+    <div class="app-name">
+      <svg width="26" height="18" viewBox="0 0 26 18" aria-hidden="true"><path d="M2 14h22" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M5 11v6M13 11v6M21 11v6" stroke="currentColor" stroke-width="1.6"/><path d="M13 11Q9 1 5.6 10" fill="none" stroke="var(--ret)" stroke-width="2" stroke-linecap="round"/><path d="M13 11Q17 1 20.4 10" fill="none" stroke="var(--comp)" stroke-width="2" stroke-linecap="round"/></svg>
+      Soustraire sur la ligne
+    </div>
+    <span class="spacer"></span>
+    <button class="btn flat" id="voice" aria-pressed="false" title="Lire automatiquement les consignes et les corrections">
+      <svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M2 6h3l4-3v10L5 10H2z" fill="currentColor"/><path d="M11 5.5a3.5 3.5 0 0 1 0 5M12.8 3.5a6 6 0 0 1 0 9" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
+      <span>Voix</span>
+    </button>
+  </div>
+</header>
+<main id="main"></main>
+
+<script>
+(function(){
+/* ---------- Constantes de la ligne ---------- */
+const W=1000, X0=30, STEP=47, LY=112;
+const X=n=>X0+STEP*n;
+const $=s=>document.querySelector(s);
+const main=$('#main');
+
+/* ---------- Stockage (cet appareil uniquement) ---------- */
+const KEY='soustraire-ligne-v1';
+let store={voice:false,prog:{}};
+try{const raw=localStorage.getItem(KEY); if(raw){const p=JSON.parse(raw); store={voice:!!p.voice,prog:p.prog||{}}}}catch(e){}
+function save(){try{localStorage.setItem(KEY,JSON.stringify(store))}catch(e){}}
+
+/* ---------- Dates ---------- */
+const pad=n=>String(n).padStart(2,'0');
+function today(){const d=new Date();return d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate())}
+function addDays(s,k){const d=new Date(s+'T12:00:00');d.setDate(d.getDate()+k);return d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate())}
+const fmt=s=>s.slice(8,10)+'/'+s.slice(5,7);
+
+/* ---------- Génération des soustractions ---------- */
+const ri=(a,b)=>a+Math.floor(Math.random()*(b-a+1));
+const far=(a,b)=>b>=1&&a-b>=2*b;          // nombres éloignés : on enlève peu
+const near=(a,b)=>a-b>=1&&b>=2*(a-b);     // nombres proches : petit écart
+const recOf=(a,b)=>near(a,b)?'comp':'ret';
+const pl=(n,w)=>n>1?w+'s':w;
+function pick(n,fn,seen){seen=seen||new Set();const out=[];let k=0;while(out.length<n&&k++<6000){const it=fn();if(!it)continue;const key=it.a+'-'+it.b;if(seen.has(key))continue;seen.add(key);out.push({a:it.a,b:it.b,rec:recOf(it.a,it.b)})}return out}
+function shuffle(t){for(let i=t.length-1;i>0;i--){const j=ri(0,i);[t[i],t[j]]=[t[j],t[i]]}return t}
+function interleave(x,y){let s;for(let t=0;t<80;t++){s=shuffle([...x,...y]);let run=1,ok=true;for(let i=1;i<s.length;i++){run=s[i].rec===s[i-1].rec?run+1:1;if(run>2){ok=false;break}}if(ok)break}return s}
+const F=(bmax,amin,amax)=>()=>{const b=ri(1,bmax),a=ri(amin,amax);return far(a,b)?{a,b}:null};
+const C=(dmax,amin,amax,cond)=>()=>{const d=ri(1,dmax),a=ri(amin,amax),b=a-d;return near(a,b)&&(!cond||cond(a,b))?{a,b}:null};
+
+const GUIDE={choose:false,nums:true,target:true,label:'Guidé'};
+const LIGHT={choose:false,nums:false,target:true,label:'Guidage léger'};
+const CHOICE={choose:true,nums:false,target:true,label:'Au choix'};
+const DEFI={choose:true,nums:false,target:false,label:'Au choix, sans repère'};
+const SERIES=[
+ {id:'r1',name:'Retrait jusqu’à 10',desc:'Reculer de 1, 2 ou 3 sauts.',f:GUIDE,gen:()=>pick(10,F(3,4,10))},
+ {id:'r2',name:'Retrait jusqu’à 20',desc:'Reculer de 1 à 5 sauts, parfois en passant sous 10.',f:GUIDE,gen:()=>pick(10,F(5,8,20))},
+ {id:'c1',name:'Complément jusqu’à 10',desc:'Avancer de 1 à 3 sauts entre deux nombres proches.',f:GUIDE,gen:()=>pick(10,C(3,4,10))},
+ {id:'c2',name:'Complément jusqu’à 20',desc:'Avancer jusqu’à 5 sauts, souvent en passant par 10.',f:GUIDE,gen:()=>{const s=new Set();return shuffle([...pick(5,C(5,11,15,(a,b)=>b<=10),s),...pick(5,C(5,12,20,(a,b)=>b>10),s)])}},
+ {id:'m1',name:'Mélange guidé',desc:'Retraits et compléments alternés. La technique est indiquée.',f:LIGHT,gen:()=>interleave(pick(5,F(5,8,20)),pick(5,C(5,8,20)))},
+ {id:'m2',name:'À toi de choisir',desc:'Repérer si les nombres sont proches ou éloignés, puis choisir sa technique.',f:CHOICE,gen:()=>interleave(pick(5,F(5,8,20)),pick(5,C(5,8,20)))},
+ {id:'m3',name:'Défi',desc:'Choisir sa technique, jusqu’à 6 sauts, sans marque d’arrivée.',f:DEFI,gen:()=>interleave(pick(5,F(6,10,20)),pick(5,C(6,10,20)))}
+];
+const TECH={
+ ret:{name:'retrait',chip:'Retrait · je recule'},
+ comp:{name:'complément',chip:'Complément · j’avance'}
+};
+const jumps=(t,a,b)=>t==='ret'?b:a-b;
+
+/* ---------- Progression et révisions espacées ---------- */
+const INTERVALS=[3,7,14,30,60];
+function statusOf(id){
+ const ss=store.prog[id]||[];
+ if(!ss.length)return{k:'new',label:'Nouvelle'};
+ const last=ss[ss.length-1];
+ const good=[...new Set(ss.filter(x=>x.s/x.t>=.8).map(x=>x.d))].sort();
+ if(good.length<2)return{k:'work',label:'En cours',last};
+ const due=addDays(good[good.length-1],INTERVALS[Math.min(good.length-2,INTERVALS.length-1)]);
+ if(today()>=due)return{k:'due',label:'À réviser',last,due};
+ return{k:'done',label:'Maîtrisée',last,due};
+}
+function recommend(){
+ const st=SERIES.map(s=>({s,st:statusOf(s.id)}));
+ const due=st.filter(x=>x.st.k==='due').sort((a,b)=>a.st.due<b.st.due?-1:1);
+ if(due.length)return{s:due[0].s,why:'Révision prévue : la série était maîtrisée, on vérifie qu’elle tient dans le temps.'};
+ const nx=st.find(x=>x.st.k==='new'||x.st.k==='work');
+ if(nx)return{s:nx.s,why:nx.st.k==='work'?'À consolider : il faut 8/10 ou plus sur deux jours différents.':'Étape suivante du parcours.'};
+ return null;
+}
+
+/* ---------- Voix (principe de modalité) ---------- */
+function speak(t,force){
+ if(!(force||store.voice)||!('speechSynthesis' in window))return;
+ try{
+  speechSynthesis.cancel();
+  const u=new SpeechSynthesisUtterance(t.replace(/−/g,' moins ').replace(/→/g,', ').replace(/’/g,"'"));
+  u.lang='fr-FR';u.rate=.9;
+  const v=speechSynthesis.getVoices().find(v=>v.lang&&v.lang.toLowerCase().startsWith('fr'));
+  if(v)u.voice=v;
+  speechSynthesis.speak(u);
+ }catch(e){}
+}
+const voiceBtn=$('#voice');
+function syncVoice(){voiceBtn.setAttribute('aria-pressed',store.voice?'true':'false');voiceBtn.querySelector('span').textContent=store.voice?'Voix activée':'Voix'}
+voiceBtn.addEventListener('click',()=>{store.voice=!store.voice;save();syncVoice();if(store.voice)speak('La lecture à voix haute est activée.')});
+syncVoice();
+
+/* ---------- Icônes ---------- */
+const IC={
+ ok:'<svg width="20" height="20" viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="9" fill="currentColor"/><path d="M5.5 10.3l3 3 6-6.3" fill="none" stroke="var(--view)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>',
+ err:'<svg width="20" height="20" viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="9" fill="currentColor"/><path d="M10 5.2v6.2" stroke="var(--view)" stroke-width="2.2" stroke-linecap="round"/><circle cx="10" cy="14.6" r="1.3" fill="var(--view)"/></svg>',
+ info:'<svg width="20" height="20" viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="9" fill="currentColor"/><circle cx="10" cy="5.8" r="1.3" fill="var(--view)"/><path d="M10 9v6" stroke="var(--view)" stroke-width="2.2" stroke-linecap="round"/></svg>',
+ spk:'<svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M2 6h3l4-3v10L5 10H2z" fill="currentColor"/><path d="M11 5.5a3.5 3.5 0 0 1 0 5" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>',
+ ret:'<svg width="22" height="12" viewBox="0 0 22 12" aria-hidden="true"><path d="M19 10Q14 0 6 8" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M3 10.5l1-5 4 3z" fill="currentColor"/></svg>',
+ comp:'<svg width="22" height="12" viewBox="0 0 22 12" aria-hidden="true"><path d="M3 10Q8 0 16 8" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M19 10.5l-1-5-4 3z" fill="currentColor"/></svg>'
+};
+const chip=t=>`<span class="chip ${t}">${IC[t]}${TECH[t].chip}</span>`;
+
+/* ---------- Dessin de la ligne numérique ---------- */
+function arc(n1,n2,apex,c,u,num,cls,delay){
+ const x1=X(n1),x2=X(n2),dir=Math.sign(x2-x1);
+ const a=x1+dir*4,b=x2-dir*8,cx=(a+b)/2,cy=2*apex-(LY-6);
+ return `<g class="arc ${cls||''}" style="--d:${delay||0}ms"><path d="M${a} ${LY-4} Q${cx} ${cy} ${b} ${LY-8}" style="stroke:var(--${c})" marker-end="url(#${u}-${c})" pathLength="1"/>${num!=null?`<text class="anum" x="${(x1+x2)/2}" y="${apex-7}" style="fill:var(--${c})">${num}</text>`:''}</g>`;
+}
+function lineSVG(o){
+ const u=o.uid,p=[];
+ p.push('<defs>'+['ret','comp'].map(c=>`<marker id="${u}-${c}" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="4" markerHeight="4" orient="auto"><path d="M0 0L10 5L0 10z" style="fill:var(--${c})"/></marker>`).join('')+'</defs>');
+ p.push(`<rect x="0" y="-10" width="${W}" height="195" fill="transparent"/>`);
+ p.push(`<line class="axis" x1="${X(0)-16}" y1="${LY}" x2="${X(20)+16}" y2="${LY}"/>`);
+ for(let n=0;n<=20;n++){
+  const cl=['lbl'];if(o.pos===n)cl.push('on');if((o.marks||[]).includes(n)||o.start===n||o.target===n)cl.push('mark');
+  p.push(`<line class="tick" x1="${X(n)}" y1="${LY-10}" x2="${X(n)}" y2="${LY+10}"/><text class="${cl.join(' ')}" x="${X(n)}" y="${LY+40}">${n}</text>`);
+ }
+ (o.marks||[]).forEach(n=>p.push(`<circle class="markdot" cx="${X(n)}" cy="${LY}" r="7"/>`));
+ if(o.target!=null)p.push(`<circle class="target" cx="${X(o.target)}" cy="${LY}" r="13" style="stroke:var(--comp)"/><text class="tag" x="${X(o.target)}" y="${LY+64}">arrivée</text>`);
+ if(o.start!=null)p.push(`<text class="tag" x="${X(o.start)}" y="${LY+64}">départ</text>`);
+ if(o.start!=null&&o.pos!=null&&o.pos!==o.start){
+  const dir=Math.sign(o.pos-o.start);let k=0;
+  for(let n=o.start;n!==o.pos;n+=dir){k++;p.push(arc(n,n+dir,60,dir<0?'ret':'comp',u,o.nums?k:null,o.dim?'dim':''))}
+ }
+ if(o.corr){
+  const {from,to}=o.corr,dir=Math.sign(to-from);let k=0;
+  for(let n=from;n!==to;n+=dir){k++;p.push(arc(n,n+dir,o.corr.apex||38,dir<0?'ret':'comp',u,k,'draw',(k-1)*(o.corr.speed||450)+(o.corr.wait||0)))}
+ }
+ if(o.pos!=null)p.push(`<g class="cursor${o.locked?' locked':''}"><circle cx="${X(o.pos)}" cy="${LY}" r="15"/><circle class="core" cx="${X(o.pos)}" cy="${LY}" r="5"/></g>`);
+ return p.join('');
+}
+const svgOpen=(id,extra)=>`<svg class="nl" id="${id}" viewBox="0 -12 ${W} 196" ${extra||''}>`;
+
+/* ---------- Exemples travaillés (repris de la fiche) ---------- */
+const DEMO={
+ ret:{a:15,b:3,text:'15 et 3 sont éloignés. Je pars de 15 et je recule de 3 sauts. J’arrive sur 12.',say:'15 moins 3. 15 et 3 sont éloignés. Je pars de 15 et je recule de 3 sauts. J’arrive sur 12. Donc 15 moins 3 égale 12.'},
+ comp:{a:13,b:9,text:'13 et 9 sont proches. Je pars de 9 et j’avance jusqu’à 13. Je compte les sauts : 4.',say:'13 moins 9. 13 et 9 sont proches. Je pars de 9 et j’avance jusqu’à 13. Je compte les sauts : 1, 2, 3, 4. Donc 13 moins 9 égale 4.'}
+};
+function demoSVG(t,uid){
+ const d=DEMO[t];
+ const o=t==='ret'?{uid,start:d.a,corr:{from:d.a,to:d.a-d.b,apex:60,speed:650,wait:300}}:{uid,start:d.b,target:d.a,corr:{from:d.b,to:d.a,apex:60,speed:650,wait:300}};
+ return lineSVG(o);
+}
+function demoBlock(t,uid){
+ const d=DEMO[t];
+ return `<div class="tech">
+  <div class="txt">
+   ${chip(t)}
+   <div class="ex">${d.a} − ${d.b} = ${d.a-d.b}</div>
+   <p>${d.text}</p>
+   <div><button class="btn" data-replay="${t}" data-uid="${uid}">Rejouer l’exemple</button></div>
+  </div>
+  <div class="linewrap">${svgOpen(uid,'aria-label="Exemple animé : '+d.a+' moins '+d.b+'"')}${demoSVG(t,uid)}</svg></div>
+ </div>`;
+}
+function bindReplay(root){
+ root.querySelectorAll('[data-replay]').forEach(b=>b.addEventListener('click',()=>{
+  const t=b.dataset.replay,uid=b.dataset.uid;const s=document.getElementById(uid);
+  s.innerHTML='';requestAnimationFrame(()=>{s.innerHTML=demoSVG(t,uid)});speak(DEMO[t].say);
+ }));
+}
+
+/* ---------- Accueil ---------- */
+let confirmReset=false;
+function renderHome(){
+ const r=recommend();
+ const rows=SERIES.map((s,i)=>{
+  const st=statusOf(s.id);
+  const ss=store.prog[s.id]||[];
+  let meta=`<span class="lvl">${s.f.label}</span>`;
+  if(st.last)meta+=`<span>Dernière séance : ${st.last.s}/${st.last.t} le ${fmt(st.last.d)}</span>`;
+  if(ss.length)meta+=`<span>${ss.length} ${pl(ss.length,'séance')}</span>`;
+  if(st.k==='done')meta+=`<span>Révision le ${fmt(st.due)}</span>`;
+  return `<div class="row${r&&r.s.id===s.id?' reco':''}">
+   <span class="num">${i+1}</span>
+   <div style="display:grid;gap:3px;min-width:0"><h3>${s.name}</h3><p class="small">${s.desc}</p><div class="meta">${meta}</div></div>
+   <div class="st-cell"><span class="st ${st.k}">${st.label}</span></div>
+   <div class="right"><button class="btn${r&&r.s.id===s.id?' primary':''}" data-start="${s.id}">Lancer</button></div>
+  </div>`;
+ }).join('');
+ let todayHTML;
+ if(r){todayHTML=`<div class="txt"><span class="label">Séance conseillée</span><h1>${r.s.name}</h1><p class="muted small">${r.why}</p></div><button class="btn primary big" data-start="${r.s.id}">Commencer</button>`}
+ else{const nxt=SERIES.map(s=>statusOf(s.id).due).filter(Boolean).sort()[0];todayHTML=`<div class="txt"><span class="label">Séance conseillée</span><h1>Tout est à jour</h1><p class="muted small">Prochaine révision le ${fmt(nxt)}. En attendant, la série Défi garde la main.</p></div><button class="btn primary big" data-start="m3">Lancer le Défi</button>`}
+ main.innerHTML=`
+ <section class="frame today">${todayHTML}</section>
+ <div class="section-head"><h2>Les deux techniques</h2><span class="muted small">Regarde l’exemple, puis entraîne-toi.</span></div>
+ <section class="frame">
+  ${demoBlock('ret','dh-ret')}
+  ${demoBlock('comp','dh-comp')}
+  <p class="rule"><strong>Comment choisir ?</strong> Prends la technique qui fait le moins de sauts. Le retrait fait autant de sauts que le nombre qu’on enlève ; le complément fait autant de sauts que l’écart entre les deux nombres.</p>
+ </section>
+ <div class="section-head"><h2>Séries d’entraînement</h2><span class="muted small">10 soustractions par série, nouvelles à chaque séance.</span></div>
+ <section class="frame list">${rows}</section>
+ <div class="foot">
+  <span>Maîtrisée = 8/10 ou plus sur deux jours différents. Les révisions s’espacent ensuite : 3, 7, 14, 30 puis 60 jours. Progression enregistrée sur cet appareil.</span>
+  <span id="resetzone">${confirmReset?'<button class="btn" id="resetYes">Effacer toute la progression</button> <button class="btn flat" id="resetNo">Annuler</button>':'<button class="btn flat" id="reset0">Effacer la progression</button>'}</span>
+ </div>`;
+ main.querySelectorAll('[data-start]').forEach(b=>b.addEventListener('click',()=>startSeries(b.dataset.start)));
+ bindReplay(main);
+ const r0=$('#reset0');if(r0)r0.onclick=()=>{confirmReset=true;renderHome();$('#resetYes').focus()};
+ const ry=$('#resetYes');if(ry)ry.onclick=()=>{store.prog={};save();confirmReset=false;renderHome()};
+ const rn=$('#resetNo');if(rn)rn.onclick=()=>{confirmReset=false;renderHome()};
+}
+
+/* ---------- Séance ---------- */
+let S=null;
+function startSeries(id){
+ const ser=SERIES.find(s=>s.id===id);
+ S={ser,items:ser.gen().map(x=>({...x,retry:false})),i:0,res:[],choiceOK:0,choiceN:0};
+ newItem();window.scrollTo(0,0);
+}
+function newItem(){
+ const it=S.items[S.i],f=S.ser.f;
+ S.cur={a:it.a,b:it.b,rec:it.rec,retry:it.retry,answer:'',fb:null};
+ if(f.choose){Object.assign(S.cur,{phase:'choose',tech:null,start:null,pos:null})}
+ else setTech(it.rec);
+ renderEx();
+ speak(instrText());
+ const first=f.choose?main.querySelector('.choice'):$('#line');if(first)first.focus({preventScroll:true});
+}
+function setTech(t){const c=S.cur;c.tech=t;c.phase='move';c.start=t==='ret'?c.a:c.b;c.pos=c.start}
+
+function instrText(){
+ const c=S.cur,f=S.ser.f;
+ if(c.phase==='choose')return`${c.a} − ${c.b} : ces nombres sont-ils proches ou éloignés ? Choisis ta technique.`;
+ if(c.tech==='ret')return f.choose?`Pars de ${c.a} et recule.`:`Pars de ${c.a} et recule de ${c.b} ${pl(c.b,'saut')}.`;
+ return`Pars de ${c.b} et avance jusqu’à ${c.a}. Compte les sauts.`;
+}
+function stepState(){
+ const c=S.cur;
+ const moved=c.pos!=null&&c.pos!==c.start, typed=c.answer!=='';
+ const st=[moved?'done':'on', moved?(typed?'done':'on'):'', moved&&typed?'on':''];
+ if(!moved&&typed)st[1]='done';
+ return st;
+}
+function stepsHTML(){
+ const s=stepState(),lab=['Déplace le curseur','Écris le résultat','Valide'];
+ return lab.map((l,i)=>`<span class="step ${s[i]}"><b>${i+1}</b>${l}</span>`).join('');
+}
+function lineOpts(){
+ const c=S.cur,f=S.ser.f,fb=c.fb;
+ if(c.phase==='choose')return{uid:'ex',marks:[c.a,c.b]};
+ const o={uid:'ex',start:c.start,pos:c.pos,nums:f.nums,target:(f.target&&c.tech==='comp')?c.a:null};
+ if(c.phase==='feedback'){
+  o.locked=true;o.nums=true;
+  if(!fb.ok){
+   const r=c.rec,from=r==='ret'?c.a:c.b,to=r==='ret'?c.a-c.b:c.a;
+   o.dim=true;o.corr={from,to,apex:36,speed:480,wait:250};o.start=from;o.target=r==='comp'?c.a:null;
+  }
+ }
+ return o;
+}
+function renderLine(){
+ const s=$('#line');if(!s)return;
+ s.innerHTML=lineSVG(lineOpts());
+ const c=S.cur;
+ if(c.pos!=null){s.setAttribute('aria-valuenow',c.pos);s.setAttribute('aria-valuetext','Curseur sur '+c.pos)}
+ const st=$('#steps');if(st)st.innerHTML=stepsHTML();
+}
+function renderEx(){
+ const c=S.cur,f=S.ser.f,ser=S.ser;
+ const segs=S.items.map((it,k)=>`<span class="seg ${k<S.i?(S.res[k]?'ok':'err'):k===S.i?'cur':''}"></span>`).join('');
+ const startNum=c.phase==='choose'?'':c.tech==='ret'?'a':'b';
+ const nA=`<span class="n ${startNum==='a'?'ret':(c.tech==='comp'&&f.target?'':'')}">${c.a}</span>`;
+ const nB=`<span class="n ${startNum==='b'?'comp':''}">${c.b}</span>`;
+ const fb=c.fb;
+ const ansCls=fb?(fb.ansOK?'ok':'err'):'';
+ let guide='';
+ if(c.phase==='choose'){
+  guide=`<div class="guide"><p class="instr">${instrText()}</p><button class="btn flat" id="listen" title="Écouter la consigne">${IC.spk}<span class="sr">Écouter</span></button></div>
+  <div class="choices">
+   <button class="btn choice ret" data-tech="ret">${IC.ret} Je recule · retrait</button>
+   <button class="btn choice comp" data-tech="comp">${IC.comp} J’avance · complément</button>
+   <button class="btn flat" id="hint">Un indice</button>
+  </div><div id="hintbox"></div>`;
+ }else{
+  guide=`<div class="guide">${chip(c.tech)}<p class="instr">${instrText()}</p><button class="btn flat" id="listen" title="Écouter la consigne">${IC.spk}<span class="sr">Écouter</span></button></div>
+  ${c.phase==='move'?`<div class="steps" id="steps">${stepsHTML()}</div>`:''}`;
+ }
+ main.innerHTML=`
+ <div class="exhead">
+  <button class="btn flat" id="quit">← Séries</button>
+  <div class="t"><h1>${ser.name}</h1><span class="muted small">Soustraction ${S.i+1} sur ${S.items.length}${c.retry?' · à revoir':''} · ${f.label}</span></div>
+ </div>
+ <div class="prog" aria-hidden="true">${segs}</div>
+ <section class="frame problem">
+  <div class="eq">${nA}<span class="op">−</span>${nB}<span class="op">=</span><input id="answer" class="${ansCls}" inputmode="numeric" autocomplete="off" maxlength="2" aria-label="Résultat" placeholder="${c.phase==='choose'?'?':''}" value="${c.answer}" ${c.phase!=='move'?'disabled':''}></div>
+  ${guide}
+ </section>
+ <section class="frame linebox">
+  <div class="linewrap">${svgOpen('line',`tabindex="${c.phase==='move'?0:-1}" role="slider" aria-label="Ligne numérique de 0 à 20" aria-valuemin="0" aria-valuemax="20"${c.phase==='move'?' data-live="1"':''}`)}</svg></div>
+  ${c.phase==='move'?`<div class="controls">
+   <button class="btn" id="bk" aria-label="Reculer d’un saut">◀ Reculer</button>
+   <button class="btn" id="fw" aria-label="Avancer d’un saut">Avancer ▶</button>
+   <button class="btn flat" id="rs">Revenir au départ</button>
+   <span class="muted kbd">ou flèches ← → du clavier</span>
+   <span class="spacer"></span>
+   <button class="btn primary big" id="validate">Valider</button>
+  </div><div id="flash" aria-live="polite"></div>`:''}
+  ${c.phase==='feedback'?feedbackHTML():''}
+ </section>
+ <details class="frame demo" id="demo"><summary>Revoir l’exemple</summary><div id="demobody"></div></details>`;
+ const svg=$('#line');if(c.phase==='move')svg.classList.add('live');
+ renderLine();
+ bindEx();
+}
+function feedbackHTML(){
+ const fb=S.cur.fb;
+ return `<div class="msg ${fb.ok?'ok':'err'}" role="status">${fb.ok?IC.ok:IC.err}<div class="body">
+  ${fb.html}
+  <div class="act"><button class="btn primary big" id="next">${S.i+1>=S.items.length?'Voir le bilan':(fb.ok?'Soustraction suivante':'J’ai compris, suivant')}</button></div>
+ </div></div>`;
+}
+function bindEx(){
+ const c=S.cur;
+ $('#quit').onclick=()=>{S=null;try{speechSynthesis.cancel()}catch(e){};renderHome();window.scrollTo(0,0)};
+ const ls=$('#listen');if(ls)ls.onclick=()=>speak(instrText(),true);
+ main.querySelectorAll('[data-tech]').forEach(b=>b.onclick=()=>{setTech(b.dataset.tech);renderEx();speak(instrText());$('#line').focus({preventScroll:true})});
+ const h=$('#hint');if(h)h.onclick=()=>{
+  $('#hintbox').innerHTML=`<div class="msg info">${IC.info}<div class="body"><p>Regarde les deux points sur la ligne. S’ils sont proches, choisis le complément. S’ils sont loin l’un de l’autre, choisis le retrait.</p></div></div>`;
+  speak('Regarde les deux points sur la ligne. S’ils sont proches, choisis le complément. S’ils sont loin l’un de l’autre, choisis le retrait.',true);
+ };
+ const ans=$('#answer');
+ if(ans&&c.phase==='move'){
+  ans.addEventListener('input',()=>{ans.value=ans.value.replace(/\D/g,'').slice(0,2);c.answer=ans.value;const st=$('#steps');if(st)st.innerHTML=stepsHTML()});
+  ans.addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();validate()}});
+ }
+ if(c.phase==='move'){
+  $('#bk').onclick=()=>move(-1);$('#fw').onclick=()=>move(1);
+  $('#rs').onclick=()=>{c.pos=c.start;renderLine()};
+  $('#validate').onclick=validate;
+  const svg=$('#line');let drag=false;
+  const at=e=>{const pt=svg.createSVGPoint();pt.x=e.clientX;pt.y=e.clientY;const q=pt.matrixTransform(svg.getScreenCTM().inverse());return Math.max(0,Math.min(20,Math.round((q.x-X0)/STEP)))};
+  svg.addEventListener('pointerdown',e=>{drag=true;try{svg.setPointerCapture(e.pointerId)}catch(_){};const n=at(e);if(n!==c.pos){c.pos=n;renderLine()}});
+  svg.addEventListener('pointermove',e=>{if(!drag)return;const n=at(e);if(n!==c.pos){c.pos=n;renderLine()}});
+  const end=()=>{drag=false};svg.addEventListener('pointerup',end);svg.addEventListener('pointercancel',end);
+  svg.addEventListener('keydown',e=>{
+   if(e.key==='ArrowLeft'||e.key==='ArrowDown'){e.preventDefault();move(-1)}
+   else if(e.key==='ArrowRight'||e.key==='ArrowUp'){e.preventDefault();move(1)}
+   else if(e.key==='Enter'){e.preventDefault();if(c.answer==='')$('#answer').focus();else validate()}
+  });
+ }
+ const nx=$('#next');if(nx){nx.onclick=next;nx.focus({preventScroll:true})}
+ const dm=$('#demo');
+ dm.addEventListener('toggle',()=>{
+  if(!dm.open)return;
+  const ts=c.phase==='choose'?['ret','comp']:[c.tech];
+  $('#demobody').innerHTML=ts.map(t=>demoBlock(t,'dx-'+t)).join('');
+  bindReplay($('#demobody'));
+  if(ts.length===1)speak(DEMO[ts[0]].say);
+ });
+}
+function move(d){const c=S.cur;const n=Math.max(0,Math.min(20,c.pos+d));if(n!==c.pos){c.pos=n;renderLine()}}
+
+function validate(){
+ const c=S.cur;if(c.phase!=='move')return;
+ if(c.answer===''){
+  $('#flash').innerHTML=`<div class="msg info">${IC.info}<div class="body"><p>${c.pos===c.start?'Déplace d’abord le curseur sur la ligne, puis écris le résultat dans la case.':'Écris le résultat dans la case, puis valide.'}</p></div></div>`;
+  (c.pos===c.start?$('#line'):$('#answer')).focus();return;
+ }
+ const ans=+c.answer,{a,b}=c,d=a-b,moved=c.pos-c.start;
+ const lineOK=c.tech==='ret'?c.pos===d:c.pos===a;
+ const ansOK=ans===d,ok=lineOK&&ansOK;
+ const f=S.ser.f;
+ let lines=[],say=[];
+ if(f.choose){S.choiceN+=c.retry?0:1;if(!c.retry&&c.tech===c.rec)S.choiceOK++}
+ const kind=c.rec==='comp'?'proches':'éloignés';
+ if(ok){
+  lines.push(`<p><strong>Bravo !</strong> ${a} − ${b} = ${d}.</p>`);say.push(`Bravo ! ${a} − ${b} = ${d}.`);
+  if(c.tech!==c.rec){
+   const t=`Ça marche. Mais ${a} et ${b} sont ${kind} : avec le ${TECH[c.rec].name}, ${jumps(c.rec,a,b)} ${pl(jumps(c.rec,a,b),'saut')} suffisent au lieu de ${jumps(c.tech,a,b)}.`;
+   lines.push(`<p>${t}</p>`);say.push(t);
+  }
+ }else{
+  let dg;
+  if(c.tech==='ret'){
+   if(moved>0)dg=`Tu as avancé. Avec le retrait, on recule depuis ${a}.`;
+   else if(moved===0)dg=`Le curseur n’a pas bougé. Avec le retrait, on recule de ${b} ${pl(b,'saut')} depuis ${a}.`;
+   else if(-moved!==b)dg=`Tu as fait ${-moved} ${pl(-moved,'saut')} en arrière. Il en faut ${b} : autant que le nombre qu’on enlève.`;
+   else dg=`Ton curseur est bien sur ${c.pos}, mais tu as écrit ${ans}. Le résultat, c’est le nombre où tu arrives.`;
+  }else{
+   if(moved<0)dg=`Tu as reculé. Avec le complément, on part de ${b} et on avance.`;
+   else if(moved===0)dg=`Le curseur n’a pas bougé. Avec le complément, on part de ${b} et on avance jusqu’à ${a}.`;
+   else if(c.pos!==a)dg=`Tu t’es arrêté sur ${c.pos}. Il faut avancer jusqu’à ${a}.`;
+   else if(ans===a)dg=`Tu as écrit ${a} : c’est le nombre d’arrivée. Avec le complément, la réponse est le nombre de sauts.`;
+   else if(ans===b)dg=`Tu as écrit ${b} : c’est le nombre de départ. Avec le complément, la réponse est le nombre de sauts.`;
+   else dg=`Tu as écrit ${ans}. Compte les sauts entre ${b} et ${a} : il y en a ${d}.`;
+  }
+  if(ansOK&&!lineOK)dg=`Ton résultat est juste, mais tes sauts ne le montrent pas. `+dg;
+  lines.push(`<p><strong>Pas tout à fait.</strong> ${dg}</p>`);say.push('Pas tout à fait. '+dg);
+  if(c.tech!==c.rec){const t=`Ici, ${a} et ${b} sont ${kind} : le ${TECH[c.rec].name} est plus rapide, ${jumps(c.rec,a,b)} ${pl(jumps(c.rec,a,b),'saut')} au lieu de ${jumps(c.tech,a,b)}.`;lines.push(`<p>${t}</p>`);say.push(t)}
+  const seq=[];
+  if(c.rec==='ret'){for(let n=a;n>=d;n--)seq.push(n)}else{for(let n=b;n<=a;n++)seq.push(n)}
+  const path=c.rec==='ret'?`Regarde la ligne : on part de ${a} et on recule de ${b} ${pl(b,'saut')} : ${seq.join(' → ')}.`:`Regarde la ligne : on part de ${b} et on avance jusqu’à ${a} : ${seq.join(' → ')}. Cela fait ${d} ${pl(d,'saut')}.`;
+  lines.push(`<p>${path}</p><p class="fix">${a} − ${b} = ${d}</p>`);say.push(path+` Donc ${a} − ${b} = ${d}.`);
+  if(!c.retry){S.items.push({a,b,rec:c.rec,retry:true});lines.push(`<p class="muted small">Cette soustraction reviendra à la fin de la série.</p>`)}
+ }
+ S.res[S.i]=ok;
+ c.fb={ok,ansOK,html:lines.join('')};c.phase='feedback';
+ renderEx();speak(say.join(' '));
+}
+function next(){
+ try{speechSynthesis.cancel()}catch(e){}
+ S.i++;
+ if(S.i>=S.items.length)return finish();
+ newItem();
+}
+
+/* ---------- Bilan ---------- */
+function finish(){
+ const orig=S.items.map((it,k)=>({it,k})).filter(x=>!x.it.retry);
+ const score=orig.filter(x=>S.res[x.k]).length,total=orig.length;
+ (store.prog[S.ser.id]=store.prog[S.ser.id]||[]).push({d:today(),s:score,t:total});save();
+ const st=statusOf(S.ser.id),r=recommend();
+ const rate=score/total;
+ const msg=rate>=.8?'Série réussie.':rate>=.5?'Encore une séance sur cette série pour l’installer.':'Revois l’exemple, puis reprends cette série. La série précédente peut aussi aider.';
+ let status=st.k==='done'?`Série maîtrisée. Prochaine révision le ${fmt(st.due)}.`:st.k==='work'?(rate>=.8?'Une deuxième réussite un autre jour validera la série.':'Objectif : 8/10 ou plus, sur deux jours différents.'):'';
+ const recap=orig.map(x=>{
+  const it=x.it,ok=S.res[x.k];
+  let note=ok?'réussie':'erreur';
+  if(!ok){const rk=S.items.findIndex((y,j)=>j>x.k&&y.retry&&y.a===it.a&&y.b===it.b);if(rk>=0)note=S.res[rk]?'erreur, puis réussie':'à retravailler'}
+  return `<div class="it ${ok?'ok':'err'}"><span>${it.a} − ${it.b} = ${it.a-it.b}</span><span>${note}</span></div>`;
+ }).join('');
+ const choice=S.ser.f.choose&&S.choiceN?`<p>Technique la plus rapide choisie : <strong>${S.choiceOK} fois sur ${S.choiceN}</strong>.</p>`:'';
+ const ser=S.ser;
+ main.innerHTML=`
+ <div class="exhead"><button class="btn flat" id="quit">← Séries</button><div class="t"><h1>Bilan · ${ser.name}</h1><span class="muted small">${fmt(today())}</span></div></div>
+ <section class="frame">
+  <div class="score"><div class="big">${score}<small> / ${total}</small></div><div style="display:grid;gap:4px;min-width:0;flex:1"><p><strong>${msg}</strong></p>${choice}<p class="muted small">${status} Le score compte la première réponse de chaque soustraction.</p></div></div>
+  <div class="recap">${recap}</div>
+ </section>
+ <div class="actions">
+  <button class="btn" id="again">Refaire cette série</button>
+  ${r&&r.s.id!==ser.id?`<button class="btn primary" id="reco">Série conseillée : ${r.s.name}</button>`:''}
+  <button class="btn flat" id="home">Retour aux séries</button>
+ </div>`;
+ speak(`${score} sur ${total}. ${msg}`);
+ $('#quit').onclick=$('#home').onclick=()=>{S=null;renderHome();window.scrollTo(0,0)};
+ $('#again').onclick=()=>startSeries(ser.id);
+ const rc=$('#reco');if(rc){rc.onclick=()=>startSeries(r.s.id);rc.focus()}
+}
+
+renderHome();
+})();
+</script>
+
+</body></html>
