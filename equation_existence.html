@@ -1,0 +1,1257 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Équations et conditions d’existence</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;500;600;700&family=Noto+Sans+Mono:wght@400;500&display=swap">
+<style>
+/* Layout : fenêtre d’application KDE Breeze — barre d’outils, panneau latéral de navigation, contenu en cadres plats */
+:root{
+  --win:#eff0f1; --view:#fcfcfc; --btn:#f6f7f7; --inset:#f3f4f5;
+  --fg:#232629; --muted:#5d6872;
+  --line:#c3c8cc; --line-soft:#dde1e4;
+  --accent:#3daee9; --accent-ink:#1a6ea6; --accent-soft:#e1f1fb; --accent-sel:rgba(61,174,233,.18);
+  --pos:#27ae60; --pos-ink:#1b7a43; --pos-soft:#e2f4e9;
+  --neg:#da4453; --neg-ink:#b2283a; --neg-soft:#fbe5e8;
+  --neu:#f67400; --neu-ink:#a14d00; --neu-soft:#fdecd8;
+  --sans:"Noto Sans","Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+  --mono:"Noto Sans Mono","DejaVu Sans Mono",Menlo,Consolas,monospace;
+  --fs:16px;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --win:#202326; --view:#17191c; --btn:#2a2e32; --inset:#24272b;
+    --fg:#f2f3f4; --muted:#a3abb3;
+    --line:#41474d; --line-soft:#2f3438;
+    --accent:#3daee9; --accent-ink:#69c2f2; --accent-soft:#16303f; --accent-sel:rgba(61,174,233,.24);
+    --pos:#27ae60; --pos-ink:#5bd08c; --pos-soft:#15301f;
+    --neg:#da4453; --neg-ink:#f27382; --neg-soft:#3a1b21;
+    --neu:#f67400; --neu-ink:#ffa04a; --neu-soft:#3a2611;
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --win:#202326; --view:#17191c; --btn:#2a2e32; --inset:#24272b;
+  --fg:#f2f3f4; --muted:#a3abb3;
+  --line:#41474d; --line-soft:#2f3438;
+  --accent:#3daee9; --accent-ink:#69c2f2; --accent-soft:#16303f; --accent-sel:rgba(61,174,233,.24);
+  --pos:#27ae60; --pos-ink:#5bd08c; --pos-soft:#15301f;
+  --neg:#da4453; --neg-ink:#f27382; --neg-soft:#3a1b21;
+  --neu:#f67400; --neu-ink:#ffa04a; --neu-soft:#3a2611;
+  color-scheme:dark;
+}
+:root[data-size="l"]{--fs:18.5px}
+html{font-size:var(--fs)}
+body{background:var(--win);color:var(--fg);font-family:var(--sans);font-size:1rem;line-height:1.65;letter-spacing:.005em}
+*{box-sizing:border-box}
+h1,h2,h3{text-wrap:balance;margin:0;line-height:1.3}
+h1{font-size:1.55rem;font-weight:600}
+h2{font-size:1.17rem;font-weight:600}
+h3{font-size:1rem;font-weight:600}
+p{margin:0}
+ul,ol{margin:0;padding-left:1.3em}
+li+li{margin-top:.3em}
+button{font:inherit;color:inherit}
+
+/* ---------- Fenêtre ---------- */
+.app{display:grid;grid-template-columns:268px minmax(0,1fr);grid-template-rows:auto 1fr;min-height:100vh}
+.toolbar{grid-column:1/-1;position:sticky;top:env(safe-area-inset-top,0px);z-index:10;background:var(--win);border-bottom:1px solid var(--line);display:flex;align-items:center;gap:12px;padding:8px 16px;flex-wrap:wrap}
+.appicon{width:34px;height:34px;border-radius:7px;background:var(--accent);color:#fff;display:grid;place-items:center;font-weight:700;font-size:.8rem;letter-spacing:-.02em;flex:none}
+.apptitle{display:flex;flex-direction:column;line-height:1.25;min-width:0;flex:1}
+.apptitle b{font-weight:600;font-size:1rem}
+.apptitle span{font-size:.8rem;color:var(--muted)}
+.tools{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.meter{font-size:.8rem;color:var(--muted);display:flex;align-items:center;gap:8px;white-space:nowrap}
+.meter .bar{width:90px;height:6px;border-radius:3px;background:var(--line-soft);overflow:hidden}
+.meter .bar i{display:block;height:100%;background:var(--pos)}
+
+.side{background:var(--view);border-right:1px solid var(--line);padding:14px 8px 24px;position:sticky;top:calc(env(safe-area-inset-top,0px) + 55px);height:calc(100vh - 55px);overflow-y:auto}
+.grp{font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);padding:12px 12px 4px;font-weight:600}
+.grp:first-child{padding-top:2px}
+.nav{display:flex;align-items:center;gap:8px;width:100%;text-align:left;background:none;border:1px solid transparent;border-radius:4px;padding:6px 10px;cursor:pointer;font-size:.92rem;line-height:1.35}
+.nav:hover{background:var(--inset)}
+.nav[aria-current="page"]{background:var(--accent-sel);border-color:var(--accent)}
+.nav:focus-visible{outline:2px solid var(--accent);outline-offset:-2px}
+.nav .lbl{flex:1;min-width:0}
+.nav .cnt{font-size:.74rem;color:var(--muted);font-variant-numeric:tabular-nums}
+.nav .num{width:20px;height:20px;border-radius:4px;border:1px solid var(--line);display:grid;place-items:center;font-size:.72rem;flex:none;color:var(--muted)}
+
+main{padding-block:28px 64px;padding-inline:clamp(16px,4vw,44px);min-width:0}
+.content{max-width:880px;margin:0 auto;display:flex;flex-direction:column;gap:20px}
+
+@media (max-width:860px){
+  .app{grid-template-columns:minmax(0,1fr)}
+  .side{position:static;height:auto;border-right:none;border-bottom:1px solid var(--line);display:flex;gap:4px;overflow-x:auto;padding:8px 12px}
+  .grp{display:none}
+  .nav{width:auto;white-space:nowrap;flex:none}
+  .meter .bar{display:none}
+}
+
+/* ---------- Éléments ---------- */
+.frame{background:var(--view);border:1px solid var(--line-soft);border-radius:6px;padding:20px 22px;display:flex;flex-direction:column;gap:14px;min-width:0}
+.pagehead{display:flex;flex-direction:column;gap:6px}
+.eyebrow{font-size:.74rem;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);font-weight:600}
+.lead{color:var(--muted);max-width:65ch}
+.muted{color:var(--muted)}
+.small{font-size:.88rem}
+.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.grid2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+@media (max-width:640px){.grid2{grid-template-columns:minmax(0,1fr)}}
+
+.btn{background:var(--btn);border:1px solid var(--line);border-radius:4px;padding:6px 14px;cursor:pointer;font-size:.92rem;line-height:1.35}
+.btn:hover{border-color:var(--accent)}
+.btn:focus-visible,.opt:focus-visible{outline:2px solid var(--accent);outline-offset:1px}
+.btn.primary{border-color:var(--accent);background:var(--accent-soft)}
+.btn[aria-pressed="true"]{background:var(--accent-sel);border-color:var(--accent)}
+.btn.ok[aria-pressed="true"]{background:var(--pos-soft);border-color:var(--pos);color:var(--pos-ink)}
+.btn.ko[aria-pressed="true"]{background:var(--neu-soft);border-color:var(--neu);color:var(--neu-ink)}
+.btn:disabled{opacity:.45;cursor:default;border-color:var(--line)}
+.btn.sm{padding:3px 10px;font-size:.84rem}
+
+/* maths */
+.m{font-size:1.06em;white-space:nowrap}
+.eq{font-size:1.14rem;overflow-x:auto;padding:4px 2px;line-height:2.1}
+.frac{display:inline-flex;flex-direction:column;align-items:stretch;vertical-align:middle;text-align:center;margin:0 .14em;line-height:1.3;font-size:.9em}
+.frac>span:first-child{border-bottom:1.5px solid currentColor;padding:0 .3em 1px}
+.frac>span:last-child{padding:1px .3em 0}
+mark.hl{background:var(--accent-sel);color:inherit;border-radius:3px;padding:0 .18em;box-shadow:inset 0 -2px 0 var(--accent)}
+.ce{color:var(--neu-ink);font-weight:600}
+.sol{color:var(--pos-ink);font-weight:600}
+.no{color:var(--neg-ink)}
+.strike{text-decoration:line-through;text-decoration-thickness:2px}
+
+/* encadrés */
+.rule{background:var(--accent-soft);border:1px solid var(--accent);border-radius:5px;padding:12px 16px;display:flex;flex-direction:column;gap:6px}
+.rule .k{font-size:.74rem;text-transform:uppercase;letter-spacing:.08em;font-weight:600;color:var(--accent-ink)}
+.box{background:var(--inset);border:1px solid var(--line-soft);border-radius:5px;padding:12px 16px;display:flex;flex-direction:column;gap:8px;min-width:0}
+.box .k{font-size:.74rem;text-transform:uppercase;letter-spacing:.08em;font-weight:600;color:var(--muted)}
+.box.warn{background:var(--neu-soft);border-color:var(--neu)}
+.box.warn .k{color:var(--neu-ink)}
+.box.okb{background:var(--pos-soft);border-color:var(--pos)}
+.box.okb .k{color:var(--pos-ink)}
+.box.kob{background:var(--neg-soft);border-color:var(--neg)}
+.box.kob .k{color:var(--neg-ink)}
+
+ol.method{counter-reset:s;list-style:none;padding:0;display:flex;flex-direction:column;gap:6px}
+ol.method li{counter-increment:s;display:grid;grid-template-columns:26px minmax(0,1fr);gap:10px;margin:0}
+ol.method li::before{content:counter(s);width:22px;height:22px;border-radius:50%;background:var(--accent);color:#fff;font-size:.75rem;font-weight:600;display:grid;place-items:center;margin-top:2px}
+
+.tbl{overflow-x:auto}
+.tbl table{border-collapse:collapse;width:100%;font-size:.95rem}
+.tbl th,.tbl td{border-bottom:1px solid var(--line-soft);padding:8px 10px;text-align:left;vertical-align:middle}
+.tbl th{font-size:.78rem;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);font-weight:600}
+
+/* étapes */
+.steps{display:flex;flex-direction:column}
+.step{display:grid;grid-template-columns:28px minmax(0,1.15fr) minmax(0,1fr);gap:14px;align-items:center;padding:10px 0;border-top:1px solid var(--line-soft)}
+.step:first-child{border-top:none}
+.step .n{width:24px;height:24px;border-radius:50%;border:1px solid var(--line);font-size:.75rem;display:grid;place-items:center;color:var(--muted)}
+.step .sm{overflow-x:auto;font-size:1.08rem;line-height:2.1}
+.step .why{color:var(--muted);font-size:.9rem;line-height:1.5}
+.step.new .n{border-color:var(--accent);color:var(--accent-ink)}
+@media (max-width:640px){.step{grid-template-columns:28px minmax(0,1fr)}.step .why{grid-column:2}}
+
+/* quiz */
+.qhead{display:flex;justify-content:space-between;align-items:center;gap:12px;font-size:.85rem;color:var(--muted)}
+.prog{height:4px;background:var(--line-soft);border-radius:2px;overflow:hidden}
+.prog i{display:block;height:100%;background:var(--accent);transition:width .25s}
+.qtext{font-size:1.05rem;line-height:2}
+.opts{display:flex;flex-direction:column;gap:8px}
+.opt{display:flex;gap:12px;align-items:center;width:100%;text-align:left;background:var(--btn);border:1px solid var(--line);border-radius:4px;padding:8px 12px;cursor:pointer;line-height:1.9}
+.opt:hover:not(:disabled){border-color:var(--accent)}
+.opt .l{width:22px;height:22px;border-radius:4px;border:1px solid var(--line);display:grid;place-items:center;font-size:.75rem;color:var(--muted);flex:none;line-height:1}
+.opt.ok{background:var(--pos-soft);border-color:var(--pos)}
+.opt.ko{background:var(--neg-soft);border-color:var(--neg)}
+.opt:disabled{cursor:default}
+.opt.dim{opacity:.55}
+
+/* exercices */
+.lvl{display:flex;flex-direction:column;gap:12px}
+.lvlhead{display:flex;align-items:center;gap:10px}
+.exo{background:var(--view);border:1px solid var(--line-soft);border-radius:6px;padding:16px 18px;display:flex;flex-direction:column;gap:12px;min-width:0}
+.exo.done-ok{border-color:var(--pos)}
+.exo.done-redo{border-color:var(--neu)}
+.exohead{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.exohead b{font-weight:600}
+.pips{display:inline-flex;gap:3px}
+.pips i{width:9px;height:9px;border-radius:2px;border:1px solid var(--accent)}
+.pips i.on{background:var(--accent)}
+.tag{font-size:.74rem;border:1px solid var(--line);border-radius:3px;padding:0 7px;color:var(--muted);line-height:1.6}
+.tag.test{border-color:var(--neu);color:var(--neu-ink)}
+.panel{background:var(--inset);border:1px solid var(--line-soft);border-radius:5px;padding:10px 14px;display:flex;flex-direction:column;gap:6px}
+.panel .k{font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;font-weight:600;color:var(--muted)}
+.selfeval{display:flex;gap:8px;flex-wrap:wrap;align-items:center;border-top:1px solid var(--line-soft);padding-top:10px;font-size:.88rem}
+
+/* légende */
+.legend{display:flex;flex-wrap:wrap;gap:10px 18px;font-size:.92rem}
+.legend span{display:inline-flex;align-items:center;gap:8px}
+
+/* parcours */
+.path{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+@media (max-width:700px){.path{grid-template-columns:minmax(0,1fr)}}
+.pathitem{display:flex;gap:10px;align-items:flex-start;text-align:left;background:var(--btn);border:1px solid var(--line);border-radius:5px;padding:10px 12px;cursor:pointer;line-height:1.4}
+.pathitem:hover{border-color:var(--accent)}
+.pathitem .n{width:22px;height:22px;border-radius:50%;background:var(--accent);color:#fff;font-size:.75rem;font-weight:600;display:grid;place-items:center;flex:none}
+.pathitem small{display:block;color:var(--muted);font-size:.8rem;margin-top:2px}
+
+.decide{display:flex;flex-direction:column}
+.drow{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.2fr) auto;gap:14px;align-items:center;padding:10px 0;border-top:1px solid var(--line-soft)}
+.drow:first-child{border-top:none}
+.drow .ex{font-size:1.02rem;overflow-x:auto;line-height:2}
+@media (max-width:640px){.drow{grid-template-columns:minmax(0,1fr)}}
+
+/* pièges */
+.trap{display:flex;flex-direction:column;gap:10px}
+.cmp{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+@media (max-width:640px){.cmp{grid-template-columns:minmax(0,1fr)}}
+.cmp>div{border-radius:5px;padding:8px 12px;border:1px solid;min-width:0;overflow-x:auto;line-height:2}
+.cmp .bad{background:var(--neg-soft);border-color:var(--neg)}
+.cmp .good{background:var(--pos-soft);border-color:var(--pos)}
+.cmp .k{display:block;font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;font-weight:600;line-height:1.6}
+.cmp .bad .k{color:var(--neg-ink)}
+.cmp .good .k{color:var(--pos-ink)}
+
+/* testeur */
+.seg{display:inline-flex;flex-wrap:wrap;border:1px solid var(--line);border-radius:4px;overflow:hidden}
+.seg button{background:var(--btn);border:none;border-right:1px solid var(--line);padding:5px 14px;cursor:pointer;font-size:.9rem}
+.seg button:last-child{border-right:none}
+.seg button[aria-pressed="true"]{background:var(--accent-sel);color:var(--accent-ink);font-weight:600}
+.seg button:focus-visible{outline:2px solid var(--accent);outline-offset:-2px}
+.slider{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.slider input[type=range]{flex:1;min-width:160px;accent-color:var(--accent)}
+.xval{font-size:1.2rem;font-weight:600;font-variant-numeric:tabular-nums;min-width:6ch}
+.nl{overflow-x:auto}
+.nl svg{display:block;width:100%;min-width:420px;height:auto;cursor:pointer}
+.nl .axis{stroke:var(--muted);stroke-width:1.5}
+.nl .tk{stroke:var(--muted)}
+.nl text{fill:var(--muted);font-family:var(--sans);font-size:12px}
+.nl .forb{stroke:var(--neg);stroke-width:2.5}
+.nl .forbt{fill:var(--neg-ink);font-weight:600}
+.nl .cur{fill:var(--accent);stroke:var(--view);stroke-width:2}
+.dens{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:8px}
+.den{border:1px solid var(--line-soft);border-radius:5px;padding:8px 12px;background:var(--inset);display:flex;flex-direction:column;gap:2px}
+.den .v{font-variant-numeric:tabular-nums;font-weight:600}
+.den.zero{background:var(--neg-soft);border-color:var(--neg)}
+.den.zero .v{color:var(--neg-ink)}
+.verdict{border-radius:5px;padding:10px 14px;border:1px solid}
+.verdict.ok{background:var(--pos-soft);border-color:var(--pos)}
+.verdict.ko{background:var(--neg-soft);border-color:var(--neg)}
+
+/* jeu étapes */
+.lines{display:flex;flex-direction:column;gap:2px;font-size:1.08rem;line-height:2.1;overflow-x:auto}
+.lines .done{color:var(--pos-ink)}
+.lines .start{font-weight:600}
+
+/* cartes mémo */
+.flash{min-height:200px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;text-align:center;border:1px solid var(--line);border-radius:8px;background:var(--view);padding:24px;cursor:pointer;width:100%}
+.flash:hover{border-color:var(--accent)}
+.flash:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.flash .face{font-size:.72rem;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);font-weight:600}
+.flash .txt{font-size:1.25rem;line-height:1.8;max-width:34ch}
+.flash.back{background:var(--accent-soft);border-color:var(--accent)}
+
+.balance{display:block;width:100%;max-width:420px;height:auto}
+.balance .st{stroke:var(--fg);stroke-width:2;fill:none}
+.balance .pl{fill:var(--accent-soft);stroke:var(--accent);stroke-width:1.5}
+.balance text{fill:var(--fg);font-family:var(--sans);font-size:15px}
+
+.cross{font-size:1.25rem;line-height:2.2}
+.ca{color:var(--accent-ink);font-weight:700}
+.cb{color:var(--neu-ink);font-weight:700}
+
+.pager{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style>
+
+<div id="root"><p style="padding:24px;font-family:sans-serif">Chargement du module…</p></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.3.1/umd/react.production.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.3.1/umd/react-dom.production.min.js"></script>
+<script src="https://unpkg.com/@babel/standalone@7.23.5/babel.min.js"></script>
+
+<script type="text/babel" data-presets="react">
+const {useState, useMemo, useEffect} = React;
+
+const store = {
+  get(k, d){ try{ const v = localStorage.getItem(k); return v == null ? d : JSON.parse(v); }catch(e){ return d; } },
+  set(k, v){ try{ localStorage.setItem(k, JSON.stringify(v)); }catch(e){} }
+};
+const shuffle = a => { const b=[...a]; for(let i=b.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [b[i],b[j]]=[b[j],b[i]]; } return b; };
+
+/* ---------- Notation ---------- */
+const F = ({n, d}) => <span className="frac"><span>{n}</span><span>{d}</span></span>;
+const H = ({children}) => <mark className="hl">{children}</mark>;
+const Ce = ({children}) => <span className="ce">{children}</span>;
+const Sol = ({children}) => <span className="sol">{children}</span>;
+const No = ({children}) => <span className="no">{children}</span>;
+const Sx = ({v}) => <span className="sol">S = {'{'}{v}{'}'}</span>;
+const Eq = ({children}) => <div className="eq">{children}</div>;
+const M = ({children}) => <span className="m">{children}</span>;
+const half = <F n="1" d="2"/>;
+
+/* ---------- Familles d’exercices ---------- */
+const FAMILIES = [
+{
+  id:'f1', title:'Équations du premier degré', short:'Premier degré',
+  intro:'Aucun x au dénominateur : on développe, on regroupe, on isole x.',
+  prompt:'Résoudre dans ℝ :',
+  method:['Développer chaque membre (attention au signe devant chaque parenthèse).','Réduire chaque membre.','Regrouper : les termes en x à gauche, les nombres à droite.','Diviser par le coefficient de x.','Conclure avec S = {…} et vérifier en remplaçant x.'],
+  worked:{ q:<>2(3x − 4) − (x − 5) = 3x + 7</>, steps:[
+    {m:<>6x − 8 <H>− x + 5</H> = 3x + 7</>, why:'On développe. Le − devant la parenthèse change le signe de chaque terme : −(x − 5) = −x + 5.'},
+    {m:<>5x − 3 = 3x + 7</>, why:'On réduit le membre de gauche : 6x − x = 5x et −8 + 5 = −3.'},
+    {m:<>5x <H>− 3x</H> = 7 <H>+ 3</H></>, why:'On soustrait 3x et on ajoute 3 aux deux membres.'},
+    {m:<>2x = 10</>, why:'On réduit chaque membre.'},
+    {m:<>x = <F n="10" d="2"/> = 5</>, why:'On divise les deux membres par 2.'},
+    {m:<Sx v="5"/>, why:'Vérification : 2(15 − 4) − (5 − 5) = 22 et 3 × 5 + 7 = 22.'}
+  ]},
+  quiz:[
+    {q:<>−(2x − 3) est égal à :</>, opts:[{t:'−2x + 3',ok:true},{t:'−2x − 3'},{t:'2x − 3'},{t:'2x + 3'}], ex:'Le signe − devant la parenthèse change le signe de chaque terme : −2x et +3.'},
+    {q:<>Si −4x = 12, alors :</>, opts:[{t:'x = −3',ok:true},{t:'x = 3'},{t:'x = 16'},{t:<>x = −<F n="1" d="3"/></>}], ex:'On divise les deux membres par −4 : x = 12 ÷ (−4) = −3.'},
+    {q:<>Tu obtiens 0x = 7. L’ensemble des solutions est :</>, opts:[{t:'S = ∅',ok:true},{t:'S = ℝ'},{t:'S = {7}'},{t:'S = {0}'}], ex:'0 × x vaut toujours 0, jamais 7 : l’équation n’a aucune solution.'}
+  ],
+  exos:[
+    {lvl:1, q:<>5x − 7 = 2x + 8</>, hint:'Regroupe les x à gauche et les nombres à droite.', ans:<Sx v="5"/>, steps:[
+      {m:<>5x − 2x = 8 + 7</>, why:'On soustrait 2x et on ajoute 7 aux deux membres.'},
+      {m:<>3x = 15</>, why:'On réduit.'},
+      {m:<>x = 5</>, why:'On divise par 3.'},
+      {m:<Sx v="5"/>, why:'Vérification : 25 − 7 = 18 et 10 + 8 = 18.'}]},
+    {lvl:1, q:<>4(x + 2) = 3x − 1</>, hint:'Commence par développer 4(x + 2).', ans:<Sx v="−9"/>, steps:[
+      {m:<>4x + 8 = 3x − 1</>, why:'On développe : 4 × x + 4 × 2.'},
+      {m:<>4x − 3x = −1 − 8</>, why:'On soustrait 3x et 8 aux deux membres.'},
+      {m:<>x = −9</>, why:'On réduit.'},
+      {m:<Sx v="−9"/>, why:'Vérification : 4 × (−7) = −28 et 3 × (−9) − 1 = −28.'}]},
+    {lvl:2, q:<>5(x − 1) − 2(3x + 4) = 7</>, hint:'−2 multiplie les deux termes de (3x + 4).', ans:<Sx v="−20"/>, steps:[
+      {m:<>5x − 5 <H>− 6x − 8</H> = 7</>, why:'−2 × 3x = −6x et −2 × 4 = −8.'},
+      {m:<>−x − 13 = 7</>, why:'5x − 6x = −x et −5 − 8 = −13.'},
+      {m:<>−x = 20</>, why:'On ajoute 13 aux deux membres.'},
+      {m:<>x = −20</>, why:'On multiplie les deux membres par −1.'},
+      {m:<Sx v="−20"/>, why:'Vérification : 5 × (−21) − 2 × (−56) = −105 + 112 = 7.'}]},
+    {lvl:2, tag:'Test du 22/09', q:<>3(2x − 1) − 4(3x − 5) = x − 12</>, hint:'Attention : −4 × (−5) = +20.', ans:<Sx v={<F n="29" d="7"/>}/>, steps:[
+      {m:<>6x − 3 <H>− 12x + 20</H> = x − 12</>, why:'On développe. −4 × 3x = −12x et −4 × (−5) = +20.'},
+      {m:<>−6x + 17 = x − 12</>, why:'6x − 12x = −6x et −3 + 20 = 17.'},
+      {m:<>−6x − x = −12 − 17</>, why:'On soustrait x et 17 aux deux membres.'},
+      {m:<>−7x = −29</>, why:'On réduit.'},
+      {m:<>x = <F n="−29" d="−7"/> = <F n="29" d="7"/></>, why:'On divise par −7 ; moins divisé par moins donne plus.'},
+      {m:<Sx v={<F n="29" d="7"/>}/>, why:'29/7 est déjà irréductible (29 est premier).'}]},
+    {lvl:3, q:<>2(3x − 1) − 3(2x + 1) = 4</>, hint:'Développe et réduis : que deviennent les x ?', ans:<Sol>S = ∅</Sol>, steps:[
+      {m:<>6x − 2 − 6x − 3 = 4</>, why:'On développe chaque produit.'},
+      {m:<>0x − 5 = 4, soit −5 = 4</>, why:'Les x s’éliminent : 6x − 6x = 0.'},
+      {m:<>Égalité fausse pour toute valeur de x</>, why:'−5 n’est jamais égal à 4.'},
+      {m:<Sol>S = ∅</Sol>, why:'L’équation n’a aucune solution.'}]},
+    {lvl:3, q:<>3(x − 2) + 2x = 5(x + 1) − 11</>, hint:'Réduis complètement chaque membre avant de conclure.', ans:<Sol>S = ℝ</Sol>, steps:[
+      {m:<>3x − 6 + 2x = 5x + 5 − 11</>, why:'On développe.'},
+      {m:<>5x − 6 = 5x − 6</>, why:'On réduit chaque membre : ils sont identiques.'},
+      {m:<>0x = 0</>, why:'En regroupant, on obtient 0 = 0 : toujours vrai.'},
+      {m:<Sol>S = ℝ</Sol>, why:'Tous les réels sont solutions.'}]}
+  ]
+},
+{
+  id:'f2', title:'Équations à dénominateurs numériques', short:'Dénominateurs numériques',
+  intro:'Les dénominateurs sont des nombres : on les fait disparaître en multipliant tout par leur PPCM.',
+  prompt:'Résoudre dans ℝ :',
+  method:['Chercher le PPCM des dénominateurs : le plus petit nombre divisible par chacun.','Multiplier chaque terme des deux membres par ce nombre (y compris les termes sans fraction).','Simplifier chaque fraction en gardant le numérateur entre parenthèses.','Résoudre comme une équation du premier degré.','Pas de condition d’existence : un nombre comme 3 ou 20 n’est jamais égal à 0.'],
+  worked:{ q:<><F n="x + 1" d="2"/> − <F n="x − 3" d="3"/> = 2</>, steps:[
+    {m:<>PPCM(2 ; 3) = 6</>, why:'6 est le plus petit nombre divisible à la fois par 2 et par 3.'},
+    {m:<><H>6 ×</H> <F n="x + 1" d="2"/> − <H>6 ×</H> <F n="x − 3" d="3"/> = <H>6 ×</H> 2</>, why:'On multiplie chaque terme par 6, y compris le membre de droite.'},
+    {m:<>3<H>(x + 1)</H> − 2<H>(x − 3)</H> = 12</>, why:'6 ÷ 2 = 3 et 6 ÷ 3 = 2. Les numérateurs gardent leurs parenthèses.'},
+    {m:<>3x + 3 − 2x <H>+ 6</H> = 12</>, why:'−2 × (−3) = +6 : le signe − agit sur tout le numérateur.'},
+    {m:<>x + 9 = 12, donc x = 3</>, why:'On réduit, puis on soustrait 9 aux deux membres.'},
+    {m:<Sx v="3"/>, why:'Vérification : 4/2 − 0/3 = 2.'}
+  ]},
+  quiz:[
+    {q:'Le PPCM de 4, 6 et 3 est :', opts:[{t:'12',ok:true},{t:'72'},{t:'24'},{t:'6'}], ex:'12 est le plus petit nombre divisible par 4, par 6 et par 3. 72 et 24 conviennent aussi mais alourdissent les calculs.'},
+    {q:<>On multiplie <F n="2x − 1" d="3"/> − <F n="x + 4" d="2"/> = 1 par 6. On obtient :</>, opts:[{t:'2(2x − 1) − 3(x + 4) = 6',ok:true},{t:'2(2x − 1) − 3(x + 4) = 1'},{t:'2(2x − 1) − 3x + 4 = 6'},{t:'4x − 1 − 3x + 4 = 6'}], ex:'Chaque terme est multiplié par 6 (le 1 devient 6) et le numérateur x + 4 reste entre parenthèses.'},
+    {q:<>Faut-il une condition d’existence pour <F n="x − 3" d="5"/> ?</>, opts:[{t:'Non : 5 n’est jamais égal à 0',ok:true},{t:'Oui : x ≠ 3'},{t:'Oui : x ≠ 5'},{t:'Oui : x ≠ −3'}], ex:'Une condition d’existence porte sur un dénominateur qui contient x. Ici le dénominateur vaut toujours 5.'}
+  ],
+  exos:[
+    {lvl:1, q:<><F n="x" d="3"/> + <F n="x" d="6"/> = 5</>, hint:'Le PPCM de 3 et 6 est 6.', ans:<Sx v="10"/>, steps:[
+      {m:<>2x + x = 30</>, why:'On multiplie chaque terme par 6 : 6 ÷ 3 = 2, 6 ÷ 6 = 1, et 5 × 6 = 30.'},
+      {m:<>3x = 30, donc x = 10</>, why:'On réduit puis on divise par 3.'},
+      {m:<Sx v="10"/>, why:'Vérification : 10/3 + 10/6 = 20/6 + 10/6 = 30/6 = 5.'}]},
+    {lvl:1, q:<><F n="x − 2" d="4"/> = <F n="2x + 1" d="3"/></>, hint:'Multiplie les deux membres par 12.', ans:<Sx v="−2"/>, steps:[
+      {m:<>3(x − 2) = 4(2x + 1)</>, why:'12 ÷ 4 = 3 et 12 ÷ 3 = 4.'},
+      {m:<>3x − 6 = 8x + 4</>, why:'On développe.'},
+      {m:<>3x − 8x = 4 + 6</>, why:'On soustrait 8x et on ajoute 6.'},
+      {m:<>−5x = 10, donc x = −2</>, why:'On divise par −5.'},
+      {m:<Sx v="−2"/>, why:'Vérification : −4/4 = −1 et −3/3 = −1.'}]},
+    {lvl:2, q:<><F n="2x − 1" d="3"/> − <F n="x + 4" d="2"/> = 1</>, hint:'Le 1 du membre de droite est aussi multiplié.', ans:<Sx v="20"/>, steps:[
+      {m:<>2(2x − 1) − 3(x + 4) = 6</>, why:'On multiplie chaque terme par 6.'},
+      {m:<>4x − 2 <H>− 3x − 12</H> = 6</>, why:'−3 × (x + 4) = −3x − 12.'},
+      {m:<>x − 14 = 6</>, why:'On réduit.'},
+      {m:<>x = 20</>, why:'On ajoute 14.'},
+      {m:<Sx v="20"/>, why:'Vérification : 39/3 − 24/2 = 13 − 12 = 1.'}]},
+    {lvl:2, tag:'Test du 22/09', q:<><F n="3x − 5" d="5"/> − <F n="x − 1" d="20"/> = <F n="x − 3" d="3"/></>, hint:'PPCM(5 ; 20 ; 3) = 60.', ans:<Sx v={<>−<F n="3" d="13"/></>}/>, steps:[
+      {m:<>PPCM(5 ; 20 ; 3) = 60</>, why:'60 ÷ 5 = 12, 60 ÷ 20 = 3, 60 ÷ 3 = 20.'},
+      {m:<>12(3x − 5) − 3(x − 1) = 20(x − 3)</>, why:'On multiplie chaque terme par 60.'},
+      {m:<>36x − 60 <H>− 3x + 3</H> = 20x − 60</>, why:'−3 × (−1) = +3.'},
+      {m:<>33x − 57 = 20x − 60</>, why:'On réduit le membre de gauche.'},
+      {m:<>33x − 20x = −60 + 57</>, why:'On soustrait 20x et on ajoute 57.'},
+      {m:<>13x = −3, donc x = −<F n="3" d="13"/></>, why:'On divise par 13.'},
+      {m:<Sx v={<>−<F n="3" d="13"/></>}/>, why:'Les deux membres valent −14/13 pour cette valeur.'}]},
+    {lvl:3, tag:'Test du 22/09', q:<><F n="2x + 5" d="2"/> − <F n="3x + 2" d="5"/> + <F n="5x − 9" d="8"/> = 2</>, hint:'PPCM(2 ; 5 ; 8) = 40. Le 2 de droite devient 80.', ans:<Sx v="1"/>, steps:[
+      {m:<>20(2x + 5) − 8(3x + 2) + 5(5x − 9) = 80</>, why:'40 ÷ 2 = 20, 40 ÷ 5 = 8, 40 ÷ 8 = 5 et 2 × 40 = 80.'},
+      {m:<>40x + 100 <H>− 24x − 16</H> + 25x − 45 = 80</>, why:'On développe chaque produit.'},
+      {m:<>41x + 39 = 80</>, why:'40x − 24x + 25x = 41x et 100 − 16 − 45 = 39.'},
+      {m:<>41x = 41, donc x = 1</>, why:'On soustrait 39 puis on divise par 41.'},
+      {m:<Sx v="1"/>, why:'Vérification : 7/2 − 5/5 − 4/8 = 3,5 − 1 − 0,5 = 2.'}]},
+    {lvl:3, q:<>x − <F n="x − 1" d="4"/> = <F n="2x + 3" d="6"/> + <F n="1" d="2"/></>, hint:'x s’écrit x/1 : il est aussi multiplié par 12.', ans:<Sx v={<F n="9" d="5"/>}/>, steps:[
+      {m:<>12x − 3(x − 1) = 2(2x + 3) + 6</>, why:'PPCM(4 ; 6 ; 2) = 12. On multiplie chaque terme par 12.'},
+      {m:<>12x − 3x + 3 = 4x + 6 + 6</>, why:'On développe.'},
+      {m:<>9x + 3 = 4x + 12</>, why:'On réduit.'},
+      {m:<>5x = 9, donc x = <F n="9" d="5"/></>, why:'On soustrait 4x et 3, puis on divise par 5.'},
+      {m:<Sx v={<F n="9" d="5"/>}/>, why:'Vérification avec x = 1,8 : les deux membres valent 1,6.'}]}
+  ]
+},
+{
+  id:'f3', title:'Conditions d’existence', short:'Conditions d’existence',
+  intro:'Trouver les valeurs de x qui annulent un dénominateur : ce sont les valeurs interdites.',
+  prompt:'Donner les conditions d’existence de :',
+  method:['Repérer les dénominateurs qui contiennent x. Les numérateurs ne comptent pas.','Écrire « dénominateur ≠ 0 » pour chacun.','Trouver les valeurs qui l’annulent. Si c’est un produit, chaque facteur doit être ≠ 0 : factoriser d’abord.','Conclure avec « et » : l’expression existe si x ≠ … et x ≠ ….'],
+  worked:{ q:<>G = <F n="x + 4" d="2x − 6"/> + <F n="1" d="x(x + 5)"/></>, steps:[
+    {m:<>Dénominateurs : <H>2x − 6</H> et <H>x(x + 5)</H></>, why:'Le numérateur x + 4 n’intervient pas.'},
+    {m:<>2x − 6 ≠ 0 ⇔ 2x ≠ 6 ⇔ <Ce>x ≠ 3</Ce></>, why:'On cherche la valeur qui annule 2x − 6, comme pour une équation.'},
+    {m:<>x(x + 5) ≠ 0 ⇔ <Ce>x ≠ 0</Ce> et <Ce>x ≠ −5</Ce></>, why:'Un produit est non nul si chacun de ses facteurs est non nul.'},
+    {m:<>G existe ⇔ <Ce>x ≠ −5, x ≠ 0 et x ≠ 3</Ce></>, why:'On rassemble toutes les conditions avec « et ».'},
+    {m:<>D = ℝ ∖ {'{'}−5 ; 0 ; 3{'}'}</>, why:'Autre écriture : ℝ privé des valeurs interdites.'}
+  ]},
+  quiz:[
+    {q:<>La valeur interdite de <F n="x + 7" d="x − 2"/> est :</>, opts:[{t:'2',ok:true},{t:'−7'},{t:'−2'},{t:'7'}], ex:'Seul le dénominateur compte : x − 2 = 0 pour x = 2.'},
+    {q:<><F n="3" d="(x − 2)(x + 1)"/> existe si et seulement si :</>, opts:[{t:'x ≠ 2 et x ≠ −1',ok:true},{t:'x ≠ −2 et x ≠ 1'},{t:'x ≠ 2 ou x ≠ −1'},{t:'x ≠ 3'}], ex:'Chaque facteur doit être non nul : x − 2 ≠ 0 et x + 1 ≠ 0. On écrit « et » car les deux conditions sont exigées en même temps.'},
+    {q:<>Les valeurs interdites de <F n="1" d="x² − 25"/> sont :</>, opts:[{t:'5 et −5',ok:true},{t:'5 seulement'},{t:'25'},{t:'aucune'}], ex:'x² − 25 = (x − 5)(x + 5) s’annule pour x = 5 et pour x = −5.'}
+  ],
+  exos:[
+    {lvl:1, q:<>A = <F n="5" d="x − 4"/></>, ans:<Ce>x ≠ 4</Ce>, steps:[
+      {m:<>x − 4 ≠ 0 ⇔ <Ce>x ≠ 4</Ce></>, why:'On ajoute 4 aux deux membres.'},
+      {m:<>D = ℝ ∖ {'{'}4{'}'}</>, why:'A existe pour tout réel sauf 4.'}]},
+    {lvl:1, q:<>B = <F n="2x + 1" d="3x + 9"/></>, hint:'Seul 3x + 9 compte.', ans:<Ce>x ≠ −3</Ce>, steps:[
+      {m:<>3x + 9 ≠ 0 ⇔ 3x ≠ −9</>, why:'On soustrait 9.'},
+      {m:<><Ce>x ≠ −3</Ce></>, why:'On divise par 3.'},
+      {m:<>D = ℝ ∖ {'{'}−3{'}'}</>, why:'Le numérateur 2x + 1 peut valoir 0 sans problème.'}]},
+    {lvl:2, q:<>C = <F n="1" d="x + 2"/> − <F n="x" d="5x − 1"/></>, ans:<><Ce>x ≠ −2</Ce> et <Ce>x ≠ <F n="1" d="5"/></Ce></>, steps:[
+      {m:<>x + 2 ≠ 0 ⇔ <Ce>x ≠ −2</Ce></>, why:'Premier dénominateur.'},
+      {m:<>5x − 1 ≠ 0 ⇔ 5x ≠ 1 ⇔ <Ce>x ≠ <F n="1" d="5"/></Ce></>, why:'Second dénominateur.'},
+      {m:<>C existe ⇔ <Ce>x ≠ −2 et x ≠ <F n="1" d="5"/></Ce></>, why:'On réunit avec « et ».'}]},
+    {lvl:2, tag:'Test du 22/09', q:<>E = <F n="3x − 5" d="x − 1"/> − <F n="6x − 7" d="2x + 1"/></>, ans:<><Ce>x ≠ 1</Ce> et <Ce>x ≠ −<F n="1" d="2"/></Ce></>, steps:[
+      {m:<>x − 1 ≠ 0 ⇔ <Ce>x ≠ 1</Ce></>, why:'Premier dénominateur.'},
+      {m:<>2x + 1 ≠ 0 ⇔ 2x ≠ −1 ⇔ <Ce>x ≠ −<F n="1" d="2"/></Ce></>, why:'Second dénominateur.'},
+      {m:<>D = ℝ ∖ {'{'}−<F n="1" d="2"/> ; 1{'}'}</>, why:'Les valeurs 5/3 et 7/6 (qui annulent les numérateurs) ne sont pas interdites.'}]},
+    {lvl:2, tag:'Test du 22/09', q:<>F = <F n="3" d="x(x − 3)"/> − <F n="5" d="(x + 3)(x − 3)"/> + <F n="2x − 1" d="x(x − 3)(x + 3)"/></>, hint:'Liste tous les facteurs différents qui apparaissent dans les dénominateurs.', ans:<><Ce>x ≠ 0, x ≠ 3 et x ≠ −3</Ce></>, steps:[
+      {m:<>Facteurs présents : <H>x</H>, <H>x − 3</H>, <H>x + 3</H></>, why:'Chaque dénominateur est un produit de ces facteurs.'},
+      {m:<>x ≠ 0 ; x − 3 ≠ 0 ⇔ x ≠ 3 ; x + 3 ≠ 0 ⇔ x ≠ −3</>, why:'Chaque facteur doit être non nul.'},
+      {m:<>F existe ⇔ <Ce>x ≠ −3, x ≠ 0 et x ≠ 3</Ce></>, why:'D = ℝ ∖ {−3 ; 0 ; 3}.'}]},
+    {lvl:3, q:<>H = <F n="4" d="x² − 9"/></>, hint:'Factorise avec a² − b² = (a − b)(a + b).', ans:<><Ce>x ≠ 3</Ce> et <Ce>x ≠ −3</Ce></>, steps:[
+      {m:<>x² − 9 = x² − 3² = (x − 3)(x + 3)</>, why:'Identité remarquable a² − b².'},
+      {m:<>(x − 3)(x + 3) ≠ 0 ⇔ <Ce>x ≠ 3 et x ≠ −3</Ce></>, why:'Piège classique : oublier −3, car (−3)² = 9 aussi.'}]},
+    {lvl:3, q:<>K = <F n="x − 1" d="x² + 4"/></>, hint:'Un carré peut-il être négatif ?', ans:<>Aucune valeur interdite : D = ℝ</>, steps:[
+      {m:<>x² ≥ 0 pour tout réel x</>, why:'Un carré est toujours positif ou nul.'},
+      {m:<>donc x² + 4 ≥ 4 &gt; 0</>, why:'Le dénominateur ne peut jamais valoir 0.'},
+      {m:<Sol>K existe pour tout x : D = ℝ</Sol>, why:'Il n’y a aucune valeur interdite.'}]},
+    {lvl:3, q:<>L = <F n="2" d="x² − 5x"/></>, hint:'Mets x en facteur.', ans:<><Ce>x ≠ 0</Ce> et <Ce>x ≠ 5</Ce></>, steps:[
+      {m:<>x² − 5x = x(x − 5)</>, why:'Facteur commun x.'},
+      {m:<>x(x − 5) ≠ 0 ⇔ <Ce>x ≠ 0 et x ≠ 5</Ce></>, why:'Chaque facteur doit être non nul.'}]}
+  ]
+},
+{
+  id:'f4', title:'Simplifier une expression', short:'Simplifier',
+  intro:'Réduire au même dénominateur, puis simplifier : toujours après avoir écrit les conditions d’existence.',
+  prompt:'Donner les conditions d’existence, puis simplifier au maximum :',
+  method:['Écrire les conditions d’existence.','Choisir le dénominateur commun : chaque facteur une seule fois.','Compléter chaque fraction : multiplier en haut ET en bas par le facteur qui manque.','Écrire un seul trait de fraction, avec des parenthèses après un signe −.','Développer et réduire le numérateur, puis factoriser et simplifier par un facteur commun.'],
+  worked:{ q:<>M = <F n="3" d="x − 2"/> − <F n="1" d="x + 1"/></>, steps:[
+    {m:<>CE : <Ce>x ≠ 2 et x ≠ −1</Ce></>, why:'On commence toujours par là.'},
+    {m:<>Dénominateur commun : (x − 2)(x + 1)</>, why:'Les deux dénominateurs n’ont aucun facteur en commun : on les multiplie.'},
+    {m:<>M = <F n={<>3<H>(x + 1)</H></>} d={<>(x − 2)<H>(x + 1)</H></>}/> − <F n={<>1<H>(x − 2)</H></>} d={<>(x + 1)<H>(x − 2)</H></>}/></>, why:'On multiplie la 1re fraction par (x + 1) en haut et en bas, la 2e par (x − 2).'},
+    {m:<>M = <F n={<>3(x + 1) <H>− (x − 2)</H></>} d="(x − 2)(x + 1)"/></>, why:'Un seul trait. Les parenthèses protègent le second numérateur du signe −.'},
+    {m:<>M = <F n="3x + 3 − x + 2" d="(x − 2)(x + 1)"/> = <Sol><F n="2x + 5" d="(x − 2)(x + 1)"/></Sol></>, why:'−(x − 2) = −x + 2. Le numérateur ne se factorise pas davantage.'}
+  ]},
+  quiz:[
+    {q:<>Le dénominateur commun le plus simple de <F n="1" d="x(x − 3)"/> et <F n="1" d="(x + 3)(x − 3)"/> est :</>, opts:[{t:'x(x − 3)(x + 3)',ok:true},{t:'x(x − 3)²(x + 3)'},{t:'x(x − 3)'},{t:'(x − 3)(x + 3)'}], ex:'On prend chaque facteur une seule fois : x, (x − 3) et (x + 3).'},
+    {q:<>Peut-on écrire <F n="x + 3" d="x + 5"/> = <F n="3" d="5"/> ?</>, opts:[{t:'Non : x n’est pas un facteur commun',ok:true},{t:'Oui, en barrant les x'},{t:'Oui, si x ≠ −5'},{t:'Oui, si x ≠ 0'}], ex:'On simplifie des facteurs (des produits), jamais des termes d’une somme. Pour x = 1 : 4/6 ≠ 3/5.'},
+    {q:<><F n="3" d="x − 2"/> − <F n="x − 1" d="x − 2"/> est égal à :</>, opts:[{t:<F n="4 − x" d="x − 2"/>,ok:true},{t:<F n="3 − x − 1" d="x − 2"/>},{t:<F n="4 − x" d="2x − 4"/>},{t:<F n="2 − x" d="2x − 4"/>}], ex:'3 − (x − 1) = 3 − x + 1 = 4 − x. Le dénominateur est commun : on le garde, on ne l’additionne pas.'}
+  ],
+  exos:[
+    {lvl:1, q:<>Q = <F n="2x + 6" d="x + 3"/></>, hint:'Factorise le numérateur.', ans:<>Q = <Sol>2</Sol> pour <Ce>x ≠ −3</Ce></>, steps:[
+      {m:<>CE : <Ce>x ≠ −3</Ce></>, why:'x + 3 ≠ 0.'},
+      {m:<>Q = <F n={<>2<H>(x + 3)</H></>} d={<H>x + 3</H>}/></>, why:'2x + 6 = 2(x + 3) : on fait apparaître un facteur commun.'},
+      {m:<>Q = <Sol>2</Sol></>, why:'On simplifie par x + 3, qui est non nul grâce à la CE.'}]},
+    {lvl:1, q:<>P = <F n="1" d="x"/> + <F n="1" d="x + 2"/></>, ans:<>P = <Sol><F n="2(x + 1)" d="x(x + 2)"/></Sol> ; <Ce>x ≠ 0, x ≠ −2</Ce></>, steps:[
+      {m:<>CE : <Ce>x ≠ 0 et x ≠ −2</Ce></>, why:'Deux dénominateurs.'},
+      {m:<>P = <F n="x + 2" d="x(x + 2)"/> + <F n="x" d="x(x + 2)"/></>, why:'Dénominateur commun x(x + 2).'},
+      {m:<>P = <F n="2x + 2" d="x(x + 2)"/> = <Sol><F n="2(x + 1)" d="x(x + 2)"/></Sol></>, why:'On réduit puis on factorise le numérateur : aucune simplification possible.'}]},
+    {lvl:2, q:<>R = <F n="4" d="x − 3"/> − <F n="2" d="x + 3"/></>, ans:<>R = <Sol><F n="2(x + 9)" d="(x − 3)(x + 3)"/></Sol> ; <Ce>x ≠ ±3</Ce></>, steps:[
+      {m:<>CE : <Ce>x ≠ 3 et x ≠ −3</Ce></>, why:'Deux dénominateurs.'},
+      {m:<>R = <F n="4(x + 3) − 2(x − 3)" d="(x − 3)(x + 3)"/></>, why:'Dénominateur commun (x − 3)(x + 3).'},
+      {m:<>R = <F n={<>4x + 12 <H>− 2x + 6</H></>} d="(x − 3)(x + 3)"/></>, why:'−2 × (−3) = +6.'},
+      {m:<>R = <F n="2x + 18" d="(x − 3)(x + 3)"/> = <Sol><F n="2(x + 9)" d="(x − 3)(x + 3)"/></Sol></>, why:'On réduit et on factorise.'}]},
+    {lvl:2, q:<>T = <F n="x² − 4" d="x² + 2x"/></>, hint:'Factorise le numérateur (a² − b²) et le dénominateur (facteur commun).', ans:<>T = <Sol><F n="x − 2" d="x"/></Sol> ; <Ce>x ≠ 0, x ≠ −2</Ce></>, steps:[
+      {m:<>x² + 2x = x(x + 2) ≠ 0 ⇔ <Ce>x ≠ 0 et x ≠ −2</Ce></>, why:'On factorise le dénominateur pour trouver les CE.'},
+      {m:<>T = <F n={<>(x − 2)<H>(x + 2)</H></>} d={<>x<H>(x + 2)</H></>}/></>, why:'x² − 4 = (x − 2)(x + 2).'},
+      {m:<>T = <Sol><F n="x − 2" d="x"/></Sol></>, why:'On simplifie par (x + 2), non nul grâce à la CE. La CE x ≠ −2 reste valable.'}]},
+    {lvl:3, tag:'Test du 22/09', q:<>E = <F n="3x − 5" d="x − 1"/> − <F n="6x − 7" d="2x + 1"/></>, ans:<>E = <Sol><F n="6(x − 2)" d="(x − 1)(2x + 1)"/></Sol> ; <Ce>x ≠ 1, x ≠ −½</Ce></>, steps:[
+      {m:<>CE : <Ce>x ≠ 1 et x ≠ −<F n="1" d="2"/></Ce></>, why:'Voir la famille « Conditions d’existence ».'},
+      {m:<>E = <F n="(3x − 5)(2x + 1) − (6x − 7)(x − 1)" d="(x − 1)(2x + 1)"/></>, why:'Dénominateur commun (x − 1)(2x + 1) ; chaque produit reste entre parenthèses.'},
+      {m:<>(3x − 5)(2x + 1) = 6x² + 3x − 10x − 5 = 6x² − 7x − 5</>, why:'Double distributivité.'},
+      {m:<>(6x − 7)(x − 1) = 6x² − 6x − 7x + 7 = 6x² − 13x + 7</>, why:'Double distributivité.'},
+      {m:<>6x² − 7x − 5 <H>− 6x² + 13x − 7</H> = 6x − 12</>, why:'Le − change tous les signes du second produit. Les x² s’éliminent.'},
+      {m:<>E = <F n="6x − 12" d="(x − 1)(2x + 1)"/> = <Sol><F n="6(x − 2)" d="(x − 1)(2x + 1)"/></Sol></>, why:'On factorise le numérateur par 6.'}]},
+    {lvl:3, tag:'Test du 22/09', q:<>F = <F n="3" d="x(x − 3)"/> − <F n="5" d="(x + 3)(x − 3)"/> + <F n="2x − 1" d="x(x − 3)(x + 3)"/></>, hint:'Le dénominateur commun est déjà écrit dans la 3e fraction.', ans:<>F = <Sol><F n="8" d="x(x − 3)(x + 3)"/></Sol> ; <Ce>x ≠ 0, x ≠ ±3</Ce></>, steps:[
+      {m:<>CE : <Ce>x ≠ 0, x ≠ 3 et x ≠ −3</Ce></>, why:'Trois facteurs différents : x, x − 3, x + 3.'},
+      {m:<>Dénominateur commun : x(x − 3)(x + 3)</>, why:'Il manque (x + 3) à la 1re fraction et x à la 2e.'},
+      {m:<>F = <F n={<>3<H>(x + 3)</H> − 5<H>x</H> + (2x − 1)</>} d="x(x − 3)(x + 3)"/></>, why:'On complète chaque numérateur.'},
+      {m:<>F = <F n="3x + 9 − 5x + 2x − 1" d="x(x − 3)(x + 3)"/></>, why:'On développe.'},
+      {m:<>F = <Sol><F n="8" d="x(x − 3)(x + 3)"/></Sol></>, why:'3x − 5x + 2x = 0 et 9 − 1 = 8 : les x du numérateur disparaissent.'}]}
+  ]
+},
+{
+  id:'f5', title:'Produit nul et quotient nul', short:'Produit / quotient nul',
+  intro:'Un produit est nul si l’un de ses facteurs est nul. Un quotient est nul si son numérateur est nul… et son dénominateur non nul.',
+  prompt:'Résoudre dans ℝ :',
+  method:['Produit nul : A × B = 0 ⇔ A = 0 ou B = 0. Il faut 0 d’un côté et un produit de l’autre.','Si ce n’est pas un produit : tout passer à gauche, puis factoriser.','Quotient nul : écrire d’abord la condition d’existence (dénominateur ≠ 0).','Puis résoudre « numérateur = 0 ».','Rejeter les solutions qui sont des valeurs interdites.'],
+  worked:{ q:<><F n="(3x − 2)(x² − 1)" d="x + 1"/> = 0</>, steps:[
+    {m:<>CE : x + 1 ≠ 0 ⇔ <Ce>x ≠ −1</Ce></>, why:'Le quotient n’existe que si le dénominateur est non nul.'},
+    {m:<>(3x − 2)(x² − 1) = 0</>, why:'Un quotient est nul ⇔ son numérateur est nul.'},
+    {m:<>3x − 2 = 0 <b>ou</b> x² − 1 = 0</>, why:'Produit nul : l’un des facteurs est nul.'},
+    {m:<>3x − 2 = 0 ⇔ x = <F n="2" d="3"/></>, why:'Premier facteur.'},
+    {m:<>x² − 1 = (x − 1)(x + 1) = 0 ⇔ x = 1 ou <No><span className="strike">x = −1</span></No></>, why:'Identité a² − b². Mais −1 est une valeur interdite : on le rejette.'},
+    {m:<Sx v={<><F n="2" d="3"/> ; 1</>}/>, why:'On ne garde que les solutions compatibles avec la CE.'}
+  ]},
+  quiz:[
+    {q:'(x + 4)(2x − 1) = 0 a pour solutions :', opts:[{t:<>−4 et <F n="1" d="2"/></>,ok:true},{t:<>4 et −<F n="1" d="2"/></>},{t:'4 et 2'},{t:'−4 seulement'}], ex:'x + 4 = 0 donne x = −4 ; 2x − 1 = 0 donne x = 1/2.'},
+    {q:<><F n="x − 2" d="x + 3"/> = 0 a pour solution :</>, opts:[{t:'x = 2',ok:true},{t:'x = −3'},{t:'x = 2 ou x = −3'},{t:'aucune'}], ex:'Le numérateur doit être nul : x − 2 = 0. −3 est une valeur interdite, pas une solution.'},
+    {q:'Pour résoudre x² = 4x, on commence par :', opts:[{t:'écrire x² − 4x = 0 et factoriser',ok:true},{t:'diviser les deux membres par x'},{t:'prendre la racine carrée'},{t:'remplacer x par 4'}], ex:'Diviser par x ferait perdre la solution x = 0. On factorise : x(x − 4) = 0, donc S = {0 ; 4}.'}
+  ],
+  exos:[
+    {lvl:1, q:<>(x − 7)(3x + 6) = 0</>, ans:<Sx v="−2 ; 7"/>, steps:[
+      {m:<>x − 7 = 0 ou 3x + 6 = 0</>, why:'Produit nul.'},
+      {m:<>x = 7 ou 3x = −6 ⇔ x = −2</>, why:'On résout chaque petite équation.'},
+      {m:<Sx v="−2 ; 7"/>, why:'Pas de dénominateur avec x : aucune valeur à rejeter.'}]},
+    {lvl:1, q:<><F n="2x − 5" d="x + 4"/> = 0</>, ans:<Sx v={<F n="5" d="2"/>}/>, steps:[
+      {m:<>CE : <Ce>x ≠ −4</Ce></>, why:'Dénominateur non nul.'},
+      {m:<>2x − 5 = 0 ⇔ x = <F n="5" d="2"/></>, why:'Numérateur nul.'},
+      {m:<Sx v={<F n="5" d="2"/>}/>, why:'5/2 ≠ −4 : la solution est acceptée.'}]},
+    {lvl:2, q:<>x² = 5x</>, hint:'Ne divise pas par x ! Passe tout à gauche et factorise.', ans:<Sx v="0 ; 5"/>, steps:[
+      {m:<>x² − 5x = 0</>, why:'On met tout dans le membre de gauche.'},
+      {m:<>x(x − 5) = 0</>, why:'Facteur commun x.'},
+      {m:<>x = 0 ou x = 5</>, why:'Produit nul.'},
+      {m:<Sx v="0 ; 5"/>, why:'En divisant par x, on aurait perdu la solution 0.'}]},
+    {lvl:2, q:<><F n="(x + 1)(x − 2)" d="x − 2"/> = 0</>, hint:'Pense à la condition d’existence avant tout.', ans:<Sx v="−1"/>, steps:[
+      {m:<>CE : <Ce>x ≠ 2</Ce></>, why:'Dénominateur non nul.'},
+      {m:<>(x + 1)(x − 2) = 0 ⇔ x = −1 ou <No><span className="strike">x = 2</span></No></>, why:'Numérateur nul, mais 2 est interdit.'},
+      {m:<Sx v="−1"/>, why:'Seule −1 respecte la CE.'}]},
+    {lvl:3, q:<><F n="x² − 16" d="x + 4"/> = 0</>, ans:<Sx v="4"/>, steps:[
+      {m:<>CE : <Ce>x ≠ −4</Ce></>, why:'Dénominateur non nul.'},
+      {m:<>x² − 16 = (x − 4)(x + 4) = 0</>, why:'Identité a² − b² avec b = 4.'},
+      {m:<>x = 4 ou <No><span className="strike">x = −4</span></No></>, why:'−4 est une valeur interdite.'},
+      {m:<Sx v="4"/>, why:'Il ne reste qu’une solution.'}]},
+    {lvl:3, q:<>(x − 3)² − 4 = 0</>, hint:'C’est a² − b² avec a = x − 3 et b = 2.', ans:<Sx v="1 ; 5"/>, steps:[
+      {m:<>(x − 3)² − 2² = [(x − 3) − 2][(x − 3) + 2]</>, why:'Identité a² − b² = (a − b)(a + b).'},
+      {m:<>(x − 5)(x − 1) = 0</>, why:'On réduit chaque crochet.'},
+      {m:<>x = 5 ou x = 1</>, why:'Produit nul.'},
+      {m:<Sx v="1 ; 5"/>, why:'Vérification : (5 − 3)² − 4 = 0 et (1 − 3)² − 4 = 0.'}]}
+  ]
+},
+{
+  id:'f6', title:'Égalité de deux fractions', short:'Fraction = fraction',
+  intro:'x apparaît au dénominateur des deux côtés : conditions d’existence, produit en croix, puis vérification.',
+  prompt:'Résoudre dans ℝ :',
+  method:['Écrire les conditions d’existence (tous les dénominateurs ≠ 0).','Produit en croix : a/b = c/d ⇔ a × d = b × c.','Développer, tout passer dans un membre, réduire.','Si x² apparaît : factoriser, puis appliquer le produit nul.','Ne garder que les solutions qui respectent les conditions d’existence.'],
+  worked:{ q:<><F n="2x − 3" d="x − 2"/> = <F n="4x + 3" d="x + 2"/></>, steps:[
+    {m:<>CE : <Ce>x ≠ 2 et x ≠ −2</Ce></>, why:'Les deux dénominateurs doivent être non nuls.'},
+    {m:<>(2x − 3)(x + 2) = (x − 2)(4x + 3)</>, why:'Produit en croix.'},
+    {m:<>2x² + 4x − 3x − 6 = 4x² + 3x − 8x − 6</>, why:'On développe chaque membre.'},
+    {m:<>2x² + x − 6 = 4x² − 5x − 6</>, why:'On réduit.'},
+    {m:<>2x² + x − 6 <H>− 4x² + 5x + 6</H> = 0 ⇔ −2x² + 6x = 0</>, why:'On passe tout à gauche en changeant les signes.'},
+    {m:<>2x(−x + 3) = 0</>, why:'Facteur commun 2x. On ne divise surtout pas par x.'},
+    {m:<>2x = 0 ou −x + 3 = 0 ⇔ x = 0 ou x = 3</>, why:'Produit nul.'},
+    {m:<Sx v="0 ; 3"/>, why:'0 et 3 sont différents de 2 et −2 : on les garde.'}
+  ]},
+  quiz:[
+    {q:<><F n="a" d="b"/> = <F n="c" d="d"/> (avec b ≠ 0 et d ≠ 0) équivaut à :</>, opts:[{t:'a × d = b × c',ok:true},{t:'a × c = b × d'},{t:'a + d = b + c'},{t:'a × b = c × d'}], ex:'C’est le produit en croix : on multiplie en diagonale.'},
+    {q:'Après le produit en croix, tu trouves x = 2. Les conditions d’existence sont x ≠ 2 et x ≠ −2. Conclusion :', opts:[{t:'S = ∅',ok:true},{t:'S = {2}'},{t:'S = {−2}'},{t:'S = ℝ'}], ex:'2 est une valeur interdite : on le rejette. Il ne reste aucune solution.'}
+  ],
+  exos:[
+    {lvl:1, q:<><F n="3" d="x − 1"/> = <F n="2" d="x + 1"/></>, ans:<Sx v="−5"/>, steps:[
+      {m:<>CE : <Ce>x ≠ 1 et x ≠ −1</Ce></>, why:'Deux dénominateurs.'},
+      {m:<>3(x + 1) = 2(x − 1)</>, why:'Produit en croix.'},
+      {m:<>3x + 3 = 2x − 2 ⇔ x = −5</>, why:'On développe et on regroupe.'},
+      {m:<Sx v="−5"/>, why:'−5 respecte les CE. Vérification : 3/(−6) = −1/2 et 2/(−4) = −1/2.'}]},
+    {lvl:1, q:<><F n="5" d="x"/> = <F n="2" d="x − 3"/></>, ans:<Sx v="5"/>, steps:[
+      {m:<>CE : <Ce>x ≠ 0 et x ≠ 3</Ce></>, why:'Deux dénominateurs.'},
+      {m:<>5(x − 3) = 2x</>, why:'Produit en croix.'},
+      {m:<>5x − 15 = 2x ⇔ 3x = 15 ⇔ x = 5</>, why:'On résout.'},
+      {m:<Sx v="5"/>, why:'Vérification : 5/5 = 1 et 2/2 = 1.'}]},
+    {lvl:2, q:<><F n="x + 1" d="x − 2"/> = 4</>, hint:'Écris 4 sous la forme 4/1.', ans:<Sx v="3"/>, steps:[
+      {m:<>CE : <Ce>x ≠ 2</Ce></>, why:'Un seul dénominateur avec x.'},
+      {m:<>x + 1 = 4(x − 2)</>, why:'Produit en croix avec 4/1.'},
+      {m:<>x + 1 = 4x − 8 ⇔ −3x = −9 ⇔ x = 3</>, why:'On résout.'},
+      {m:<Sx v="3"/>, why:'Vérification : 4/1 = 4.'}]},
+    {lvl:2, q:<><F n="x + 2" d="x − 1"/> = <F n="x + 5" d="x + 2"/></>, ans:<Sol>S = ∅</Sol>, steps:[
+      {m:<>CE : <Ce>x ≠ 1 et x ≠ −2</Ce></>, why:'Deux dénominateurs.'},
+      {m:<>(x + 2)² = (x + 5)(x − 1)</>, why:'Produit en croix.'},
+      {m:<>x² + 4x + 4 = x² + 4x − 5</>, why:'(a + b)² à gauche, double distributivité à droite.'},
+      {m:<>4 = −5</>, why:'Les x² et les 4x s’éliminent : égalité impossible.'},
+      {m:<Sol>S = ∅</Sol>, why:'Aucune solution.'}]},
+    {lvl:3, q:<><F n="x²" d="x − 2"/> = <F n="4" d="x − 2"/></>, hint:'Mêmes dénominateurs : que peux-tu dire des numérateurs ?', ans:<Sx v="−2"/>, steps:[
+      {m:<>CE : <Ce>x ≠ 2</Ce></>, why:'Dénominateur commun x − 2.'},
+      {m:<>x² = 4</>, why:'Deux fractions de même dénominateur non nul sont égales ⇔ leurs numérateurs sont égaux.'},
+      {m:<>x² − 4 = 0 ⇔ (x − 2)(x + 2) = 0</>, why:'Identité a² − b².'},
+      {m:<>x = −2 ou <No><span className="strike">x = 2</span></No></>, why:'2 est une valeur interdite.'},
+      {m:<Sx v="−2"/>, why:'Une seule solution.'}]},
+    {lvl:3, q:<><F n="x + 2" d="x + 1"/> = <F n="2x + 6" d="x + 3"/></>, ans:<Sx v="0"/>, steps:[
+      {m:<>CE : <Ce>x ≠ −1 et x ≠ −3</Ce></>, why:'Deux dénominateurs.'},
+      {m:<>(x + 2)(x + 3) = (x + 1)(2x + 6)</>, why:'Produit en croix.'},
+      {m:<>x² + 5x + 6 = 2x² + 8x + 6</>, why:'On développe.'},
+      {m:<>−x² − 3x = 0 ⇔ −x(x + 3) = 0</>, why:'On passe tout à gauche et on factorise.'},
+      {m:<>x = 0 ou <No><span className="strike">x = −3</span></No></>, why:'−3 est une valeur interdite.'},
+      {m:<Sx v="0"/>, why:'Astuce : 2x + 6 = 2(x + 3), donc le membre de droite vaut 2 dès que x ≠ −3.'}]}
+  ]
+}
+];
+
+const LVL = {1:'Application directe', 2:'Entraînement', 3:'Approfondissement'};
+
+/* ---------- Pièges ---------- */
+const TRAPS = [
+  {t:'Le signe − devant une parenthèse', bad:<>−(x − 5) = −x − 5</>, good:<>−(x − 5) = −x <b>+ 5</b></>, why:'Le − change le signe de chaque terme de la parenthèse.'},
+  {t:'Le signe − devant une fraction', bad:<>… − <F n="x + 4" d="2"/> → … − 3x + 4</>, good:<>… − <F n="x + 4" d="2"/> → … − 3(x + 4) = … − 3x − 12</>, why:'Quand on multiplie, le numérateur reste entre parenthèses : le − agit sur tout le numérateur.'},
+  {t:'Oublier de multiplier un terme', bad:<>× 40 : 20(2x + 5) − … = <b>2</b></>, good:<>× 40 : 20(2x + 5) − … = <b>80</b></>, why:'On multiplie tous les termes des deux membres, même ceux sans fraction.'},
+  {t:'Diviser par x', bad:<>x² = 5x donc x = 5</>, good:<>x² − 5x = 0 ⇔ x(x − 5) = 0 ⇔ x = 0 ou x = 5</>, why:'x peut valoir 0 : en divisant par x, on perd une solution. On factorise.'},
+  {t:'Simplifier des termes', bad:<><F n="x + 3" d="x + 5"/> = <F n="3" d="5"/></>, good:<><F n="2(x + 3)" d="x + 3"/> = 2 (pour x ≠ −3)</>, why:'On ne simplifie que par un facteur commun, jamais par un terme d’une somme.'},
+  {t:'Garder une valeur interdite', bad:<>CE : x ≠ −1 ; solutions 1 et −1 ; S = {'{'}−1 ; 1{'}'}</>, good:<>CE : x ≠ −1 ; solutions 1 et <span className="strike">−1</span> ; S = {'{'}1{'}'}</>, why:'Chaque solution trouvée est comparée aux conditions d’existence avant de conclure.'},
+  {t:'Chercher une CE au numérateur', bad:<><F n="2x − 3" d="x − 2"/> : x ≠ <F n="3" d="2"/></>, good:<><F n="2x − 3" d="x − 2"/> : x ≠ 2</>, why:'Seuls les dénominateurs comptent. 0/5 = 0 existe très bien.'},
+  {t:'Oublier une racine de x² − a²', bad:<><F n="4" d="x² − 9"/> : x ≠ 3</>, good:<><F n="4" d="x² − 9"/> : x ≠ 3 et x ≠ −3</>, why:'x² − 9 = (x − 3)(x + 3) : deux facteurs, deux valeurs interdites.'},
+  {t:'Mal isoler x', bad:<>−7x = −29 donc x = −29 + 7</>, good:<>−7x = −29 donc x = <F n="−29" d="−7"/> = <F n="29" d="7"/></>, why:'−7 multiplie x : on divise par −7, en gardant le signe.'},
+  {t:'Confondre « et » et « ou »', bad:<>CE : x ≠ 2 ou x ≠ −2</>, good:<>CE : x ≠ 2 <b>et</b> x ≠ −2 ; solutions : x = 0 <b>ou</b> x = 3</>, why:'Les conditions doivent toutes être vraies en même temps (et). Les solutions sont des possibilités (ou).'}
+];
+
+/* ---------- Cartes mémo ---------- */
+const CARDS = [
+  {f:<>Quand la fraction <F n="a" d="b"/> existe-t-elle ?</>, b:<>Seulement si <b>b ≠ 0</b>.</>},
+  {f:'Qu’est-ce qu’une valeur interdite ?', b:'Une valeur de x qui annule un dénominateur.'},
+  {f:<>x(x − 3) ≠ 0 équivaut à ?</>, b:<>x ≠ 0 <b>et</b> x ≠ 3</>},
+  {f:<>A × B = 0 équivaut à ?</>, b:<>A = 0 <b>ou</b> B = 0</>},
+  {f:<><F n="A" d="B"/> = 0 équivaut à ?</>, b:<>A = 0 <b>et</b> B ≠ 0</>},
+  {f:<><F n="a" d="b"/> = <F n="c" d="d"/> (b ≠ 0, d ≠ 0) équivaut à ?</>, b:<>a × d = b × c (produit en croix)</>},
+  {f:'−(a − b) = ?', b:'−a + b'},
+  {f:'a² − b² = ?', b:'(a − b)(a + b)'},
+  {f:'Tu obtiens 0x = 5. Que vaut S ?', b:<>S = ∅ : aucune solution.</>},
+  {f:'Tu obtiens 0x = 0. Que vaut S ?', b:<>S = ℝ : tous les réels.</>},
+  {f:'Qu’a-t-on le droit de faire aux deux membres d’une équation ?', b:'Ajouter ou soustraire la même chose ; multiplier ou diviser par un même nombre non nul.'},
+  {f:'Pourquoi ne jamais diviser par x ?', b:'x peut valoir 0 : on perdrait une solution. On factorise à la place.'}
+];
+
+/* ---------- Quiz bilan ---------- */
+const BILAN = [
+  {q:<>La valeur interdite de <F n="7" d="2x − 8"/> est :</>, opts:[{t:'4',ok:true},{t:'8'},{t:'−4'},{t:'2'}], ex:'2x − 8 = 0 ⇔ x = 4.'},
+  {q:'−3(x − 2) est égal à :', opts:[{t:'−3x + 6',ok:true},{t:'−3x − 6'},{t:'−3x − 2'},{t:'3x − 6'}], ex:'−3 × x = −3x et −3 × (−2) = +6.'},
+  {q:'2x + 3 = 2x − 1 a pour ensemble de solutions :', opts:[{t:'S = ∅',ok:true},{t:'S = ℝ'},{t:'S = {1}'},{t:'S = {−1}'}], ex:'En soustrayant 2x, on obtient 3 = −1 : impossible.'},
+  {q:'x² = 3x a pour ensemble de solutions :', opts:[{t:'S = {0 ; 3}',ok:true},{t:'S = {3}'},{t:'S = {0}'},{t:'S = {−3 ; 3}'}], ex:'x² − 3x = 0 ⇔ x(x − 3) = 0 ⇔ x = 0 ou x = 3.'},
+  {q:<><F n="(x − 1)(x + 2)" d="x − 1"/> = 0 a pour ensemble de solutions :</>, opts:[{t:'S = {−2}',ok:true},{t:'S = {1 ; −2}'},{t:'S = {1}'},{t:'S = ∅'}], ex:'CE : x ≠ 1. Le numérateur s’annule pour 1 et −2, mais 1 est interdit.'},
+  {q:<>Pour enlever les dénominateurs de <F n="x" d="4"/> − <F n="1" d="6"/> = 2, on multiplie tout par le plus petit nombre possible :</>, opts:[{t:'12',ok:true},{t:'24'},{t:'10'},{t:'2'}], ex:'12 est le PPCM de 4 et 6. 24 fonctionne aussi mais donne des calculs plus lourds.'},
+  {q:<><F n="4" d="x² + 1"/> a pour valeurs interdites :</>, opts:[{t:'aucune',ok:true},{t:'1 et −1'},{t:'−1'},{t:'0'}], ex:'x² + 1 ≥ 1 : le dénominateur n’est jamais nul.'},
+  {q:'Le produit en croix donne x = −1 ou x = 4. La CE est x ≠ 4. Alors :', opts:[{t:'S = {−1}',ok:true},{t:'S = {−1 ; 4}'},{t:'S = {4}'},{t:'S = ∅'}], ex:'4 est une valeur interdite : on le rejette.'},
+  {q:<>Le dénominateur commun de <F n="1" d="2"/> + <F n="1" d="x + 1"/> est :</>, opts:[{t:'2(x + 1)',ok:true},{t:'x + 3'},{t:'2x + 1'},{t:'x + 1'}], ex:'On multiplie les deux dénominateurs : 2(x + 1).'},
+  {q:<>En multipliant <F n="3x − 5" d="5"/> − <F n="x − 1" d="20"/> par 20, on obtient :</>, opts:[{t:'4(3x − 5) − (x − 1)',ok:true},{t:'4(3x − 5) − x − 1'},{t:'4(3x − 5) − 20(x − 1)'},{t:'3x − 5 − x − 1'}], ex:'20 ÷ 5 = 4 et 20 ÷ 20 = 1. Les parenthèses gardent le − sur tout le numérateur : −(x − 1) = −x + 1.'}
+];
+
+/* ---------- Jeu « bonne étape » ---------- */
+const GAMES = [
+  {id:'g1', name:'Avec parenthèses', eq:<>3(2x − 1) − 4(3x − 5) = x − 12</>, end:<Sx v={<F n="29" d="7"/>}/>, steps:[
+    {p:'Développe chaque produit.', opts:[{t:'6x − 3 − 12x + 20 = x − 12',ok:true},{t:'6x − 3 − 12x − 20 = x − 12',fb:'−4 × (−5) = +20 : le − devant 4 change le signe de −5.'},{t:'6x − 1 − 12x − 5 = x − 12',fb:'Le nombre devant la parenthèse multiplie chaque terme : 3 × (−1) = −3.'}]},
+    {p:'Réduis le membre de gauche.', opts:[{t:'−6x + 17 = x − 12',ok:true},{t:'6x + 17 = x − 12',fb:'6x − 12x = −6x.'},{t:'−6x + 23 = x − 12',fb:'−3 + 20 = 17.'}]},
+    {p:'Regroupe les x à gauche et les nombres à droite.', opts:[{t:'−6x − x = −12 − 17',ok:true},{t:'−6x + x = −12 + 17',fb:'Pour faire disparaître x à droite, on soustrait x des deux côtés. Pour faire disparaître +17 à gauche, on soustrait 17.'},{t:'−6x − x = −12 + 17',fb:'On soustrait 17 des deux membres : on obtient −12 − 17.'}]},
+    {p:'Réduis chaque membre.', opts:[{t:'−7x = −29',ok:true},{t:'−5x = −29',fb:'−6x − x = −7x.'},{t:'−7x = 5',fb:'−12 − 17 = −29.'}]},
+    {p:'Isole x.', opts:[{t:<>x = <F n="29" d="7"/></>,ok:true},{t:<>x = −<F n="29" d="7"/></>,fb:'(−29) ÷ (−7) : moins divisé par moins donne plus.'},{t:<>x = <F n="7" d="29"/></>,fb:'On divise −29 par −7, pas l’inverse.'},{t:'x = −29 + 7',fb:'−7 multiplie x : on divise par −7, on n’additionne pas.'}]}
+  ]},
+  {id:'g2', name:'Avec fractions', eq:<><F n="2x − 1" d="3"/> − <F n="x + 4" d="2"/> = 1</>, end:<Sx v="20"/>, steps:[
+    {p:'Par quel nombre multiplier tous les termes ?', opts:[{t:'6',ok:true},{t:'5',fb:'On n’additionne pas les dénominateurs : on cherche un multiple commun de 3 et 2.'},{t:'3',fb:'3 n’est pas divisible par 2.'}]},
+    {p:'Multiplie chaque terme par 6.', opts:[{t:'2(2x − 1) − 3(x + 4) = 6',ok:true},{t:'2(2x − 1) − 3(x + 4) = 1',fb:'Le membre de droite est aussi multiplié : 1 × 6 = 6.'},{t:'2(2x − 1) − 3x + 4 = 6',fb:'Le numérateur x + 4 doit rester entre parenthèses.'}]},
+    {p:'Développe.', opts:[{t:'4x − 2 − 3x − 12 = 6',ok:true},{t:'4x − 2 − 3x + 12 = 6',fb:'−3 × (+4) = −12.'},{t:'4x − 1 − 3x − 4 = 6',fb:'Le facteur multiplie chaque terme de la parenthèse.'}]},
+    {p:'Réduis.', opts:[{t:'x − 14 = 6',ok:true},{t:'x − 10 = 6',fb:'−2 − 12 = −14.'},{t:'7x − 14 = 6',fb:'4x − 3x = x.'}]},
+    {p:'Isole x.', opts:[{t:'x = 20',ok:true},{t:'x = −8',fb:'On ajoute 14 aux deux membres : 6 + 14 = 20.'},{t:<>x = <F n="6" d="14"/></>,fb:'14 est soustrait, pas multiplié : on ajoute 14.'}]}
+  ]},
+  {id:'g3', name:'x au dénominateur', eq:<><F n="2x − 3" d="x − 2"/> = <F n="4x + 3" d="x + 2"/></>, end:<Sx v="0 ; 3"/>, steps:[
+    {p:'Quelles sont les conditions d’existence ?', opts:[{t:'x ≠ 2 et x ≠ −2',ok:true},{t:<>x ≠ <F n="3" d="2"/> et x ≠ −<F n="3" d="4"/></>,fb:'Ce sont les valeurs qui annulent les numérateurs. Seuls les dénominateurs comptent.'},{t:'Aucune condition',fb:'x apparaît dans les dénominateurs : il y a des valeurs interdites.'}]},
+    {p:'Applique le produit en croix.', opts:[{t:'(2x − 3)(x + 2) = (x − 2)(4x + 3)',ok:true},{t:'(2x − 3)(4x + 3) = (x − 2)(x + 2)',fb:'On multiplie en diagonale : numérateur de gauche × dénominateur de droite.'},{t:'(2x − 3)(x − 2) = (4x + 3)(x + 2)',fb:'Ici, chaque numérateur est multiplié par son propre dénominateur.'}]},
+    {p:'Développe et réduis chaque membre.', opts:[{t:'2x² + x − 6 = 4x² − 5x − 6',ok:true},{t:'2x² + x − 6 = 4x² + 11x − 6',fb:'−2 × 4x = −8x, donc 3x − 8x = −5x.'},{t:'2x² − 6 = 4x² − 6',fb:'Double distributivité : il y a quatre produits, dont les termes en x.'}]},
+    {p:'Passe tout dans le membre de gauche.', opts:[{t:'−2x² + 6x = 0',ok:true},{t:'−2x² + 6x − 12 = 0',fb:'−6 − (−6) = 0.'},{t:'−2x² − 4x = 0',fb:'x − (−5x) = x + 5x = 6x.'}]},
+    {p:'Que fais-tu ensuite ?', opts:[{t:'2x(−x + 3) = 0',ok:true},{t:'On divise par x : −2x + 6 = 0',fb:'Interdit : x peut valoir 0 et on perdrait cette solution. On factorise.'},{t:'−2x(x + 3) = 0',fb:'Vérifie en développant : −2x × 3 = −6x, pas +6x.'}]},
+    {p:'Conclus.', opts:[{t:'x = 0 ou x = 3, compatibles avec les CE',ok:true},{t:'x = 0 ou x = 3, mais 0 est interdit',fb:'Les valeurs interdites sont 2 et −2, pas 0.'},{t:'x = 0 et x = 3, donc S = ∅',fb:'Un produit est nul si l’un OU l’autre facteur est nul : deux solutions possibles.'}]}
+  ]}
+];
+
+/* ---------- Testeur ---------- */
+const EXPRS = [
+  {id:'E', lab:<>E = <F n="3x − 5" d="x − 1"/> − <F n="6x − 7" d="2x + 1"/></>, dens:[{l:'x − 1',f:x=>x-1},{l:'2x + 1',f:x=>2*x+1}], v:x=>(3*x-5)/(x-1)-(6*x-7)/(2*x+1), simp:{l:<F n="6(x − 2)" d="(x − 1)(2x + 1)"/>, f:x=>6*(x-2)/((x-1)*(2*x+1))}, forb:[-0.5,1]},
+  {id:'F', lab:<>F = <F n="3" d="x(x − 3)"/> − <F n="5" d="(x + 3)(x − 3)"/> + <F n="2x − 1" d="x(x − 3)(x + 3)"/></>, dens:[{l:'x(x − 3)',f:x=>x*(x-3)},{l:'(x + 3)(x − 3)',f:x=>(x+3)*(x-3)},{l:'x(x − 3)(x + 3)',f:x=>x*(x-3)*(x+3)}], v:x=>3/(x*(x-3))-5/((x+3)*(x-3))+(2*x-1)/(x*(x-3)*(x+3)), simp:{l:<F n="8" d="x(x − 3)(x + 3)"/>, f:x=>8/(x*(x-3)*(x+3))}, forb:[-3,0,3]},
+  {id:'G', lab:<>G = <F n="x + 4" d="2x − 6"/> + <F n="1" d="x(x + 5)"/></>, dens:[{l:'2x − 6',f:x=>2*x-6},{l:'x(x + 5)',f:x=>x*(x+5)}], v:x=>(x+4)/(2*x-6)+1/(x*(x+5)), forb:[-5,0,3]},
+  {id:'H', lab:<>H = <F n="4" d="x² − 9"/></>, dens:[{l:'x² − 9',f:x=>x*x-9}], v:x=>4/(x*x-9), forb:[-3,3]},
+  {id:'K', lab:<>K = <F n="x − 1" d="x² + 4"/></>, dens:[{l:'x² + 4',f:x=>x*x+4}], v:x=>(x-1)/(x*x+4), forb:[]}
+];
+const fmt = v => { if(!isFinite(v)) return '—'; const r = Math.round(v*1000)/1000; return String(r).replace('.', ',').replace('-', '−'); };
+const isZero = v => Math.abs(v) < 1e-9;
+
+/* ========== Composants ========== */
+function Steps({steps, all=false}){
+  const [n, setN] = useState(all ? steps.length : 1);
+  const shown = steps.slice(0, n);
+  return <div className="steps-wrap" style={{display:'flex',flexDirection:'column',gap:12}}>
+    <div className="steps">
+      {shown.map((s,i)=>(
+        <div key={i} className={'step'+(!all && i===n-1 && n>1 ? ' new':'')}>
+          <span className="n">{i+1}</span>
+          <div className="sm">{s.m}</div>
+          <div className="why">{s.why}</div>
+        </div>))}
+    </div>
+    {!all && <div className="row">
+      {n < steps.length && <button className="btn primary" onClick={()=>setN(n+1)}>Étape suivante</button>}
+      {n < steps.length && <button className="btn" onClick={()=>setN(steps.length)}>Tout afficher</button>}
+      {n > 1 && <button className="btn" onClick={()=>setN(1)}>Recommencer</button>}
+      <span className="small muted">Étape {n} sur {steps.length}</span>
+    </div>}
+  </div>;
+}
+
+function Quiz({qs, title}){
+  const order = useMemo(()=>qs.map(q=>shuffle(q.opts.map((o,i)=>({...o,i})))), [qs]);
+  const [i, setI] = useState(0);
+  const [pick, setPick] = useState(null);
+  const [score, setScore] = useState(0);
+  const [done, setDone] = useState(false);
+  const q = qs[i];
+  const choose = o => { if(pick!==null) return; setPick(o.i); if(o.ok) setScore(s=>s+1); };
+  const next = () => { if(i+1 < qs.length){ setI(i+1); setPick(null); } else setDone(true); };
+  const restart = () => { setI(0); setPick(null); setScore(0); setDone(false); };
+  if(done){
+    const all = score === qs.length;
+    return <div className="frame">
+      <div className="eyebrow">{title}</div>
+      <h2>Score : {score} / {qs.length}</h2>
+      <p className="muted">{all ? 'Toutes les réponses sont justes. Passe aux exercices.' : 'Relis les explications des questions manquées, puis recommence : se tester plusieurs fois aide à retenir.'}</p>
+      <div className="row"><button className="btn primary" onClick={restart}>Recommencer le quiz</button></div>
+    </div>;
+  }
+  const correct = pick!==null && q.opts[pick].ok;
+  return <div className="frame">
+    <div className="qhead"><span className="eyebrow">{title}</span><span>Question {i+1} / {qs.length}</span></div>
+    <div className="prog"><i style={{width:((i + (pick!==null?1:0))/qs.length*100)+'%'}}></i></div>
+    <div className="qtext">{q.q}</div>
+    <div className="opts">
+      {order[i].map((o,k)=>{
+        let cls = 'opt';
+        if(pick!==null){ if(o.ok) cls+=' ok'; else if(o.i===pick) cls+=' ko'; else cls+=' dim'; }
+        return <button key={k} className={cls} disabled={pick!==null} onClick={()=>choose(o)}>
+          <span className="l">{'ABCD'[k]}</span><span>{o.t}</span></button>;
+      })}
+    </div>
+    {pick!==null && <div className={'box '+(correct?'okb':'kob')}>
+      <span className="k">{correct ? 'Bonne réponse' : 'Pas tout à fait'}</span>
+      <p>{q.ex}</p>
+    </div>}
+    {pick!==null && <div className="row"><button className="btn primary" onClick={next}>{i+1<qs.length ? 'Question suivante' : 'Voir le score'}</button></div>}
+  </div>;
+}
+
+function Pips({n}){ return <span className="pips" aria-label={'Niveau '+n}>{[1,2,3].map(k=><i key={k} className={k<=n?'on':''}></i>)}</span>; }
+
+function Exo({ex, id, label, prompt, status, mark}){
+  const [hint, setHint] = useState(false);
+  const [ans, setAns] = useState(false);
+  const [full, setFull] = useState(false);
+  const st = status[id];
+  return <div className={'exo'+(st==='ok'?' done-ok':st==='redo'?' done-redo':'')}>
+    <div className="exohead">
+      <b>Exercice {label}</b><Pips n={ex.lvl}/>
+      {ex.tag && <span className="tag test">{ex.tag}</span>}
+    </div>
+    <div><span className="small muted">{prompt}</span><Eq>{ex.q}</Eq></div>
+    <div className="row">
+      {ex.hint && <button className="btn sm" aria-pressed={hint} onClick={()=>setHint(!hint)}>Indice</button>}
+      <button className="btn sm" aria-pressed={ans} onClick={()=>setAns(!ans)}>Correction simple</button>
+      <button className="btn sm" aria-pressed={full} onClick={()=>setFull(!full)}>Correction détaillée</button>
+    </div>
+    {hint && <div className="panel"><span className="k">Indice</span><p>{ex.hint}</p></div>}
+    {ans && <div className="panel"><span className="k">Réponse</span><div className="eq">{ex.ans}</div></div>}
+    {full && <div className="panel"><span className="k">Correction détaillée</span><Steps steps={ex.steps} all/></div>}
+    <div className="selfeval">
+      <span className="muted">Mon bilan :</span>
+      <button className="btn sm ok" aria-pressed={st==='ok'} onClick={()=>mark(id,'ok')}>Réussi</button>
+      <button className="btn sm ko" aria-pressed={st==='redo'} onClick={()=>mark(id,'redo')}>À retravailler</button>
+    </div>
+  </div>;
+}
+
+function Family({fam, status, mark, go}){
+  const idx = FAMILIES.indexOf(fam);
+  const prev = FAMILIES[idx-1], next = FAMILIES[idx+1];
+  return <>
+    <div className="pagehead">
+      <span className="eyebrow">Famille {idx+1} sur {FAMILIES.length}</span>
+      <h1>{fam.title}</h1>
+      <p className="lead">{fam.intro}</p>
+    </div>
+    <div className="frame">
+      <h2>Méthode</h2>
+      <ol className="method">{fam.method.map((m,i)=><li key={i}><span>{m}</span></li>)}</ol>
+    </div>
+    <div className="frame">
+      <span className="eyebrow">Exercice résolu</span>
+      <div><span className="small muted">{fam.prompt}</span><Eq>{fam.worked.q}</Eq></div>
+      <p className="small muted">Avance étape par étape. Avant de cliquer, essaie de deviner l’étape suivante.</p>
+      <Steps key={fam.id} steps={fam.worked.steps}/>
+    </div>
+    <Quiz key={fam.id+'-q'} qs={fam.quiz} title="Quiz éclair"/>
+    {[1,2,3].map(l=>{
+      const list = fam.exos.map((e,i)=>({e,i})).filter(o=>o.e.lvl===l);
+      if(!list.length) return null;
+      return <div className="lvl" key={l}>
+        <div className="lvlhead"><Pips n={l}/><h2>Niveau {l} · {LVL[l]}</h2></div>
+        {list.map(({e,i})=><Exo key={fam.id+i} ex={e} id={fam.id+'-'+i} label={(idx+1)+'.'+(i+1)} prompt={fam.prompt} status={status} mark={mark}/>)}
+      </div>;
+    })}
+    <div className="pager">
+      {prev ? <button className="btn" onClick={()=>go(prev.id)}>← {prev.short}</button> : <span></span>}
+      {next ? <button className="btn primary" onClick={()=>go(next.id)}>{next.short} →</button> : <button className="btn primary" onClick={()=>go('bilan')}>Quiz bilan →</button>}
+    </div>
+  </>;
+}
+
+function Carte({go}){
+  const path = [
+    {id:'notions', t:'Comprendre', s:'Les notions du cours, une à la fois'},
+    {id:'pieges', t:'Repérer les pièges', s:'Erreurs fréquentes et versions correctes'},
+    {id:'manip', t:'Manipuler', s:'Tester des valeurs, choisir les étapes'},
+    {id:'memo', t:'Mémoriser', s:'Cartes recto-verso à réviser'},
+    {id:'f1', t:'S’entraîner', s:'6 familles, du plus simple au plus difficile'},
+    {id:'bilan', t:'Faire le bilan', s:'Quiz final qui mélange tout'}
+  ];
+  const decide = [
+    {ex:<>3(2x − 1) − 4(3x − 5) = x − 12</>, m:'Premier degré : développer, regrouper, isoler x.', id:'f1'},
+    {ex:<><F n="3x − 5" d="5"/> − <F n="x − 1" d="20"/> = <F n="x − 3" d="3"/></>, m:'Dénominateurs numériques : multiplier tout par le PPCM.', id:'f2'},
+    {ex:<>(x − 7)(3x + 6) = 0</>, m:'Produit nul : chaque facteur = 0.', id:'f5'},
+    {ex:<><F n="2x − 5" d="x + 4"/> = 0</>, m:'Quotient nul : CE, puis numérateur = 0.', id:'f5'},
+    {ex:<><F n="2x − 3" d="x − 2"/> = <F n="4x + 3" d="x + 2"/></>, m:'Fraction = fraction : CE, produit en croix, vérifier.', id:'f6'},
+    {ex:<>x² = 5x</>, m:'Présence de x² : tout à gauche, factoriser, produit nul.', id:'f5'}
+  ];
+  return <>
+    <div className="pagehead">
+      <span className="eyebrow">Seconde · Calcul numérique</span>
+      <h1>Équations et conditions d’existence</h1>
+      <p className="lead">Ce module reprend ton cours sur les fractions et ton test du 22 septembre. Objectif : savoir quand une expression existe, la simplifier, et résoudre une équation sans erreur de signe.</p>
+    </div>
+    <div className="frame">
+      <h2>Ton parcours</h2>
+      <div className="path">
+        {path.map((p,i)=><button key={p.id} className="pathitem" onClick={()=>go(p.id)}>
+          <span className="n">{i+1}</span><span><b>{p.t}</b><small>{p.s}</small></span></button>)}
+      </div>
+    </div>
+    <div className="frame">
+      <h2>Quelle méthode pour quelle équation ?</h2>
+      <p className="small muted">Avant de calculer, regarde la forme de l’équation : c’est elle qui décide de la méthode.</p>
+      <div className="decide">
+        {decide.map((d,i)=><div className="drow" key={i}>
+          <div className="ex">{d.ex}</div>
+          <div>{d.m}</div>
+          <button className="btn sm" onClick={()=>go(d.id)}>S’entraîner</button>
+        </div>)}
+      </div>
+    </div>
+    <div className="frame">
+      <h2>Code couleur</h2>
+      <p className="small muted">Les mêmes couleurs sont utilisées partout dans le module.</p>
+      <div className="legend">
+        <span><Ce>x ≠ 2</Ce> condition d’existence</span>
+        <span><Sol>S = {'{'}3{'}'}</Sol> solution</span>
+        <span><No><span className="strike">x = −1</span></No> valeur rejetée</span>
+        <span><mark className="hl">+ 6</mark> ce qui change à cette étape</span>
+      </div>
+    </div>
+  </>;
+}
+
+function Notions(){
+  return <>
+    <div className="pagehead">
+      <span className="eyebrow">Apprendre</span>
+      <h1>Notions du cours</h1>
+      <p className="lead">Chaque cadre présente une seule idée, avec un exemple juste à côté. Lis lentement, puis teste-toi dans « Cartes mémo ».</p>
+    </div>
+
+    <div className="frame">
+      <h2>Fraction et dénominateur</h2>
+      <p>Soit a et b deux nombres avec b ≠ 0. Le quotient de a par b est le nombre c tel que a = b × c. On le note <F n="a" d="b"/> : a est le <b>numérateur</b>, b le <b>dénominateur</b>.</p>
+      <div className="rule"><span className="k">À retenir</span><p><b>On ne divise jamais par 0.</b> Une fraction n’existe que si son dénominateur est différent de 0.</p></div>
+      <p className="muted small">Pourquoi ? Si b = 0, alors b × c = 0 quel que soit c : impossible de retrouver a. Diviser par 0 n’a pas de sens.</p>
+    </div>
+
+    <div className="frame">
+      <h2>Règles de calcul sur les fractions</h2>
+      <div className="tbl"><table><tbody>
+        <tr><td className="eq"><F n="a" d="b"/> = <F n="a × k" d="b × k"/></td><td>b ≠ 0, k ≠ 0</td><td className="muted small">On peut multiplier (ou diviser) en haut et en bas par le même nombre.</td></tr>
+        <tr><td className="eq"><F n="a" d="b"/> + <F n="c" d="b"/> = <F n="a + c" d="b"/></td><td>b ≠ 0</td><td className="muted small">Même dénominateur : on ajoute les numérateurs.</td></tr>
+        <tr><td className="eq"><F n="a" d="b"/> × <F n="c" d="d"/> = <F n="a × c" d="b × d"/></td><td>b ≠ 0, d ≠ 0</td><td className="muted small">On multiplie en ligne.</td></tr>
+        <tr><td className="eq"><F n="a" d="b"/> ÷ <F n="c" d="d"/> = <F n="a" d="b"/> × <F n="d" d="c"/></td><td>b, c, d ≠ 0</td><td className="muted small">Diviser, c’est multiplier par l’inverse.</td></tr>
+      </tbody></table></div>
+    </div>
+
+    <div className="frame">
+      <h2>Conditions d’existence et valeurs interdites</h2>
+      <p>Quand x apparaît dans un dénominateur, l’expression n’existe que pour certaines valeurs de x. Une <b>valeur interdite</b> est une valeur de x qui annule un dénominateur.</p>
+      <div className="grid2">
+        <div className="box"><span className="k">Méthode</span>
+          <ol className="method">
+            <li><span>Repérer les dénominateurs qui contiennent x.</span></li>
+            <li><span>Écrire « dénominateur ≠ 0 ».</span></li>
+            <li><span>Trouver les valeurs qui l’annulent (factoriser si besoin).</span></li>
+            <li><span>Conclure avec « et ».</span></li>
+          </ol>
+        </div>
+        <div className="box"><span className="k">Exemple (test du 22/09)</span>
+          <div className="eq">E = <F n="3x − 5" d="x − 1"/> − <F n="6x − 7" d="2x + 1"/></div>
+          <div className="eq">x − 1 ≠ 0 ⇔ <Ce>x ≠ 1</Ce></div>
+          <div className="eq">2x + 1 ≠ 0 ⇔ <Ce>x ≠ −<F n="1" d="2"/></Ce></div>
+          <p>E existe ⇔ <Ce>x ≠ 1 et x ≠ −½</Ce>.<br/>On écrit aussi D = ℝ ∖ {'{'}−½ ; 1{'}'}.</p>
+        </div>
+      </div>
+      <div className="box warn"><span className="k">Attention</span><p>Un <b>produit</b> est non nul si <b>chacun</b> de ses facteurs est non nul : x(x − 3) ≠ 0 ⇔ x ≠ 0 <b>et</b> x ≠ 3. Les numérateurs ne donnent jamais de condition.</p></div>
+    </div>
+
+    <div className="frame">
+      <h2>Équation : le vocabulaire</h2>
+      <div className="grid2">
+        <div className="box"><span className="k">Mots clés</span>
+          <ul>
+            <li><b>Équation</b> : égalité qui contient une inconnue (x).</li>
+            <li><b>Membres</b> : ce qui est à gauche et à droite du signe =.</li>
+            <li><b>Solution</b> : valeur de x qui rend l’égalité vraie.</li>
+            <li><b>Résoudre</b> : trouver toutes les solutions, rangées dans l’ensemble S.</li>
+          </ul>
+        </div>
+        <div className="box"><span className="k">Exemple</span>
+          <div className="eq">2x + 1 = 7</div>
+          <p>3 est solution car 2 × 3 + 1 = 7.</p>
+          <p>4 n’est pas solution car 2 × 4 + 1 = 9 ≠ 7.</p>
+          <div className="eq"><Sx v="3"/></div>
+        </div>
+      </div>
+    </div>
+
+    <div className="frame">
+      <h2>Ce qu’on a le droit de faire : la balance</h2>
+      <p>Une équation est comme une balance en équilibre. Elle reste équilibrée si on fait <b>la même opération des deux côtés</b>.</p>
+      <svg className="balance" viewBox="0 0 420 150" role="img" aria-label="Balance équilibrée : 2x + 1 à gauche, 7 à droite">
+        <line className="st" x1="210" y1="40" x2="210" y2="135"/>
+        <line className="st" x1="170" y1="135" x2="250" y2="135"/>
+        <line className="st" x1="60" y1="40" x2="360" y2="40"/>
+        <polygon points="210,30 202,42 218,42" fill="currentColor" style={{color:'var(--fg)'}}/>
+        <line className="st" x1="60" y1="40" x2="60" y2="70"/><line className="st" x1="360" y1="40" x2="360" y2="70"/>
+        <rect className="pl" x="10" y="70" width="100" height="36" rx="4"/>
+        <rect className="pl" x="310" y="70" width="100" height="36" rx="4"/>
+        <text x="60" y="94" textAnchor="middle">2x + 1</text>
+        <text x="360" y="94" textAnchor="middle">7</text>
+      </svg>
+      <div className="grid2">
+        <div className="box"><span className="k">Règle 1</span><p>On peut <b>ajouter ou soustraire</b> le même nombre (ou la même expression) aux deux membres.</p><div className="eq">2x + 1 <H>− 1</H> = 7 <H>− 1</H></div></div>
+        <div className="box"><span className="k">Règle 2</span><p>On peut <b>multiplier ou diviser</b> les deux membres par le même nombre <b>non nul</b>.</p><div className="eq"><F n="2x" d={<H>2</H>}/> = <F n="6" d={<H>2</H>}/>, donc x = 3</div></div>
+      </div>
+    </div>
+
+    <div className="frame">
+      <h2>Équation du premier degré : les trois cas</h2>
+      <p>Après avoir développé et regroupé, on arrive toujours à une équation de la forme <M>a × x = b</M>.</p>
+      <div className="tbl"><table>
+        <thead><tr><th>Cas</th><th>Exemple</th><th>Ensemble des solutions</th></tr></thead>
+        <tbody>
+          <tr><td>a ≠ 0</td><td className="eq">−7x = −29</td><td>Une seule solution : <Sx v={<F n="29" d="7"/>}/></td></tr>
+          <tr><td>a = 0 et b ≠ 0</td><td className="eq">0x = 9</td><td>Aucune solution : <Sol>S = ∅</Sol></td></tr>
+          <tr><td>a = 0 et b = 0</td><td className="eq">0x = 0</td><td>Tous les réels : <Sol>S = ℝ</Sol></td></tr>
+        </tbody></table></div>
+    </div>
+
+    <div className="frame">
+      <h2>Dénominateurs numériques</h2>
+      <p>Si les dénominateurs sont des nombres, on multiplie <b>chaque terme des deux membres</b> par leur PPCM : les fractions disparaissent. Il n’y a <b>pas</b> de condition d’existence.</p>
+      <div className="box"><span className="k">Exemple (test du 22/09)</span>
+        <div className="eq"><F n="2x + 5" d="2"/> − <F n="3x + 2" d="5"/> + <F n="5x − 9" d="8"/> = 2 &nbsp;&nbsp;→ PPCM(2 ; 5 ; 8) = 40</div>
+        <div className="eq">20(2x + 5) <H>− 8(3x + 2)</H> + 5(5x − 9) = <H>80</H></div>
+      </div>
+    </div>
+
+    <div className="frame">
+      <h2>Produit nul et quotient nul</h2>
+      <div className="grid2">
+        <div className="rule"><span className="k">Produit nul</span><div className="eq">A × B = 0 ⇔ A = 0 <b>ou</b> B = 0</div><p className="small">Il faut 0 d’un côté et un produit de l’autre : on factorise d’abord.</p></div>
+        <div className="rule"><span className="k">Quotient nul</span><div className="eq"><F n="A" d="B"/> = 0 ⇔ A = 0 <b>et</b> B ≠ 0</div><p className="small">On écrit la CE, on annule le numérateur, on rejette les valeurs interdites.</p></div>
+      </div>
+      <div className="box"><span className="k">Exemple du cours</span>
+        <div className="eq"><F n="(3x − 2)(x² − 1)" d="x + 1"/> = 0 &nbsp;; CE : <Ce>x ≠ −1</Ce></div>
+        <div className="eq">x = <F n="2" d="3"/> ou x = 1 ou <No><span className="strike">x = −1</span></No> &nbsp;→ <Sx v={<><F n="2" d="3"/> ; 1</>}/></div>
+      </div>
+    </div>
+
+    <div className="frame">
+      <h2>Égalité de deux fractions : le produit en croix</h2>
+      <div className="rule"><span className="k">Propriété</span>
+        <div className="cross"><F n={<span className="ca">a</span>} d={<span className="cb">b</span>}/> = <F n={<span className="cb">c</span>} d={<span className="ca">d</span>}/> &nbsp;⇔&nbsp; <span className="ca">a × d</span> = <span className="cb">b × c</span> &nbsp;&nbsp;<span className="small muted">(b ≠ 0 et d ≠ 0)</span></div>
+      </div>
+      <p>On multiplie en diagonale. Ensuite : développer, tout passer d’un côté, factoriser, puis <b>vérifier chaque solution avec les conditions d’existence</b>.</p>
+    </div>
+
+    <div className="frame">
+      <h2>Outils pour développer et factoriser</h2>
+      <div className="tbl"><table>
+        <thead><tr><th>Outil</th><th>Formule</th><th>Exemple</th></tr></thead>
+        <tbody>
+          <tr><td>Distributivité</td><td className="eq">k(a + b) = ka + kb</td><td className="eq">−4(3x − 5) = −12x + 20</td></tr>
+          <tr><td>Double distributivité</td><td className="eq">(a + b)(c + d) = ac + ad + bc + bd</td><td className="eq">(x − 1)(4x + 3) = 4x² − x − 3</td></tr>
+          <tr><td>Facteur commun</td><td className="eq">ka + kb = k(a + b)</td><td className="eq">x² − 5x = x(x − 5)</td></tr>
+          <tr><td>Différence de carrés</td><td className="eq">a² − b² = (a − b)(a + b)</td><td className="eq">x² − 9 = (x − 3)(x + 3)</td></tr>
+          <tr><td>Carré d’une somme</td><td className="eq">(a + b)² = a² + 2ab + b²</td><td className="eq">(x + 2)² = x² + 4x + 4</td></tr>
+        </tbody></table></div>
+    </div>
+  </>;
+}
+
+function Pieges(){
+  return <>
+    <div className="pagehead">
+      <span className="eyebrow">Apprendre</span>
+      <h1>Pièges à éviter</h1>
+      <p className="lead">Pour chaque erreur fréquente : la version fausse, la version juste, et la raison. Compare les deux colonnes avant de lire l’explication.</p>
+    </div>
+    {TRAPS.map((t,i)=><div className="frame trap" key={i}>
+      <h2>{t.t}</h2>
+      <div className="cmp">
+        <div className="bad"><span className="k">Faux</span>{t.bad}</div>
+        <div className="good"><span className="k">Juste</span>{t.good}</div>
+      </div>
+      <p className="muted">{t.why}</p>
+    </div>)}
+    <div className="frame">
+      <h2>Ma liste de vérification</h2>
+      <ol className="method">
+        <li><span>J’ai écrit les conditions d’existence avant de calculer.</span></li>
+        <li><span>J’ai mis des parenthèses autour de chaque numérateur après un signe −.</span></li>
+        <li><span>J’ai multiplié tous les termes, des deux côtés.</span></li>
+        <li><span>Je n’ai jamais divisé par une expression contenant x.</span></li>
+        <li><span>J’ai comparé mes solutions aux valeurs interdites.</span></li>
+        <li><span>J’ai vérifié une solution en la remplaçant dans l’équation de départ.</span></li>
+      </ol>
+    </div>
+  </>;
+}
+
+function Tester(){
+  const [id, setId] = useState('E');
+  const [x, setX] = useState(2);
+  const [found, setFound] = useState({});
+  const [reveal, setReveal] = useState(false);
+  const e = EXPRS.find(o=>o.id===id);
+  const dens = e.dens.map(d=>({...d, v:d.f(x)}));
+  const zero = dens.some(d=>isZero(d.v));
+  useEffect(()=>{ if(zero) setFound(f=>({...f, [id]:{...(f[id]||{}), [x]:true}})); }, [x, id, zero]);
+  const fl = Object.keys(found[id]||{}).map(Number);
+  const shownForb = reveal ? e.forb : e.forb.filter(v=>fl.includes(v));
+  const X = v => 30 + (v+6)*(580/12);
+  const clickLine = ev => {
+    const r = ev.currentTarget.getBoundingClientRect();
+    const vx = ((ev.clientX - r.left)/r.width)*640;
+    let v = Math.round(((vx-30)/(580/12) - 6)*2)/2;
+    v = Math.max(-6, Math.min(6, v)); setX(v);
+  };
+  const ticks = []; for(let k=-6;k<=6;k++) ticks.push(k);
+  return <div className="frame">
+    <span className="eyebrow">Outil 1</span>
+    <h2>Détecteur de valeurs interdites</h2>
+    <p className="muted small">Déplace x avec le curseur ou clique sur la droite graduée. Quand un dénominateur vaut 0, l’expression n’existe plus. Défi : trouve toutes les valeurs interdites entre −6 et 6.</p>
+    <div className="seg" role="group" aria-label="Choix de l’expression">
+      {EXPRS.map(o=><button key={o.id} aria-pressed={o.id===id} onClick={()=>{setId(o.id); setReveal(false);}}>{o.id}</button>)}
+    </div>
+    <Eq>{e.lab}</Eq>
+    <div className="slider">
+      <button className="btn sm" onClick={()=>setX(Math.max(-6, x-0.5))} aria-label="Diminuer x">−</button>
+      <input id="xrange" type="range" min="-6" max="6" step="0.5" value={x} onChange={ev=>setX(parseFloat(ev.target.value))} aria-label="Valeur de x"/>
+      <button className="btn sm" onClick={()=>setX(Math.min(6, x+0.5))} aria-label="Augmenter x">+</button>
+      <span className="xval">x = {fmt(x)}</span>
+    </div>
+    <div className="nl">
+      <svg viewBox="0 0 640 74" onClick={clickLine} role="img" aria-label="Droite graduée de −6 à 6">
+        <line className="axis" x1="20" y1="34" x2="620" y2="34"/>
+        {ticks.map(k=><g key={k}><line className="tk" x1={X(k)} y1="28" x2={X(k)} y2="40"/><text x={X(k)} y="60" textAnchor="middle">{String(k).replace('-','−')}</text></g>)}
+        {shownForb.map(v=><g key={v}>
+          <line className="forb" x1={X(v)-7} y1="27" x2={X(v)+7} y2="41"/><line className="forb" x1={X(v)-7} y1="41" x2={X(v)+7} y2="27"/>
+          <text className="forbt" x={X(v)} y="16" textAnchor="middle">{fmt(v)}</text></g>)}
+        <circle className="cur" cx={X(x)} cy="34" r="7"/>
+      </svg>
+    </div>
+    <div className="dens">
+      {dens.map((d,i)=><div key={i} className={'den'+(isZero(d.v)?' zero':'')}>
+        <span className="small muted">Dénominateur {d.l}</span>
+        <span className="v">{fmt(d.v)}</span>
+      </div>)}
+    </div>
+    {zero
+      ? <div className="verdict ko"><b>Valeur interdite.</b> Un dénominateur vaut 0 : {e.id} n’existe pas pour x = {fmt(x)}.</div>
+      : <div className="verdict ok"><b>{e.id} existe.</b> {e.id}({fmt(x)}) ≈ {fmt(e.v(x))}
+          {e.simp && <span className="small"> · forme simplifiée {e.simp.l} ≈ {fmt(e.simp.f(x))} : même valeur.</span>}</div>}
+    <div className="row">
+      <span className="small muted">Valeurs interdites trouvées : {fl.length}{reveal ? ' sur '+e.forb.length : ''}</span>
+      <button className="btn sm" aria-pressed={reveal} onClick={()=>setReveal(!reveal)}>{reveal ? 'Masquer la réponse' : 'Montrer toutes les valeurs interdites'}</button>
+    </div>
+    {reveal && e.forb.length===0 && <p className="small">Aucune : x² + 4 ≥ 4, le dénominateur n’est jamais nul.</p>}
+  </div>;
+}
+
+function Game(){
+  const [g, setG] = useState(0);
+  const [s, setS] = useState(0);
+  const [wrong, setWrong] = useState([]);
+  const [fb, setFb] = useState(null);
+  const game = GAMES[g];
+  const step = game.steps[s];
+  const order = useMemo(()=> step ? shuffle(step.opts.map((o,i)=>({...o,i}))) : [], [g, s]);
+  const pickGame = k => { setG(k); setS(0); setWrong([]); setFb(null); };
+  const choose = o => {
+    if(o.ok){ setS(s+1); setWrong([]); setFb(null); }
+    else { setWrong(w=>[...w, o.i]); setFb(o.fb); }
+  };
+  const lines = game.steps.slice(0, s).map(st=>st.opts.find(o=>o.ok).t);
+  return <div className="frame">
+    <span className="eyebrow">Outil 2</span>
+    <h2>Quelle est la bonne étape ?</h2>
+    <p className="muted small">À chaque étape, choisis la ligne correcte. Une erreur t’explique ce qui cloche : réessaie.</p>
+    <div className="seg" role="group" aria-label="Choix de l’équation">
+      {GAMES.map((o,k)=><button key={o.id} aria-pressed={k===g} onClick={()=>pickGame(k)}>{o.name}</button>)}
+    </div>
+    <div className="box">
+      <div className="lines">
+        <div className="start">{game.eq}</div>
+        {lines.map((l,i)=><div key={i} className="done">⇔ {l}</div>)}
+      </div>
+    </div>
+    {step ? <>
+      <p><b>Étape {s+1} sur {game.steps.length} :</b> {step.p}</p>
+      <div className="opts">
+        {order.map((o,k)=>{
+          const isW = wrong.includes(o.i);
+          return <button key={k} className={'opt'+(isW?' ko':'')} disabled={isW} onClick={()=>choose(o)}>
+            <span className="l">{'ABCD'[k]}</span><span>{o.t}</span></button>;
+        })}
+      </div>
+      {fb && <div className="box kob"><span className="k">Pas cette ligne</span><p>{fb}</p></div>}
+    </> : <div className="box okb"><span className="k">Équation résolue</span><div className="eq">{game.end}</div>
+        <div className="row"><button className="btn primary" onClick={()=>pickGame(g)}>Recommencer</button>
+        {g < GAMES.length-1 && <button className="btn" onClick={()=>pickGame(g+1)}>Équation suivante</button>}</div></div>}
+  </div>;
+}
+
+function Manip(){
+  return <>
+    <div className="pagehead">
+      <span className="eyebrow">Pratiquer</span>
+      <h1>Manipuler</h1>
+      <p className="lead">Deux outils pour agir sur les notions : observer ce qui se passe quand un dénominateur s’annule, puis reconstruire une résolution pas à pas.</p>
+    </div>
+    <Tester/>
+    <Game/>
+  </>;
+}
+
+function Memo(){
+  const [queue, setQueue] = useState(()=>CARDS.map((_,i)=>i));
+  const [flip, setFlip] = useState(false);
+  const [known, setKnown] = useState(0);
+  const cur = queue[0];
+  const know = () => { setQueue(q=>q.slice(1)); setKnown(k=>k+1); setFlip(false); };
+  const again = () => { setQueue(q=>[...q.slice(1), q[0]]); setFlip(false); };
+  const restart = () => { setQueue(shuffle(CARDS.map((_,i)=>i))); setKnown(0); setFlip(false); };
+  return <>
+    <div className="pagehead">
+      <span className="eyebrow">Pratiquer</span>
+      <h1>Cartes mémo</h1>
+      <p className="lead">Lis la question, réponds dans ta tête ou à voix haute, puis retourne la carte. Les cartes « À revoir » reviennent à la fin du paquet.</p>
+    </div>
+    <div className="frame">
+      <div className="qhead"><span>Maîtrisées : {known} / {CARDS.length}</span><span>Restantes : {queue.length}</span></div>
+      <div className="prog"><i style={{width:(known/CARDS.length*100)+'%'}}></i></div>
+      {cur !== undefined ? <>
+        <button className={'flash'+(flip?' back':'')} onClick={()=>setFlip(!flip)} aria-label={flip?'Voir la question':'Voir la réponse'}>
+          <span className="face">{flip ? 'Réponse' : 'Question'}</span>
+          <span className="txt">{flip ? CARDS[cur].b : CARDS[cur].f}</span>
+          {!flip && <span className="small muted">Clique pour retourner</span>}
+        </button>
+        <div className="row" style={{justifyContent:'center'}}>
+          <button className="btn" disabled={!flip} onClick={again}>À revoir</button>
+          <button className="btn primary" disabled={!flip} onClick={know}>Je savais</button>
+        </div>
+      </> : <div className="box okb"><span className="k">Paquet terminé</span><p>Les {CARDS.length} cartes sont maîtrisées. Reviens demain pour une nouvelle révision : c’est l’espacement qui ancre la mémoire.</p>
+          <div className="row"><button className="btn primary" onClick={restart}>Mélanger et recommencer</button></div></div>}
+    </div>
+  </>;
+}
+
+function Bilan(){
+  return <>
+    <div className="pagehead">
+      <span className="eyebrow">Évaluer</span>
+      <h1>Quiz bilan</h1>
+      <p className="lead">Dix questions qui mélangent toutes les familles. Pour chaque question, demande-toi d’abord : quelle méthode ?</p>
+    </div>
+    <Quiz qs={BILAN} title="Quiz bilan"/>
+  </>;
+}
+
+const NAV = [
+  {g:'Apprendre', items:[{id:'carte', l:'Carte du chapitre'},{id:'notions', l:'Notions du cours'},{id:'pieges', l:'Pièges à éviter'}]},
+  {g:'Pratiquer', items:[{id:'manip', l:'Manipuler'},{id:'memo', l:'Cartes mémo'}]},
+  {g:'Exercices', items:FAMILIES.map((f,i)=>({id:f.id, l:f.short, num:i+1, fam:f}))},
+  {g:'Évaluer', items:[{id:'bilan', l:'Quiz bilan'}]}
+];
+const IDS = NAV.flatMap(g=>g.items.map(i=>i.id));
+const TOTAL = FAMILIES.reduce((n,f)=>n+f.exos.length, 0);
+
+function App(){
+  const [sec, setSec] = useState(()=>{ const h=(location.hash||'').slice(1); if(IDS.includes(h)) return h; const s=store.get('eq-sec','carte'); return IDS.includes(s)?s:'carte'; });
+  const [status, setStatus] = useState(()=>store.get('eq-status', {}));
+  const [big, setBig] = useState(()=>store.get('eq-big', false));
+  useEffect(()=>{ document.documentElement.setAttribute('data-size', big?'l':'m'); store.set('eq-big', big); }, [big]);
+  const go = id => { setSec(id); store.set('eq-sec', id); try{ history.replaceState(null, '', '#'+id); }catch(e){} window.scrollTo(0,0); };
+  const mark = (id, v) => setStatus(s=>{ const n={...s}; if(n[id]===v) delete n[id]; else n[id]=v; store.set('eq-status', n); return n; });
+  const okCount = Object.values(status).filter(v=>v==='ok').length;
+  const famOk = f => f.exos.filter((_,i)=>status[f.id+'-'+i]==='ok').length;
+  const fam = FAMILIES.find(f=>f.id===sec);
+  return <div className="app">
+    <header className="toolbar">
+      <div className="appicon" aria-hidden="true">x≠0</div>
+      <div className="apptitle"><b>Équations et conditions d’existence</b><span>Seconde · Calcul numérique et fractions</span></div>
+      <div className="tools">
+        <div className="meter" title="Exercices marqués « Réussi »"><span>Réussis {okCount} / {TOTAL}</span><span className="bar"><i style={{width:(okCount/TOTAL*100)+'%'}}></i></span></div>
+        <button className="btn sm" aria-pressed={big} onClick={()=>setBig(!big)} title="Agrandir le texte">{big ? 'Texte normal' : 'Texte plus grand'}</button>
+      </div>
+    </header>
+    <nav className="side" aria-label="Sections">
+      {NAV.map(g=><React.Fragment key={g.g}>
+        <div className="grp">{g.g}</div>
+        {g.items.map(it=><button key={it.id} className="nav" aria-current={sec===it.id?'page':undefined} onClick={()=>go(it.id)}>
+          {it.num && <span className="num">{it.num}</span>}
+          <span className="lbl">{it.l}</span>
+          {it.fam && <span className="cnt">{famOk(it.fam)}/{it.fam.exos.length}</span>}
+        </button>)}
+      </React.Fragment>)}
+    </nav>
+    <main><div className="content">
+      {sec==='carte' && <Carte go={go}/>}
+      {sec==='notions' && <Notions/>}
+      {sec==='pieges' && <Pieges/>}
+      {sec==='manip' && <Manip/>}
+      {sec==='memo' && <Memo/>}
+      {sec==='bilan' && <Bilan/>}
+      {fam && <Family key={fam.id} fam={fam} status={status} mark={mark} go={go}/>}
+    </div></main>
+  </div>;
+}
+
+ReactDOM.createRoot(document.getElementById('root')).render(<App/>);
+</script>
+
+</body></html>
