@@ -1,0 +1,1761 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>La carte déchirée</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Andika:wght@400;700&family=Atkinson+Hyperlegible:wght@400;700&family=Lexend:wght@400;600&family=Pixelify+Sans:wght@500;700&display=swap">
+<style>
+/* Mise en page : une colonne de lecture (téléphone) ; illustration à gauche et texte à droite au-delà de 980px ; commandes de lecture ancrées en bas. */
+:root {
+  --bg: #edf0ea;          /* pierre claire teintée de vert */
+  --surface: #fbfcf8;
+  --fg: #1d2420;
+  --muted: #58635c;
+  --line: #cdd4c9;
+  --grass: #3f7d22;       /* herbe : accent */
+  --grass-fg: #ffffff;
+  --earth: #7a5636;       /* terre */
+  --read: #ffe08a;        /* mot lu */
+  --read-fg: #1d2420;
+  --sent: #e3eed5;        /* phrase lue */
+  --flash: #c4e6a9;       /* mot cliqué */
+  --adj: #2e7d32; --opp: #b4532a; --hero: #2b6cb0;
+  --scrim: rgba(16, 22, 18, .45);
+  --f-pixel: "Pixelify Sans", "Atkinson Hyperlegible", ui-monospace, monospace;
+  --f-ui: "Atkinson Hyperlegible", "Segoe UI", system-ui, sans-serif;
+  --radius: 3px;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #161a17; --surface: #1f2420; --fg: #e7ece4; --muted: #a2ada4; --line: #354037;
+    --grass: #7cbd4b; --grass-fg: #122008; --earth: #c9a072;
+    --read: #e2b93b; --read-fg: #161a17; --sent: #28331f; --flash: #3f6b26;
+    --adj: #86cf89; --opp: #ec9467; --hero: #7fb6ec; --scrim: rgba(0, 0, 0, .6);
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #161a17; --surface: #1f2420; --fg: #e7ece4; --muted: #a2ada4; --line: #354037;
+  --grass: #7cbd4b; --grass-fg: #122008; --earth: #c9a072;
+  --read: #e2b93b; --read-fg: #161a17; --sent: #28331f; --flash: #3f6b26;
+  --adj: #86cf89; --opp: #ec9467; --hero: #7fb6ec; --scrim: rgba(0, 0, 0, .6);
+  color-scheme: dark;
+}
+
+body { background: var(--bg); color: var(--fg); font-family: var(--f-ui); font-size: 16px; }
+.loading { padding: 32px 16px; color: var(--muted); }
+
+.app { max-width: 1180px; margin: 0 auto; padding-inline: 16px; padding-block: 14px 104px; }
+
+/* En-tête */
+.top { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.brand { display: flex; align-items: center; gap: 12px; min-width: 0; }
+.block { flex: none; width: 22px; height: 22px; background: linear-gradient(var(--grass) 0 32%, var(--earth) 32% 100%); box-shadow: inset 0 0 0 1px rgba(0,0,0,.18); }
+.top h1 { font: 700 1.35rem/1.1 var(--f-pixel); margin: 0; letter-spacing: .01em; }
+.top p { margin: 2px 0 0; color: var(--muted); font-size: .85rem; }
+
+/* Barre de progression en blocs */
+.track { display: grid; grid-template-columns: repeat(19, minmax(0, 1fr)); gap: 3px; margin-block: 14px 16px; }
+.cell { height: 22px; padding: 0; border: 0; background: transparent; cursor: pointer; position: relative; }
+.cell::before { content: ""; position: absolute; inset: 6px 0; background: var(--surface); border: 1px solid var(--line); }
+.cell.done::before { background: var(--earth); border-color: var(--earth); opacity: .55; }
+.cell.now::before { background: var(--grass); border-color: var(--grass); inset: 3px 0; }
+.cell:hover::before { border-color: var(--grass); }
+.cell:focus-visible { outline: 2px solid var(--grass); outline-offset: 1px; }
+
+/* Scène */
+.stage { display: grid; gap: 18px; }
+.pic { margin: 0; }
+.scene { display: block; width: 100%; max-width: 100%; height: auto; aspect-ratio: 128 / 56; image-rendering: pixelated; image-rendering: crisp-edges; border: 2px solid var(--line); border-radius: 2px; background: #000; }
+@media (min-width: 980px) {
+  .stage { grid-template-columns: minmax(0, 5fr) minmax(0, 6fr); align-items: start; gap: 28px; }
+  .pic { position: sticky; top: calc(16px + env(safe-area-inset-top, 0px)); }
+}
+
+/* Texte */
+.reader { min-width: 0; background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 18px clamp(16px, 4vw, 36px) 26px; }
+.kicker { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 4px 16px; font-size: .82rem; color: var(--muted); margin-bottom: 6px; }
+.pg { font-variant-numeric: tabular-nums; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; }
+.reader h2 { font: 700 calc(var(--reader-size, 20px) * 1.3)/1.2 var(--f-pixel); margin: 0 0 .7em; text-wrap: balance; outline: none; }
+.reader p { font-family: var(--reader-font, var(--f-ui)); font-size: var(--reader-size, 20px); line-height: var(--reader-line, 1.7); max-width: 62ch; margin: 0 0 .85em; }
+.reader p.dlg { padding-left: .2em; }
+[data-spacing="wide"] .reader p { letter-spacing: .06em; word-spacing: .2em; }
+.reader p.fin { font: 700 1rem var(--f-pixel); color: var(--muted); letter-spacing: .2em; text-transform: uppercase; margin-top: 1.4em; }
+
+.s { border-radius: 2px; transition: background-color .15s; -webkit-box-decoration-break: clone; box-decoration-break: clone; }
+.s.on { background: var(--sent); }
+.w { cursor: pointer; border-radius: 2px; transition: background-color .12s; }
+.w:hover { text-decoration: underline dotted var(--grass); text-decoration-thickness: 2px; text-underline-offset: .2em; }
+.w.cur { background: var(--read); color: var(--read-fg); }
+.w.flash { background: var(--flash); }
+.w.r-adj { box-shadow: inset 0 -3px var(--adj); font-weight: 700; }
+.w.r-opp { box-shadow: inset 0 -3px var(--opp); font-weight: 700; }
+.w.r-hero { box-shadow: inset 0 -3px var(--hero); font-weight: 700; }
+
+.legend { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 14px; padding-top: 12px; border-top: 1px solid var(--line); font-size: .85rem; color: var(--muted); }
+.chip { display: inline-flex; align-items: center; gap: 6px; }
+.sw { width: 12px; height: 12px; display: inline-block; }
+.sw.adj { background: var(--adj); } .sw.opp { background: var(--opp); } .sw.hero { background: var(--hero); }
+
+/* Boutons */
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 44px; padding: 0 14px; border: 1px solid var(--line); background: var(--surface); color: var(--fg); border-radius: var(--radius); font: 700 .95rem var(--f-ui); cursor: pointer; transition: border-color .12s, background-color .12s; }
+.btn:hover:not(:disabled) { border-color: var(--grass); }
+.btn:focus-visible { outline: 2px solid var(--grass); outline-offset: 2px; }
+.btn:disabled { opacity: .45; cursor: default; }
+.btn.icon { padding: 0; width: 44px; }
+.btn.primary { background: var(--grass); border-color: var(--grass); color: var(--grass-fg); min-width: 140px; }
+.btn.primary:hover { filter: brightness(1.06); }
+
+/* Commandes de lecture */
+.dock { position: fixed; left: 0; right: 0; bottom: 0; z-index: 10; background: var(--surface); border-top: 1px solid var(--line); padding: 10px 16px calc(10px + env(safe-area-inset-bottom, 0px)); }
+.dock-in { max-width: 680px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+.play { display: flex; gap: 6px; }
+@media (max-width: 560px) {
+  .lbl { display: none; }
+  .dock-in > .btn { width: 48px; padding: 0; }
+  .btn.primary { min-width: 0; }
+  .hint { display: none; }
+}
+
+/* Réglages */
+.scrim { position: fixed; inset: 0; z-index: 20; background: var(--scrim); display: flex; justify-content: flex-end; }
+.sheet { width: min(420px, 100%); height: 100%; background: var(--surface); border-left: 1px solid var(--line); display: flex; flex-direction: column; outline: none; }
+.sheet-head { display: flex; align-items: center; justify-content: space-between; padding: calc(10px + env(safe-area-inset-top, 0px)) 16px 10px 20px; border-bottom: 1px solid var(--line); }
+.sheet-head h2 { font: 700 1.15rem var(--f-pixel); margin: 0; }
+.sheet-body { overflow-y: auto; padding: 4px 20px calc(24px + env(safe-area-inset-bottom, 0px)); }
+fieldset { border: 0; border-bottom: 1px solid var(--line); margin: 0; padding: 16px 0 14px; display: grid; gap: 12px; }
+fieldset:last-child { border-bottom: 0; }
+legend { float: left; width: 100%; padding: 0 0 2px; font: 700 .75rem var(--f-ui); letter-spacing: .1em; text-transform: uppercase; color: var(--muted); }
+.field { display: grid; gap: 6px; }
+.field-top { display: flex; justify-content: space-between; gap: 8px; }
+.field label, .field-label { font-weight: 700; font-size: .92rem; }
+output { font-variant-numeric: tabular-nums; color: var(--muted); font-size: .9rem; }
+input[type="range"] { width: 100%; accent-color: var(--grass); }
+select { width: 100%; min-height: 42px; padding: 0 10px; border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface); color: var(--fg); font: .92rem var(--f-ui); }
+select:focus-visible, input:focus-visible { outline: 2px solid var(--grass); outline-offset: 2px; }
+.check { display: flex; gap: 10px; align-items: flex-start; font-size: .95rem; cursor: pointer; }
+.check input { width: 18px; height: 18px; margin: 2px 0 0; accent-color: var(--grass); flex: none; }
+.seg { display: grid; gap: 6px; }
+.seg.two { grid-template-columns: 1fr 1fr; }
+.seg.three { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.seg-opt { position: relative; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 44px; padding: 6px; border: 1px solid var(--line); border-radius: var(--radius); cursor: pointer; font-size: .95rem; text-align: center; }
+.seg-opt input { position: absolute; opacity: 0; inset: 0; margin: 0; cursor: pointer; }
+.seg-opt.on { border-color: var(--grass); background: var(--sent); box-shadow: inset 0 0 0 1px var(--grass); }
+.seg-opt:focus-within { outline: 2px solid var(--grass); outline-offset: 2px; }
+.seg-opt b { font-size: 1.25rem; line-height: 1.1; }
+.seg-opt small { font-size: .78rem; color: var(--muted); }
+.note { margin: 0; font-size: .85rem; color: var(--muted); line-height: 1.45; }
+.note.warn { color: var(--opp); font-weight: 700; }
+fieldset > .btn { justify-self: start; }
+
+@media (max-width: 600px) {
+  .scrim { align-items: flex-end; }
+  .sheet { height: 88%; width: 100%; border-left: 0; border-top: 1px solid var(--line); border-radius: 8px 8px 0 0; }
+  .sheet-head { padding-top: 10px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  * { transition: none !important; }
+}
+</style>
+
+<div id="root"><p class="loading">Chargement du récit…</p></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.3.1/umd/react.production.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.3.1/umd/react-dom.production.min.js"></script>
+<script>
+function _extends() { _extends = Object.assign ? Object.assign.bind() : function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
+const {
+  useState,
+  useEffect,
+  useRef,
+  useMemo,
+  useCallback
+} = React;
+const STORY = [{
+  title: "Le réveil",
+  scene: "reveil",
+  alt: "Montagnes enneigées, sapins, l'entrée d'une grotte et trois loups sur un rocher. Ilan est debout dans la neige.",
+  paras: ["Je ne sais pas comment je suis arrivé ici. Un matin, j'ai ouvert les yeux dans la neige. Autour de moi, il y avait des montagnes blanches, des sapins et l'entrée de nombreuses grottes. Je ne me souvenais de rien. Pas même de mon nom.", "Dans ma poche, j'ai trouvé une moitié de carte, déchirée en zigzag. Au dos, une main avait écrit, d'une écriture penchée : « Retrouve le Cartographe. Il sait d'où tu viens. »", "Sur un rocher, trois loups m'observaient sans bouger. J'ai pensé qu'ils seraient mes premiers voisins."]
+}, {
+  title: "La mine de lave",
+  scene: "mine",
+  alt: "Une mine sombre avec des minerais et une cascade de lave orange. Ilan tient une pioche.",
+  paras: ["Avec une pioche en bois, j'ai creusé le flanc de la montagne pour y installer ma maison. J'ai fabriqué un établi, un four et un lit.", "Ensuite, j'ai creusé une mine. J'y ai trouvé du charbon, du cuivre et du fer. Sur le versant est de la montagne, une cascade de lave coulait dans la roche. Sa lumière orange dansait sur les murs. C'était à la fois effrayant et magnifique.", "Une nuit, la neige est tombée à gros flocons. Je suis resté longtemps dehors à la regarder. J'étais ému, sans savoir pourquoi."]
+}, {
+  title: "Le phare",
+  scene: "phare",
+  alt: "La nuit, une tour de pierre avec un feu au sommet, près d'une maison creusée dans la montagne. La neige tombe.",
+  paras: ["Pour ne jamais perdre ma maison, j'ai construit une haute tour de pierre. À son sommet, j'ai allumé un feu sur un bloc rouge qui brûle sans jamais s'éteindre. Ma tour était devenue un phare : de très loin, on voyait sa flamme dans la nuit.", "Mais la phrase de la carte tournait dans ma tête. Qui était ce Cartographe ? Que savait-il de moi ?", "Un matin, j'ai fabriqué un bateau. J'ai salué les loups et je suis parti."]
+}, {
+  title: "Tobi le pêcheur",
+  scene: "tobi",
+  alt: "Une côte herbeuse et un ponton. Tobi, en ciré jaune, pêche à côté d'Ilan. Un bateau flotte sur la mer.",
+  paras: ["Après deux jours en mer, j'ai accosté sur une côte couverte d'herbe. Au bout d'un ponton, un homme pêchait. Il s'appelait Tobi.", "— Tu as l'air affamé, voyageur ! a-t-il dit en riant.", "Il m'a donné trois poissons cuits et m'a appris à fabriquer une canne à pêche. Quand je lui ai montré ma demi-carte, il a froncé les sourcils.", "— Le Cartographe ? On dit qu'il vit très loin, au-delà des montagnes aux cerisiers. Fais attention aux gens que tu rencontreras. Tout le monde ne cherche pas la même chose que toi."]
+}, {
+  title: "L'épave",
+  scene: "epave",
+  alt: "Un navire abandonné, à moitié enfoui dans le sable, avec un mât cassé. Un coffre ouvert est posé sur la plage.",
+  paras: ["Un peu plus loin sur la plage, j'ai découvert un navire abandonné, à moitié enfoui dans le sable. Je suis descendu dans la cale. Il y avait un coffre. Mon cœur battait fort. Un trésor ?", "Non. Seulement des papiers mouillés : le journal du capitaine. Une phrase était encore lisible :", "« Avons déposé le cartographe sur la côte. Il ne parlait que d'un phare dans la neige. »", "J'ai relu la phrase dix fois. Un phare dans la neige, comme le mien ? J'ai rangé la page dans mon sac."]
+}, {
+  title: "Varek le marchand",
+  scene: "varek",
+  alt: "Dans une prairie, Ilan près d'un feu de camp. Varek, en manteau bleu, est accompagné de deux lamas.",
+  paras: ["Le lendemain, j'ai croisé un marchand ambulant avec deux lamas chargés de coffres. Il portait un manteau bleu et un sourire un peu trop large.", "— Je m'appelle Varek. Moi aussi, je cherche le Cartographe ! Voyageons ensemble, ce sera plus facile.", "Je me sentais si seul que j'ai accepté. Pendant trois jours, nous avons marché côte à côte. Varek me posait beaucoup de questions sur ma carte.", "La troisième nuit, je me suis réveillé près du feu éteint. Varek et ses lamas avaient disparu. Ma demi-carte aussi."]
+}, {
+  title: "Les galeries abandonnées",
+  scene: "galeries",
+  alt: "Une ancienne galerie de mine avec des poutres en bois, des rails, un chariot vide et des toiles grises.",
+  paras: ["Furieux, j'ai suivi les traces des lamas jusqu'à un canyon de terre rouge et orange. Elles s'arrêtaient devant l'entrée d'une ancienne mine.", "J'y suis entré avec une torche. De vieilles poutres en bois soutenaient les galeries. Il y avait des rails rouillés, des chariots vides et des toiles partout, comme des rideaux gris.", "Je n'ai trouvé ni Varek ni ma carte. Seulement le silence et l'écho de mes pas. Ce jour-là, je me suis senti plus seul qu'au premier matin."]
+}, {
+  title: "Le lac aux cerisiers",
+  scene: "cerisiers",
+  alt: "Au coucher du soleil, un lac entouré de montagnes et de cerisiers roses. Une porte est creusée dans la falaise.",
+  paras: ["Je ne me souviens plus comment j'ai quitté le canyon. Je me souviens seulement de la couleur rose. J'étais arrivé dans une vallée avec un lac, des montagnes abruptes et de magnifiques cerisiers.", "Au bord de l'eau, j'ai creusé une maison troglodyte de deux pièces dans le flanc de la montagne. Je ne savais plus où aller, alors j'ai décidé de rester un peu.", "Le soir, je regardais le soleil se coucher. Les pétales roses tombaient doucement sur le lac. Pour la première fois depuis longtemps, je respirais calmement."]
+}, {
+  title: "Ama la tisserande",
+  scene: "ama",
+  alt: "Un village avec des tapis de couleur suspendus à une corde. Ama, en violet, parle avec Ilan.",
+  paras: ["Dans un village près du lac vivait une jeune tisserande, Ama. Elle fabriquait des tapis de toutes les couleurs.", "— Ta maison est bien triste, m'a-t-elle dit. Prends ces tapis !", "J'en ai posé sur le sol et accroché sur les murs. Ma maison est devenue chaleureuse.", "Un soir, je lui ai parlé du Cartographe. Ama a réfléchi.", "— Il y a longtemps, un voyageur m'a acheté des tapis comme ceux-là. Il dessinait des cartes et parlait d'un phare. Il est parti vers l'ouest, dans la savane, là où vit le vieil Oskar. Oskar échange des boussoles contre des émeraudes."]
+}, {
+  title: "Comme Ulysse",
+  scene: "ulysse",
+  alt: "Un voilier sur la mer. À gauche, la côte avec une plage, des bouleaux et une petite maison.",
+  paras: ["De l'autre côté de la montagne, je suis descendu jusqu'à la côte. Plusieurs fois, j'ai navigué le long du littoral en le gardant toujours sur ma gauche. Ainsi, je ne pouvais pas me perdre.", "J'ai découvert des déserts, des marais, des forêts de bouleaux et quelques villages. Chaque fois, je revenais à ma maison aux cerisiers. Mais je ne trouvais ni la savane, ni le chemin de ma première maison dans la neige.", "Je pensais à Ulysse et aux marins de la Grèce antique, qui exploraient la Méditerranée sans savoir quand ils rentreraient chez eux."]
+}, {
+  title: "Perdu",
+  scene: "perdu",
+  alt: "Des collines sèches sous un ciel orange. Au loin, la silhouette d'une tour de guet en bois.",
+  paras: ["Un jour, j'ai décidé de changer de direction. J'ai quitté la côte et je suis parti vers l'ouest, à l'intérieur des terres.", "Très vite, je me suis perdu. Toutes les collines se ressemblaient. Le soleil descendait et je ne savais plus d'où je venais.", "J'ai eu peur. Je me suis assis dans l'herbe sèche et j'ai pensé : « Je ne retrouverai jamais personne. Ni le Cartographe, ni ma maison, ni moi-même. »", "C'est alors que je l'ai vue : une haute tour de guet en bois, toute noire sur le ciel orange."]
+}, {
+  title: "Oskar",
+  scene: "oskar",
+  alt: "Une savane avec des acacias et des chevaux. En haut d'une tour de guet en bois, un vieil homme vêtu de blanc.",
+  paras: ["Autour de la tour, des chevaux couraient dans la savane. En haut de l'échelle, un vieil homme était assis devant une table couverte de cartes. Ses yeux étaient blancs comme du lait : il était aveugle.", "— Approche, voyageur. Je m'appelle Oskar.", "— Vous êtes le Cartographe ?", "— Je dessine les cartes que les voyageurs me racontent. Mais ta voix… je crois que je l'ai déjà entendue, il y a très longtemps.", "Je ne comprenais pas. Je n'étais jamais venu ici. Du moins, c'est ce que je croyais."]
+}, {
+  title: "Les émeraudes",
+  scene: "emeraudes",
+  alt: "Une grotte profonde éclairée par des torches, avec des minerais d'or et d'émeraude. Ilan tient une pioche.",
+  paras: ["J'ai construit une petite maison de pierre et de bois près de la tour. Puis j'ai exploré des grottes profondes à la lumière des torches. J'ai trouvé du fer, de l'or et enfin trois émeraudes vertes et brillantes.", "Quand je suis revenu à la tour, quelqu'un était déjà là. Un manteau bleu, deux lamas : Varek !", "— Vieil homme, je t'offre dix émeraudes pour ta dernière boussole, disait-il.", "Oskar a tourné la tête vers moi.", "— Je reconnais les menteurs à leur voix, Varek. Cette boussole est pour lui.", "Varek est reparti sans un mot."]
+}, {
+  title: "La boussole",
+  scene: "boussole",
+  alt: "Sur une table en bois, une boussole à l'aiguille rouge, trois émeraudes et un morceau de carte.",
+  paras: ["Oskar a pris mes trois émeraudes et m'a donné la boussole. Son aiguille rouge tremblait.", "— Écoute bien, a-t-il dit. Cette boussole n'indique pas le nord. Elle indique l'endroit où tu t'es réveillé pour la première fois dans ce monde.", "J'ai ressenti une immense joie. Enfin, une direction !", "— Et le Cartographe ? Celui qui sait d'où je viens ?", "Oskar a souri.", "— Suis l'aiguille. Tu le trouveras au bout du chemin."]
+}, {
+  title: "Le grand voyage",
+  scene: "voyage",
+  alt: "Un bateau glisse sur une mer gelée, devant des montagnes enneigées et des sapins.",
+  paras: ["Pendant des jours, j'ai suivi l'aiguille rouge. J'ai navigué à travers l'océan, marché sur de vastes plaines, traversé des rivières, des forêts sombres et une mer gelée.", "Peu à peu, l'air est devenu plus froid. Les sapins sont revenus, la neige aussi. Je sentais que mon foyer était proche.", "Je suis arrivé dans un village enneigé. Les habitants m'ont offert un lit et une soupe chaude. Ensemble, nous avons dessiné une carte de la région, et j'ai écrit le nom de chaque lieu. Pour les remercier, j'ai travaillé quelques jours dans leurs champs."]
+}, {
+  title: "Varek dans le froid",
+  scene: "villageNeige",
+  alt: "Un village sous la neige avec un champ de blé. Varek est allongé dans la neige, Ilan se tient près de lui.",
+  paras: ["Un matin, des villageois ont trouvé un homme endormi dans la neige, près de la forêt. Il tremblait. C'était Varek. Ses lamas étaient partis et ses coffres étaient vides.", "Je l'ai regardé longtemps. J'aurais pu le laisser là. Mais je l'ai aidé à se relever et je lui ai donné ma soupe.", "Varek a baissé les yeux. Il a sorti de son manteau un papier froissé.", "— Ta demi-carte, a-t-il murmuré. Je croyais que le Cartographe gardait un trésor. Je voulais le trouver avant toi. Pardonne-moi."]
+}, {
+  title: "La lumière",
+  scene: "lumiere",
+  alt: "La nuit, derrière une chaîne de montagnes sombres, la flamme du phare brille. Ilan la regarde.",
+  paras: ["Le soir même, j'ai repris la route avec ma boussole et ma demi-carte. Une nuit, juste derrière la chaîne de montagnes, j'ai vu une lumière.", "C'était mon phare. Sa flamme brûlait toujours.", "La neige était tombée en abondance pendant mon absence. Ma maison était presque enfouie. J'ai dégagé la porte, puis je suis monté tout en haut de la tour.", "À côté du feu, il y avait un coffre. Je ne me souvenais pas de l'avoir posé là."]
+}, {
+  title: "Le Cartographe",
+  scene: "carte",
+  alt: "Une carte reconstituée à partir de deux moitiés déchirées, avec un chemin en pointillés rouges. À côté, un coffre ouvert, une plume et un encrier.",
+  paras: ["Dans le coffre, il y avait une plume, un encrier et une moitié de carte, déchirée en zigzag.", "Mes mains tremblaient. J'ai approché ma demi-carte. Les deux morceaux s'emboîtaient parfaitement.", "La carte entière montrait tout mon voyage : la côte de Tobi, l'épave, le canyon, le lac aux cerisiers, la tour d'Oskar. Tout était déjà dessiné. En bas, il y avait une signature : « Ilan, cartographe. »", "C'était la même écriture penchée que sur la carte du village. Mon écriture. Mon nom.", "Le Cartographe, c'était moi. J'avais déjà fait ce voyage, puis j'avais tout oublié. Et je m'étais laissé un message pour me retrouver."]
+}, {
+  title: "Ce qui a changé",
+  scene: "fin",
+  alt: "À l'aube, Ilan et un loup assis devant la maison creusée dans la montagne. Le phare brûle sous la neige.",
+  paras: ["Je suis redescendu. J'ai marché autour de ma maison et du phare, et j'ai longtemps regardé les montagnes blanches.", "Un loup s'est approché. Il s'est assis à mes pieds, comme s'il m'attendait depuis toujours.", "Une seule question s'est imposée : « Qu'est-ce qui a changé en moi ? »", "Je savais enfin d'où je venais. Mais en chemin, j'avais appris autre chose : la patience, la confiance et le pardon.", "Alors j'ai pris la plume et, au dos de la carte, j'ai écrit pour la prochaine fois :", "« Si tu oublies encore, ne cherche pas qui tu étais. Regarde qui tu deviens. »"]
+}];
+const ROLES = {
+  Tobi: "adj",
+  Ama: "adj",
+  Oskar: "adj",
+  Varek: "opp",
+  Ilan: "hero"
+};
+const WORD_RE = /[\p{L}\p{N}]+(?:['’-][\p{L}\p{N}]+)*/gu;
+const SENT_RE = /[^.!?…]*[.!?…]+(?:[\s ]*»)?[\s ]*|[^.!?…]+$/g;
+function typo(s) {
+  return s.replace(/ ([?!:;»])/g, " $1").replace(/« /g, "« ");
+}
+function makeSentence(text, para) {
+  const tokens = [];
+  let last = 0,
+    m;
+  WORD_RE.lastIndex = 0;
+  while (m = WORD_RE.exec(text)) {
+    if (m.index > last) tokens.push({
+      t: text.slice(last, m.index),
+      w: false
+    });
+    tokens.push({
+      t: m[0],
+      w: true,
+      start: m.index,
+      end: m.index + m[0].length,
+      role: ROLES[m[0]] || null
+    });
+    last = m.index + m[0].length;
+  }
+  if (last < text.length) tokens.push({
+    t: text.slice(last),
+    w: false
+  });
+  return {
+    text,
+    tokens,
+    para
+  };
+}
+function analyse(page) {
+  const sentences = [];
+  const add = (txt, para) => (typo(txt).match(SENT_RE) || []).map(s => {
+    sentences.push(makeSentence(s, para));
+    return sentences.length - 1;
+  });
+  const title = add(page.title, -1);
+  const paras = page.paras.map((p, i) => add(p, i));
+  return {
+    ...page,
+    sentences,
+    title,
+    paras
+  };
+}
+const PAGES = STORY.map(analyse);
+const LAST = PAGES.length - 1;
+function findToken(sent, ci) {
+  let best = -1;
+  sent.tokens.forEach((t, i) => {
+    if (t.w && t.start <= ci) best = i;
+  });
+  return best;
+}
+const W = 128,
+  H = 56;
+const C = {
+  snow: "#f4f8fb",
+  snowS: "#cfdbe6",
+  stone: "#8b8b8b",
+  stoneD: "#727272",
+  stoneL: "#a3a3a3",
+  log: "#5d4127",
+  plank: "#a8834e",
+  plankD: "#8c6a3c",
+  spruce: "#2e5634",
+  leaf: "#4f8a2e",
+  leafD: "#3d6e22",
+  pink: "#f2a7c8",
+  pink2: "#f8c6dc",
+  pinkD: "#d97aa6",
+  cherryLog: "#4a2f2a",
+  water: "#3a68c9",
+  waterL: "#6e97e6",
+  sand: "#ddd194",
+  acaciaLog: "#8a5a33",
+  acaciaLeaf: "#6f8f2c",
+  savanna: "#a8a24f",
+  savannaT: "#c2bb66",
+  grass: "#5f9a35",
+  grassT: "#7cbd4b",
+  dirt: "#866043",
+  fire1: "#f9a531",
+  fire2: "#ffe27a",
+  lava: "#e5601a",
+  lavaL: "#ffb340",
+  emerald: "#2fd96b",
+  ice: "#a3c6f0",
+  iceL: "#cfe2fa",
+  ilan: "#b5453a",
+  ilanP: "#34425e",
+  paper: "#ecdfb8"
+};
+function rng(a) {
+  return function () {
+    a |= 0;
+    a = a + 0x6D2B79F5 | 0;
+    let t = Math.imul(a ^ a >>> 15, 1 | a);
+    t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t;
+    return ((t ^ t >>> 14) >>> 0) / 4294967296;
+  };
+}
+function kit(ctx, seed) {
+  const r = rng(seed);
+  const R = (x, y, w, h, c) => {
+    ctx.fillStyle = c;
+    ctx.fillRect(Math.round(x), Math.round(y), Math.round(w), Math.round(h));
+  };
+  const P = (x, y, c) => R(x, y, 1, 1, c);
+  const k = {
+    r,
+    R,
+    P
+  };
+  k.sky = cols => {
+    const bh = Math.ceil(44 / cols.length);
+    cols.forEach((c, i) => R(0, i * bh, W, H - i * bh, c));
+  };
+  k.stars = (n, maxY = 24) => {
+    for (let i = 0; i < n; i++) P(r() * W, r() * maxY, r() < 0.3 ? "#ffffff" : "#c9d6ff");
+  };
+  k.moon = (x, y) => {
+    R(x, y, 5, 5, "#f1efd6");
+    P(x + 1, y + 1, "#d8d4b4");
+    P(x + 3, y + 3, "#d8d4b4");
+  };
+  k.sun = (x, y, c = "#fff1b8", s = 6) => R(x, y, s, s, c);
+  k.range = (base, amp, col, o = {}) => {
+    const w = o.w || 4;
+    let h = amp * (0.45 + 0.4 * r());
+    for (let x = 0; x < W; x += w) {
+      h += (r() - 0.5) * amp * 0.5;
+      h = Math.max(amp * 0.3, Math.min(amp, h));
+      const hq = Math.round(h / 2) * 2,
+        top = base - hq;
+      R(x, top, w, H - top, col);
+      if (o.cap && hq > amp * 0.6) R(x, top, w, 2 + Math.round((hq - amp * 0.6) / 3), o.cap);
+    }
+  };
+  k.ground = (y, top, fill, th = 2) => {
+    R(0, y, W, H - y, fill);
+    R(0, y, W, th, top);
+  };
+  k.water = (y, c1, c2) => {
+    R(0, y, W, H - y, c1);
+    for (let i = 0; i < 10; i++) R(r() * (W - 4), y + 2 + r() * (H - y - 3), 2 + r() * 4, 1, c2);
+  };
+  k.snow = n => {
+    for (let i = 0; i < n; i++) P(r() * W, r() * H, "#ffffff");
+  };
+  k.petals = n => {
+    for (let i = 0; i < n; i++) P(r() * W, r() * (H - 6), r() < 0.5 ? C.pink : C.pinkD);
+  };
+  k.planks = () => {
+    for (let y = 0; y < H; y += 6) {
+      R(0, y, W, 6, y / 6 % 2 ? "#a8834e" : "#9d7945");
+      R(0, y + 5, W, 1, "#7c5a30");
+      for (let x = y * 7 % 24; x < W; x += 24) R(x, y, 1, 5, "#7c5a30");
+    }
+  };
+  k.spruce = (x, y, snowy, leaf = C.spruce) => {
+    R(x + 3, y - 2, 1, 2, C.log);
+    [7, 7, 5, 5, 3, 3, 1, 1].forEach((w, i) => {
+      const xx = x + (7 - w) / 2,
+        yy = y - 3 - i;
+      R(xx, yy, w, 1, snowy && i % 2 === 1 ? C.snow : leaf);
+    });
+  };
+  k.oak = (x, y) => {
+    R(x + 2, y - 4, 1, 4, C.log);
+    R(x, y - 9, 5, 5, C.leaf);
+    R(x + 1, y - 10, 3, 1, C.leaf);
+    P(x + 3, y - 7, C.leafD);
+    P(x + 1, y - 6, C.leafD);
+  };
+  k.birch = (x, y) => {
+    R(x + 2, y - 6, 1, 6, "#e9e5d6");
+    P(x + 2, y - 3, "#3a3a3a");
+    R(x, y - 11, 5, 5, "#7fae4f");
+    P(x + 1, y - 9, "#5f8e37");
+  };
+  k.cherry = (x, y) => {
+    R(x + 3, y - 5, 1, 5, C.cherryLog);
+    R(x, y - 10, 8, 4, C.pink);
+    R(x + 1, y - 12, 6, 2, C.pink2);
+    R(x + 1, y - 6, 6, 1, C.pinkD);
+    P(x + 2, y - 9, C.pink2);
+    P(x + 5, y - 8, C.pinkD);
+  };
+  k.acacia = (x, y) => {
+    R(x + 4, y - 6, 1, 6, C.acaciaLog);
+    P(x + 5, y - 7, C.acaciaLog);
+    P(x + 3, y - 7, C.acaciaLog);
+    R(x, y - 9, 10, 2, C.acaciaLeaf);
+    R(x + 2, y - 10, 6, 1, C.acaciaLeaf);
+  };
+  k.stoneTower = (x, y, h, fire) => {
+    if (fire) R(x - 5, y - h - 14, 17, 13, "rgba(255,180,80,0.22)");
+    R(x, y - h, 7, h, C.stone);
+    for (let yy = y - h + 2; yy < y; yy += 3) R(x, yy, 7, 1, C.stoneD);
+    R(x - 1, y - h - 2, 9, 2, C.stoneL);
+    [x - 1, x + 3, x + 7].forEach(cx => P(cx, y - h - 3, C.stoneL));
+    R(x + 3, y - 5, 1, 2, "#2b2118");
+    if (fire) {
+      R(x + 1, y - h - 4, 5, 2, "#8c2a1c");
+      R(x + 2, y - h - 7, 3, 3, C.fire1);
+      R(x + 3, y - h - 9, 1, 2, C.fire2);
+      P(x + 2, y - h - 8, C.fire2);
+    }
+  };
+  k.woodTower = (x, y, h, col = C.log, plank = C.plank, win = "#2b2118") => {
+    R(x, y - h, 1, h, col);
+    R(x + 10, y - h, 1, h, col);
+    for (let i = 0; i < h; i += 6) R(x, y - i - 1, 11, 1, col);
+    for (let i = 0; i < h; i += 2) P(x + 5, y - i - 1, col);
+    R(x - 1, y - h, 13, 2, plank);
+    R(x + 1, y - h - 7, 9, 7, plank);
+    R(x + 3, y - h - 6, 5, 3, win);
+    R(x - 1, y - h - 9, 13, 2, col);
+  };
+  k.house = (x, y, w, h, wall = C.plank, roof = C.log) => {
+    R(x, y - h, w, h, wall);
+    R(x - 1, y - h - 2, w + 2, 2, roof);
+    R(x + 1, y - h - 3, w - 2, 1, roof);
+    R(x + (w - 3 >> 1), y - 5, 3, 5, "#3d2a18");
+    R(x + 1, y - h + 2, 2, 2, "#ffd98a");
+  };
+  k.person = (x, y, shirt, pants, o = {}) => {
+    const skin = o.skin || "#c99a6e",
+      hair = o.hair || "#3a2618";
+    R(x, y - 9, 3, 3, skin);
+    R(x, y - 9, 3, 1, hair);
+    R(x, y - 6, 3, 3, shirt);
+    R(x, y - 3, 3, 3, pants);
+  };
+  k.ilan = (x, y) => k.person(x, y, C.ilan, C.ilanP);
+  k.lying = (x, y, shirt, pants) => {
+    R(x, y - 3, 3, 3, "#c99a6e");
+    P(x, y - 3, "#3a2618");
+    R(x + 3, y - 3, 3, 3, shirt);
+    R(x + 6, y - 3, 3, 3, pants);
+  };
+  k.wolf = (x, y) => {
+    const c = "#dcdcdc",
+      d = "#b5b5b5";
+    R(x, y - 4, 6, 3, c);
+    R(x, y - 2, 6, 1, d);
+    R(x + 5, y - 6, 3, 3, c);
+    P(x + 5, y - 7, c);
+    P(x + 7, y - 7, c);
+    P(x + 7, y - 5, "#3a3a3a");
+    P(x, y - 1, c);
+    P(x + 4, y - 1, c);
+    R(x - 1, y - 5, 1, 2, c);
+  };
+  k.sittingWolf = (x, y) => {
+    const c = "#dcdcdc";
+    R(x, y - 4, 4, 4, c);
+    R(x + 1, y - 7, 3, 3, c);
+    P(x + 1, y - 8, c);
+    P(x + 3, y - 8, c);
+    P(x + 3, y - 6, "#3a3a3a");
+    R(x - 2, y - 1, 2, 1, c);
+  };
+  k.horse = (x, y, c) => {
+    const m = "#3a2618";
+    R(x, y - 6, 7, 3, c);
+    R(x, y - 3, 1, 3, c);
+    R(x + 6, y - 3, 1, 3, c);
+    R(x + 6, y - 9, 2, 4, c);
+    R(x + 7, y - 9, 3, 2, c);
+    R(x + 6, y - 9, 1, 3, m);
+    R(x - 1, y - 6, 1, 3, m);
+  };
+  k.llama = (x, y, c) => {
+    R(x, y - 6, 5, 3, c);
+    R(x, y - 3, 1, 3, c);
+    R(x + 4, y - 3, 1, 3, c);
+    R(x + 4, y - 11, 2, 6, c);
+    R(x + 5, y - 11, 2, 2, c);
+    P(x + 4, y - 12, c);
+    R(x + 1, y - 6, 3, 2, "#b23a2a");
+    R(x + 1, y - 9, 3, 3, "#a5702b");
+  };
+  k.boat = (x, y) => {
+    R(x, y - 3, 11, 2, C.plank);
+    R(x + 1, y - 1, 9, 1, C.log);
+    P(x, y - 4, C.plank);
+    P(x + 10, y - 4, C.plank);
+  };
+  k.chest = (x, y, open) => {
+    R(x, y - 5, 7, 5, "#a5702b");
+    R(x, y - 5, 7, 1, "#7b4f1c");
+    R(x, y - 3, 7, 1, "#5c3a14");
+    P(x + 3, y - 3, "#d9d9d9");
+    if (open) R(x, y - 8, 7, 2, "#8a5b20");
+  };
+  k.torch = (x, y) => {
+    R(x - 3, y - 9, 7, 7, "rgba(255,190,90,0.16)");
+    R(x, y - 3, 1, 3, C.log);
+    P(x, y - 4, C.fire1);
+    P(x, y - 5, C.fire2);
+  };
+  k.web = (x, y, s) => {
+    const c = "rgba(235,235,235,0.8)";
+    for (let i = 0; i < s; i++) {
+      P(x + i, y + i, c);
+      P(x + s - 1 - i, y + i, c);
+      P(x + (s >> 1), y + i, c);
+      P(x + i, y + (s >> 1), c);
+    }
+  };
+  k.cave = () => {
+    R(0, 0, W, H, "#474747");
+    for (let y = 0; y < H; y += 4) for (let x = 0; x < W; x += 4) {
+      const v = r();
+      if (v < 0.25) R(x, y, 4, 4, "#3d3d3d");else if (v < 0.35) R(x, y, 4, 4, "#525252");
+    }
+  };
+  k.ore = (x, y, c) => {
+    R(x, y, 4, 4, "#6a6a6a");
+    P(x, y + 1, c);
+    P(x + 2, y, c);
+    P(x + 1, y + 2, c);
+    P(x + 3, y + 3, c);
+    P(x + 3, y + 1, c);
+  };
+  k.ores = (n, c, yMin = 2, yMax = H - 12) => {
+    for (let i = 0; i < n; i++) k.ore(Math.floor(r() * W / 4) * 4, yMin + Math.floor(r() * (yMax - yMin) / 4) * 4, c);
+  };
+  k.gem = (x, y) => {
+    R(x + 1, y, 2, 4, C.emerald);
+    R(x, y + 1, 4, 2, C.emerald);
+    P(x + 1, y + 1, "#b8ffd0");
+  };
+  return k;
+}
+const DAY = ["#9cc3e8", "#b2d1ee", "#c8dff3", "#dceaf7"];
+const NIGHT = ["#0f1a33", "#15244a", "#1d305c", "#27406e"];
+const SCENES = {
+  reveil(k) {
+    const {
+      R
+    } = k;
+    k.sky(DAY);
+    k.sun(102, 6, "#fff4cc", 5);
+    k.range(40, 28, "#a3acb6", {
+      cap: C.snow
+    });
+    k.range(46, 16, "#8a949e", {
+      cap: C.snow
+    });
+    k.ground(46, C.snow, C.snowS);
+    R(93, 36, 30, 10, C.stone);
+    R(93, 36, 30, 2, C.snow);
+    R(116, 40, 6, 6, "#2a2d31");
+    k.wolf(95, 36);
+    k.wolf(103, 36);
+    k.wolf(111, 36);
+    [4, 14, 60, 74].forEach(x => k.spruce(x, 47, true));
+    k.ilan(40, 50);
+    R(43, 44, 3, 2, C.paper);
+    k.snow(12);
+  },
+  mine(k) {
+    const {
+      R
+    } = k;
+    k.cave();
+    k.ores(6, "#1e1e1e");
+    k.ores(4, "#c46b3c");
+    k.ores(4, "#e3bfa5");
+    R(68, 0, 34, H, "rgba(255,120,40,0.14)");
+    R(82, 0, 6, 46, C.lava);
+    for (let y = 0; y < 46; y += 5) R(83, y, 2, 3, C.lavaL);
+    R(70, 46, 30, 4, C.lava);
+    R(74, 46, 22, 1, C.lavaL);
+    R(0, 50, W, 6, "#383838");
+    k.torch(30, 40);
+    k.ilan(46, 50);
+    R(50, 41, 5, 1, "#9a9a9a");
+    R(52, 41, 1, 6, C.log);
+  },
+  phare(k) {
+    const {
+      R
+    } = k;
+    k.sky(NIGHT);
+    k.stars(30);
+    k.moon(16, 5);
+    k.range(46, 26, "#3c4757", {
+      cap: "#c9d6e4"
+    });
+    k.ground(46, "#dfe7f0", "#c4d0dc");
+    R(10, 32, 26, 14, "#5a6270");
+    R(10, 32, 26, 2, "#dfe7f0");
+    R(20, 39, 3, 7, "#4a331f");
+    R(27, 40, 3, 2, "#ffd27a");
+    k.stoneTower(86, 46, 22, true);
+    [48, 62, 112].forEach(x => k.spruce(x, 47, true, "#203a28"));
+    k.snow(30);
+  },
+  tobi(k) {
+    const {
+      R,
+      P
+    } = k;
+    k.sky(["#87c1f0", "#a3d1f4", "#bddff7", "#d4ebfa"]);
+    k.sun(14, 6);
+    k.water(36, C.water, C.waterL);
+    R(72, 32, 56, 24, C.dirt);
+    R(72, 32, 56, 3, C.grass);
+    R(68, 36, 4, 20, C.dirt);
+    R(68, 36, 4, 2, C.grass);
+    k.oak(96, 32);
+    k.birch(110, 32);
+    R(40, 35, 32, 2, C.plank);
+    R(44, 37, 1, 8, C.log);
+    R(58, 37, 1, 8, C.log);
+    k.person(44, 35, "#d9a441", "#3b4f6e", {
+      hair: "#6b4a2b"
+    });
+    for (let i = 0; i < 7; i++) P(46 - i, 27 - Math.floor(i / 2), C.log);
+    for (let y = 25; y < 37; y++) P(39, y, "rgba(240,240,240,0.8)");
+    k.ilan(60, 35);
+    k.boat(12, 39);
+  },
+  epave(k) {
+    const {
+      R
+    } = k;
+    k.sky(DAY);
+    k.water(28, C.water, C.waterL);
+    R(0, 40, W, 16, C.sand);
+    R(0, 40, W, 1, "#e8dea6");
+    for (let i = 0; i < 34; i++) {
+      const top = 30 + Math.floor(i / 5);
+      R(46 + i, top, 1, 46 - top, (top + i) % 4 === 0 ? C.log : C.plankD);
+    }
+    R(58, 36, 6, 4, "#2a1d12");
+    R(64, 12, 2, 20, C.log);
+    R(66, 14, 8, 5, "#e6dcc0");
+    R(66, 19, 5, 2, "#e6dcc0");
+    R(40, 43, 58, 13, C.sand);
+    k.chest(96, 49, true);
+    R(97, 44, 4, 1, "#f2ead2");
+    k.ilan(108, 49);
+  },
+  varek(k) {
+    const {
+      R,
+      P
+    } = k;
+    k.sky(DAY);
+    k.range(40, 12, "#7fb05c");
+    k.ground(42, C.grassT, C.grass);
+    R(0, 50, W, 6, C.dirt);
+    k.oak(6, 44);
+    k.oak(116, 44);
+    R(55, 46, 6, 2, C.log);
+    P(57, 45, C.fire1);
+    P(58, 44, C.fire2);
+    P(56, 45, C.fire1);
+    k.ilan(46, 48);
+    k.person(66, 48, "#2e5fa8", "#2a2a2a", {
+      hair: "#1e1e1e"
+    });
+    k.llama(76, 48, "#e8dcc0");
+    k.llama(88, 48, "#b08b5a");
+  },
+  galeries(k) {
+    const {
+      R
+    } = k;
+    k.cave();
+    R(0, 0, W, H, "rgba(90,55,25,0.22)");
+    [8, 52, 96].forEach(x => {
+      R(x, 14, 2, 34, C.plank);
+      R(x + 22, 14, 2, 34, C.plank);
+      R(x, 12, 24, 2, C.plank);
+    });
+    R(0, 48, W, 8, "#4a3c2e");
+    R(0, 46, W, 1, "#8f8f8f");
+    for (let x = 0; x < W; x += 5) R(x, 47, 3, 1, C.log);
+    k.web(11, 15, 7);
+    k.web(55, 15, 6);
+    k.web(99, 15, 8);
+    k.web(70, 33, 6);
+    k.web(34, 20, 5);
+    R(74, 40, 11, 6, "#6b6b6b");
+    R(75, 41, 9, 1, "#555555");
+    k.torch(42, 32);
+    k.ilan(24, 46);
+  },
+  cerisiers(k) {
+    const {
+      R
+    } = k;
+    k.sky(["#f2a385", "#f5b994", "#f8cfaa", "#fbe2c3"]);
+    k.sun(58, 24, "#ffd27a", 7);
+    k.range(40, 30, "#7b6c7c");
+    k.range(42, 16, "#62566a");
+    k.water(40, "#5b7fc8", "#f7c7a6");
+    R(0, 41, 40, 15, C.dirt);
+    R(0, 41, 40, 2, C.grassT);
+    [0, 12, 26].forEach(x => k.cherry(x, 42));
+    R(92, 26, 36, 30, C.stone);
+    R(92, 26, 36, 2, C.grassT);
+    R(88, 32, 4, 24, C.stone);
+    R(100, 35, 3, 6, "#4a331f");
+    R(110, 36, 3, 2, "#ffd27a");
+    k.cherry(112, 27);
+    k.petals(28);
+  },
+  ama(k) {
+    const {
+      R
+    } = k;
+    k.sky(DAY);
+    k.ground(44, C.grassT, C.grass);
+    R(0, 51, W, 5, C.dirt);
+    R(0, 48, W, 2, "#a8946c");
+    k.house(4, 45, 18, 13);
+    k.house(106, 45, 18, 14, "#c9b38a", C.log);
+    R(30, 24, 1, 21, C.log);
+    R(96, 24, 1, 21, C.log);
+    R(30, 24, 67, 1, "#e3d4ac");
+    ["#c0392b", "#e6b422", "#2e86c1", "#8e44ad", "#27ae60", "#e67e22"].forEach((c, i) => {
+      const x = 33 + i * 11;
+      R(x, 25, 8, 9, c);
+      R(x, 28, 8, 1, "rgba(255,255,255,0.35)");
+      R(x, 31, 8, 1, "rgba(0,0,0,0.18)");
+    });
+    k.person(54, 48, "#8e44ad", "#4a3b5c", {
+      hair: "#1e1410"
+    });
+    k.ilan(66, 48);
+  },
+  ulysse(k) {
+    const {
+      R
+    } = k;
+    k.sky(DAY);
+    k.sun(110, 5);
+    k.water(30, C.water, C.waterL);
+    R(0, 30, 12, 26, C.sand);
+    R(12, 26, 18, 30, C.grass);
+    R(12, 26, 18, 2, C.grassT);
+    R(30, 33, 4, 23, C.sand);
+    k.birch(13, 26);
+    k.birch(21, 26);
+    k.house(1, 30, 9, 7, "#d9c9a0", "#a0522d");
+    R(96, 27, 22, 3, "#7fae5a");
+    R(100, 26, 12, 1, "#7fae5a");
+    k.boat(62, 43);
+    R(70, 30, 1, 10, C.log);
+    R(71, 31, 6, 6, "#ece4cc");
+    k.ilan(65, 40);
+  },
+  perdu(k) {
+    k.sky(["#e07a4b", "#ec955c", "#f2b06f", "#f5c888"]);
+    k.sun(18, 30, "#ffcf6b", 6);
+    k.woodTower(96, 40, 16, "#3d2b1c", "#3d2b1c", "#3d2b1c");
+    k.range(46, 12, "#8c7c3e");
+    k.ground(48, "#a89e4c", "#8c8438");
+    k.ilan(40, 52);
+  },
+  oskar(k) {
+    const {
+      R
+    } = k;
+    k.sky(["#99cdf0", "#b3daf3", "#cbe6f6", "#e0f0f8"]);
+    k.sun(10, 5);
+    k.range(42, 8, "#a9a35a");
+    k.ground(44, C.savannaT, C.savanna);
+    R(0, 51, W, 5, C.dirt);
+    k.acacia(2, 44);
+    k.acacia(112, 44);
+    k.woodTower(54, 44, 22);
+    k.person(58, 22, "#ece6d4", "#8c8577", {
+      hair: "#d8d8d8",
+      skin: "#c7a07a"
+    });
+    R(62, 19, 4, 1, C.paper);
+    k.horse(22, 52, "#8b5a2b");
+    k.horse(86, 52, "#d8c8a8");
+    k.horse(100, 55, "#3a2a20");
+    k.ilan(74, 47);
+  },
+  emeraudes(k) {
+    const {
+      R
+    } = k;
+    k.cave();
+    k.ores(5, "#1e1e1e");
+    k.ores(3, "#e8c547");
+    R(54, 16, 20, 20, "rgba(47,217,107,0.10)");
+    k.ore(60, 22, C.emerald);
+    k.ore(64, 22, C.emerald);
+    k.ore(64, 26, C.emerald);
+    R(0, 50, W, 6, "#383838");
+    k.torch(30, 36);
+    k.torch(96, 30);
+    k.ilan(48, 50);
+    R(52, 40, 5, 1, "#bdbdbd");
+    R(54, 40, 1, 6, C.log);
+  },
+  boussole(k) {
+    const {
+      R,
+      P
+    } = k;
+    k.planks();
+    R(92, 30, 30, 20, C.paper);
+    for (let y = 34; y < 48; y += 4) R(96, y, 20, 1, "#c9b88c");
+    R(56, 14, 16, 28, "#55595e");
+    R(52, 18, 24, 20, "#55595e");
+    R(54, 16, 20, 24, "#55595e");
+    R(58, 17, 12, 22, "#e9e7dc");
+    R(55, 20, 18, 16, "#e9e7dc");
+    R(56, 18, 16, 20, "#e9e7dc");
+    R(63, 18, 2, 1, "#9a9a9a");
+    R(63, 37, 2, 1, "#9a9a9a");
+    R(56, 27, 1, 2, "#9a9a9a");
+    R(71, 27, 1, 2, "#9a9a9a");
+    for (let i = 0; i < 7; i++) {
+      P(64 + i, 28 - i, "#d22b2b");
+      P(65 + i, 28 - i, "#d22b2b");
+    }
+    for (let i = 1; i < 6; i++) P(63 - i, 28 + i, "#7a7a7a");
+    R(63, 27, 2, 2, "#333333");
+    k.gem(22, 34);
+    k.gem(30, 38);
+    k.gem(24, 42);
+  },
+  voyage(k) {
+    const {
+      R
+    } = k;
+    k.sky(["#a7c5e4", "#bcd4eb", "#d0e1f1", "#e2edf7"]);
+    k.range(36, 18, "#8f9bab", {
+      cap: C.snow
+    });
+    R(0, 36, W, 20, C.ice);
+    for (let x = 0; x < W; x += 8) R(x, 36, 1, 20, C.iceL);
+    for (let y = 36; y < H; y += 6) R(0, y, W, 1, C.iceL);
+    [100, 110, 119].forEach(x => k.spruce(x, 37, true));
+    k.boat(46, 47);
+    k.ilan(50, 44);
+    k.snow(10);
+  },
+  villageNeige(k) {
+    const {
+      R,
+      P
+    } = k;
+    k.sky(["#b6c4d2", "#c5d1dd", "#d4dee8", "#e2e9f0"]);
+    k.range(38, 14, "#9aa6b4", {
+      cap: C.snow
+    });
+    k.ground(42, C.snow, "#e3ebf2");
+    R(9, 26, 2, 4, C.stone);
+    P(10, 23, "#d0d6dc");
+    P(11, 21, "#d0d6dc");
+    P(10, 19, "#d0d6dc");
+    k.house(6, 42, 16, 12, "#6b4f33", C.snow);
+    k.house(28, 42, 14, 10, "#6b4f33", C.snow);
+    R(84, 44, 40, 6, "#8a6a3a");
+    for (let x = 84; x < 124; x += 2) R(x, 40, 1, 4, "#d8bf52");
+    k.lying(52, 51, "#2e5fa8", "#2a2a2a");
+    k.ilan(66, 51);
+    k.snow(30);
+  },
+  lumiere(k) {
+    const {
+      R
+    } = k;
+    k.sky(["#0d1630", "#132044", "#1a2a55", "#223566"]);
+    k.stars(34);
+    R(64, 8, 34, 30, "rgba(255,170,70,0.14)");
+    k.stoneTower(78, 36, 10, true);
+    k.range(46, 14, "#1a2333");
+    k.ground(48, "#c7d2e0", "#aebbcc");
+    k.person(30, 53, "#5a2a24", "#262f40", {
+      skin: "#7d6250",
+      hair: "#1e140e"
+    });
+  },
+  carte(k) {
+    const {
+      R,
+      P
+    } = k;
+    k.planks();
+    k.chest(10, 52, true);
+    R(34, 12, 30, 32, C.paper);
+    R(64, 13, 30, 31, "#e6d8ae");
+    for (let y = 12; y < 44; y += 2) {
+      P(63, y, "#b39d6b");
+      P(64, y + 1, "#b39d6b");
+    }
+    R(36, 30, 8, 12, "#7fa6e0");
+    R(39, 18, 6, 2, "#9aa6b4");
+    R(40, 16, 4, 2, "#9aa6b4");
+    P(41, 15, "#ffffff");
+    P(47, 17, C.lava);
+    P(47, 16, C.fire2);
+    for (let i = 0; i < 14; i++) P(47 + i * 3, 20 + Math.round(i * 1.3), "#c0392b");
+    R(52, 34, 4, 2, "#6b4a2b");
+    R(70, 24, 4, 3, C.pink);
+    R(82, 30, 2, 4, "#8a5a33");
+    R(74, 40, 16, 1, "#4a3a28");
+    R(74, 38, 1, 2, "#4a3a28");
+    R(100, 22, 1, 14, "#f1f1f1");
+    R(99, 23, 1, 6, "#f1f1f1");
+    R(101, 24, 1, 6, "#dcdcdc");
+    R(102, 38, 5, 5, "#24242a");
+    R(103, 37, 3, 1, "#3a3a44");
+  },
+  fin(k) {
+    const {
+      R,
+      P,
+      r
+    } = k;
+    k.sky(["#24345e", "#4b5487", "#b67e8c", "#efbf9a"]);
+    for (let i = 0; i < 8; i++) P(r() * W, r() * 10, "#e9eefc");
+    k.range(44, 22, "#4e586c", {
+      cap: "#e8eef5"
+    });
+    k.ground(46, C.snow, C.snowS);
+    R(0, 30, 30, 16, C.stone);
+    R(0, 30, 30, 2, C.snow);
+    R(14, 39, 3, 7, "#4a331f");
+    R(21, 40, 3, 2, "#ffd27a");
+    [36, 82].forEach(x => k.spruce(x, 47, true));
+    k.stoneTower(102, 46, 22, true);
+    k.ilan(54, 50);
+    k.sittingWolf(62, 50);
+    k.snow(14);
+  }
+};
+function Scene({
+  name,
+  seed,
+  label
+}) {
+  const ref = useRef(null);
+  useEffect(() => {
+    const c = ref.current;
+    if (!c) return;
+    const ctx = c.getContext("2d");
+    ctx.clearRect(0, 0, W, H);
+    SCENES[name](kit(ctx, seed * 9973 + 17));
+  }, [name, seed]);
+  return React.createElement("canvas", {
+    ref: ref,
+    width: W,
+    height: H,
+    className: "scene",
+    role: "img",
+    "aria-label": label
+  });
+}
+const Svg = ({
+  children
+}) => React.createElement("svg", {
+  viewBox: "0 0 16 16",
+  width: "18",
+  height: "18",
+  "aria-hidden": "true",
+  fill: "currentColor",
+  shapeRendering: "crispEdges"
+}, children);
+const IPlay = () => React.createElement(Svg, null, React.createElement("path", {
+  d: "M4 2h2v1h2v1h2v1h2v1h1v4h-1v1h-2v1H8v1H6v1H4z"
+}));
+const IPause = () => React.createElement(Svg, null, React.createElement("path", {
+  d: "M4 3h3v10H4zM9 3h3v10H9z"
+}));
+const IStop = () => React.createElement(Svg, null, React.createElement("path", {
+  d: "M4 4h8v8H4z"
+}));
+const INext = () => React.createElement(Svg, null, React.createElement("path", {
+  d: "M5 2h2v2h2v2h2v4H9v2H7v2H5v-2h2v-2h2V6H7V4H5z"
+}));
+const IPrev = () => React.createElement(Svg, null, React.createElement("path", {
+  transform: "translate(16 0) scale(-1 1)",
+  d: "M5 2h2v2h2v2h2v4H9v2H7v2H5v-2h2v-2h2V6H7V4H5z"
+}));
+const IRestart = () => React.createElement(Svg, null, React.createElement("path", {
+  d: "M3 3h2v4h4v2H3zM7 3h6v2H7zM11 5h2v8h-2zM3 11h8v2H3z"
+}));
+const ISliders = () => React.createElement(Svg, null, React.createElement("path", {
+  d: "M2 3h12v2H2zM2 7h12v2H2zM2 11h12v2H2z"
+}), React.createElement("path", {
+  d: "M4 1h3v6H4zM9 5h3v6H9zM5 9h3v6H5z"
+}));
+const IClose = () => React.createElement("svg", {
+  viewBox: "0 0 16 16",
+  width: "18",
+  height: "18",
+  "aria-hidden": "true",
+  fill: "currentColor"
+}, React.createElement("path", {
+  d: "M3.5 2 8 6.5 12.5 2 14 3.5 9.5 8 14 12.5 12.5 14 8 9.5 3.5 14 2 12.5 6.5 8 2 3.5z"
+}));
+const FONTS = {
+  atkinson: {
+    label: "Atkinson",
+    css: '"Atkinson Hyperlegible", "Segoe UI", system-ui, sans-serif'
+  },
+  lexend: {
+    label: "Lexend",
+    css: '"Lexend", "Segoe UI", system-ui, sans-serif'
+  },
+  andika: {
+    label: "Andika",
+    css: '"Andika", "Segoe UI", system-ui, sans-serif'
+  }
+};
+const DEFAULTS = {
+  voice: "",
+  rate: 0.9,
+  pitch: 1,
+  volume: 1,
+  follow: true,
+  clickMode: "word",
+  autoNext: false,
+  font: "atkinson",
+  size: 20,
+  line: 1.7,
+  spacing: false,
+  roles: false
+};
+const KEY = "carte-dechiree-v1";
+const fr = (n, d = 2) => n.toFixed(d).replace(".", ",");
+function useVoices() {
+  const [list, setList] = useState([]);
+  useEffect(() => {
+    if (!("speechSynthesis" in window)) return;
+    const ss = window.speechSynthesis;
+    const load = () => setList(ss.getVoices());
+    load();
+    if (ss.addEventListener) ss.addEventListener("voiceschanged", load);else ss.onvoiceschanged = load;
+    const t = setTimeout(load, 800);
+    return () => {
+      clearTimeout(t);
+      if (ss.removeEventListener) ss.removeEventListener("voiceschanged", load);
+    };
+  }, []);
+  return list;
+}
+function Sentence({
+  sent,
+  si,
+  active,
+  word,
+  flash,
+  roles
+}) {
+  return React.createElement("span", {
+    className: "s" + (active ? " on" : "")
+  }, sent.tokens.map((tk, ti) => {
+    if (!tk.w) return tk.t;
+    const key = si + "-" + ti;
+    let c = "w";
+    if (active && word === ti) c += " cur";
+    if (flash === key) c += " flash";
+    if (roles && tk.role) c += " r-" + tk.role;
+    return React.createElement("span", {
+      key: ti,
+      className: c,
+      "data-k": key
+    }, tk.t);
+  }));
+}
+function Legend() {
+  return React.createElement("div", {
+    className: "legend",
+    "aria-label": "R\xF4les des personnages"
+  }, React.createElement("span", {
+    className: "chip"
+  }, React.createElement("i", {
+    className: "sw hero"
+  }), "H\xE9ros : Ilan"), React.createElement("span", {
+    className: "chip"
+  }, React.createElement("i", {
+    className: "sw adj"
+  }), "Adjuvants : Tobi, Ama, Oskar"), React.createElement("span", {
+    className: "chip"
+  }, React.createElement("i", {
+    className: "sw opp"
+  }), "Opposant : Varek"));
+}
+function Range({
+  id,
+  label,
+  value,
+  min,
+  max,
+  step,
+  onChange,
+  show
+}) {
+  return React.createElement("div", {
+    className: "field"
+  }, React.createElement("div", {
+    className: "field-top"
+  }, React.createElement("label", {
+    htmlFor: id
+  }, label), React.createElement("output", {
+    htmlFor: id
+  }, show(value))), React.createElement("input", {
+    id: id,
+    type: "range",
+    min: min,
+    max: max,
+    step: step,
+    value: value,
+    onChange: e => onChange(parseFloat(e.target.value))
+  }));
+}
+function Check({
+  id,
+  checked,
+  onChange,
+  children
+}) {
+  return React.createElement("label", {
+    className: "check",
+    htmlFor: id
+  }, React.createElement("input", {
+    id: id,
+    type: "checkbox",
+    checked: checked,
+    onChange: e => onChange(e.target.checked)
+  }), React.createElement("span", null, children));
+}
+function Settings({
+  settings,
+  setSettings,
+  frVoices,
+  voice,
+  supported,
+  onClose,
+  onTest
+}) {
+  const ref = useRef(null);
+  useEffect(() => {
+    ref.current && ref.current.focus();
+  }, []);
+  const up = (k, v) => setSettings(s => ({
+    ...s,
+    [k]: v
+  }));
+  return React.createElement("div", {
+    className: "scrim",
+    onMouseDown: e => {
+      if (e.target === e.currentTarget) onClose();
+    }
+  }, React.createElement("section", {
+    className: "sheet",
+    role: "dialog",
+    "aria-modal": "true",
+    "aria-labelledby": "set-title",
+    tabIndex: -1,
+    ref: ref
+  }, React.createElement("header", {
+    className: "sheet-head"
+  }, React.createElement("h2", {
+    id: "set-title"
+  }, "R\xE9glages"), React.createElement("button", {
+    className: "btn icon",
+    onClick: onClose,
+    "aria-label": "Fermer les r\xE9glages"
+  }, React.createElement(IClose, null))), React.createElement("div", {
+    className: "sheet-body"
+  }, React.createElement("fieldset", null, React.createElement("legend", null, "Voix"), !supported && React.createElement("p", {
+    className: "note warn"
+  }, "Ce navigateur ne propose pas de synth\xE8se vocale. Essaie Chrome, Edge ou Safari."), supported && frVoices.length === 0 && React.createElement("p", {
+    className: "note warn"
+  }, "Aucune voix fran\xE7aise n'est install\xE9e sur cet appareil. La voix par d\xE9faut du navigateur sera utilis\xE9e."), React.createElement("div", {
+    className: "field"
+  }, React.createElement("label", {
+    htmlFor: "voice"
+  }, "Voix fran\xE7aise"), React.createElement("select", {
+    id: "voice",
+    value: voice ? voice.voiceURI : "",
+    onChange: e => up("voice", e.target.value),
+    disabled: !supported || frVoices.length === 0
+  }, frVoices.length === 0 && React.createElement("option", {
+    value: ""
+  }, "Voix par d\xE9faut"), frVoices.map(v => React.createElement("option", {
+    key: v.voiceURI,
+    value: v.voiceURI
+  }, v.name, " (", v.lang, ")", v.localService ? "" : " · en ligne")))), React.createElement(Range, {
+    id: "rate",
+    label: "Vitesse",
+    value: settings.rate,
+    min: 0.5,
+    max: 1.5,
+    step: 0.05,
+    onChange: v => up("rate", v),
+    show: v => fr(v) + " ×"
+  }), React.createElement(Range, {
+    id: "pitch",
+    label: "Hauteur",
+    value: settings.pitch,
+    min: 0.5,
+    max: 1.5,
+    step: 0.05,
+    onChange: v => up("pitch", v),
+    show: v => fr(v)
+  }), React.createElement(Range, {
+    id: "volume",
+    label: "Volume",
+    value: settings.volume,
+    min: 0,
+    max: 1,
+    step: 0.05,
+    onChange: v => up("volume", v),
+    show: v => Math.round(v * 100) + " %"
+  }), React.createElement("button", {
+    className: "btn",
+    onClick: onTest,
+    disabled: !supported
+  }, React.createElement(IPlay, null), "Tester la voix"), React.createElement("p", {
+    className: "note"
+  }, "La synth\xE8se utilise les voix install\xE9es sur ton appareil. Elle est gratuite et ne demande aucun compte. La liste change selon le navigateur.")), React.createElement("fieldset", null, React.createElement("legend", null, "Lecture"), React.createElement(Check, {
+    id: "follow",
+    checked: settings.follow,
+    onChange: v => up("follow", v)
+  }, "Surligner la phrase et le mot lus"), React.createElement("div", {
+    className: "field"
+  }, React.createElement("span", {
+    className: "field-label",
+    id: "click-label"
+  }, "Un clic sur un mot lit\u2026"), React.createElement("div", {
+    className: "seg two",
+    role: "radiogroup",
+    "aria-labelledby": "click-label"
+  }, [["word", "le mot"], ["sentence", "la phrase"]].map(([v, l]) => React.createElement("label", {
+    key: v,
+    className: "seg-opt" + (settings.clickMode === v ? " on" : "")
+  }, React.createElement("input", {
+    type: "radio",
+    name: "clickMode",
+    id: "click-" + v,
+    value: v,
+    checked: settings.clickMode === v,
+    onChange: () => up("clickMode", v)
+  }), l)))), React.createElement(Check, {
+    id: "autonext",
+    checked: settings.autoNext,
+    onChange: v => up("autoNext", v)
+  }, "Passer seul \xE0 la page suivante")), React.createElement("fieldset", null, React.createElement("legend", null, "Affichage"), React.createElement("div", {
+    className: "field"
+  }, React.createElement("span", {
+    className: "field-label",
+    id: "font-label"
+  }, "Police"), React.createElement("div", {
+    className: "seg three",
+    role: "radiogroup",
+    "aria-labelledby": "font-label"
+  }, Object.entries(FONTS).map(([v, f]) => React.createElement("label", {
+    key: v,
+    className: "seg-opt" + (settings.font === v ? " on" : ""),
+    style: {
+      fontFamily: f.css
+    }
+  }, React.createElement("input", {
+    type: "radio",
+    name: "font",
+    id: "font-" + v,
+    value: v,
+    checked: settings.font === v,
+    onChange: () => up("font", v)
+  }), React.createElement("b", null, "Aa"), React.createElement("small", null, f.label))))), React.createElement(Range, {
+    id: "size",
+    label: "Taille du texte",
+    value: settings.size,
+    min: 16,
+    max: 30,
+    step: 1,
+    onChange: v => up("size", v),
+    show: v => v + " px"
+  }), React.createElement(Range, {
+    id: "line",
+    label: "Interligne",
+    value: settings.line,
+    min: 1.4,
+    max: 2.2,
+    step: 0.1,
+    onChange: v => up("line", v),
+    show: v => fr(v, 1)
+  }), React.createElement(Check, {
+    id: "spacing",
+    checked: settings.spacing,
+    onChange: v => up("spacing", v)
+  }, "Espacer les lettres et les mots")), React.createElement("fieldset", null, React.createElement("legend", null, "Aide \xE0 la compr\xE9hension"), React.createElement(Check, {
+    id: "roles",
+    checked: settings.roles,
+    onChange: v => up("roles", v)
+  }, "Rep\xE9rer les personnages (h\xE9ros, adjuvants, opposant)")), React.createElement("fieldset", null, React.createElement("legend", null, "Raccourcis"), React.createElement("p", {
+    className: "note"
+  }, "Fl\xE8ches \u2190 \u2192 : changer de page. Espace : lire ou mettre en pause. Sur t\xE9l\xE9phone, glisse vers la gauche ou la droite."), React.createElement("button", {
+    className: "btn",
+    onClick: () => setSettings({
+      ...DEFAULTS
+    })
+  }, "R\xE9tablir les r\xE9glages")))));
+}
+function App() {
+  const saved = useMemo(() => {
+    try {
+      return JSON.parse(localStorage.getItem(KEY)) || {};
+    } catch (e) {
+      return {};
+    }
+  }, []);
+  const [settings, setSettings] = useState(() => ({
+    ...DEFAULTS,
+    ...(saved.settings || {})
+  }));
+  const [page, setPage] = useState(() => Math.min(Math.max(saved.page | 0, 0), LAST));
+  const [playing, setPlaying] = useState(false);
+  const [cur, setCur] = useState(null);
+  const [flash, setFlash] = useState(null);
+  const [panel, setPanel] = useState(false);
+  const supported = typeof window !== "undefined" && "speechSynthesis" in window;
+  const voices = useVoices();
+  const frVoices = useMemo(() => voices.filter(v => /^fr/i.test(v.lang)), [voices]);
+  const voice = useMemo(() => frVoices.find(v => v.voiceURI === settings.voice) || frVoices.find(v => /fr[-_]FR/i.test(v.lang) && v.localService) || frVoices.find(v => /fr[-_]FR/i.test(v.lang)) || frVoices[0] || null, [frVoices, settings.voice]);
+  const data = PAGES[page];
+  const runRef = useRef(0),
+    posRef = useRef(0),
+    uttRef = useRef(null),
+    autoRef = useRef(false);
+  const dataRef = useRef(data),
+    cfgRef = useRef({
+      settings,
+      voice
+    });
+  const headingRef = useRef(null),
+    mounted = useRef(false),
+    touch = useRef(null),
+    flashTimer = useRef(null);
+  dataRef.current = data;
+  cfgRef.current = {
+    settings,
+    voice
+  };
+  const makeU = useCallback(text => {
+    const {
+      settings: s,
+      voice: v
+    } = cfgRef.current;
+    const u = new SpeechSynthesisUtterance(text.replace(/[—«»]/g, " "));
+    u.lang = v ? v.lang : "fr-FR";
+    if (v) u.voice = v;
+    u.rate = s.rate;
+    u.pitch = s.pitch;
+    u.volume = s.volume;
+    uttRef.current = u;
+    return u;
+  }, []);
+  const speakFrom = useCallback((i, run) => {
+    if (runRef.current !== run) return;
+    const d = dataRef.current;
+    if (i >= d.sentences.length) {
+      posRef.current = 0;
+      setCur(null);
+      setPlaying(false);
+      if (cfgRef.current.settings.autoNext) {
+        setPage(p => {
+          if (p < LAST) {
+            autoRef.current = true;
+            return p + 1;
+          }
+          return p;
+        });
+      }
+      return;
+    }
+    const sent = d.sentences[i];
+    const u = makeU(sent.text);
+    u.onstart = () => {
+      if (runRef.current !== run) return;
+      posRef.current = i;
+      setCur({
+        s: i,
+        w: -1
+      });
+    };
+    u.onboundary = e => {
+      if (runRef.current !== run) return;
+      if (e.name && e.name !== "word") return;
+      setCur({
+        s: i,
+        w: findToken(sent, e.charIndex)
+      });
+    };
+    u.onend = () => {
+      if (runRef.current !== run) return;
+      speakFrom(i + 1, run);
+    };
+    u.onerror = e => {
+      if (runRef.current !== run) return;
+      if (e.error === "interrupted" || e.error === "canceled") return;
+      setPlaying(false);
+      setCur(null);
+    };
+    window.speechSynthesis.speak(u);
+  }, [makeU]);
+  const play = useCallback(() => {
+    if (!supported) {
+      setPanel(true);
+      return;
+    }
+    const run = ++runRef.current;
+    window.speechSynthesis.cancel();
+    setPlaying(true);
+    setTimeout(() => speakFrom(posRef.current, run), 80);
+  }, [supported, speakFrom]);
+  const pause = useCallback(() => {
+    ++runRef.current;
+    if (supported) window.speechSynthesis.cancel();
+    setPlaying(false);
+    setCur(c => c ? {
+      s: c.s,
+      w: -1
+    } : null);
+  }, [supported]);
+  const stop = useCallback(() => {
+    ++runRef.current;
+    if (supported) window.speechSynthesis.cancel();
+    posRef.current = 0;
+    setCur(null);
+    setPlaying(false);
+  }, [supported]);
+  const go = useCallback(i => setPage(Math.min(Math.max(i, 0), LAST)), []);
+  const next = useCallback(() => setPage(p => p >= LAST ? 0 : p + 1), []);
+  const prev = useCallback(() => setPage(p => Math.max(p - 1, 0)), []);
+  useEffect(() => {
+    const auto = autoRef.current;
+    autoRef.current = false;
+    ++runRef.current;
+    if (supported) window.speechSynthesis.cancel();
+    posRef.current = 0;
+    setCur(null);
+    setPlaying(false);
+    setFlash(null);
+    if (mounted.current) {
+      window.scrollTo(0, 0);
+      if (headingRef.current) headingRef.current.focus({
+        preventScroll: true
+      });
+    }
+    mounted.current = true;
+    if (auto) {
+      const t = setTimeout(play, 200);
+      return () => clearTimeout(t);
+    }
+  }, [page]);
+  useEffect(() => {
+    try {
+      localStorage.setItem(KEY, JSON.stringify({
+        settings,
+        page
+      }));
+    } catch (e) {}
+  }, [settings, page]);
+  useEffect(() => () => {
+    if (supported) window.speechSynthesis.cancel();
+  }, []);
+  useEffect(() => {
+    const onKey = e => {
+      if (panel) {
+        if (e.key === "Escape") setPanel(false);
+        return;
+      }
+      if (e.target.closest && e.target.closest("input,select,textarea")) return;
+      if (e.key === "ArrowRight") {
+        e.preventDefault();
+        if (page < LAST) next();
+      } else if (e.key === "ArrowLeft") {
+        e.preventDefault();
+        prev();
+      } else if (e.key === " " && !(e.target.closest && e.target.closest("button"))) {
+        e.preventDefault();
+        playing ? pause() : play();
+      }
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [panel, page, playing, next, prev, play, pause]);
+  const onTextClick = e => {
+    const el = e.target.closest && e.target.closest("[data-k]");
+    if (!el || !supported) return;
+    const [s, t] = el.dataset.k.split("-").map(Number);
+    const sent = dataRef.current.sentences[s];
+    const run = ++runRef.current;
+    window.speechSynthesis.cancel();
+    setPlaying(false);
+    setCur(null);
+    const mode = cfgRef.current.settings.clickMode;
+    clearTimeout(flashTimer.current);
+    setTimeout(() => {
+      if (runRef.current !== run) return;
+      if (mode === "sentence") {
+        const u = makeU(sent.text);
+        u.onstart = () => {
+          if (runRef.current === run) setCur({
+            s,
+            w: -1
+          });
+        };
+        u.onboundary = ev => {
+          if (runRef.current !== run) return;
+          if (ev.name && ev.name !== "word") return;
+          setCur({
+            s,
+            w: findToken(sent, ev.charIndex)
+          });
+        };
+        u.onend = () => {
+          if (runRef.current === run) setCur(null);
+        };
+        window.speechSynthesis.speak(u);
+      } else {
+        const u = makeU(sent.tokens[t].t);
+        setFlash(s + "-" + t);
+        u.onend = () => {
+          if (runRef.current === run) setFlash(null);
+        };
+        flashTimer.current = setTimeout(() => setFlash(null), 2500);
+        window.speechSynthesis.speak(u);
+      }
+    }, 60);
+  };
+  const testVoice = () => {
+    ++runRef.current;
+    window.speechSynthesis.cancel();
+    setPlaying(false);
+    setCur(null);
+    setTimeout(() => window.speechSynthesis.speak(makeU("Bonjour ! Je vais te lire l'histoire de la carte déchirée.")), 60);
+  };
+  const onTouchStart = e => {
+    const t = e.touches[0];
+    touch.current = {
+      x: t.clientX,
+      y: t.clientY
+    };
+  };
+  const onTouchEnd = e => {
+    const s = touch.current;
+    touch.current = null;
+    if (!s) return;
+    const t = e.changedTouches[0],
+      dx = t.clientX - s.x,
+      dy = t.clientY - s.y;
+    if (Math.abs(dx) > 70 && Math.abs(dx) > Math.abs(dy) * 1.5) {
+      if (dx < 0) {
+        if (page < LAST) next();
+      } else prev();
+    }
+  };
+  const sentProps = si => ({
+    sent: data.sentences[si],
+    si,
+    active: settings.follow && cur !== null && cur.s === si,
+    word: cur ? cur.w : -1,
+    flash,
+    roles: settings.roles
+  });
+  const appStyle = {
+    "--reader-size": settings.size + "px",
+    "--reader-line": settings.line,
+    "--reader-font": FONTS[settings.font].css
+  };
+  return React.createElement("div", {
+    className: "app",
+    style: appStyle,
+    "data-spacing": settings.spacing ? "wide" : "normal"
+  }, React.createElement("header", {
+    className: "top"
+  }, React.createElement("div", {
+    className: "brand"
+  }, React.createElement("span", {
+    className: "block",
+    "aria-hidden": "true"
+  }), React.createElement("div", null, React.createElement("h1", null, "La carte d\xE9chir\xE9e"), React.createElement("p", null, "Un r\xE9cit d'aventure dans l'univers Mineclonia"))), React.createElement("button", {
+    className: "btn",
+    onClick: () => setPanel(true),
+    "aria-haspopup": "dialog"
+  }, React.createElement(ISliders, null), React.createElement("span", {
+    className: "lbl"
+  }, "R\xE9glages"))), React.createElement("nav", {
+    className: "track",
+    "aria-label": "Pages du r\xE9cit"
+  }, PAGES.map((p, i) => React.createElement("button", {
+    key: i,
+    className: "cell" + (i === page ? " now" : "") + (i < page ? " done" : ""),
+    onClick: () => go(i),
+    "aria-label": "Page " + (i + 1) + " : " + p.title,
+    "aria-current": i === page ? "page" : undefined
+  }))), React.createElement("main", {
+    className: "stage",
+    onTouchStart: onTouchStart,
+    onTouchEnd: onTouchEnd
+  }, React.createElement("figure", {
+    className: "pic"
+  }, React.createElement(Scene, {
+    name: data.scene,
+    seed: page + 1,
+    label: data.alt
+  })), React.createElement("article", {
+    className: "reader",
+    onClick: onTextClick
+  }, React.createElement("div", {
+    className: "kicker"
+  }, React.createElement("span", {
+    className: "pg"
+  }, "Page ", page + 1, " / ", PAGES.length), React.createElement("span", {
+    className: "hint"
+  }, "Clique ou touche un mot pour l'entendre")), React.createElement("h2", {
+    ref: headingRef,
+    tabIndex: -1
+  }, data.title.map(si => React.createElement(Sentence, _extends({
+    key: si
+  }, sentProps(si))))), data.paras.map((ids, pi) => React.createElement("p", {
+    key: pi,
+    className: data.paras[pi] && STORY[page].paras[pi].startsWith("—") ? "dlg" : ""
+  }, ids.map(si => React.createElement(Sentence, _extends({
+    key: si
+  }, sentProps(si)))))), page === LAST && React.createElement("p", {
+    className: "fin"
+  }, "Fin"), settings.roles && React.createElement(Legend, null))), React.createElement("footer", {
+    className: "dock"
+  }, React.createElement("div", {
+    className: "dock-in"
+  }, React.createElement("button", {
+    className: "btn",
+    onClick: prev,
+    disabled: page === 0,
+    "aria-label": "Page pr\xE9c\xE9dente"
+  }, React.createElement(IPrev, null), React.createElement("span", {
+    className: "lbl"
+  }, "Pr\xE9c\xE9dente")), React.createElement("div", {
+    className: "play"
+  }, playing ? React.createElement("button", {
+    className: "btn primary",
+    onClick: pause
+  }, React.createElement(IPause, null), "Pause") : React.createElement("button", {
+    className: "btn primary",
+    onClick: play
+  }, React.createElement(IPlay, null), posRef.current > 0 ? "Reprendre" : "Lire la page"), React.createElement("button", {
+    className: "btn icon",
+    onClick: stop,
+    "aria-label": "Arr\xEAter la lecture",
+    disabled: !playing && cur === null
+  }, React.createElement(IStop, null))), React.createElement("button", {
+    className: "btn",
+    onClick: next,
+    "aria-label": page === LAST ? "Recommencer l'histoire" : "Page suivante"
+  }, React.createElement("span", {
+    className: "lbl"
+  }, page === LAST ? "Recommencer" : "Suivante"), page === LAST ? React.createElement(IRestart, null) : React.createElement(INext, null)))), panel && React.createElement(Settings, {
+    settings: settings,
+    setSettings: setSettings,
+    frVoices: frVoices,
+    voice: voice,
+    supported: supported,
+    onClose: () => setPanel(false),
+    onTest: testVoice
+  }));
+}
+ReactDOM.createRoot(document.getElementById("root")).render(React.createElement(App, null));
+</script>
+
+</body></html>
