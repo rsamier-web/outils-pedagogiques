@@ -1,0 +1,634 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Le peuple du Livre</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Andika:wght@400;700&family=Atkinson+Hyperlegible:wght@400;700&family=Lexend:wght@400;600&display=swap">
+<style>
+/* Mise en page : une colonne de lecture centrée (62 caractères max), en-tête collant avec progression,
+   barre de lecture fixe en bas, panneau de réglages latéral (ordinateur) ou en bas (téléphone).
+   Palette : parchemin du rouleau, encre bleu-noir, velours bleu du Sefer Torah, fil d'or du rideau brodé. */
+:root{
+  --paper:#F6F2E8; --chrome:#ECE5D4; --ink:#1E2130; --muted:#5B564E;
+  --line:#D2C8B0; --line-strong:#9C9075;
+  --accent:#2E3D73; --accent-hover:#24315F; --on-accent:#FFFFFF;
+  --talia:#2E3D73; --rav:#7D560E;
+  --hl-sent:#EBDDB0; --hl-word:#2E3D73; --hl-word-fg:#FFFFFF;
+  --prog-done:#8E99C0; --focus:#B06C08; --notice:#F3E2BC;
+  --ui:'Atkinson Hyperlegible', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --read-font:'Andika', 'Atkinson Hyperlegible', Verdana, sans-serif;
+  --read-size:20px; --read-lh:1.7;
+  --bar-h:68px; --panel-w:360px;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#171A23; --chrome:#1F2330; --ink:#ECE6D6; --muted:#ABA598;
+    --line:#343A4C; --line-strong:#56607C;
+    --accent:#9DB0F0; --accent-hover:#B6C5F5; --on-accent:#121633;
+    --talia:#A9BAF2; --rav:#E2B866;
+    --hl-sent:#3C3624; --hl-word:#E2B866; --hl-word-fg:#171A23;
+    --prog-done:#4F5B85; --focus:#E8C46A; --notice:#3A3220;
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#171A23; --chrome:#1F2330; --ink:#ECE6D6; --muted:#ABA598;
+  --line:#343A4C; --line-strong:#56607C;
+  --accent:#9DB0F0; --accent-hover:#B6C5F5; --on-accent:#121633;
+  --talia:#A9BAF2; --rav:#E2B866;
+  --hl-sent:#3C3624; --hl-word:#E2B866; --hl-word-fg:#171A23;
+  --prog-done:#4F5B85; --focus:#E8C46A; --notice:#3A3220;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+html,body{background:var(--paper)}
+body{color:var(--ink);font-family:var(--ui);font-size:16px;line-height:1.4}
+button,select,input{font:inherit;color:inherit}
+:focus-visible{outline:3px solid var(--focus);outline-offset:2px}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+
+/* ---------- En-tête ---------- */
+.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:var(--chrome);border-bottom:1px solid var(--line)}
+.top-in{display:flex;align-items:center;justify-content:space-between;gap:12px;min-height:56px;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:6px}
+.book{display:flex;flex-direction:column;min-width:0}
+.book-title{font-weight:700;font-size:1.05rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.book-sub{color:var(--muted);font-size:.85rem}
+.top-actions{display:flex;align-items:center;gap:10px;flex-shrink:0}
+.count{font-variant-numeric:tabular-nums;color:var(--muted);font-size:.95rem;white-space:nowrap}
+.count b{color:var(--ink)}
+
+.progress{display:flex;gap:6px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:0 2px}
+.pgroup{display:flex;gap:2px;min-width:0}
+.pblock{flex:1 1 0;min-width:0;height:30px;padding:0;border:0;background:transparent;cursor:pointer;display:flex;align-items:center}
+.pblock::before{content:"";display:block;width:100%;height:8px;background:var(--line);border-radius:1px}
+.pblock.done::before{background:var(--prog-done)}
+.pblock[aria-current="page"]::before{background:var(--accent);height:12px}
+.pblock:hover::before{background:var(--line-strong)}
+.pblock[aria-current="page"]:hover::before{background:var(--accent)}
+
+/* ---------- Boutons (style Breeze : aplats, bordure fine) ---------- */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:48px;min-width:48px;padding:0 14px;
+  border:1px solid var(--line-strong);border-radius:3px;background:var(--paper);color:var(--ink);cursor:pointer;font-weight:700;white-space:nowrap}
+.btn:hover{background:var(--chrome);border-color:var(--accent)}
+.btn:disabled{opacity:.45;cursor:default}
+.btn:disabled:hover{background:var(--paper);border-color:var(--line-strong)}
+.btn.primary{background:var(--accent);border-color:var(--accent);color:var(--on-accent)}
+.btn.primary:hover{background:var(--accent-hover);border-color:var(--accent-hover)}
+.btn svg{width:20px;height:20px;flex-shrink:0;fill:currentColor}
+.btn-sm{min-height:44px;font-weight:400}
+
+/* ---------- Avis ---------- */
+.notice{display:flex;gap:12px;align-items:flex-start;background:var(--notice);border-bottom:1px solid var(--line);
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:10px}
+.notice p{margin:0;flex:1;min-width:0}
+.notice .btn{min-height:44px}
+
+/* ---------- Page de lecture ---------- */
+.app{transition:padding-right .2s}
+main{padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));
+  padding-block:28px calc(var(--bar-h) + env(safe-area-inset-bottom,0px) + 40px)}
+.page{max-width:62ch;margin-inline:auto;font-family:var(--read-font);font-size:var(--read-size);line-height:var(--read-lh)}
+.scene{margin:0 0 .3em;color:var(--muted);font-size:.78em;line-height:1.35}
+.page h1{margin:0 0 1em;font-size:1.4em;line-height:1.25;font-weight:700;text-wrap:balance;color:var(--ink)}
+.page h1:focus{outline:none}
+.page h1:focus-visible{outline:3px solid var(--focus);outline-offset:4px}
+.text{display:flex;flex-direction:column;gap:.85em;text-align:left;hyphens:none}
+.text p{margin:0}
+body.wide .text,body.wide .page h1{letter-spacing:.12em;word-spacing:.16em}
+.dida{color:var(--muted);border-left:2px solid var(--line-strong);padding-left:.75em}
+.who{font-weight:700}
+.line.talia .who{color:var(--talia)}
+.line.rav .who{color:var(--rav)}
+.aside{color:var(--muted)}
+.w{cursor:pointer;border-radius:2px}
+.w:hover{text-decoration:underline;text-decoration-style:dotted;text-underline-offset:.2em}
+.s.on{background:var(--hl-sent);border-radius:2px;-webkit-box-decoration-break:clone;box-decoration-break:clone}
+.w.on{background:var(--hl-word);color:var(--hl-word-fg);-webkit-box-decoration-break:clone;box-decoration-break:clone}
+.end-note{margin-top:2em;padding-top:1em;border-top:1px solid var(--line);color:var(--muted);font-family:var(--ui);font-size:.8em}
+
+/* ---------- Barre de lecture ---------- */
+.bar{position:fixed;left:0;right:0;bottom:0;z-index:30;background:var(--chrome);border-top:1px solid var(--line);
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));
+  padding-top:10px;padding-bottom:calc(10px + env(safe-area-inset-bottom,0px));transition:right .2s}
+.bar-in{max-width:760px;margin-inline:auto;display:flex;align-items:center;gap:8px}
+.bar-mid{flex:1;display:flex;justify-content:center;gap:8px;min-width:0}
+#btnPlay{min-width:11.5em}
+
+/* ---------- Panneau de réglages ---------- */
+.panel{position:fixed;z-index:40;background:var(--paper);overflow-y:auto;overscroll-behavior:contain}
+.panel-head{position:sticky;top:0;display:flex;align-items:center;justify-content:space-between;gap:8px;background:var(--chrome);
+  border-bottom:1px solid var(--line);padding:6px 8px 6px 16px}
+.panel-head h2{margin:0;font-size:1.1rem}
+.panel-body{padding:4px 16px 24px;display:flex;flex-direction:column}
+.panel section{display:flex;flex-direction:column;gap:14px;padding-block:16px;border-bottom:1px solid var(--line)}
+.panel section:last-child{border-bottom:0}
+.panel h3{margin:0;font-size:1rem}
+.field{display:flex;flex-direction:column;gap:6px}
+.field-row{display:flex;justify-content:space-between;align-items:baseline;gap:8px}
+.field label,.field .lbl{font-weight:700}
+.val{font-variant-numeric:tabular-nums;color:var(--muted)}
+.hint{color:var(--muted);font-size:.88rem;margin:0}
+select{min-height:44px;width:100%;border:1px solid var(--line-strong);border-radius:3px;background:var(--paper);padding:0 10px}
+input[type=range]{width:100%;min-height:32px;accent-color:var(--accent)}
+.check{display:flex;align-items:center;gap:10px;min-height:44px;cursor:pointer}
+.check input{width:22px;height:22px;accent-color:var(--accent);flex-shrink:0;margin:0}
+fieldset{border:0;margin:0;padding:0;min-width:0}
+legend{font-weight:700;padding:0;margin-bottom:6px}
+.seg{display:flex;border:1px solid var(--line-strong);border-radius:3px;overflow:hidden}
+.seg label{flex:1;position:relative;min-width:0}
+.seg input{position:absolute;opacity:0;inset:0;margin:0;cursor:pointer}
+.seg span{display:flex;align-items:center;justify-content:center;min-height:44px;padding:4px 6px;text-align:center;border-left:1px solid var(--line-strong);cursor:pointer}
+.seg label:first-child span{border-left:0}
+.seg input:checked + span{background:var(--accent);color:var(--on-accent);font-weight:700}
+.seg input:focus-visible + span{outline:3px solid var(--focus);outline-offset:-3px}
+.voice-warn{background:var(--notice);border:1px solid var(--line-strong);border-radius:3px;padding:10px 12px;margin:0}
+
+@media (min-width:960px){
+  .panel{top:0;right:0;bottom:calc(var(--bar-h) + env(safe-area-inset-bottom,0px));width:var(--panel-w);border-left:1px solid var(--line);
+    padding-right:env(safe-area-inset-right,0px);padding-top:env(safe-area-inset-top,0px)}
+  body.panel-open .app{padding-right:var(--panel-w)}
+  body.panel-open .bar{right:var(--panel-w)}
+  body.panel-open .top{z-index:20}
+}
+@media (max-width:959.98px){
+  .panel{left:0;right:0;bottom:calc(var(--bar-h) + env(safe-area-inset-bottom,0px));max-height:min(70vh,560px);border-top:2px solid var(--line-strong);
+    padding-left:env(safe-area-inset-left,0px);padding-right:env(safe-area-inset-right,0px)}
+}
+@media (max-width:560px){
+  .bar .lbl-hide{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+  #btnPlay{min-width:0;flex:1}
+  .book-sub{display:none}
+  .btn-settings .lbl-hide{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+}
+@media (prefers-reduced-motion: reduce){
+  *,*::before,*::after{transition:none!important;animation:none!important;scroll-behavior:auto!important}
+}
+</style>
+
+<div class="app" id="app">
+  <header class="top">
+    <div class="top-in">
+      <div class="book">
+        <span class="book-title">Le peuple du Livre</span>
+        <span class="book-sub">Dialogue en sept scènes</span>
+      </div>
+      <div class="top-actions">
+        <span class="count" id="count" aria-live="polite"></span>
+        <button class="btn btn-sm btn-settings" id="btnSettings" aria-expanded="false" aria-controls="panel">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6h11.2a3 3 0 0 1 5.6 0H21v2h-1.2a3 3 0 0 1-5.6 0H3V6zm14 2a1 1 0 1 0 0-2 1 1 0 0 0 0 2zM3 16h3.2a3 3 0 0 1 5.6 0H21v2h-9.2a3 3 0 0 1-5.6 0H3v-2zm6 2a1 1 0 1 0 0-2 1 1 0 0 0 0 2z"/></svg>
+          <span class="lbl-hide">Réglages</span>
+        </button>
+      </div>
+    </div>
+    <nav class="progress" id="progress" aria-label="Pages du dialogue"></nav>
+  </header>
+  <div class="notice" id="notice" hidden>
+    <p id="noticeText"></p>
+    <button class="btn btn-sm" id="noticeClose">Fermer</button>
+  </div>
+  <main id="main">
+    <article class="page" id="page"></article>
+  </main>
+</div>
+
+<div class="bar" id="bar">
+  <div class="bar-in">
+    <button class="btn" id="btnPrev">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15.4 5.4 14 4l-8 8 8 8 1.4-1.4L8.8 12z"/></svg>
+      <span class="lbl-hide">Précédente</span>
+    </button>
+    <div class="bar-mid">
+      <button class="btn primary" id="btnPlay"><svg viewBox="0 0 24 24" aria-hidden="true" id="playIcon"></svg><span id="playLabel">Lire la page</span></button>
+      <button class="btn" id="btnStop">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6h12v12H6z"/></svg>
+        <span class="lbl-hide">Arrêter</span>
+      </button>
+    </div>
+    <button class="btn" id="btnNext">
+      <span class="lbl-hide" id="nextLabel">Suivante</span>
+      <svg viewBox="0 0 24 24" aria-hidden="true" id="nextIcon"></svg>
+    </button>
+  </div>
+</div>
+
+<aside class="panel" id="panel" hidden aria-labelledby="panelTitle">
+  <div class="panel-head">
+    <h2 id="panelTitle">Réglages</h2>
+    <button class="btn btn-sm" id="btnClose">Fermer</button>
+  </div>
+  <div class="panel-body">
+    <section aria-labelledby="hVoix">
+      <h3 id="hVoix">Lecture à voix haute</h3>
+      <p class="voice-warn" id="voiceWarn" hidden></p>
+      <div class="field">
+        <label for="selVoice">Voix</label>
+        <select id="selVoice"></select>
+        <p class="hint">Le surlignage mot à mot dépend de la voix choisie. Les voix installées sur l'appareil le gèrent le mieux.</p>
+      </div>
+      <div class="field">
+        <div class="field-row"><label for="rngRate">Vitesse</label><span class="val" id="valRate"></span></div>
+        <input type="range" id="rngRate" min="0.5" max="1.5" step="0.05">
+      </div>
+      <div class="field">
+        <div class="field-row"><label for="rngPitch">Hauteur de la voix</label><span class="val" id="valPitch"></span></div>
+        <input type="range" id="rngPitch" min="0.5" max="1.5" step="0.1">
+      </div>
+      <div class="field">
+        <div class="field-row"><label for="rngVol">Volume</label><span class="val" id="valVol"></span></div>
+        <input type="range" id="rngVol" min="0" max="1" step="0.1">
+      </div>
+      <button class="btn btn-sm" id="btnTest">Tester la voix</button>
+      <label class="check"><input type="checkbox" id="chkHl"> Surligner la phrase et le mot lus</label>
+      <label class="check"><input type="checkbox" id="chkAnnounce"> Annoncer qui parle</label>
+      <label class="check"><input type="checkbox" id="chkAuto"> Passer seul à la page suivante</label>
+      <fieldset>
+        <legend>Un clic sur un mot lit…</legend>
+        <div class="seg">
+          <label><input type="radio" name="click" id="clickWord" value="word"><span>le mot</span></label>
+          <label><input type="radio" name="click" id="clickSent" value="sentence"><span>la phrase</span></label>
+        </div>
+      </fieldset>
+    </section>
+    <section aria-labelledby="hAff">
+      <h3 id="hAff">Affichage</h3>
+      <fieldset>
+        <legend>Police</legend>
+        <div class="seg">
+          <label><input type="radio" name="font" id="fontAndika" value="andika"><span style="font-family:'Andika',sans-serif">Andika</span></label>
+          <label><input type="radio" name="font" id="fontAtkinson" value="atkinson"><span style="font-family:'Atkinson Hyperlegible',sans-serif">Atkinson</span></label>
+          <label><input type="radio" name="font" id="fontLexend" value="lexend"><span style="font-family:'Lexend',sans-serif">Lexend</span></label>
+        </div>
+      </fieldset>
+      <div class="field">
+        <div class="field-row"><label for="rngSize">Taille du texte</label><span class="val" id="valSize"></span></div>
+        <input type="range" id="rngSize" min="16" max="30" step="1">
+      </div>
+      <div class="field">
+        <div class="field-row"><label for="rngLh">Interligne</label><span class="val" id="valLh"></span></div>
+        <input type="range" id="rngLh" min="1.4" max="2.2" step="0.1">
+      </div>
+      <label class="check"><input type="checkbox" id="chkWide"> Espacer les lettres et les mots</label>
+      <fieldset>
+        <legend>Thème</legend>
+        <div class="seg">
+          <label><input type="radio" name="theme" id="themeAuto" value="auto"><span>Auto</span></label>
+          <label><input type="radio" name="theme" id="themeLight" value="light"><span>Clair</span></label>
+          <label><input type="radio" name="theme" id="themeDark" value="dark"><span>Sombre</span></label>
+        </div>
+      </fieldset>
+    </section>
+    <section aria-labelledby="hAide">
+      <h3 id="hAide">Raccourcis</h3>
+      <p class="hint">Flèches gauche et droite : page précédente ou suivante. Espace : lire, mettre en pause, reprendre. Sur téléphone : glisser vers la gauche ou la droite.</p>
+      <button class="btn btn-sm" id="btnReset">Revenir aux réglages de départ</button>
+    </section>
+  </div>
+</aside>
+
+<script>
+const PAGES = [{"scene": 1, "sceneTitle": "Scène 1 – La question de départ", "title": "Le devoir de Talia", "paras": ["La bibliothèque d'une synagogue. Des étagères en bois, de vieux livres aux couvertures usées. Au fond, une armoire fermée par un rideau brodé. Talia entre, sa fiche de français à la main. Le rabbin lève les yeux de son livre.", "Talia : Bonjour, Rav. Ma mère m'a dit que vous pourriez m'aider pour mon devoir de français.", "Le rabbin : Avec plaisir. De quoi s'agit-il ?", "Talia : De l'histoire de la littérature. Homère, les chevaliers, Molière, Victor Hugo… (Elle soupire.) Franchement, à quoi ça sert de connaître des livres vieux de trois mille ans ?"]}, {"scene": 1, "sceneTitle": "Scène 1 – La question de départ", "title": "Le plus vieux livre", "paras": ["Le rabbin : (il sourit) Excellente question. Mais avant d'y répondre, je t'en pose une autre. À ton avis, quel est le plus vieux livre de cette pièce ?", "Talia : (elle regarde autour d'elle) Je ne sais pas… Celui-là, avec la couverture toute abîmée ?", "Le rabbin se lève, ouvre le rideau de l'armoire et montre un rouleau couvert de velours.", "Le rabbin : Celui-ci. Un Sefer Torah. Le texte qu'il contient a près de trois mille ans, comme ton Homère.", "Talia : Vous répondez toujours à une question par une autre question ?"]}, {"scene": 1, "sceneTitle": "Scène 1 – La question de départ", "title": "La havrouta", "paras": ["Le rabbin : (il rit) C'est une vieille habitude chez nous. Dans nos écoles, on étudie à deux. Cela s'appelle la havrouta. On lit un texte, on se pose des questions, on n'est pas d'accord, on discute. C'est comme ça qu'on apprend. Alors, on fait une havrouta, toi et moi ?", "Talia : D'accord. Mais c'est moi qui pose les questions.", "Le rabbin : Marché conclu."]}, {"scene": 2, "sceneTitle": "Scène 2 – Pourquoi « le peuple du Livre » ?", "title": "Inventer les livres ?", "paras": ["Talia : Première question, alors. On dit que les Juifs sont « le peuple du Livre ». Ça veut dire qu'on a inventé les livres ?", "Le rabbin : Non, et il faut être honnête. Les Égyptiens et les Mésopotamiens écrivaient bien avant nous. Il existe même une épopée plus ancienne que la Torah : l'histoire du roi Gilgamesh.", "Talia : Alors pourquoi « le peuple du Livre » ?", "Le rabbin : Parce que notre peuple a fait quelque chose de nouveau. Il a mis un livre au centre de sa vie. Et ce livre n'était pas réservé aux prêtres ou aux rois. Il devait être lu par tout le monde. Tu connais le Chema ?"]}, {"scene": 2, "sceneTitle": "Scène 2 – Pourquoi « le peuple du Livre » ?", "title": "Un livre pour tous", "paras": ["Talia : « Chema Israël… » Oui.", "Le rabbin : Un peu plus loin, le texte dit : « Tu les enseigneras à tes enfants. » Chaque parent doit transmettre. Chaque enfant doit apprendre. Il y a deux mille ans, c'était une idée révolutionnaire. Dans la plupart des pays, presque personne ne savait lire.", "Talia : C'est pour ça qu'on lit la Torah à la synagogue chaque semaine ?"]}, {"scene": 2, "sceneTitle": "Scène 2 – Pourquoi « le peuple du Livre » ?", "title": "Chaque lettre compte", "paras": ["Le rabbin : Exactement. Et regarde comment on la traite. (Il montre le rouleau.) Ce rouleau est écrit à la main par un scribe, le sofer. Il recopie chaque lettre avec une plume d'oie. S'il manque une seule lettre, le rouleau ne peut plus être lu à la synagogue tant qu'on ne l'a pas corrigé.", "Talia : Une seule lettre ? Sur tout le livre ?", "Le rabbin : Une seule. Tu vois : chaque mot compte. Dans ta fiche, comment s'appelle la valeur d'une œuvre quand on admire le travail de l'auteur sur les mots ?", "Talia : (elle cherche sur sa fiche) La valeur… artistique."]}, {"scene": 2, "sceneTitle": "Scène 2 – Pourquoi « le peuple du Livre » ?", "title": "La guenizah du Caire", "paras": ["Le rabbin : Bravo. Autre chose : chez nous, on ne jette jamais un livre saint, même abîmé. On le range dans une pièce spéciale, la guenizah, puis on l'enterre, comme on enterre une personne.", "Talia : Comme une personne ? C'est bizarre.", "Le rabbin : Pas tant que ça. Au Caire, en Égypte, une synagogue a gardé sa guenizah pendant presque mille ans. Quand des savants l'ont ouverte, il y a un peu plus d'un siècle, ils ont trouvé des centaines de milliers de pages. Des lettres, des poèmes, des contrats… et même des textes écrits de la main de Maïmonide.", "Talia : Waouh."]}, {"scene": 2, "sceneTitle": "Scène 2 – Pourquoi « le peuple du Livre » ?", "title": "Rabbi Yohanan à Yavné", "paras": ["Le rabbin : Je vais te raconter une histoire. Il y a presque deux mille ans, en l'an 70, les Romains encerclent Jérusalem. La ville va tomber. Un grand sage, Rabbi Yohanan ben Zakkaï, se fait passer pour mort. Ses élèves le sortent de la ville dans un cercueil. Il arrive devant le général romain et lui demande une seule chose : « Donne-moi la ville de Yavné et ses sages. »", "Talia : Il ne demande pas de sauver Jérusalem ?"]}, {"scene": 2, "sceneTitle": "Scène 2 – Pourquoi « le peuple du Livre » ?", "title": "La patrie portative", "paras": ["Le rabbin : Il sait que c'est trop tard. Il demande une école. Quelques jours plus tard, le Temple est détruit. Le peuple juif a perdu son lieu le plus sacré. Mais grâce à Yavné, il a gardé ses livres et ses maîtres. Un poète allemand, Heinrich Heine, a dit que les Juifs emportaient partout avec eux une « patrie portative ».", "Talia : Une patrie qu'on peut porter… c'est la Torah !"]}, {"scene": 2, "sceneTitle": "Scène 2 – Pourquoi « le peuple du Livre » ?", "title": "Les gens du Livre", "paras": ["Le rabbin : Tu as compris. Et tu sais d'où vient l'expression « gens du Livre » ?", "Talia : De la Bible ?", "Le rabbin : Non, du Coran. Le Coran appelle les Juifs et les chrétiens Ahl al-Kitâb, les « gens du Livre ». Les Juifs ont ensuite repris cette expression en hébreu : Am HaSefer. Tu pourras le dire à tes camarades de classe."]}, {"scene": 3, "sceneTitle": "Scène 3 – Les pouvoirs des livres", "title": "Pessah et la Haggadah", "paras": ["Talia : Sur ma fiche, il y a cinq pouvoirs des livres : apprendre, partager des idées, ressentir des émotions, se mettre à la place des autres, inspirer d'autres créateurs.", "Le rabbin : Je parie que tu les connais déjà tous, sans le savoir. Prenons Pessah. Qu'est-ce qu'on lit le soir du Seder ?", "Talia : La Haggadah.", "Le rabbin : « Haggadah » veut dire « récit ». La Torah dit : « Tu raconteras à ton fils. » Chaque année, on raconte la même histoire, la sortie d'Égypte, pour que la mémoire ne se perde pas. Et dans la Haggadah, il y a quatre fils. Tu te souviens ?"]}, {"scene": 3, "sceneTitle": "Scène 3 – Les pouvoirs des livres", "title": "Apprendre, puis Pourim", "paras": ["Talia : Le sage, le méchant, le simple, et celui qui ne sait pas poser de questions.", "Le rabbin : Chacun reçoit une réponse adaptée. Chacun apprend à sa manière. Premier pouvoir ?", "Talia : Apprendre.", "Le rabbin : Maintenant, Pourim. Qu'est-ce qu'on fait quand on lit la Meguila d'Esther et qu'on entend le nom d'Haman ?", "Talia : (elle rit) On fait du bruit ! On tape des pieds, on fait tourner les crécelles.", "Le rabbin : Pourquoi ?", "Talia : Parce qu'on déteste Haman. Il voulait tuer tous les Juifs."]}, {"scene": 3, "sceneTitle": "Scène 3 – Les pouvoirs des livres", "title": "Esther et Shéhérazade", "paras": ["Le rabbin : Tu vois, un texte vieux de deux mille cinq cents ans te met encore en colère. Et quand Esther entre chez le roi sans y être invitée, au risque de mourir ?", "Talia : On a peur pour elle. Et à la fin, tout se retourne : c'est Haman qui est puni.", "Le rabbin : Du suspense, un retournement final, des émotions fortes. C'est le troisième pouvoir, et c'est la valeur esthétique. Tiens, ta fiche parle d'une autre femme qui vit à la cour d'un roi de Perse, et qui sauve des vies grâce à son intelligence…", "Talia : Shéhérazade ! Dans Les Mille et Une Nuits."]}, {"scene": 3, "sceneTitle": "Scène 3 – Les pouvoirs des livres", "title": "Simhat Torah", "paras": ["Le rabbin : Esther et Shéhérazade, deux reines perses qui gagnent par leur esprit. Les histoires se répondent.", "Talia : Et Simhat Torah, ça montre quel pouvoir ?", "Le rabbin : Bonne question. Ce jour-là, on lit la toute fin de la Torah, puis on recommence au début, le jour même, en dansant. Un grand livre, on ne le finit jamais. On le relit, et on découvre toujours quelque chose de nouveau. Un sage nommé Ben Bag Bag disait de la Torah : « Tourne-la et retourne-la, car tout est en elle. »"]}, {"scene": 3, "sceneTitle": "Scène 3 – Les pouvoirs des livres", "title": "La page du Talmud", "paras": ["Le rabbin prend un gros livre et l'ouvre devant Talia.", "Le rabbin : Maintenant, regarde cette page. C'est le Talmud.", "Talia : Il y a du texte partout ! Au milieu, sur les côtés, en tout petit…", "Le rabbin : Au centre, le texte principal. Autour, des commentaires écrits par des sages qui ont vécu à des siècles d'écart. Celui-là, c'est Rachi. Il vivait en France il y a presque mille ans. Sur une seule page, des gens de différentes époques discutent entre eux."]}, {"scene": 3, "sceneTitle": "Scène 3 – Les pouvoirs des livres", "title": "Les livres se parlent", "paras": ["Talia : Comme dans le tableau « Les liens entre les œuvres » à la fin de ma fiche !", "Le rabbin : Exactement. Les livres se parlent, et ils inspirent d'autres livres. Nos sages ont même inventé des histoires pour raconter ce que la Bible ne dit pas. On appelle ça le Midrash. Dans ton glossaire, il y a un mot pour ça…", "Talia : (elle cherche) Réécriture !"]}, {"scene": 4, "sceneTitle": "Scène 4 – Voyage dans le temps : de l'Antiquité à la Renaissance", "title": "Ulysse et Abraham", "paras": ["Talia : Bon. Maintenant, les grandes époques. On commence par l'Antiquité et Homère.", "Le rabbin : À peu près à la même époque où les Grecs récitaient L'Odyssée, notre peuple mettait par écrit les récits de la Bible. Compare deux voyages. Que veut Ulysse ?", "Talia : Rentrer chez lui, à Ithaque.", "Le rabbin : Et Abraham ? Dieu lui dit Lekh lekha : « Va pour toi. Quitte ton pays, ta famille, la maison de ton père. »", "Talia : Lui, il part… et il ne revient pas."]}, {"scene": 4, "sceneTitle": "Scène 4 – Voyage dans le temps : de l'Antiquité à la Renaissance", "title": "Poètes d'Andalousie", "paras": ["Le rabbin : Deux grands voyages. L'un pour revenir, l'autre pour aller vers l'inconnu. Et dans la Bible, il y a aussi de la poésie : les Psaumes du roi David, le Cantique des Cantiques.", "Talia : Au Moyen Âge, ma fiche parle de chevaliers et de La Chanson de Roland.", "Le rabbin : Pendant qu'en France les jongleurs chantaient Roland, en Andalousie, dans le sud de l'Espagne, des poètes juifs écrivaient en hébreu et en arabe. Le plus célèbre s'appelle Yehouda Halevi. Il a écrit un vers que je traduis à peu près ainsi : « Mon cœur est en Orient, et moi je suis au bout de l'Occident. »"]}, {"scene": 4, "sceneTitle": "Scène 4 – Voyage dans le temps : de l'Antiquité à la Renaissance", "title": "Du Bellay et Maïmonide", "paras": ["Talia : Il est triste d'être loin de Jérusalem… Attendez, c'est comme Du Bellay ! « Heureux qui, comme Ulysse… » Lui aussi regrette son pays.", "Le rabbin : Tu vois, tu fais des liens toute seule. Yehouda Halevi l'a écrit quatre siècles avant Du Bellay. Et tu connais Maïmonide ?", "Talia : Le Rambam. Oui, j'en ai entendu parler.", "Le rabbin : Il est né à Cordoue, en Espagne. Sa famille a dû fuir, et il a vécu plusieurs années ici, au Maroc, à Fès. Plus tard, il a écrit le Guide des égarés, un livre dans lequel il discute avec Aristote, un philosophe grec de l'Antiquité."]}, {"scene": 4, "sceneTitle": "Scène 4 – Voyage dans le temps : de l'Antiquité à la Renaissance", "title": "Les bakkachot du Maroc", "paras": ["Talia : Un auteur du Moyen Âge qui discute avec un auteur de l'Antiquité…", "Le rabbin : Encore des livres qui se parlent. Et chez nous, au Maroc, on a une tradition qui ressemble à celle des jongleurs : les bakkachot. Les nuits d'hiver, avant l'aube du shabbat, les hommes se réunissaient pour chanter de longs poèmes. Les textes passaient par la voix, de génération en génération."]}, {"scene": 4, "sceneTitle": "Scène 4 – Voyage dans le temps : de l'Antiquité à la Renaissance", "title": "L'exil de 1492", "paras": ["Talia : Et la Renaissance ? La fiche dit que ça commence en 1492, avec la découverte de l'Amérique.", "Le rabbin : (il devient plus grave) 1492, pour nous, c'est aussi une autre date. Cette année-là, les rois d'Espagne expulsent tous les Juifs du pays. Des milliers de familles partent. Beaucoup arrivent au Maroc, avec presque rien… sauf leurs livres.", "Talia : Leur patrie portative."]}, {"scene": 4, "sceneTitle": "Scène 4 – Voyage dans le temps : de l'Antiquité à la Renaissance", "title": "Imprimer à Fès", "paras": ["Le rabbin : (il sourit) Tu retiens vite. Et ma date préférée : 1516. Des imprimeurs juifs, chassés du Portugal, installent une imprimerie à Fès. C'est la toute première imprimerie d'Afrique.", "Talia : La première d'Afrique, c'était au Maroc ?", "Le rabbin : Au Maroc, et faite par des Juifs. Quelques années plus tard, à Venise, on imprime pour la première fois le Talmud complet. La mise en page que tu viens de voir, avec ses numéros de pages, date de cette édition. On l'utilise encore aujourd'hui dans le monde entier."]}, {"scene": 5, "sceneTitle": "Scène 5 – Du XVIIe au XIXe siècle", "title": "Spinoza à Amsterdam", "paras": ["Talia : Après, il y a le XVIIe siècle, avec Louis XIV et Molière.", "Le rabbin : À la même époque, à Amsterdam, vit un philosophe juif d'origine portugaise : Spinoza. Il lit la Bible comme un texte à analyser, avec sa raison. Ses idées étaient si audacieuses que sa communauté l'a exclu. Mais il annonce déjà l'époque suivante.", "Talia : Les Lumières ! Les écrivains qui veulent éclairer les gens par la raison."]}, {"scene": 5, "sceneTitle": "Scène 5 – Du XVIIe au XIXe siècle", "title": "Les Lumières juives", "paras": ["Le rabbin : Au XVIIIe siècle, un penseur juif allemand, Moses Mendelssohn, lance les « Lumières juives », la Haskala. Son idée : on peut être fidèle à la tradition et ouvert à la science et à la raison. Et en 1791, pendant la Révolution française, les Juifs de France deviennent des citoyens comme les autres.", "Talia : Grâce à des écrivains comme Voltaire ?"]}, {"scene": 5, "sceneTitle": "Scène 5 – Du XVIIe au XIXe siècle", "title": "Lire les yeux ouverts", "paras": ["Le rabbin : (il réfléchit) En partie, oui. Voltaire a défendu la tolérance, il s'est battu contre l'injustice. Mais je vais te dire quelque chose d'important : il a aussi écrit des textes très méchants contre les Juifs.", "Talia : Alors il ne faut pas le lire ?", "Le rabbin : Si, il faut le lire. Mais avec les yeux ouverts. On peut admirer un auteur pour certaines idées et le critiquer pour d'autres. C'est exactement ce que font nos commentateurs dans les marges du Talmud : ils respectent un texte, mais ils ne l'acceptent jamais sans réfléchir."]}, {"scene": 5, "sceneTitle": "Scène 5 – Du XVIIe au XIXe siècle", "title": "L'école de l'Alliance", "paras": ["Talia : Et au XIXe siècle ?", "Le rabbin : Une question pour toi : pourquoi est-ce que ta grand-mère parle si bien français ?", "Talia : (surprise) Je ne sais pas… Elle allait à l'école de l'Alliance, je crois.", "Le rabbin : L'Alliance israélite universelle. Elle est créée à Paris en 1860, et deux ans plus tard, elle ouvre sa première école au Maroc, à Tétouan. Puis dans presque toutes les villes du pays. Grâce à elle, des générations d'enfants juifs marocains ont lu Victor Hugo et Jules Verne.", "Talia : Donc si je lis ces livres aujourd'hui, c'est un peu grâce à ça."]}, {"scene": 5, "sceneTitle": "Scène 5 – Du XVIIe au XIXe siècle", "title": "L'hébreu revit", "paras": ["Le rabbin : Un peu, oui. Au même moment, un homme nommé Eliezer Ben Yehouda fait quelque chose d'incroyable. L'hébreu n'était presque plus parlé depuis des siècles : c'était une langue de livres et de prières. Lui décide de parler uniquement en hébreu à son fils. Aujourd'hui, des millions de personnes le parlent.", "Talia : Une langue qui sort des livres pour revenir dans la vie !"]}, {"scene": 5, "sceneTitle": "Scène 5 – Du XVIIe au XIXe siècle", "title": "Brûler des livres", "paras": ["Le rabbin : Et une dernière phrase du XIXe siècle, de Heinrich Heine encore. Il l'a écrite en 1821, dans une pièce de théâtre qui parle de l'Andalousie, au moment où l'on brûle le Coran à Grenade : « Là où l'on brûle des livres, on finit par brûler des hommes. »", "Talia : (silence) C'est… effrayant.", "Le rabbin : Garde cette phrase en tête. Nous en avons besoin pour la suite."]}, {"scene": 6, "sceneTitle": "Scène 6 – XXe et XXIe siècles : écrire pour témoigner", "title": "Les feux de 1933", "paras": ["Le rabbin : Plus d'un siècle après Heine, en 1933, en Allemagne, les nazis organisent de grands feux sur les places publiques. Ils brûlent des milliers de livres, dont ceux de Heine lui-même. Quelques années plus tard, ils essaient d'exterminer le peuple juif. Heine avait vu juste.", "Talia : On en a parlé à l'école. La Shoah.", "Le rabbin : Et il y a une jeune fille que tu connais peut-être. Pour ses treize ans, elle reçoit un cahier à carreaux rouges et blancs.", "Talia : Anne Frank ?"]}, {"scene": 6, "sceneTitle": "Scène 6 – XXe et XXIe siècles : écrire pour témoigner", "title": "Le journal d'Anne", "paras": ["Le rabbin : Anne Frank. Elle a ton âge. Elle se cache avec sa famille dans un appartement secret à Amsterdam, pendant deux ans. Pour ne pas étouffer, elle écrit. Elle raconte ses disputes avec sa mère, ses rêves de devenir écrivaine, ses peurs, ses espoirs.", "Talia : Elle a survécu ?", "Le rabbin : (doucement) Non. Elle a été arrêtée et elle est morte dans un camp, quelques semaines avant la fin de la guerre. Mais son journal a été sauvé. Aujourd'hui, il est lu dans le monde entier. Quand tu le lis, tu es avec elle, dans sa cachette."]}, {"scene": 6, "sceneTitle": "Scène 6 – XXe et XXIe siècles : écrire pour témoigner", "title": "Écrire pour témoigner", "paras": ["Talia : C'est le quatrième pouvoir : se mettre à la place des autres. Et c'est une autobiographie, puisqu'elle raconte sa propre vie.", "Le rabbin : Oui. Après la guerre, d'autres survivants ont écrit pour que le monde n'oublie pas. Elie Wiesel a raconté ce qu'il avait vécu enfant dans les camps. Il a reçu le prix Nobel de la paix. Pour eux, écrire, c'était témoigner."]}, {"scene": 6, "sceneTitle": "Scène 6 – XXe et XXIe siècles : écrire pour témoigner", "title": "Écrivains d'aujourd'hui", "paras": ["Talia : Et aujourd'hui ? Il y a des écrivains juifs marocains ?", "Le rabbin : Bien sûr. Edmond Amran El Maleh, par exemple, né à Safi. Il a raconté le Maroc de son enfance, ses villes, ses langues, le mélange des cultures. Et dans ta fiche, il y a No et moi…", "Talia : Lou, qui a treize ans et qui se lie d'amitié avec une fille qui vit dans la rue.", "Le rabbin : Tu vois le point commun avec Anne Frank ?", "Talia : (elle réfléchit) Les deux livres nous font voir le monde avec les yeux d'une fille de notre âge. Et ils nous obligent à regarder des choses qu'on préférerait ne pas voir."]}, {"scene": 7, "sceneTitle": "Scène 7 – Retour à la question de départ", "title": "Talia répond", "paras": ["Le rabbin referme le Talmud. Talia regarde sa fiche, couverte de notes.", "Le rabbin : Au début, tu m'as demandé : « À quoi ça sert de connaître des livres vieux de trois mille ans ? » Cette fois, c'est toi qui réponds.", "Talia : (elle prend son temps) Les livres servent à transmettre, comme la Haggadah. À ressentir des émotions, comme avec Esther. À se mettre à la place des autres, comme avec Anne Frank. Et ils peuvent sauver un peuple : quand on a tout perdu, comme à Yavné ou en 1492, les livres, on peut les emporter."]}, {"scene": 7, "sceneTitle": "Scène 7 – Retour à la question de départ", "title": "Écrire dans la marge", "paras": ["Le rabbin : Et les vieux livres ?", "Talia : Les vieux livres, c'est comme le centre de la page du Talmud. Tous les autres livres viennent se placer autour pour discuter avec eux. Si on ne connaît pas le centre, on ne comprend pas la conversation.", "Le rabbin : (il hoche la tête, ému) Je n'aurais pas mieux dit. Lire, Talia, ce n'est pas seulement recevoir. C'est ajouter ta voix dans la marge des grands livres.", "Talia : Alors moi aussi, je peux écrire dans la marge ?"]}, {"scene": 7, "sceneTitle": "Scène 7 – Retour à la question de départ", "title": "Ta page de Talmud", "paras": ["Le rabbin : Voilà ton exercice. Prends une grande feuille. Au centre, écris une phrase de ta fiche qui t'a marquée. Tout autour, comme dans le Talmud, écris tes questions, les liens que tu fais avec d'autres histoires et ce que tu ressens. Ce sera ta première page de commentaire.", "Talia : (elle sourit) Ma page de Talmud à moi.", "Le rabbin : Et la semaine prochaine, on en discute. En havrouta.", "Rideau."]}];
+const KEY = 'peupleDuLivre.v1';
+const DEFAULTS = {font:'andika', size:20, lh:1.7, wide:false, theme:'auto', voice:'', rate:0.9, pitch:1, volume:1,
+  highlight:true, clickMode:'word', autoNext:false, announce:true};
+const FONTS = {
+  andika:"'Andika', 'Atkinson Hyperlegible', Verdana, sans-serif",
+  atkinson:"'Atkinson Hyperlegible', Verdana, sans-serif",
+  lexend:"'Lexend', Verdana, sans-serif"
+};
+const SPEAKER_CLASS = {'Talia':'talia','Le rabbin':'rav'};
+/* Prononciation seulement (le texte affiché ne change pas) */
+const SAY = [[/\bXVIIIe\b/g,'dix-huitième'],[/\bXVIIe\b/g,'dix-septième'],[/\bXIXe\b/g,'dix-neuvième'],
+  [/\bXXIe\b/g,'vingt et unième'],[/\bXXe\b/g,'vingtième'],[/\bXIV\b/g,'quatorze']];
+const ICONS = {
+  play:'<path d="M8 5v14l11-7z"/>',
+  pause:'<path d="M6 5h4v14H6zM14 5h4v14h-4z"/>',
+  next:'<path d="M8.6 5.4 10 4l8 8-8 8-1.4-1.4 6.6-6.6z"/>',
+  restart:'<path d="M12 5V2L7 6.5 12 11V7a5 5 0 1 1-5 5H5a7 7 0 1 0 7-7z"/>'
+};
+
+/* ---------- État et mémoire ---------- */
+let S = {...DEFAULTS}, page = 0;
+try {
+  const saved = JSON.parse(localStorage.getItem(KEY) || 'null');
+  if (saved) { S = {...DEFAULTS, ...(saved.settings||{})}; page = Math.min(Math.max(0, saved.page|0), PAGES.length-1); }
+} catch(e) {}
+function save(){ try { localStorage.setItem(KEY, JSON.stringify({page, settings:S})); } catch(e) {} }
+
+const $ = id => document.getElementById(id);
+const reduceMotion = () => window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+const fmt = n => String(Math.round(n*100)/100).replace('.', ',');
+
+/* ---------- Construction d'une page ---------- */
+let sentences = [];
+function spokenOf(t){ let s = t.replace(/[  ]/g,' '); for (const [re,r] of SAY) s = s.replace(re,r); return s; }
+
+function render(){
+  const p = PAGES[page];
+  const art = $('page');
+  art.innerHTML = '';
+  sentences = [];
+  const scene = document.createElement('p'); scene.className = 'scene'; scene.textContent = p.sceneTitle;
+  const h1 = document.createElement('h1'); h1.id = 'ptitle'; h1.tabIndex = -1; h1.textContent = p.title;
+  const text = document.createElement('div'); text.className = 'text'; text.id = 'text';
+  art.append(scene, h1, text);
+
+  const newSentence = (parent, who) => {
+    if (parent.childNodes.length) parent.appendChild(document.createTextNode(' '));
+    const el = document.createElement('span'); el.className = 's'; el.dataset.s = sentences.length;
+    parent.appendChild(el);
+    const sn = {el, who, tokens:[]}; sentences.push(sn); return sn;
+  };
+  const addToken = (sn, txt, cls, spoken) => {
+    if (sn.tokens.length) sn.el.appendChild(document.createTextNode(' '));
+    const w = document.createElement('span'); w.className = 'w' + (cls ? ' '+cls : '');
+    w.dataset.s = sentences.indexOf(sn); w.dataset.t = sn.tokens.length; w.textContent = txt;
+    sn.el.appendChild(w); sn.tokens.push({el:w, spoken: spoken ?? spokenOf(txt)});
+  };
+
+  p.paras.forEach(raw => {
+    const el = document.createElement('p');
+    let body = raw;
+    const m = raw.match(/^(Talia|Le rabbin) : (.*)$/);
+    if (m) {
+      el.className = 'line ' + SPEAKER_CLASS[m[1]];
+      body = m[2];
+      const sn = newSentence(el, true);
+      addToken(sn, m[1] + ' :', 'who', m[1]);
+    } else el.className = 'dida';
+    const toks = body.split(' ');
+    let depth = 0, sn = null;
+    toks.forEach((t, k) => {
+      if (!sn) sn = newSentence(el, false);
+      if (t.startsWith('(')) depth++;
+      addToken(sn, t, depth > 0 ? 'aside' : '');
+      if (t.includes(')')) depth = Math.max(0, depth-1);
+      const core = t.replace(/[»)  "]+$/, '');
+      const next = toks[k+1];
+      if (/[.!?…]$/.test(core) && (!next || /^[«(A-ZÀ-ÖØ-ÞŒ0-9]/.test(next))) sn = null;
+    });
+    text.appendChild(el);
+  });
+  if (page === PAGES.length-1) {
+    const end = document.createElement('p'); end.className = 'end-note'; end.textContent = 'Fin du dialogue.';
+    art.appendChild(end);
+  }
+  sentences.forEach(sn => {
+    let pos = 0; sn.offsets = [];
+    sn.text = sn.tokens.map(t => { sn.offsets.push(pos); pos += t.spoken.length + 1; return t.spoken; }).join(' ');
+  });
+  updateChrome();
+}
+
+function updateChrome(){
+  $('count').innerHTML = 'Page <b>' + (page+1) + '</b> / ' + PAGES.length;
+  document.querySelectorAll('.pblock').forEach((b,i) => {
+    b.classList.toggle('done', i < page);
+    if (i === page) b.setAttribute('aria-current','page'); else b.removeAttribute('aria-current');
+  });
+  $('btnPrev').disabled = page === 0;
+  const last = page === PAGES.length-1;
+  $('nextLabel').textContent = last ? 'Recommencer' : 'Suivante';
+  $('btnNext').setAttribute('aria-label', last ? 'Recommencer' : 'Page suivante');
+  $('btnPrev').setAttribute('aria-label', 'Page précédente');
+  $('nextIcon').innerHTML = last ? ICONS.restart : ICONS.next;
+}
+
+function buildProgress(){
+  const nav = $('progress');
+  let group = null, scene = 0;
+  PAGES.forEach((p,i) => {
+    if (p.scene !== scene) {
+      scene = p.scene; group = document.createElement('div'); group.className = 'pgroup';
+      group.style.flex = PAGES.filter(q => q.scene === scene).length + ' 1 0';
+      nav.appendChild(group);
+    }
+    const b = document.createElement('button'); b.className = 'pblock';
+    const label = 'Page ' + (i+1) + ' : ' + p.title.replace(/[  ]/g,' ') + ' (scène ' + p.scene + ')';
+    b.setAttribute('aria-label', label); b.title = label;
+    b.addEventListener('click', () => goTo(i, {focus:true}));
+    group.appendChild(b);
+  });
+}
+
+function goTo(i, opt = {}){
+  if (i < 0 || i >= PAGES.length) return;
+  if (!opt.keepReading) stop();
+  page = i; save(); render();
+  window.scrollTo({top:0, behavior:'auto'});
+  if (opt.focus) $('ptitle').focus({preventScroll:true});
+  if (opt.keepReading) play(0);
+}
+const next = () => page === PAGES.length-1 ? goTo(0, {focus:true}) : goTo(page+1, {focus:true});
+const prev = () => goTo(page-1, {focus:true});
+
+/* ---------- Synthèse vocale ---------- */
+const synth = ('speechSynthesis' in window) ? window.speechSynthesis : null;
+let voices = [], frVoices = [], gen = 0, cur = 0, mode = 'idle', utt = null;
+
+function currentVoice(){ return frVoices.find(v => v.voiceURI === S.voice) || frVoices[0] || null; }
+function makeUtt(text){
+  const u = new SpeechSynthesisUtterance(text);
+  const v = currentVoice();
+  u.lang = v ? v.lang : 'fr-FR';
+  if (v) u.voice = v;
+  u.rate = S.rate; u.pitch = S.pitch; u.volume = S.volume;
+  return u;
+}
+function clearMarks(){ document.querySelectorAll('.s.on,.w.on').forEach(e => e.classList.remove('on')); }
+function clearWord(){ document.querySelectorAll('.w.on').forEach(e => e.classList.remove('on')); }
+function inView(el){
+  const r = el.getBoundingClientRect();
+  const topLimit = document.querySelector('.top').getBoundingClientRect().bottom;
+  const botLimit = $('bar').getBoundingClientRect().top;
+  return r.top >= topLimit && r.bottom <= botLimit;
+}
+function markSentence(i){
+  clearMarks();
+  if (!S.highlight) return;
+  const el = sentences[i].el; el.classList.add('on');
+  if (!inView(el)) el.scrollIntoView({block:'center', behavior: reduceMotion() ? 'auto' : 'smooth'});
+}
+function markWordAt(sn, charIndex){
+  if (!S.highlight) return;
+  let k = 0;
+  for (let j = 0; j < sn.offsets.length; j++) if (sn.offsets[j] <= charIndex) k = j;
+  clearWord(); sn.tokens[k].el.classList.add('on');
+}
+function speakSentence(g){
+  if (g !== gen) return;
+  while (cur < sentences.length && sentences[cur].who && !S.announce) cur++;
+  if (cur >= sentences.length) { pageEnded(g); return; }
+  const sn = sentences[cur];
+  markSentence(cur);
+  const u = makeUtt(sn.text); utt = u;
+  u.onboundary = e => { if (g !== gen) return; if (e.name && e.name !== 'word') return; markWordAt(sn, e.charIndex); };
+  u.onend = () => { if (g !== gen) return; cur++; speakSentence(g); };
+  u.onerror = e => { if (g !== gen) return; if (e.error === 'interrupted' || e.error === 'canceled') return; cur++; speakSentence(g); };
+  synth.speak(u);
+}
+function play(from){
+  if (!synth) return;
+  gen++; const g = gen;
+  synth.cancel(); cur = from; mode = 'playing'; updatePlay();
+  setTimeout(() => { if (synth.paused) synth.resume(); speakSentence(g); }, 60);
+}
+function pause(){ gen++; if (synth) synth.cancel(); mode = 'paused'; clearWord(); updatePlay(); }
+function stop(){ gen++; if (synth) synth.cancel(); mode = 'idle'; cur = 0; clearMarks(); updatePlay(); }
+function pageEnded(g){
+  clearMarks();
+  if (S.autoNext && page < PAGES.length-1) {
+    setTimeout(() => { if (g === gen) goTo(page+1, {keepReading:true}); }, 800);
+  } else { mode = 'idle'; cur = 0; updatePlay(); }
+}
+function toggle(){ if (mode === 'idle') play(0); else if (mode === 'playing') pause(); else play(cur); }
+function updatePlay(){
+  const map = {idle:['Lire la page', ICONS.play], playing:['Pause', ICONS.pause], paused:['Reprendre', ICONS.play]};
+  $('playLabel').textContent = map[mode][0]; $('playIcon').innerHTML = map[mode][1];
+  $('btnStop').disabled = mode === 'idle' || !synth;
+  $('btnPlay').disabled = !synth;
+  $('btnStop').setAttribute('aria-label','Arrêter la lecture');
+}
+function speakOnce(text, onBoundary, onEnd){
+  if (!synth) return;
+  gen++; const g = gen; synth.cancel();
+  const u = makeUtt(text); utt = u;
+  if (onBoundary) u.onboundary = e => { if (g === gen && (!e.name || e.name === 'word')) onBoundary(e.charIndex); };
+  u.onend = u.onerror = () => { if (g === gen) onEnd && onEnd(); };
+  setTimeout(() => { if (g === gen) { if (synth.paused) synth.resume(); synth.speak(u); } }, 60);
+}
+function onWordTap(si, ti){
+  if (!synth) return;
+  if (mode !== 'idle') { mode = 'paused'; updatePlay(); }
+  const sn = sentences[si];
+  const restore = () => { clearMarks(); if (mode === 'paused' && S.highlight && sentences[cur]) sentences[cur].el.classList.add('on'); };
+  clearMarks();
+  if (S.clickMode === 'sentence') {
+    if (S.highlight) sn.el.classList.add('on');
+    speakOnce(sn.text, ci => markWordAt(sn, ci), restore);
+  } else {
+    const word = sn.tokens[ti].spoken.replace(/^[«»("'\s]+|[»),.;:!?…"\s]+$/g, '');
+    if (!word) return;
+    if (S.highlight) sn.tokens[ti].el.classList.add('on');
+    speakOnce(word, null, restore);
+  }
+}
+
+function loadVoices(){
+  if (!synth) return;
+  voices = synth.getVoices();
+  frVoices = voices.filter(v => /^fr([-_]|$)/i.test(v.lang))
+    .sort((a,b) => (b.lang.replace('_','-') === 'fr-FR') - (a.lang.replace('_','-') === 'fr-FR') || (b.localService - a.localService) || a.name.localeCompare(b.name));
+  const sel = $('selVoice'); sel.innerHTML = '';
+  if (!frVoices.length) {
+    const o = document.createElement('option'); o.textContent = 'Voix par défaut du navigateur'; o.value = ''; sel.appendChild(o);
+  }
+  frVoices.forEach(v => { const o = document.createElement('option'); o.value = v.voiceURI; o.textContent = v.name + ' (' + v.lang + ')'; sel.appendChild(o); });
+  if (frVoices.length && !frVoices.some(v => v.voiceURI === S.voice)) S.voice = frVoices[0].voiceURI;
+  sel.value = S.voice;
+  if (voices.length) checkVoices();
+}
+function checkVoices(){
+  const warn = $('voiceWarn');
+  if (!synth) {
+    showNotice('La lecture à voix haute ne fonctionne pas dans ce navigateur. Essaie avec Chrome, Edge, Safari ou Firefox.');
+    warn.textContent = 'La lecture à voix haute ne fonctionne pas dans ce navigateur.'; warn.hidden = false; return;
+  }
+  if (!frVoices.length) {
+    const msg = 'Aucune voix française n’est installée sur cet appareil. La lecture utilisera la voix par défaut, avec un accent étranger. Pour ajouter une voix française : sur Windows, Paramètres > Heure et langue > Voix ; sur Android, Paramètres > Synthèse vocale ; sur iPhone ou iPad, Réglages > Accessibilité > Contenu énoncé > Voix.';
+    warn.textContent = msg; warn.hidden = false;
+    showNotice('Aucune voix française n’a été trouvée. Ouvre les réglages pour savoir comment en installer une.');
+  } else { warn.hidden = true; hideNotice(); }
+}
+function showNotice(t){ $('noticeText').textContent = t; $('notice').hidden = false; }
+function hideNotice(){ $('notice').hidden = true; }
+
+/* ---------- Réglages ---------- */
+function applySettings(){
+  const root = document.documentElement;
+  root.style.setProperty('--read-font', FONTS[S.font] || FONTS.andika);
+  root.style.setProperty('--read-size', S.size + 'px');
+  root.style.setProperty('--read-lh', S.lh);
+  document.body.classList.toggle('wide', S.wide);
+  if (S.theme === 'auto') root.removeAttribute('data-theme'); else root.setAttribute('data-theme', S.theme);
+  if (!S.highlight) clearMarks();
+}
+function syncControls(){
+  $('rngRate').value = S.rate; $('valRate').textContent = fmt(S.rate);
+  $('rngPitch').value = S.pitch; $('valPitch').textContent = fmt(S.pitch);
+  $('rngVol').value = S.volume; $('valVol').textContent = Math.round(S.volume*100) + ' %';
+  $('rngSize').value = S.size; $('valSize').textContent = S.size + ' px';
+  $('rngLh').value = S.lh; $('valLh').textContent = fmt(S.lh);
+  $('chkHl').checked = S.highlight; $('chkAnnounce').checked = S.announce; $('chkAuto').checked = S.autoNext; $('chkWide').checked = S.wide;
+  document.querySelectorAll('input[name=click]').forEach(r => r.checked = r.value === S.clickMode);
+  document.querySelectorAll('input[name=font]').forEach(r => r.checked = r.value === S.font);
+  document.querySelectorAll('input[name=theme]').forEach(r => r.checked = r.value === S.theme);
+}
+function set(k, v){ S[k] = v; save(); applySettings(); syncControls(); }
+function bindRange(id, key){ $(id).addEventListener('input', e => set(key, parseFloat(e.target.value))); }
+bindRange('rngRate','rate'); bindRange('rngPitch','pitch'); bindRange('rngVol','volume'); bindRange('rngSize','size'); bindRange('rngLh','lh');
+$('chkHl').addEventListener('change', e => set('highlight', e.target.checked));
+$('chkAnnounce').addEventListener('change', e => set('announce', e.target.checked));
+$('chkAuto').addEventListener('change', e => set('autoNext', e.target.checked));
+$('chkWide').addEventListener('change', e => set('wide', e.target.checked));
+document.querySelectorAll('input[name=click]').forEach(r => r.addEventListener('change', e => set('clickMode', e.target.value)));
+document.querySelectorAll('input[name=font]').forEach(r => r.addEventListener('change', e => set('font', e.target.value)));
+document.querySelectorAll('input[name=theme]').forEach(r => r.addEventListener('change', e => set('theme', e.target.value)));
+$('selVoice').addEventListener('change', e => set('voice', e.target.value));
+$('btnTest').addEventListener('click', () => {
+  if (mode !== 'idle') { mode = 'paused'; updatePlay(); }
+  speakOnce('Bonjour Talia. C’est moi qui vais lire l’histoire avec toi.');
+});
+$('btnReset').addEventListener('click', () => { const v = S.voice; S = {...DEFAULTS, voice:v}; save(); applySettings(); syncControls(); });
+
+function setPanel(open){
+  $('panel').hidden = !open;
+  document.body.classList.toggle('panel-open', open);
+  $('btnSettings').setAttribute('aria-expanded', String(open));
+  if (open) $('btnClose').focus(); else $('btnSettings').focus();
+}
+$('btnSettings').addEventListener('click', () => setPanel($('panel').hidden));
+$('btnClose').addEventListener('click', () => setPanel(false));
+$('noticeClose').addEventListener('click', hideNotice);
+
+/* ---------- Commandes ---------- */
+$('btnPlay').addEventListener('click', toggle);
+$('btnStop').addEventListener('click', stop);
+$('btnNext').addEventListener('click', next);
+$('btnPrev').addEventListener('click', prev);
+$('main').addEventListener('click', e => {
+  const w = e.target.closest('.w'); if (!w) return;
+  onWordTap(+w.dataset.s, +w.dataset.t);
+});
+document.addEventListener('keydown', e => {
+  if (e.altKey || e.ctrlKey || e.metaKey) return;
+  const t = e.target;
+  const tag = t.tagName;
+  if (e.key === 'Escape' && !$('panel').hidden) { setPanel(false); return; }
+  if (tag === 'INPUT' || tag === 'SELECT' || tag === 'TEXTAREA') return;
+  if (e.key === 'ArrowRight') { e.preventDefault(); if (page < PAGES.length-1) next(); }
+  else if (e.key === 'ArrowLeft') { e.preventDefault(); prev(); }
+  else if (e.key === ' ' || e.code === 'Space') {
+    if (tag === 'BUTTON' && t.id !== 'btnPlay') return; /* Espace active le bouton qui a le focus */
+    e.preventDefault(); toggle();
+  }
+});
+let tx = null, ty = 0;
+$('main').addEventListener('touchstart', e => { if (e.touches.length === 1) { tx = e.touches[0].clientX; ty = e.touches[0].clientY; } }, {passive:true});
+$('main').addEventListener('touchend', e => {
+  if (tx === null) return;
+  const dx = e.changedTouches[0].clientX - tx, dy = e.changedTouches[0].clientY - ty; tx = null;
+  if (Math.abs(dx) > 60 && Math.abs(dx) > 1.5*Math.abs(dy)) { if (dx < 0) { if (page < PAGES.length-1) next(); } else prev(); }
+}, {passive:true});
+
+/* ---------- Démarrage ---------- */
+buildProgress(); applySettings(); syncControls(); render(); updatePlay();
+if (synth) {
+  loadVoices();
+  if ('onvoiceschanged' in synth) synth.addEventListener('voiceschanged', loadVoices);
+  setTimeout(() => { if (!voices.length) { loadVoices(); checkVoices(); } }, 2500);
+} else checkVoices();
+window.addEventListener('pagehide', () => { if (synth) synth.cancel(); });
+</script>
+
+</body></html>
