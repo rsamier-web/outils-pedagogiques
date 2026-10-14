@@ -1,0 +1,829 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Fichko et le Gardien des Profondeurs</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/* Layout : une seule colonne de lecture (46rem max) — en-tête, frise de blocs (une page = un bloc, couleur = étape du récit), feuille de texte, barre audio collée en bas */
+:root{
+  --bg:#ECF0EE; --surface:#FAFBFA; --line:#C9D3CF; --fg:#1D2826; --muted:#55635E;
+  --accent:#1C7A73; --accent-ink:#FFFFFF; --accent-soft:#D3EAE6;
+  --hl-sent:#FBEFC2; --hl-word:#F0BE2E; --hl-word-ink:#1D1A10;
+  --st-si:#4E8A2A; --st-ep:#B3261E; --st-pe:#1C7A73; --st-de:#A87508; --st-ch:#7B4DB3; --st-sf:#16884A;
+  --scrim:rgba(10,20,18,.42); --shadow:0 1px 2px rgba(20,40,36,.08);
+  --font-display:"Lexend", "Atkinson Hyperlegible", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-body:"Lexend", "Atkinson Hyperlegible", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --radius:4px;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#111918; --surface:#18221F; --line:#2C3B37; --fg:#E2EAE7; --muted:#9CAEA8;
+    --accent:#4CC0B1; --accent-ink:#0E1A18; --accent-soft:#1E3A36;
+    --hl-sent:#3A3416; --hl-word:#E9B824; --hl-word-ink:#17140A;
+    --st-si:#7DB653; --st-ep:#E5584E; --st-pe:#4CC0B1; --st-de:#E0A82E; --st-ch:#B08AE6; --st-sf:#3FC07A;
+    --scrim:rgba(0,0,0,.55); --shadow:none; color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#111918; --surface:#18221F; --line:#2C3B37; --fg:#E2EAE7; --muted:#9CAEA8;
+  --accent:#4CC0B1; --accent-ink:#0E1A18; --accent-soft:#1E3A36;
+  --hl-sent:#3A3416; --hl-word:#E9B824; --hl-word-ink:#17140A;
+  --st-si:#7DB653; --st-ep:#E5584E; --st-pe:#4CC0B1; --st-de:#E0A82E; --st-ch:#B08AE6; --st-sf:#3FC07A;
+  --scrim:rgba(0,0,0,.55); --shadow:none; color-scheme:dark;
+}
+*{box-sizing:border-box}
+html,body{height:100%}
+body{margin:0;background:var(--bg);color:var(--fg);font-family:var(--font-body);font-size:16px;-webkit-font-smoothing:antialiased}
+button{font:inherit;color:inherit}
+#root{min-height:100%}
+
+.app{max-width:46rem;margin:0 auto;padding-inline:16px;padding-block:20px 0;display:flex;flex-direction:column;gap:16px;min-height:100%}
+
+.top{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.brand{display:flex;align-items:center;gap:12px;min-width:0}
+.brand svg{flex:none;width:40px;height:25px}
+.brand h1{font-family:var(--font-display);font-weight:600;font-size:1.2rem;line-height:1.15;margin:0;text-wrap:balance}
+.brand p{margin:3px 0 0;color:var(--muted);font-size:.85rem}
+
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:.45rem;min-height:44px;padding:.5rem .85rem;background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);cursor:pointer;font-weight:500;font-size:.95rem;transition:border-color .15s,background-color .15s}
+.btn:hover{border-color:var(--accent)}
+.btn:disabled{opacity:.45;cursor:not-allowed}
+.btn:disabled:hover{border-color:var(--line)}
+.btn svg{width:20px;height:20px;flex:none}
+.btn.primary{background:var(--accent);border-color:var(--accent);color:var(--accent-ink);font-weight:600}
+.btn.primary:hover{filter:brightness(1.07)}
+.btn.sm{min-height:38px;padding:.35rem .7rem;font-size:.88rem}
+.btn.sm svg{width:18px;height:18px}
+.btn.icon{padding:.5rem;min-width:44px}
+.btn:focus-visible,.blk:focus-visible,.seg button:focus-visible,select:focus-visible,input:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+
+.progress{display:grid;gap:8px}
+.phead{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
+.chip{display:inline-flex;align-items:center;gap:.5rem;font-family:var(--font-display);font-weight:500;font-size:1rem}
+.chip i{width:12px;height:12px;background:var(--c);display:block}
+.count{font-family:var(--font-display);color:var(--muted);font-variant-numeric:tabular-nums}
+.blocks{display:flex;flex-wrap:wrap;gap:3px}
+.blk{width:14px;height:14px;padding:0;border:0;background:var(--c);opacity:.28;cursor:pointer;border-radius:1px}
+.blk.done{opacity:.75}
+.blk.cur{opacity:1;box-shadow:0 0 0 2px var(--bg),0 0 0 4px var(--fg)}
+
+.sheet{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:clamp(1.25rem,4.5vw,2.25rem);box-shadow:var(--shadow);min-width:0}
+.pic{display:block;width:100%;max-width:calc(min(34vh, 300px) * 16 / 9);height:auto;aspect-ratio:16/9;image-rendering:pixelated;image-rendering:crisp-edges;border:1px solid var(--line);border-radius:var(--radius);margin:0 0 1.2rem;background:var(--bg)}
+.ptitle{margin:0 0 .8em;font-weight:600;font-size:calc(var(--fs) * 1.1);line-height:1.3;text-wrap:balance}
+.ptext{margin:0;font-size:var(--fs);line-height:var(--lh);word-spacing:.08em;letter-spacing:.012em;max-width:36em}
+.sent{border-radius:3px;transition:background-color .2s;-webkit-box-decoration-break:clone;box-decoration-break:clone}
+.sent.on{background:var(--hl-sent)}
+.w{cursor:pointer;border-radius:3px;transition:background-color .12s}
+@media (hover:hover){.w:hover{background:var(--accent-soft)}}
+.w.gl{text-decoration:underline dotted;text-decoration-color:var(--accent);text-decoration-thickness:2px;text-underline-offset:.24em}
+.w.hl{background:var(--hl-word);color:var(--hl-word-ink)}
+.fin{margin:1.6em 0 0;font-family:var(--font-display);font-size:1.3rem;color:var(--muted);text-align:center;letter-spacing:.2em}
+
+.gloss{margin-top:1.4rem;padding:.9rem 1rem;border:1px solid var(--line);border-radius:var(--radius);background:var(--bg);display:grid;gap:.5rem;font-size:max(1rem, calc(var(--fs) * .8));line-height:1.55}
+.gloss .lbl{font-size:.72rem;letter-spacing:.09em;text-transform:uppercase;color:var(--muted);font-weight:600}
+.gloss .gw{font-weight:600}
+.gloss p{margin:0}
+.gloss .acts{display:flex;gap:8px;flex-wrap:wrap}
+
+.hint{margin:0;color:var(--muted);font-size:.88rem;line-height:1.5}
+.notice{border:1px solid var(--line);background:var(--surface);border-radius:var(--radius);padding:.75rem 1rem;font-size:.9rem;line-height:1.5}
+
+.bar{position:sticky;bottom:0;margin-top:auto;margin-inline:-16px;padding-inline:16px;padding-top:10px;padding-bottom:calc(14px + env(safe-area-inset-bottom,0px));background:var(--bg);border-top:1px solid var(--line)}
+.bar-in{display:grid;grid-template-columns:1fr 1.5fr auto 1fr;gap:8px;max-width:46rem;margin:0 auto}
+.bar .btn{min-height:52px}
+
+.scrim{position:fixed;inset:0;background:var(--scrim);z-index:20}
+.drawer{position:fixed;top:0;right:0;bottom:0;width:min(25rem,100%);background:var(--surface);border-left:1px solid var(--line);z-index:21;overflow-y:auto;padding:calc(16px + env(safe-area-inset-top,0px)) 20px calc(24px + env(safe-area-inset-bottom,0px));display:flex;flex-direction:column;gap:18px}
+.dh{display:flex;justify-content:space-between;align-items:center;gap:12px}
+.dh h2{margin:0;font-family:var(--font-display);font-size:1.25rem;font-weight:600}
+.grp{display:grid;gap:12px;padding-bottom:18px;border-bottom:1px solid var(--line)}
+.grp.last{border-bottom:0;padding-bottom:0}
+.gt{font-size:.74rem;letter-spacing:.09em;text-transform:uppercase;color:var(--muted);font-weight:600;margin:0}
+.field{display:grid;gap:6px}
+.fl{font-size:.92rem;font-weight:500;display:flex;justify-content:space-between;gap:8px}
+.fl output{font-variant-numeric:tabular-nums;color:var(--muted);font-weight:400}
+select{width:100%;min-height:42px;padding:.4rem .6rem;border:1px solid var(--line);border-radius:var(--radius);background:var(--bg);color:var(--fg);font:inherit;font-size:.92rem}
+input[type=range]{width:100%;accent-color:var(--accent);margin:4px 0}
+.seg{display:flex;border:1px solid var(--line);border-radius:var(--radius);overflow:hidden}
+.seg button{flex:1;min-height:40px;border:0;border-right:1px solid var(--line);background:var(--bg);cursor:pointer;font-size:.9rem;padding:0 .4rem}
+.seg button:last-child{border-right:0}
+.seg button[aria-pressed="true"]{background:var(--accent);color:var(--accent-ink);font-weight:600}
+.check{display:flex;gap:10px;align-items:flex-start;font-size:.92rem;cursor:pointer;line-height:1.4}
+.check input{width:20px;height:20px;accent-color:var(--accent);margin:0;flex:none}
+.note{font-size:.85rem;color:var(--muted);line-height:1.55;margin:0}
+
+@media (max-width:520px){
+  .sr-sm{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+  .bar-in{grid-template-columns:auto 1fr auto auto}
+  .brand h1{font-size:1.05rem}
+}
+@media (prefers-reduced-motion: reduce){ *{transition:none !important} }
+</style>
+
+<div id="root"></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.3.1/umd/react.production.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.3.1/umd/react-dom.production.min.js"></script>
+<script src="https://unpkg.com/htm@3.1.1/dist/htm.umd.js"></script>
+<script>
+(function(){
+const { useState, useEffect, useRef, useMemo } = React;
+const html = htm.bind(React.createElement);
+
+/* ---------- Texte de l'histoire ---------- */
+const NB = " ";
+const fr = s => s.replace(/ ([!?:;»])/g, NB + "$1").replace(/« /g, "«" + NB);
+
+const STEPS = {
+  si: { label: "Situation initiale", c: "var(--st-si)" },
+  ep: { label: "Élément perturbateur", c: "var(--st-ep)" },
+  pe: { label: "Péripéties", c: "var(--st-pe)" },
+  de: { label: "Dénouement", c: "var(--st-de)" },
+  ch: { label: "Chute", c: "var(--st-ch)" },
+  sf: { label: "Situation finale", c: "var(--st-sf)" }
+};
+
+const RAW = [
+ ["si","Le jeune pêcheur",`Au bord de la mer, il y a un petit village de pêcheurs. Fichko habite là, chez sa tante Mira. C'est un garçon grand, aux cheveux bleu-noir ondulés et aux yeux marron. Comme son père avant lui, Fichko est pêcheur. Chaque matin, il part sur l'eau avec sa canne à pêche.`],
+ ["si","Le père disparu",`Le père de Fichko était le meilleur pêcheur du village. Un jour, il est parti pêcher le poisson le plus rare qui existe. Il n'est jamais revenu. Depuis, tout le monde pense qu'il est mort en mer. Mira est sa sœur. Elle a promis de prendre soin de Fichko.`],
+ ["si","Le collier à la perle bleue",`Fichko se souvient bien de son père. Il se souvient surtout de son collier, un collier avec une perle bleue. Son père le portait toujours. Quand il remontait ses filets, la perle brillait au soleil comme une petite étoile. C'est la dernière image que Fichko garde de lui.`],
+ ["si","Les histoires du soir",`Le soir, son père lui racontait l'histoire du poisson le plus rare. « Ses écailles d'argent brillent comme la lune, disait-il. Personne n'a jamais réussi à le pêcher. » Fichko écoutait sans bouger, les yeux grands ouverts.`],
+ ["si","Le rêve de Fichko",`Aujourd'hui, Fichko a grandi. Il a un rêve : pêcher le poisson le plus rare. Ce sera sa quête. Il veut finir ce que son père a commencé. Il veut prouver qu'il est digne de lui.`],
+ ["ep","L'annonce",`Un soir, pendant le repas, Fichko prend une grande inspiration. « Tante Mira, je vais partir chercher le poisson le plus rare. » Mira pose sa cuillère. Son visage devient tout pâle.`],
+ ["ep","La dispute",`« Non, répond Mira. Ce poisson m'a déjà pris mon frère. J'ai promis à tes parents de te protéger. Je ne veux pas te perdre aussi. » Fichko serre les poings. « Tu ne peux pas me garder ici toute ma vie ! » Cette nuit-là, Fichko se sent prisonnier du village.`],
+ ["pe","La phrase de Mira",`La veille du départ, Mira vient voir Fichko. Elle a les yeux rouges. « Je ne peux pas t'empêcher de partir, dit-elle. Alors souviens-toi de ceci : la mer rend toujours ce qu'on lui donne. » Fichko la serre fort dans ses bras.`],
+ ["pe","La barque",`Le lendemain, Fichko prend toutes ses économies d'émeraudes. Il achète une petite barque en bois. Au lever du soleil, il quitte le village. Sur la plage, Mira le regarde partir jusqu'à ce qu'il disparaisse à l'horizon.`],
+ ["pe","Les poissons rares",`Pendant des semaines, Fichko parcourt les mers. Il découvre des poissons qu'il n'a jamais vus : des poissons-globes tout ronds, des poissons tropicaux de mille couleurs. Il les pêche, il les admire, puis il les relâche. Il garde seulement les poissons dont il a besoin pour manger.`],
+ ["pe","La tempête",`Une nuit, une tempête éclate. Les vagues sont hautes comme des maisons. La barque se remplit d'eau. Toute la nuit, Fichko écope avec son seau. Au matin, la mer se calme enfin. Fichko est épuisé, mais il est vivant. Il est devenu un vrai marin.`],
+ ["pe","La bouteille",`Un matin, la ligne de Fichko devient très lourde. Il tire, il tire encore. Au bout de la ligne, il y a une bouteille en verre ! À l'intérieur, il trouve une carte. Sur la carte, on voit un temple dessiné et une croix rouge.`],
+ ["pe","Le collier retrouvé",`Au fond de la bouteille, quelque chose brille. Fichko le fait glisser dans sa main. C'est un collier avec une perle bleue. Son cœur se met à battre très fort. Il le reconnaît tout de suite : c'est le collier de son père ! Son père est passé par ici.`],
+ ["pe","Suivre la carte",`Fichko attache le collier autour de son cou. Il déplie la carte et regarde la croix. Puis il prend ses rames. Il a décidé de suivre la carte jusqu'au bout.`],
+ ["pe","Le temple englouti",`Après trois jours, Fichko arrive à l'endroit de la croix. Il se penche au-dessus de l'eau. Tout au fond, il voit un temple englouti, construit en prismarine. Devant la porte nage un poisson immense : le Gardien.`],
+ ["pe","Le poisson des histoires",`Fichko reconnaît les écailles d'argent qui brillent comme la lune. C'est le poisson des histoires de son père ! Mais il est beaucoup plus grand. Ses yeux sont rouges et méchants. On dirait qu'il a été transformé.`],
+ ["pe","La ligne cassée",`Fichko lance sa ligne. Le Gardien mord à l'hameçon, puis il tire d'un coup sec. Crac ! La ligne casse. Avec une canne à pêche, impossible d'attraper ce poisson.`],
+ ["pe","La plongée",`Fichko prend son couteau et plonge. Il retient sa respiration : il est en apnée. Il nage vers le temple, mais le temple est très profond. Ses poumons le brûlent. Il n'a presque plus d'air.`],
+ ["pe","La perle s'allume",`Soudain, la perle bleue s'illumine. Une lumière douce entoure Fichko. Des branchies apparaissent sur son cou ! Il peut respirer sous l'eau. Le collier ne marche que pour un pêcheur au cœur juste, qui rend à la mer ce qu'elle lui donne.`],
+ ["pe","L'hésitation",`Fichko est face au Gardien. Il hésite. Il a relâché tous les poissons rares. Tuer celui-ci, c'est contraire à tout ce qu'il est devenu. Mais le Gardien fonce sur lui et bloque la porte. Fichko sent que la réponse est derrière cette porte.`],
+ ["pe","Le combat",`Le combat commence. Le Gardien est rapide et puissant. Il frappe Fichko avec sa queue. Fichko esquive, frappe, recule. Le combat dure longtemps. Fichko est fatigué, mais il ne lâche rien.`],
+ ["de","La victoire",`Enfin, Fichko trouve une ouverture. Il donne un dernier coup de couteau. Le Gardien s'arrête. Il ne bouge plus. Fichko a gagné.`],
+ ["de","La transformation",`Alors, le corps immense du Gardien se défait dans l'eau, comme du sable. À sa place apparaît un petit poisson lumineux aux écailles d'argent. C'est le vrai poisson le plus rare ! Un sortilège du temple l'avait changé en monstre. Maintenant, il est libre.`],
+ ["de","Le choix",`Fichko prend le petit poisson dans ses mains. Sa quête est accomplie : il tient le poisson le plus rare qui existe. Il pourrait le rapporter au village et devenir célèbre. Fichko hésite. Puis il ouvre les mains et le laisse partir.`],
+ ["de","La porte s'ouvre",`Le petit poisson nage vers le temple. La grande porte de pierre tremble, puis elle s'ouvre lentement. Le poisson lumineux guide Fichko à l'intérieur.`],
+ ["de","La bulle",`Au fond du temple, Fichko découvre une grosse bulle d'air. Dans la bulle, un homme dort. La perle bleue brille plus fort que jamais. Fichko s'approche et regarde son visage.`],
+ ["ch","C'est lui",`C'est son père ! Il n'a pas vieilli d'un seul jour depuis sa disparition.`],
+ ["sf","La remontée",`Fichko pose la main sur la bulle. Elle se détache du sol et remonte avec eux jusqu'à la surface. Dans la barque, son père ouvre les yeux. « Fichko ? C'est toi ? Comme tu as grandi ! »`],
+ ["sf","Le secret du temple",`Son père raconte. Il avait trouvé le temple. Il voulait pêcher le Gardien pour devenir le plus grand pêcheur du monde. Mais le temple punit ceux qui viennent pour prendre. Il l'a enfermé hors du temps, jusqu'à l'arrivée d'un pêcheur au cœur juste. Pendant le combat, son collier s'était détaché, et la mer l'a gardé.`],
+ ["sf","La fierté du père",`Fichko raconte qu'il a relâché le poisson le plus rare. Son père le regarde longtemps. « Tu as réussi là où j'ai échoué, dit-il. Parce que tu respectes la mer. Je suis fier de toi. »`],
+ ["sf","Le retour",`Quelques jours plus tard, la barque arrive au village. Sur la plage, Mira laisse tomber son panier. Elle court vers son frère en pleurant de joie. Fichko pense à sa phrase : la mer rend toujours ce qu'on lui donne. Il a rendu à la mer tous les poissons rares. La mer lui a rendu son père.`],
+ ["sf","Pêcher ensemble",`Un matin, Fichko et son père repartent pêcher ensemble. Le père attrape un beau poisson rare. Il veut le garder. Fichko sourit. « Regarde, papa. On le relâche. » Cette fois, c'est le fils qui apprend au père.`]
+];
+const PAGES = RAW.map(([e,t,x]) => ({ e, t: fr(t), x: fr(x) }));
+
+/* ---------- Lexique ---------- */
+const GLOSS = {
+  "émeraude": { w: "émeraude", d: "Pierre précieuse verte. Dans Mineclonia, les émeraudes servent de monnaie pour acheter des objets aux villageois." },
+  "quête": { w: "quête", d: "Grande mission qu'un héros veut accomplir, même si c'est difficile." },
+  "digne": { w: "digne", d: "Être digne de quelqu'un, c'est mériter son respect et être à sa hauteur." },
+  "barque": { w: "barque", d: "Petit bateau sans moteur. On le fait avancer avec des rames." },
+  "horizon": { w: "horizon", d: "La ligne, très loin, où le ciel semble toucher la mer." },
+  "écoper": { w: "écoper", d: "Enlever avec un seau l'eau qui entre dans un bateau." },
+  "épuisé": { w: "épuisé", d: "Très, très fatigué. On n'a plus de force." },
+  "rames": { w: "rames", d: "Longs bâtons plats qu'on pousse dans l'eau pour faire avancer une barque." },
+  "englouti": { w: "englouti", d: "Recouvert par l'eau. Disparu au fond de la mer." },
+  "prismarine": { w: "prismarine", d: "Pierre vert-bleu. Dans Mineclonia, les temples sous la mer sont construits avec elle." },
+  "immense": { w: "immense", d: "Très, très grand." },
+  "hameçon": { w: "hameçon", d: "Petit crochet de métal au bout de la ligne. Il accroche le poisson." },
+  "apnée": { w: "apnée", d: "Être en apnée, c'est retenir sa respiration sous l'eau." },
+  "branchies": { w: "branchies", d: "Organes des poissons qui leur permettent de respirer sous l'eau." },
+  "esquiver": { w: "esquiver", d: "Éviter un coup en bougeant très vite." },
+  "sortilège": { w: "sortilège", d: "Formule magique qui transforme ou ensorcelle quelqu'un." }
+};
+const FORMS = { "émeraudes":"émeraude", "émeraude":"émeraude", "quête":"quête", "digne":"digne", "barque":"barque", "horizon":"horizon", "écope":"écoper", "épuisé":"épuisé", "rames":"rames", "englouti":"englouti", "prismarine":"prismarine", "immense":"immense", "hameçon":"hameçon", "apnée":"apnée", "branchies":"branchies", "esquive":"esquiver", "sortilège":"sortilège" };
+function glossKey(word){
+  const w = word.toLowerCase().replace(/^(?:qu|[ldjmtsnc])['’]/, "");
+  return FORMS[w] || null;
+}
+
+/* ---------- Découpage en phrases et en mots ---------- */
+function splitSentences(text){
+  const m = text.match(/[^.!?…]+(?:[.!?…]+(?:\s*»)?)?/g) || [text];
+  return m.map(s => s.trim()).filter(Boolean);
+}
+const TOK = /[\p{L}\p{N}'’-]+|[^\p{L}\p{N}'’-]+/gu;
+function tokenize(str, segIdx){
+  const out = []; let m, k = 0; TOK.lastIndex = 0;
+  while ((m = TOK.exec(str))){
+    const t = m[0]; const isW = /[\p{L}\p{N}]/u.test(t);
+    out.push({ t, w: isW, s: m.index, e: m.index + t.length, id: segIdx + "-" + (k++), g: isW ? glossKey(t) : null });
+  }
+  return out;
+}
+const BUILT = PAGES.map(p => [p.t, ...splitSentences(p.x)].map((s, i) => ({
+  text: s, speech: s.replace(/[«»]/g, " "), tokens: tokenize(s, i)
+})));
+function findTok(tokens, ci){
+  for (const t of tokens) if (t.w && ci >= t.s && ci < t.e) return t;
+  for (const t of tokens) if (t.w && t.s >= ci) return t;
+  return null;
+}
+
+/*PIX-START*/
+/* ---------- Illustrations en pixel art (96 × 54 pixels, dessinées en code) ---------- */
+const PW = 96, PH = 54;
+function rng(a){ return function(){ a |= 0; a = a + 0x6D2B79F5 | 0; let t = Math.imul(a ^ a >>> 15, 1 | a); t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t; return ((t ^ t >>> 14) >>> 0) / 4294967296; }; }
+function R(c,x,y,w,h,col){ c.fillStyle = col; c.fillRect(Math.round(x), Math.round(y), Math.round(w), Math.round(h)); }
+function P(c,x,y,col){ R(c,x,y,1,1,col); }
+function A(c,a,fn){ const o = c.globalAlpha; c.globalAlpha = a; fn(); c.globalAlpha = o; }
+function bands(c,y0,y1,cols){ const h = (y1 - y0) / cols.length; cols.forEach((col,i) => R(c,0,y0 + i*h,PW,Math.ceil(h) + 1,col)); }
+function disc(c,cx,cy,r,col){ for (let y = -r; y <= r; y++){ const h = Math.floor(Math.sqrt(r*r - y*y) + 0.3); R(c,cx - h,cy + y,2*h + 1,1,col); } }
+function ring(c,cx,cy,r,col,from=0,to=360){ for (let t = from; t < to; t += 3){ const a = t*Math.PI/180; P(c,Math.round(cx + r*Math.cos(a)),Math.round(cy + r*Math.sin(a)),col); } }
+function glow(c,cx,cy,r,col,al=.12){ for (let k = r; k > 0; k -= 2) A(c,al,() => disc(c,cx,cy,k,col)); }
+function line(c,x0,y0,x1,y1,col){ x0=Math.round(x0); y0=Math.round(y0); x1=Math.round(x1); y1=Math.round(y1);
+  const dx = Math.abs(x1-x0), sx = x0 < x1 ? 1 : -1, dy = -Math.abs(y1-y0), sy = y0 < y1 ? 1 : -1; let e = dx + dy;
+  for(;;){ P(c,x0,y0,col); if (x0 === x1 && y0 === y1) break; const e2 = 2*e; if (e2 >= dy){ e += dy; x0 += sx; } if (e2 <= dx){ e += dx; y0 += sy; } } }
+function spark(c,x,y,col="#FFFFFF"){ P(c,x,y,col); A(c,.6,() => { P(c,x-1,y,col); P(c,x+1,y,col); P(c,x,y-1,col); P(c,x,y+1,col); }); }
+
+const SKY = { day:["#6FB7EA","#82C2EE","#97CEF2","#AEDBF5"], dusk:["#4E4580","#9A5C80","#D9795F","#F0A660"], night:["#0A1230","#0D1838","#112044","#162A52"], storm:["#2B323C","#353D48","#404955","#4C5663"], dawn:["#6F86C4","#B793B8","#E9AA98","#F6CE9C"] };
+const SEA = { day:["#2F7DC0","#2A70AE","#25639B","#205688"], dusk:["#3E5E8E","#36537E","#2E486E","#263D5E"], night:["#14284F","#112245","#0E1C3A","#0B1630"], storm:["#2C4A5C","#26414F","#203744","#1A2E39"], dawn:["#4A79B0","#416CA0","#385F8F","#30527E"] };
+const SEAHL = { day:"#86C5EC", dusk:"#F0A660", night:"#3A5C94", storm:"#7896A6", dawn:"#F6CE9C" };
+const SAND = "#D9C48C", SAND2 = "#E8D7A6";
+
+function cloud(c,x,y){ R(c,x+3,y-2,7,2,"#FFFFFF"); R(c,x,y,13,3,"#FFFFFF"); R(c,x+1,y+3,11,1,"#DCEBF6"); }
+function sky(c,t,hz,seed=1){ bands(c,0,hz,SKY[t]); const r = rng(seed);
+  if (t === "night") for (let i = 0; i < 24; i++) P(c,Math.floor(r()*PW),Math.floor(r()*(hz-3)),r() > .7 ? "#FFFFFF" : "#8EA3D8");
+  if (t === "day"){ cloud(c,8 + Math.floor(r()*12),6); cloud(c,52 + Math.floor(r()*14),11); } }
+function sun(c,x,y,col="#FFE27A"){ A(c,.25,() => disc(c,x,y,6,col)); disc(c,x,y,4,col); }
+function moon(c,x,y){ A(c,.15,() => disc(c,x,y,6,"#F2EED2")); disc(c,x,y,3,"#F2EED2"); P(c,x-1,y-1,"#D6D0AE"); P(c,x+1,y+1,"#D6D0AE"); }
+function sea(c,y,t="day",seed=2){ bands(c,y,PH,SEA[t]); const r = rng(seed), hl = SEAHL[t]; R(c,0,y,PW,1,hl);
+  for (let i = 0; i < 28; i++) R(c,Math.floor(r()*PW),y + 2 + Math.floor(r()*(PH - y - 2)),2 + Math.floor(r()*3),1,hl); }
+function reflect(c,x,y,col,n=5){ A(c,.7,() => { for (let k = 0; k < n; k++) R(c,x - k,y + k*3,4 + 2*k,1,col); }); }
+function bub(c,x,y){ const b = "#CFEFFF"; P(c,x,y-1,b); P(c,x-1,y,b); P(c,x+1,y,b); P(c,x,y+1,b); }
+function under(c,top=0,o={}){
+  bands(c,top,PH,o.dark ? ["#1C4E6E","#174462","#123955","#0E2F48","#0A253B"] : ["#2D82B2","#2875A3","#226894","#1D5B85","#174E75"]);
+  A(c,.08,() => { for (let i = 0; i < 5; i++) for (let k = 0; k < PH - top; k++) R(c,6 + i*22 + k*.45,top + k,3,1,"#D6F2FF"); });
+  const r = rng(o.seed || 3);
+  if (o.floor !== false){
+    R(c,0,PH-5,PW,5,"#B49C66"); R(c,0,PH-5,PW,1,"#CDB680");
+    for (let i = 0; i < 14; i++) P(c,Math.floor(r()*PW),PH - 4 + Math.floor(r()*4),"#9C8656");
+    const nk = o.kelp == null ? 5 : o.kelp;
+    for (let i = 0; i < nk; i++){ const x = Math.floor(r()*PW), h = 5 + Math.floor(r()*10); for (let k = 0; k < h; k++) P(c,x + ((k >> 1) % 2),PH - 6 - k,k % 3 === 0 ? "#4FA554" : "#3A8A40"); }
+  }
+  const nb = o.bub == null ? 6 : o.bub;
+  for (let i = 0; i < nb; i++) bub(c,Math.floor(r()*PW),top + 3 + Math.floor(r()*(PH - top - 12)));
+}
+function surface(c,hz,seed){ sky(c,"day",hz,seed); under(c,hz,{ seed: seed + 1, kelp: 4 }); R(c,0,hz,PW,1,SEAHL.day); }
+
+/* personnages : H cheveux, S peau, E yeux, T haut, P pantalon, B bottes, D robe, N perle, G branchies */
+const PAL = {
+  fichko:{ H:"#1E2A4A", h:"#34507F", S:"#D9A066", Q:"#E8C9A8", E:"#4A2A14", C:"#A8743F", T:"#3A6EA5", P:"#4B3621", B:"#2A1E14", N:"#5FD0FF", G:"#E07A8A" },
+  mira:{ H:"#6B3A1E", h:"#8A4E2A", S:"#C98B5C", Q:"#E6CDB4", E:"#3A2010", C:"#9A6440", D:"#A33A3A", B:"#2A1E14" },
+  pere:{ H:"#1E2A4A", h:"#34507F", S:"#D09862", Q:"#E8C9A8", E:"#4A2A14", C:"#A06E3C", T:"#4E7A3A", P:"#3A2C20", B:"#2A1E14", N:"#5FD0FF" }
+};
+const BODY = ["TTTTTTTT","STTTTTTS","STTTTTTS","S.TTTT.S",".PPPPPP.",".PP..PP.",".PP..PP.",".BB..BB."];
+const BOY  = ["..HhHH..",".HHHHhH.",".HSSSSH.",".SESSES.",".SSSSSS.","..SSSS..","...SS...",".TTTTTT.", ...BODY];
+const BOYG = ["..HhHH..",".HHHHhH.",".HSSSSH.",".SESSES.",".SSSSSS.",".GSSSSG.","...SS...",".TTNNTT.", ...BODY];
+const DAD  = ["..HHhH..",".HhHHHH.",".HSSSSH.",".SESSES.",".SHSSHS.","..HHHH..","...SS...",".TTNNTT.", ...BODY];
+const MIRA = ["..HHHH..",".HHhHHH.","HHSSSSHH","HSESSESH","HSSSSSSH","H.SSSS.H","H..SS..H","HDDDDDDH","DDDDDDDD","SDDDDDDS","SDDDDDDS","S.DDDD.S",".DDDDDD.","DDDDDDDD","..S..S..","..B..B.."];
+const KID  = [".HHHH.","HHhHHH","HSSSSH","SESSES",".SSSS.","TTTTTT","STTTTS","STTTTS",".PPPP.",".P..P.",".B..B."];
+function spr(c,map,pal,x,y,o={}){
+  const s = o.scale || 1, h = o.rows || map.length, w = map[0].length;
+  for (let j = 0; j < h; j++) for (let i = 0; i < w; i++){
+    let ch = map[j][i]; if (ch === ".") continue; if (o.sub && o.sub[ch]) ch = o.sub[ch];
+    const col = pal[ch]; if (!col) continue;
+    let px = o.flip ? w - 1 - i : i, py = j;
+    if (o.rot){ px = o.rot > 0 ? j : map.length - 1 - j; py = i; }
+    R(c,x + px*s,y + py*s,s,s,col);
+  }
+}
+const GUARD = { col:"#C7D1D9", dk:"#8E9BA6", lt:"#E8EEF2", scale:"#B2BEC8", spikes:"#6C7884", eye:"#E02424", eyeSize:2, fin:"#9AA7B1" };
+const RARE = { col:"#DDE6EC", dk:"#AEBCC6", lt:"#FFFFFF", fin:"#7FD6FF", glow:"#BFF3FF", eye:"#1B3A5C" };
+function fish(c,cx,cy,len,o={}){
+  const a = Math.max(2,Math.round(len/2)), b = Math.max(1,Math.round(len/4)), d = o.dir || -1;
+  const col = o.col || "#E9873A", dk = o.dk || "#B9652A", lt = o.lt || col;
+  if (o.glow) glow(c,cx,cy,a + 5,o.glow,.12);
+  const tl = Math.max(2,Math.round(a*.55));
+  for (let k = 0; k < tl; k++){ const hh = Math.min(b + 1,1 + Math.round(k*.9)); R(c,cx - d*(a + k),cy - hh,1,2*hh + 1,o.fin || col); }
+  for (let y = -b; y <= b; y++){
+    const half = Math.round(a*Math.sqrt(Math.max(0,1 - (y*y)/((b + .6)*(b + .6)))));
+    for (let x = -half; x <= half; x++){
+      let cl = y > b/3 ? dk : (y < -b/3 ? lt : col);
+      if (o.stripe && ((x + 40) % 4 === 0)) cl = o.stripe;
+      if (o.scale && y <= b/3 && ((x + y + 40) % 3 === 0)) cl = o.scale;
+      P(c,cx + x,cy + y,cl);
+    }
+  }
+  if (o.spikes){ const lim = Math.round(a*.6); for (let x = -lim; x <= lim; x += 4){ const yy = Math.round(b*Math.sqrt(Math.max(0,1 - (x*x)/(a*a)))); R(c,cx + x,cy - yy - 2,1,2,o.spikes); R(c,cx + x,cy + yy + 1,1,2,o.spikes); } }
+  const ex = cx + d*(a - Math.max(1,Math.round(a*.3))), ey = cy - Math.max(0,Math.round(b/3)), es = o.eyeSize || 1;
+  if (o.dead){ ["-1,-1","1,1","1,-1","-1,1","0,0"].forEach(p => { const [u,v] = p.split(",").map(Number); P(c,ex + u,ey + v,"#3A3F44"); }); }
+  else { R(c,ex,ey,es,es,o.eye || "#111111"); if (es > 1) A(c,.25,() => disc(c,ex + 1,ey + 1,3,o.eye)); }
+}
+function puffer(c,x,y){ disc(c,x,y,3,"#E8C547"); R(c,x-2,y+1,5,2,"#D4AE33"); [[0,-5],[-4,-3],[4,-3],[-5,0],[-4,3],[4,3],[0,4]].forEach(([u,v]) => P(c,x + u,y + v,"#B08A20")); P(c,x-2,y-1,"#111111"); R(c,x+4,y-1,1,3,"#E8C547"); }
+function boat(c,x,wl,w=22){ R(c,x,wl-1,w,1,"#B07A44"); for (let i = 0; i < 4; i++) R(c,x + i,wl + i,w - 2*i,1,i % 2 ? "#6E4522" : "#8B5A2B"); }
+function rod(c,hx,hy,tx,ty,wx,wy){ line(c,hx,hy,tx,ty,"#6B4423"); line(c,tx,ty,wx,wy,"#E9EEF2"); P(c,wx,wy,"#E03A3A"); }
+function house(c,x,g,w,h,o={}){
+  const top = g - h; R(c,x,top,w,h,"#A0703C"); for (let k = top + 2; k < g; k += 3) R(c,x,k,w,1,"#8A5E31");
+  for (let i = 0; 2*i < w + 2; i++) R(c,x - 1 + i,top - 1 - i,w + 2 - 2*i,1,i % 2 ? "#4A3020" : "#5A3A24");
+  R(c,x + Math.floor(w/2) - 1,g - 5,3,5,"#3E2816"); R(c,x + 1,top + 2,2,2,o.lit ? "#FFD86B" : "#9FD3F0"); R(c,x + w - 3,top + 2,2,2,o.lit ? "#FFD86B" : "#9FD3F0");
+}
+function room(c,night=true){
+  bands(c,0,44,["#9C6B3E","#966639","#8F6035","#8A5B32"]); for (let k = 3; k < 44; k += 5) R(c,0,k,PW,1,"#7E522B"); for (let x = 0; x < PW; x += 16) R(c,x,0,1,44,"#7E522B");
+  R(c,0,44,PW,10,"#5E3B1C"); R(c,0,44,PW,1,"#4A2E16"); for (let x = 6; x < PW; x += 13) R(c,x,45,1,9,"#4A2E16");
+  R(c,70,8,18,14,"#4A2E16");
+  if (night){ R(c,71,9,16,12,"#0E1A3E"); disc(c,83,12,2,"#F2EED2"); P(c,73,11,"#FFFFFF"); P(c,75,17,"#8EA3D8"); P(c,81,18,"#8EA3D8"); }
+  else { R(c,71,9,16,12,"#9DD3F3"); R(c,72,12,6,2,"#FFFFFF"); }
+  R(c,78,9,1,12,"#4A2E16"); R(c,71,15,16,1,"#4A2E16");
+}
+function lantern(c,x,y){ glow(c,x,y + 2,18,"#FFD86B",.06); R(c,x,y-3,1,2,"#3A2A1A"); R(c,x-2,y-1,5,6,"#3A2A1A"); R(c,x-1,y,3,4,"#FFD86B"); }
+function table(c,x,y,w){ R(c,x,y,w,2,"#6B4423"); R(c,x,y + 2,w,1,"#4A2E16"); R(c,x + 2,y + 3,2,9,"#4A2E16"); R(c,x + w - 4,y + 3,2,9,"#4A2E16"); }
+function planks(c){ bands(c,0,PH,["#7A4E2A","#734927"]); for (let y = 0; y < PH; y += 9){ R(c,0,y,PW,1,"#5A3820"); R(c,0,y + 1,PW,1,"#8A5B33"); const off = (y/9 % 2)*24; for (let x = off; x < PW; x += 48) R(c,x,y + 1,1,8,"#5A3820"); } const r = rng(9); for (let i = 0; i < 20; i++) R(c,Math.floor(r()*PW),Math.floor(r()*PH),3,1,"#68421F"); }
+function temple(c,cx,base,o={}){
+  const C1 = "#5FB3A3", C2 = "#46988A", C3 = "#2F7166", L = "#D7F6EE"; let y = base;
+  [[44,6],[34,8],[24,8],[12,6]].forEach(([w,h],n) => { y -= h; R(c,cx - w/2,y,w,h,C1); for (let yy = y + 2; yy < y + h; yy += 3) R(c,cx - w/2,yy,w,1,C2); for (let xx = cx - w/2 + (n % 2 ? 2 : 0); xx < cx + w/2; xx += 5) R(c,xx,y,1,h,C3); R(c,cx - w/2,y,w,1,"#7FCDBE"); });
+  [[cx-19,base-4],[cx+18,base-4],[cx-14,base-11],[cx+13,base-11]].forEach(([x,yy]) => { glow(c,x,yy,4,L,.15); R(c,x-1,yy-1,2,2,L); });
+  const dh = 10, dw = 8;
+  if (o.open){ glow(c,cx,base - 6,14,"#BFF3FF",.1); R(c,cx - dw/2,base - dh - 1,dw,dh + 1,"#BFF3FF"); R(c,cx - dw/2 + 1,base - dh,dw - 2,dh,"#E6FBFF"); }
+  else { R(c,cx - dw/2,base - dh - 1,dw,dh + 1,"#173F3A"); R(c,cx - dw/2 + 1,base - dh,dw - 2,dh,"#0E2C29"); }
+}
+function templeRoom(c){ bands(c,0,PH,["#2F7166","#2B685E","#275F56","#23564E"]); for (let y = 4; y < 46; y += 6){ R(c,0,y,PW,1,"#1F4A44"); for (let x = (y/6 % 2)*6; x < PW; x += 12) R(c,x,y - 5,1,5,"#1F4A44"); } R(c,0,46,PW,8,"#1A403B"); R(c,0,46,PW,1,"#3E8F82"); [[10,10],[86,10]].forEach(([x,y]) => { glow(c,x,y,8,"#D7F6EE",.12); R(c,x-1,y-1,3,3,"#D7F6EE"); }); }
+function heart(c,x,y,col){ [".XX.XX.","XXXXXXX","XXXXXXX",".XXXXX.","..XXX..","...X..."].forEach((r,j) => [...r].forEach((ch,i) => { if (ch === "X") P(c,x + i,y + j,col); })); }
+function thought(c,x,y,w,h){ const col = "#F4F6F8"; R(c,x + 2,y,w - 4,h,col); R(c,x,y + 2,w,h - 4,col); disc(c,x + 5,y + 1,3,col); disc(c,x + w - 6,y + 1,3,col); }
+function rain(c,seed){ const r = rng(seed); A(c,.55,() => { for (let i = 0; i < 40; i++){ const x = Math.floor(r()*PW), y = Math.floor(r()*PH); line(c,x,y,x - 2,y + 4,"#A9B8C6"); } }); }
+function waves(c,y,col,crest){ for (let x = -6; x < PW; x += 14) for (let i = 0; i < 12; i++){ const h = Math.round(5 - Math.abs(i - 6)*5/6); R(c,x + i,y - h,1,h + 1,col); if (i === 6) P(c,x + i,y - h,crest); } }
+function particles(c,cx,cy,rx,ry,n,cols,seed){ const r = rng(seed); for (let i = 0; i < n; i++){ const t = r()*Math.PI*2, d = Math.sqrt(r()); A(c,.85,() => P(c,cx + Math.cos(t)*rx*d,cy + Math.sin(t)*ry*d,cols[Math.floor(r()*cols.length)])); } }
+
+const F = PAL.fichko, M = PAL.mira, D = PAL.pere, SLEEP = { E:"C" };
+const SCENES = [
+  /* 1 */ [c => { sky(c,"day",30,11); sun(c,82,8); sea(c,30,"day",12);
+    for (let y = 29; y < PH; y++) R(c,0,y,22 + (y - 29)*.75,1,SAND); R(c,0,29,22,1,SAND2);
+    house(c,1,33,10,8); house(c,13,34,10,9);
+    R(c,24,36,36,2,"#8B5A2B"); R(c,24,36,36,1,"#A9743F"); for (let x = 27; x < 60; x += 8) R(c,x,38,2,5,"#5E3B1C");
+    spr(c,BOY,F,44,20); rod(c,51,29,64,15,70,42); }, "Fichko pêche au bout d'un ponton, près des maisons de son village."],
+  /* 2 */ [c => { sky(c,"dusk",32,21); sun(c,48,32,"#FFD27A"); sea(c,32,"dusk",22); reflect(c,48,34,"#F7C06A");
+    R(c,66,30,8,1,"#2A1A12"); R(c,67,31,6,1,"#2A1A12"); R(c,69,26,2,4,"#2A1A12"); }, "Au coucher du soleil, une petite barque s'éloigne sur l'horizon."],
+  /* 3 */ [c => { sky(c,"day",30,31); sun(c,14,8); sea(c,30,"day",32);
+    spr(c,DAD,D,40,21); boat(c,30,34,28);
+    for (let i = 0; i < 5; i++) line(c,47,30,58 + i*4,44,"#C9A46A"); [36,40,44].forEach(y => line(c,49 + (y - 30)*.6,y,58 + (y - 30)*1.6,y,"#C9A46A"));
+    fish(c,64,41,6,{ col:"#C9D3DA", dk:"#9AA8B2" });
+    glow(c,44,28,3,"#5FD0FF",.3); spark(c,47,27); }, "Le père de Fichko remonte son filet. La perle bleue de son collier brille au soleil."],
+  /* 4 */ [c => { room(c,true); lantern(c,52,14);
+    R(c,23,38,12,2,"#6B4423"); R(c,24,40,2,4,"#4A2E16"); R(c,32,40,2,4,"#4A2E16");
+    spr(c,DAD,D,25,25,{ rows: 13 }); R(c,26,38,2,6,D.P); R(c,30,38,2,6,D.P);
+    spr(c,KID,F,42,33);
+    thought(c,8,2,30,14); P(c,34,18,"#F4F6F8"); R(c,31,20,2,2,"#F4F6F8");
+    fish(c,23,9,12,{ ...RARE, glow: null }); }, "Le soir, près de la lanterne, le père raconte à Fichko enfant l'histoire du poisson d'argent."],
+  /* 5 */ [c => { sky(c,"dusk",30,51); sun(c,30,30,"#FFD27A"); sea(c,30,"dusk",52); reflect(c,30,32,"#F7C06A");
+    for (let y = 33; y < PH; y++) R(c,62 - (y - 33)*.8,y,PW,1,"#C9A86E");
+    spr(c,BOY,F,74,24);
+    A(c,.55,() => fish(c,44,12,12,{ ...RARE, glow: null })); spark(c,36,7); spark(c,54,15); }, "Fichko, devenu grand, regarde la mer au coucher du soleil et rêve du poisson le plus rare."],
+  /* 6 */ [c => { room(c,true); lantern(c,48,10);
+    spr(c,BOY,F,28,24,{ rows: 13 }); spr(c,MIRA,M,60,24,{ rows: 13, sub:{ S:"Q" } });
+    table(c,22,36,52); R(c,34,34,5,2,"#C9C2B5"); R(c,57,34,5,2,"#C9C2B5"); R(c,63,35,3,1,"#B9BEC4"); }, "À table, Fichko annonce son départ. Le visage de Mira devient tout pâle."],
+  /* 7 */ [c => { room(c,true); lantern(c,48,10);
+    spr(c,BOY,F,22,28); spr(c,MIRA,M,64,28);
+    line(c,19,24,21,26,"#E5584E"); line(c,24,22,24,25,"#E5584E"); line(c,29,24,27,26,"#E5584E"); }, "Fichko et Mira se disputent, debout l'un en face de l'autre."],
+  /* 8 */ [c => { room(c,true); lantern(c,20,12);
+    spr(c,BOY,F,46,28); spr(c,MIRA,M,40,29); R(c,46,38,3,1,M.S);
+    heart(c,42,19,"#E5584E"); }, "Mira serre Fichko dans ses bras la veille de son départ."],
+  /* 9 */ [c => { sky(c,"dawn",30,91); sun(c,80,30,"#FFE0A0"); sea(c,30,"dawn",92); reflect(c,80,32,"#FFE0A0",4);
+    spr(c,BOY,F,56,21); boat(c,48,34,20); R(c,34,36,12,1,SEAHL.dawn); R(c,28,38,14,1,SEAHL.dawn);
+    for (let y = 40; y < PH; y++) R(c,0,y,26 + (y - 40)*.9,1,SAND); R(c,0,40,26,1,SAND2);
+    spr(c,MIRA,M,9,25); }, "Au lever du soleil, Fichko part en barque. Mira le regarde depuis la plage."],
+  /* 10 */ [c => { surface(c,14,101); spr(c,BOY,F,44,1); boat(c,36,14,22); line(c,51,10,60,30,"#E9EEF2");
+    fish(c,22,30,9,{ col:"#F08A3A", dk:"#C76A28", stripe:"#FFFFFF" }); puffer(c,76,33);
+    fish(c,62,31,7,{ col:"#4FB8E0", dk:"#2F8AB0", dir:1 }); fish(c,36,42,8,{ col:"#7AC74F", dk:"#4F9A30", dir:1 }); fish(c,82,44,6,{ col:"#E05A9A", dk:"#B03A72" }); }, "Sous la barque de Fichko nagent des poissons de toutes les couleurs."],
+  /* 11 */ [c => { sky(c,"storm",30,111); line(c,72,0,67,8,"#FFF2A0"); line(c,67,8,72,10,"#FFF2A0"); line(c,72,10,65,22,"#FFF2A0");
+    sea(c,30,"storm",112); waves(c,33,"#2C4A5C","#DCE6EC");
+    spr(c,BOY,F,44,20); boat(c,36,33,22); R(c,52,28,3,3,"#9AA3AD"); A(c,.8,() => { P(c,56,25,"#CFEFFF"); P(c,58,23,"#CFEFFF"); P(c,57,21,"#CFEFFF"); });
+    waves(c,44,"#203744","#AFC3CE"); rain(c,113); }, "La tempête : des vagues immenses, la pluie et un éclair. Fichko écope avec son seau."],
+  /* 12 */ [c => { planks(c); A(c,.25,() => R(c,24,35,46,2,"#000000"));
+    A(c,.55,() => { R(c,22,20,38,14,"#9ED9C3"); R(c,60,23,8,8,"#9ED9C3"); });
+    R(c,22,20,38,1,"#D8F5EA"); R(c,22,33,38,1,"#5FA88E"); R(c,21,21,1,12,"#5FA88E"); R(c,60,22,8,1,"#5FA88E"); R(c,60,31,8,1,"#5FA88E");
+    R(c,68,24,5,6,"#A0703C"); R(c,68,24,5,1,"#C08A50");
+    R(c,28,24,26,6,"#E8D3A2"); R(c,28,24,1,6,"#C9AE76"); R(c,53,24,1,6,"#C9AE76"); R(c,40,24,2,6,"#C03A2A");
+    A(c,.6,() => R(c,26,21,20,1,"#FFFFFF")); spark(c,56,30,"#5FD0FF"); P(c,18,30,"#7FC0EA"); P(c,76,36,"#7FC0EA"); }, "Une bouteille en verre, avec une carte roulée à l'intérieur."],
+  /* 13 */ [c => { planks(c); glow(c,48,32,14,"#5FD0FF",.08);
+    ring(c,48,18,18,"#3A2A1A",0,180); ring(c,48,18,17,"#3A2A1A",10,170); line(c,30,18,34,6,"#3A2A1A"); line(c,66,18,62,6,"#3A2A1A");
+    disc(c,48,36,4,"#3FA9F5"); P(c,50,38,"#1F6FB0"); P(c,51,37,"#1F6FB0"); disc(c,46,34,1,"#CFF3FF");
+    spark(c,56,28); spark(c,38,40); spark(c,58,42); }, "Le collier du père : un cordon et une perle bleue qui brille."],
+  /* 14 */ [c => { planks(c); R(c,12,5,72,44,"#E8D3A2"); R(c,12,5,72,1,"#B8955A"); R(c,12,48,72,1,"#B8955A"); R(c,12,5,1,44,"#B8955A"); R(c,83,5,1,44,"#B8955A");
+    for (let y = 10; y < 46; y += 6) for (let x = 16 + (y % 12 ? 4 : 0); x < 80; x += 9){ R(c,x,y,3,1,"#7FA9C6"); P(c,x + 3,y - 1,"#7FA9C6"); }
+    disc(c,24,16,5,"#D9C48C"); disc(c,24,16,3,"#7FB35A");
+    for (let k = 0; k <= 12; k++) if (k % 2 === 0) P(c,30 + k*3,21 + k*1.1,"#7A5A30");
+    R(c,62,30,10,3,"#46988A"); R(c,64,27,6,3,"#5FB3A3"); R(c,66,25,2,2,"#46988A");
+    line(c,67,35,72,40,"#C0392B"); line(c,68,35,73,40,"#C0392B"); line(c,72,35,67,40,"#C0392B"); line(c,73,35,68,40,"#C0392B");
+    line(c,76,9,76,15,"#7A5A30"); line(c,73,12,79,12,"#7A5A30"); P(c,76,8,"#C0392B");
+    ring(c,86,40,6,"#3A2A1A",120,250); disc(c,86,47,3,"#3FA9F5"); P(c,85,46,"#CFF3FF"); }, "La carte : une île, un chemin en pointillés, un temple et une croix rouge."],
+  /* 15 */ [c => { sky(c,"day",14,151); under(c,14,{ dark:true, seed:152, kelp:3 }); R(c,0,14,PW,1,SEAHL.day);
+    temple(c,40,49); fish(c,72,38,22,GUARD); spr(c,BOY,F,64,1); boat(c,58,14,18); }, "Sous la barque de Fichko, au fond de la mer, un temple de prismarine et le Gardien."],
+  /* 16 */ [c => { under(c,0,{ dark:true, seed:161, kelp:4, bub:8 }); A(c,.5,() => temple(c,84,49)); fish(c,44,27,46,GUARD); }, "Le Gardien, un poisson immense aux écailles d'argent et aux yeux rouges."],
+  /* 17 */ [c => { surface(c,14,171); spr(c,BOY,F,26,1); boat(c,20,14,20);
+    line(c,33,10,44,4,"#6B4423"); line(c,44,4,52,24,"#E9EEF2"); line(c,55,30,57,34,"#E9EEF2");
+    spark(c,53,27); P(c,51,26,"#FFFFFF"); P(c,56,26,"#FFFFFF"); P(c,52,29,"#FFFFFF");
+    fish(c,68,39,24,GUARD); }, "La ligne de Fichko casse net : le Gardien est trop fort."],
+  /* 18 */ [c => { under(c,0,{ seed:181, kelp:3, bub:4 }); A(c,.55,() => temple(c,76,49));
+    spr(c,BOY,F,32,18,{ rot:-1 }); R(c,48,21,2,1,"#5E3B1C"); R(c,50,21,4,1,"#DDE3E8");
+    bub(c,52,15); bub(c,54,10); bub(c,53,5); }, "Fichko plonge vers le temple, son couteau à la main. Il manque d'air."],
+  /* 19 */ [c => { under(c,0,{ seed:191, bub:5 }); glow(c,48,26,20,"#7FE8FF",.07);
+    spr(c,BOYG,F,44,18); glow(c,48,25,5,"#5FD0FF",.25);
+    spark(c,52,21); spark(c,38,14); spark(c,58,32); spark(c,36,34); }, "La perle s'illumine : des branchies apparaissent sur le cou de Fichko."],
+  /* 20 */ [c => { under(c,0,{ dark:true, seed:201, kelp:3 }); temple(c,24,49);
+    spr(c,BOYG,F,48,20); glow(c,52,27,4,"#5FD0FF",.25); fish(c,78,27,28,GUARD); }, "Devant la porte du temple, Fichko fait face au Gardien et hésite."],
+  /* 21 */ [c => { under(c,0,{ dark:true, seed:211, bub:10 }); fish(c,64,24,32,GUARD);
+    spr(c,BOYG,F,16,24,{ rot:-1 }); R(c,32,27,1,1,"#5E3B1C"); R(c,33,27,5,1,"#DDE3E8");
+    A(c,.6,() => { R(c,6,26,7,1,"#CFEFFF"); R(c,8,30,5,1,"#CFEFFF"); R(c,84,14,6,1,"#CFEFFF"); R(c,86,33,6,1,"#CFEFFF"); });
+    spark(c,41,27,"#FFF2A0"); }, "Le combat : Fichko et le Gardien s'affrontent sous l'eau."],
+  /* 22 */ [c => { under(c,0,{ dark:true, seed:221, bub:4 }); fish(c,62,43,28,{ ...GUARD, dead:true });
+    spr(c,BOYG,F,26,14); R(c,33,17,1,6,"#DDE3E8"); R(c,33,23,1,2,"#5E3B1C"); }, "Le Gardien ne bouge plus. Fichko a gagné le combat."],
+  /* 23 */ [c => { under(c,0,{ seed:231, bub:4 });
+    particles(c,52,30,28,13,90,["#C7D1D9","#E8EEF2","#CDB680","#8E9BA6"],232);
+    fish(c,50,28,12,RARE); spark(c,40,20); spark(c,62,24); spark(c,56,38); }, "Le corps du Gardien se défait comme du sable. Un petit poisson lumineux apparaît."],
+  /* 24 */ [c => { under(c,0,{ seed:241, floor:false, bub:6 });
+    R(c,22,46,14,8,"#3A6EA5"); R(c,60,46,14,8,"#3A6EA5");
+    R(c,22,40,18,6,F.S); R(c,56,40,18,6,F.S);
+    for (let k = 0; k < 4; k++){ R(c,23 + k*4,35 + (k === 3 ? 1 : 0),3,5,F.S); R(c,57 + k*4,35 + (k === 0 ? 1 : 0),3,5,F.S); P(c,25 + k*4,36,"#B9844F"); P(c,57 + k*4,36,"#B9844F"); }
+    R(c,40,41,4,3,F.S); R(c,52,41,4,3,F.S); R(c,22,45,18,1,"#B9844F"); R(c,56,45,18,1,"#B9844F");
+    fish(c,52,22,12,{ ...RARE, dir:1 }); A(c,.8,() => { P(c,48,34,"#BFF3FF"); P(c,49,31,"#BFF3FF"); P(c,50,28,"#BFF3FF"); });
+    spark(c,64,16); spark(c,40,18); }, "Fichko ouvre les mains et laisse partir le poisson le plus rare."],
+  /* 25 */ [c => { under(c,0,{ dark:true, seed:251, kelp:4 }); temple(c,48,49,{ open:true });
+    fish(c,64,30,9,RARE); A(c,.8,() => { P(c,70,31,"#BFF3FF"); P(c,73,32,"#BFF3FF"); P(c,76,32,"#BFF3FF"); }); }, "La porte du temple s'ouvre. Le petit poisson lumineux guide Fichko."],
+  /* 26 */ [c => { templeRoom(c); A(c,.22,() => disc(c,58,28,16,"#BFF3FF")); ring(c,58,28,16,"#DFF8FF");
+    ring(c,58,28,13,"#FFFFFF",200,250); spr(c,DAD,D,54,20,{ sub: SLEEP });
+    spr(c,BOYG,F,16,30); glow(c,20,37,6,"#5FD0FF",.25); spark(c,24,33); }, "Au fond du temple, un homme dort dans une bulle d'air."],
+  /* 27 */ [c => { templeRoom(c); A(c,.22,() => disc(c,48,28,24,"#BFF3FF")); ring(c,48,28,24,"#DFF8FF"); ring(c,48,28,21,"#FFFFFF",200,245);
+    spr(c,DAD,D,40,12,{ scale:2, sub: SLEEP }); spark(c,22,12); spark(c,76,18); spark(c,72,44); }, "Le visage de l'homme endormi : c'est le père de Fichko."],
+  /* 28 */ [c => { sky(c,"day",30,281); sun(c,80,8); sea(c,30,"day",282);
+    spr(c,BOY,F,38,21); spr(c,DAD,D,50,21); boat(c,30,34,32);
+    [[28,20],[33,13],[42,9],[56,10],[64,15],[69,22],[24,28],[73,29]].forEach(([x,y]) => bub(c,x,y)); spark(c,48,6); }, "La bulle éclate à la surface. Le père se réveille dans la barque, à côté de Fichko."],
+  /* 29 */ [c => { sky(c,"dusk",32,291); sun(c,18,32,"#FFD27A"); sea(c,32,"dusk",292); reflect(c,18,34,"#F7C06A",4);
+    spr(c,BOY,F,40,23); spr(c,DAD,D,52,23); boat(c,32,36,32);
+    thought(c,62,4,28,15); P(c,60,20,"#F4F6F8"); R(c,62,17,2,2,"#F4F6F8");
+    R(c,68,13,16,3,"#46988A"); R(c,71,10,10,3,"#5FB3A3"); R(c,74,8,4,2,"#46988A"); ring(c,76,11,6,"#7FD6FF",180,360); }, "Dans la barque, le père raconte le secret du temple."],
+  /* 30 */ [c => { sky(c,"night",34,301); moon(c,74,9); sea(c,34,"night",302); reflect(c,74,36,"#8EA3D8",5);
+    spr(c,BOY,F,40,25); spr(c,DAD,D,50,25); R(c,47,33,4,1,D.T); boat(c,32,38,30);
+    heart(c,44,14,"#E5584E"); }, "La nuit, le père et Fichko sont assis côte à côte. Le père est fier de son fils."],
+  /* 31 */ [c => { sky(c,"day",26,311); sea(c,26,"day",312);
+    for (let y = 26; y < PH; y++) R(c,0,y,50 + (y - 26)*.55,1,SAND); R(c,0,26,50,1,SAND2);
+    house(c,3,30,10,8); house(c,16,31,10,8);
+    spr(c,BOY,F,74,27); boat(c,66,40,22);
+    spr(c,DAD,D,50,30); spr(c,MIRA,M,34,30,{ flip:true });
+    R(c,20,43,6,3,"#8B5A2B"); R(c,20,43,6,1,"#A9743F"); fish(c,15,46,6,{ col:"#C9D3DA", dk:"#9AA8B2" }); P(c,27,46,"#E05A3A");
+    heart(c,42,20,"#E5584E"); }, "Sur la plage, Mira court vers son frère. Elle a laissé tomber son panier."],
+  /* 32 */ [c => { sky(c,"day",30,321); sun(c,14,8); sea(c,30,"day",322);
+    spr(c,BOY,F,32,21); spr(c,DAD,D,46,21); boat(c,26,34,30);
+    A(c,.8,() => { [[58,28],[62,24],[66,22]].forEach(([x,y]) => P(c,x,y,"#FFFFFF")); });
+    fish(c,72,24,9,{ col:"#4FB8E0", dk:"#2F8AB0", dir:1 });
+    [[79,31],[81,29],[83,31],[77,29]].forEach(([x,y]) => P(c,x,y,"#CFEFFF")); R(c,77,32,8,1,"#CFEFFF"); }, "Fichko et son père pêchent ensemble. Un poisson saute pour retourner à l'eau."]
+];
+function drawScene(c,i){ c.clearRect(0,0,PW,PH); c.globalAlpha = 1; SCENES[i][0](c); }
+/*PIX-END*/
+
+/* ---------- Réglages ---------- */
+const KEY = "fichko-lecteur-v1";
+const DEF = { voiceURI: "", rate: 0.9, pitch: 1, volume: 1, hl: "word", img: true, title: true, autoNext: false, fs: 1, lh: 1, pause: 300 };
+const FS = [1.15, 1.35, 1.6, 1.9];
+const LH = [1.6, 1.9, 2.2];
+function loadSaved(){ try { const r = localStorage.getItem(KEY); return r ? JSON.parse(r) : null; } catch(e){ return null; } }
+const synth = ("speechSynthesis" in window) ? window.speechSynthesis : null;
+const isFr = v => /^fr/i.test(v.lang);
+function pickVoice(voices, uri){
+  if (uri){ const v = voices.find(v => v.voiceURI === uri); if (v) return v; }
+  const frv = voices.filter(isFr);
+  const order = [v => /fr[-_]FR/i.test(v.lang) && v.localService, v => /fr[-_]FR/i.test(v.lang), () => true];
+  for (const f of order){ const v = frv.find(f); if (v) return v; }
+  return null;
+}
+
+/* ---------- Icônes ---------- */
+const S = { fill:"none", stroke:"currentColor", strokeWidth:"2", strokeLinecap:"round", strokeLinejoin:"round" };
+const I = {
+  play: html`<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 4.5v15l12.5-7.5z" fill="currentColor"/></svg>`,
+  pause: html`<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="6" y="5" width="4" height="14" fill="currentColor"/><rect x="14" y="5" width="4" height="14" fill="currentColor"/></svg>`,
+  stop: html`<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="6" y="6" width="12" height="12" fill="currentColor"/></svg>`,
+  prev: html`<svg viewBox="0 0 24 24" aria-hidden="true" ...${S}><path d="M15 5l-7 7 7 7"/></svg>`,
+  next: html`<svg viewBox="0 0 24 24" aria-hidden="true" ...${S}><path d="M9 5l7 7-7 7"/></svg>`,
+  again: html`<svg viewBox="0 0 24 24" aria-hidden="true" ...${S}><path d="M4 12a8 8 0 1 0 2.4-5.7M4 4v4h4"/></svg>`,
+  sliders: html`<svg viewBox="0 0 24 24" aria-hidden="true" ...${S}><path d="M4 7h9M17 7h3M4 17h3M11 17h9"/><circle cx="15" cy="7" r="2"/><circle cx="9" cy="17" r="2"/></svg>`,
+  speaker: html`<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9.5h3.5L12 6v12l-4.5-3.5H4z" fill="currentColor"/><path d="M15.5 9a4 4 0 0 1 0 6M18 6.5a7.5 7.5 0 0 1 0 11" ...${S}/></svg>`,
+  close: html`<svg viewBox="0 0 24 24" aria-hidden="true" ...${S}><path d="M6 6l12 12M18 6L6 18"/></svg>`
+};
+const FISH = ["..XXX...", ".XXXXX.X", "XOXXXXXX", ".XXXXX.X", "..XXX..."];
+function Fish(){
+  const r = [];
+  FISH.forEach((row, y) => [...row].forEach((ch, x) => {
+    if (ch === "X") r.push(html`<rect key=${x+"-"+y} x=${x} y=${y} width="1" height="1" style=${{fill:"var(--accent)"}}/>`);
+    if (ch === "O") r.push(html`<rect key=${x+"-"+y} x=${x} y=${y} width="1" height="1" style=${{fill:"var(--hl-word)"}}/>`);
+  }));
+  return html`<svg viewBox="0 0 8 5" shapeRendering="crispEdges" aria-hidden="true">${r}</svg>`;
+}
+
+function Pic({ index }){
+  const ref = useRef(null);
+  useEffect(() => { const cv = ref.current; if (!cv) return; const c = cv.getContext("2d"); if (c) drawScene(c,index); }, [index]);
+  return html`<canvas ref=${ref} className="pic" width=${PW} height=${PH} role="img" aria-label=${SCENES[index][1]}></canvas>`;
+}
+
+function Seg({ value, options, onChange, label }){
+  return html`<div className="seg" role="group" aria-label=${label}>
+    ${options.map(o => html`<button key=${String(o.v)} type="button" aria-pressed=${value === o.v} aria-label=${o.a || null} title=${o.a || null} style=${o.style || null} onClick=${() => onChange(o.v)}>${o.l}</button>`)}
+  </div>`;
+}
+
+/* ---------- Application ---------- */
+function App(){
+  const saved = useMemo(loadSaved, []);
+  const [settings, setSettings] = useState(() => ({ ...DEF, ...((saved && saved.settings) || {}) }));
+  const [page, setPage] = useState(() => { const p = saved && saved.page; return Number.isInteger(p) && p >= 0 && p < PAGES.length ? p : 0; });
+  const [playing, setPlaying] = useState(false);
+  const [paused, setPaused] = useState(false);
+  const [seg, setSeg] = useState(-1);
+  const [word, setWord] = useState(null);
+  const [gloss, setGloss] = useState(null);
+  const [voices, setVoices] = useState([]);
+  const [voicesChecked, setVoicesChecked] = useState(false);
+  const [open, setOpen] = useState(false);
+
+  const sessionRef = useRef(0), posRef = useRef(null), autoRef = useRef(false), uttRef = useRef(null), firstRef = useRef(true);
+  const closeRef = useRef(null), gearRef = useRef(null);
+  const sRef = useRef(settings); sRef.current = settings;
+  const pageRef = useRef(page); pageRef.current = page;
+  const voice = pickVoice(voices, settings.voiceURI);
+  const voiceRef = useRef(voice); voiceRef.current = voice;
+
+  const upd = (k, v) => setSettings(s => ({ ...s, [k]: v }));
+  const last = PAGES.length - 1;
+  const segs = BUILT[page];
+  const P = PAGES[page];
+
+  /* voix disponibles */
+  useEffect(() => {
+    if (!synth) return;
+    const load = () => { const v = synth.getVoices(); if (v.length) setVoices(v); };
+    load();
+    if (synth.addEventListener) synth.addEventListener("voiceschanged", load); else synth.onvoiceschanged = load;
+    const t = setTimeout(() => { load(); setVoicesChecked(true); }, 1500);
+    const off = () => synth.cancel();
+    window.addEventListener("pagehide", off);
+    return () => { if (synth.removeEventListener) synth.removeEventListener("voiceschanged", load); clearTimeout(t); window.removeEventListener("pagehide", off); };
+  }, []);
+
+  /* mémorisation locale */
+  useEffect(() => { try { localStorage.setItem(KEY, JSON.stringify({ settings, page })); } catch(e){} }, [settings, page]);
+
+  function makeUtt(text){
+    const u = new SpeechSynthesisUtterance(text), s = sRef.current, v = voiceRef.current;
+    if (v){ u.voice = v; u.lang = v.lang; } else u.lang = "fr-FR";
+    u.rate = s.rate; u.pitch = s.pitch; u.volume = s.volume;
+    uttRef.current = u;
+    return u;
+  }
+  function halt(){ sessionRef.current++; if (synth) synth.cancel(); }
+
+  function run(pIdx, idx, session){
+    if (session !== sessionRef.current) return;
+    const list = BUILT[pIdx];
+    if (idx >= list.length){
+      setPlaying(false); setPaused(false); setSeg(-1); setWord(null); posRef.current = null;
+      if (sRef.current.autoNext && pIdx < last){ autoRef.current = true; setPage(pIdx + 1); }
+      return;
+    }
+    posRef.current = idx; setSeg(idx); setWord(null);
+    const u = makeUtt(list[idx].speech);
+    u.onboundary = e => {
+      if (session !== sessionRef.current) return;
+      if (e.name && e.name !== "word") return;
+      const t = findTok(list[idx].tokens, e.charIndex); if (t) setWord(t.id);
+    };
+    u.onend = () => {
+      if (session !== sessionRef.current) return;
+      setWord(null);
+      setTimeout(() => run(pIdx, idx + 1, session), sRef.current.pause);
+    };
+    u.onerror = e => {
+      if (session !== sessionRef.current) return;
+      if (e.error === "interrupted" || e.error === "canceled") return;
+      setPlaying(false); setSeg(-1);
+    };
+    synth.speak(u);
+  }
+  function startFrom(idx){
+    if (!synth) return;
+    halt(); const session = sessionRef.current;
+    setPlaying(true); setPaused(false); setGloss(null);
+    setTimeout(() => run(pageRef.current, idx, session), 90);
+  }
+  function togglePlay(){
+    if (!synth) return;
+    if (playing){ halt(); setPlaying(false); setPaused(true); setWord(null); return; }
+    const start = posRef.current != null ? posRef.current : (sRef.current.title ? 0 : 1);
+    startFrom(start);
+  }
+  function stopAll(){ halt(); setPlaying(false); setPaused(false); setSeg(-1); setWord(null); posRef.current = null; }
+  function speakOnce(text){
+    if (!synth) return;
+    const wasPlaying = playing;
+    halt(); setPlaying(false); if (wasPlaying) setPaused(true);
+    const session = sessionRef.current;
+    setTimeout(() => {
+      if (session !== sessionRef.current) return;
+      const u = makeUtt(text.replace(/[«»]/g, " "));
+      u.onend = () => { if (session === sessionRef.current) setWord(null); };
+      synth.speak(u);
+    }, 70);
+  }
+  function onWord(tok){
+    speakOnce(tok.t);
+    setWord(tok.id);
+    setGloss(tok.g);
+  }
+  function go(p){ setPage(Math.max(0, Math.min(last, p))); }
+
+  /* changement de page */
+  useEffect(() => {
+    const auto = autoRef.current; autoRef.current = false;
+    halt(); setSeg(-1); setWord(null); setGloss(null); setPaused(false); posRef.current = null;
+    if (auto) startFrom(sRef.current.title ? 0 : 1); else setPlaying(false);
+    if (!firstRef.current && window.scrollY > 40) window.scrollTo({ top: 0, behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth" });
+    firstRef.current = false;
+  }, [page]);
+
+  /* clavier */
+  const act = useRef({}); act.current = { next: () => go(page + 1), prev: () => go(page - 1), toggle: togglePlay, open, close: () => setOpen(false) };
+  useEffect(() => {
+    const h = e => {
+      if (e.key === "Escape" && act.current.open){ act.current.close(); return; }
+      const tag = (e.target.tagName || "").toLowerCase();
+      if (["input", "select", "textarea", "button"].includes(tag) || act.current.open) return;
+      if (e.key === "ArrowRight"){ act.current.next(); }
+      else if (e.key === "ArrowLeft"){ act.current.prev(); }
+      else if (e.key === " "){ e.preventDefault(); act.current.toggle(); }
+    };
+    window.addEventListener("keydown", h);
+    return () => window.removeEventListener("keydown", h);
+  }, []);
+
+  /* focus du panneau */
+  const wasOpen = useRef(false);
+  useEffect(() => {
+    if (open && closeRef.current) closeRef.current.focus();
+    if (!open && wasOpen.current && gearRef.current) gearRef.current.focus();
+    wasOpen.current = open;
+  }, [open]);
+
+  /* rendu d'une phrase */
+  const hlWord = id => word === id && (settings.hl === "word" || !playing);
+  const sentOn = i => seg === i && settings.hl !== "none";
+  const renderSeg = (s) => s.tokens.map(tok => tok.w
+    ? html`<span key=${tok.id} className=${"w" + (tok.g ? " gl" : "") + (hlWord(tok.id) ? " hl" : "")} onClick=${() => onWord(tok)}>${tok.t}</span>`
+    : tok.t);
+
+  const step = STEPS[P.e];
+  const playLabel = playing ? "Pause" : (paused ? "Reprendre" : "Lire la page");
+  const frVoices = voices.filter(isFr);
+  const voiceList = frVoices.length ? frVoices : voices;
+  const g = gloss ? GLOSS[gloss] : null;
+
+  return html`
+  <div className="app">
+    <header className="top">
+      <div className="brand">
+        <${Fish}/>
+        <div>
+          <h1>Fichko et le Gardien des Profondeurs</h1>
+          <p>Une histoire de Hédi</p>
+        </div>
+      </div>
+      <button ref=${gearRef} className="btn" type="button" onClick=${() => setOpen(true)} aria-haspopup="dialog">
+        ${I.sliders}<span className="sr-sm">Réglages</span>
+      </button>
+    </header>
+
+    <section className="progress" aria-label="Progression dans l'histoire">
+      <div className="phead">
+        <span className="chip" style=${{ "--c": step.c }}><i></i>${step.label}</span>
+        <span className="count">Page ${page + 1} / ${PAGES.length}</span>
+      </div>
+      <div className="blocks">
+        ${PAGES.map((p, i) => html`<button key=${i} type="button" tabIndex="-1"
+            className=${"blk" + (i < page ? " done" : "") + (i === page ? " cur" : "")}
+            style=${{ "--c": STEPS[p.e].c }} title=${"Page " + (i + 1) + " : " + p.t}
+            aria-label=${"Aller à la page " + (i + 1)} onClick=${() => go(i)}></button>`)}
+      </div>
+    </section>
+
+    <main className="sheet" style=${{ "--fs": FS[settings.fs] + "rem", "--lh": LH[settings.lh] }}>
+      ${settings.img && html`<${Pic} index=${page}/>`}
+      <h2 className="ptitle"><span className=${"sent" + (sentOn(0) ? " on" : "")}>${renderSeg(segs[0])}</span></h2>
+      <p className="ptext">
+        ${segs.slice(1).map((s, j) => html`<${React.Fragment} key=${j}><span className=${"sent" + (sentOn(j + 1) ? " on" : "")}>${renderSeg(s)}</span>${j < segs.length - 2 ? " " : ""}<//>`)}
+      </p>
+      ${page === last && html`<p className="fin">FIN</p>`}
+      ${g && html`<aside className="gloss" aria-live="polite">
+        <span className="lbl">Définition</span>
+        <p><span className="gw">${g.w}</span> : ${g.d}</p>
+        <div className="acts">
+          <button className="btn sm" type="button" onClick=${() => speakOnce(g.w + ". " + g.d)}>${I.speaker}Écouter la définition</button>
+          <button className="btn sm" type="button" onClick=${() => setGloss(null)}>${I.close}Fermer</button>
+        </div>
+      </aside>`}
+    </main>
+
+    ${synth
+      ? html`<p className="hint">Appuie sur un mot pour l'entendre. Les mots soulignés en pointillés ont une définition.</p>`
+      : html`<p className="notice">Ce navigateur ne propose pas la lecture à voix haute. Essaie avec une version récente de Chrome, Edge, Safari ou Firefox.</p>`}
+
+    <nav className="bar" aria-label="Lecture et navigation">
+      <div className="bar-in">
+        <button className="btn" type="button" onClick=${() => go(page - 1)} disabled=${page === 0} aria-label="Page précédente">
+          ${I.prev}<span className="sr-sm">Précédent</span>
+        </button>
+        <button className="btn primary" type="button" onClick=${togglePlay} disabled=${!synth} aria-pressed=${playing}>
+          ${playing ? I.pause : I.play}<span>${playLabel}</span>
+        </button>
+        <button className="btn icon" type="button" onClick=${stopAll} disabled=${!synth} aria-label="Arrêter la lecture" title="Arrêter">
+          ${I.stop}
+        </button>
+        ${page < last
+          ? html`<button className="btn" type="button" onClick=${() => go(page + 1)} aria-label="Page suivante"><span className="sr-sm">Suivant</span>${I.next}</button>`
+          : html`<button className="btn" type="button" onClick=${() => go(0)} aria-label="Recommencer l'histoire">${I.again}<span className="sr-sm">Recommencer</span></button>`}
+      </div>
+    </nav>
+
+    ${open && html`<${React.Fragment}>
+      <div className="scrim" onClick=${() => setOpen(false)}></div>
+      <div className="drawer" role="dialog" aria-modal="true" aria-labelledby="dlg-t">
+        <div className="dh">
+          <h2 id="dlg-t">Réglages</h2>
+          <button ref=${closeRef} className="btn icon" type="button" onClick=${() => setOpen(false)} aria-label="Fermer les réglages">${I.close}</button>
+        </div>
+
+        <section className="grp">
+          <p className="gt">Voix</p>
+          <div className="field">
+            <label className="fl" htmlFor="voice">Voix de lecture</label>
+            <select id="voice" value=${voice ? voice.voiceURI : ""} onChange=${e => upd("voiceURI", e.target.value)} disabled=${!synth || !voiceList.length}>
+              ${!voiceList.length && html`<option value="">Voix par défaut de l'appareil</option>`}
+              ${voiceList.map(v => html`<option key=${v.voiceURI} value=${v.voiceURI}>${v.name} (${v.lang})${v.localService ? "" : " · en ligne"}</option>`)}
+            </select>
+          </div>
+          ${synth && voicesChecked && !frVoices.length && html`<p className="note">Aucune voix française n'a été trouvée sur cet appareil. La lecture utilisera la voix par défaut.</p>`}
+          <div className="field">
+            <label className="fl" htmlFor="rate">Vitesse <output>${settings.rate.toFixed(2).replace(".", ",")} ×</output></label>
+            <input id="rate" type="range" min="0.5" max="1.5" step="0.05" value=${settings.rate} onChange=${e => upd("rate", parseFloat(e.target.value))}/>
+          </div>
+          <div className="field">
+            <label className="fl" htmlFor="pitch">Hauteur de la voix <output>${settings.pitch.toFixed(1).replace(".", ",")}</output></label>
+            <input id="pitch" type="range" min="0.5" max="1.5" step="0.1" value=${settings.pitch} onChange=${e => upd("pitch", parseFloat(e.target.value))}/>
+          </div>
+          <div className="field">
+            <label className="fl" htmlFor="vol">Volume <output>${Math.round(settings.volume * 100)} %</output></label>
+            <input id="vol" type="range" min="0" max="1" step="0.05" value=${settings.volume} onChange=${e => upd("volume", parseFloat(e.target.value))}/>
+          </div>
+          <button className="btn sm" type="button" onClick=${() => speakOnce("Bonjour ! Je vais te lire l'histoire de Fichko.")} disabled=${!synth}>${I.speaker}Tester la voix</button>
+        </section>
+
+        <section className="grp">
+          <p className="gt">Lecture</p>
+          <div className="field">
+            <span className="fl">Pause entre les phrases</span>
+            <${Seg} label="Pause entre les phrases" value=${settings.pause} onChange=${v => upd("pause", v)}
+              options=${[{ v: 0, l: "Aucune" }, { v: 300, l: "Courte" }, { v: 900, l: "Longue" }]}/>
+          </div>
+          <div className="field">
+            <span className="fl">Surlignage pendant la lecture</span>
+            <${Seg} label="Surlignage" value=${settings.hl} onChange=${v => upd("hl", v)}
+              options=${[{ v: "word", l: "Mot" }, { v: "sentence", l: "Phrase" }, { v: "none", l: "Aucun" }]}/>
+          </div>
+          <label className="check"><input id="ttl" type="checkbox" checked=${settings.title} onChange=${e => upd("title", e.target.checked)}/>Lire aussi le titre de la page</label>
+          <label className="check"><input id="auto" type="checkbox" checked=${settings.autoNext} onChange=${e => upd("autoNext", e.target.checked)}/>Passer seul à la page suivante à la fin de la lecture</label>
+        </section>
+
+        <section className="grp">
+          <p className="gt">Affichage</p>
+          <label className="check"><input id="img" type="checkbox" checked=${settings.img} onChange=${e => upd("img", e.target.checked)}/>Afficher les images</label>
+          <div className="field">
+            <span className="fl">Taille du texte</span>
+            <${Seg} label="Taille du texte" value=${settings.fs} onChange=${v => upd("fs", v)}
+              options=${[0,1,2,3].map(i => ({ v: i, l: "A", a: ["Petite", "Moyenne", "Grande", "Très grande"][i], style: { fontSize: (0.8 + i * 0.17) + "rem" } }))}/>
+          </div>
+          <div className="field">
+            <span className="fl">Espace entre les lignes</span>
+            <${Seg} label="Espace entre les lignes" value=${settings.lh} onChange=${v => upd("lh", v)}
+              options=${[{ v: 0, l: "Normal" }, { v: 1, l: "Large" }, { v: 2, l: "Très large" }]}/>
+          </div>
+        </section>
+
+        <section className="grp last">
+          <p className="note">La lecture utilise les voix installées sur l'ordinateur ou le téléphone : elle est gratuite et ne demande aucun compte. Les voix proposées changent d'un appareil à l'autre. Le surlignage mot à mot dépend de la voix : s'il ne suit pas, choisis une autre voix ou garde le surlignage par phrase.</p>
+          <p className="note">Clavier : flèches gauche et droite pour changer de page, barre d'espace pour lire ou mettre en pause.</p>
+          <button className="btn sm" type="button" onClick=${() => setSettings({ ...DEF })}>Rétablir les réglages</button>
+        </section>
+      </div>
+    <//>`}
+  </div>`;
+}
+
+ReactDOM.createRoot(document.getElementById("root")).render(html`<${App}/>`);
+})();
+</script>
+
+</body></html>
