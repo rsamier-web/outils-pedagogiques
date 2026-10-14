@@ -1,0 +1,706 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Pythagore en situation</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/* Mise en page : une fenêtre KDE Breeze — barre de titre, panneau latéral, vue principale ; un exercice à la fois */
+:root{
+  --window:#eff0f1; --view:#fcfcfc; --header:#e3e5e7; --alt:#f4f5f6; --btn:#f7f8f8; --field:#ffffff;
+  --text:#232629; --muted:#5b646d; --border:#c2c7cb; --line:#dde0e3; --hover:rgba(61,174,233,.09);
+  --accent:#3daee9; --accent-ink:#1a6c9c; --accent-soft:rgba(61,174,233,.15);
+  --good:#1e8a4f; --good-soft:rgba(39,174,96,.11); --bad:#c0364a; --bad-soft:rgba(218,68,83,.09);
+  --warn:#b85900; --warn-soft:rgba(246,116,0,.11);
+  --star:#e6a700;
+  --font:"Noto Sans",ui-sans-serif,system-ui,"Segoe UI",Roboto,Arial,sans-serif;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --window:#232629; --view:#1b1e20; --header:#2a2e32; --alt:#202326; --btn:#2c3136; --field:#141618;
+  --text:#eff0f1; --muted:#a2aab2; --border:#434a51; --line:#33383d; --hover:rgba(61,174,233,.11);
+  --accent:#3daee9; --accent-ink:#72c6f0; --accent-soft:rgba(61,174,233,.2);
+  --good:#41c77f; --good-soft:rgba(39,174,96,.16); --bad:#f26b7d; --bad-soft:rgba(218,68,83,.16);
+  --warn:#ff9d45; --warn-soft:rgba(246,116,0,.16);
+  --star:#f6c443;
+  color-scheme:dark }}
+:root[data-theme="dark"]{
+  --window:#232629; --view:#1b1e20; --header:#2a2e32; --alt:#202326; --btn:#2c3136; --field:#141618;
+  --text:#eff0f1; --muted:#a2aab2; --border:#434a51; --line:#33383d; --hover:rgba(61,174,233,.11);
+  --accent:#3daee9; --accent-ink:#72c6f0; --accent-soft:rgba(61,174,233,.2);
+  --good:#41c77f; --good-soft:rgba(39,174,96,.16); --bad:#f26b7d; --bad-soft:rgba(218,68,83,.16);
+  --warn:#ff9d45; --warn-soft:rgba(246,116,0,.16);
+  --star:#f6c443;
+  color-scheme:dark }
+
+*,*::before,*::after{box-sizing:border-box}
+body{margin:0;background:var(--window);color:var(--text);font-family:var(--font)}
+.app{font-size:15px;line-height:1.55;min-height:100vh;display:flex;flex-direction:column}
+.app.big{font-size:18px;line-height:1.75;letter-spacing:.015em;word-spacing:.06em}
+button,input{font:inherit;color:inherit;letter-spacing:inherit}
+h2,h3,h4{text-wrap:balance;margin:0;line-height:1.3}
+p{margin:0}
+b{font-weight:600}
+:focus-visible{outline:2px solid var(--accent);outline-offset:1px;border-radius:3px}
+sup{font-size:.7em;line-height:0}
+.rad{white-space:nowrap}
+.rad-sign{padding-right:.04em}
+.rad-in{border-top:1.5px solid currentColor;padding:0 .14em 0 .1em}
+.muted{color:var(--muted)}
+.num{font-variant-numeric:tabular-nums}
+
+/* Barre de titre */
+.titlebar{position:sticky;top:env(safe-area-inset-top,0px);z-index:10;display:flex;align-items:center;gap:.7em;padding:.4em 16px;background:var(--header);border-bottom:1px solid var(--border);min-height:46px}
+.titlebar svg{flex:none}
+.tb-name{font-weight:600}
+.tb-sub{color:var(--muted);font-size:.87em}
+.spacer{flex:1}
+.prog{display:flex;align-items:center;gap:.55em;font-size:.85em;color:var(--muted);font-variant-numeric:tabular-nums}
+.bar{width:110px;height:6px;border-radius:3px;background:var(--line);overflow:hidden}
+.bar>span{display:block;height:100%;background:var(--accent);transition:width .3s}
+.switch{display:inline-flex;align-items:center;gap:.45em;font-size:.87em;cursor:pointer;background:none;border:0;padding:.3em .2em}
+.switch .track{width:30px;height:16px;border-radius:8px;border:1px solid var(--border);background:var(--field);position:relative;transition:background .2s}
+.switch .track::after{content:"";position:absolute;top:2px;left:2px;width:10px;height:10px;border-radius:50%;background:var(--muted);transition:transform .2s,background .2s}
+.switch[aria-checked="true"] .track{background:var(--accent-soft);border-color:var(--accent)}
+.switch[aria-checked="true"] .track::after{transform:translateX(14px);background:var(--accent)}
+
+/* Structure */
+.layout{flex:1;display:grid;grid-template-columns:240px minmax(0,1fr)}
+.sidebar{border-right:1px solid var(--border);padding:12px 8px;display:flex;flex-direction:column;gap:2px}
+.side-cap{font-size:.74em;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;padding:.5em .75em .35em}
+.side-item{display:flex;align-items:center;gap:.65em;width:100%;padding:.45em .7em;border:1px solid transparent;border-radius:4px;background:none;text-align:left;cursor:pointer}
+.side-item:hover{background:var(--hover)}
+.side-item[aria-current="page"]{background:var(--accent-soft);border-color:var(--accent)}
+.side-item .ic{width:22px;height:22px;flex:none;color:var(--muted)}
+.side-item[aria-current="page"] .ic{color:var(--accent-ink)}
+.side-item .cnt{margin-left:auto;font-size:.8em;color:var(--muted);font-variant-numeric:tabular-nums}
+.side-foot{margin-top:auto;padding:1em .5em .3em;display:grid;gap:.4em;font-size:.85em}
+.linkbtn{background:none;border:0;padding:0;color:var(--muted);text-decoration:underline;cursor:pointer;text-align:left}
+.main{background:var(--view);min-width:0}
+.wrap{max-width:860px;width:100%;margin:0 auto;padding-inline:28px}
+.head{padding-block:1.5em .4em}
+.head h2{font-size:1.5em;font-weight:600}
+.head p{color:var(--muted);margin-top:.25em;max-width:64ch}
+.page{padding-block:1.2em 4em;display:grid;gap:1.4em}
+.lead{color:var(--muted);font-size:.93em;max-width:66ch}
+
+/* Cadres et sections */
+.frame{background:var(--view);border:1px solid var(--line);border-radius:5px;padding:1em 1.1em}
+.sec{display:grid;gap:.7em}
+.sec h3{font-size:1.12em;font-weight:600;display:flex;gap:.55em;align-items:baseline}
+.sec h3 .sn{color:var(--accent-ink);font-variant-numeric:tabular-nums}
+.sec p{max-width:66ch}
+.hidden-list{margin:0;padding-left:1.2em;display:grid;gap:.25em}
+details.redac{border:1px solid var(--line);border-radius:5px;background:var(--alt)}
+details.redac summary{cursor:pointer;padding:.65em 1em;font-weight:600;list-style-position:inside}
+details.redac[open] summary{border-bottom:1px solid var(--line)}
+details.redac .body{padding:.75em 1.1em;display:grid;gap:.4em;font-variant-numeric:tabular-nums}
+.parts{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);border:1px solid var(--line);border-radius:4px;background:var(--view)}
+.parts>div{padding:.5em .8em;min-width:0}
+.parts>div+div{border-left:1px solid var(--border)}
+.pt{font-size:.75em;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);margin-bottom:.15em}
+
+/* Organigramme de décision */
+.flow{display:grid;gap:.55em;justify-items:center;text-align:center}
+.branches{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,230px),1fr));gap:.9em;width:100%}
+.branch .branches{grid-template-columns:repeat(auto-fit,minmax(min(100%,165px),1fr))}
+.branch{display:grid;gap:.5em;align-content:start;justify-items:center;border-top:2px solid var(--line);padding-top:.6em}
+.node{border:1px solid var(--border);border-radius:5px;padding:.55em .85em;background:var(--view);max-width:30em;min-width:0}
+.node.q{background:var(--alt);font-weight:600}
+.node .sub{font-weight:400;font-size:.85em;color:var(--muted);margin-top:.2em}
+.node.r{border-color:var(--accent);background:var(--accent-soft)}
+.node.r b{display:block}
+.node.end{font-size:.92em}
+.edge-lab{font-size:.85em;color:var(--accent-ink);font-weight:600}
+.edge-lab::before{content:"↓ ";color:var(--muted)}
+
+/* Boutons, champs */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:.4em;padding:.35em .95em;border:1px solid var(--border);border-radius:3px;background:var(--btn);cursor:pointer;min-height:2.2em;text-align:left}
+.btn:hover:not(:disabled){border-color:var(--accent)}
+.btn.primary{border-color:var(--accent);background:var(--accent-soft)}
+.btn.small{min-height:1.9em;padding:.2em .7em;font-size:.88em}
+.btn:disabled{opacity:.55;cursor:default}
+.btn.right{border-color:var(--good);background:var(--good-soft);opacity:1}
+.btn.wrong{border-color:var(--bad);background:var(--bad-soft)}
+.row{display:flex;flex-wrap:wrap;gap:.5em;align-items:center}
+.field{padding:.35em .6em;border:1px solid var(--border);border-radius:3px;background:var(--field);width:7.5em;min-height:2.2em;font-variant-numeric:tabular-nums}
+.field:focus{border-color:var(--accent);outline:none;box-shadow:0 0 0 1px var(--accent)}
+
+/* Messages type KMessageWidget */
+.msg{display:flex;gap:.65em;align-items:flex-start;padding:.6em .85em;border:1px solid var(--accent);background:var(--accent-soft);border-radius:4px}
+.msg .mi{flex:none;width:1.35em;height:1.35em;border-radius:50%;display:grid;place-items:center;font-size:.8em;font-weight:700;color:var(--view);background:var(--accent);margin-top:.12em}
+.msg.good{border-color:var(--good);background:var(--good-soft)}.msg.good .mi{background:var(--good)}
+.msg.bad{border-color:var(--bad);background:var(--bad-soft)}.msg.bad .mi{background:var(--bad)}
+.msg.warn{border-color:var(--warn);background:var(--warn-soft)}.msg.warn .mi{background:var(--warn)}
+.msg>div{min-width:0}
+
+/* Figures */
+.fig{display:block;width:100%;max-width:330px;height:auto}
+svg text{font-family:var(--font)}
+.tri-fill{fill:var(--alt);stroke:none}
+.edge{stroke:var(--text);stroke-width:2;stroke-linecap:round;stroke-linejoin:round;fill:none}
+.alt{stroke:var(--accent-ink);stroke-width:2;stroke-dasharray:6 4}
+.ra{fill:none;stroke:var(--text);stroke-width:1.5}
+.vx{fill:var(--text);font-size:15px;font-weight:700}
+.sl{fill:var(--muted);font-size:13px;font-weight:600;paint-order:stroke;stroke:var(--view);stroke-width:4;stroke-linejoin:round}
+
+/* Quiz */
+.q-prompt{font-size:1.1em;font-weight:500}
+.opts{display:grid;gap:.5em}
+.opt{display:flex;gap:.75em;align-items:center;width:100%;text-align:left;padding:.55em .8em;border:1px solid var(--border);border-radius:4px;background:var(--btn);cursor:pointer}
+.opt:hover:not(:disabled){border-color:var(--accent)}
+.opt:disabled{cursor:default}
+.opt .letter{flex:none;width:1.7em;height:1.7em;border-radius:3px;border:1px solid var(--border);display:grid;place-items:center;font-size:.82em;font-weight:600;background:var(--view)}
+.opt.right{border-color:var(--good);background:var(--good-soft)}
+.opt.wrong{border-color:var(--bad);background:var(--bad-soft)}
+
+/* Navigation entre exercices */
+.pager{display:flex;flex-wrap:wrap;gap:.35em;align-items:center}
+.pg{min-width:2.3em;height:2.3em;border:1px solid var(--border);border-radius:3px;background:var(--btn);cursor:pointer;font-variant-numeric:tabular-nums;display:grid;place-items:center;padding:0 .4em}
+.pg[aria-current="true"]{border-color:var(--accent);background:var(--accent-soft);font-weight:600}
+.pg.done{border-color:var(--good);color:var(--good);font-weight:600}
+.pg.done[aria-current="true"]{background:var(--good-soft)}
+.pg-lv{font-size:.78em;color:var(--muted);padding:0 .3em 0 .6em}
+.pg-lv:first-child{padding-left:0}
+
+/* Exercices */
+.excard{display:grid;gap:.9em}
+.excard.done{border-color:var(--good)}
+.ex-top{display:flex;flex-wrap:wrap;align-items:center;gap:.6em;font-size:.88em;color:var(--muted)}
+.ex-top .t{font-weight:600;color:var(--text);font-size:1.05em}
+.stars{display:inline-flex;gap:1px;vertical-align:-.15em}
+.stars svg{width:1em;height:1em}
+.star-on{fill:var(--star)}.star-off{fill:none;stroke:var(--muted);stroke-width:1.3}
+.solved{color:var(--good);font-weight:600}
+.prompt{font-size:1.06em;max-width:66ch;font-variant-numeric:tabular-nums}
+.part{display:grid;gap:.7em;border-top:1px solid var(--line);padding-top:.85em}
+.part-q{font-weight:600;display:flex;gap:.5em}
+.part-q .pl{color:var(--accent-ink)}
+.stepbox{display:grid;gap:.5em;border:1px solid var(--line);border-radius:4px;padding:.65em .8em;background:var(--alt)}
+.stepbox.locked{opacity:.6}
+.step-t{font-size:.78em;text-transform:uppercase;letter-spacing:.07em;color:var(--muted);font-weight:600;display:flex;gap:.5em;align-items:center}
+.step-t .ok{color:var(--good)}
+.choices{display:flex;flex-wrap:wrap;gap:.5em}
+.answer{display:flex;flex-wrap:wrap;gap:.5em;align-items:center}
+.answer label{font-size:.9em;color:var(--muted)}
+.steps{list-style:none;counter-reset:s;padding:0;margin:0;display:grid;gap:.7em}
+.steps li{counter-increment:s;display:grid;grid-template-columns:1.9em minmax(0,1fr);gap:.55em;align-items:start}
+.steps li::before{content:counter(s);width:1.75em;height:1.75em;border-radius:50%;border:1px solid var(--accent);color:var(--accent-ink);display:grid;place-items:center;font-size:.82em;font-weight:600;background:var(--view)}
+.steps .st{font-weight:600}
+.steps .sd{font-variant-numeric:tabular-nums}
+.corr{display:grid;gap:.7em;border-top:1px dashed var(--border);padding-top:.75em}
+.corr h4{font-size:.8em;text-transform:uppercase;letter-spacing:.08em;color:var(--muted)}
+.worked{border-color:var(--accent);display:grid;gap:.8em}
+.badge{display:inline-flex;font-size:.75em;text-transform:uppercase;letter-spacing:.08em;font-weight:600;color:var(--accent-ink);border:1px solid var(--accent);border-radius:3px;padding:.1em .5em;background:var(--accent-soft)}
+.nav-row{display:flex;justify-content:space-between;gap:.5em;flex-wrap:wrap}
+
+@media (max-width:800px){
+  .layout{grid-template-columns:1fr}
+  .sidebar{flex-direction:row;overflow-x:auto;border-right:0;border-bottom:1px solid var(--border);padding:8px 16px;gap:6px;background:var(--window)}
+  .side-cap,.side-foot{display:none}
+  .side-item{flex:none;width:auto}
+  .side-item .cnt{display:none}
+  .wrap{padding-inline:16px}
+  .tb-sub{display:none}
+  .bar{width:56px}
+}
+@media (max-width:480px){
+  .parts{grid-template-columns:1fr}
+  .parts>div+div{border-left:0;border-top:1px solid var(--border)}
+  .switch .lbl{display:none}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style>
+
+<div id="root"></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.3.1/umd/react.production.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.3.1/umd/react-dom.production.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/htm@3.1.1/dist/htm.umd.js"></script>
+<script>
+const { useState, useEffect } = React;
+const html = htm.bind(React.createElement);
+
+/* ================= Outils ================= */
+const store = {
+  get(k, d){ try{ const v = localStorage.getItem("pys_" + k); return v == null ? d : JSON.parse(v); }catch(e){ return d; } },
+  set(k, v){ try{ localStorage.setItem("pys_" + k, JSON.stringify(v)); }catch(e){} }
+};
+const fmt = x => { const r = Math.round(x * 10000) / 10000; const s = String(Math.abs(r)).replace(".", ","); return (r < 0 ? "−" : "") + s; };
+const parseNum = s => {
+  if (s == null) return NaN;
+  const t = String(s).trim().replace(/\s/g, "").replace(/[−–]/g, "-").replace(",", ".");
+  if (!/^[+-]?(\d+\.?\d*|\.\d+)$/.test(t)) return NaN;
+  return parseFloat(t);
+};
+const near = (a, b, tol) => Math.abs(a - b) <= (tol == null ? 1e-6 : tol);
+const fm = h => String(h)
+  .replace(/√\{([^}]*)\}/g, '<span class="rad"><span class="rad-sign">√</span><span class="rad-in">$1</span></span>')
+  .replace(/\^(\d)/g, "<sup>$1</sup>");
+const H = ({ h, as = "span", className }) => React.createElement(as, { className, dangerouslySetInnerHTML: { __html: fm(h) } });
+const shuffle = arr => { const a = arr.slice(); for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; };
+
+const ICON = { good: "✓", bad: "✕", warn: "!", info: "i" };
+function Msg({ kind = "info", children }){
+  return html`<div className=${"msg " + kind} role=${kind === "bad" || kind === "warn" ? "alert" : "status"}><span className="mi" aria-hidden="true">${ICON[kind]}</span><div>${children}</div></div>`;
+}
+function Stars({ n }){
+  const p = "M8 1.2l2 4.3 4.7.6-3.4 3.3.8 4.7L8 11.8 3.9 14.1l.8-4.7L1.3 6.1 6 5.5z";
+  return html`<span className="stars" aria-label=${"Difficulté " + n + " sur 3"}>${[1,2,3].map(i => html`<svg key=${i} viewBox="0 0 16 16" aria-hidden="true"><path d=${p} className=${i <= n ? "star-on" : "star-off"}/></svg>`)}</span>`;
+}
+function Sec({ n, title, children }){
+  return html`<section className="sec">${title && html`<h3>${n != null && html`<span className="sn">${n}.</span>`}<span>${title}</span></h3>`}${children}</section>`;
+}
+function Parts({ l, r }){
+  return html`<div className="parts"><div><div className="pt">D'une part</div><${H} as="div" h=${l}/></div><div><div className="pt">D'autre part</div><${H} as="div" h=${r}/></div></div>`;
+}
+function Steps({ list }){
+  return html`<ol className="steps">${list.map(([t, d], k) => html`<li key=${k}><div><div className="st"><${H} h=${t}/></div><${H} as="div" className="sd" h=${d}/></div></li>`)}</ol>`;
+}
+
+/* ================= Figures ================= */
+/* Triangle dessiné à l'échelle. v = [n0,n1,n2] ; len = [n0n1, n1n2, n2n0] ; lab = textes ; right = indice du sommet codé droit ; rot = rotation en degrés */
+function TriSides({ v, len, lab = [], right = null, rot = 0 }){
+  const sides = [[0, 1, len[0]], [1, 2, len[1]], [2, 0, len[2]]];
+  let k = 0; sides.forEach((s, i) => { if (s[2] > sides[k][2]) k = i; });
+  const [a, b, L] = sides[k]; const o = 3 - a - b;
+  const dist = (i, j) => sides.find(s => (s[0] === i && s[1] === j) || (s[0] === j && s[1] === i))[2];
+  const da = dist(a, o), db = dist(b, o);
+  const x = (L * L + da * da - db * db) / (2 * L), y = Math.sqrt(Math.max(0, da * da - x * x));
+  let P = []; P[a] = [0, 0]; P[b] = [L, 0]; P[o] = [x, -y];
+  const t = rot * Math.PI / 180;
+  P = P.map(([px, py]) => [px * Math.cos(t) - py * Math.sin(t), px * Math.sin(t) + py * Math.cos(t)]);
+  const xs = P.map(p => p[0]), ys = P.map(p => p[1]);
+  const minX = Math.min(...xs), minY = Math.min(...ys);
+  const W = Math.max(...xs) - minX, Hh = Math.max(...ys) - minY;
+  const sc = Math.min(250 / W, 170 / Hh), pad = 42;
+  const Q = P.map(p => [(p[0] - minX) * sc + pad, (p[1] - minY) * sc + pad]);
+  const G = [(Q[0][0] + Q[1][0] + Q[2][0]) / 3, (Q[0][1] + Q[1][1] + Q[2][1]) / 3];
+  const out = (p, d) => { const dx = p[0] - G[0], dy = p[1] - G[1], n = Math.hypot(dx, dy) || 1; return [p[0] + dx / n * d, p[1] + dy / n * d]; };
+  const pairs = [[0, 1], [1, 2], [2, 0]];
+  let ra = null;
+  if (right != null){
+    const r = Q[right], others = [0, 1, 2].filter(i => i !== right);
+    const u = others.map(i => { const dx = Q[i][0] - r[0], dy = Q[i][1] - r[1], n = Math.hypot(dx, dy); return [dx / n * 12, dy / n * 12]; });
+    ra = [[r[0] + u[0][0], r[1] + u[0][1]], [r[0] + u[0][0] + u[1][0], r[1] + u[0][1] + u[1][1]], [r[0] + u[1][0], r[1] + u[1][1]]].map(p => p.join(",")).join(" ");
+  }
+  return html`<svg className="fig" viewBox=${"0 0 " + (W * sc + 2 * pad) + " " + (Hh * sc + 2 * pad)} role="img" aria-label=${"Triangle " + v.join("") + (right != null ? ", angle droit codé en " + v[right] : "") + " : " + pairs.map((p, i) => v[p[0]] + v[p[1]] + " = " + (lab[i] || "?")).join(", ")}>
+    <polygon points=${Q.map(p => p.join(",")).join(" ")} className="tri-fill"/>
+    <polygon points=${Q.map(p => p.join(",")).join(" ")} className="edge"/>
+    ${ra && html`<polyline points=${ra} className="ra"/>`}
+    ${v.map((n, i) => { const p = out(Q[i], 17); return html`<text key=${"v" + i} x=${p[0]} y=${p[1] + 5} textAnchor="middle" className="vx">${n}</text>`; })}
+    ${pairs.map((p, i) => { if (!lab[i]) return null; const m = [(Q[p[0]][0] + Q[p[1]][0]) / 2, (Q[p[0]][1] + Q[p[1]][1]) / 2]; const q = out(m, 16); return html`<text key=${"s" + i} x=${q[0]} y=${q[1] + 4} textAnchor="middle" className="sl">${lab[i]}</text>`; })}
+  </svg>`;
+}
+/* Triangle coupé par une hauteur. n = noms {A sommet, B gauche, C droite, H pied} */
+function HeightFig({ n = { A: "A", B: "B", C: "C", H: "H" }, d, lab = {}, right = true }){
+  const W = d.bh + d.hc, sc = Math.min(270 / W, 150 / d.ah), pad = 40;
+  const y0 = pad + d.ah * sc;
+  const B = [pad, y0], Hp = [pad + d.bh * sc, y0], C = [pad + W * sc, y0], A = [pad + d.bh * sc, pad];
+  const mid = (p, q) => [(p[0] + q[0]) / 2, (p[1] + q[1]) / 2];
+  const mAB = mid(A, B), mAC = mid(A, C);
+  return html`<svg className="fig" viewBox=${"0 0 " + (W * sc + 2 * pad) + " " + (y0 + 34)} role="img" aria-label=${"Triangle " + n.A + n.B + n.C + " et le segment [" + n.A + n.H + "]"}>
+    <polygon points=${[A, B, C].map(p => p.join(",")).join(" ")} className="tri-fill"/>
+    <polygon points=${[A, B, C].map(p => p.join(",")).join(" ")} className="edge"/>
+    <line x1=${A[0]} y1=${A[1]} x2=${Hp[0]} y2=${Hp[1]} className="alt"/>
+    ${right && html`<polyline points=${(Hp[0] + 11) + "," + y0 + " " + (Hp[0] + 11) + "," + (y0 - 11) + " " + Hp[0] + "," + (y0 - 11)} className="ra"/>`}
+    <text x=${A[0]} y=${A[1] - 10} textAnchor="middle" className="vx">${n.A}</text>
+    <text x=${B[0] - 8} y=${y0 + 18} textAnchor="end" className="vx">${n.B}</text>
+    <text x=${C[0] + 8} y=${y0 + 18} className="vx">${n.C}</text>
+    <text x=${Hp[0]} y=${y0 + 20} textAnchor="middle" className="vx">${n.H}</text>
+    ${lab.AB && html`<text x=${mAB[0] - 10} y=${mAB[1] - 4} textAnchor="end" className="sl">${lab.AB}</text>`}
+    ${lab.AC && html`<text x=${mAC[0] + 10} y=${mAC[1] - 4} className="sl">${lab.AC}</text>`}
+    ${lab.AH && html`<text x=${A[0] + 7} y=${(A[1] + y0) / 2 + 4} className="sl">${lab.AH}</text>`}
+    ${lab.BH && html`<text x=${(B[0] + Hp[0]) / 2} y=${y0 - 7} textAnchor="middle" className="sl">${lab.BH}</text>`}
+    ${lab.HC && html`<text x=${(Hp[0] + C[0]) / 2} y=${y0 - 7} textAnchor="middle" className="sl">${lab.HC}</text>`}
+  </svg>`;
+}
+/* Quadrilatère ABCD du défi 3 : B angle droit, AB = 15, BC = 20, CD = 7, DA = 24 */
+function QuadFig(){
+  const k = 11, pad = 34, P = { A: [0, 15], B: [0, 0], C: [20, 0], D: [22.464, 6.552] };
+  const T = p => [p[0] * k + pad + 30, (15 - p[1]) * k + pad];
+  const Q = {}; for (const n in P) Q[n] = T(P[n]);
+  const poly = ["A", "B", "C", "D"].map(n => Q[n].join(",")).join(" ");
+  const lbl = (t, x, y, a = "middle") => html`<text x=${x} y=${y} textAnchor=${a} className="sl">${t}</text>`;
+  return html`<svg className="fig" viewBox=${"0 0 " + (22.5 * k + 2 * pad + 40) + " " + (15 * k + 2 * pad)} role="img" aria-label="Quadrilatère ABCD avec un angle droit en B, AB = 15 cm, BC = 20 cm, CD = 7 cm, DA = 24 cm">
+    <polygon points=${poly} className="tri-fill"/>
+    <polygon points=${poly} className="edge"/>
+    <line x1=${Q.A[0]} y1=${Q.A[1]} x2=${Q.C[0]} y2=${Q.C[1]} className="alt"/>
+    <polyline points=${(Q.B[0] + 12) + "," + Q.B[1] + " " + (Q.B[0] + 12) + "," + (Q.B[1] - 12) + " " + Q.B[0] + "," + (Q.B[1] - 12)} className="ra"/>
+    <text x=${Q.A[0] - 8} y=${Q.A[1] - 6} textAnchor="end" className="vx">A</text>
+    <text x=${Q.B[0] - 8} y=${Q.B[1] + 16} textAnchor="end" className="vx">B</text>
+    <text x=${Q.C[0]} y=${Q.C[1] + 20} textAnchor="middle" className="vx">C</text>
+    <text x=${Q.D[0] + 9} y=${Q.D[1] + 5} className="vx">D</text>
+    ${lbl("15 cm", Q.A[0] - 8, (Q.A[1] + Q.B[1]) / 2 + 4, "end")}
+    ${lbl("20 cm", (Q.B[0] + Q.C[0]) / 2, Q.B[1] + 18)}
+    ${lbl("7 cm", (Q.C[0] + Q.D[0]) / 2 + 22, (Q.C[1] + Q.D[1]) / 2 + 6)}
+    ${lbl("24 cm", (Q.A[0] + Q.D[0]) / 2 + 6, (Q.A[1] + Q.D[1]) / 2 - 10)}
+  </svg>`;
+}
+function Fig({ f }){
+  if (!f) return null;
+  if (f.kind === "sides") return html`<${TriSides} ...${f}/>`;
+  if (f.kind === "height") return html`<${HeightFig} ...${f}/>`;
+  if (f.kind === "quad") return html`<${QuadFig}/>`;
+  return null;
+}
+
+/* ================= Données ================= */
+const S = (t, d) => [t, d];
+const TOOLS = ["Théorème de Pythagore : calculer l'hypoténuse", "Théorème de Pythagore : calculer un côté de l'angle droit", "Réciproque : savoir si le triangle est rectangle"];
+const TOOL_SHORT = ["théorème, calcul de l'hypoténuse", "théorème, calcul d'un côté de l'angle droit", "réciproque"];
+const recOpts = v => [...v.split("").map(x => "Rectangle en " + x), "Pas rectangle"];
+const tri = (v, len, lab, right, rot) => ({ kind: "sides", v: v.split(""), len, lab, right, rot });
+const L = (n, k) => n + "^2"; // aide d'écriture
+
+/* tool : 0 = hypoténuse, 1 = côté de l'angle droit, 2 = réciproque, null = autre calcul */
+const EX = [
+  { lv: 1, q: "Le triangle DEF est rectangle en E, avec DE = 9 cm et EF = 12 cm. Calcule DF.", fig: tri("DEF", [9, 12, 15], ["9 cm", "12 cm", "?"], 1, 0),
+    parts: [{ tool: 0, type: "num", a: 15, unit: "cm", hint: "DF^2 = DE^2 + EF^2.", why: "On sait que DEF est rectangle en E, et on cherche une longueur. [DF] ne contient pas E : elle est en face de l'angle droit, c'est l'hypoténuse.",
+      alt: [[21, "Tu as additionné les longueurs. Il faut additionner les carrés, puis prendre la racine."], [225, "Tu as trouvé DF^2. Il reste à prendre la racine carrée."], [7.9, "Tu as soustrait. Mais [DF] est l'hypoténuse : on additionne."]],
+      c: [S("On sait que", "DEF est rectangle en E ; son hypoténuse est [DF]."), S("Or", "D'après le théorème de Pythagore : DF^2 = DE^2 + EF^2."), S("Donc", "DF^2 = 9^2 + 12^2 = 81 + 144 = 225."), S("La racine", "DF = √{225} = <b>15 cm</b>")] }] },
+  { lv: 1, q: "Un triangle KLM a pour côtés KL = 10 cm, LM = 24 cm et KM = 26 cm. Est-il rectangle ? Justifie.", fig: tri("KLM", [10, 24, 26], ["10 cm", "24 cm", "26 cm"], null, -8),
+    parts: [{ tool: 2, type: "choice", opts: recOpts("KLM"), a: 1, hint: "Commence par le carré du plus grand côté.", why: "On connaît les trois longueurs et rien ne dit que le triangle est rectangle : c'est justement la question.",
+      c: [S("On sait que", "Le plus grand côté est [KM]."), S("D'une part", "KM^2 = 26^2 = 676."), S("D'autre part", "KL^2 + LM^2 = 100 + 576 = 676."), S("Je conclus", "KM^2 = KL^2 + LM^2 : d'après la réciproque du théorème de Pythagore, <b>KLM est rectangle en L</b> (le sommet opposé à [KM]).")] }] },
+  { lv: 1, q: "Le triangle RST est rectangle en T, avec RS = 17 cm et RT = 8 cm. Calcule ST.", fig: tri("RST", [17, 15, 8], ["17 cm", "?", "8 cm"], 2, 15),
+    parts: [{ tool: 1, type: "num", a: 15, unit: "cm", hint: "Quelle est l'hypoténuse ? Est-ce le côté cherché ?", why: "On sait que RST est rectangle en T. L'hypoténuse est [RS] (sans T). On cherche [ST], qui contient T : c'est un côté de l'angle droit.",
+      alt: [[18.8, "Tu as additionné les carrés. [RS] est l'hypoténuse et on cherche un autre côté : on soustrait."], [225, "Tu as trouvé ST^2. Prends la racine carrée."], [9, "Tu as soustrait les longueurs. Il faut soustraire les carrés."]],
+      c: [S("On sait que", "RST est rectangle en T ; son hypoténuse est [RS]."), S("Or", "RS^2 = RT^2 + ST^2."), S("Donc", "ST^2 = RS^2 − RT^2 = 289 − 64 = 225."), S("La racine", "ST = √{225} = <b>15 cm</b>")] }] },
+  { lv: 1, q: "Un triangle ABC a pour côtés AB = 7 cm, BC = 8 cm et AC = 11 cm. Est-il rectangle ? Justifie.", fig: tri("ABC", [7, 8, 11], ["7 cm", "8 cm", "11 cm"], null, 0),
+    parts: [{ tool: 2, type: "choice", opts: recOpts("ABC"), a: 3, hint: "Compare AC^2 et AB^2 + BC^2.", why: "On connaît les trois longueurs ; on ne sait pas si le triangle est rectangle.",
+      c: [S("On sait que", "Le plus grand côté est [AC]."), S("D'une part", "AC^2 = 11^2 = 121."), S("D'autre part", "AB^2 + BC^2 = 49 + 64 = 113."), S("Je conclus", "121 ≠ 113 : l'égalité de Pythagore n'est pas vérifiée, donc <b>ABC n'est pas rectangle</b>.")] }] },
+  { lv: 2, q: "Le triangle GHI est rectangle en H, avec GI = 10 cm et HI = 7 cm. Calcule GH, arrondi au dixième.", fig: tri("GHI", [Math.sqrt(51), 7, 10], ["?", "7 cm", "10 cm"], 1, 200),
+    parts: [{ tool: 1, type: "num", a: 7.1, unit: "cm", round: true, hint: "L'hypoténuse est le côté sans H.", why: "GHI est rectangle en H. L'hypoténuse est [GI]. On cherche [GH], qui contient H : c'est un côté de l'angle droit.",
+      alt: [[12.2, "Tu as additionné les carrés. [GI] est l'hypoténuse : on soustrait."], [51, "Tu as trouvé GH^2. Prends la racine carrée."], [3, "Tu as soustrait les longueurs."]],
+      c: [S("On sait que", "GHI est rectangle en H ; son hypoténuse est [GI]."), S("Or", "GI^2 = GH^2 + HI^2."), S("Donc", "GH^2 = 100 − 49 = 51."), S("Valeur exacte", "GH = √{51} cm"), S("Arrondi", "√{51} ≈ 7,14… donc <b>GH ≈ 7,1 cm</b>.")] }] },
+  { lv: 2, q: "Le triangle UVW est rectangle en V, avec UV = 4,5 cm et VW = 6 cm. Calcule UW.", fig: tri("UVW", [4.5, 6, 7.5], ["4,5 cm", "6 cm", "?"], 1, 120),
+    parts: [{ tool: 0, type: "num", a: 7.5, unit: "cm", hint: "4,5^2 = 20,25.", why: "UVW est rectangle en V. On cherche [UW], qui ne contient pas V : c'est l'hypoténuse.",
+      alt: [[10.5, "Tu as additionné les longueurs."], [56.25, "Tu as trouvé UW^2. Prends la racine carrée."], [4, "Tu as soustrait. [UW] est l'hypoténuse : on additionne."]],
+      c: [S("On sait que", "UVW est rectangle en V ; son hypoténuse est [UW]."), S("Or", "UW^2 = UV^2 + VW^2."), S("Donc", "UW^2 = 20,25 + 36 = 56,25."), S("La racine", "UW = √{56,25} = <b>7,5 cm</b>")] }] },
+  { lv: 2, q: "Un triangle PQR a pour côtés PQ = 4,2 cm, QR = 5,6 cm et PR = 7,1 cm. Est-il rectangle ? Justifie.", fig: tri("PQR", [4.2, 5.6, 7.1], ["4,2 cm", "5,6 cm", "7,1 cm"], null, 10),
+    parts: [{ tool: 2, type: "choice", opts: recOpts("PQR"), a: 3, hint: "7,1^2 = 50,41.", why: "On connaît les trois longueurs ; rien ne dit que le triangle est rectangle. La figure a l'air d'avoir un angle droit, mais une figure ne prouve rien.",
+      c: [S("On sait que", "Le plus grand côté est [PR]."), S("D'une part", "PR^2 = 7,1^2 = 50,41."), S("D'autre part", "PQ^2 + QR^2 = 17,64 + 31,36 = 49."), S("Je conclus", "50,41 ≠ 49 : <b>PQR n'est pas rectangle</b>. (Avec PR = 7 cm, il l'aurait été.)")] }] },
+  { lv: 2, q: "Un triangle XYZ a pour côtés XY = 1,6 m, YZ = 3 m et XZ = 3,4 m. Est-il rectangle ? Justifie.",
+    parts: [{ tool: 2, type: "choice", opts: recOpts("XYZ"), a: 1, hint: "3,4^2 = 11,56.", why: "On connaît les trois longueurs ; on ne sait pas si le triangle est rectangle.",
+      c: [S("On sait que", "Le plus grand côté est [XZ]."), S("D'une part", "XZ^2 = 3,4^2 = 11,56."), S("D'autre part", "XY^2 + YZ^2 = 2,56 + 9 = 11,56."), S("Je conclus", "Égalité : d'après la réciproque du théorème de Pythagore, <b>XYZ est rectangle en Y</b>.")] }] },
+  { lv: 2, q: "Le triangle EFG est rectangle en G, avec EG = 5 cm et FG = 8 cm. Calcule EF : donne la valeur exacte, puis l'arrondi au dixième. (Écris l'arrondi.)", fig: tri("EFG", [Math.sqrt(89), 8, 5], ["?", "8 cm", "5 cm"], 2, 160),
+    parts: [{ tool: 0, type: "num", a: 9.4, unit: "cm", round: true, hint: "EF^2 = 25 + 64.", why: "EFG est rectangle en G. On cherche [EF], qui ne contient pas G : c'est l'hypoténuse.",
+      alt: [[13, "Tu as additionné les longueurs."], [89, "Tu as trouvé EF^2. Prends la racine carrée."], [6.2, "Tu as soustrait. [EF] est l'hypoténuse : on additionne."]],
+      c: [S("On sait que", "EFG est rectangle en G ; son hypoténuse est [EF]."), S("Or", "EF^2 = EG^2 + FG^2."), S("Donc", "EF^2 = 25 + 64 = 89."), S("Valeur exacte", "EF = √{89} cm"), S("Arrondi", "√{89} ≈ 9,43… donc <b>EF ≈ 9,4 cm</b>.")] }] },
+  { lv: 2, q: "Le triangle MNO est rectangle en M, avec NO = 6,5 cm et MO = 2,5 cm. Calcule MN.", fig: tri("MNO", [6, 6.5, 2.5], ["?", "6,5 cm", "2,5 cm"], 0, 35),
+    parts: [{ tool: 1, type: "num", a: 6, unit: "cm", hint: "6,5^2 = 42,25.", why: "MNO est rectangle en M. L'hypoténuse est [NO]. On cherche [MN], qui contient M : c'est un côté de l'angle droit.",
+      alt: [[7, "Tu as additionné les carrés. [NO] est l'hypoténuse : on soustrait."], [36, "Tu as trouvé MN^2. Prends la racine carrée."], [4, "Tu as soustrait les longueurs."]],
+      c: [S("On sait que", "MNO est rectangle en M ; son hypoténuse est [NO]."), S("Or", "NO^2 = MN^2 + MO^2."), S("Donc", "MN^2 = 42,25 − 6,25 = 36."), S("La racine", "MN = √{36} = <b>6 cm</b>")] }] },
+  { lv: 3, q: "Un cadre rectangulaire mesure 9 cm sur 40 cm. On le renforce avec une baguette posée d'un coin au coin opposé. Quelle est la longueur de la baguette ?",
+    parts: [{ tool: 0, type: "num", a: 41, unit: "cm", hint: "Fais un schéma : la baguette et deux côtés du cadre forment un triangle.", why: "Les angles d'un rectangle sont droits. La baguette (la diagonale) est en face de l'angle droit : c'est l'hypoténuse d'un triangle rectangle de côtés 9 cm et 40 cm.",
+      alt: [[49, "Tu as additionné les longueurs."], [1681, "Tu as trouvé le carré de la diagonale. Prends la racine."]],
+      c: [S("Le triangle rectangle", "Deux côtés du cadre et la diagonale forment un triangle rectangle ; la diagonale est l'hypoténuse."), S("Le calcul", "d^2 = 9^2 + 40^2 = 81 + 1 600 = 1 681."), S("La racine", "d = √{1 681} = 41."), S("Phrase", "<b>La baguette mesure 41 cm.</b>")] }] },
+  { lv: 3, q: "Une échelle de 6,5 m est appuyée contre un mur vertical. Son pied est posé sur le sol horizontal, à 1,6 m du mur. À quelle hauteur arrive le haut de l'échelle ?",
+    parts: [{ tool: 1, type: "num", a: 6.3, unit: "m", hint: "Le mur et le sol forment un angle droit. Où est l'échelle dans le triangle ?", why: "Le mur vertical et le sol horizontal forment un angle droit. L'échelle est en face de cet angle : c'est l'hypoténuse. La hauteur cherchée est un côté de l'angle droit.",
+      alt: [[6.7, "Tu as additionné les carrés. L'échelle est l'hypoténuse : on soustrait."], [39.69, "Tu as trouvé h^2. Prends la racine carrée."], [4.9, "Tu as soustrait les longueurs."]],
+      c: [S("Le triangle rectangle", "Mur, sol et échelle forment un triangle rectangle au pied du mur ; l'échelle (6,5 m) est l'hypoténuse."), S("Le calcul", "h^2 = 6,5^2 − 1,6^2 = 42,25 − 2,56 = 39,69."), S("La racine", "h = √{39,69} = 6,3."), S("Phrase", "<b>Le haut de l'échelle arrive à 6,3 m.</b>")] }] },
+  { lv: 3, q: "Un charpentier assemble trois poutres en triangle. Elles mesurent 1,2 m ; 160 cm et 2 m. L'angle formé par les deux poutres les plus courtes est-il droit ?",
+    parts: [{ tool: 2, type: "choice", opts: ["Oui, l'angle est droit", "Non, l'angle n'est pas droit"], a: 0, hint: "Mets d'abord les trois longueurs dans la même unité.", why: "On connaît les trois longueurs et on veut savoir si un angle est droit : c'est la question de la réciproque.",
+      c: [S("Même unité", "120 cm ; 160 cm ; 200 cm."), S("D'une part", "Plus grand côté : 200^2 = 40 000."), S("D'autre part", "120^2 + 160^2 = 14 400 + 25 600 = 40 000."), S("Je conclus", "Égalité : d'après la réciproque du théorème de Pythagore, le triangle est rectangle, au sommet opposé au plus grand côté, c'est-à-dire entre les deux poutres les plus courtes. <b>L'angle est droit.</b>")] }] },
+  { lv: 3, q: "Un terrain triangulaire a des côtés de 50 m, 120 m et 131 m. Son propriétaire affirme qu'il a un angle droit. A-t-il raison ?",
+    parts: [{ tool: 2, type: "choice", opts: ["Oui, il a raison", "Non, il a tort"], a: 1, hint: "131^2 = 17 161.", why: "On connaît les trois longueurs et on veut vérifier une affirmation sur l'angle droit : c'est la réciproque.",
+      c: [S("D'une part", "Plus grand côté : 131^2 = 17 161."), S("D'autre part", "50^2 + 120^2 = 2 500 + 14 400 = 16 900."), S("Je conclus", "17 161 ≠ 16 900 : l'égalité n'est pas vérifiée, le terrain n'a pas d'angle droit. <b>Le propriétaire a tort.</b> (Avec 130 m, il aurait eu raison.)")] }] },
+  { lv: 3, q: "Le fil tendu d'un cerf-volant mesure 65 m. Le cerf-volant vole à 63 m de hauteur. À quelle distance de l'enfant se trouve le point du sol situé juste sous le cerf-volant ?",
+    parts: [{ tool: 1, type: "num", a: 16, unit: "m", hint: "Fais un schéma : la hauteur est verticale, le sol horizontal.", why: "La verticale du cerf-volant est perpendiculaire au sol : le triangle est rectangle. Le fil est en face de l'angle droit : c'est l'hypoténuse. On cherche une distance au sol, un côté de l'angle droit.",
+      alt: [[90.5, "Tu as additionné les carrés. Le fil est l'hypoténuse : on soustrait."], [256, "Tu as trouvé d^2. Prends la racine carrée."], [2, "Tu as soustrait les longueurs."]],
+      c: [S("Le triangle rectangle", "Enfant, point au sol sous le cerf-volant et cerf-volant : rectangle au point du sol. Le fil (65 m) est l'hypoténuse."), S("Le calcul", "d^2 = 65^2 − 63^2 = 4 225 − 3 969 = 256."), S("La racine", "d = √{256} = 16."), S("Phrase", "<b>Ce point est à 16 m de l'enfant.</b>")] }] },
+  { lv: 3, q: "Un écran de télévision mesure 80 cm de large et 45 cm de haut. On mesure la taille d'un écran par sa diagonale. Quelle est cette diagonale, arrondie au dixième ?",
+    parts: [{ tool: 0, type: "num", a: 91.8, unit: "cm", round: true, hint: "La diagonale coupe l'écran en deux triangles rectangles.", why: "L'écran est un rectangle : ses angles sont droits. La diagonale est en face de l'angle droit : c'est l'hypoténuse.",
+      alt: [[125, "Tu as additionné les longueurs."], [8425, "Tu as trouvé d^2. Prends la racine carrée."], [66.1, "Tu as soustrait. La diagonale est l'hypoténuse : on additionne."]],
+      c: [S("Le triangle rectangle", "Largeur, hauteur et diagonale forment un triangle rectangle ; la diagonale est l'hypoténuse."), S("Le calcul", "d^2 = 80^2 + 45^2 = 6 400 + 2 025 = 8 425."), S("Racine et arrondi", "d = √{8 425} ≈ 91,79… donc d ≈ 91,8."), S("Phrase", "<b>La diagonale mesure environ 91,8 cm.</b>")] }] }
+];
+
+const DEFIS = [
+  { lv: 3, q: "Dans le triangle ABC, H est le pied de la hauteur issue de A ; H est sur [BC]. On sait que AB = 13 cm, BH = 5 cm et HC = 16 cm.", fig: { kind: "height", d: { bh: 5, hc: 16, ah: 12 }, lab: { AB: "13 cm", BH: "5 cm", HC: "16 cm" } },
+    parts: [
+      { q: "Calcule AH.", tool: 1, type: "num", a: 12, unit: "cm", hint: "Dans quel triangle rectangle se trouve [AH] ?", why: "[AH] est une hauteur : elle est perpendiculaire à (BC), donc ABH est rectangle en H. Son hypoténuse est [AB] ; [AH] est un côté de l'angle droit.",
+        alt: [[13.9, "Tu as additionné les carrés. Dans ABH, [AB] est l'hypoténuse : on soustrait."], [144, "Tu as trouvé AH^2. Prends la racine carrée."], [8, "Tu as soustrait les longueurs."]],
+        c: [S("On sait que", "ABH est rectangle en H ; son hypoténuse est [AB]."), S("Or", "AB^2 = AH^2 + BH^2."), S("Donc", "AH^2 = 169 − 25 = 144."), S("La racine", "AH = √{144} = <b>12 cm</b>")] },
+      { q: "Calcule AC.", tool: 0, type: "num", a: 20, unit: "cm", hint: "Utilise AH, que tu viens de calculer.", why: "ACH est rectangle en H (même hauteur). [AC] ne contient pas H : c'est l'hypoténuse.",
+        alt: [[28, "Tu as additionné les longueurs."], [400, "Tu as trouvé AC^2. Prends la racine carrée."], [10.6, "Tu as soustrait. Dans ACH, [AC] est l'hypoténuse : on additionne."]],
+        c: [S("On sait que", "ACH est rectangle en H ; son hypoténuse est [AC]."), S("Or", "AC^2 = AH^2 + HC^2."), S("Donc", "AC^2 = 144 + 256 = 400."), S("La racine", "AC = √{400} = <b>20 cm</b>")] },
+      { q: "Le triangle ABC est-il rectangle ?", tool: 2, type: "choice", opts: recOpts("ABC"), a: 3, hint: "BC = BH + HC.", why: "On connaît maintenant les trois côtés de ABC (AB = 13, AC = 20, BC = 21), mais rien ne dit que ABC est rectangle.",
+        c: [S("Le troisième côté", "B, H, C alignés : BC = 5 + 16 = 21 cm."), S("On sait que", "Le plus grand côté est [BC]."), S("D'une part", "BC^2 = 441."), S("D'autre part", "AB^2 + AC^2 = 169 + 400 = 569."), S("Je conclus", "441 ≠ 569 : <b>ABC n'est pas rectangle</b>.")] }
+    ] },
+  { lv: 3, q: "Les points G, J et I sont alignés. On sait que GJ = 3,6 cm, HJ = 4,8 cm, GH = 6 cm et HI = 7,3 cm. Aucun angle droit n'est indiqué.", fig: { kind: "height", n: { A: "H", B: "G", C: "I", H: "J" }, d: { bh: 3.6, hc: 5.5, ah: 4.8 }, lab: { AB: "6 cm", AC: "7,3 cm", BH: "3,6 cm", AH: "4,8 cm" }, right: false },
+    parts: [
+      { q: "Le triangle GHJ est-il rectangle ?", tool: 2, type: "choice", opts: recOpts("GHJ"), a: 2, hint: "3,6^2 = 12,96 et 4,8^2 = 23,04.", why: "Dans GHJ, on connaît les trois côtés, et aucun angle droit n'est donné.",
+        c: [S("On sait que", "Le plus grand côté de GHJ est [GH]."), S("D'une part", "GH^2 = 36."), S("D'autre part", "GJ^2 + HJ^2 = 12,96 + 23,04 = 36."), S("Je conclus", "Égalité : d'après la réciproque du théorème de Pythagore, <b>GHJ est rectangle en J</b>.")] },
+      { q: "Calcule JI.", tool: 1, type: "num", a: 5.5, unit: "cm", hint: "Grâce à la question a), que sais-tu de (HJ) et (GI) ?", why: "D'après a), (HJ) ⊥ (GJ). Comme G, J, I sont alignés, (HJ) ⊥ (JI) : HJI est rectangle en J. Son hypoténuse est [HI] ; [JI] est un côté de l'angle droit.",
+        alt: [[8.7, "Tu as additionné les carrés. [HI] est l'hypoténuse : on soustrait."], [30.25, "Tu as trouvé JI^2. Prends la racine carrée."], [2.5, "Tu as soustrait les longueurs."]],
+        c: [S("Pourquoi c'est rectangle", "GHJ rectangle en J et G, J, I alignés : HJI est rectangle en J."), S("Or", "HI^2 = HJ^2 + JI^2."), S("Donc", "JI^2 = 53,29 − 23,04 = 30,25."), S("La racine", "JI = √{30,25} = <b>5,5 cm</b>")] },
+      { q: "Calcule l'aire du triangle GHI.", tool: null, type: "num", a: 21.84, unit: "cm²", hint: "[HJ] est une hauteur de GHI. Quelle est la base ?",
+        alt: [[43.68, "Tu as oublié de diviser par 2."], [8.64, "Tu as calculé l'aire de GHJ seulement. La base de GHI est GI = GJ + JI."], [13.2, "Tu as calculé l'aire de HJI seulement. La base de GHI est GI = GJ + JI."]],
+        c: [S("La hauteur", "(HJ) ⊥ (GI) : [HJ] est la hauteur de GHI issue de H, HJ = 4,8 cm."), S("La base", "GI = GJ + JI = 3,6 + 5,5 = 9,1 cm."), S("L'aire", "Aire = GI × HJ ÷ 2 = 9,1 × 4,8 ÷ 2 = 21,84."), S("Phrase", "<b>L'aire de GHI est 21,84 cm².</b>")] }
+    ] },
+  { lv: 3, q: "ABCD est un quadrilatère. L'angle ABC est droit. AB = 15 cm, BC = 20 cm, CD = 7 cm et DA = 24 cm.", fig: { kind: "quad" },
+    parts: [
+      { q: "Calcule AC.", tool: 0, type: "num", a: 25, unit: "cm", hint: "Dans quel triangle l'angle droit est-il connu ?", why: "L'angle ABC est droit : ABC est rectangle en B. [AC] ne contient pas B : c'est l'hypoténuse.",
+        alt: [[35, "Tu as additionné les longueurs."], [625, "Tu as trouvé AC^2. Prends la racine carrée."], [13.2, "Tu as soustrait. [AC] est l'hypoténuse : on additionne."]],
+        c: [S("On sait que", "ABC est rectangle en B ; son hypoténuse est [AC]."), S("Or", "AC^2 = AB^2 + BC^2."), S("Donc", "AC^2 = 225 + 400 = 625."), S("La racine", "AC = √{625} = <b>25 cm</b>")] },
+      { q: "Le triangle ACD est-il rectangle ?", tool: 2, type: "choice", opts: recOpts("ACD"), a: 2, hint: "Utilise AC = 25 cm.", why: "Dans ACD, on connaît maintenant les trois côtés (AC = 25, CD = 7, DA = 24), mais aucun angle droit n'est donné.",
+        c: [S("On sait que", "Le plus grand côté de ACD est [AC]."), S("D'une part", "AC^2 = 625."), S("D'autre part", "CD^2 + DA^2 = 49 + 576 = 625."), S("Je conclus", "Égalité : <b>ACD est rectangle en D</b>.")] },
+      { q: "Calcule l'aire du quadrilatère ABCD.", tool: null, type: "num", a: 234, unit: "cm²", hint: "Découpe ABCD en deux triangles rectangles.",
+        alt: [[468, "Tu as oublié de diviser par 2."], [150, "C'est seulement l'aire de ABC. Ajoute celle de ACD."], [84, "C'est seulement l'aire de ACD. Ajoute celle de ABC."]],
+        c: [S("Découpage", "La diagonale [AC] coupe ABCD en deux triangles rectangles : ABC (en B) et ACD (en D)."), S("Aire de ABC", "AB × BC ÷ 2 = 15 × 20 ÷ 2 = 150 cm²."), S("Aire de ACD", "CD × DA ÷ 2 = 7 × 24 ÷ 2 = 84 cm²."), S("Total", "150 + 84 = <b>234 cm²</b>")] }
+    ] }
+];
+EX.forEach((e, i) => { e.id = "e" + i; e.parts.forEach((p, j) => { p.id = e.id + "." + j; }); });
+DEFIS.forEach((e, i) => { e.id = "d" + i; e.parts.forEach((p, j) => { p.id = e.id + "." + j; }); });
+
+const QUIZ_O = ["Théorème : calculer l'hypoténuse", "Théorème : calculer un côté de l'angle droit", "Réciproque : rectangle ou pas ?", "Aucun de ces outils"];
+const QUIZ = [
+  { q: "ABC est rectangle en A, AB = 5 cm et AC = 7 cm. On cherche BC.", a: 0, e: "On sait que ABC est rectangle en A ; [BC] ne contient pas A : c'est l'hypoténuse." },
+  { q: "ABC est rectangle en A, BC = 10 cm et AB = 6 cm. On cherche AC.", a: 1, e: "[BC] est l'hypoténuse et elle est connue ; on cherche [AC], un côté de l'angle droit." },
+  { q: "Un triangle a pour côtés 8 cm, 15 cm et 17 cm. Est-il rectangle ?", a: 2, e: "Trois longueurs connues, et on ne sait pas s'il est rectangle : réciproque." },
+  { q: "Un triangle quelconque a deux côtés de 4 cm et 6 cm. On cherche le troisième côté.", a: 3, e: "Rien ne dit que le triangle est rectangle : on ne peut pas utiliser le théorème." },
+  { q: "Une échelle est appuyée contre un mur vertical. On connaît sa longueur et la distance de son pied au mur. On cherche la hauteur atteinte.", a: 1, e: "L'échelle est l'hypoténuse (en face de l'angle droit au pied du mur) ; la hauteur est un côté de l'angle droit." },
+  { q: "On cherche la diagonale d'un rectangle de 6 cm sur 8 cm.", a: 0, e: "Les angles d'un rectangle sont droits ; la diagonale est en face de l'angle droit." },
+  { q: "Un maçon mesure trois longueurs pour vérifier qu'un coin de mur est droit.", a: 2, e: "On veut savoir si un angle est droit à partir de trois longueurs : réciproque." },
+  { q: "On doit démontrer qu'un triangle de côtés 6 cm, 7 cm et 9 cm n'est pas rectangle.", a: 2, e: "La réciproque permet aussi de montrer qu'un triangle n'est pas rectangle (81 ≠ 85)." },
+  { q: "KLM est rectangle en L. On connaît KM et LM, on cherche KL.", a: 1, e: "[KM] ne contient pas L : c'est l'hypoténuse, et elle est connue. [KL] est un côté de l'angle droit." },
+  { q: "KLM est rectangle en L. On connaît KL et LM, on cherche KM.", a: 0, e: "[KM] ne contient pas L : c'est l'hypoténuse." },
+  { q: "H est le pied de la hauteur issue de A. On connaît AH et BH, on cherche AB.", a: 0, e: "ABH est rectangle en H ; [AB] ne contient pas H : c'est l'hypoténuse." },
+  { q: "On cherche l'aire d'un carré de côté 3 cm.", a: 3, e: "Pas besoin de Pythagore : l'aire vaut 3^2 = 9 cm²." }
+].map(x => ({ ...x, o: QUIZ_O }));
+
+/* ================= Aide-mémoire ================= */
+function Flow(){
+  return html`<div className="flow" role="group" aria-label="Organigramme pour choisir l'outil">
+    <div className="node q">Sait-on que le triangle est rectangle ?<div className="sub">« rectangle en … », angle droit codé, hauteur, droites perpendiculaires, rectangle, mur vertical et sol…</div></div>
+    <div className="branches">
+      <div className="branch">
+        <div className="edge-lab">Oui, et on cherche une longueur</div>
+        <div className="node q">La longueur cherchée est-elle en face de l'angle droit ?</div>
+        <div className="branches">
+          <div className="branch"><div className="edge-lab">Oui : c'est l'hypoténuse</div><div className="node r"><b>Théorème</b>J'additionne les carrés, puis je prends la racine.</div></div>
+          <div className="branch"><div className="edge-lab">Non : côté de l'angle droit</div><div className="node r"><b>Théorème</b>Je soustrais : hypoténuse² − autre côté², puis racine.</div></div>
+        </div>
+      </div>
+      <div className="branch">
+        <div className="edge-lab">Non, mais on connaît les trois côtés</div>
+        <div className="node r"><b>Réciproque</b>Plus grand côté ; d'une part ; d'autre part ; je compare.</div>
+        <div className="branches">
+          <div className="branch"><div className="edge-lab">Égalité</div><div className="node end">Rectangle, au sommet opposé au plus grand côté</div></div>
+          <div className="branch"><div className="edge-lab">Pas d'égalité</div><div className="node end">Pas rectangle</div></div>
+        </div>
+      </div>
+    </div>
+  </div>`;
+}
+const WORKED = [
+  S("Situation 1", "« ABC est rectangle en A, AB = 6 et AC = 8. Calcule BC. » On sait que le triangle est rectangle. [BC] ne contient pas A : c'est l'hypoténuse. → <b>Théorème, j'additionne.</b>"),
+  S("Situation 2", "« ABC est rectangle en A, BC = 10 et AB = 6. Calcule AC. » On sait qu'il est rectangle. L'hypoténuse [BC] est déjà connue ; on cherche [AC], qui contient A. → <b>Théorème, je soustrais.</b>"),
+  S("Situation 3", "« Un triangle a pour côtés 6, 8 et 10. Est-il rectangle ? » On ne sait pas s'il est rectangle, mais on connaît les trois côtés. → <b>Réciproque.</b>"),
+  S("Le piège", "« Un triangle a deux côtés de 4 et 6. Calcule le troisième. » On ne sait pas s'il est rectangle et on ne connaît que deux côtés. → <b>Aucun des deux</b> : Pythagore ne s'applique pas.")
+];
+function Worked(){
+  const [k, setK] = useState(1);
+  return html`<section className="frame worked">
+    <div className="row"><span className="badge">Exemple résolu</span><span className="muted" style=${{ fontSize: ".9em" }}>Comment je choisis l'outil, en quatre situations.</span></div>
+    <${Steps} list=${WORKED.slice(0, k)}/>
+    ${k < WORKED.length
+      ? html`<div className="row"><button className="btn primary" onClick=${() => setK(k + 1)}>Situation suivante (${k + 1} sur ${WORKED.length})</button><button className="btn" onClick=${() => setK(WORKED.length)}>Tout afficher</button></div>`
+      : html`<${Msg} kind="info">Dans les exercices, pose-toi toujours ces deux questions avant de calculer : <b>sait-on que le triangle est rectangle ?</b> et <b>que cherche-t-on ?</b><//>`}
+  </section>`;
+}
+function Aide({ go }){
+  return html`<div className="wrap">
+    <div className="head"><h2>Aide-mémoire</h2><p>Trois outils, une seule question de départ. Relis cette page avant de t'entraîner, puis essaie de t'en passer.</p></div>
+    <div className="page">
+      <${Sec} n=${1} title="Quel outil choisir ?"><${Flow}/><//>
+      <${Sec} n=${2} title="L'angle droit peut être caché"><p>Le triangle est rectangle si l'énoncé ou la figure le dit, même sans le mot « rectangle » :</p>
+        <ul className="hidden-list"><li>un angle droit est codé sur la figure ;</li><li>[AH] est une hauteur, ou H est le pied d'une hauteur ;</li><li>deux droites sont perpendiculaires ;</li><li>le triangle est dans un rectangle ou un carré (diagonale) ;</li><li>un mur vertical et un sol horizontal, un objet à la verticale d'un point.</li></ul><//>
+      <${Sec} n=${3} title="Choisir, en pratique"><${Worked}/><//>
+      <${Sec} n=${4} title="Les trois rédactions">
+        <details className="redac"><summary>Théorème : calculer l'hypoténuse</summary><div className="body">
+          <p><b>On sait que</b> le triangle ABC est rectangle en A ; son hypoténuse est [BC].</p>
+          <p><b>Or</b>, d'après le théorème de Pythagore : BC<sup>2</sup> = AB<sup>2</sup> + AC<sup>2</sup>.</p>
+          <p><b>Donc</b> BC<sup>2</sup> = 6<sup>2</sup> + 8<sup>2</sup> = 100 et BC = <${H} h="√{100}"/> = 10 cm.</p></div></details>
+        <details className="redac"><summary>Théorème : calculer un côté de l'angle droit</summary><div className="body">
+          <p><b>On sait que</b> le triangle ABC est rectangle en A ; son hypoténuse est [BC].</p>
+          <p><b>Or</b>, d'après le théorème de Pythagore : BC<sup>2</sup> = AB<sup>2</sup> + AC<sup>2</sup>.</p>
+          <p><b>Donc</b> AC<sup>2</sup> = BC<sup>2</sup> − AB<sup>2</sup> = 100 − 36 = 64 et AC = <${H} h="√{64}"/> = 8 cm.</p></div></details>
+        <details className="redac"><summary>Réciproque : rectangle ou pas ?</summary><div className="body">
+          <p><b>On sait que</b> le plus grand côté est [BC].</p>
+          <${Parts} l="BC^2 = 10^2 = 100" r="AB^2 + AC^2 = 36 + 64 = 100"/>
+          <p>Égalité : <b>or</b>, d'après la réciproque du théorème de Pythagore, ABC est <b>donc</b> rectangle en A.</p>
+          <p className="muted">Sans égalité : l'égalité de Pythagore n'est pas vérifiée, donc le triangle n'est pas rectangle.</p></div></details>
+      <//>
+      <div className="row" style=${{ justifyContent: "flex-end" }}><button className="btn primary" onClick=${() => go("quiz")}>Je m'entraîne à choisir l'outil →</button></div>
+    </div>
+  </div>`;
+}
+
+/* ================= Quiz ================= */
+function Quiz({ qs, onNew }){
+  const [i, setI] = useState(0);
+  const [pick, setPick] = useState(null);
+  const [score, setScore] = useState(0);
+  const [done, setDone] = useState(false);
+  if (done) return html`<div className="frame" style=${{ display: "grid", gap: "1em" }}><${Msg} kind=${score >= qs.length - 1 ? "good" : "info"}>Score : ${score} sur ${qs.length}. ${score >= qs.length - 1 ? "Tu sais reconnaître les situations : passe à l'entraînement." : "Relis l'organigramme de l'aide-mémoire, puis refais une série."}<//><div className="row"><button className="btn primary" onClick=${() => { onNew(); setI(0); setPick(null); setScore(0); setDone(false); }}>Nouvelle série</button></div></div>`;
+  const q = qs[i];
+  const choose = k => { if (pick != null) return; setPick(k); if (k === q.a) setScore(score + 1); };
+  const next = () => { if (i + 1 < qs.length){ setI(i + 1); setPick(null); } else setDone(true); };
+  return html`<div className="frame" style=${{ display: "grid", gap: "1em" }}>
+    <div className="row" style=${{ justifyContent: "space-between" }}><span className="muted" style=${{ fontSize: ".85em" }}>Situation ${i + 1} sur ${qs.length}</span><span className="muted num" style=${{ fontSize: ".85em" }}>Score : ${score}</span></div>
+    <div className="q-prompt"><${H} h=${q.q}/></div>
+    <div className="opts">${q.o.map((o, k) => html`<button key=${k} className=${"opt" + (pick != null && k === q.a ? " right" : "") + (pick === k && k !== q.a ? " wrong" : "")} onClick=${() => choose(k)} disabled=${pick != null}><span className="letter">${"ABCD"[k]}</span><${H} h=${o}/></button>`)}</div>
+    ${pick != null && html`<${Msg} kind=${pick === q.a ? "good" : "bad"}><b>${pick === q.a ? "Bonne réponse. " : "Ce n'est pas ça. "}</b><${H} h=${q.e}/><//>`}
+    ${pick != null && html`<div className="row"><button className="btn primary" onClick=${next}>${i + 1 < qs.length ? "Situation suivante" : "Voir mon score"}</button></div>`}
+  </div>`;
+}
+function QuizPage(){
+  const make = () => shuffle(QUIZ).slice(0, 10);
+  const [qs, setQs] = useState(make);
+  const [n, setN] = useState(0);
+  return html`<div className="wrap">
+    <div className="head"><h2>Quel outil ?</h2><p>Dix situations tirées au hasard. Ne calcule rien : choisis seulement l'outil.</p></div>
+    <div className="page"><${Quiz} key=${n} qs=${qs} onNew=${() => { setQs(make()); setN(n + 1); }}/></div>
+  </div>`;
+}
+
+/* ================= Exercices ================= */
+function toolFeedback(right, pick){
+  if (right === 2) return "Relis l'énoncé : sait-on vraiment que le triangle est rectangle ? Si on ne le sait pas, on ne peut pas utiliser le théorème.";
+  if (pick === 2) return "L'énoncé dit (ou permet de savoir) que le triangle est rectangle, et on cherche une longueur. Cherche où est l'angle droit.";
+  return "Repère l'angle droit, puis le côté qui est en face : c'est l'hypoténuse. La longueur cherchée est-elle ce côté-là ?";
+}
+function evaluate(p, v){
+  if (p.type === "choice") return v === p.a ? { ok: true, kind: "good", msg: "C'est juste. Bravo !" } : { ok: false, kind: "bad", msg: "Pas encore. Reprends le calcul du plus grand côté, puis compare." };
+  const x = parseNum(v);
+  if (isNaN(x)) return { ok: false, kind: "warn", msg: "Écris un nombre, par exemple 7,5." };
+  if (near(x, p.a)) return { ok: true, kind: "good", msg: "C'est juste. Bravo !" };
+  if (p.alt) for (const [y, m] of p.alt) if (near(x, y, 1e-6)) return { ok: false, kind: "bad", msg: m };
+  if (p.alt) for (const [y, m] of p.alt) if (Math.abs(y) > 1 && near(x, y, .051)) return { ok: false, kind: "bad", msg: m };
+  if (p.round && Math.abs(x - p.a) < .1) return { ok: false, kind: "bad", msg: "Tu y es presque : vérifie l'arrondi au dixième (regarde le chiffre des centièmes)." };
+  return { ok: false, kind: "bad", msg: "Pas encore. Vérifie chaque étape, ou demande un indice." };
+}
+function Part({ p, label, solved, onSolved }){
+  const needTool = p.tool != null;
+  const [tool, setTool] = useState(needTool ? null : -1);
+  const [tries, setTries] = useState([]);
+  const [val, setVal] = useState("");
+  const [pick, setPick] = useState(null);
+  const [fb, setFb] = useState(null);
+  const [hint, setHint] = useState(false);
+  const [corr, setCorr] = useState(false);
+  const toolOk = !needTool || tool === p.tool;
+  const revealTool = needTool && !toolOk && tries.length >= 2;
+  const chooseTool = k => { if (toolOk) return; setTries([...tries, k]); if (k === p.tool) setTool(k); };
+  const check = v => { const r = evaluate(p, v); setFb(r); if (r.ok) onSolved(p.id); };
+  const id = "in-" + p.id.replace(".", "-");
+  const lastWrong = needTool && !toolOk && tries.length ? tries[tries.length - 1] : null;
+  return html`<div className="part">
+    ${label && html`<div className="part-q"><span className="pl">${label}</span><${H} h=${p.q}/>${solved && html`<span className="solved" style=${{ fontWeight: 600 }}>✓</span>`}</div>`}
+    ${needTool && html`<div className="stepbox">
+      <div className="step-t">Étape 1 · Quel outil ?${toolOk && html`<span className="ok">✓</span>`}</div>
+      <div className="choices">${TOOLS.map((t, k) => html`<button key=${k} className=${"btn" + (toolOk && k === p.tool ? " right" : "") + (!toolOk && tries.includes(k) ? " wrong" : "")} disabled=${toolOk || tries.includes(k)} onClick=${() => chooseTool(k)}>${t}</button>`)}</div>
+      ${toolOk && html`<${Msg} kind="good"><${H} h=${p.why}/><//>`}
+      ${lastWrong != null && !revealTool && html`<${Msg} kind="bad">${toolFeedback(p.tool, lastWrong)}<//>`}
+      ${revealTool && html`<${Msg} kind="warn">L'outil qui convient : <b>${TOOL_SHORT[p.tool]}</b>. <${H} h=${p.why}/> <button className="linkbtn" onClick=${() => setTool(p.tool)}>Continuer</button><//>`}
+    </div>`}
+    <div className=${"stepbox" + (toolOk ? "" : " locked")}>
+      <div className="step-t">${needTool ? "Étape 2 · Je calcule et je conclus" : "Je calcule"}</div>
+      ${!toolOk ? html`<p className="muted" style=${{ fontSize: ".9em" }}>Choisis d'abord l'outil.</p>`
+        : p.type === "choice"
+          ? html`<div className="choices" role="group" aria-label="Ta conclusion">${p.opts.map((o, k) => html`<button key=${k} className=${"btn" + (pick === k ? (k === p.a ? " right" : " wrong") : "")} onClick=${() => { setPick(k); check(k); }}>${o}</button>`)}</div>`
+          : html`<form className="answer" onSubmit=${e => { e.preventDefault(); check(val); }}><label htmlFor=${id}>Ta réponse</label><input id=${id} className="field" autoComplete="off" value=${val} onChange=${e => { setVal(e.target.value); setFb(null); }}/>${p.unit && html`<span>${p.unit}</span>`}<button className="btn primary" type="submit">Vérifier</button></form>`}
+      ${fb && html`<${Msg} kind=${fb.kind}><${H} h=${fb.msg}/><//>`}
+    </div>
+    <div className="row">
+      <button className="btn small" onClick=${() => setHint(!hint)} aria-expanded=${hint}>${hint ? "Masquer l'indice" : "Indice"}</button>
+      <button className="btn small" onClick=${() => setCorr(!corr)} aria-expanded=${corr}>${corr ? "Masquer la correction" : "Voir la correction"}</button>
+    </div>
+    ${hint && html`<${Msg} kind="info">${toolOk ? html`<${H} h=${p.hint}/>` : "Pose-toi deux questions : sait-on que le triangle est rectangle ? Que cherche-t-on : une longueur, ou savoir s'il est rectangle ?"}<//>`}
+    ${corr && html`<div className="corr"><h4>Correction détaillée</h4><${Steps} list=${[...(needTool ? [S("Je reconnais la situation", p.why + " → <b>" + TOOL_SHORT[p.tool] + "</b>.")] : []), ...p.c]}/></div>`}
+  </div>`;
+}
+function ExItem({ e, n, solved, onSolved, kindLabel }){
+  const multi = e.parts.length > 1;
+  const done = e.parts.every(p => solved.has(p.id));
+  return html`<article className=${"frame excard" + (done ? " done" : "")}>
+    <div className="ex-top"><span className="t">${kindLabel} ${n}</span><${Stars} n=${e.lv}/>${done && html`<span className="solved">✓ réussi</span>`}</div>
+    <div className="prompt"><${H} h=${e.q}/></div>
+    <${Fig} f=${e.fig}/>
+    ${e.parts.map((p, j) => html`<${Part} key=${p.id} p=${p} label=${multi ? "abc"[j] + ")" : null} solved=${solved.has(p.id)} onSolved=${onSolved}/>`)}
+  </article>`;
+}
+function Series({ list, title, intro, kindLabel, solved, onSolved, store: sk }){
+  const [i, setI] = useState(() => Math.min(store.get(sk, 0), list.length - 1));
+  useEffect(() => store.set(sk, i), [i]);
+  const go = k => { setI(k); window.scrollTo({ top: 0 }); };
+  const isDone = e => e.parts.every(p => solved.has(p.id));
+  return html`<div className="wrap">
+    <div className="head"><h2>${title}</h2><p>${intro}</p></div>
+    <div className="page">
+      <nav className="pager" aria-label="Choisir l'exercice">${list.map((e, k) => html`<${React.Fragment} key=${k}>${(k === 0 || list[k - 1].lv !== e.lv) && list.some(x => x.lv !== list[0].lv) && html`<span className="pg-lv"><${Stars} n=${e.lv}/></span>`}<button className=${"pg" + (isDone(e) ? " done" : "")} aria-current=${k === i} aria-label=${kindLabel + " " + (k + 1) + (isDone(e) ? ", réussi" : "")} onClick=${() => go(k)}>${k + 1}</button><//>`)}</nav>
+      <${ExItem} key=${list[i].id} e=${list[i]} n=${i + 1} solved=${solved} onSolved=${onSolved} kindLabel=${kindLabel}/>
+      <div className="nav-row">
+        <button className="btn" disabled=${i === 0} onClick=${() => go(i - 1)}>← Précédent</button>
+        <button className="btn primary" disabled=${i === list.length - 1} onClick=${() => go(i + 1)}>Suivant →</button>
+      </div>
+    </div>
+  </div>`;
+}
+
+/* ================= Application ================= */
+const ICONS = {
+  aide: html`<svg className="ic" viewBox="0 0 22 22" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round"><rect x="8" y="2.5" width="6" height="4" rx="1"/><rect x="2.5" y="15.5" width="6" height="4" rx="1"/><rect x="13.5" y="15.5" width="6" height="4" rx="1"/><path d="M11 6.5v4.5M5.5 15.5V11h11v4.5"/></svg>`,
+  quiz: html`<svg className="ic" viewBox="0 0 22 22" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round"><circle cx="11" cy="11" r="8.5"/><path d="M8.6 8.4a2.5 2.5 0 1 1 3.4 2.3c-.6.3-1 .8-1 1.5v.6"/><circle cx="11" cy="15.6" r=".6" fill="currentColor"/></svg>`,
+  train: html`<svg className="ic" viewBox="0 0 22 22" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinejoin="round"><path d="M4 18.5V3.5l14 15z"/><path d="M4 15h3.5v3.5" strokeWidth="1.1"/></svg>`,
+  defi: html`<svg className="ic" viewBox="0 0 22 22" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round"><path d="M3 18.5V4l9 14.5zM12 18.5L19 7v11.5z"/></svg>`
+};
+function App(){
+  const [view, setView] = useState(() => { const v = store.get("view", "aide"); return ["aide", "quiz", "train", "defi"].includes(v) ? v : "aide"; });
+  const [solved, setSolved] = useState(() => new Set(store.get("solved", [])));
+  const [big, setBig] = useState(() => store.get("big", false));
+  const [confirmReset, setConfirmReset] = useState(false);
+  useEffect(() => store.set("view", view), [view]);
+  useEffect(() => store.set("big", big), [big]);
+  useEffect(() => store.set("solved", [...solved]), [solved]);
+  const onSolved = id => setSolved(s => s.has(id) ? s : new Set([...s, id]));
+  const doneCount = list => list.filter(e => e.parts.every(p => solved.has(p.id))).length;
+  const total = EX.length + DEFIS.length, nDone = doneCount(EX) + doneCount(DEFIS);
+  const go = v => { setView(v); window.scrollTo({ top: 0 }); };
+  const item = (k, label, cnt) => html`<button className="side-item" aria-current=${view === k ? "page" : undefined} onClick=${() => go(k)}>${ICONS[k]}<span>${label}</span>${cnt && html`<span className="cnt">${cnt}</span>`}</button>`;
+  return html`<div className=${"app" + (big ? " big" : "")}>
+    <header className="titlebar">
+      <svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true"><rect x="1" y="1" width="22" height="22" rx="4" fill="var(--accent)"/><path d="M6 18V6l12 12z" fill="none" stroke="var(--view)" strokeWidth="2" strokeLinejoin="round"/><path d="M6 14.5h3.5V18" fill="none" stroke="var(--view)" strokeWidth="1.5"/></svg>
+      <span className="tb-name">Pythagore en situation</span><span className="tb-sub">Mathématiques 4e</span>
+      <span className="spacer"></span>
+      <button className="switch" role="switch" aria-checked=${big} aria-label="Texte agrandi" onClick=${() => setBig(!big)}><span className="track"></span><span className="lbl">Texte agrandi</span></button>
+      <span className="prog" title="Exercices réussis"><span className="bar"><span style=${{ width: (nDone / total * 100) + "%" }}></span></span>${nDone}/${total}</span>
+    </header>
+    <div className="layout">
+      <nav className="sidebar" aria-label="Sections">
+        <div className="side-cap">Se préparer</div>
+        ${item("aide", "Aide-mémoire")}
+        ${item("quiz", "Quel outil ?")}
+        <div className="side-cap" style=${{ marginTop: ".8em" }}>S'entraîner</div>
+        ${item("train", "Exercices mélangés", doneCount(EX) + "/" + EX.length)}
+        ${item("defi", "Défis", doneCount(DEFIS) + "/" + DEFIS.length)}
+        <div className="side-foot">
+          <span className="muted">Ta progression reste dans ce navigateur.</span>
+          ${confirmReset
+            ? html`<div className="row"><button className="btn small" onClick=${() => { setSolved(new Set()); setConfirmReset(false); }}>Oui, tout effacer</button><button className="btn small" onClick=${() => setConfirmReset(false)}>Annuler</button></div>`
+            : html`<button className="linkbtn" onClick=${() => setConfirmReset(true)}>Effacer ma progression</button>`}
+        </div>
+      </nav>
+      <main className="main">
+        ${view === "aide" && html`<${Aide} go=${go}/>`}
+        ${view === "quiz" && html`<${QuizPage}/>`}
+        ${view === "train" && html`<${Series} list=${EX} title="Exercices mélangés" intro="Les situations sont mélangées et rien n'indique la méthode. Pour chaque exercice : choisis d'abord l'outil, puis calcule et conclus. Les exercices vont du plus simple au plus complexe." kindLabel="Exercice" solved=${solved} onSolved=${onSolved} store="iTrain"/>`}
+        ${view === "defi" && html`<${Series} list=${DEFIS} title="Défis" intro="Chaque défi demande plusieurs outils, l'un après l'autre. Le résultat d'une question sert souvent à la suivante." kindLabel="Défi" solved=${solved} onSolved=${onSolved} store="iDefi"/>`}
+      </main>
+    </div>
+  </div>`;
+}
+
+ReactDOM.createRoot(document.getElementById("root")).render(html`<${App}/>`);
+</script>
+
+</body></html>
