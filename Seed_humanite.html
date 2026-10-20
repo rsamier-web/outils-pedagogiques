@@ -1,0 +1,999 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Le Seed de l’humanité</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Andika:ital,wght@0,400;0,700;1,400;1,700&display=swap">
+<style>
+:root{
+  /* Layout : liseuse page à page. Illustration pixel à gauche, texte à droite ; empilés sur téléphone. Palette : herbe, terre, pierre, redstone. */
+  --bg:#eef1e7; --surface:#ffffff; --surface-2:#e2e8d8; --ink:#1c2315; --muted:#56614b;
+  --line:#c7d0b9; --line-strong:#97a487;
+  --accent:#3b7a24; --accent-deep:#275815; --accent-ink:#ffffff; --accent-soft:#dcecd0;
+  --frame:#4a3a28; --read:#e7f2dc; --hl:#ffe082; --hl-ink:#1c2315;
+  --note-bg:#fbf6e6; --note-line:#e3d6b4; --note-margin:#e8a0a0; --ilias-ink:#a84d0f;
+  --chat-bg:#20271a; --chat-ink:#eef2e6; --chat-muted:#9fae8c; --chat-read:#344229; --chat-hl:#ffd75a; --chat-hl-ink:#1d1a0a;
+  --n-ilias:#ffa75e; --n-souhail:#c7abff; --n-other:#80c6ff;
+  --c-svt:#2f7d32; --c-hist:#8a5a2b; --c-geo:#8a6d0c; --c-maths:#2d63b5; --c-pc:#b0402a; --c-techno:#6b47b0; --c-cog:#127373;
+  --scrim:rgba(20,24,14,.5);
+  --f-display:"Andika","Andika New Basic",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  --f-body:"Andika","Andika New Basic",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  --fs:1.2rem;
+}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){
+  --bg:#13160e; --surface:#1c2116; --surface-2:#272e1f; --ink:#e8eddc; --muted:#a6b097;
+  --line:#363f2b; --line-strong:#56634a;
+  --accent:#7cc24f; --accent-deep:#4c8a2a; --accent-ink:#0f150a; --accent-soft:#2a3b1d;
+  --frame:#0b0d08; --read:#222c19; --hl:#8a7316; --hl-ink:#fffbe8;
+  --note-bg:#241f15; --note-line:#4a4130; --note-margin:#7a3f3f; --ilias-ink:#ffa75e;
+  --chat-bg:#0c0f09; --chat-ink:#e8eddc; --chat-muted:#8d9a7c; --chat-read:#26311c;
+  --c-svt:#7cc96b; --c-hist:#d9a46a; --c-geo:#e3c55a; --c-maths:#79a8f0; --c-pc:#f08a6b; --c-techno:#b49af0; --c-cog:#5fd0cf;
+  --scrim:rgba(0,0,0,.6); color-scheme:dark;
+}}
+:root[data-theme="dark"]{
+  --bg:#13160e; --surface:#1c2116; --surface-2:#272e1f; --ink:#e8eddc; --muted:#a6b097;
+  --line:#363f2b; --line-strong:#56634a;
+  --accent:#7cc24f; --accent-deep:#4c8a2a; --accent-ink:#0f150a; --accent-soft:#2a3b1d;
+  --frame:#0b0d08; --read:#222c19; --hl:#8a7316; --hl-ink:#fffbe8;
+  --note-bg:#241f15; --note-line:#4a4130; --note-margin:#7a3f3f; --ilias-ink:#ffa75e;
+  --chat-bg:#0c0f09; --chat-ink:#e8eddc; --chat-muted:#8d9a7c; --chat-read:#26311c;
+  --c-svt:#7cc96b; --c-hist:#d9a46a; --c-geo:#e3c55a; --c-maths:#79a8f0; --c-pc:#f08a6b; --c-techno:#b49af0; --c-cog:#5fd0cf;
+  --scrim:rgba(0,0,0,.6); color-scheme:dark;
+}
+*{box-sizing:border-box}
+html,body{min-height:100%}
+body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:16px;-webkit-text-size-adjust:100%}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--bg)}
+button{font:inherit;color:inherit}
+.app{min-height:100%;display:flex;flex-direction:column}
+
+/* En-tête */
+.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);border-bottom:2px solid var(--line);
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:10px 8px}
+.top-inner{max-width:1180px;margin:0 auto;display:flex;align-items:center;gap:10px}
+.brand{flex:1;min-width:0;display:flex;align-items:center;gap:10px;font-family:var(--f-display);font-weight:700;font-size:1.15rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.brand-mark{flex:none;width:22px;height:22px;image-rendering:pixelated}
+.xp{max-width:1180px;margin:8px auto 0;display:flex;gap:2px}
+.xp span{flex:1;height:7px;background:var(--surface-2);border:1px solid var(--line)}
+.xp span.on{background:var(--accent);border-color:var(--accent-deep)}
+.xp span.now{background:var(--hl);border-color:var(--accent-deep)}
+
+/* Boutons */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:44px;padding:0 14px;font-weight:700;font-size:1rem;line-height:1;
+  background:var(--surface);color:var(--ink);border:2px solid var(--line-strong);border-bottom-width:4px;border-radius:4px;cursor:pointer;white-space:nowrap}
+.btn:hover{background:var(--surface-2)}
+.btn:active{transform:translateY(2px);border-bottom-width:2px}
+.btn:focus-visible,.w:focus-visible,.toc-item:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+.btn.primary{background:var(--accent);color:var(--accent-ink);border-color:var(--accent-deep)}
+.btn.primary:hover{filter:brightness(1.06)}
+.btn.icon{width:44px;padding:0}
+.btn[disabled]{opacity:.4;cursor:not-allowed;transform:none;border-bottom-width:4px}
+@media (max-width:560px){.hide-sm{display:none}}
+
+/* Page */
+main{flex:1;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:24px 128px}
+.sheet{max-width:1180px;margin:0 auto;display:grid;grid-template-columns:minmax(0,5fr) minmax(0,6fr);gap:40px;align-items:start}
+@media (max-width:860px){.sheet{grid-template-columns:minmax(0,1fr);gap:18px}}
+.illu{margin:0;position:sticky;top:calc(env(safe-area-inset-top,0px) + 96px)}
+@media (max-width:860px){.illu{position:static;max-width:640px;width:100%;margin:0 auto}}
+.illu canvas{display:block;width:100%;max-width:100%;height:auto;aspect-ratio:96/54;image-rendering:pixelated;image-rendering:crisp-edges;
+  border:4px solid var(--frame);border-radius:4px;background:#000}
+.text{min-width:0;max-width:62ch}
+@media (max-width:860px){.text{margin:0 auto;width:100%}}
+.eyebrow{font-family:var(--f-display);font-weight:700;font-size:.9rem;letter-spacing:.04em;text-transform:uppercase;color:var(--muted);margin:0}
+.ptitle{font-family:var(--f-display);font-weight:700;font-size:clamp(1.6rem,1.2rem + 1.5vw,2.25rem);line-height:1.15;text-wrap:balance;margin:.25em 0 .7em}
+.cover-title{font-size:clamp(2.2rem,1.4rem + 3vw,3.4rem)}
+.prose{font-size:var(--fs);line-height:1.65;letter-spacing:.01em}
+.blk{margin:0 0 .85em;padding:2px 6px;margin-left:-6px;margin-right:-6px;border-radius:4px;transition:background .15s}
+.blk.reading{background:var(--read)}
+.blk.dash{padding-left:6px}
+.w{cursor:pointer;border-radius:3px}
+.w:hover{text-decoration:underline;text-decoration-thickness:2px;text-underline-offset:4px;text-decoration-color:var(--line-strong)}
+.w.b{font-weight:700}
+.w.cur{background:var(--hl);color:var(--hl-ink);box-shadow:0 0 0 2px var(--hl)}
+.ptitle .w:hover{text-decoration:none}
+
+/* Chat du serveur */
+.chat{background:var(--chat-bg);color:var(--chat-ink);border-radius:4px;padding:12px 14px;margin:0 0 1em;display:grid;gap:4px;font-size:.95em;line-height:1.55}
+.chat .line{padding:2px 6px;margin:0 -6px;border-radius:3px}
+.chat .line.reading{background:var(--chat-read)}
+.who{font-family:var(--f-display);font-weight:700;margin-right:.45em;white-space:nowrap}
+.who .br{color:var(--chat-muted);font-weight:400}
+.who.I{color:var(--n-ilias)} .who.S{color:var(--n-souhail)} .who.N{color:var(--n-other)}
+.chat .w.cur{background:var(--chat-hl);color:var(--chat-hl-ink);box-shadow:0 0 0 2px var(--chat-hl)}
+.chat .w:hover{text-decoration-color:var(--chat-muted)}
+
+/* Le Codex d’Ilias : une page de son carnet */
+.note-ilias{margin:1.4em 0 0;padding:12px 16px 14px 34px;background-color:var(--note-bg);
+  background-image:linear-gradient(90deg,transparent 20px,var(--note-margin) 20px,var(--note-margin) 22px,transparent 22px);
+  border:2px solid var(--note-line);border-radius:3px;box-shadow:4px 4px 0 var(--note-line);transform:rotate(-.4deg)}
+.note-ilias.reading{box-shadow:4px 4px 0 var(--note-line),0 0 0 3px var(--hl)}
+.note-head{display:flex;align-items:center;gap:8px;font-weight:700;font-size:.9em;color:var(--ilias-ink);margin-bottom:4px}
+.note-page{margin-left:auto;font-weight:400;color:var(--muted);font-size:.9em}
+.note-text{margin:0;font-style:italic;line-height:1.6}
+/* Dans la vraie vie */
+.real{margin:1.4em 0 0;padding:12px 16px 14px;border:2px solid var(--line);border-radius:4px;background:var(--surface);font-size:.92em}
+.real-head{display:flex;align-items:center;gap:8px;font-weight:700;color:var(--accent);margin-bottom:6px}
+.real .entry{display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 10px;padding:4px 6px;margin:0 -6px;border-radius:3px}
+.real .entry + .entry{border-top:1px dashed var(--line)}
+.real .entry.reading{background:var(--read)}
+.chip{font-family:var(--f-display);font-weight:700;font-size:.72rem;letter-spacing:.04em;text-transform:uppercase;border:1.5px solid currentColor;border-radius:3px;padding:0 5px;white-space:nowrap;opacity:.9}
+.chip.svt{color:var(--c-svt)} .chip.hist{color:var(--c-hist)} .chip.geo{color:var(--c-geo)} .chip.maths{color:var(--c-maths)}
+.chip.pc{color:var(--c-pc)} .chip.techno{color:var(--c-techno)} .chip.cog{color:var(--c-cog)}
+.entry .etext{flex:1 1 24ch;min-width:0}
+@media (prefers-reduced-motion: reduce){.note-ilias{transform:none}}
+
+/* Couverture */
+.cover-actions{display:flex;flex-wrap:wrap;gap:10px;margin:1.4em 0 1.6em}
+.tips{list-style:none;margin:0;padding:14px 16px;border:2px solid var(--line);border-radius:4px;display:grid;gap:8px;font-size:1rem;color:var(--muted)}
+.tips li{display:flex;gap:10px;align-items:flex-start}
+.tips svg{flex:none;margin-top:2px;color:var(--accent)}
+.fin{font-family:var(--f-display);font-size:1.4rem}
+
+/* Barre du bas */
+.bottom{position:fixed;left:0;right:0;bottom:0;z-index:6;background:var(--surface);border-top:2px solid var(--line);
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));
+  padding-top:10px;padding-bottom:calc(10px + env(safe-area-inset-bottom,0px))}
+.bottom-inner{max-width:1180px;margin:0 auto;display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:10px}
+.mid{display:flex;align-items:center;justify-content:center;gap:8px;min-width:0}
+.pageno{font-family:var(--f-display);font-size:.95rem;color:var(--muted);font-variant-numeric:tabular-nums;white-space:nowrap}
+@media (max-width:420px){.pageno{display:none}}
+
+/* Panneaux */
+.overlay{position:fixed;inset:0;z-index:20;background:var(--scrim);display:flex;justify-content:flex-end}
+.panel{background:var(--surface);width:min(440px,100%);height:100%;overflow-y:auto;border-left:2px solid var(--line);
+  padding-left:20px;padding-right:max(20px,env(safe-area-inset-right,0px));
+  padding-top:calc(16px + env(safe-area-inset-top,0px));padding-bottom:calc(24px + env(safe-area-inset-bottom,0px))}
+.panel-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:16px}
+.panel h2{font-family:var(--f-display);font-size:1.5rem;margin:0}
+.field{display:grid;gap:6px;margin-bottom:18px}
+.field label,.field .lab{font-weight:700;display:flex;justify-content:space-between;gap:10px}
+.field output{font-family:var(--f-display);font-variant-numeric:tabular-nums;color:var(--muted)}
+select,input[type=range]{width:100%;accent-color:var(--accent)}
+select{min-height:44px;font:inherit;color:var(--ink);background:var(--surface);border:2px solid var(--line-strong);border-radius:4px;padding:0 10px}
+.seg{display:flex;gap:6px;flex-wrap:wrap}
+.seg .btn{flex:1;min-width:52px;padding:0 8px}
+.seg .btn[aria-pressed="true"]{background:var(--accent-soft);border-color:var(--accent)}
+.check{display:flex;gap:12px;align-items:flex-start;padding:10px 0;border-top:1px solid var(--line);cursor:pointer}
+.check input{width:22px;height:22px;margin:2px 0 0;accent-color:var(--accent);flex:none}
+.check small{display:block;color:var(--muted);font-size:.9rem;margin-top:2px}
+.note{font-size:.92rem;color:var(--muted);line-height:1.5;margin:8px 0 0}
+.warn{border:2px solid var(--c-pc);color:var(--ink);border-radius:4px;padding:10px 12px;font-size:.95rem;margin-bottom:16px}
+.toc{list-style:none;margin:0;padding:0;display:grid;gap:6px}
+.toc-item{width:100%;text-align:left;display:grid;grid-template-columns:auto 1fr;gap:2px 12px;align-items:baseline;padding:10px 12px;background:var(--surface);
+  border:2px solid var(--line);border-radius:4px;cursor:pointer}
+.toc-item:hover{background:var(--surface-2)}
+.toc-item[aria-current="true"]{background:var(--accent-soft);border-color:var(--accent)}
+.toc-num{font-family:var(--f-display);color:var(--muted);font-size:.9rem;min-width:5.5em}
+.toc-title{font-weight:700}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+@media (prefers-reduced-motion: reduce){*{transition:none!important}}
+</style>
+
+<div id="root"><p style="padding:24px;font-family:system-ui,sans-serif">Chargement de la liseuse…</p></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.3.1/umd/react.production.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.3.1/umd/react-dom.production.min.js"></script>
+<script>
+(function(){
+"use strict";
+const h=React.createElement, {useState,useEffect,useRef,useCallback,useMemo}=React;
+
+/* =========================================================
+   HISTOIRE
+   ========================================================= */
+const CHAPTERS=["Ouverture","Game Over au collège","Le bois, la pierre et le feu","Planter, attendre, nourrir","Le grand voyage","Sous la surface","Le village","Au coin du feu","Redstone","Inventer ses propres mondes","Jouer à apprendre","Il n’y a pas qu’un seul jeu"];
+const chLabel=c=>c===0?"Ouverture":c===11?"Épilogue":"Chapitre "+c;
+const PEOPLE={I:{name:"Ilias_Craft",say:"Ilias"},S:{name:"Souhail",say:"Souhail"},N:{name:"Noah_12",say:"Noah"}};
+const SUBJ={svt:"SVT",hist:"Histoire",geo:"Géographie",maths:"Maths",pc:"Physique-chimie",techno:"Technologie",cog:"Sciences cognitives"};
+
+const PAGES=[
+{ch:0,scene:"cover",alt:"Deux personnages en blocs sur une colline au lever du soleil.",title:"Le Seed de l’humanité",b:[
+"Ilias, treize ans, est un champion de Minecraft, un jeu vidéo où l’on construit un monde entier avec des blocs. Le collège, lui, ne l’intéresse plus du tout.",
+"Ce soir, en ligne, quelqu’un va lui lancer un défi : refaire en accéléré toute l’histoire de l’humanité, de la première bûche de bois jusqu’à l’ordinateur."]},
+
+/* ---------- Chapitre 1 ---------- */
+{ch:1,scene:"bedroom",alt:"Une chambre la nuit : un écran allumé sur un bureau et un bulletin posé à côté.",title:"Le bulletin",b:[
+"Le bulletin est arrivé un mardi. Ilias l’a lu une seule fois, très vite. « Manque d’investissement. Peut mieux faire. » En maths, en SVT, en histoire : partout la même phrase.",
+"Au dîner, son père a posé la feuille sur la table.",
+"— Si les notes ne remontent pas avant les vacances, l’ordinateur, c’est fini.",
+"Ilias n’a rien répondu. Dans sa tête, une seule pensée tournait en boucle : **le collège, c’est nul. Ça ne sert à rien.**"]},
+{ch:1,scene:"screen",alt:"Un écran affiche un monde de blocs et une fenêtre de discussion.",title:"Le serveur de Souhail",b:[
+"Le soir, Ilias se connecte au serveur de Souhail. Un **serveur**, c’est un monde de jeu partagé sur Internet : plusieurs joueurs s’y retrouvent et discutent par écrit. Dans le jeu, Ilias s’appelle **Ilias_Craft**. Là-bas, on vient visiter ses châteaux et ses ponts géants.",
+"Souhail, qui gère le serveur, a vingt-quatre ans. Il est étudiant en école d’ingénieur et il connaît le jeu par cœur.",
+["S","Tu n’as pas l’air dans ton assiette ce soir."],
+["I","Le collège, c’est une partie qu’on perd à tous les coups. Ça ne sert à rien. Rien de rien."],
+["S","Ah oui ? Tu paries ?"]]},
+{ch:1,scene:"book",alt:"Un livre ouvert intitulé CODEX, avec des pages encore vides.",title:"Le défi du Seed 4000",b:[
+"Dans Minecraft, chaque nouveau monde est créé à partir d’un code qu’on appelle une **seed**, « graine » en anglais.",
+["S","Je crée un monde tout neuf ce soir. Je l’appelle Seed 4000."],
+["S","Le défi : refaire l’histoire de l’humanité, de la première bûche jusqu’à un ordinateur."],
+["S","Une seule règle : chaque fois que tu te sers de quelque chose appris au collège, tu l’écris dans un livre."],
+["I","Facile. Je vais te prouver que je ne m’en servirai jamais."],
+"Dans le jeu, Souhail lui donne un livre et une plume. Ilias l’appelle **le Codex**. Il écrit une seule phrase sur la première page. Il est sûr de gagner."],
+note:["Première page","CODEX. Il restera vide."]},
+
+/* ---------- Chapitre 2 ---------- */
+{ch:2,scene:"forest",alt:"Ilias dans une forêt, une pioche à la main, à côté d’un établi en bois.",title:"Une bûche, puis une pioche",b:[
+"Ilias apparaît au milieu d’une forêt, les mains vides. Dans ce mode de jeu, appelé **survie**, on commence sans rien : il faut tout fabriquer soi-même. Ilias frappe un arbre pour récolter du bois.",
+"Avec le bois, il fabrique des planches, puis un établi pour assembler des objets. Une pioche en bois, puis une pioche en pierre. Le soleil descend déjà.",
+["S","Tu sais ce que tu viens de faire ?"],
+["I","Ben… J’ai récolté du bois et de la pierre ?"],
+["S","Tu viens de traverser la préhistoire. Les humains ont mis plus de deux millions d’années à passer de la pierre taillée au métal. Toi, quatre minutes."]],
+real:[["hist","Il y a plus de deux millions d’années, les premiers humains taillaient des pierres pour en faire des outils. C’est le Paléolithique."]]},
+{ch:2,scene:"torchnight",alt:"La nuit, une petite cabane éclairée par deux torches et un four allumé.",title:"La première nuit",b:[
+"La nuit approche. Dans le jeu, l’obscurité est dangereuse : des monstres apparaissent. Ilias fait cuire du bois dans un four pour obtenir du charbon de bois, puis fabrique ses premières torches.",
+["S","Pourquoi le bois brûle, à ton avis ?"],
+["I","Parce que c’est du bois ?!"],
+["S","Dans le jeu, une torche brûle même au fond d’une grotte fermée, sans air. Dans la réalité, elle s’éteindrait. Le jeu triche."],
+"Ilias repense vaguement à une bougie posée sous un verre, en cours. La flamme s’éteignait. Il n’écrit rien dans le Codex. Pas question."],
+real:[["pc","Un feu a besoin de trois choses : un combustible comme le bois, de la chaleur, et le dioxygène de l’air. Sans air, la flamme s’éteint."]]},
+
+/* ---------- Chapitre 3 ---------- */
+{ch:3,scene:"farm",alt:"Un champ de blé doré traversé par un petit canal d’eau, en plein soleil.",title:"Le blé ne pousse pas",b:[
+"Au troisième jour, Ilias en a assez de manger des pommes. Il ramasse des graines, retourne la terre avec une houe, un outil de jardinier, et plante son premier champ à l’ombre de sa maison.",
+["I","Pourquoi mon blé ne pousse pas ?"],
+["S","Il est trop loin de l’eau. Et sous ton toit, il n’a pas assez de lumière."],
+"Ilias déplace son champ au soleil et creuse un petit canal. Deux jours plus tard, le blé est doré.",
+["I","Je n’ai rien appris. J’ai juste déplacé un champ."]],
+real:[["svt","Une plante a besoin d’eau, de lumière et de sels minéraux. Grâce à la lumière, elle fabrique sa propre matière à partir de l’eau et du dioxyde de carbone de l’air : c’est la photosynthèse."]]},
+{ch:3,scene:"animals",alt:"Des vaches dans un enclos, une ruche dans un arbre et des abeilles près des fleurs.",title:"Les vaches et les abeilles",b:[
+"Avec une poignée de blé, Ilias attire deux vaches dans un enclos. Bientôt, un petit veau apparaît.",
+"Près de la forêt, il trouve une ruche. Les abeilles volent de fleur en fleur, et ses cultures poussent plus vite.",
+["S","Les abeilles transportent le pollen d’une fleur à l’autre. Sans elles, beaucoup de plantes ne donnent pas de fruits."],
+["I","D’accord, mais c’est juste un jeu."],
+["S","Un jeu qui copie la nature. À toi de voir ce qu’il copie bien, et ce qu’il copie mal."],
+"Ilias commence à trouver ça amusant. Mais il ne le dira pas."],
+real:[["svt","C’est la pollinisation : une fleur pollinisée peut devenir un fruit qui contient des graines. Sans les insectes pollinisateurs, une grande partie de nos fruits et légumes disparaîtrait."]]},
+{ch:3,scene:"homestead",alt:"Au coucher du soleil, une maison avec une cheminée, un champ et un enclos.",title:"Fermier malgré lui",b:[
+["S","Tu as remarqué ? Tu ne te promènes plus. Tu as un champ, un enclos, une maison."],
+["I","Je suis devenu fermier, quoi."],
+["S","Tu es devenu sédentaire : tu vis toujours au même endroit. Les humains ont fait pareil, il y a environ 10000 ans."],
+["S","Petite question : 3 blés font un pain. Tu manges un pain par jour. Combien de blé pour tenir 10 jours ?"],
+"Ilias écrit « 30 » sans réfléchir. Puis il s’arrête : c’était un problème de maths.",
+["I","Ça ne compte pas. C’était trop facile."],
+["S","Si tu le dis."]],
+real:[["hist","Au Néolithique, les humains deviennent agriculteurs et éleveurs. Ils construisent les premiers villages."],["maths","Si 1 pain = 3 blés, alors 10 pains = 30 blés. C’est la proportionnalité."]]},
+
+/* ---------- Chapitre 4 ---------- */
+{ch:4,scene:"biomes",alt:"Un désert avec des cactus juste à côté d’une forêt enneigée.",title:"Un désert à côté de la neige",b:[
+"Le monde du jeu est fait de grands paysages : déserts, plaines, forêts, montagnes enneigées. Ilias part explorer. Il traverse un désert de sable brûlant. Juste derrière les dunes, il tombe sur une forêt couverte de neige.",
+["S","Question piège : dans la vraie vie, un désert collé à la neige, c’est possible ?"],
+["I","Euh… Non ?"],
+["S","Le jeu mélange les paysages comme un patchwork. Il simplifie. Et c’est ce que tu sais qui te permet de voir où il triche."]],
+real:[["geo","Les grands paysages suivent les zones climatiques : il fait chaud près de l’équateur, froid près des pôles. Les déserts chauds et les forêts enneigées sont donc très éloignés les uns des autres."]]},
+{ch:4,scene:"coords",alt:"Une carte avec deux axes, une croix rouge, et une boussole.",title:"Perdu ? Calcule !",b:[
+"Après des heures de marche, Ilias est perdu. Sa maison est quelque part… mais où ?",
+["S","Appuie sur la touche F3 du clavier. Le jeu affiche ta position avec trois nombres : X, Y et Z."],
+["I","X 1240, Y 64 et Z moins 385."],
+["S","X et Z disent où tu es sur le sol. Y donne ton altitude, ta hauteur. Ce sont des coordonnées. Ta maison est au point X 0, Z 0."],
+"Ilias réfléchit. Pour rentrer, il doit marcher **1240 blocs vers l’ouest** et **385 blocs vers le sud**. Dans le jeu, un bloc mesure environ un mètre. Il fabrique aussi une carte, qui montre le terrain en plus petit."],
+real:[["geo","Une carte représente un territoire en plus petit. L’échelle indique de combien il a été réduit."]]},
+{ch:4,scene:"axes",alt:"Trois axes de couleur, X, Y et Z, partent d’un même point. Un bloc d’herbe flotte dans l’espace, et une mouche vole au-dessus.",title:"L’idée de Descartes",b:[
+["I","C’est quoi, exactement, un repère ?"],
+["S","Ce sont des droites graduées, les axes, qui partent d’un même point, l’origine. Sur une feuille, deux axes suffisent : un pour aller à droite, un pour monter."],
+["S","Dans un monde en trois dimensions comme Minecraft, il en faut trois : X, Y et Z. Avec ces trois nombres, on retrouve n’importe quel bloc du monde."],
+"C’est le philosophe et mathématicien français **René Descartes** qui a fait connaître cette idée, en 1637. Il y a moins de 400 ans ! Selon une légende, il y aurait pensé en regardant une mouche marcher au plafond : comment dire exactement où elle se trouve ?",
+["I","Donc mon jeu utilise l’idée d’un philosophe ?"],
+["S","Comme tous les jeux vidéo en trois dimensions."]],
+real:[["maths","En hommage à Descartes, on parle de repère cartésien. Au collège, on y place des points avec deux nombres : l’abscisse et l’ordonnée."]]},
+{ch:4,scene:"portal",alt:"Un portail violet encadré de blocs noirs, dans un monde rouge avec des chutes de lave.",title:"Le raccourci du Nether",b:[
+"Pour rentrer plus vite, Souhail lui parle du **Nether**, un monde souterrain plein de lave, qu’on rejoint par un portail. Là-bas, **1 bloc parcouru vaut 8 blocs** dans le monde normal.",
+["S","Si tu passes dans le Nether d’ici, tu arrives à quelles coordonnées ?"],
+["I","1240 divisé par 8… 155 !"],
+"Il oublie le Z, se perd, recommence. Moins 385 divisé par 8 : environ moins 48. Cette fois, il ressort à vingt mètres de chez lui.",
+["I","En fait, c’est de la proportionnalité."],
+["S","Bienvenue en quatrième."],
+"Ce soir-là, sans rien dire à Souhail, Ilias ouvre le Codex."],
+note:["Page 1","Nether : je divise par 8 pour savoir où j’arrive. C’est de la proportionnalité. Bon… celle-là, elle compte."]},
+
+/* ---------- Chapitre 5 ---------- */
+{ch:5,scene:"mine",alt:"Une coupe du sous-sol : un escalier creusé dans la pierre, des minerais, et Ilias au fond avec une torche.",title:"Sous la surface",b:[
+"Il faut du fer. Ilias creuse un escalier vers les profondeurs. La terre laisse place à la pierre, puis à une roche plus sombre et plus dure. Le charbon est près de la surface, le fer un peu plus bas, les diamants tout au fond.",
+"Il passe une heure à creuser pour trouver trois diamants. C’est long. C’est ennuyeux. Mais sans eux, pas d’outils solides.",
+["I","Tu vas encore me dire que c’est au programme ?"],
+["S","Non. Je vais te dire que le jeu copie le vrai monde. Les géologues lisent les couches de roches comme un livre d’histoire."]],
+real:[["svt","Le sous-sol est formé de couches de roches empilées au fil du temps. En général, les plus profondes sont les plus anciennes."]]},
+{ch:5,scene:"lava",alt:"Une cascade d’eau tombe sur un lac de lave et forme des blocs noirs.",title:"Lave + eau = ?",b:[
+"Au fond de la mine, Ilias tombe sur un lac de lave. Il verse un seau d’eau dessus. La lave se transforme en **obsidienne**, une pierre noire et brillante.",
+["S","Tu sais que l’obsidienne existe pour de vrai ?"],
+["S","Et le basalte qu’on trouve dans le Nether aussi. Ce sont deux roches volcaniques."],
+["I","Attends… Les volcans, c’est le prochain chapitre en SVT."],
+["S","Tu vois. Tu as déjà de l’avance."]],
+real:[["svt","Quand une lave refroidit, elle devient de la roche volcanique, comme le basalte. Si elle refroidit très vite, elle peut former une roche noire qui ressemble à du verre : l’obsidienne."]]},
+{ch:5,scene:"forge",alt:"Un four en pierre allumé, des lingots de fer et un toit en cuivre devenu vert.",title:"L’âge du fer",b:[
+"Ilias fait fondre dans un four le minerai, la roche qui contient le métal. Il obtient des lingots de fer, puis une armure complète.",
+["S","Bois, pierre, fer, diamant : dans le jeu, les outils s’améliorent dans le même ordre que dans l’histoire des humains."],
+"Sur le toit de sa maison, les blocs de cuivre ont verdi avec le temps. Ilias reconnaît cette couleur : c’est celle de la statue de la Liberté. Il ouvre le Codex sans que personne ne le lui demande."],
+note:["Page 6","Le cuivre devient vert avec le temps, comme la statue de la Liberté. Ça s’appelle l’oxydation. Personne ne me l’a demandé."],
+real:[["hist","Les humains ont d’abord travaillé le cuivre, puis le bronze, puis le fer, il y a environ 3000 ans. C’est l’âge des métaux."]]},
+
+/* ---------- Chapitre 6 ---------- */
+{ch:6,scene:"village",alt:"Un village avec deux maisons et un étal de marché où brillent des émeraudes.",title:"Le marché du village",b:[
+"Ilias découvre un village. Ses habitants sont des personnages animés par le jeu, et chacun a un métier : forgeron, fermier, bibliothécaire, cartographe. On échange avec eux des marchandises contre des émeraudes, des pierres précieuses qui servent de monnaie.",
+["I","Le fermier m’achète mon blé ! Mais maintenant, il en veut plus pour une seule émeraude."],
+["S","Tu lui en as trop vendu. C’est la loi de l’offre et de la demande."],
+["S","Des métiers différents, des échanges, une monnaie… Tu viens de voir naître une société."]],
+real:[["hist","Dans les premières villes, chacun se spécialise dans un métier : on échange ce qu’on produit contre ce que les autres produisent."]]},
+{ch:6,scene:"tablet",alt:"Une tablette d’argile couverte de petits signes en forme de clous.",title:"Tu as inventé l’écriture",b:[
+"Ilias a tellement d’échanges qu’il s’y perd. Alors il les note dans le Codex.",
+["S","Qu’est-ce que tu fais ?"],
+["I","Je compte ce que j’ai vendu."],
+["S","Félicitations. Tu viens de réinventer l’écriture."],
+"Souhail raconte. Il y a plus de 5000 ans, en Mésopotamie, des gens traçaient des signes sur des tablettes d’argile pour compter les sacs de grain et les moutons. L’écriture est née en grande partie **pour compter**."],
+note:["Page 11","20 blés = 1 émeraude. 6 carottes = 1 émeraude. Ne plus vendre trop de blé au fermier !"],
+real:[["hist","Les plus anciennes écritures connues sont apparues en Mésopotamie, vers 3300 avant J.-C. Elles servaient d’abord à tenir des comptes."]]},
+{ch:6,scene:"testpaper",alt:"Une copie de contrôle notée 7 sur 20 en rouge.",title:"7 sur 20",b:[
+"Le lendemain, contrôle de SVT sur les volcans. Ilias n’a pas révisé. Pourquoi faire ? Il a vu de la lave, de l’obsidienne et du basalte dans le jeu.",
+"Résultat : **7 sur 20**. Il a confondu les mots. Il ne savait pas expliquer comment se forme un volcan. La professeure a écrit : « Des idées, mais rien de précis. »",
+"Le soir, il retrouve Souhail sur le serveur, furieux.",
+["I","Tu vois ? Ton jeu ne m’a rien appris. Et l’école non plus."],
+["S","Viens. On va faire un feu de camp."]]},
+
+/* ---------- Chapitre 7 ---------- */
+{ch:7,scene:"campfire",alt:"La nuit, Ilias et Souhail assis de chaque côté d’un feu de camp.",title:"Au coin du feu",b:[
+"Dans le jeu, Souhail allume un feu de camp. Les deux personnages s’assoient face à face. La nuit tombe sur le Seed 4000.",
+["S","Qui t’a appris à parler ?"],
+["I","Personne. J’étais petit, j’ai appris tout seul."],
+["S","Et à reconnaître le visage de ta mère ? À te repérer dans ton quartier ? À jouer avec tes copains ?"],
+["I","Personne non plus."],
+["S","Voilà. Ça, ton cerveau sait l’apprendre tout seul."]]},
+{ch:7,scene:"brain",alt:"À gauche, deux personnes discutent dehors. À droite, un tableau d’école avec des calculs.",title:"Deux sortes de connaissances",b:[
+"Souhail explique. Un chercheur, **David Geary**, distingue deux sortes de connaissances.",
+"Les **connaissances biologiquement primaires** : parler, reconnaître des visages, s’orienter, jouer. Depuis des centaines de milliers d’années, le cerveau humain les apprend seul, simplement en vivant avec les autres.",
+"Les **connaissances biologiquement secondaires** : lire, écrire, calculer, la géologie, l’électricité… Ce sont des inventions humaines récentes. Le cerveau ne les apprend pas spontanément. Il faut qu’on nous les enseigne, et il faut faire des efforts."]},
+{ch:7,scene:"tutorial",alt:"Un écran montre une vidéo d’explication sur un circuit électrique.",title:"Cinquante vidéos",b:[
+["S","Et les circuits électriques du jeu, tu les as appris tout seul ?"],
+["I","… Non. J’ai regardé une cinquantaine de vidéos d’explication."],
+["S","Une vidéo d’explication, c’est de l’enseignement : quelqu’un qui sait explique à quelqu’un qui ne sait pas encore."],
+["S","Pour ton contrôle, c’est pareil. Le jeu t’a donné envie et des images. Mais pour être précis, il fallait apprendre la leçon."],
+["S","Et si c’est difficile, c’est normal. Ça ne veut pas dire que tu es nul. C’est justement pour ça que l’école existe."]],
+note:["Page 14","Connaissance primaire : ce que mon cerveau apprend tout seul. Connaissance secondaire : ce qu’on doit m’apprendre, comme lire ou les volcans. Si c’est dur, c’est normal."]},
+{ch:7,scene:"school",alt:"Un bâtiment en briques de terre au soleil, avec deux élèves qui tiennent des tablettes d’argile.",title:"Il y a 4000 ans",b:[
+["I","Mais alors, pourquoi on a inventé l’école ?"],
+["S","Parce que les savoirs secondaires ne se transmettent pas tout seuls. Il y a environ 4000 ans, en Mésopotamie, il existait déjà des écoles pour apprendre à écrire."],
+"Puis Souhail écrit une chaîne dans la discussion : **écriture → écoles → savoirs qui s’accumulent → mathématiques → logique → ordinateurs → jeux vidéo**.",
+["S","Sans des élèves qui peinaient sur leurs tablettes d’argile il y a 4000 ans, il n’y aurait pas de Minecraft."],
+"Ce soir-là, Ilias éteint l’ordinateur plus tôt que d’habitude. Il ouvre son cahier de SVT et révise sa leçon sur les volcans."],
+real:[["hist","On appelait ces écoles les « maisons des tablettes ». Les élèves y apprenaient les signes de l’écriture, puis recopiaient des listes de mots, des proverbes et des récits. En mathématiques, ils utilisaient des tables de calcul et étudiaient des problèmes déjà résolus, comme les exemples corrigés d’un manuel : partager des rations, mesurer un champ, calculer un volume de terre."]]},
+
+/* ---------- Chapitre 8 ---------- */
+{ch:8,scene:"redstone",alt:"Des leviers reliés par des fils rouges à des lampes, l’une allumée, l’autre éteinte.",title:"Le premier circuit",b:[
+"Nouvelle étape : l’électricité. Dans le jeu existe une poudre rouge, la **redstone** (« pierre rouge » en anglais). Elle transporte le courant, comme un fil électrique. Ilias pose un levier, une ligne de poudre et une lampe. Il actionne le levier : la lampe s’allume.",
+["S","Si tu mets deux leviers l’un après l’autre, il faut activer les deux pour allumer la lampe. C’est une porte ET."],
+["S","Si tu les mets côte à côte, un seul suffit. C’est une porte OU."]],
+real:[["pc","Deux interrupteurs branchés en série : il faut fermer les deux pour allumer la lampe. Branchés en dérivation : un seul suffit."]]},
+{ch:8,scene:"binary",alt:"Deux leviers marqués 1 + 1 reliés à une machine, et deux lampes qui affichent 1 et 0.",title:"1 + 1 = 10",b:[
+"Dans le jeu, il existe aussi une petite torche rouge qui fait le contraire de ce qu’elle reçoit : quand le courant arrive, elle s’éteint. C’est une **porte NON**.",
+["S","Avec ET, OU et NON, on peut construire une machine qui calcule."],
+"Lampe éteinte = 0. Lampe allumée = 1. Ilias construit une machine à additionner. Il actionne deux leviers : 1 + 1. Les lampes affichent **1 0**.",
+["I","Ça ne marche pas ! Ça fait 10 !"],
+["S","En binaire, 10 veut dire deux. Ton circuit a raison."]],
+real:[["maths","En binaire, on écrit tous les nombres avec seulement deux chiffres, 0 et 1."],["techno","À l’intérieur d’un ordinateur, des milliards de minuscules portes logiques font ces calculs."]]},
+{ch:8,scene:"turing",alt:"Un long ruban de blocs noirs et blancs, avec une flèche rouge au-dessus d’une case.",title:"La machine de Turing",b:[
+"En 1936, un mathématicien anglais, **Alan Turing**, imagine une machine très simple : un long ruban de cases, une tête qui lit et écrit des symboles, et une liste de règles. Cette idée est à l’origine de tous les ordinateurs.",
+"Ilias en construit une version miniature, avec un ruban de blocs noirs et blancs.",
+["S","Des joueurs ont construit des ordinateurs entiers dans Minecraft. Aucun n’a sauté d’étape : ils ont tous appris la logique et le binaire."],
+"Ilias regarde son circuit clignoter. En quelques semaines, il vient de refaire un chemin de 4000 ans."],
+note:["Page 19","Turing, 1936 : un ruban, une tête qui lit et écrit, des règles. Tous les ordinateurs viennent de là. Même celui sur lequel je joue."]},
+
+/* ---------- Chapitre 9 ---------- */
+{ch:9,scene:"islands",alt:"Des îles flottantes dans un ciel rose, avec des arbres roses et bleus et une cascade.",title:"Mon propre jeu",b:[
+["I","Plus tard, je veux créer mon propre jeu. Avec des mondes que personne n’a jamais vus."],
+["S","Bonne idée. De quoi est-ce que tu auras besoin ?"],
+"Ensemble, ils font la liste. Programmer, et l’anglais, la langue des programmeurs. Les maths, pour faire bouger les personnages et inventer des mondes. La SVT, pour imaginer des animaux et des plantes crédibles. L’histoire et la géographie, pour des civilisations cohérentes. Le français, pour écrire les aventures et les dialogues. Les arts et la musique, pour l’ambiance.",
+["I","Mais… C’est toutes les matières !"],
+["S","Toutes."]]},
+{ch:9,scene:"recipe",alt:"Un inventaire rempli d’objets, et une recette qui donne une ampoule : une idée.",title:"Le livre de recettes",b:[
+"Dans le jeu, un livre de recettes montre tous les objets qu’on peut fabriquer. Plus on ramasse de matériaux, plus on découvre de recettes.",
+["S","Les connaissances, c’est pareil. Chaque chose que tu apprends te donne de nouvelles idées."],
+["S","Et pas seulement pour les jeux. Architecte, géologue, médecin, ingénieure, historien, créatrice de jeux, écrivain…"],
+"L’école ne choisit pas la vie d’Ilias à sa place. Elle lui donne **le choix**. Plus il a de connaissances en réserve, plus il peut construire ce qu’il veut."]},
+
+/* ---------- Chapitre 10 ---------- */
+{ch:10,scene:"checklist",alt:"Une liste de tâches avec trois cases cochées et une barre de progression verte.",title:"Apprendre comme on joue",b:[
+["S","Le jeu utilise des règles qui donnent envie de continuer. Pourquoi ne pas s’en servir pour apprendre ?"],
+"**Les succès.** Dans le jeu, ce sont de petits défis qu’on coche quand on les réussit. Pour apprendre : découper une leçon en petits objectifs, et les cocher un par un.",
+"**Les points d’expérience.** Dans le jeu, on les gagne petit à petit. Pour apprendre : un peu chaque jour vaut mieux que tout la veille du contrôle.",
+"**Perdre et recommencer.** Dans le jeu, on repart du point de départ avec ce qu’on a compris. Pour apprendre : se tromper fait partie du chemin."],
+real:[["cog","Les chercheurs l’ont vérifié : réviser un peu, plusieurs jours de suite, permet de retenir beaucoup plus longtemps qu’une longue révision la veille. On appelle cela la pratique espacée."]]},
+{ch:10,scene:"duo",alt:"Ilias et un ami discutent autour d’un livre posé sur un pupitre.",title:"Se tester, expliquer, explorer",b:[
+"**Le Codex.** Fermer le cahier et essayer de se souvenir : c’est l’une des meilleures façons de retenir.",
+"**Le jeu à plusieurs.** Expliquer à un copain, c’est vérifier qu’on a vraiment compris.",
+"**L’exploration.** Se poser une question avant d’ouvrir le livre : « Pourquoi ce désert est-il là ? »",
+"Ilias colle au-dessus de son bureau un tableau de succès pour ses devoirs. Premier succès coché : réviser les volcans pendant 15 minutes."],
+real:[["cog","Chercher à se souvenir sans regarder ses notes renforce la mémoire. Les chercheurs appellent cela la récupération en mémoire."]]},
+{ch:10,scene:"classroom",alt:"Une salle de classe : un volcan dessiné au tableau, Ilias lève la main, une copie notée 15 sur 20.",title:"15 sur 20",b:[
+"Deux semaines plus tard, contrôle de rattrapage. Ilias a révisé avec ses succès, un peu chaque soir. Résultat : **15 sur 20**.",
+"En cours de SVT, il lève la main.",
+"— Madame, l’obsidienne, c’est une lave qui a refroidi très vite ?",
+"La professeure sourit. Elle lui propose de présenter son Codex à la classe. Son père, lui, ne parle plus de l’ordinateur."]},
+
+/* ---------- Épilogue ---------- */
+{ch:11,scene:"sunrise",alt:"Au lever du soleil, Ilias et Souhail près d’un ordinateur en blocs aux lampes allumées.",title:"Mission accomplie",b:[
+"Le défi du Seed 4000 est terminé. Au sommet d’une colline, l’ordinateur construit en blocs clignote au lever du soleil.",
+["S","Bravo. Tu as refait 4000 ans d’histoire."],
+["S","Jouer, c’est une des meilleures façons d’apprendre et de découvrir. Mais Minecraft, c’est un jeu parmi des milliers."],
+["S","Le foot, la musique, cuisiner, discuter avec tes copains, apprendre une langue… La vie, c’est un serveur avec plein de mondes."]]},
+{ch:11,scene:"football",alt:"Un terrain de foot devant des immeubles, avec Ilias et deux amis.",title:"Et les choses pas drôles ?",b:[
+["I","Et les choses pas drôles ?"],
+["S","Tu te souviens de l’heure passée à creuser pour trois diamants ? Ce n’était pas drôle. Mais sans ça, pas d’outils solides."],
+["S","Dans la vie, c’est pareil : réviser, ranger, s’entraîner. Ce n’est pas toujours agréable, mais c’est ce qui te permet de devenir l’adulte que tu as envie d’être."],
+"Ilias écrit une dernière phrase dans le Codex. Le livre est plein. Il le range dans un coffre, éteint l’ordinateur et descend jouer au foot avec ses voisins."],
+note:["Dernière page","Le collège, ça sert à quelque chose. Même pour jouer. Surtout pour jouer."]},
+{ch:11,scene:"spawn",alt:"Un nouveau joueur apparaît dans un nuage d’étincelles. Ilias lui fait signe.",title:"Un nouveau joueur",b:[
+"Quelques mois plus tard, un nouveau joueur arrive sur le serveur.",
+["N","Franchement, l’école, ça ne sert à rien."],
+"Ilias sourit derrière son écran. Il sait exactement quoi répondre.",
+["I","Ah oui ? Tu paries ?"]],
+fin:true}
+];
+
+/* ---------- découpage en mots (pour la lecture et le clic) ---------- */
+const SPEAK_MAP={"→":",","—":"","÷":"divisé par","=":"égale","+":"plus"};
+function tok(raw,prefix){
+  prefix=prefix||"";
+  const clean=raw.replace(/« /g,"« ").replace(/ ([»?!:;])/g," $1");
+  let speech=prefix; const tokens=[]; let bold=false;
+  clean.split("**").forEach((part,pi)=>{
+    if(pi>0) bold=!bold;
+    part.split(/( +)/).forEach(w=>{
+      if(!w) return;
+      if(/^ +$/.test(w)){tokens.push({sp:true}); speech+=" "; return;}
+      const s=speech.length; speech+=(w in SPEAK_MAP?SPEAK_MAP[w]:w);
+      tokens.push({t:w,bold,s,e:speech.length});
+    });
+  });
+  return {speech,tokens};
+}
+function cleanWord(w){
+  if(w in SPEAK_MAP) return SPEAK_MAP[w]==="," ? "" : SPEAK_MAP[w];
+  return w.replace(/^[«»"“”'(\[—–\- ]+/,"").replace(/[«»"“”'’)\].,;:!?… ]+$/,"");
+}
+const MODEL=PAGES.map(pg=>{
+  const segs=[{kind:"title",...tok(pg.title)}];
+  pg.b.forEach(b=>{
+    if(Array.isArray(b)) segs.push({kind:"chat",who:b[0],...tok(b[1],PEOPLE[b[0]].say+" : ")});
+    else segs.push({kind:b.startsWith("—")?"dash":"p",...tok(b)});
+  });
+  if(pg.note) segs.push({kind:"note",label:pg.note[0],...tok(pg.note[1],"Le Codex d’Ilias, "+pg.note[0].toLowerCase()+". ")});
+  (pg.real||[]).forEach((c,ci)=>segs.push({kind:"real",subj:c[0],...tok(c[1],ci===0?"Dans la vraie vie. ":"")}));
+  return {...pg,segs};
+});
+const CH_START=[];MODEL.forEach((p,i)=>{if(CH_START[p.ch]===undefined)CH_START[p.ch]=i;});
+
+/* =========================================================
+   ILLUSTRATIONS PIXEL ART (grille 96 × 54)
+   ========================================================= */
+const W=96,H=54;
+function rng(seed){let s=seed>>>0;return()=>{s=s+0x6D2B79F5|0;let t=Math.imul(s^s>>>15,1|s);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296;};}
+function hashStr(str){let x=2166136261;for(const c of str){x^=c.charCodeAt(0);x=Math.imul(x,16777619);}return x>>>0;}
+function hex2rgb(hx){const n=parseInt(hx.slice(1),16);return[n>>16&255,n>>8&255,n&255];}
+function mix(a,b,t){const A=hex2rgb(a),B=hex2rgb(b);return"rgb("+A.map((v,i)=>Math.round(v+(B[i]-v)*t)).join(",")+")";}
+const C={
+  grass:["#6aa84f","#5e9c45","#78b65b"],dirt:["#7a5536","#6b4a2f","#86603e","#71502f"],
+  stone:["#8a8a8a","#7f7f7f","#959595","#858585"],deep:["#4d4d55","#45454c","#56565e"],
+  sand:["#dccf8f","#d2c584","#e4d99d"],sandst:["#c9b874","#bfae6b"],snow:["#f5f8fb","#e7eef4","#fdfeff"],
+  water:["#3b6fd3","#3567c6","#4a7ce0"],lava:["#e8611a","#f28c28","#d9480f","#ffb43a"],obs:["#1c1428","#251b35","#30243f"],
+  log:["#6b5133","#5d452b","#755a39"],leaf:["#3f7d2b","#4a8c33","#356e24","#5a9a3a"],
+  spruce:["#2f5a2a","#294f25","#36662f"],darkspruce:["#1f3a1d","#1a3219","#243f21"],cactus:["#4c8a2b","#3f7a23","#5a9a35"],
+  plank:["#a7824f","#9b7647","#b28c57"],cobble:["#7b7b7b","#6a6a6a","#8c8c8c","#5c5c5c"],roof:["#5c3b25","#6b4630","#4f3220"],
+  nether:["#6e2a2a","#5e2222","#7a3030","#542020"],clay:["#c9a26b","#bf9760","#d1ab76"],farm:["#5a3b22","#4f331d"],
+  wheat:["#d8b84a","#c9a53c","#e3c75c"],paper:["#f3ecd8","#ebe2c9"],copper:["#c77a4a","#b8693c","#cf8656"],verdi:["#4fa58e","#5bb59c","#47967f"],
+  pink:["#f08cc0","#e776b3","#f7a8d0"],cyanleaf:["#6ec6f0","#58b3e0","#82d2f5"],
+  mapgreen:["#a9c78a","#9fbe80"],mapsand:["#e3d39a","#dccb8e"],mapblue:["#8fb3e0","#86a9d6"],
+  room:["#3d3652","#3a334e","#40395a"],wallLight:["#e3dccb","#ddd5c2"]
+};
+const ILIAS={hair:"#2b1d12",skin:"#c68e63",shirt:"#e07b24",pants:"#2f3e6b"};
+const SOUHAIL={hair:"#17120e",skin:"#a8714b",shirt:"#6c4ab6",pants:"#3a3a3a",glasses:true};
+const FRIEND={hair:"#3a2a1e",skin:"#e0b08a",shirt:"#3d7fd0",pants:"#2f2f3a"};
+const FONT={"0":["111","101","101","101","111"],"1":["010","110","010","010","111"],"2":["111","001","111","100","111"],"3":["111","001","111","001","111"],"4":["101","101","111","001","001"],"5":["111","100","111","001","111"],"6":["111","100","111","101","111"],"7":["111","001","010","010","010"],"8":["111","101","111","101","111"],"9":["111","101","111","001","111"],"/":["001","001","010","100","100"],"+":["000","010","111","010","000"],"=":["000","111","000","111","000"],"?":["111","001","011","000","010"],"!":["010","010","010","000","010"],"X":["101","101","010","101","101"],"Z":["111","001","010","100","111"],"Y":["101","101","010","010","010"],"C":["111","100","100","100","111"],"O":["111","101","101","101","111"],"D":["110","101","101","101","110"],"E":["111","100","111","100","111"]};
+
+function painter(ctx,seed){
+  const R=rng(seed), pick=a=>a[(R()*a.length)|0];
+  const g={R,pick};
+  g.r=(x,y,w,hh,c)=>{ctx.fillStyle=c;ctx.fillRect(Math.round(x),Math.round(y),Math.round(w),Math.round(hh));};
+  g.p=(x,y,c)=>g.r(x,y,1,1,c);
+  g.tex=(x,y,w,hh,cols)=>{for(let j=0;j<hh;j++)for(let i=0;i<w;i++)g.p(x+i,y+j,pick(cols));};
+  g.sky=(a,b,hh)=>{hh=hh||H;for(let y=0;y<hh;y+=2)g.r(0,y,W,2,mix(a,b,y/hh));};
+  g.alpha=(a,fn)=>{ctx.save();ctx.globalAlpha=a;fn();ctx.restore();};
+  g.glow=(x,y,rad,c,a)=>g.alpha(a||.1,()=>{for(let k=rad;k>0;k-=2)g.r(x-k,y-k,2*k+1,2*k+1,c);});
+  g.stars=(x,y,w,hh,n)=>{for(let i=0;i<n;i++)g.p(x+R()*w,y+R()*hh,R()<.7?"#ffffff":"#c9d4ff");};
+  g.sun=(x,y,s,c1,c2)=>{g.r(x,y,s,s,c1||"#ffe48a");g.r(x+1,y+1,s-2,s-2,c2||"#fff4c2");};
+  g.moon=(x,y)=>{g.r(x,y,5,5,"#e9edf5");g.p(x+1,y+1,"#c8cfdc");g.p(x+3,y+3,"#c8cfdc");g.p(x+3,y+1,"#d6dce8");};
+  g.cloud=(x,y,w)=>{g.r(x,y,w,2,"#ffffff");g.r(x+2,y-1,w-5,1,"#ffffff");g.r(x+1,y+2,w-2,1,"#e9f2fb");};
+  g.circle=(cx,cy,rad,c)=>{for(let y=-rad;y<=rad;y++)for(let x=-rad;x<=rad;x++)if(x*x+y*y<=rad*rad+rad*.8)g.p(cx+x,cy+y,c);};
+  g.terrain=(base,amp,f,top,mid,low)=>{const ph=R()*6,ph2=R()*6,hs=[];
+    for(let x=0;x<W;x++){const xx=Math.floor(x/2)*2;const y=Math.round(base+amp*Math.sin(xx*f+ph)+amp*.5*Math.sin(xx*f*2.7+ph2));hs.push(y);
+      for(let yy=y;yy<H;yy++){const d=yy-y;g.p(x,yy,pick(d<1?top:d<4?mid:low));}}
+    return hs;};
+  g.flat=(y,top,mid,low)=>{g.tex(0,y,W,1,top);g.tex(0,y+1,W,3,mid);g.tex(0,y+4,W,H-y-4,low);return Array(W).fill(y);};
+  g.gy=(hs,x,w)=>{w=w||4;return Math.min.apply(null,hs.slice(Math.max(0,x),Math.min(W,x+w)));};
+  g.tree=(x,gy,type,leaf)=>{type=type||"oak";
+    if(type==="oak"){const L=leaf||C.leaf;g.tex(x,gy-6,2,6,C.log);g.tex(x-3,gy-11,8,5,L);g.tex(x-2,gy-12,6,1,L);}
+    else if(type==="spruce"){const L=leaf||C.spruce;g.tex(x,gy-8,2,8,C.log);[[0,2],[1,4],[2,6],[3,4],[4,6],[5,8],[6,8]].forEach(([j,w])=>g.tex(x+1-w/2,gy-15+j,w,1,L));}
+    else if(type==="cactus"){g.tex(x,gy-7,2,7,C.cactus);g.tex(x+2,gy-5,1,2,C.cactus);g.p(x+2,gy-6,C.cactus[0]);}
+  };
+  g.avatar=(x,gy,o)=>{const a=Object.assign({},ILIAS,o||{});const top=gy-(a.sit?10:12);
+    if(a.long){g.r(x-1,top,1,7,a.hair);g.r(x+4,top,1,7,a.hair);}
+    g.r(x,top,4,4,a.skin);g.r(x,top,4,1,a.hair);g.p(x,top+1,a.hair);g.p(x+3,top+1,a.hair);
+    if(a.glasses){g.r(x,top+2,4,1,"#111111");g.p(x+1,top+2,"#a8d8ff");g.p(x+2,top+2,"#a8d8ff");}
+    else{g.p(x+1,top+2,"#1d1a2a");g.p(x+2,top+2,"#1d1a2a");}
+    g.r(x,top+4,4,4,a.shirt);
+    g.r(x+4,top+4,1,3,a.shirt);g.p(x+4,top+7,a.skin);
+    if(a.raise){g.r(x-1,top-1,1,5,a.shirt);g.p(x-1,top-2,a.skin);}else{g.r(x-1,top+4,1,3,a.shirt);g.p(x-1,top+7,a.skin);}
+    if(a.sit==="r")g.r(x,top+8,6,2,a.pants);
+    else if(a.sit==="l")g.r(x-2,top+8,6,2,a.pants);
+    else{g.r(x,top+8,4,3,a.pants);g.r(x,top+11,4,1,"#2a1f17");}
+  };
+  g.torch=(x,gy,red)=>{g.glow(x,gy-5,red?5:7,red?"#ff5a5a":"#ffd27a",.09);g.r(x,gy-3,1,3,"#6b5133");g.p(x,gy-4,red?"#ff2a2a":"#ffcc33");if(!red)g.p(x,gy-5,"#ff9a1e");};
+  g.house=(x,gy,w,hh)=>{w=w||14;hh=hh||9;g.tex(x,gy-hh,w,hh,C.plank);g.tex(x,gy-hh,1,hh,C.log);g.tex(x+w-1,gy-hh,1,hh,C.log);
+    g.r(x+Math.floor(w/2)-1,gy-4,2,4,"#3b2a1a");g.r(x+2,gy-hh+2,2,2,"#bfe3ff");g.r(x+w-4,gy-hh+2,2,2,"#bfe3ff");
+    for(let i=0;;i++){const ww=w+2-2*i;if(ww<=0)break;g.tex(x-1+i,gy-hh-1-i,ww,1,C.roof);}};
+  g.fence=(x1,x2,gy)=>{for(let x=x1;x<=x2;x+=5)g.r(x,gy-5,1,5,"#8a6640");g.r(x1,gy-4,x2-x1+1,1,"#8a6640");g.r(x1,gy-2,x2-x1+1,1,"#8a6640");};
+  g.cow=(x,gy,small)=>{const bw=small?5:7,bh=small?3:4,top=gy-2-bh;
+    g.r(x,top,bw,bh,"#f1efe9");g.r(x+1,top,2,2,"#2c2622");g.r(x+bw-3,top+bh-2,2,2,"#2c2622");
+    g.r(x,gy-2,1,2,"#2c2622");g.r(x+bw-1,gy-2,1,2,"#2c2622");g.r(x+bw,top-1,3,3,"#2c2622");g.p(x+bw+2,top+1,"#e8b4a8");};
+  g.bee=(x,y)=>{g.p(x,y,"#f2c230");g.p(x+1,y,"#2a2420");g.p(x,y-1,"#e8f4ff");};
+  g.wheat=(x1,x2,y,skip)=>{g.tex(x1,y,x2-x1,2,C.farm);
+    for(let x=x1;x<x2;x++){if(skip&&skip(x))continue;const hgt=2+((R()*4)|0);for(let k=1;k<=hgt;k++)g.p(x,y-k,pick(C.wheat));g.p(x,y-hgt-1,"#f0d873");}};
+  g.emerald=(x,y)=>{g.p(x+1,y,"#2ecc71");g.r(x,y+1,3,2,"#2ecc71");g.p(x+1,y+3,"#1e9e55");g.p(x+1,y+1,"#a8f5c8");};
+  g.diamond=(x,y)=>{g.r(x+1,y,2,1,"#9ff3f5");g.r(x,y+1,4,1,"#4fd8de");g.r(x+1,y+2,2,1,"#2fb6c0");};
+  g.ingot=(x,y)=>{g.r(x,y,5,2,"#c4c4ca");g.r(x+1,y,3,1,"#eeeef2");};
+  g.monitor=(x,y,w,hh,screen)=>{g.r(x+w/2-2,y+hh,4,3,"#2a2a30");g.r(x+w/2-6,y+hh+3,12,1,"#2a2a30");g.r(x,y,w,hh,"#2a2a30");g.r(x+2,y+2,w-4,hh-4,screen);};
+  g.txt=(s,x,y,c,sc)=>{sc=sc||1;let cx=x;for(const ch of s){if(ch===" "){cx+=2*sc;continue;}const f=FONT[ch];
+    if(f)f.forEach((row,j)=>row.split("").forEach((b,i)=>{if(b==="1")g.r(cx+i*sc,y+j*sc,sc,sc,c);}));cx+=4*sc;}};
+  g.bubble=(x,y,w,hh,ch)=>{g.r(x,y,w,hh,"#1d2416");g.r(x+1,y+1,w-2,hh-2,"#ffffff");g.r(x+2,y+hh,2,1,"#1d2416");g.p(x+2,y+hh+1,"#1d2416");
+    if(ch)g.txt(ch,x+Math.floor((w-3)/2),y+Math.floor((hh-5)/2),"#1d2416");};
+  g.bricks=(x,y,w,hh,cols,line)=>{g.tex(x,y,w,hh,cols);for(let j=y;j<y+hh;j+=4){g.r(x,j,w,1,line);for(let i=x+(((j-y)/4)%2?0:3);i<x+w;i+=6)g.r(i,j,1,4,line);}};
+  g.lever=(x,yy,on)=>{g.r(x,yy-2,4,2,"#7b7b7b");if(on){g.p(x+2,yy-3,"#6b5133");g.p(x+3,yy-4,"#6b5133");g.p(x+3,yy-5,"#8a6640");}else{g.p(x+1,yy-3,"#6b5133");g.p(x,yy-4,"#6b5133");g.p(x,yy-5,"#8a6640");}};
+  g.dust=(x1,x2,yy,on)=>{for(let x=x1;x<=x2;x++)g.p(x,yy,on===false?pick(["#5a1010","#6a1414"]):pick(["#c41a1a","#e83030","#ff4a4a"]));};
+  g.lamp=(x,yy,on)=>{g.r(x,yy-8,8,8,"#4a3a25");g.tex(x+1,yy-7,6,6,on?["#f4c542","#ffd75a","#e8a92f"]:["#6b5232","#5e4829"]);if(on)g.glow(x+4,yy-4,8,"#ffd75a",.07);};
+  return g;
+}
+
+const SCENES={
+cover(g){g.sky("#2b3f78","#f0a35e");g.glow(70,27,16,"#ffd27a",.05);g.sun(66,22,9);
+  for(let x=0;x<W;x++){const xx=Math.floor(x/2);const y=Math.round(29+4*Math.sin(xx*.18+1)+3*Math.sin(xx*.46));g.r(x,y,1,H-y,"#55658a");}
+  g.cloud(10,9,12);g.cloud(36,5,9);
+  const hs=g.terrain(41,2.5,.07,C.grass,C.dirt,C.stone);
+  g.tree(8,g.gy(hs,8,2),"oak");g.tree(20,g.gy(hs,20,2),"spruce");g.tree(86,g.gy(hs,86,2),"oak");
+  g.avatar(42,g.gy(hs,42),ILIAS);g.avatar(52,g.gy(hs,52),SOUHAIL);g.torch(60,g.gy(hs,60,1));},
+bedroom(g){g.tex(0,0,W,H,C.room);
+  g.r(6,5,26,20,"#5b4a3a");g.r(8,7,22,16,"#121a35");g.stars(8,7,22,16,10);g.moon(22,9);g.r(18,7,1,16,"#5b4a3a");g.r(8,15,22,1,"#5b4a3a");
+  g.tex(0,38,W,3,C.plank);g.r(0,41,W,13,"#2b2438");g.r(4,41,2,13,"#6b4a2f");g.r(90,41,2,13,"#6b4a2f");
+  g.monitor(44,11,40,24,"#7fb2f0");g.sun(74,15,4);g.tex(46,27,36,2,C.grass);g.tex(46,29,36,4,C.dirt);g.tree(52,27,"oak");
+  g.r(12,28,14,10,"#f3ecd8");for(let i=0;i<4;i++)g.r(14,30+i*2,8,1,"#9a9488");g.r(21,35,3,1,"#c0392b");g.r(22,31,2,1,"#c0392b");
+  g.r(34,30,1,8,"#555555");g.r(31,27,7,3,"#e9c46a");g.glow(34,32,5,"#ffe9a8",.06);},
+screen(g){g.tex(0,0,W,H,C.room);g.monitor(10,3,76,42,"#7fb2f0");
+  g.cloud(20,9,10);g.tex(12,24,72,1,C.grass);g.tex(12,25,72,4,C.dirt);g.tree(64,24,"oak");g.house(24,24,12,7);
+  g.alpha(.72,()=>g.r(12,29,72,14,"#000000"));
+  [["#ffa75e",34],["#c7abff",50],["#ffa75e",22],["#c7abff",44]].forEach(([c,w],i)=>{const y=31+i*3;g.r(14,y,9,2,c);g.r(25,y,w,2,"#e6e6e6");});},
+book(g){g.tex(0,0,W,H,C.plank);for(let y=4;y<H;y+=7)g.r(0,y,W,1,"#8d6a3f");
+  g.r(15,8,66,39,"#4a3220");g.tex(17,7,30,38,C.paper);g.tex(49,7,30,38,C.paper);g.r(47,7,2,38,"#cfc4a6");
+  g.txt("CODEX",22,11,"#3a2a1e");for(let i=0;i<6;i++)g.r(21,22+i*3,22,1,"#d8ccab");for(let i=0;i<11;i++)g.r(53,11+i*3,22,1,"#d8ccab");
+  for(let i=0;i<12;i++){g.p(86-i,6+i,"#f4f4f4");g.p(87-i,6+i,"#dcdcdc");}g.p(74,18,"#2a2a2a");g.r(84,36,6,6,"#1f2a44");g.r(85,35,4,1,"#3a4a6a");},
+forest(g){g.sky("#6fa6ea","#cfe6ff");g.cloud(8,7,12);g.cloud(58,10,14);g.sun(82,4,6);
+  const hs=g.terrain(41,2,.06,C.grass,C.dirt,C.stone);
+  [4,16,28,74,86].forEach(x=>g.tree(x,g.gy(hs,x,2),"oak"));
+  const t=g.gy(hs,52,6);g.tex(52,t-6,6,6,C.plank);g.r(52,t-6,6,1,"#5a3d22");g.r(54,t-5,1,4,"#6b4a2f");g.r(53,t-3,4,1,"#6b4a2f");
+  const s=g.gy(hs,62,8);g.tex(62,s-3,8,3,C.stone);
+  const a=g.gy(hs,40);g.avatar(40,a,ILIAS);g.r(45,a-9,1,5,"#6b5133");g.r(43,a-10,5,1,"#8a8a8a");},
+torchnight(g){g.sky("#0b1026","#26325e");g.stars(0,0,W,28,45);g.moon(78,6);
+  const y=41;g.flat(y,["#3f6b30","#365f29"],["#4f3826","#45301f"],["#46464c","#3e3e44"]);
+  g.tree(6,y,"spruce",C.darkspruce);g.tree(88,y,"spruce",C.darkspruce);
+  g.tex(28,y-10,16,10,["#5a4029","#4f3823","#614530"]);g.r(35,y-5,3,5,"#140f0a");g.tex(27,y-11,18,1,["#3f6b30","#365f29"]);
+  g.torch(26,y);g.torch(46,y);
+  g.tex(54,y-6,6,6,C.cobble);g.r(55,y-3,4,2,"#ff9a2a");g.p(56,y-3,"#ffd34a");g.glow(57,y-2,5,"#ff9a2a",.08);
+  g.avatar(66,y,ILIAS);},
+farm(g){g.sky("#6fa6ea","#d6ecff");g.sun(8,5,7);g.cloud(40,8,12);
+  const y=40;g.flat(y,C.grass,C.dirt,C.stone);
+  g.wheat(30,92,y,x=>x>=58&&x<62);g.tex(58,y,4,2,C.water);g.r(58,y,4,1,"#6d95e8");
+  g.house(4,y,12,8);g.avatar(20,y,ILIAS);g.r(25,y-9,1,7,"#6b5133");g.r(24,y-10,3,1,"#9a9a9a");},
+animals(g){g.sky("#6fa6ea","#d6ecff");g.cloud(14,6,12);const y=41;g.flat(y,C.grass,C.dirt,C.stone);
+  g.fence(4,50,y);g.cow(9,y);g.cow(25,y);g.cow(39,y,true);
+  g.tree(72,y,"oak");g.tex(74,y-6,3,3,["#e3b23c","#d9a12b","#c98f1e"]);g.p(75,y-5,"#5a3d22");
+  [56,60,64,82,86,90,93].forEach((x,i)=>{g.p(x,y-1,"#4a8c33");g.p(x,y-2,["#e0453a","#f2c230","#6b8ff0"][i%3]);});
+  g.bee(80,y-9);g.bee(85,y-5);g.bee(62,y-6);g.bee(89,y-8);},
+homestead(g){g.sky("#3b4a8a","#f6a96b");g.sun(72,28,8,"#ffb36b","#ffd29a");const y=41;g.flat(y,C.grass,C.dirt,C.stone);
+  g.wheat(4,30,y);g.house(38,y,14,9);g.tex(48,y-16,2,5,C.cobble);
+  g.alpha(.6,()=>{g.r(48,y-19,2,2,"#cfcfcf");g.r(50,y-22,2,2,"#dcdcdc");g.r(49,y-26,3,2,"#e6e6e6");});
+  g.fence(60,90,y);g.cow(68,y);g.avatar(32,y,ILIAS);},
+biomes(g){g.sky("#7db4ee","#e8f3ff");g.sun(10,5,6);g.alpha(.25,()=>g.r(48,0,48,44,"#9fb3c8"));
+  const hs=[],ph=g.R()*6;
+  for(let x=0;x<W;x++){const xx=Math.floor(x/2)*2;const y=Math.round(40+2*Math.sin(xx*.09+ph));hs.push(y);const snow=x>=48;
+    const top=snow?C.snow:C.sand,mid=snow?C.dirt:C.sand,low=snow?C.stone:C.sandst;
+    for(let yy=y;yy<H;yy++){const d=yy-y;g.p(x,yy,g.pick(d<1?top:d<4?mid:low));}}
+  g.tree(10,g.gy(hs,10,2),"cactus");g.tree(26,g.gy(hs,26,2),"cactus");g.r(35,g.gy(hs,35,1)-2,1,2,"#8a6a3a");g.p(34,g.gy(hs,35,1)-3,"#8a6a3a");
+  [58,72,86].forEach(x=>{const t=g.gy(hs,x,2);g.tree(x,t,"spruce");for(let i=0;i<6;i++)g.p(x-3+g.R()*8,t-15+g.R()*8,"#ffffff");});
+  for(let i=0;i<22;i++)g.p(48+g.R()*48,g.R()*34,"#ffffff");
+  g.avatar(42,g.gy(hs,42),ILIAS);},
+coords(g){g.tex(0,0,W,H,C.plank);for(let y=5;y<H;y+=8)g.r(0,y,W,1,"#8d6a3f");
+  g.r(6,3,58,48,"#a08a5c");g.tex(7,4,56,46,C.paper);
+  g.tex(10,8,18,10,C.mapgreen);g.tex(40,32,20,14,C.mapgreen);g.tex(44,7,16,8,C.mapsand);g.tex(12,32,16,12,C.mapblue);
+  g.r(35,4,1,46,"#5a4630");g.r(7,27,56,1,"#5a4630");g.p(61,26,"#5a4630");g.p(61,28,"#5a4630");g.p(34,48,"#5a4630");g.p(36,48,"#5a4630");
+  g.txt("X",57,29,"#5a4630");g.txt("Z",38,43,"#5a4630");g.r(34,26,3,3,"#7a5536");
+  for(let t=0;t<1;t+=.09)g.p(Math.round(54+(35-54)*t),Math.round(12+(27-12)*t),"#7a5536");
+  for(let i=0;i<5;i++){g.p(52+i,10+i,"#c0392b");g.p(56-i,10+i,"#c0392b");}
+  g.circle(80,24,10,"#5a5a5a");g.circle(80,24,8,"#e3e3e3");
+  for(let i=1;i<7;i++){g.p(80,24-i,"#c0392b");g.p(80,24+i,"#3a3a3a");}g.p(79,19,"#c0392b");g.p(81,19,"#c0392b");g.p(80,24,"#222222");},
+axes(g){g.r(0,0,W,H,"#f3ecd8");for(let x=0;x<W;x+=6)g.r(x,0,1,H,"#e2d7ba");for(let y=2;y<H;y+=6)g.r(0,y,W,1,"#e2d7ba");
+  const ox=34,oy=38;
+  g.r(ox,oy,54,2,"#c0392b");g.r(86,oy-2,1,6,"#c0392b");g.r(87,oy-1,1,4,"#c0392b");g.r(88,oy,1,2,"#c0392b");
+  g.r(ox,6,2,32,"#2e8b3a");g.r(ox-2,6,6,1,"#2e8b3a");g.r(ox-1,5,4,1,"#2e8b3a");g.r(ox,4,2,1,"#2e8b3a");
+  for(let i=0;i<16;i++)g.r(ox-i,oy+i,2,2,"#2d63b5");g.r(ox-17,oy+12,1,6,"#2d63b5");g.r(ox-17,oy+17,6,1,"#2d63b5");
+  g.txt("X",88,42,"#c0392b",2);g.txt("Y",40,2,"#2e8b3a",2);g.txt("Z",6,38,"#2d63b5",2);
+  for(let i=0;i<6;i++)g.r(ox+i*8,oy+2,1,2,"#7a6a4a");for(let j=0;j<4;j++)g.r(ox-2,oy-(j+1)*8,2,1,"#7a6a4a");
+  const bx=64,by=16;for(let y=by+8;y<oy;y+=3)g.p(bx+4,y,"#7a6a4a");for(let x=ox+3;x<bx;x+=3)g.p(x,by+4,"#7a6a4a");
+  for(let j=1;j<=3;j++){g.tex(bx+j,by-j,8,1,C.grass);g.tex(bx+8+j-1,by-j+1,1,8,["#5e4229","#57402a"]);}
+  g.tex(bx,by,8,2,C.grass);g.tex(bx,by+2,8,6,C.dirt);
+  g.r(76,6,3,2,"#2a2420");g.p(76,5,"#c9d8e8");g.p(78,5,"#c9d8e8");g.p(79,6,"#2a2420");g.p(80,4,"#bbbbbb");g.p(82,3,"#bbbbbb");},
+portal(g){g.tex(0,0,W,H,C.nether);g.tex(0,0,W,6,["#3e1414","#481818"]);g.tex(10,0,10,3,["#f6d36b","#e8b84a","#fbe39a"]);g.glow(15,2,6,"#ffd27a",.06);
+  const y=44;g.tex(80,0,3,y-4,C.lava);g.tex(68,y-4,28,4,C.lava);g.glow(81,30,10,"#ff7a1a",.06);
+  g.tex(0,y,W,H-y,["#4a1a1a","#561f1f","#3f1616"]);
+  g.tex(40,y-18,12,18,C.obs);g.tex(42,y-16,8,14,["#7a2fd1","#8f45e6","#6524b5","#a15cf0"]);g.glow(46,y-9,10,"#a15cf0",.06);
+  g.avatar(26,y,ILIAS);},
+mine(g){g.r(0,0,W,4,"#7fb2f0");g.tex(0,4,W,1,C.grass);g.tex(0,5,W,4,C.dirt);g.tex(0,9,W,26,C.stone);g.tex(0,35,W,H-35,C.deep);
+  const ore=(y1,y2,c,n)=>{for(let i=0;i<n;i++){const x=(g.R()*92)|0,y=y1+((g.R()*(y2-y1))|0);g.r(x,y,2,1,c);g.p(x+(g.R()<.5?0:1),y+1,c);}};
+  ore(10,22,"#2a2a2a",9);ore(18,32,"#d8af93",8);ore(47,52,"#5fe0e6",4);
+  const air="#26262b";for(let i=0;i<12;i++)g.r(6+i*3,4+i*3,4,7,air);g.r(38,33,56,13,air);
+  g.diamond(84,30);g.diamond(70,46);g.torch(62,46);g.avatar(76,46,ILIAS);},
+lava(g){g.tex(0,0,W,H,["#5d5d63","#55555b","#66666c"]);g.tex(0,12,W,32,["#2a2a30","#2d2d33"]);
+  const y=44;g.tex(0,y,W,H-y,C.stone);
+  g.tex(44,y-4,48,4,C.lava);g.glow(68,y-3,14,"#ff7a1a",.07);
+  g.tex(44,12,3,28,C.water);g.tex(44,y-4,12,4,C.obs);g.p(47,y-4,"#4d3a6b");
+  g.avatar(24,y,ILIAS);g.r(29,y-7,3,3,"#b8b8c0");g.r(29,y-7,3,1,"#3b6fd3");},
+forge(g){g.sky("#6fa6ea","#d6ecff");g.cloud(20,7,12);const y=42;g.flat(y,C.grass,C.dirt,C.stone);
+  g.tex(60,y-12,30,12,C.plank);g.r(73,y-5,3,5,"#3b2a1a");
+  for(let i=0;i<9;i++){const w=34-i*4;if(w<=0)break;const x=58+i*2;for(let k=0;k<w;k++){const t=(x+k-58)/34;g.p(x+k,y-13-i,g.pick(t<.42?C.copper:t<.55?["#9a8a5a","#7fa07a"]:C.verdi));}}
+  g.tex(28,y-12,12,12,C.cobble);g.r(28,y-12,12,1,"#555555");g.r(31,y-6,6,3,"#ff9a2a");g.r(33,y-5,2,1,"#ffd34a");g.glow(34,y-5,7,"#ff9a2a",.07);
+  g.ingot(43,y-2);g.ingot(49,y-2);g.ingot(46,y-4);g.avatar(16,y,ILIAS);},
+village(g){g.sky("#6fa6ea","#d6ecff");g.cloud(30,6,12);g.sun(84,4,6);const y=42;g.flat(y,C.grass,C.dirt,C.stone);
+  g.tex(0,y,W,1,["#9c968b","#8f8a80","#a8a296"]);g.house(4,y,14,9);g.house(70,y,18,10);
+  g.r(32,y-12,1,12,"#6b5133");g.r(52,y-12,1,12,"#6b5133");for(let i=0;i<23;i++)g.r(31+i,y-14,1,3,i%4<2?"#c0392b":"#f3ecd8");
+  g.tex(32,y-4,21,1,C.plank);g.r(33,y-3,19,3,"#8a6640");g.emerald(36,y-8);g.emerald(41,y-8);g.tex(46,y-7,4,3,C.wheat);
+  g.avatar(58,y,ILIAS);},
+tablet(g){g.bricks(0,0,W,H,["#b8935c","#ad8752","#c29d66"],"#8c6a3e");
+  g.r(25,6,46,42,"#8a6a42");g.tex(26,7,44,40,C.clay);
+  for(let row=0;row<6;row++){const yy=11+row*6;g.r(28,yy+4,40,1,"#b08a55");let x=29;
+    while(x<64){const t=g.R();if(t<.5){g.r(x,yy,3,1,"#6e5030");g.r(x+1,yy+1,1,2,"#6e5030");x+=5;}else if(t<.8){g.p(x,yy+1,"#6e5030");g.r(x+1,yy,1,3,"#6e5030");x+=4;}else x+=3;}}},
+testpaper(g){g.tex(0,0,W,H,C.plank);for(let y=3;y<H;y+=8)g.r(0,y,W,1,"#8d6a3f");
+  g.r(19,3,54,48,"#d8cfb8");g.tex(20,4,52,46,C.paper);g.r(26,4,1,46,"#e8a0a0");
+  for(let i=0;i<10;i++)g.r(29,20+i*3,30+((g.R()*10)|0),1,"#b9b3a3");
+  g.txt("7/20",36,6,"#c0392b",2);g.r(34,17,36,1,"#c0392b");
+  g.r(82,22,3,20,"#f2c230");g.r(82,42,3,2,"#e8c79a");g.p(83,44,"#333333");g.r(82,20,3,2,"#e88aa0");g.r(82,22,3,1,"#b0b0b0");},
+campfire(g){g.sky("#0a0f24","#1f2a52");g.stars(0,0,W,30,50);g.moon(12,5);const y=42;g.flat(y,["#3f6b30","#365f29"],["#4f3826","#45301f"],["#46464c","#3e3e44"]);
+  g.tree(4,y,"spruce",C.darkspruce);g.tree(90,y,"spruce",C.darkspruce);g.glow(47,y-4,18,"#ff9a2a",.05);
+  g.r(42,y-2,11,2,"#5d452b");g.r(44,y-3,7,1,"#6b5133");g.tex(44,y-7,7,4,["#ff8a1e","#ffcc33","#ff5e1a","#ffd34a"]);g.p(46,y-8,"#ffcc33");g.p(48,y-9,"#ff8a1e");g.p(49,y-8,"#ffcc33");
+  g.avatar(30,y,Object.assign({},ILIAS,{sit:"r"}));g.avatar(62,y,Object.assign({},SOUHAIL,{sit:"l"}));},
+brain(g){for(let y=0;y<40;y+=2)g.r(0,y,47,2,mix("#7db4ee","#d6ecff",y/40));g.tex(0,40,47,1,C.grass);g.tex(0,41,47,13,C.dirt);
+  g.tree(4,40,"oak");g.avatar(20,40,{hair:"#3a2a1e",skin:"#c68e63",shirt:"#c0392b",pants:"#333333",long:true});g.avatar(30,40,ILIAS);
+  g.bubble(14,12,10,9,"!");g.bubble(30,10,10,9,"?");
+  g.tex(49,0,47,H,C.wallLight);g.r(53,6,40,22,"#7a5536");g.r(54,7,38,20,"#2f5d3a");g.txt("1+1=2",58,10,"#eef0e6");g.txt("2+2=4",58,18,"#eef0e6");
+  g.tex(49,44,47,10,["#9b8a6e","#91806a"]);g.tex(56,36,32,2,C.plank);g.r(58,38,2,6,"#6b4a2f");g.r(84,38,2,6,"#6b4a2f");g.r(66,34,12,2,"#f3ecd8");g.r(71,34,2,2,"#c9bfa3");
+  g.r(47,0,2,H,"#1d2416");},
+tutorial(g){g.tex(0,0,W,H,C.room);g.tex(0,44,W,3,C.plank);g.r(0,47,W,7,"#2b2438");
+  g.monitor(14,4,68,36,"#141418");
+  g.tex(16,30,64,8,["#6e6e74","#77777d"]);g.r(26,29,34,1,"#e83030");g.tex(60,22,8,8,["#f4c542","#ffd75a"]);g.glow(64,26,6,"#ffd75a",.08);
+  g.lever(21,30,true);
+  g.alpha(.92,()=>{for(let i=0;i<8;i++)g.r(42+i,10+i,1,15-2*i,"#ffffff");});
+  g.r(18,36,60,1,"#555555");g.r(18,36,26,1,"#e05050");},
+school(g){g.sky("#8fbde9","#f3dcae");g.sun(8,4,7);const y=42;g.flat(y,C.sand,C.sand,C.sandst);
+  g.bricks(18,y-22,56,22,["#c9a26b","#bf9760","#d1ab76"],"#a07d4c");
+  g.r(42,y-12,10,12,"#3b2a1a");g.r(43,y-13,8,1,"#3b2a1a");g.r(44,y-14,6,1,"#3b2a1a");g.r(24,y-18,4,3,"#3b2a1a");g.r(66,y-18,4,3,"#3b2a1a");
+  for(let i=0;i<16;i++)g.r(84+Math.round(Math.sin(i/6)*2),y-1-i,2,1,g.pick(["#8a6a3a","#7a5c30"]));
+  for(let i=1;i<8;i++){g.p(86-i,y-17+Math.floor(i/2),"#3f7d2b");g.p(87+i,y-17+Math.floor(i/2),"#4a8c33");g.p(86-i,y-18,"#4a8c33");g.p(87+i,y-18-Math.floor(i/3),"#3f7d2b");}
+  const T={hair:"#1a1410",skin:"#b07a4e",shirt:"#efe6d2",pants:"#efe6d2"};g.avatar(30,y,T);g.avatar(58,y,Object.assign({},T,{hair:"#3a2a1e"}));
+  g.tex(34,y-8,3,3,C.clay);g.tex(56,y-8,3,3,C.clay);},
+redstone(g){g.tex(0,0,W,H,["#6e6e74","#66666c","#77777d"]);const L=24;g.tex(0,L,W,2,C.stone);const y=44;g.tex(0,y,W,H-y,C.stone);
+  g.lever(8,L,true);g.lever(18,L,false);g.dust(12,17,L-1,true);g.dust(22,40,L-1,false);g.torch(42,L,true);g.dust(44,58,L-1,false);g.lamp(60,L,false);
+  g.lever(8,y,true);g.dust(12,70,y-1,true);g.lamp(72,y,true);},
+binary(g){g.tex(0,0,W,H,["#3e3e44","#46464c","#4d4d55"]);const y=46;g.tex(0,y,W,H-y,C.deep);
+  g.lever(6,y,true);g.lever(16,y,true);g.dust(10,15,y-1,true);g.dust(20,33,y-1,true);
+  g.tex(34,y-14,24,14,C.cobble);[38,45,52].forEach(x=>g.torch(x,y-14,true));
+  g.dust(58,63,y-1,true);g.lamp(64,y,true);g.dust(58,81,y-11,false);g.dust(81,81,y-10,false);g.lamp(78,y,false);
+  g.txt("1+1",6,10,"#ffd75a",2);g.txt("=",40,14,"#e6e6e6",2);g.txt("1",66,24,"#ffd75a",2);g.txt("0",80,24,"#9a9aa2",2);},
+turing(g){g.tex(0,0,W,H,["#6e6e74","#66666c","#77777d"]);const y=46;g.tex(0,y,W,H-y,C.stone);
+  const bits="01101001011";for(let i=0;i<11;i++){const x=4+i*8;g.r(x,20,8,8,"#2a2a30");g.tex(x+1,21,6,6,bits[i]==="1"?["#1d1d22","#26262c"]:["#ececec","#dedede"]);}
+  const hx=4+5*8;g.r(hx-1,19,10,1,"#e83030");g.r(hx-1,28,10,1,"#e83030");g.r(hx-1,19,1,10,"#e83030");g.r(hx+8,19,1,10,"#e83030");
+  g.r(hx+3,5,3,6,"#e83030");for(let j=0;j<5;j++)g.r(hx+4-(4-j),11+j,(4-j)*2+1,1,"#e83030");
+  g.avatar(20,y,ILIAS);g.avatar(70,y,SOUHAIL);g.lever(46,y,true);},
+islands(g){g.sky("#2e2466","#f3a6c8");g.stars(0,0,W,20,25);
+  const isl=(x,y,w)=>{g.tex(x,y,w,1,C.grass);let d=1;while(w-2*d>0){g.tex(x+d,y+d,w-2*d,1,d<3?C.dirt:C.stone);d++;}};
+  g.tex(60,20,2,34,["#7fb2f0","#a8cdf7","#6aa0e8"]);
+  isl(4,34,26);isl(36,20,24);isl(68,38,24);
+  g.tree(12,34,"oak",C.pink);g.tree(80,38,"oak",C.cyanleaf);g.tree(22,34,"spruce",C.pink);g.avatar(44,20,ILIAS);},
+recipe(g){g.tex(0,0,W,H,C.room);g.r(4,3,88,48,"#555555");g.r(4,3,87,47,"#ffffff");g.r(5,4,86,46,"#c6c6c6");
+  const slot=(x,y,s)=>{s=s||8;g.r(x,y,s,s,"#373737");g.r(x+1,y+1,s-1,s-1,"#ffffff");g.r(x+1,y+1,s-2,s-2,"#8b8b8b");};
+  const icons=[
+    (x,y)=>{g.tex(x,y,6,2,C.grass);g.tex(x,y+2,6,4,C.dirt);},(x,y)=>g.tex(x,y,6,6,C.stone),(x,y)=>g.tex(x,y,6,6,C.plank),
+    (x,y)=>g.emerald(x+1,y+1),(x,y)=>g.diamond(x+1,y+1),(x,y)=>{g.r(x,y,6,6,"#6b3f22");g.r(x+1,y+1,4,4,"#f3ecd8");},
+    (x,y)=>{g.tex(x+1,y,4,6,C.wheat);},(x,y)=>g.ingot(x,y+2),(x,y)=>{g.r(x+1,y+2,4,2,"#e83030");g.p(x+2,y+1,"#c41a1a");},
+    (x,y)=>g.tex(x,y,6,6,C.obs),(x,y)=>{g.tex(x,y,6,6,C.sand);},(x,y)=>{g.r(x,y,6,6,"#e3d39a");g.r(x+2,y+2,2,2,"#c0392b");}];
+  for(let j=0;j<3;j++)for(let i=0;i<9;i++){const x=8+i*9,y=22+j*9;slot(x,y);const k=j*9+i;if(k<icons.length+3&&k%7!==6&&icons[k%icons.length])icons[k%icons.length](x+1,y+1);}
+  slot(14,7);slot(23,7);slot(32,7);icons[5](15,8);icons[7](24,8);icons[8](33,8);
+  g.r(44,10,8,2,"#8b8b8b");g.r(52,8,1,6,"#8b8b8b");g.r(53,9,1,4,"#8b8b8b");g.r(54,10,1,2,"#8b8b8b");
+  slot(58,5,13);g.glow(64,10,5,"#ffd75a",.12);g.circle(64,10,3,"#ffd75a");g.p(63,9,"#fff4c2");g.r(63,14,3,2,"#8a8a8a");},
+checklist(g){g.tex(0,0,W,H,C.room);g.r(0,44,W,10,"#2b2438");
+  g.r(10,3,50,40,"#8a6640");g.tex(12,5,46,36,C.paper);
+  for(let i=0;i<5;i++){const y=9+i*7;g.r(16,y,5,5,"#5a4630");g.r(17,y+1,3,3,"#f3ecd8");
+    if(i<3){g.p(17,y+2,"#2e8b3a");g.p(18,y+3,"#2e8b3a");g.p(19,y+2,"#2e8b3a");g.p(20,y+1,"#2e8b3a");g.p(21,y,"#2e8b3a");}
+    g.r(24,y+2,22+((g.R()*8)|0),1,"#9a8f74");}
+  g.avatar(72,44,ILIAS);g.r(8,47,80,4,"#1d1d1d");g.r(9,48,52,2,"#7ed957");for(let x=16;x<88;x+=8)g.r(x,48,1,2,"#1d1d1d");},
+duo(g){g.sky("#6fa6ea","#d6ecff");g.cloud(8,8,12);const y=42;g.flat(y,C.grass,C.dirt,C.stone);
+  g.tree(84,y,"oak");g.avatar(34,y,ILIAS);g.avatar(58,y,FRIEND);
+  g.tex(45,y-6,6,6,C.plank);g.r(44,y-8,8,2,"#f3ecd8");g.r(47,y-8,2,2,"#c9bfa3");g.bubble(30,14,10,9,"!");g.bubble(56,14,10,9,"?");},
+classroom(g){g.tex(0,0,W,H,C.wallLight);g.tex(0,46,W,8,["#9b8a6e","#91806a"]);
+  g.r(6,4,46,24,"#7a5536");g.r(7,5,44,22,"#2f5d3a");
+  for(let j=0;j<10;j++)g.r(29-j,14+j,2*j+2,1,j<2?"#e85a3a":"#c9b28a");g.p(27,11,"#d8d8d8");g.p(32,9,"#d8d8d8");g.p(30,7,"#d8d8d8");
+  g.r(72,5,22,10,"#f3ecd8");g.txt("15/20",73,7,"#2e8b3a");
+  g.avatar(60,46,{hair:"#1a1410",skin:"#c68e63",shirt:"#2a9d8f",pants:"#2f2f3a",long:true});
+  g.avatar(20,46,Object.assign({},ILIAS,{raise:true}));g.avatar(40,46,FRIEND);
+  g.tex(14,40,16,2,C.plank);g.r(15,42,1,4,"#6b4a2f");g.r(28,42,1,4,"#6b4a2f");g.tex(35,40,15,2,C.plank);g.r(36,42,1,4,"#6b4a2f");g.r(48,42,1,4,"#6b4a2f");},
+sunrise(g){g.sky("#4f74c4","#ffcf94");g.glow(48,34,20,"#ffd27a",.05);g.r(42,30,13,12,"#ffe48a");g.r(44,28,9,2,"#ffe48a");g.r(44,32,9,8,"#fff4c2");
+  const hs=g.terrain(40,1.5,.08,C.grass,C.dirt,C.stone);
+  const cx=70,cy=g.gy(hs,70,18);g.tex(cx,cy-16,18,16,C.cobble);
+  for(let j=0;j<3;j++)for(let i=0;i<3;i++){const on=(i+j)%2===0;g.r(cx+2+i*5,cy-14+j*5,4,4,on?"#ffd75a":"#5e4829");}
+  g.glow(cx+9,cy-8,10,"#ffd75a",.05);g.avatar(26,g.gy(hs,26),ILIAS);g.avatar(36,g.gy(hs,36),SOUHAIL);},
+football(g){g.sky("#7db4ee","#e3f0fc");g.cloud(30,6,12);
+  [[0,16,14,"#b8b0a2"],[15,24,16,"#cfc6b6"],[32,12,12,"#a89f90"],[45,20,16,"#d8cfbf"],[62,14,14,"#b8b0a2"],[77,22,19,"#cfc6b6"]].forEach(([x,hh,w,c])=>{
+    g.r(x,38-hh,w,hh,c);for(let j=0;j*4+2<hh-2;j++)for(let i=0;i*4+2<w-2;i++)g.r(x+2+i*4,38-hh+2+j*4,2,2,g.R()<.3?"#f6e7a6":"#7d93ad");});
+  for(let x=0;x<W;x+=6)g.tex(x,38,6,16,(x/6)%2?["#4f9a3a","#4a9236"]:["#5aa845","#55a040"]);
+  g.alpha(.5,()=>{for(let yy=26;yy<38;yy+=2)g.r(75,yy,17,1,"#ffffff");for(let xx=76;xx<92;xx+=3)g.r(xx,25,1,13,"#ffffff");});
+  g.r(74,24,1,14,"#ffffff");g.r(92,24,1,14,"#ffffff");g.r(74,24,19,1,"#ffffff");
+  g.r(62,40,3,3,"#ffffff");g.p(63,41,"#222222");
+  g.avatar(22,44,{hair:"#1a1410",skin:"#b07a4e",shirt:"#c0392b",pants:"#2f2f3a"});g.avatar(44,44,ILIAS);g.avatar(54,44,FRIEND);},
+spawn(g){g.sky("#6fa6ea","#d6ecff");g.cloud(50,6,14);const hs=g.terrain(41,1.5,.08,C.grass,C.dirt,C.stone);
+  g.tree(8,g.gy(hs,8,2),"oak");g.tree(88,g.gy(hs,88,2),"spruce");
+  const n=g.gy(hs,58);g.avatar(58,n,{hair:"#d9a441",skin:"#e0b08a",shirt:"#2e9e6b",pants:"#2f2f3a"});
+  for(let i=0;i<16;i++)g.p(53+g.R()*15,n-18+g.R()*16,g.pick(["#ffffff","#bff3ff","#e6dcff"]));
+  const a=g.gy(hs,36);g.avatar(36,a,Object.assign({},ILIAS,{raise:true}));g.bubble(54,n-26,10,9,"?");}
+};
+
+/* =========================================================
+   COMPOSANTS
+   ========================================================= */
+const ICONS={
+  book:["M2 4h6a2 2 0 0 1 2 2v10a2 2 0 0 0-2-2H2z M18 4h-6a2 2 0 0 0-2 2v10a2 2 0 0 1 2-2h6z",false],
+  sliders:["M3 5h8 M15 5h2 M13 3v4 M3 10h2 M9 10h8 M7 8v4 M3 15h10 M15 13v4 M17 15h0",false],
+  play:["M6 4l10 6-10 6z",true],pause:["M5 4h3v12H5z M12 4h3v12h-3z",true],stop:["M5 5h10v10H5z",true],
+  left:["M12 4l-6 6 6 6",false],right:["M8 4l6 6-6 6",false],close:["M5 5l10 10 M15 5L5 15",false],
+  speaker:["M3 8h3l4-3v10l-4-3H3z M13.5 7.5a3.5 3.5 0 0 1 0 5 M15.5 5a7 7 0 0 1 0 10",false],
+  tap:["M7 10V4a1.5 1.5 0 0 1 3 0v6 M10 9a1.5 1.5 0 0 1 3 0v1 M13 10a1.5 1.5 0 0 1 3 0v3a5 5 0 0 1-5 5H9.5a4 4 0 0 1-3.2-1.6L4 13.3a1.4 1.4 0 0 1 2.2-1.7L7 12.5",false],
+  keys:["M2 6h16v9H2z M5 9h1 M8 9h4 M14 9h1 M6 12h8",false]
+};
+function Icon({n,size}){const d=ICONS[n];return h("svg",{viewBox:"0 0 20 20",width:size||20,height:size||20,"aria-hidden":"true",fill:d[1]?"currentColor":"none",stroke:d[1]?"none":"currentColor",strokeWidth:2,strokeLinecap:"round",strokeLinejoin:"round"},h("path",{d:d[0]}));}
+function CodexIcon(){return h("svg",{width:20,height:18,viewBox:"0 0 10 9","aria-hidden":"true",shapeRendering:"crispEdges"},
+  h("rect",{x:0,y:0,width:10,height:9,fill:"#6b3f22"}),h("rect",{x:1,y:1,width:3,height:7,fill:"#f3ecd8"}),h("rect",{x:6,y:1,width:3,height:7,fill:"#f3ecd8"}),
+  h("rect",{x:4,y:1,width:2,height:7,fill:"#c9bfa3"}),h("rect",{x:7,y:3,width:1,height:1,fill:"#3b7a24"}),h("rect",{x:2,y:3,width:1,height:1,fill:"#3b7a24"}));}
+
+function GlobeIcon(){return h("svg",{width:20,height:20,viewBox:"0 0 20 20","aria-hidden":"true",fill:"none",stroke:"currentColor",strokeWidth:1.8},
+  h("circle",{cx:10,cy:10,r:8}),h("path",{d:"M2 10h16 M10 2c-3 3-3 13 0 16 M10 2c3 3 3 13 0 16"}));}
+function Illustration({scene,alt}){
+  const ref=useRef(null);
+  useEffect(()=>{const cv=ref.current;if(!cv)return;const ctx=cv.getContext("2d");ctx.clearRect(0,0,W,H);
+    try{SCENES[scene](painter(ctx,hashStr(scene)));}catch(e){console.error(e);}},[scene]);
+  return h("canvas",{ref,width:W,height:H,role:"img","aria-label":alt});
+}
+
+function Words({seg,si,cur,flash,onWord}){
+  return seg.tokens.map((t,ti)=>{
+    if(t.sp) return " ";
+    const on=(cur&&cur.si===si&&cur.ti===ti)||(flash&&flash.si===si&&flash.ti===ti);
+    return h("span",{key:ti,className:"w"+(t.bold?" b":"")+(on?" cur":""),onClick:()=>onWord(seg,si,ti)},t.t);
+  });
+}
+
+function PageText({model,cur,flash,onWord,speaking}){
+  const out=[];let chat=null;const real=[];let note=null;
+  const isReading=si=>speaking&&cur&&cur.si===si;
+  model.segs.forEach((seg,si)=>{
+    if(si===0) return;
+    if(seg.kind==="chat"){
+      if(!chat){chat=[];out.push(h("div",{key:"c"+si,className:"chat",role:"log","aria-label":"Discussion sur le serveur"},chat));}
+      const P=PEOPLE[seg.who];
+      chat.push(h("div",{key:si,className:"line"+(isReading(si)?" reading":"")},
+        h("span",{className:"who "+seg.who},h("span",{className:"br"},"<"),P.name,h("span",{className:"br"},">")),
+        h(Words,{seg,si,cur,flash,onWord})));
+      return;
+    }
+    chat=null;
+    if(seg.kind==="note"){note=h("aside",{key:"note",className:"note-ilias"+(isReading(si)?" reading":""),"aria-label":"Le Codex d’Ilias"},
+      h("div",{className:"note-head"},h(CodexIcon),h("span",null,"Le Codex d’Ilias"),h("span",{className:"note-page"},seg.label)),
+      h("p",{className:"note-text"},h(Words,{seg,si,cur,flash,onWord})));return;}
+    if(seg.kind==="real"){real.push(h("div",{key:si,className:"entry"+(isReading(si)?" reading":"")},
+      h("span",{className:"etext"},h(Words,{seg,si,cur,flash,onWord})),h("span",{className:"chip "+seg.subj},SUBJ[seg.subj])));return;}
+    out.push(h("p",{key:si,className:"blk"+(seg.kind==="dash"?" dash":"")+(isReading(si)?" reading":"")},h(Words,{seg,si,cur,flash,onWord})));
+  });
+  if(note) out.push(note);
+  if(real.length) out.push(h("aside",{key:"real",className:"real","aria-label":"Dans la vraie vie"},
+    h("div",{className:"real-head"},h(GlobeIcon),"Dans la vraie vie"),real));
+  return out;
+}
+
+/* ---------- réglages & sauvegarde ---------- */
+const KEY="seed4000-liseuse-v1";
+const DEFAULTS={voice:"",rate:.95,pitch:1,volume:1,size:"m",highlight:true,clickWord:true,autoNext:false};
+const SIZES={s:"1.05rem",m:"1.2rem",l:"1.4rem",xl:"1.65rem"};
+function loadState(){try{return JSON.parse(localStorage.getItem(KEY))||{};}catch(e){return{};}}
+function saveState(o){try{localStorage.setItem(KEY,JSON.stringify(o));}catch(e){}}
+const fmt=v=>v.toFixed(2).replace(".",",");
+
+function App(){
+  const TTS=typeof window!=="undefined"&&"speechSynthesis" in window&&"SpeechSynthesisUtterance" in window;
+  const saved=useMemo(loadState,[]);
+  const [page,setPage]=useState(()=>{const p=saved.page|0;return p>=0&&p<MODEL.length?p:0;});
+  const [set,setSet]=useState(()=>Object.assign({},DEFAULTS,saved.settings||{}));
+  const [voices,setVoices]=useState([]);
+  const [speaking,setSpeaking]=useState(false);
+  const [paused,setPaused]=useState(false);
+  const [cur,setCur]=useState(null);
+  const [flash,setFlash]=useState(null);
+  const [panel,setPanel]=useState(null);
+  const runRef=useRef(0),uttRef=useRef(null),setRef=useRef(set),voiceRef=useRef(null),autoReadRef=useRef(false),panelRef=useRef(null);
+  setRef.current=set;
+
+  useEffect(()=>{if(!TTS)return;const load=()=>{const v=speechSynthesis.getVoices();if(v&&v.length)setVoices(v);};load();
+    if(speechSynthesis.addEventListener)speechSynthesis.addEventListener("voiceschanged",load);
+    const t=[300,1000,2500].map(ms=>setTimeout(load,ms));
+    return()=>{if(speechSynthesis.removeEventListener)speechSynthesis.removeEventListener("voiceschanged",load);t.forEach(clearTimeout);speechSynthesis.cancel();};},[]);
+
+  const voiceList=useMemo(()=>{const fr=voices.filter(v=>/^fr/i.test(v.lang));const list=fr.length?fr:voices;
+    const score=v=>(/^fr[-_]FR/i.test(v.lang)?2:0)+(v.localService?1:0);
+    return list.slice().sort((a,b)=>(score(b)-score(a))||a.name.localeCompare(b.name));},[voices]);
+  const hasFrench=voices.some(v=>/^fr/i.test(v.lang));
+  const activeVoice=voiceList.find(v=>v.voiceURI===set.voice)||voiceList[0]||null;
+  voiceRef.current=activeVoice;
+
+  const applyVoice=u=>{const s=setRef.current,v=voiceRef.current;if(v){u.voice=v;u.lang=v.lang;}else u.lang="fr-FR";u.rate=s.rate;u.pitch=s.pitch;u.volume=s.volume;};
+
+  const stop=useCallback(()=>{runRef.current++;if(TTS)speechSynthesis.cancel();setSpeaking(false);setPaused(false);setCur(null);},[]);
+
+  const readPage=useCallback(p=>{
+    if(!TTS)return;const wasBusy=speechSynthesis.speaking||speechSynthesis.pending;
+    runRef.current++;const run=runRef.current;speechSynthesis.cancel();setSpeaking(true);setPaused(false);setFlash(null);
+    const segs=MODEL[p].segs;
+    const next=si=>{
+      if(run!==runRef.current)return;
+      if(si>=segs.length){
+        if(setRef.current.autoNext&&p<MODEL.length-1){autoReadRef.current=true;setPage(p+1);}
+        else{setSpeaking(false);setCur(null);}
+        return;}
+      const seg=segs[si];const u=new SpeechSynthesisUtterance(seg.speech);applyVoice(u);setCur({si,ti:-1});
+      u.onboundary=e=>{if(run!==runRef.current)return;if(e.name&&e.name!=="word")return;const ci=e.charIndex;let ti=-1;
+        for(let k=0;k<seg.tokens.length;k++){const t=seg.tokens[k];if(t.sp)continue;if(t.s<=ci)ti=k;else break;}
+        if(ti>=0)setCur({si,ti});};
+      u.onend=()=>next(si+1);
+      u.onerror=e=>{if(e.error==="interrupted"||e.error==="canceled")return;next(si+1);};
+      uttRef.current=u;speechSynthesis.speak(u);};
+    if(wasBusy)setTimeout(()=>next(0),80);else next(0);
+  },[]);
+
+  useEffect(()=>{
+    saveState({page,settings:set});
+  },[page,set]);
+  useEffect(()=>{
+    window.scrollTo(0,0);
+    if(autoReadRef.current){autoReadRef.current=false;readPage(page);}else stop();
+  },[page]);
+
+  const go=useCallback(d=>setPage(p=>Math.max(0,Math.min(MODEL.length-1,p+d))),[]);
+  const toggle=()=>{if(!TTS)return;
+    if(speaking&&!paused){speechSynthesis.pause();setPaused(true);}
+    else if(speaking&&paused){speechSynthesis.resume();setPaused(false);}
+    else readPage(page);};
+
+  const onWord=(seg,si,ti)=>{
+    if(!TTS||!setRef.current.clickWord)return;const w=cleanWord(seg.tokens[ti].t);if(!w)return;
+    const busy=speaking||speechSynthesis.speaking||speechSynthesis.pending;
+    if(speaking)stop();else speechSynthesis.cancel();
+    const say=()=>{const u=new SpeechSynthesisUtterance(w);applyVoice(u);setFlash({si,ti});u.onend=()=>setFlash(null);u.onerror=()=>setFlash(null);uttRef.current=u;speechSynthesis.speak(u);};
+    if(busy)setTimeout(say,80);else say();};
+
+  const testVoice=()=>{if(!TTS)return;stop();setTimeout(()=>{const u=new SpeechSynthesisUtterance("Bonjour Ilias ! Je suis la voix qui va te lire l’histoire.");applyVoice(u);speechSynthesis.speak(u);},60);};
+
+  /* clavier & glisser */
+  useEffect(()=>{const onKey=e=>{
+      if(panel){if(e.key==="Escape")setPanel(null);return;}
+      const tag=(e.target&&e.target.tagName)||"";if(/INPUT|SELECT|TEXTAREA/.test(tag))return;
+      if(e.key==="ArrowRight")go(1);else if(e.key==="ArrowLeft")go(-1);
+      else if(e.key===" "&&tag!=="BUTTON"){e.preventDefault();toggle();}};
+    window.addEventListener("keydown",onKey);return()=>window.removeEventListener("keydown",onKey);});
+  const touch=useRef(null);
+  const onTouchStart=e=>{const t=e.touches[0];touch.current={x:t.clientX,y:t.clientY};};
+  const onTouchEnd=e=>{if(!touch.current)return;const t=e.changedTouches[0];const dx=t.clientX-touch.current.x,dy=t.clientY-touch.current.y;touch.current=null;
+    if(Math.abs(dx)>70&&Math.abs(dy)<45)go(dx<0?1:-1);};
+  useEffect(()=>{if(panel&&panelRef.current)panelRef.current.focus();},[panel]);
+
+  const model=MODEL[page];const upd=patch=>setSet(s=>Object.assign({},s,patch));
+  const isCover=page===0;
+
+  /* ---------- rendu ---------- */
+  const header=h("header",{className:"top"},
+    h("div",{className:"top-inner"},
+      h("div",{className:"brand"},h("svg",{className:"brand-mark",viewBox:"0 0 8 8","aria-hidden":"true",shapeRendering:"crispEdges"},
+        h("rect",{x:0,y:0,width:8,height:3,fill:"#5e9c45"}),h("rect",{x:0,y:3,width:8,height:5,fill:"#7a5536"}),h("rect",{x:1,y:3,width:1,height:1,fill:"#5e9c45"}),h("rect",{x:5,y:3,width:1,height:2,fill:"#5e9c45"}),h("rect",{x:3,y:5,width:1,height:1,fill:"#5d452b"}),h("rect",{x:6,y:6,width:1,height:1,fill:"#5d452b"})),
+        h("span",null,"Le Seed de l’humanité")),
+      h("button",{className:"btn",onClick:()=>setPanel("toc"),"aria-label":"Sommaire"},h(Icon,{n:"book"}),h("span",{className:"hide-sm"},"Sommaire")),
+      h("button",{className:"btn",onClick:()=>setPanel("settings"),"aria-label":"Réglages de la voix et du texte"},h(Icon,{n:"sliders"}),h("span",{className:"hide-sm"},"Réglages"))),
+    h("div",{className:"xp","aria-hidden":"true"},MODEL.map((m,i)=>h("span",{key:i,className:i<page?"on":i===page?"now":""}))));
+
+  const titleSeg=model.segs[0];
+  const textCol=h("div",{className:"text"},
+    h("p",{className:"eyebrow"},chLabel(model.ch)+(model.ch>0?" · "+CHAPTERS[model.ch]:" · Une nouvelle en 11 chapitres")),
+    h(isCover?"h1":"h2",{className:"ptitle"+(isCover?" cover-title":"")+(speaking&&cur&&cur.si===0?" reading":"")},h(Words,{seg:titleSeg,si:0,cur:set.highlight?cur:null,flash,onWord})),
+    h("div",{className:"prose",style:{"--fs":SIZES[set.size]||SIZES.m}},
+      h(PageText,{model,cur:set.highlight?cur:null,flash,onWord,speaking}),
+      model.fin?h("p",{className:"fin"},"Fin"):null,
+      isCover?h(React.Fragment,null,
+        h("div",{className:"cover-actions"},
+          h("button",{className:"btn primary",onClick:()=>go(1)},"Commencer la lecture",h(Icon,{n:"right"})),
+          h("button",{className:"btn",onClick:toggle,disabled:!TTS},h(Icon,{n:speaking&&!paused?"pause":"speaker"}),speaking&&!paused?"Pause":"Écouter cette page")),
+        h("ul",{className:"tips"},
+          h("li",null,h(Icon,{n:"speaker"}),h("span",null,"Le bouton ",h("strong",null,"Écouter")," lit la page à voix haute. Le mot lu s’allume.")),
+          h("li",null,h(CodexIcon),h("span",null,"Le carnet orange, c’est ",h("strong",null,"le Codex d’Ilias"),". Il se remplit au fil de l’histoire. L’encadré ",h("strong",null,"Dans la vraie vie")," relie le jeu à notre monde.")),
+          h("li",null,h(Icon,{n:"tap"}),h("span",null,"Touche ou clique sur un mot pour l’entendre seul.")),
+          h("li",null,h(Icon,{n:"keys"}),h("span",null,"Change de page avec les flèches du clavier, ou en glissant le doigt sur l’écran.")),
+          h("li",null,h(Icon,{n:"sliders"}),h("span",null,"Dans ",h("strong",null,"Réglages"),", choisis la voix, sa vitesse et la taille du texte.")))):null));
+
+  const main=h("main",{onTouchStart,onTouchEnd},
+    h("div",{className:"sheet"},
+      h("figure",{className:"illu"},h(Illustration,{scene:model.scene,alt:model.alt})),
+      textCol));
+
+  const playLabel=!TTS?"Synthèse vocale indisponible":speaking&&!paused?"Pause":paused?"Reprendre":"Écouter";
+  const bottom=h("nav",{className:"bottom","aria-label":"Navigation et lecture"},
+    h("div",{className:"bottom-inner"},
+      h("button",{className:"btn",onClick:()=>go(-1),disabled:page===0,"aria-label":"Page précédente"},h(Icon,{n:"left"}),h("span",{className:"hide-sm"},"Précédente")),
+      h("div",{className:"mid"},
+        h("button",{className:"btn primary",onClick:toggle,disabled:!TTS,"aria-label":playLabel},h(Icon,{n:speaking&&!paused?"pause":"play"}),h("span",{className:"hide-sm"},playLabel)),
+        h("button",{className:"btn icon",onClick:stop,disabled:!TTS||(!speaking&&!flash),"aria-label":"Arrêter la lecture"},h(Icon,{n:"stop"})),
+        h("span",{className:"pageno","aria-live":"polite"},"Page "+(page+1)+" / "+MODEL.length)),
+      h("button",{className:"btn",onClick:()=>go(1),disabled:page===MODEL.length-1,"aria-label":"Page suivante"},h("span",{className:"hide-sm"},"Suivante"),h(Icon,{n:"right"}))));
+
+  let overlay=null;
+  if(panel){
+    const close=h("button",{className:"btn icon",onClick:()=>setPanel(null),"aria-label":"Fermer"},h(Icon,{n:"close"}));
+    let body;
+    if(panel==="toc"){
+      body=h(React.Fragment,null,h("div",{className:"panel-head"},h("h2",{id:"ptitle"},"Sommaire"),close),
+        h("ol",{className:"toc"},CHAPTERS.map((c,i)=>h("li",{key:i},
+          h("button",{className:"toc-item","aria-current":model.ch===i?"true":"false",onClick:()=>{setPage(CH_START[i]);setPanel(null);}},
+            h("span",{className:"toc-num"},chLabel(i)),h("span",{className:"toc-title"},i===0?"Le Seed de l’humanité":c))))));
+    }else{
+      body=h(React.Fragment,null,h("div",{className:"panel-head"},h("h2",{id:"ptitle"},"Réglages"),close),
+        !TTS?h("p",{className:"warn"},"Ce navigateur ne propose pas de synthèse vocale. Essaie avec Chrome, Edge, Safari ou Firefox."):
+        (voices.length&&!hasFrench)?h("p",{className:"warn"},"Aucune voix française n’est installée sur cet appareil. Les voix proposées liront le texte avec un accent étranger."):null,
+        h("div",{className:"field"},h("label",{htmlFor:"voice"},"Voix"),
+          h("select",{id:"voice",value:activeVoice?activeVoice.voiceURI:"",onChange:e=>upd({voice:e.target.value}),disabled:!TTS||!voiceList.length},
+            voiceList.length?voiceList.map(v=>h("option",{key:v.voiceURI,value:v.voiceURI},v.name+" ("+v.lang+")"+(v.localService?"":" · en ligne"))):h("option",{value:""},"Chargement des voix…")),
+          h("button",{className:"btn",onClick:testVoice,disabled:!TTS},h(Icon,{n:"speaker"}),"Tester la voix")),
+        h("div",{className:"field"},h("label",{htmlFor:"rate"},"Vitesse",h("output",{htmlFor:"rate"},fmt(set.rate)+" ×")),
+          h("input",{id:"rate",type:"range",min:.5,max:1.5,step:.05,value:set.rate,onChange:e=>upd({rate:+e.target.value})})),
+        h("div",{className:"field"},h("label",{htmlFor:"pitch"},"Hauteur de la voix",h("output",{htmlFor:"pitch"},fmt(set.pitch))),
+          h("input",{id:"pitch",type:"range",min:.5,max:1.5,step:.05,value:set.pitch,onChange:e=>upd({pitch:+e.target.value})})),
+        h("div",{className:"field"},h("label",{htmlFor:"volume"},"Volume",h("output",{htmlFor:"volume"},Math.round(set.volume*100)+" %")),
+          h("input",{id:"volume",type:"range",min:0,max:1,step:.05,value:set.volume,onChange:e=>upd({volume:+e.target.value})})),
+        h("div",{className:"field"},h("span",{className:"lab",id:"sizelab"},"Taille du texte"),
+          h("div",{className:"seg",role:"group","aria-labelledby":"sizelab"},[["s","A","Petit"],["m","A","Moyen"],["l","A","Grand"],["xl","A","Très grand"]].map(([k,t,lab],i)=>
+            h("button",{key:k,className:"btn","aria-pressed":set.size===k?"true":"false","aria-label":lab,onClick:()=>upd({size:k}),style:{fontSize:(0.85+i*0.2)+"rem"}},t)))),
+        h("label",{className:"check"},h("input",{id:"hl",type:"checkbox",checked:set.highlight,onChange:e=>upd({highlight:e.target.checked})}),
+          h("span",null,"Surligner le mot lu",h("small",null,"Certaines voix en ligne ne le permettent pas : c’est alors la phrase qui est surlignée."))),
+        h("label",{className:"check"},h("input",{id:"cw",type:"checkbox",checked:set.clickWord,onChange:e=>upd({clickWord:e.target.checked})}),
+          h("span",null,"Lire un mot quand on clique dessus")),
+        h("label",{className:"check"},h("input",{id:"an",type:"checkbox",checked:set.autoNext,onChange:e=>upd({autoNext:e.target.checked})}),
+          h("span",null,"Enchaîner les pages",h("small",null,"À la fin d’une page, la lecture passe toute seule à la suivante."))),
+        h("p",{className:"note"},"La voix est gratuite : elle utilise la synthèse vocale de ton navigateur. Le choix des voix dépend de l’appareil. Sur ordinateur, Edge et Chrome en proposent souvent davantage."));
+    }
+    overlay=h("div",{className:"overlay",onClick:e=>{if(e.target===e.currentTarget)setPanel(null);}},
+      h("div",{className:"panel",role:"dialog","aria-modal":"true","aria-labelledby":"ptitle",tabIndex:-1,ref:panelRef},body));
+  }
+
+  return h("div",{className:"app"},header,main,bottom,overlay);
+}
+
+ReactDOM.createRoot(document.getElementById("root")).render(h(App));
+})();
+</script>
+
+</body></html>
