@@ -1,0 +1,1960 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Soi, non-soi et immunité innée</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Noto+Sans+Mono:wght@400;500&display=swap">
+<style>
+/* Layout : application façon KDE Breeze — barre d'outils, barre latérale de navigation, vue centrale dans un cadre.
+   Codes couleur constants : bleu = soi, orange = non-soi / microbes, sarcelle = réponse innée, violet = réponse adaptative. */
+:root{
+  --win:#eff0f1; --view:#fcfcfc; --alt:#f4f5f6; --fg:#232629; --fg2:#5f6a74; --line:#d5d9dc; --line2:#b8bfc5;
+  --accent:#3daee9; --accent-strong:#1d87bf; --accent-bg:#e2f2fb;
+  --pos:#27ae60; --pos-fg:#1c7d45; --pos-bg:#e3f4ea;
+  --neg:#da4453; --neg-fg:#b22a39; --neg-bg:#fae5e7;
+  --neu:#f67400; --neu-fg:#a94f00; --neu-bg:#fdeedd;
+  --sang:#da4453; --sang-bg:#f9e0e3; --lymphe:#27ae60; --lymphe-bg:#dcf1e4; --inter-bg:#e9f4fa;
+  --prim:#f67400; --sec:#8e5bb5; --body:#e3e6e9; --tissue:#f3ece2; --tissue-line:#cdbda6;
+  --nuc:#6d4fa3; --cyto:#ece6f5; --gr:#dc5664; --gran:#e08a3a;
+  --soi:#2980b9; --soi-bg:#e1eef8; --nonsoi:#e67e22; --nonsoi-bg:#fcecdc;
+  --inne:#16a085; --inne-bg:#dcf2ed; --adapt:#8e44ad; --adapt-bg:#f0e4f6;
+  --meca:#2980b9; --bioch:#d35400; --biol:#27ae60;
+  --skin:#f1d9c6; --skin-line:#c9a68c; --derm:#f7ebe1; --nerve:#c9a227;
+  --g-pale:#ece5df; --g-rose:#ef9aa6; --g-brun:#94603f; --g-dess:#4d3628;
+  --bact:#5f8a2c; --mediat:#e1a600; --mucus:#d6ecc9; --plasma:#a9d6ee;
+  --font:"Noto Sans","Segoe UI",system-ui,-apple-system,sans-serif;
+  --mono:"Noto Sans Mono",ui-monospace,"DejaVu Sans Mono",monospace;
+  --r:4px;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --win:#202326; --view:#141618; --alt:#1b1d20; --fg:#fcfcfc; --fg2:#a7b0b8; --line:#363b41; --line2:#4c535a;
+    --accent:#3daee9; --accent-strong:#6cc4f0; --accent-bg:#163647;
+    --pos:#27ae60; --pos-fg:#62d394; --pos-bg:#14301e;
+    --neg:#da4453; --neg-fg:#f2808c; --neg-bg:#3a1a1f;
+    --neu:#f67400; --neu-fg:#ffa451; --neu-bg:#382410;
+    --sang:#e65866; --sang-bg:#381b20; --lymphe:#3cc174; --lymphe-bg:#142d1d; --inter-bg:#132733;
+    --prim:#ff8a24; --sec:#b48ad8; --body:#2b3035; --tissue:#2f2a24; --tissue-line:#6b5e4c;
+    --nuc:#b49ae0; --cyto:#2c2740; --gr:#e86a76; --gran:#f0a050;
+    --soi:#5dade2; --soi-bg:#15293a; --nonsoi:#f0a050; --nonsoi-bg:#3a2814;
+    --inne:#48c9b0; --inne-bg:#123029; --adapt:#bb8fd6; --adapt-bg:#2c1d36;
+    --meca:#5dade2; --bioch:#f39a45; --biol:#4cc77f;
+    --skin:#4a3a30; --skin-line:#86695a; --derm:#2f2722; --nerve:#e0c050;
+    --g-pale:#5b544f; --g-rose:#b65d6c; --g-brun:#a8724f; --g-dess:#1f1712;
+    --bact:#9fc066; --mediat:#ffd04d; --mucus:#26402a; --plasma:#2f5a73;
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --win:#202326; --view:#141618; --alt:#1b1d20; --fg:#fcfcfc; --fg2:#a7b0b8; --line:#363b41; --line2:#4c535a;
+  --accent:#3daee9; --accent-strong:#6cc4f0; --accent-bg:#163647;
+  --pos:#27ae60; --pos-fg:#62d394; --pos-bg:#14301e;
+  --neg:#da4453; --neg-fg:#f2808c; --neg-bg:#3a1a1f;
+  --neu:#f67400; --neu-fg:#ffa451; --neu-bg:#382410;
+  --sang:#e65866; --sang-bg:#381b20; --lymphe:#3cc174; --lymphe-bg:#142d1d; --inter-bg:#132733;
+  --prim:#ff8a24; --sec:#b48ad8; --body:#2b3035; --tissue:#2f2a24; --tissue-line:#6b5e4c;
+  --nuc:#b49ae0; --cyto:#2c2740; --gr:#e86a76; --gran:#f0a050;
+  --soi:#5dade2; --soi-bg:#15293a; --nonsoi:#f0a050; --nonsoi-bg:#3a2814;
+  --inne:#48c9b0; --inne-bg:#123029; --adapt:#bb8fd6; --adapt-bg:#2c1d36;
+  --meca:#5dade2; --bioch:#f39a45; --biol:#4cc77f;
+  --skin:#4a3a30; --skin-line:#86695a; --derm:#2f2722; --nerve:#e0c050;
+  --g-pale:#5b544f; --g-rose:#b65d6c; --g-brun:#a8724f; --g-dess:#1f1712;
+  --bact:#9fc066; --mediat:#ffd04d; --mucus:#26402a; --plasma:#2f5a73;
+  color-scheme:dark;
+}
+html{font-size:15px}
+html.big{font-size:17px}
+body{background:var(--win);color:var(--fg);font-family:var(--font);font-size:1rem;line-height:1.6}
+*{box-sizing:border-box}
+h1,h2,h3{text-wrap:balance;line-height:1.3;margin:0}
+h1{font-size:1.55rem;font-weight:600}
+h2{font-size:1.2rem;font-weight:600}
+h3{font-size:1.05rem;font-weight:600}
+p{margin:0}
+strong{font-weight:600}
+.num{font-variant-numeric:tabular-nums}
+button{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+@media (prefers-reduced-motion: reduce){*{transition:none!important;animation:none!important}}
+
+/* Barre d'outils */
+.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:10;background:var(--view);border-bottom:1px solid var(--line);display:flex;align-items:center;gap:12px;padding:8px 16px;min-height:52px}
+.top .ttl{display:flex;flex-direction:column;min-width:0;flex:1}
+.top .ttl b{font-weight:600;font-size:1rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.top .ttl span{font-size:.8rem;color:var(--fg2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.meter{display:flex;align-items:center;gap:8px;font-size:.8rem;color:var(--fg2)}
+.meter .bar{width:90px;height:6px;border-radius:3px;background:var(--line);overflow:hidden}
+.meter .bar i{display:block;height:100%;background:var(--accent);transition:width .3s}
+@media(max-width:620px){.meter .bar{width:50px}.top .ttl span{display:none}}
+
+/* Structure */
+.shell{display:grid;grid-template-columns:270px minmax(0,1fr);max-width:1240px;margin:0 auto}
+.side{position:sticky;top:52px;align-self:start;max-height:calc(100vh - 52px);overflow:auto;padding:14px 10px 30px;border-right:1px solid var(--line)}
+.side .grp{font-size:.75rem;color:var(--fg2);padding:12px 10px 4px;letter-spacing:.02em}
+.navi{display:flex;align-items:center;gap:8px;width:100%;text-align:left;border:1px solid transparent;background:none;border-radius:3px;padding:6px 10px;cursor:pointer;font-size:.93rem;line-height:1.35}
+.navi:hover{background:color-mix(in srgb,var(--accent) 12%,transparent)}
+.navi[aria-current="page"]{background:color-mix(in srgb,var(--accent) 22%,transparent);border-color:var(--accent)}
+.navi .n{width:20px;height:20px;flex:none;border-radius:50%;border:1px solid var(--line2);font-size:.72rem;display:grid;place-items:center;color:var(--fg2)}
+.navi .n.done{background:var(--pos);border-color:var(--pos);color:var(--view)}
+.navi .lab{flex:1;min-width:0}
+.navi .cnt{font-size:.75rem;color:var(--fg2)}
+main{min-width:0;padding:24px 28px 80px}
+.wrap{max-width:880px;margin:0 auto;display:flex;flex-direction:column;gap:20px}
+@media(max-width:860px){
+  .shell{grid-template-columns:1fr}
+  .side{position:sticky;top:52px;z-index:9;max-height:none;border-right:0;border-bottom:1px solid var(--line);background:var(--win);display:flex;gap:4px;overflow-x:auto;padding:8px 16px}
+  .side .grp{display:none}
+  .navi{width:auto;white-space:nowrap;flex:none}
+  main{padding:16px 16px 64px}
+}
+
+/* Cadres */
+.frame{background:var(--view);border:1px solid var(--line);border-radius:var(--r);padding:22px 26px;display:flex;flex-direction:column;gap:14px}
+@media(max-width:620px){.frame{padding:16px}}
+.eyebrow{font-size:.8rem;color:var(--fg2)}
+.goal{color:var(--fg2);font-size:.95rem}
+.prose{max-width:66ch;display:flex;flex-direction:column;gap:10px}
+.sep{height:1px;background:var(--line);margin:4px 0}
+.muted{color:var(--fg2)}
+.small{font-size:.86rem}
+
+/* Messages (KMessageWidget) */
+.msg{border:1px solid var(--accent);background:var(--accent-bg);border-radius:var(--r);padding:10px 14px;display:flex;gap:10px;align-items:flex-start}
+.msg .ic{flex:none;width:18px;height:18px;margin-top:2px}
+.msg .bd{min-width:0;display:flex;flex-direction:column;gap:4px}
+.msg .bd b.h{font-weight:600}
+.msg.pos{border-color:var(--pos);background:var(--pos-bg)}
+.msg.neg{border-color:var(--neg);background:var(--neg-bg)}
+.msg.neu{border-color:var(--neu);background:var(--neu-bg)}
+.msg ul{margin:0;padding-left:1.2em}
+
+/* Boutons */
+.row{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.btn{font-size:.92rem;min-height:32px;padding:4px 14px;border:1px solid var(--line2);border-radius:3px;background:var(--view);cursor:pointer;line-height:1.3}
+.btn:hover:not(:disabled){border-color:var(--accent)}
+.btn.primary{border-color:var(--accent);background:var(--accent-bg)}
+.btn.primary:hover:not(:disabled){background:color-mix(in srgb,var(--accent) 30%,var(--view))}
+.btn.flat{border-color:transparent;background:transparent}
+.btn.flat:hover:not(:disabled){background:var(--alt);border-color:var(--line)}
+.btn:disabled{opacity:.5;cursor:default}
+.btn[aria-pressed="true"]{border-color:var(--accent);background:var(--accent-bg)}
+
+/* Onglets */
+.tabs{display:flex;border-bottom:1px solid var(--line);overflow-x:auto;gap:2px}
+.tab{border:0;background:none;padding:8px 14px;border-bottom:2px solid transparent;color:var(--fg2);cursor:pointer;white-space:nowrap;font-size:.93rem}
+.tab:hover{color:var(--fg)}
+.tab[aria-selected="true"]{color:var(--fg);border-bottom-color:var(--accent)}
+.tab small{font-size:.75rem;color:var(--fg2);margin-left:6px}
+
+/* Pastilles */
+.pill{display:inline-block;font-size:.76rem;line-height:1.5;padding:0 8px;border-radius:10px;border:1px solid var(--line2);color:var(--fg2);white-space:nowrap}
+.pill.acc{border-color:var(--accent);color:var(--accent-strong);background:var(--accent-bg)}
+.pill.st-ok{border-color:var(--pos);color:var(--pos-fg);background:var(--pos-bg)}
+.pill.st-haut{border-color:var(--neg);color:var(--neg-fg);background:var(--neg-bg)}
+.pill.st-bas{border-color:var(--neu);color:var(--neu-fg);background:var(--neu-bg)}
+.pill.c-prim{border-color:var(--prim);color:var(--neu-fg)}
+.pill.c-sec{border-color:var(--sec);color:var(--sec)}
+.pill.c-vais{border-color:var(--lymphe);color:var(--pos-fg)}
+
+/* Tableaux */
+.tblwrap{overflow-x:auto;border:1px solid var(--line);border-radius:var(--r)}
+table{border-collapse:collapse;width:100%;font-size:.92rem}
+th,td{text-align:left;padding:8px 12px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-weight:600;background:var(--alt)}
+tr:last-child td{border-bottom:0}
+
+/* Schémas */
+.fig{border:1px solid var(--line);border-radius:var(--r);background:var(--view);overflow-x:auto}
+.fig svg{display:block;width:100%;height:auto}
+.fig.scroll svg{min-width:640px}
+svg text{font-family:var(--font);fill:var(--fg)}
+.cap{font-size:.84rem;color:var(--fg2)}
+
+/* Stepper du schéma d'échanges */
+.stepper{display:flex;flex-direction:column;gap:10px}
+.dots{display:flex;gap:6px;flex-wrap:wrap}
+.dot{width:28px;height:28px;border-radius:50%;border:1px solid var(--line2);background:var(--view);cursor:pointer;font-size:.8rem}
+.dot[aria-current="step"]{border-color:var(--accent);background:var(--accent-bg);font-weight:600}
+.steptext{min-height:4.8em;border:1px solid var(--line);border-radius:var(--r);padding:10px 14px;background:var(--alt)}
+.steptext b.h{display:block;margin-bottom:2px}
+.ex-arrow{transition:opacity .25s}
+.dim{opacity:.13}
+
+/* Exercices */
+.ex{border:1px solid var(--line);border-radius:var(--r);background:var(--view);padding:16px 18px;display:flex;flex-direction:column;gap:12px}
+.ex.compact{background:var(--alt)}
+.ex-head{display:flex;align-items:center;gap:10px;flex-wrap:wrap;font-size:.82rem;color:var(--fg2)}
+.lvl{display:inline-flex;gap:3px;align-items:center}
+.lvl i{width:8px;height:8px;border-radius:50%;border:1px solid var(--accent)}
+.lvl i.on{background:var(--accent)}
+.ex-head .st{margin-left:auto}
+.prompt{font-size:1rem;max-width:70ch}
+.opts{display:flex;flex-direction:column;gap:6px}
+.opt{display:flex;gap:10px;align-items:flex-start;width:100%;text-align:left;padding:8px 12px;border:1px solid var(--line);border-radius:3px;background:var(--view);cursor:pointer;line-height:1.45}
+.opt:hover{border-color:var(--accent)}
+.opt .mk{width:16px;height:16px;flex:none;border:1px solid var(--line2);border-radius:50%;margin-top:2px;background:var(--view)}
+.opt.cb .mk{border-radius:2px;display:grid;place-items:center}
+.opt[aria-checked="true"] .mk{border:5px solid var(--accent)}
+.opt.cb[aria-checked="true"] .mk{border:1px solid var(--accent);background:var(--accent)}
+.opt.cb[aria-checked="true"] .mk::after{content:"";width:8px;height:4px;border-left:2px solid var(--view);border-bottom:2px solid var(--view);transform:rotate(-45deg) translate(1px,-1px)}
+.opt.good{border-color:var(--pos);background:var(--pos-bg)}
+.opt.bad{border-color:var(--neg);background:var(--neg-bg)}
+.items{display:flex;flex-direction:column;border:1px solid var(--line);border-radius:3px}
+.item{display:flex;gap:10px;align-items:center;justify-content:space-between;flex-wrap:wrap;padding:8px 12px;border-bottom:1px solid var(--line)}
+.item:last-child{border-bottom:0}
+.item .t{flex:1 1 240px;min-width:0;display:flex;gap:8px;align-items:flex-start}
+.item.good{background:var(--pos-bg)}
+.item.bad{background:var(--neg-bg)}
+.seg{display:inline-flex;flex-wrap:wrap;border:1px solid var(--line2);border-radius:3px;overflow:hidden}
+.seg button{border:0;border-right:1px solid var(--line2);background:var(--view);padding:4px 10px;cursor:pointer;font-size:.86rem;min-height:30px}
+.seg button:last-child{border-right:0}
+.seg button:hover{background:var(--alt)}
+.seg button[aria-pressed="true"]{background:var(--accent-bg);box-shadow:inset 0 0 0 1px var(--accent);font-weight:500}
+.ord .pos{width:24px;height:24px;flex:none;border-radius:50%;background:var(--alt);border:1px solid var(--line2);display:grid;place-items:center;font-size:.78rem}
+.ord .mv{display:flex;gap:4px}
+.ord .mv button{width:32px;height:30px;border:1px solid var(--line2);border-radius:3px;background:var(--view);cursor:pointer}
+.ord .mv button:disabled{opacity:.35;cursor:default}
+.fill{line-height:2.3;max-width:70ch}
+select{font:inherit;font-size:.92rem;color:var(--fg);background:var(--view);border:1px solid var(--line2);border-radius:3px;padding:3px 6px;max-width:100%}
+select.good{border-color:var(--pos);background:var(--pos-bg)}
+select.bad{border-color:var(--neg);background:var(--neg-bg)}
+textarea{font:inherit;color:var(--fg);background:var(--view);border:1px solid var(--line2);border-radius:3px;padding:8px 10px;width:100%;min-height:110px;resize:vertical}
+textarea:focus,select:focus{border-color:var(--accent);outline:none;box-shadow:0 0 0 1px var(--accent)}
+.feedback{font-size:.92rem}
+.corr{border:1px solid var(--line);border-radius:3px;background:var(--alt);padding:10px 14px;display:flex;flex-direction:column;gap:6px}
+.corr .h{font-size:.8rem;color:var(--fg2);font-weight:600}
+.corr ol{margin:0;padding-left:1.3em;display:flex;flex-direction:column;gap:4px}
+.crit{display:flex;flex-direction:column;gap:4px}
+.crit label{display:flex;gap:8px;align-items:flex-start;cursor:pointer}
+.crit input{margin-top:5px;accent-color:var(--accent)}
+.mark{flex:none;width:18px;height:18px;border-radius:50%;display:grid;place-items:center;font-size:.72rem;font-weight:700;color:var(--view)}
+.mark.ok{background:var(--pos)} .mark.ko{background:var(--neg)}
+.lvlhead{display:flex;align-items:center;gap:10px;font-size:.88rem;color:var(--fg2);margin-top:6px}
+.lvlhead::after{content:"";flex:1;height:1px;background:var(--line)}
+
+/* Exercice résolu */
+.worked{border:1px solid var(--accent);border-radius:var(--r);background:var(--view);padding:16px 18px;display:flex;flex-direction:column;gap:12px}
+.wsteps{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:10px;counter-reset:w}
+.wsteps li{display:grid;grid-template-columns:26px minmax(0,1fr);gap:10px;counter-increment:w}
+.wsteps li::before{content:counter(w);width:24px;height:24px;border-radius:50%;background:var(--accent-bg);border:1px solid var(--accent);display:grid;place-items:center;font-size:.8rem;font-weight:600}
+.ws-why{font-size:.86rem;color:var(--fg2);margin-top:2px}
+.answer{border:1px solid var(--pos);background:var(--pos-bg);border-radius:3px;padding:10px 14px}
+.answer .h{font-size:.8rem;font-weight:600;color:var(--pos-fg);margin-bottom:2px}
+
+/* Barres de valeurs (analyse) */
+.rbs{display:flex;flex-direction:column;gap:2px}
+.rb{display:grid;grid-template-columns:minmax(120px,190px) minmax(0,1fr);gap:4px 14px;align-items:center;padding:8px 0;border-bottom:1px solid var(--line)}
+.rb:last-child{border-bottom:0}
+.rb-l{display:flex;flex-direction:column;min-width:0}
+.rb-label{font-weight:500;font-size:.93rem}
+.rb-vr{font-size:.78rem;color:var(--fg2)}
+.rb-r{display:flex;flex-direction:column;gap:4px;min-width:0}
+.rb-top{display:flex;gap:8px;align-items:center;flex-wrap:wrap;font-size:.9rem}
+.rb-track{position:relative;height:10px;border-radius:5px;background:var(--alt);border:1px solid var(--line)}
+.rb-band{position:absolute;top:-1px;bottom:-1px;background:color-mix(in srgb,var(--pos) 30%,transparent);border-left:2px solid var(--pos);border-right:2px solid var(--pos)}
+.rb-mark{position:absolute;top:50%;width:14px;height:14px;border-radius:50%;transform:translate(-50%,-50%);border:2px solid var(--view);background:var(--pos)}
+.rb-mark.st-haut{background:var(--neg)} .rb-mark.st-bas{background:var(--neu)}
+.rbgrp{font-size:.8rem;color:var(--fg2);padding-top:10px;font-weight:600}
+@media(max-width:560px){.rb{grid-template-columns:1fr}}
+
+/* Cartes de contenu */
+.cols{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:12px}
+.box{border:1px solid var(--line);border-radius:var(--r);padding:14px;display:flex;flex-direction:column;gap:8px;min-width:0;background:var(--view)}
+.box ul{margin:0;padding-left:1.15em;display:flex;flex-direction:column;gap:2px}
+.box .fact{font-size:.86rem;color:var(--fg2)}
+.cellfig{display:flex;align-items:flex-end;justify-content:center;gap:14px;min-height:120px;padding:6px;background:var(--alt);border-radius:3px}
+.scale{display:flex;align-items:flex-end;gap:20px;flex-wrap:wrap;padding:14px;justify-content:center}
+.scale figure{margin:0;display:flex;flex-direction:column;align-items:center;gap:4px;font-size:.8rem;color:var(--fg2);text-align:center}
+.sbar{display:flex;flex-direction:column;align-items:center;gap:2px;font-size:.75rem;color:var(--fg2)}
+.sbar i{display:block;height:4px;background:var(--fg)}
+
+/* Corps */
+.bodygrid{display:grid;grid-template-columns:minmax(220px,320px) minmax(0,1fr);gap:18px;align-items:start}
+@media(max-width:700px){.bodygrid{grid-template-columns:1fr}.bodygrid .fig{max-width:330px;margin:0 auto;width:100%}}
+.mk-o{cursor:pointer}
+.mk-o circle.hit{fill:var(--view);stroke-width:2}
+.mk-o:hover circle.hit,.mk-o.sel circle.hit{fill:var(--accent-bg);stroke:var(--accent)}
+.mk-o.good circle.hit{fill:var(--pos-bg);stroke:var(--pos)}
+.mk-o.bad circle.hit{fill:var(--neg-bg);stroke:var(--neg)}
+.mk-o text{font-size:9px;font-weight:600;text-anchor:middle;dominant-baseline:central;pointer-events:none}
+.mk-o:focus-visible{outline:none}
+.mk-o:focus-visible circle.hit{stroke:var(--accent);stroke-width:3}
+.legend{display:flex;gap:12px;flex-wrap:wrap;font-size:.84rem;color:var(--fg2)}
+.legend span{display:inline-flex;align-items:center;gap:6px}
+.legend i{width:10px;height:10px;border-radius:50%;display:inline-block}
+.lab-list{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:6px}
+.lab-row{display:flex;gap:8px;align-items:center}
+.lab-row .no{width:22px;height:22px;flex:none;border-radius:50%;border:1px solid var(--line2);display:grid;place-items:center;font-size:.78rem;font-weight:600}
+.lab-row select{flex:1;min-width:0}
+
+/* Arbre */
+.tnode{cursor:pointer}
+.tnode rect{fill:var(--view);stroke-width:1.5}
+.tnode.root rect{stroke:var(--fg2)}
+.tnode.mye rect{stroke:var(--sang)}
+.tnode.lym rect{stroke:var(--lymphe)}
+.tnode:hover rect{fill:var(--alt)}
+.tnode.sel rect{fill:var(--accent-bg);stroke:var(--accent);stroke-width:2.5}
+.tnode text{font-size:12.5px;text-anchor:middle}
+.tnode:focus-visible{outline:none}
+.tnode:focus-visible rect{stroke:var(--accent);stroke-width:3}
+.tline{fill:none;stroke:var(--line2);stroke-width:1.5}
+.tline.dash{stroke-dasharray:4 4}
+
+/* Fiche mémo */
+.k{border-radius:2px;padding:0 2px;font-weight:600}
+.hidek .k{background:var(--accent-bg);color:transparent;cursor:pointer;border-bottom:1px dashed var(--accent)}
+.hidek .k.show{color:var(--fg);background:transparent;border-bottom-color:transparent;cursor:default}
+.memo{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px}
+.memo .box h3{font-size:.98rem}
+.memo ul{margin:0;padding-left:1.1em;display:flex;flex-direction:column;gap:4px;font-size:.93rem}
+
+/* Quiz */
+.qprog{display:flex;gap:4px;flex-wrap:wrap}
+.qprog i{width:22px;height:6px;border-radius:3px;background:var(--line)}
+.qprog i.ok{background:var(--pos)} .qprog i.ko{background:var(--neg)} .qprog i.cur{background:var(--accent)}
+.flow{display:flex;flex-wrap:wrap;align-items:stretch;gap:6px}
+.flow .st{border:1px solid var(--line2);border-radius:3px;padding:8px 10px;font-size:.88rem;background:var(--view);flex:1 1 130px;min-width:0}
+.flow .st.bad{border-color:var(--neg);background:var(--neg-bg)}
+.flow .st.good{border-color:var(--pos);background:var(--pos-bg)}
+.flow .ar{align-self:center;color:var(--fg2)}
+.potent{display:flex;flex-direction:column;gap:8px}
+.pt{display:grid;grid-template-columns:150px minmax(0,1fr);gap:12px;align-items:center}
+.pt .bar{height:22px;border-radius:3px;background:color-mix(in srgb,var(--accent) 35%,var(--view));border:1px solid var(--accent)}
+.pt .nm{font-weight:600}
+.pt .d{grid-column:2;font-size:.86rem;color:var(--fg2);margin-top:-4px}
+@media(max-width:560px){.pt{grid-template-columns:1fr}.pt .d{grid-column:1}}
+.homesteps{margin:0;padding-left:1.3em;display:flex;flex-direction:column;gap:6px}
+.footnav{display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap}
+details summary{cursor:pointer;color:var(--fg2);font-size:.9rem}
+details[open] summary{margin-bottom:8px}
+
+/* ---- Ajouts chapitres 3 et 4 ---- */
+.pill.c-soi{border-color:var(--soi);color:var(--soi);background:var(--soi-bg)}
+.pill.c-non{border-color:var(--nonsoi);color:var(--neu-fg);background:var(--nonsoi-bg)}
+.pill.c-inne{border-color:var(--inne);color:var(--inne);background:var(--inne-bg)}
+.pill.c-adapt{border-color:var(--adapt);color:var(--adapt);background:var(--adapt-bg)}
+.pill.c-meca{border-color:var(--meca);color:var(--meca)}
+.pill.c-bioch{border-color:var(--bioch);color:var(--bioch)}
+.pill.c-biol{border-color:var(--biol);color:var(--pos-fg)}
+
+/* Chronologie des greffes */
+.gt-wrap{overflow-x:auto;border:1px solid var(--line);border-radius:var(--r)}
+.gt{display:grid;grid-template-columns:104px repeat(12,minmax(26px,1fr));min-width:470px}
+.gt > *{border-bottom:1px solid var(--line);min-height:32px;display:flex;align-items:center}
+.gt .hd{font-size:.76rem;color:var(--fg2);justify-content:center;background:var(--alt)}
+.gt .hd.sel{color:var(--fg);font-weight:600;box-shadow:inset 0 -2px 0 var(--accent)}
+.gt .rl{padding:0 10px;font-size:.86rem;font-weight:500;background:var(--alt);border-right:1px solid var(--line);cursor:pointer;border-top:0;border-left:0;text-align:left;font-family:inherit;color:inherit}
+.gt .rl.sel{background:var(--accent-bg);box-shadow:inset 3px 0 0 var(--accent)}
+.gt .c{border:0;border-right:1px solid var(--view);padding:0;cursor:pointer;justify-content:center}
+.gt .c.cur{outline:2px solid var(--fg);outline-offset:-3px}
+.gt .c.na{background:repeating-linear-gradient(45deg,var(--alt) 0 4px,var(--view) 4px 8px)}
+.gleg{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:.8rem;color:var(--fg2)}
+.gleg span{display:inline-flex;align-items:center;gap:6px}
+.gleg i{width:14px;height:14px;border-radius:2px;border:1px solid var(--line2);display:inline-block}
+.graftbox{display:grid;grid-template-columns:minmax(200px,300px) minmax(0,1fr);gap:16px;align-items:center}
+@media(max-width:640px){.graftbox{grid-template-columns:1fr}}
+input[type=range]{width:100%;accent-color:var(--accent)}
+
+/* Identité moléculaire */
+.idgrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+@media(max-width:560px){.idgrid{grid-template-columns:1fr}}
+.verdict{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+
+/* Cils et mucus */
+@keyframes beat{0%,100%{transform:rotate(-20deg)}50%{transform:rotate(24deg)}}
+@keyframes drift{from{transform:translateX(0)}to{transform:translateX(-150px)}}
+.cil{transform-box:fill-box;transform-origin:50% 100%;animation:beat 1s ease-in-out infinite}
+.cil:nth-of-type(2n){animation-delay:-.25s}
+.cil:nth-of-type(3n){animation-delay:-.5s}
+.part{animation:drift 5s linear infinite}
+.stopped .cil{animation:none;transform:rotate(62deg)}
+.stopped .part{animation-play-state:paused}
+
+/* Échelle de pH */
+.ph{position:relative;height:16px;border-radius:3px;background:linear-gradient(90deg,#d63b3b,#f08a24 20%,#f3cd3c 40%,#7cc36a 50%,#3aa0c8 72%,#5d55b8);border:1px solid var(--line2)}
+.phmarks{position:relative;height:118px}
+.phm{position:absolute;top:0;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;font-size:.76rem;line-height:1.25;text-align:center;width:96px}
+.phm::before{content:"";width:1px;height:12px;background:var(--fg2);margin-bottom:3px}
+.phticks{display:flex;justify-content:space-between;font-size:.72rem;color:var(--fg2)}
+
+/* Signes de l'inflammation */
+.signs{display:flex;flex-wrap:wrap;gap:8px}
+.sign{border:1px solid var(--line2);border-radius:14px;padding:2px 12px;font-size:.86rem;color:var(--fg2);background:var(--view);transition:all .25s}
+.sign.on{border-color:var(--neg);color:var(--neg-fg);background:var(--neg-bg);font-weight:600}
+
+/* Thermomètre */
+.thermo{display:grid;grid-template-columns:auto minmax(0,1fr);gap:16px;align-items:center}
+.zone{border-radius:3px;padding:10px 14px;border:1px solid var(--line)}
+
+/* Diagramme de Venn */
+.venn text{font-size:13px}
+.venn .t{font-weight:600}
+.venn .m{font-size:12.5px}
+
+/* Voies d'entrée */
+.bodyentry{display:grid;grid-template-columns:minmax(200px,300px) minmax(0,1fr);gap:18px;align-items:start}
+@media(max-width:700px){.bodyentry{grid-template-columns:1fr}.bodyentry .fig{max-width:300px;margin:0 auto;width:100%}}
+.ent{cursor:pointer}
+.ent circle.hit{fill:var(--view);stroke:var(--nonsoi);stroke-width:2}
+.ent:hover circle.hit,.ent.sel circle.hit{fill:var(--nonsoi-bg);stroke:var(--neu-fg);stroke-width:3}
+.ent text{font-size:10px;font-weight:700;text-anchor:middle;dominant-baseline:central;pointer-events:none}
+.ent:focus-visible{outline:none}
+.ent:focus-visible circle.hit{stroke:var(--accent);stroke-width:3}
+.entlist{display:flex;flex-direction:column;gap:4px}
+.entbtn{display:flex;gap:8px;align-items:center;width:100%;text-align:left;border:1px solid transparent;background:none;border-radius:3px;padding:5px 8px;cursor:pointer;font-size:.92rem}
+.entbtn:hover{background:var(--alt)}
+.entbtn[aria-pressed="true"]{border-color:var(--nonsoi);background:var(--nonsoi-bg)}
+.entbtn .no{width:22px;height:22px;flex:none;border-radius:50%;border:1px solid var(--nonsoi);display:grid;place-items:center;font-size:.76rem;font-weight:600}
+
+/* Phagocytose */
+.phstage{cursor:pointer}
+.phstage rect.bg{fill:transparent;stroke:transparent}
+.phstage.cur rect.bg{fill:var(--accent-bg);stroke:var(--accent)}
+.phstage:hover rect.bg{stroke:var(--line2)}
+.phstage:focus-visible{outline:none}
+.phstage:focus-visible rect.bg{stroke:var(--accent);stroke-width:2}
+</style>
+
+<div id="root"></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.3.1/umd/react.production.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.3.1/umd/react-dom.production.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/htm@3.1.1/dist/htm.umd.js"></script>
+<script>
+(function(){
+const {useState, useEffect, useContext, createContext} = React;
+const html = htm.bind(React.createElement);
+const KEY = 'immuno-s5-ch34-v1';
+
+/* ---------- utilitaires ---------- */
+function load(){ try { return JSON.parse(localStorage.getItem(KEY)) || {}; } catch(e){ return {}; } }
+function save(p){ try { localStorage.setItem(KEY, JSON.stringify(p)); } catch(e){} }
+function rich(s){
+  if (typeof s !== 'string') return s;
+  return s.split(/(\*\*[^*]+\*\*)/g).map((p,i)=> (p.startsWith('**') && p.endsWith('**')) ? html`<strong key=${i}>${p.slice(2,-2)}</strong>` : p);
+}
+const fmt = v => v.toLocaleString('fr-FR', {maximumFractionDigits:1});
+function rnd(seed){ let s = seed; return ()=>{ s = (s*9301+49297)%233280; return s/233280; }; }
+function pts(n, R, seed){ const r = rnd(seed); const out=[]; while(out.length<n){ const x=(r()*2-1)*R, y=(r()*2-1)*R; if(x*x+y*y<=R*R) out.push([x,y]); } return out; }
+
+const Prog = createContext(null);
+
+function Icon({kind}){
+  const c = {info:'var(--accent)', pos:'var(--pos)', neu:'var(--neu)', neg:'var(--neg)'}[kind] || 'var(--accent)';
+  const glyph = kind==='pos' ? 'M5 9.5l2.6 2.6L13 6.5' : kind==='neu' ? 'M9 5v5M9 12.6v.4' : 'M9 8v5M9 5.4v.4';
+  return html`<svg className="ic" viewBox="0 0 18 18" aria-hidden="true"><circle cx="9" cy="9" r="8" fill=${c}/><path d=${glyph} stroke="#fcfcfc" strokeWidth="1.8" fill="none" strokeLinecap="round" strokeLinejoin="round"/></svg>`;
+}
+function Msg({kind='info', title, children}){
+  return html`<div className=${'msg '+kind} role="note"><${Icon} kind=${kind}/><div className="bd">${title ? html`<b className="h">${title}</b>` : null}${children}</div></div>`;
+}
+
+/* ---------- cellules (dessins à l'échelle, unité = µm) ---------- */
+function Cell({type, scale=6, label}){
+  const half = {hematie:4.6, plaquette:2.2, lympho:5.2, neutro:7, eosino:7.4, baso:6.6, mono:10, macro:13.5}[type] || 8;
+  const s = half*2*scale;
+  let g = null;
+  if (type==='hematie') g = html`<g><circle r="3.7" className="s-gr"/><circle r="1.7" className="s-grc"/></g>`;
+  else if (type==='plaquette') g = html`<g><ellipse rx="1.5" ry="0.95" transform="rotate(-20)" className="s-plq"/><circle cx="0.3" cy="0.1" r="0.3" className="s-nuc"/></g>`;
+  else if (type==='lympho') g = html`<g><circle r="4.6" className="s-cyto"/><circle cx="-0.35" cy="-0.1" r="3.85" className="s-nuc"/></g>`;
+  else if (type==='neutro') g = html`<g><circle r="6.2" className="s-cyto"/>${pts(38,5.6,7).map((p,i)=>html`<circle key=${i} cx=${p[0]} cy=${p[1]} r="0.24" className="s-fine"/>`)}<path d="M-2.4,-0.8 Q-1.2,1.4 0,1.3 Q1.2,1.2 2.4,-0.6" className="s-link"/><circle cx="-2.4" cy="-0.8" r="1.7" className="s-nuc"/><circle cx="0" cy="1.35" r="1.55" className="s-nuc"/><circle cx="2.45" cy="-0.6" r="1.65" className="s-nuc"/></g>`;
+  else if (type==='eosino') g = html`<g><circle r="6.6" className="s-cyto"/>${pts(22,5.7,11).map((p,i)=>html`<circle key=${i} cx=${p[0]} cy=${p[1]} r="0.62" className="s-gran"/>`)}<path d="M-1.9,0 L1.9,0" className="s-link"/><circle cx="-2" cy="0" r="1.95" className="s-nuc"/><circle cx="2" cy="0" r="1.95" className="s-nuc"/></g>`;
+  else if (type==='baso') g = html`<g><circle r="5.9" className="s-cyto"/><circle cx="-1" cy="0" r="2.3" className="s-nuc" opacity=".45"/><circle cx="1.5" cy="0.6" r="2" className="s-nuc" opacity=".45"/>${pts(26,5,23).map((p,i)=>html`<circle key=${i} cx=${p[0]} cy=${p[1]} r="0.55" className="s-dgran"/>`)}</g>`;
+  else if (type==='mono') g = html`<g><circle r="9.1" className="s-cyto"/><path d="M-5,-2.5 C-5,-6 4,-6.2 5.2,-2.2 C6.3,1.4 4,4.6 0.4,4.2 C-1.2,4 -0.6,1.2 -2.6,1.4 C-4.4,1.6 -5,0.6 -5,-2.5Z" className="s-nuc"/></g>`;
+  else if (type==='macro') g = html`<g><path d="M-11,-2 C-12.5,-8 -6,-12.6 0,-11 C5,-13 11.5,-8 11,-2 C13,3 9,9.5 3,10 C-1,13 -8,11 -10,5 C-13,3 -10,1 -11,-2Z" className="s-cyto"/><ellipse cx="-1.5" cy="0" rx="4.2" ry="3.2" className="s-nuc"/><circle cx="5" cy="-4" r="1.3" className="s-grc"/><circle cx="4" cy="4.5" r="1" className="s-grc"/><circle cx="-6.5" cy="5" r="0.9" className="s-grc"/></g>`;
+  return html`<svg viewBox=${(-half)+' '+(-half)+' '+(half*2)+' '+(half*2)} width=${s} height=${s} role="img" aria-label=${label || type} style=${{overflow:'visible'}}>${g}</svg>`;
+}
+
+/* =========================================================
+   SCHÉMAS
+   ========================================================= */
+
+/* ---------- greffes ---------- */
+const GSTATE = {
+  pale:{l:'greffon pâle', c:'var(--g-pale)'},
+  rnaiss:{l:"greffon d'aspect rosé (vascularisation naissante)", c:'color-mix(in srgb, var(--g-rose) 45%, var(--g-pale))'},
+  rose:{l:'greffon rose bien vascularisé', c:'var(--g-rose)'},
+  conf:{l:'greffon confondu avec les tissus environnants', c:'var(--skin)'},
+  brun:{l:'greffon brunâtre', c:'var(--g-brun)'},
+  infl:{l:'gonflement, rougeur, petits saignements', c:'var(--neg)'},
+  dess:{l:'greffon desséché, se détachant', c:'var(--g-dess)'},
+  na:{l:"pas d'observation dans le tableau du cours", c:null}
+};
+const GRAFTS = [
+  {id:'auto', n:'Autogreffe', d:'Donneur et receveur sont le même individu', ok:true,
+    seq:['pale','pale','pale','rnaiss','rose','rose','rose','rose','rose','conf','na','na']},
+  {id:'iso', n:'Isogreffe', d:'Donneur et receveur sont de vrais jumeaux', ok:true,
+    seq:['pale','pale','pale','rnaiss','rose','rose','rose','rose','rose','conf','na','na']},
+  {id:'allo', n:'Allogreffe', d:'Donneur et receveur font partie de la même espèce', ok:false,
+    seq:['pale','pale','rnaiss','rnaiss','rnaiss','brun','brun','infl','infl','infl','infl','dess']},
+  {id:'xeno', n:'Xénogreffe', d:'Donneur et receveur appartiennent à des espèces différentes', ok:false,
+    seq:['pale','pale','rnaiss','rnaiss','brun','infl','infl','infl','infl','dess','na','na']}
+];
+const VESSELS = ["M40,60 C70,62 92,70 110,74","M200,70 C178,72 152,80 136,90","M58,124 C84,118 100,110 118,102","M196,128 C172,120 152,114 138,106","M120,8 C123,28 118,44 124,60","M118,162 C117,142 124,130 120,112","M24,92 C56,90 84,92 102,95"];
+function GraftView({state}){
+  const r = rnd(7);
+  const fur = Array.from({length:70}, ()=>[r()*240, r()*170, r()*8-4]);
+  const nV = state==='rnaiss' ? 3 : state==='rose' ? 7 : state==='brun' ? 4 : 0;
+  const g = {x:80, y:45, w:80, h:80};
+  let graft = null;
+  if (state==='pale' || state==='rnaiss' || state==='rose' || state==='brun'){
+    graft = html`<rect x=${g.x} y=${g.y} width=${g.w} height=${g.h} rx="6" fill=${GSTATE[state].c} stroke="var(--skin-line)" strokeWidth="1.5" strokeDasharray="4 3"/>`;
+  } else if (state==='conf'){
+    graft = html`<rect x=${g.x} y=${g.y} width=${g.w} height=${g.h} rx="6" fill="none" stroke="var(--skin-line)" strokeOpacity=".35" strokeDasharray="2 5"/>`;
+  } else if (state==='infl'){
+    graft = html`<g transform="translate(120 85) scale(1.1) translate(-120 -85)">
+      <rect x=${g.x-9} y=${g.y-9} width=${g.w+18} height=${g.h+18} rx="14" fill="var(--neg)" opacity=".22"/>
+      <rect x=${g.x} y=${g.y} width=${g.w} height=${g.h} rx="8" fill="color-mix(in srgb, var(--g-brun) 55%, var(--neg))" stroke="var(--neg)" strokeWidth="2"/>
+      ${[[96,60],[140,70],[110,104],[148,112],[90,118],[128,56]].map((p,i)=>html`<circle key=${i} cx=${p[0]} cy=${p[1]} r="3.2" fill="var(--neg)" stroke="var(--view)" strokeWidth=".8"/>`)}
+    </g>`;
+  } else if (state==='dess'){
+    graft = html`<g>
+      <rect x=${g.x+4} y=${g.y+6} width=${g.w} height=${g.h} rx="5" fill="var(--fg)" opacity=".18"/>
+      <g transform="rotate(-9 120 85)">
+        <path d=${`M${g.x},${g.y+8} L${g.x+g.w-4},${g.y} L${g.x+g.w},${g.y+g.h} L${g.x+6},${g.y+g.h-4} Z`} fill="var(--g-dess)" stroke="var(--g-brun)" strokeWidth="1.5"/>
+        <path d="M92,60 L108,74 L102,92 M130,58 L124,80 L144,98 M110,110 L126,100" stroke="var(--g-brun)" strokeWidth="1.4" fill="none"/>
+      </g>
+    </g>`;
+  }
+  return html`<svg viewBox="0 0 240 170" role="img" aria-label=${'Greffon : '+GSTATE[state].l}>
+    <rect x="0" y="0" width="240" height="170" rx="6" fill="var(--skin)"/>
+    ${fur.map((f,i)=>html`<path key=${i} d=${`M${f[0]},${f[1]} l${f[2]},-7`} stroke="var(--skin-line)" strokeWidth="1" opacity=".55"/>`)}
+    ${VESSELS.slice(0,nV).map((d,i)=>html`<path key=${'v'+i} d=${d} stroke="var(--sang)" strokeWidth=${state==='rnaiss'?1.4:2} fill="none" opacity=${state==='brun'?.35:.85}/>`)}
+    ${graft}
+    ${VESSELS.slice(0,nV).map((d,i)=>html`<path key=${'w'+i} d=${d} stroke="var(--sang)" strokeWidth=${state==='rnaiss'?1.2:1.8} fill="none" opacity=${state==='brun'?.3:.8} clipPath="url(#gclip)"/>`)}
+    <defs><clipPath id="gclip"><rect x=${g.x} y=${g.y} width=${g.w} height=${g.h} rx="6"/></clipPath></defs>
+    ${state==='na' ? html`<text x="120" y="90" textAnchor="middle" fontSize="12" style=${{fill:'var(--fg2)'}}>pas d'observation</text>` : null}
+  </svg>`;
+}
+function GraftTimeline({type, day, onPick, only}){
+  const rows = only ? GRAFTS.filter(g=>g.id===only) : GRAFTS;
+  return html`<div className="gt-wrap"><div className="gt" role="grid" aria-label="Évolution des greffons jour par jour">
+    <div className="hd" style=${{justifyContent:'flex-start',paddingLeft:'10px'}}>Jour</div>
+    ${Array.from({length:12},(_,i)=>html`<div key=${'h'+i} className=${'hd num'+(!only && day===i+1?' sel':'')}>${i+1}</div>`)}
+    ${rows.map(g=>html`<${React.Fragment} key=${g.id}>
+      <button className=${'rl'+(!only && type===g.id?' sel':'')} onClick=${()=>onPick && onPick(g.id, day)} disabled=${!onPick}>${g.n}</button>
+      ${g.seq.map((s,i)=>html`<button key=${i} className=${'c'+(s==='na'?' na':'')+(!only && type===g.id && day===i+1?' cur':'')}
+        style=${s==='na'?null:{background:GSTATE[s].c}} title=${g.n+', jour '+(i+1)+' : '+GSTATE[s].l}
+        aria-label=${g.n+', jour '+(i+1)+' : '+GSTATE[s].l} onClick=${()=>onPick && onPick(g.id, i+1)} disabled=${!onPick}></button>`)}
+    <//>`)}
+  </div></div>`;
+}
+function GraftLegend(){
+  return html`<div className="gleg">${['pale','rnaiss','rose','conf','brun','infl','dess'].map(k=>html`<span key=${k}><i style=${{background:GSTATE[k].c}}></i>${GSTATE[k].l}</span>`)}</div>`;
+}
+
+/* ---------- identité moléculaire (marqueurs) ---------- */
+const MCOL = ['var(--soi)','var(--nonsoi)','var(--inne)','var(--adapt)','var(--neg)'];
+function MarkerGlyph({code, x, y, a, miss}){
+  const sh = code[0], col = MCOL[+code[1]];
+  let head;
+  if (sh==='c') head = html`<circle cy="-17" r="5" fill=${col}/>`;
+  else if (sh==='q') head = html`<rect x="-5" y="-22" width="10" height="10" fill=${col}/>`;
+  else if (sh==='t') head = html`<path d="M0,-24 L6,-12 L-6,-12 Z" fill=${col}/>`;
+  else if (sh==='d') head = html`<path d="M0,-24 L6,-17 L0,-10 L-6,-17 Z" fill=${col}/>`;
+  else if (sh==='f') head = html`<path d="M-6,-24 V-12 H6 V-24" fill="none" stroke=${col} strokeWidth="3"/>`;
+  else if (sh==='x') head = html`<path d="M0,-25 L2,-19 L8,-18 L3,-14 L5,-8 L0,-11 L-5,-8 L-3,-14 L-8,-18 L-2,-19 Z" fill=${col}/>`;
+  else head = html`<path d="M-6,-20 L-3,-25 L3,-25 L6,-20 L3,-15 L-3,-15 Z" fill=${col}/>`;
+  return html`<g transform=${`translate(${x} ${y}) rotate(${a})`}>
+    ${miss ? html`<circle cy="-15" r="12" fill="var(--neg-bg)" stroke="var(--neg)" strokeDasharray="3 2"/>` : null}
+    <line y1="0" y2="-11" stroke="var(--fg2)" strokeWidth="2"/>${head}
+  </g>`;
+}
+function IdCell({markers, cmp, label, w=220}){
+  const cx = 110, cy = 105, R = 62;
+  return html`<svg viewBox="0 0 220 220" width="100%" style=${{maxWidth:w+'px'}} role="img" aria-label=${label}>
+    <path d=${`M${cx-R},${cy} C${cx-R},${cy-R*1.1} ${cx+R*1.05},${cy-R*1.08} ${cx+R},${cy-4} C${cx+R*1.02},${cy+R} ${cx-R*0.95},${cy+R*1.1} ${cx-R},${cy}Z`} fill="var(--cyto)" stroke="var(--nuc)" strokeWidth="1.5"/>
+    <circle cx=${cx-6} cy=${cy+4} r="20" fill="var(--nuc)" opacity=".75"/>
+    ${markers.map((m,i)=>{ const ang = -90 + i*60; const rad = ang*Math.PI/180; const rr = R+1;
+      return html`<${MarkerGlyph} key=${i} code=${m} x=${cx+rr*Math.cos(rad)} y=${cy+rr*Math.sin(rad)} a=${ang+90} miss=${cmp && cmp[i]!==m}/>`; })}
+    <text x="110" y="214" textAnchor="middle" fontSize="13" fontWeight="600">${label}</text>
+  </svg>`;
+}
+const PEOPLE = {
+  lea:{n:'Léa (receveuse)', m:['c0','q1','t2','d3','f4','c2']},
+  self:{n:'Léa elle-même', t:'Autogreffe', m:['c0','q1','t2','d3','f4','c2']},
+  twin:{n:'Sa vraie jumelle', t:'Isogreffe', m:['c0','q1','t2','d3','f4','c2']},
+  bro:{n:'Son frère', t:'Allogreffe', m:['c0','q1','t2','q4','d0','t3']},
+  unk:{n:'Une personne inconnue', t:'Allogreffe', m:['d1','q1','f0','t4','c3','d2']},
+  mouse:{n:'Une souris', t:'Xénogreffe', m:['x0','h1','x3','h4','x2','h0']}
+};
+
+function AntigenFig(){
+  const tri = (x,y,a)=>html`<path d="M-6,0 L0,-11 L6,0 Z" transform=${`translate(${x} ${y}) rotate(${a})`} fill="var(--nonsoi)"/>`;
+  return html`<svg viewBox="0 0 560 160" role="img" aria-label="Antigènes fixés à la surface d'une bactérie ou d'une cellule infectée, et antigènes libres comme les toxines">
+    <rect x="0" y="0" width="560" height="160" fill="var(--inter-bg)"/>
+    <g transform="translate(110 78)">
+      <rect x="-62" y="-22" width="124" height="44" rx="22" fill="var(--bact)" opacity=".85"/>
+      ${tri(-30,-22,0)}${tri(20,-22,0)}${tri(-8,22,180)}${tri(40,22,180)}${tri(62,0,90)}
+      <text y="52" textAnchor="middle" fontSize="12">bactérie</text>
+    </g>
+    <g transform="translate(300 78)">
+      <circle r="42" fill="var(--cyto)" stroke="var(--nuc)" strokeWidth="1.5"/><circle r="15" cx="-6" cy="4" fill="var(--nuc)" opacity=".7"/>
+      ${[[18,10],[-20,-14],[8,-22]].map((p,i)=>html`<circle key=${i} cx=${p[0]} cy=${p[1]} r="5" fill="none" stroke="var(--neg)" strokeWidth="1.5"/>`)}
+      ${tri(0,-42,0)}${tri(42,0,90)}${tri(-30,30,-135)}
+      <text y="60" textAnchor="middle" fontSize="12">cellule infectée par un virus</text>
+    </g>
+    <g transform="translate(470 74)">
+      ${[[-40,-30],[-6,-44],[30,-20],[-28,10],[12,16],[44,30],[-14,40]].map((p,i)=>html`<path key=${i} d="M0,-6 L6,0 L0,6 L-6,0 Z" transform=${`translate(${p[0]} ${p[1]}) rotate(${i*20})`} fill="var(--nonsoi)"/>`)}
+      <text y="64" textAnchor="middle" fontSize="12">toxines libres</text>
+    </g>
+    <text x="10" y="18" fontSize="11.5" style=${{fill:'var(--fg2)'}}>Les triangles et losanges orange représentent les antigènes.</text>
+  </svg>`;
+}
+
+/* ---------- réponse innée / adaptative ---------- */
+function ResponseTimeline(){
+  const X = d => 70 + d*36;
+  return html`<svg viewBox="0 0 620 150" role="img" aria-label="La réponse innée agit immédiatement ; la réponse adaptative demande au moins une dizaine de jours">
+    <defs><linearGradient id="gAd" x1="0" x2="1"><stop offset="0" style=${{stopColor:'var(--adapt)',stopOpacity:0}}/><stop offset="1" style=${{stopColor:'var(--adapt)',stopOpacity:.85}}/></linearGradient></defs>
+    <text x="0" y="40" fontSize="12" fontWeight="600" style=${{fill:'var(--inne)'}}>Innée</text>
+    <rect x=${X(0)} y="26" width=${X(14)-X(0)} height="22" rx="3" fill="var(--inne)" opacity=".8"/>
+    <text x=${X(0)+8} y="41" fontSize="11.5" style=${{fill:'var(--view)'}} fontWeight="600">immédiate · non spécifique</text>
+    <text x="0" y="84" fontSize="12" fontWeight="600" style=${{fill:'var(--adapt)'}}>Adaptative</text>
+    <rect x=${X(3)} y="70" width=${X(10)-X(3)} height="22" fill="url(#gAd)"/>
+    <rect x=${X(10)} y="70" width=${X(14)-X(10)} height="22" rx="3" fill="var(--adapt)" opacity=".85"/>
+    <text x=${X(10)+8} y="85" fontSize="11.5" style=${{fill:'var(--view)'}} fontWeight="600">spécifique</text>
+    <text x=${X(3)+6} y="85" fontSize="11" style=${{fill:'var(--fg)'}}>mise en place…</text>
+    <line x1=${X(0)} x2=${X(14)} y1="108" y2="108" stroke="var(--line2)"/>
+    ${[0,2,4,6,8,10,12,14].map(d=>html`<g key=${d}><line x1=${X(d)} x2=${X(d)} y1="104" y2="112" stroke="var(--line2)"/><text x=${X(d)} y="126" fontSize="11" textAnchor="middle" style=${{fill:'var(--fg2)'}}>${d}</text></g>`)}
+    <text x=${X(14)} y="144" fontSize="11" textAnchor="end" style=${{fill:'var(--fg2)'}}>jours après l'entrée du microbe</text>
+    <path d=${`M${X(0)},20 V100`} stroke="var(--nonsoi)" strokeWidth="2" strokeDasharray="3 3"/>
+    <text x=${X(0)} y="14" fontSize="11" textAnchor="middle" style=${{fill:'var(--neu-fg)'}}>contact</text>
+  </svg>`;
+}
+
+/* ---------- voies d'entrée ---------- */
+const ENTRIES = [
+  {id:'oral', no:1, name:'Contamination féco-orale et intoxication alimentaire', x:150, y:68,
+    how:"Par la bouche, vers le tube digestif : eau ou aliments souillés (traces de selles), viande crue ou mal cuite, fruits et légumes mal lavés, mains sales.",
+    ex:"Toxoplasmose, choléra, amibiase, dysenterie, intoxications alimentaires"},
+  {id:'resp', no:2, name:'Contamination respiratoire', x:126, y:150,
+    how:"Par le nez et la bouche, vers les poumons : gouttelettes de salive projetées quand une personne malade tousse, éternue ou parle ; mains contaminées portées au visage.",
+    ex:"Grippe, COVID-19, rhume, tuberculose"},
+  {id:'sang', no:3, name:'Contamination sanguine', x:164, y:160,
+    how:"Directement dans le sang : seringues ou matériel partagés, sang contaminé.",
+    ex:"VIH (sida), hépatites B et C"},
+  {id:'peau', no:4, name:'Contamination par traumatisme de la peau', x:232, y:236,
+    how:"À travers une blessure de la peau : plaie souillée, griffure, morsure, piqûre d'épine ou d'insecte. Les mycoses, elles, se développent à la surface de la peau, au contact de sols humides ou de linge partagé.",
+    ex:"Tétanos, paludisme (piqûre de moustique)"},
+  {id:'foeto', no:5, name:'Contamination fœto-maternelle', x:150, y:292,
+    how:"De la mère à l'enfant : à travers le placenta pendant la grossesse, ou lors de l'accouchement et de l'allaitement.",
+    ex:"Toxoplasmose, VIH"},
+  {id:'sex', no:6, name:'Contamination sexuelle', x:150, y:334,
+    how:"Lors de rapports sexuels non protégés : contact avec le sperme, les sécrétions vaginales ou le sang.",
+    ex:"VIH (sida), hépatite B, chlamydia, syphilis"}
+];
+function BodyEntries({sel, onSel}){
+  const shapes = html`<g>
+    <ellipse cx="150" cy="56" rx="28" ry="34"/><rect x="138" y="84" width="24" height="34"/>
+    <path d="M96,116 Q150,106 204,116 Q214,120 214,136 L206,250 Q202,290 210,330 Q212,346 200,348 L100,348 Q88,346 90,330 Q98,290 94,250 L86,136 Q86,120 96,116 Z"/>
+    <path d="M92,120 Q74,124 70,146 L54,318 Q52,334 62,336 Q70,336 72,320 L90,190 Z"/><ellipse cx="60" cy="344" rx="8" ry="12"/>
+    <path d="M208,120 Q226,124 230,146 L246,318 Q248,334 238,336 Q230,336 228,320 L210,190 Z"/><ellipse cx="240" cy="344" rx="8" ry="12"/>
+    <path d="M100,340 L148,340 L144,470 L140,560 Q140,572 128,572 L116,572 Q108,570 110,556 L106,470 Z"/><ellipse cx="122" cy="580" rx="15" ry="7"/>
+    <path d="M200,340 L152,340 L156,470 L160,560 Q160,572 172,572 L184,572 Q192,570 190,556 L194,470 Z"/><ellipse cx="178" cy="580" rx="15" ry="7"/>
+  </g>`;
+  return html`<svg viewBox="0 0 300 600" role="img" aria-label="Silhouette humaine avec les six voies d'entrée des microbes">
+    <g fill="none" stroke="var(--line2)" strokeWidth="3">${shapes}</g>
+    <g fill="var(--body)">${shapes}</g>
+    <g fill="var(--line2)" opacity=".7">
+      <ellipse cx="128" cy="168" rx="16" ry="30"/><ellipse cx="172" cy="168" rx="16" ry="30"/>
+      <path d="M156,150 q14,-6 16,10 q0,14 -16,22 q-14,-8 -14,-20 q2,-14 14,-12z" fill="var(--sang)" opacity=".7"/>
+      <path d="M150,118 V230 M130,236 q20,-14 40,0 q8,20 -8,30 q-24,8 -32,-12 q-4,-10 0,-18z" stroke="var(--line2)" strokeWidth="3" fill="none"/>
+    </g>
+    ${ENTRIES.map(e=>html`<g key=${e.id} className=${'ent'+(sel===e.id?' sel':'')} tabIndex="0" role="button" aria-label=${e.name}
+        onClick=${()=>onSel(e.id)} onKeyDown=${ev=>{ if(ev.key==='Enter'||ev.key===' '){ ev.preventDefault(); onSel(e.id);} }}>
+      <circle className="hit" cx=${e.x} cy=${e.y} r="11"/><text x=${e.x} y=${e.y+.5}>${e.no}</text>
+    </g>`)}
+  </svg>`;
+}
+
+/* ---------- cils et mucus ---------- */
+function MucusCilia({stopped}){
+  const r = rnd(11);
+  const parts = Array.from({length:16}, (_,i)=>({x:40+i*36+r()*16, y:70+r()*18, k:i%3, d:-r()*5}));
+  return html`<svg viewBox="0 0 620 210" role="img" aria-label=${stopped ? 'Cils immobilisés : le mucus et les microbes stagnent' : 'Les cils battent et font remonter le mucus et les microbes vers la gorge'} className=${stopped?'stopped':''}>
+    <rect x="0" y="0" width="620" height="210" fill="var(--inter-bg)"/>
+    <text x="12" y="22" fontSize="12" style=${{fill:'var(--fg2)'}}>air inspiré (poussières, microbes)</text>
+    <rect x="0" y="60" width="620" height="44" fill="var(--mucus)"/>
+    <text x="608" y="56" fontSize="12" textAnchor="end" fontWeight="600" style=${{fill:'var(--pos-fg)'}}>mucus</text>
+    <g>${parts.map((p,i)=>html`<g key=${i} className="part" style=${{animationDelay:p.d+'s'}}>
+      ${p.k===0 ? html`<rect x=${p.x} y=${p.y} width="16" height="7" rx="3.5" fill="var(--bact)"/>` : html`<circle cx=${p.x} cy=${p.y+3} r=${p.k===1?3.5:2.5} fill="var(--fg2)"/>`}
+    </g>`)}</g>
+    <g>${Array.from({length:44},(_,i)=>html`<line key=${i} className="cil" x1=${8+i*14} x2=${8+i*14} y1="132" y2="104" stroke="var(--fg2)" strokeWidth="1.6" strokeLinecap="round"/>`)}</g>
+    ${Array.from({length:11},(_,i)=>{ const goblet = i===4 || i===8;
+      return html`<g key=${'c'+i}><rect x=${i*57} y="132" width="55" height="68" rx="4" fill=${goblet?'var(--mucus)':'var(--skin)'} stroke="var(--skin-line)"/>
+        <ellipse cx=${i*57+27} cy="178" rx="9" ry="7" fill="var(--nuc)" opacity=".6"/>
+        ${goblet ? html`<g>${[0,1,2,3].map(k=>html`<circle key=${k} cx=${i*57+18+k*6} cy=${148+(k%2)*6} r="3" fill="var(--pos)" opacity=".6"/>`)}</g>` : null}</g>`; })}
+    <text x="12" y="204" fontSize="11" style=${{fill:'var(--fg)'}}>cellules ciliées et cellules à mucus</text>
+    ${!stopped ? html`<g><path d="M330,40 H230" stroke="var(--accent-strong)" strokeWidth="2.5" markerEnd="url(#arC)"/><text x="336" y="44" fontSize="12" style=${{fill:'var(--accent-strong)'}}>vers la gorge</text></g>`
+      : html`<text x="310" y="42" textAnchor="middle" fontSize="12.5" fontWeight="600" style=${{fill:'var(--neg-fg)'}}>cils paralysés : le mucus stagne</text>`}
+    <defs><marker id="arC" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10z" fill="var(--accent-strong)"/></marker></defs>
+  </svg>`;
+}
+
+/* ---------- réaction inflammatoire ---------- */
+function Leuco({x, y, kind='gra', s=1}){
+  return html`<g transform=${`translate(${x} ${y}) scale(${s})`}>
+    <circle r="11" fill="var(--cyto)" stroke="var(--nuc)" strokeWidth="1"/>
+    ${kind==='gra' ? html`<g fill="var(--nuc)"><circle cx="-4" cy="-2" r="3.4"/><circle cx="1" cy="3" r="3.2"/><circle cx="5" cy="-2" r="3.2"/></g>`
+      : html`<path d="M-6,-3 C-6,-8 6,-8 6,-2 C6,4 0,6 -1,3 C-2,1 -6,2 -6,-3Z" fill="var(--nuc)"/>`}
+  </g>`;
+}
+function Bact({x, y, a=0, s=1}){ return html`<rect x="-7" y="-3" width="14" height="6" rx="3" fill="var(--bact)" transform=${`translate(${x} ${y}) rotate(${a}) scale(${s})`}/>`; }
+const INF_STEPS = [
+  {t:'Avant la blessure', d:"La peau est intacte : c'est la **première barrière**. Dans le tissu, sous la peau, des **cellules sentinelles** montent la garde."},
+  {t:'1. Effraction', d:"Le **clou** blesse la peau, une barrière naturelle. Des **bactéries pathogènes** pénètrent dans les tissus."},
+  {t:'2. Détection', d:"Les **cellules sentinelles** (mastocytes, macrophages, cellules dendritiques) reconnaissent les bactéries comme **non-soi** et dangereuses, grâce aux molécules de leur surface."},
+  {t:'3. Alerte chimique', d:"Les cellules sentinelles libèrent des **médiateurs chimiques** : les **cytokines**, dont l'**histamine**."},
+  {t:'4. Vasodilatation', d:"Les médiateurs **dilatent les vaisseaux sanguins** locaux. Plus de sang arrive : **rougeur** et **chaleur** (la température locale peut monter d'un degré)."},
+  {t:'5. Diapédèse et œdème', d:"Les capillaires deviennent plus **perméables** : du **plasma** et des **leucocytes** (monocytes, granulocytes) en sortent : c'est la **diapédèse**. Le liquide s'accumule : **gonflement** (œdème), qui comprime les nerfs : **douleur**."},
+  {t:'6. Phagocytose', d:"Les médiateurs attirent des **cellules phagocytaires** en renfort (macrophages, granulocytes, cellules dendritiques). Elles **détruisent les microbes par phagocytose**."},
+  {t:'7. Le pus', d:"Le mélange de **globules blancs morts ou affaiblis**, de **cellules de l'épiderme mortes** et de **microbes** forme le **pus**."}
+];
+function InflamDiagram({step}){
+  const capH = step>=4 ? 58 : 32, capY = 336;
+  const rbcGap = step>=4 ? 30 : 48;
+  const tip = step>=1 ? 196 : 26;
+  const bacts = [[284,186,20],[306,204,-30],[296,226,60],[322,180,10],[270,212,-50],[318,232,30],[338,206,75],[262,190,0]];
+  const showB = step<1 ? [] : step>=6 ? bacts.slice(0,3) : bacts;
+  const cells = [];
+  for (let row=0; row<3; row++) for (let i=0; i<16; i++){
+    const x = i*48 + (row%2?24:0) - 10, y = 46 + row*42;
+    cells.push([x,y]);
+  }
+  const lbl = (x,y,t,anchor='start')=>html`<g><rect x=${anchor==='end'?x-t.length*6.4-8:x-4} y=${y-13} width=${t.length*6.4+12} height="18" rx="3" fill="var(--view)" opacity=".92"/><text x=${x} y=${y} fontSize="11.5" textAnchor=${anchor} fontWeight="600">${t}</text></g>`;
+  return html`<svg viewBox="0 0 720 400" role="img" aria-label=${'Réaction inflammatoire, étape : '+INF_STEPS[step].t}>
+    <rect x="0" y="0" width="720" height="40" fill="var(--inter-bg)"/>
+    <rect x="0" y="40" width="720" height="128" fill="var(--skin)"/>
+    ${cells.map((c,i)=>html`<rect key=${i} x=${c[0]} y=${c[1]} width="44" height="36" rx="10" fill="var(--skin)" stroke="var(--skin-line)"/>`)}
+    <rect x="0" y="168" width="720" height="232" fill="var(--derm)"/>
+    ${step>=4 ? html`<ellipse cx="300" cy="230" rx="300" ry="170" fill="var(--neg)" opacity=".1"/>` : null}
+    ${step>=5 ? html`<ellipse cx="300" cy="235" rx="190" ry="70" fill="var(--plasma)" opacity=".45"/>` : null}
+    <path d="M520,262 l14,-8 l14,8 l14,-8 l14,8 l14,-8 l14,8 l14,-8 l14,8 l14,-8 l14,8 l12,-6" fill="none" stroke="var(--nerve)" strokeWidth="2.5"/>
+    <text x="704" y="284" fontSize="11" textAnchor="end" style=${{fill:'var(--fg2)'}}>nerf</text>
+    ${step>=5 ? html`<g stroke="var(--nerve)" strokeWidth="2" fill="none"><path d="M560,238 l6,-10 l-6,0 l6,-10"/><path d="M600,236 l6,-10 l-6,0 l6,-10"/>${lbl(640,226,'douleur')}</g>` : null}
+    <rect x="-10" y=${capY-capH/2} width="740" height=${capH} fill="var(--sang-bg)" stroke="var(--sang)" strokeWidth="1.5" style=${{transition:'all .4s'}}/>
+    ${Array.from({length:Math.ceil(720/rbcGap)},(_,i)=>html`<ellipse key=${i} cx=${10+i*rbcGap} cy=${capY+(i%2?5:-5)*(step>=4?1.6:0.6)} rx="11" ry="6" fill="var(--gr)" opacity=".85"/>`)}
+    <${Leuco} x=${120} y=${capY} kind="gra" s=${.8}/><${Leuco} x=${470} y=${capY} kind="mono" s=${.8}/>
+    <text x="704" y=${capY+capH/2+16} fontSize="11.5" textAnchor="end" style=${{fill:'var(--sang)'}} fontWeight="600">capillaire sanguin${step>=4?' dilaté':''}</text>
+    <g>
+      <circle cx="200" cy="236" r="14" fill="var(--cyto)" stroke="var(--nuc)" strokeWidth=${step===2?2.5:1}/>${[0,1,2,3,4,5,6].map(k=>html`<circle key=${k} cx=${193+(k%3)*7} cy=${229+Math.floor(k/3)*7} r="2" fill="var(--gran)"/>`)}
+      <path d="M380,214 C376,200 398,196 406,206 C420,204 424,222 414,230 C416,244 396,248 388,238 C374,240 370,222 380,214Z" fill="var(--cyto)" stroke="var(--nuc)" strokeWidth=${step===2?2.5:1}/><circle cx="396" cy="222" r="6" fill="var(--nuc)" opacity=".7"/>
+      <g stroke="var(--nuc)" strokeWidth=${step===2?2.5:1.5} strokeLinecap="round"><path d="M470,262 l-16,-14 M470,262 l18,-12 M470,262 l-14,14 M470,262 l16,16 M470,262 l2,-20"/></g><circle cx="470" cy="262" r="8" fill="var(--cyto)" stroke="var(--nuc)"/>
+      ${step===2 ? html`<g>${lbl(140,214,'mastocyte')}${lbl(424,198,'macrophage')}${lbl(492,292,'cellule dendritique')}</g>` : null}
+    </g>
+    ${step>=3 ? html`<g fill="var(--mediat)">${[[214,254],[226,270],[236,292],[188,268],[210,296],[396,254],[404,272],[388,290],[470,284],[478,300],[456,298],[230,312],[400,306]].map((p,i)=>html`<circle key=${i} cx=${p[0]} cy=${p[1]} r="3.2" stroke="var(--fg2)" strokeWidth=".5"/>`)}${step===3?lbl(250,316,'médiateurs chimiques (cytokines, histamine)'):null}</g>` : null}
+    ${step>=5 ? html`<g>
+      <${Leuco} x=${250} y=${capY-capH/2-4} kind="gra"/><${Leuco} x=${340} y=${capY-capH/2-2} kind="mono"/><${Leuco} x=${300} y=${capY-capH/2-30} kind="gra"/>
+      <g stroke="var(--accent-strong)" strokeWidth="2" fill="none" markerEnd="url(#arI)"><path d=${`M180,${capY-capH/2-2} v-30`}/><path d=${`M420,${capY-capH/2-2} v-30`}/></g>
+      ${step===5 ? html`<g>${lbl(140,capY-capH/2-40,'plasma')}${lbl(360,capY-capH/2-36,'diapédèse')}${lbl(120,200,'gonflement (œdème)')}</g>` : null}
+    </g>` : null}
+    ${showB.map((b,i)=>html`<${Bact} key=${i} x=${b[0]} y=${b[1]} a=${b[2]}/>`)}
+    ${step>=6 ? html`<g>
+      ${[[282,214],[330,198],[262,236]].map((p,i)=>html`<g key=${i}><circle cx=${p[0]} cy=${p[1]} r="15" fill="var(--cyto)" stroke="var(--nuc)" strokeWidth="1.2"/><circle cx=${p[0]-5} cy=${p[1]+4} r="4" fill="var(--nuc)"/><circle cx=${p[0]+3} cy=${p[1]-3} r="6.5" fill="none" stroke="var(--nuc)" strokeDasharray="2 1.5"/><${Bact} x=${p[0]+3} y=${p[1]-3} s=${.6}/></g>`)}
+      ${step===6 ? lbl(350,250,'phagocytes en action') : null}
+    </g>` : null}
+    ${step>=7 ? html`<g><ellipse cx="296" cy="176" rx="40" ry="16" fill="var(--mediat)" opacity=".55"/>${lbl(344,160,'pus')}</g>` : null}
+    <g opacity=${step>=1?1:.9}>
+      <path d=${`M268,0 L324,0 L304,${tip-10} L296,${tip} L288,${tip-10} Z`} fill="var(--fg2)" opacity=".85"/>
+      ${lbl(332,24,'clou')}
+    </g>
+    ${step>=1 ? lbl(352,198,'bactéries') : null}
+    <text x="12" y="62" fontSize="11.5" fontWeight="600" style=${{fill:'var(--fg)'}}>épiderme</text>
+    <text x="12" y="190" fontSize="11.5" fontWeight="600" style=${{fill:'var(--fg)'}}>tissu conjonctif</text>
+    <defs><marker id="arI" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0 L10,5 L0,10z" fill="var(--accent-strong)"/></marker></defs>
+  </svg>`;
+}
+
+/* ---------- phagocytose ---------- */
+const PHAGO = [
+  {t:'Phagocyte au repos', d:"Un **phagocyte** (macrophage, granulocyte ou cellule dendritique) repère un microbe. Son cytoplasme contient des **lysosomes**, de petites vésicules riches en enzymes digestives."},
+  {t:'a) Adhésion', d:"L'élément étranger **adhère à la membrane** du phagocyte. Le phagocyte possède des **récepteurs** qui reconnaissent la majorité des microorganismes."},
+  {t:'b) Ingestion', d:"La cellule se déforme et envoie des **pseudopodes** (prolongements du cytoplasme) qui englobent le microbe dans une vésicule : le **phagosome**."},
+  {t:'c) Digestion', d:"Un **lysosome** fusionne avec le phagosome : on obtient un **phagolysosome**. Les enzymes digèrent le microbe."},
+  {t:'d) Rejet des déchets', d:"Les restes de la digestion sont rejetés hors de la cellule par **exocytose**."}
+];
+function phagoCell(i){
+  const body = "M-44,-6 C-46,-30 -24,-46 0,-44 C24,-46 46,-28 44,-4 C48,20 30,44 4,44 C-22,48 -46,26 -44,-6Z";
+  const lyso = [[-24,-16],[-28,8],[-10,28],[14,26],[22,8]];
+  const bac = (x,y,a=0,s=1)=>html`<g transform=${`translate(${x} ${y}) rotate(${a}) scale(${s})`}><rect x="-13" y="-6" width="26" height="12" rx="6" fill="var(--bact)"/><path d="M-6,-6 l3,-6 l3,6 M4,-6 l3,-6 l3,6" fill="var(--nonsoi)"/></g>`;
+  const nuc = html`<g fill="var(--nuc)" opacity=".8"><circle cx="-12" cy="6" r="9"/><circle cx="-2" cy="16" r="8"/><circle cx="8" cy="6" r="8"/></g>`;
+  let extra = null, ly = lyso;
+  if (i===0) extra = html`<g>${bac(58,-50,-20)}<path d="M44,-38 L36,-30" stroke="var(--fg2)" strokeWidth="1.5" markerEnd="url(#arP)"/></g>`;
+  if (i===1) extra = html`<g>${bac(52,-30,-35)}<g stroke="var(--accent-strong)" strokeWidth="2"><path d="M38,-26 l4,-4 M42,-20 l4,-4 M34,-32 l4,-4"/></g></g>`;
+  if (i===2) extra = html`<g><path d="M24,-40 C26,-62 58,-62 64,-44 L58,-38 C52,-50 34,-50 34,-36 Z" fill="var(--cyto)" stroke="var(--nuc)" strokeWidth="1.2"/><path d="M46,-6 C62,-4 72,-22 66,-36 L58,-34 C62,-24 56,-14 44,-14 Z" fill="var(--cyto)" stroke="var(--nuc)" strokeWidth="1.2"/><circle cx="48" cy="-30" r="15" fill="none" stroke="var(--nuc)" strokeDasharray="3 2"/>${bac(48,-30,-30,.8)}</g>`;
+  if (i===3){ ly = lyso.slice(0,3); extra = html`<g><circle cx="16" cy="-14" r="17" fill="color-mix(in srgb, var(--gran) 25%, var(--cyto))" stroke="var(--nuc)" strokeWidth="1.2"/>${bac(10,-18,-30,.45)}${bac(22,-10,40,.4)}${[[6,-6],[24,-22],[14,-26],[26,-6]].map((p,k)=>html`<circle key=${k} cx=${p[0]} cy=${p[1]} r="2.4" fill="var(--gran)"/>`)}<circle cx="34" cy="2" r="5" fill="var(--gran)"/><path d="M32,-2 L28,-6" stroke="var(--gran)" strokeWidth="2"/></g>`; }
+  if (i===4){ ly = lyso.slice(0,3); extra = html`<g><path d="M-38,22 C-30,28 -28,36 -34,40" fill="none" stroke="var(--nuc)" strokeWidth="1.2"/>${[[-50,40],[-58,30],[-54,50],[-44,52]].map((p,k)=>html`<circle key=${k} cx=${p[0]} cy=${p[1]} r="2.6" fill="var(--bact)" opacity=".75"/>`)}<path d="M-40,34 L-52,44" stroke="var(--fg2)" strokeWidth="1.3" markerEnd="url(#arP)"/></g>`; }
+  return html`<g>
+    <path d=${body} fill="var(--cyto)" stroke="var(--nuc)" strokeWidth="1.5"/>
+    ${nuc}
+    ${ly.map((p,k)=>html`<circle key=${k} cx=${p[0]} cy=${p[1]} r="4" fill="var(--gran)"/>`)}
+    ${extra}
+  </g>`;
+}
+function PhagoStrip({cur, onSel, numbered}){
+  return html`<svg viewBox="0 0 700 175" role="img" aria-label="Les étapes de la phagocytose">
+    <defs><marker id="arP" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0 L10,5 L0,10z" fill="var(--fg2)"/></marker></defs>
+    ${PHAGO.map((p,i)=>html`<g key=${i} className=${'phstage'+(cur===i?' cur':'')} transform=${`translate(${i*140} 0)`}
+        tabIndex=${onSel?0:-1} role=${onSel?'button':null} aria-label=${onSel?p.t:null}
+        onClick=${()=>onSel && onSel(i)} onKeyDown=${e=>{ if(onSel && (e.key==='Enter'||e.key===' ')){ e.preventDefault(); onSel(i);} }}>
+      <rect className="bg" x="4" y="4" width="132" height="166" rx="4"/>
+      <g transform="translate(66 82)">${phagoCell(i)}</g>
+      ${numbered ? html`<g><circle cx="70" cy="152" r="11" fill="var(--accent-bg)" stroke="var(--accent)"/><text x="70" y="156.5" textAnchor="middle" fontSize="12" fontWeight="600">${i+1}</text></g>`
+        : html`<text x="70" y="156" textAnchor="middle" fontSize="12" fontWeight="600">${p.t}</text>`}
+      ${i<4 ? html`<path d="M128,82 l10,0" stroke="var(--line2)" strokeWidth="2" markerEnd="url(#arP)"/>` : null}
+    </g>`)}
+  </svg>`;
+}
+
+/* ---------- médicaments ---------- */
+function Venn(){
+  return html`<svg className="venn" viewBox="0 0 620 300" role="img" aria-label="Diagramme : antalgiques et anti-inflammatoires, avec l'aspirine et l'ibuprofène dans les deux groupes">
+    <ellipse cx="230" cy="155" rx="205" ry="135" fill="var(--soi)" fillOpacity=".1" stroke="var(--soi)" strokeWidth="1.5"/>
+    <ellipse cx="420" cy="155" rx="165" ry="115" fill="var(--nonsoi)" fillOpacity=".12" stroke="var(--nonsoi)" strokeWidth="1.5"/>
+    <text className="t" x="130" y="58" textAnchor="middle" style=${{fill:'var(--soi)'}}>Antalgiques</text>
+    <text className="m" x="130" y="76" textAnchor="middle" style=${{fill:'var(--fg2)'}}>(analgésiques : contre la douleur)</text>
+    <text className="t" x="500" y="30" textAnchor="middle" style=${{fill:'var(--neu-fg)'}}>Anti-inflammatoires</text>
+    <text className="m" x="152" y="118" textAnchor="middle">Paracétamol</text>
+    <text className="m" x="152" y="134" textAnchor="middle" style=${{fill:'var(--fg2)'}}>(Dafalgan, Doliprane)</text>
+    <rect x="80" y="152" width="176" height="84" rx="6" fill="var(--view)" fillOpacity=".7" stroke="var(--fg2)" strokeDasharray="4 3"/>
+    <text className="t" x="168" y="172" textAnchor="middle" style=${{fontSize:'12.5px'}}>Opiacés</text>
+    <text className="m" x="168" y="192" textAnchor="middle">faibles : codéine, tramadol</text>
+    <text className="m" x="168" y="210" textAnchor="middle">forts : morphine, fentanyl</text>
+    <text className="m" x="168" y="227" textAnchor="middle" style=${{fill:'var(--neg-fg)'}}>risque de dépendance</text>
+    <text className="m" x="345" y="128" textAnchor="middle" fontWeight="600">Aspirine</text>
+    <text className="m" x="345" y="152" textAnchor="middle" fontWeight="600">Ibuprofène</text>
+    <text className="m" x="345" y="168" textAnchor="middle" style=${{fill:'var(--fg2)'}}>(Nurofen, Brufen,</text>
+    <text className="m" x="345" y="184" textAnchor="middle" style=${{fill:'var(--fg2)'}}>Spidifen)</text>
+    <text className="m" x="512" y="150" textAnchor="middle" style=${{fill:'var(--fg2)'}}>d'autres,</text>
+    <text className="m" x="512" y="166" textAnchor="middle" style=${{fill:'var(--fg2)'}}>non vus au cours</text>
+  </svg>`;
+}
+
+/* ---------- figures d'exercices ---------- */
+function Figure({fig}){
+  if (!fig) return null;
+  if (fig.graftRow) return html`<div className="stepper"><${GraftTimeline} only=${fig.graftRow}/><${GraftLegend}/></div>`;
+  if (fig.phago) return html`<div className="fig scroll"><${PhagoStrip} numbered=${true}/></div>`;
+  if (fig.cells) return html`<div className="cellfig" role="img" aria-label="Cellules (schéma)">${fig.cells.map((c,i)=>html`<${Cell} key=${i} type=${c} scale=${6}/>`)}</div>`;
+  return null;
+}
+
+/* ---------- exercice générique ---------- */
+function initResp(ex){
+  return {qcm:null, multi:[], classify:{}, order:ex.shuffle ? ex.shuffle.slice() : null, fill:{}, match:{}, open:''}[ex.type];
+}
+function blanks(ex){ return ex.parts.filter(p=>typeof p!=='string'); }
+function complete(ex, r){
+  switch(ex.type){
+    case 'qcm': return r!==null;
+    case 'multi': return r.length>0;
+    case 'classify': return ex.items.every((_,i)=>r[i]!==undefined);
+    case 'order': return true;
+    case 'fill': return blanks(ex).every((_,i)=>r[i]!==undefined && r[i]!=='');
+    case 'match': return ex.rows.every((_,i)=>r[i]!==undefined && r[i]!=='');
+    default: return true;
+  }
+}
+function evaluate(ex, r){
+  switch(ex.type){
+    case 'qcm': return {ok:r===ex.answer, score:r===ex.answer?1:0, total:1};
+    case 'multi': {
+      const per = ex.options.map((_,i)=> r.includes(i)===ex.answers.includes(i));
+      const ok = per.every(Boolean); return {ok, per, score:per.filter(Boolean).length, total:per.length};
+    }
+    case 'classify': { const per = ex.items.map((it,i)=>r[i]===it.c); return {ok:per.every(Boolean), per, score:per.filter(Boolean).length, total:per.length}; }
+    case 'order': { const per = r.map((v,i)=>v===i); return {ok:per.every(Boolean), per, score:per.filter(Boolean).length, total:per.length}; }
+    case 'fill': { const per = blanks(ex).map((b,i)=>Number(r[i])===b.a); return {ok:per.every(Boolean), per, score:per.filter(Boolean).length, total:per.length}; }
+    case 'match': { const per = ex.rows.map((row,i)=>Number(r[i])===row.a); return {ok:per.every(Boolean), per, score:per.filter(Boolean).length, total:per.length}; }
+  }
+  return {ok:false};
+}
+function Lvl({n}){
+  const names = ['', 'Niveau 1 · Reconnaître', 'Niveau 2 · Appliquer', 'Niveau 3 · Transférer'];
+  return html`<span className="lvl" title=${names[n]}><i className="on"></i><i className=${n>=2?'on':''}></i><i className=${n>=3?'on':''}></i><span style=${{marginLeft:'6px'}}>${names[n]}</span></span>`;
+}
+function Mark({ok}){ return html`<span className=${'mark '+(ok?'ok':'ko')} aria-label=${ok?'juste':'à revoir'}>${ok?'✓':'✗'}</span>`; }
+
+function Exercise({ex, num, compact}){
+  const {prog, mark} = useContext(Prog);
+  const [r, setR] = useState(()=>initResp(ex));
+  const [res, setRes] = useState(null);
+  const [tried, setTried] = useState(false);
+  const [showS, setShowS] = useState(false);
+  const [showD, setShowD] = useState(false);
+  const [hint, setHint] = useState(false);
+  const [crit, setCrit] = useState({});
+  const [revealed, setRevealed] = useState(false);
+  const status = prog[ex.id];
+  const upd = v => { setR(v); setRes(null); };
+
+  const check = () => {
+    const e = evaluate(ex, r); setRes(e); setTried(true);
+    mark(ex.id, e.ok ? 'ok' : 'ko');
+  };
+  const per = res && res.per;
+
+  let body = null;
+  if (ex.type==='qcm' || ex.type==='multi'){
+    const multi = ex.type==='multi';
+    body = html`<div className="opts" role=${multi?'group':'radiogroup'}>
+      ${ex.options.map((o,i)=>{
+        const on = multi ? r.includes(i) : r===i;
+        let cls = 'opt'+(multi?' cb':'');
+        if (res && on) cls += (multi ? (ex.answers.includes(i)?' good':' bad') : (res.ok?' good':' bad'));
+        if (res && multi && !on && ex.answers.includes(i) && res.ok) cls += ' good';
+        return html`<button key=${i} className=${cls} role=${multi?'checkbox':'radio'} aria-checked=${on?'true':'false'}
+          onClick=${()=> upd(multi ? (on ? r.filter(x=>x!==i) : [...r, i]) : i)}><span className="mk"></span><span>${rich(o)}</span></button>`;
+      })}
+    </div>`;
+  } else if (ex.type==='classify'){
+    body = html`<div className="items">${ex.items.map((it,i)=>html`<div key=${i} className=${'item'+(per?(per[i]?' good':' bad'):'')}>
+      <div className="t">${per ? html`<${Mark} ok=${per[i]}/>` : null}<span>${rich(it.t)}</span></div>
+      <div className="seg" role="group" aria-label=${'Choix pour : '+it.t}>${ex.cats.map((c,j)=>html`<button key=${j} aria-pressed=${r[i]===j?'true':'false'} onClick=${()=>upd({...r,[i]:j})}>${c}</button>`)}</div>
+    </div>`)}</div>`;
+  } else if (ex.type==='order'){
+    const mv = (pos, d) => { const a = r.slice(); const t = a[pos]; a[pos] = a[pos+d]; a[pos+d] = t; upd(a); };
+    body = html`<div className="items ord">${r.map((idx,pos)=>html`<div key=${idx} className=${'item'+(per?(per[pos]?' good':' bad'):'')}>
+      <div className="t"><span className="pos">${pos+1}</span><span>${rich(ex.items[idx])}</span></div>
+      <div className="mv"><button aria-label="Monter" disabled=${pos===0} onClick=${()=>mv(pos,-1)}>↑</button><button aria-label="Descendre" disabled=${pos===r.length-1} onClick=${()=>mv(pos,1)}>↓</button></div>
+    </div>`)}</div>`;
+  } else if (ex.type==='fill'){
+    let b = -1;
+    body = html`<p className="fill">${ex.parts.map((p,i)=>{
+      if (typeof p==='string') return html`<span key=${i}>${rich(p)}</span>`;
+      b++; const k = b;
+      return html`<select key=${i} aria-label=${'Trou '+(k+1)} className=${per?(per[k]?'good':'bad'):''} value=${r[k]===undefined?'':r[k]} onChange=${e=>upd({...r,[k]:e.target.value})}>
+        <option value="">— choisir —</option>${p.o.map((o,j)=>html`<option key=${j} value=${j}>${o}</option>`)}</select>`;
+    })}</p>`;
+  } else if (ex.type==='match'){
+    body = html`<div className="items">${ex.rows.map((row,i)=>html`<div key=${i} className=${'item'+(per?(per[i]?' good':' bad'):'')}>
+      <div className="t">${per ? html`<${Mark} ok=${per[i]}/>` : null}<span>${rich(row.t)}</span></div>
+      <select aria-label=${'Réponse pour : '+row.t} value=${r[i]===undefined?'':r[i]} onChange=${e=>upd({...r,[i]:e.target.value})} style=${{flex:'0 1 260px'}}>
+        <option value="">— choisir —</option>${ex.options.map((o,j)=>html`<option key=${j} value=${j}>${o}</option>`)}</select>
+    </div>`)}</div>`;
+  } else if (ex.type==='open'){
+    const nCrit = ex.criteria.length, nOk = Object.values(crit).filter(Boolean).length;
+    body = html`<div style=${{display:'flex',flexDirection:'column',gap:'10px'}}>
+      <textarea id=${'ta-'+ex.id} aria-label="Ta réponse" placeholder="Écris ta réponse ici, en phrases complètes." value=${r} onChange=${e=>setR(e.target.value)}></textarea>
+      ${!revealed ? html`<div className="row"><button className="btn primary" onClick=${()=>{setRevealed(true); setTried(true); if(status!=='ok') mark(ex.id,'seen');}}>Comparer avec la réponse attendue</button>${ex.hint ? html`<button className="btn flat" onClick=${()=>setHint(!hint)}>${hint?'Masquer l’indice':'Indice'}</button>` : null}</div>` : html`<div className="corr">
+        <span className="h">Réponse attendue</span><p>${rich(ex.model)}</p>
+        <div className="sep"></div>
+        <span className="h">Coche ce que ta réponse contient</span>
+        <div className="crit">${ex.criteria.map((c,i)=>html`<label key=${i}><input type="checkbox" id=${ex.id+'-c'+i} checked=${!!crit[i]} onChange=${e=>{ const n={...crit,[i]:e.target.checked}; setCrit(n); if(Object.values(n).filter(Boolean).length===nCrit) mark(ex.id,'ok'); }}/><span>${rich(c)}</span></label>`)}</div>
+        <p className="small muted">${nOk}/${nCrit} critère${nCrit>1?'s':''} présent${nOk>1?'s':''}. ${nOk===nCrit ? 'Ta réponse est complète.' : 'Complète ta réponse avec ce qui manque, puis coche à nouveau.'}</p>
+      </div>`}
+    </div>`;
+  }
+
+  const stPill = status==='ok' ? html`<span className="pill st-ok st">réussi</span>` : status==='ko' ? html`<span className="pill st-bas st">à retravailler</span>` : status==='seen' ? html`<span className="pill acc st">fait</span>` : null;
+  const ok = complete(ex, r);
+  return html`<article className=${'ex'+(compact?' compact':'')} id=${'ex-'+ex.id}>
+    <div className="ex-head">${num ? html`<b style=${{color:'var(--fg)'}}>Exercice ${num}</b>` : null}${ex.level && !compact ? html`<${Lvl} n=${ex.level}/>` : null}${stPill}</div>
+    <div className="prompt">${rich(ex.prompt)}</div>
+    <${Figure} fig=${ex.fig}/>
+    ${body}
+    ${hint && ex.type!=='open' ? html`<${Msg} kind="info" title="Indice"><p>${rich(ex.hint)}</p><//>` : null}
+    ${hint && ex.type==='open' && !revealed ? html`<${Msg} kind="info" title="Indice"><p>${rich(ex.hint)}</p><//>` : null}
+    ${ex.type!=='open' ? html`<div className="row">
+      <button className="btn primary" disabled=${!ok} onClick=${check}>Vérifier</button>
+      ${ex.hint ? html`<button className="btn flat" onClick=${()=>setHint(!hint)}>${hint?'Masquer l’indice':'Indice'}</button>` : null}
+      ${!ok ? html`<span className="small muted">Réponds à tout avant de vérifier.</span>` : null}
+    </div>` : null}
+    ${res ? html`<p className="feedback" role="status">${res.ok ? html`<b style=${{color:'var(--pos-fg)'}}>Juste.</b>` : html`<span><b style=${{color:'var(--neg-fg)'}}>Pas encore.</b> ${res.total>1 ? res.score+' / '+res.total+' réponses justes. ' : ''}Modifie ta réponse et vérifie à nouveau, ou ouvre la correction.</span>`}</p>` : null}
+    ${tried ? html`<div className="row">
+      <button className="btn" aria-pressed=${showS?'true':'false'} onClick=${()=>setShowS(!showS)}>Correction simple</button>
+      <button className="btn" aria-pressed=${showD?'true':'false'} onClick=${()=>setShowD(!showD)}>Correction détaillée</button>
+    </div>` : null}
+    ${tried && showS ? html`<div className="corr"><span className="h">Correction simple</span><p>${rich(ex.simple || ex.model)}</p></div>` : null}
+    ${tried && showD ? html`<div className="corr"><span className="h">Correction détaillée</span>${Array.isArray(ex.detail) ? html`<ol>${ex.detail.map((d,i)=>html`<li key=${i}>${rich(d)}</li>`)}</ol>` : html`<p>${rich(ex.detail)}</p>`}</div>` : null}
+  </article>`;
+}
+
+/* ---------- exercice résolu ---------- */
+function Worked({w}){
+  const [n, setN] = useState(1);
+  const all = n>=w.steps.length;
+  return html`<section className="worked" aria-label="Exercice résolu">
+    <div className="row"><span className="pill acc">Exercice résolu</span><h3>${w.title}</h3></div>
+    <p className="prompt"><span className="muted">Consigne : </span>${rich(w.consigne)}</p>
+    <${Figure} fig=${w.fig}/>
+    <ol className="wsteps">${w.steps.slice(0,n).map((s,i)=>html`<li key=${i}><div><div>${rich(s.t)}</div>${s.why ? html`<div className="ws-why">${rich(s.why)}</div>` : null}</div></li>`)}</ol>
+    ${!all ? html`<div className="row"><button className="btn primary" onClick=${()=>setN(n+1)}>Étape suivante (${n+1}/${w.steps.length})</button><button className="btn flat" onClick=${()=>setN(w.steps.length)}>Tout afficher</button></div>`
+      : html`<div className="answer"><div className="h">Réponse rédigée</div><p>${rich(w.answer)}</p></div>`}
+  </section>`;
+}
+
+/* =========================================================
+   COURS
+   ========================================================= */
+const LESSONS = [
+  {id:'greffes', n:1, ch:3, label:'Expériences de greffe', fam:'A'},
+  {id:'marqueurs', n:2, ch:3, label:'Soi, non-soi et marqueurs', fam:'B'},
+  {id:'reponses', n:3, ch:3, label:'Deux types de réponse', fam:'C'},
+  {id:'entrees', n:4, ch:4, label:"Voies d'entrée des microbes", fam:'D'},
+  {id:'barrieres', n:5, ch:4, label:'Les barrières naturelles', fam:'E'},
+  {id:'inflammation', n:6, ch:4, label:'La réaction inflammatoire', fam:'F'},
+  {id:'phagocytose', n:7, ch:4, label:'La phagocytose', fam:'G'},
+  {id:'fievre', n:8, ch:4, label:'Fièvre et médicaments', fam:'H'}
+];
+const CH = {3:'Chapitre 3 · Notion de soi, de non-soi et réponse immunitaire', 4:'Chapitre 4 · La réponse immunitaire innée'};
+
+function QuickCheck({id}){
+  const items = QUICK[id] || [];
+  return html`<section className="frame" aria-label="Vérifie que tu as compris">
+    <h2>Vérifie que tu as compris</h2>
+    <p className="small muted">Deux questions pour récupérer l'essentiel de mémoire, sans relire.</p>
+    ${items.map((ex,i)=>html`<${Exercise} key=${ex.id} ex=${ex} num=${i+1} compact=${true}/>`)}
+  </section>`;
+}
+function Lesson({id, title, goal, go, children}){
+  const L = LESSONS.find(l=>l.id===id); const i = LESSONS.indexOf(L);
+  const prev = LESSONS[i-1], next = LESSONS[i+1];
+  const fam = FAMILIES.find(f=>f.id===L.fam);
+  return html`<div className="wrap">
+    <div className="frame">
+      <span className="eyebrow">${CH[L.ch]} · partie ${L.n} sur ${LESSONS.length}</span>
+      <h1>${title}</h1>
+      <p className="goal"><strong>À la fin, tu sauras :</strong> ${goal}</p>
+    </div>
+    ${children}
+    <${QuickCheck} id=${id}/>
+    <div className="frame">
+      <div className="row" style=${{justifyContent:'space-between'}}>
+        <div><b>Pour t'entraîner</b><p className="small muted">Famille ${fam.id} · ${fam.title} : un exercice résolu puis ${fam.ex.length} exercices de difficulté croissante.</p></div>
+        <button className="btn primary" onClick=${()=>go('exercices', fam.id)}>Ouvrir la famille ${fam.id}</button>
+      </div>
+      <div className="sep"></div>
+      <div className="footnav">
+        ${prev ? html`<button className="btn flat" onClick=${()=>go(prev.id)}>← ${prev.label}</button>` : html`<span></span>`}
+        ${next ? html`<button className="btn flat" onClick=${()=>go(next.id)}>${next.label} →</button>` : html`<button className="btn flat" onClick=${()=>go('exercices','A')}>Exercices →</button>`}
+      </div>
+    </div>
+  </div>`;
+}
+
+/* ---- 1. Greffes ---- */
+function LessonGreffes({go}){
+  const [type, setType] = useState('allo');
+  const [day, setDay] = useState(8);
+  const G = GRAFTS.find(g=>g.id===type);
+  const st = G.seq[day-1];
+  const pick = (t,d)=>{ setType(t); setDay(d); };
+  return html`<${Lesson} id="greffes" go=${go} title="Expériences de greffe" goal="dire dans quels cas une greffe réussit ou échoue, et en tirer la condition de réussite.">
+    <section className="frame">
+      <div className="prose"><p>${rich("Pour comprendre comment le système immunitaire reconnaît un agresseur, on étudie les **greffes**. Une greffe consiste à transplanter un organe (ici, un morceau de peau) provenant d'un **donneur** dans l'organisme d'un **receveur**.")}</p></div>
+      <div className="tabs" role="tablist">${GRAFTS.map(g=>html`<button key=${g.id} className="tab" role="tab" aria-selected=${type===g.id} onClick=${()=>setType(g.id)}>${g.n}</button>`)}</div>
+      <p className="small muted">${G.d}.</p>
+      <div className="graftbox">
+        <div className="fig"><${GraftView} state=${st}/></div>
+        <div style=${{display:'flex',flexDirection:'column',gap:'10px',minWidth:0}}>
+          <label htmlFor="gday" className="small"><b>Jour ${day}</b> sur 12</label>
+          <input id="gday" type="range" min="1" max="12" step="1" value=${day} onChange=${e=>setDay(+e.target.value)}/>
+          <div className="steptext" aria-live="polite"><b className="h">${G.n}, jour ${day}</b><span>${st==='na' ? "Le tableau du cours s'arrête avant ce jour." : GSTATE[st].l.charAt(0).toUpperCase()+GSTATE[st].l.slice(1)+'.'}</span></div>
+        </div>
+      </div>
+    </section>
+    <section className="frame">
+      <h2>Comparer les quatre greffes jour par jour</h2>
+      <p className="small muted">Clique sur une case pour afficher le greffon ce jour-là.</p>
+      <${GraftTimeline} type=${type} day=${day} onPick=${pick}/>
+      <${GraftLegend}/>
+      <div className="cols">
+        <div className="box"><span className="pill st-ok" style=${{alignSelf:'flex-start'}}>greffe réussie</span><p>${rich("**Autogreffe** et **isogreffe** : au jour 10, le greffon est confondu avec les tissus environnants.")}</p></div>
+        <div className="box"><span className="pill st-haut" style=${{alignSelf:'flex-start'}}>greffe rejetée</span><p>${rich("**Allogreffe** et **xénogreffe** : le greffon brunit, gonfle, rougit, saigne puis se dessèche et se détache. Le rejet est **plus rapide** dans la xénogreffe (jour 10 contre jour 12).")}</p></div>
+      </div>
+      <${Msg} kind="pos" title="Conclusion"><p>${rich("Pour que la greffe réussisse, donneur et receveur doivent être **reconnus comme identiques**. Au niveau cellulaire, les cellules du greffon doivent porter les **mêmes marqueurs** que celles du receveur : la partie suivante explique lesquels.")}</p><//>
+    </section>
+  <//>`;
+}
+
+/* ---- 2. Soi, non-soi, marqueurs ---- */
+function LessonMarqueurs({go}){
+  const [d, setD] = useState('bro');
+  const D = PEOPLE[d], R = PEOPLE.lea;
+  const same = D.m.filter((m,i)=>m===R.m[i]).length;
+  const ok = same===6;
+  return html`<${Lesson} id="marqueurs" go=${go} title="Soi, non-soi et marqueurs" goal="expliquer comment l'organisme distingue ses propres cellules (le soi) de ce qui lui est étranger (le non-soi).">
+    <section className="frame">
+      <h2>Une carte d'identité biologique</h2>
+      <div className="prose">
+        <p>${rich("L'immunité repose sur la capacité à **reconnaître** le **soi** et le **non-soi**, à **tolérer** le soi et à **rejeter** le non-soi.")}</p>
+        <p>${rich("Toutes les cellules de notre corps proviennent d'une seule cellule, le **zygote**. Elles portent donc toutes, sur leur membrane, la même « carte d'identité biologique » : des **marqueurs spécifiques**.")}</p>
+      </div>
+      <div className="cols">
+        <div className="box"><span className="pill c-soi" style=${{alignSelf:'flex-start'}}>marqueurs majeurs</span>
+          <p>${rich("Molécules du **complexe majeur d'histocompatibilité (CMH)**, appelées chez l'homme **HLA** (*Human Leucocyte Antigens*).")}</p>
+          <ul><li>${rich("des **glycoprotéines** : protéines enchâssées dans la membrane, portant des sucres")}</li><li>${rich("leur combinaison est **unique** à chaque individu")}</li><li>${rich("présentes sur nos cellules, **sauf les globules rouges**")}</li></ul></div>
+        <div className="box"><span className="pill" style=${{alignSelf:'flex-start'}}>marqueurs mineurs</span>
+          <p>${rich("Toutes les autres molécules, comme celles des **globules rouges** qui déterminent les **groupes sanguins** (ABO et Rhésus).")}</p>
+          <ul><li>${rich("**communs** à plusieurs individus")}</li></ul></div>
+      </div>
+      <${Msg} kind="neu" title="Conséquence pour les greffes"><p>${rich("Deux individus aux HLA identiques, c'est exceptionnellement rare. La compatibilité entre un donneur et un receveur n'est **jamais de 100 %** (sauf vrais jumeaux), ce qui peut entraîner le **rejet**.")}</p><//>
+    </section>
+    <section className="frame">
+      <h2>Comparer les marqueurs : qui peut donner à Léa ?</h2>
+      <p className="small muted">Choisis un donneur. Les marqueurs différents de ceux de Léa sont entourés en rouge.</p>
+      <div className="row" role="group" aria-label="Donneur">${['self','twin','bro','unk','mouse'].map(k=>html`<button key=${k} className="btn" aria-pressed=${d===k?'true':'false'} onClick=${()=>setD(k)}>${PEOPLE[k].n}</button>`)}</div>
+      <div className="idgrid">
+        <div className="fig" style=${{display:'flex',justifyContent:'center',padding:'8px'}}><${IdCell} markers=${R.m} label="Cellule de Léa"/></div>
+        <div className="fig" style=${{display:'flex',justifyContent:'center',padding:'8px'}}><${IdCell} markers=${D.m} cmp=${R.m} label=${'Cellule du greffon : '+D.n.toLowerCase()}/></div>
+      </div>
+      <div className="verdict">
+        <span className="pill acc">${D.t}</span>
+        <span className="num">${same} marqueur${same>1?'s':''} identique${same>1?'s':''} sur 6</span>
+        <span className=${'pill '+(ok?'st-ok':'st-haut')}>${ok ? 'reconnu comme soi : greffon toléré' : 'reconnu comme non-soi : greffon rejeté'}</span>
+      </div>
+      <p className="cap">Schéma simplifié : en réalité, les molécules HLA sont bien plus nombreuses et variées.</p>
+    </section>
+    <section className="frame">
+      <h2>Le non-soi : les antigènes</h2>
+      <p className="prose">${rich("Le **non-soi** est l'ensemble des molécules reconnues comme **étrangères** et capables de déclencher une **réaction immunitaire**. On les appelle des **antigènes**. Elles peuvent être :")}</p>
+      <div className="cols">
+        <div className="box"><b>Fixées à la surface de cellules</b><p className="small">bactéries, cellules infectées par un virus, cellules cancéreuses, cellules d'un greffon étranger…</p></div>
+        <div className="box"><b>Libres dans les liquides de l'organisme</b><p className="small">toxines produites par certains microbes…</p></div>
+      </div>
+      <div className="fig scroll"><${AntigenFig}/></div>
+      <${Msg} kind="pos" title="À retenir"><ul>
+        <li>${rich("**Soi** = nos marqueurs, toléré. **Non-soi** = antigènes, rejeté.")}</li>
+        <li>${rich("**Majeurs** : HLA (CMH), uniques à chacun, absents des globules rouges. **Mineurs** : groupes sanguins ABO et Rhésus, communs à plusieurs personnes.")}</li>
+        <li>${rich("Un greffon réussit seulement si ses cellules portent les **mêmes marqueurs** que le receveur.")}</li>
+      </ul><//>
+    </section>
+  <//>`;
+}
+
+/* ---- 3. Deux types de réponse ---- */
+function LessonReponses({go}){
+  return html`<${Lesson} id="reponses" go=${go} title="Deux types de réponse immunitaire" goal="distinguer la réponse innée de la réponse adaptative et citer les cellules de chacune.">
+    <section className="frame">
+      <p className="prose">${rich("Dans notre organisme, les **leucocytes** reconnaissent les **antigènes** et réagissent s'ils les identifient comme dangereux. L'organisme se défend ainsi contre les microorganismes pathogènes : c'est la **réponse immunitaire**. Il en existe deux types.")}</p>
+      <div className="fig scroll"><${ResponseTimeline}/></div>
+      <div className="tblwrap"><table>
+        <thead><tr><th></th><th><span className="pill c-inne">Réponse innée</span></th><th><span className="pill c-adapt">Réponse adaptative</span></th></tr></thead>
+        <tbody>
+          <tr><td><b>Quand ?</b></td><td>Dès la naissance, permanente, <b>prête à agir immédiatement</b></td><td>Plus lente : plusieurs étapes, <b>au moins une dizaine de jours</b></td></tr>
+          <tr><td><b>Cible</b></td><td><b>Non spécifique</b> : mêmes armes pour tous les agresseurs</td><td><b>Spécifique</b> à un agresseur particulier, parfaitement ciblée</td></tr>
+          <tr><td><b>Avantage</b></td><td>Premier à intervenir, essentiel lors du premier contact (<b>primo-infection</b>)</td><td>Très <b>efficace</b></td></tr>
+          <tr><td><b>Limite</b></td><td>Manque parfois d'efficacité</td><td>Lente à se mettre en place</td></tr>
+          <tr><td><b>Cellules</b></td><td>Mastocytes, macrophages, cellules dendritiques, granulocytes</td><td>Cellules présentatrices d'antigènes, lymphocytes B et T</td></tr>
+        </tbody>
+      </table></div>
+      <${Msg} kind="info" title="Les deux réponses travaillent ensemble"><p>${rich("Les immunités innée et adaptative agissent **en synergie**. C'est pourquoi nous sommes rarement malades, alors que nous vivons entourés de microorganismes potentiellement pathogènes. Les **cellules dendritiques** font le lien : elles agissent dans la réponse innée et **présentent les antigènes** aux lymphocytes.")}</p><//>
+      <${Msg} kind="pos" title="À retenir"><ul>
+        <li>${rich("**Innée** : immédiate, non spécifique. Le chapitre 4 l'étudie en détail.")}</li>
+        <li>${rich("**Adaptative** : lente, spécifique, avec les **lymphocytes B et T**.")}</li>
+      </ul><//>
+    </section>
+  <//>`;
+}
+
+/* ---- 4. Voies d'entrée ---- */
+function LessonEntrees({go}){
+  const [sel, setSel] = useState('resp');
+  const E = ENTRIES.find(e=>e.id===sel);
+  return html`<${Lesson} id="entrees" go=${go} title="Les voies d'entrée des microbes" goal="citer les six voies de contamination et donner un exemple de maladie pour chacune.">
+    <section className="frame">
+      <p className="prose">${rich("La **réponse immunitaire innée** est présente dès la naissance et ne demande aucun apprentissage : elle est **héritée génétiquement**. Pour comprendre comment elle agit, on commence par voir **par où** les microbes entrent dans le corps.")}</p>
+      <div className="bodyentry">
+        <div className="fig"><${BodyEntries} sel=${sel} onSel=${setSel}/></div>
+        <div style=${{display:'flex',flexDirection:'column',gap:'12px',minWidth:0}}>
+          <div className="entlist">${ENTRIES.map(e=>html`<button key=${e.id} className="entbtn" aria-pressed=${sel===e.id?'true':'false'} onClick=${()=>setSel(e.id)}><span className="no">${e.no}</span><span>${e.name}</span></button>`)}</div>
+          <div className="box"><h3>${E.name}</h3><p>${rich(E.how)}</p><p className="small"><b>Exemples :</b> ${E.ex}</p></div>
+        </div>
+      </div>
+      <${Msg} kind="pos" title="À retenir"><ul>
+        <li>${rich("Les microbes entrent **à travers la peau** (blessure), par les **ouvertures naturelles** du corps (voies digestive, respiratoire, uro-génitale), par le **sang** ou de la **mère à l'enfant**.")}</li>
+        <li>${rich("Une même maladie peut avoir **plusieurs voies** : le VIH passe par voie sexuelle, sanguine et fœto-maternelle.")}</li>
+        <li>${rich("Connaître la voie d'entrée permet de choisir la **prévention** : préservatif, lavage des mains, cuisson de la viande, désinfection des plaies…")}</li>
+      </ul><//>
+    </section>
+  <//>`;
+}
+
+/* ---- 5. Barrières ---- */
+const BARR = {
+  meca:{l:'Mécaniques', c:'c-meca', items:[
+    {t:'La peau', d:"Le plus grand organe (15 % de la masse du corps). L'épiderme compte 10 à 30 couches de cellules **kératinisées** : une barrière physique. Les cellules sont remplacées constamment ; la **desquamation** évacue les microbes de la surface."},
+    {t:'Les muqueuses', d:"Elles tapissent les cavités ouvertes vers l'extérieur (appareils digestif, respiratoire, uro-génital). Une seule couche de cellules, **plus fine et fragile** que la peau, constamment remplacée."},
+    {t:'Le mucus', d:"Sécrété par des cellules spécialisées des muqueuses. Visqueux, il **emprisonne** microbes et substances étrangères, par exemple dans les bronches avant les alvéoles."},
+    {t:'Poils et cils', d:"Les **poils** du nez, couverts de mucus, filtrent l'air. Les **cils** des voies respiratoires font remonter le mucus vers la gorge ; la toux et les éternuements accélèrent ce mouvement."},
+    {t:'Le lavage', d:"**Larmes**, écoulement de l'**urine**, sécrétions vaginales, **salive**, **sueur** ; vomissements, diarrhée, toux et éternuements **expulsent** les pathogènes."}]},
+  bioch:{l:'Biochimiques', c:'c-bioch', items:[
+    {t:'Le lysozyme', d:"Un antibiotique naturel : une **enzyme** qui **détruit la paroi des bactéries**. Dans la salive, les larmes, les sécrétions nasales, le lait maternel, la sueur, le liquide interstitiel."},
+    {t:"L'acidité", d:"La **sueur** et le **sébum** donnent à la peau un **pH de 3 à 5** qui freine les champignons et les bactéries. Urine et sécrétions vaginales sont légèrement acides."},
+    {t:'Le suc gastrique', d:"Acide chlorhydrique, enzymes et mucus : son acidité **détruit** plusieurs bactéries et la plupart des toxines bactériennes."},
+    {t:'Autres substances', d:"Des substances **antimicrobiennes** dans le sperme, les sécrétions vaginales et le mucus respiratoire."}]},
+  biol:{l:'Biologiques', c:'c-biol', items:[
+    {t:'La flore commensale', d:"Des microorganismes **non pathogènes** (certains staphylocoques, streptocoques…) vivent sur la peau et les muqueuses. Ils occupent la place : les pathogènes ne peuvent pas **entrer en compétition** pour coloniser ces milieux."},
+    {t:'Les bactériocines', d:"Substances produites par certaines bactéries de la flore, qui **inhibent la croissance** des germes pathogènes. Hôte et flore en tirent tous deux bénéfice sans se nuire : c'est le sens de **commensal**."}]}
+};
+function LessonBarrieres({go}){
+  const [tab, setTab] = useState('meca');
+  const [smoke, setSmoke] = useState(false);
+  const B = BARR[tab];
+  return html`<${Lesson} id="barrieres" go=${go} title="Les barrières naturelles" goal="classer les barrières naturelles en mécaniques, biochimiques et biologiques, et expliquer comment chacune arrête les microbes.">
+    <section className="frame">
+      <p className="prose">${rich("La **première ligne de défense** est formée d'obstacles qui empêchent les microbes d'entrer : les **barrières naturelles**. On en distingue trois types.")}</p>
+      <div className="tabs" role="tablist">${Object.entries(BARR).map(([k,v])=>html`<button key=${k} className="tab" role="tab" aria-selected=${tab===k} onClick=${()=>setTab(k)}>${v.l}<small className="num">${v.items.length}</small></button>`)}</div>
+      <div className="cols">${B.items.map(it=>html`<div key=${it.t} className="box"><b>${it.t}</b><p className="small">${rich(it.d)}</p></div>`)}</div>
+    </section>
+    <section className="frame">
+      <h2>Le tapis roulant des voies respiratoires</h2>
+      <p className="small muted">Les cils battent et font remonter le mucus, avec les poussières et les microbes piégés, vers la gorge.</p>
+      <div className="fig scroll"><${MucusCilia} stopped=${smoke}/></div>
+      <div className="row"><button className="btn" aria-pressed=${smoke?'true':'false'} onClick=${()=>setSmoke(!smoke)}>${smoke ? 'Retirer la nicotine' : 'Ajouter de la nicotine (tabac)'}</button></div>
+      ${smoke ? html`<${Msg} kind="neg"><p>${rich("La **nicotine inhibe les cellules ciliées**. Le mucus chargé de microbes n'est plus évacué : les fumeurs font plus souvent des infections respiratoires et toussent pour compenser.")}</p><//>` : null}
+    </section>
+    <section className="frame">
+      <h2>Une peau acide</h2>
+      <div className="ph" role="img" aria-label="Échelle de pH de 0 à 14"></div>
+      <div className="phticks num">${[0,2,4,6,7,8,10,12,14].map(v=>html`<span key=${v}>${v}</span>`)}</div>
+      <div className="phmarks">
+        <span className="phm" style=${{left:(2/14*100)+'%'}}><b>suc gastrique</b>très acide</span>
+        <span className="phm" style=${{left:(4/14*100)+'%',top:'52px'}}><b>sueur, sébum</b>pH 3 à 5</span>
+        <span className="phm" style=${{left:(6/14*100)+'%'}}><b>urine</b>légèrement acide</span>
+        <span className="phm" style=${{left:(7.4/14*100)+'%',top:'52px'}}><b>sang</b>neutre (7,4)</span>
+      </div>
+      <p className="cap">Repères indicatifs. Plus le pH est bas, plus le milieu est acide : peu de microbes y survivent.</p>
+      <${Msg} kind="pos" title="À retenir"><ul>
+        <li>${rich("**Mécaniques** : peau, muqueuses, mucus, poils et cils, lavage.")}</li>
+        <li>${rich("**Biochimiques** : lysozyme, acidité, suc gastrique, autres substances antimicrobiennes.")}</li>
+        <li>${rich("**Biologiques** : flore commensale et bactériocines.")}</li>
+      </ul><//>
+    </section>
+  <//>`;
+}
+
+/* ---- 6. Inflammation ---- */
+function LessonInflammation({go}){
+  const [step, setStep] = useState(0);
+  const s = INF_STEPS[step];
+  const on = k => (k<2 ? step>=4 : step>=5);
+  return html`<${Lesson} id="inflammation" go=${go} title="La réaction inflammatoire" goal="expliquer les quatre signes de l'inflammation et décrire son déroulement.">
+    <section className="frame">
+      <div className="msg" role="note" style=${{background:'var(--alt)',borderColor:'var(--line2)'}}><div className="bd">
+        <b className="h">Mise en situation</b>
+        <p>${rich("Ton petit frère s'est blessé en tombant en roller. Quelques jours plus tard, il a mal : sa plaie est **gonflée, rouge et purulente** (du pus s'en écoule). Le médecin nettoie la plaie et prescrit un **anti-inflammatoire**. Ton frère proteste : « Pourquoi un médicament, puisque je ne suis pas malade ? »")}</p>
+        <p className="small muted">Garde la question en tête : l'exercice F5 te demandera de lui répondre.</p>
+      </div></div>
+      <p className="prose">${rich("Quand les barrières naturelles sont franchies, la **réaction inflammatoire** forme la **deuxième ligne de défense**. Présente dès la naissance, elle est **stéréotypée** (toujours la même, quel que soit le microbe : elle est **non spécifique**) et **constante dans le temps**. Elle est locale et brève, mais peut se généraliser et devenir chronique.")}</p>
+    </section>
+    <section className="frame">
+      <h2>Le déroulement, étape par étape</h2>
+      <div className="fig scroll"><${InflamDiagram} step=${step}/></div>
+      <div className="signs" aria-label="Signes visibles">${['Rougeur','Chaleur','Gonflement','Douleur'].map((t,k)=>html`<span key=${t} className=${'sign'+(on(k)?' on':'')}>${t}</span>`)}</div>
+      <div className="stepper">
+        <div className="steptext" aria-live="polite"><b className="h">${s.t}</b><span>${rich(s.d)}</span></div>
+        <div className="row" style=${{justifyContent:'space-between'}}>
+          <div className="dots" role="group" aria-label="Étapes">${INF_STEPS.map((_,i)=>html`<button key=${i} className="dot" aria-current=${i===step?'step':null} aria-label=${INF_STEPS[i].t} onClick=${()=>setStep(i)}>${i}</button>`)}</div>
+          <div className="row"><button className="btn" disabled=${step===0} onClick=${()=>setStep(step-1)}>Précédent</button><button className="btn primary" disabled=${step===INF_STEPS.length-1} onClick=${()=>setStep(step+1)}>Étape suivante</button></div>
+        </div>
+      </div>
+    </section>
+    <section className="frame">
+      <h2>D'où viennent les quatre signes ?</h2>
+      <div className="tblwrap"><table>
+        <thead><tr><th>Signe</th><th>Cause</th></tr></thead>
+        <tbody>
+          <tr><td><b>Rougeur</b></td><td>Vasodilatation : plus de sang arrive</td></tr>
+          <tr><td><b>Chaleur</b></td><td>Vasodilatation : plus de sang arrive (jusqu'à +1 °C localement)</td></tr>
+          <tr><td><b>Gonflement</b></td><td>Sortie de plasma et de leucocytes (diapédèse) : œdème</td></tr>
+          <tr><td><b>Douleur</b></td><td>L'œdème comprime les nerfs</td></tr>
+        </tbody>
+      </table></div>
+      <${Msg} kind="pos" title="À retenir"><p>${rich("Cellules sentinelles → **médiateurs chimiques** (cytokines, histamine) → **vasodilatation** (rougeur, chaleur) → **diapédèse** et **œdème** (gonflement, douleur) → **phagocytose** → **pus**.")}</p><//>
+    </section>
+  <//>`;
+}
+
+/* ---- 7. Phagocytose ---- */
+function LessonPhagocytose({go}){
+  const [i, setI] = useState(0);
+  const p = PHAGO[i];
+  return html`<${Lesson} id="phagocytose" go=${go} title="La phagocytose" goal="décrire les quatre étapes de la phagocytose et nommer les vésicules qui y participent.">
+    <section className="frame">
+      <p className="prose">${rich("La **phagocytose** est le processus d'**ingestion** et de **destruction** des microbes, des particules étrangères et des débris cellulaires. Elle est réalisée par les **phagocytes** : macrophages, granulocytes et cellules dendritiques.")}</p>
+      <div className="fig scroll"><${PhagoStrip} cur=${i} onSel=${setI}/></div>
+      <div className="stepper">
+        <div className="steptext" aria-live="polite"><b className="h">${p.t}</b><span>${rich(p.d)}</span></div>
+        <div className="row" style=${{justifyContent:'flex-end'}}><button className="btn" disabled=${i===0} onClick=${()=>setI(i-1)}>Précédent</button><button className="btn primary" disabled=${i===PHAGO.length-1} onClick=${()=>setI(i+1)}>Étape suivante</button></div>
+      </div>
+      <div className="tblwrap"><table>
+        <thead><tr><th>Mot</th><th>Sens</th></tr></thead>
+        <tbody>
+          <tr><td><b>Pseudopodes</b></td><td>Prolongements du cytoplasme qui entourent le microbe</td></tr>
+          <tr><td><b>Phagosome</b></td><td>Vésicule qui contient le microbe ingéré</td></tr>
+          <tr><td><b>Lysosome</b></td><td>Petite vésicule riche en enzymes digestives</td></tr>
+          <tr><td><b>Phagolysosome</b></td><td>Phagosome + lysosome fusionnés : le microbe y est digéré</td></tr>
+          <tr><td><b>Exocytose</b></td><td>Rejet des déchets hors de la cellule</td></tr>
+        </tbody>
+      </table></div>
+      <${Msg} kind="pos" title="À retenir"><p>${rich("**Adhésion** → **ingestion** (phagosome) → **digestion** (phagolysosome) → **rejet** (exocytose). Quatre verbes à retenir : le phagocyte **s'accroche**, **avale**, **digère**, **rejette**.")}</p><//>
+    </section>
+  <//>`;
+}
+
+/* ---- 8. Fièvre et médicaments ---- */
+function LessonFievre({go}){
+  const [t, setT] = useState(38.5);
+  const zone = t<37.6 ? {k:'pos', h:'Température normale', d:"Autour de 37 °C : l'hypothalamus maintient la température stable."}
+    : t<41 ? {k:'neu', h:'Fièvre', d:"Elle aide la défense : cœur plus rapide, phagocytose facilitée, microbes freinés, réparation accélérée. À surveiller si elle est élevée ou si elle dure."}
+    : {k:'neg', h:'Fièvre dangereuse', d:"Vers 41 °C, certaines **enzymes** indispensables se **dénaturent** (elles perdent leur forme et ne fonctionnent plus) : la fièvre devient nocive, voire mortelle."};
+  const h = Math.max(0, Math.min(1, (t-35)/(42.5-35)));
+  return html`<${Lesson} id="fievre" go=${go} title="Fièvre et médicaments" goal="expliquer l'origine et le rôle de la fièvre, et distinguer antalgiques et anti-inflammatoires.">
+    <section className="frame">
+      <h2>Qu'est-ce que la fièvre ?</h2>
+      <div className="flow">
+        <div className="st">${rich("Cellules **endommagées**")}</div><span className="ar">→</span>
+        <div className="st">${rich("libèrent des **pyrogènes endogènes**")}</div><span className="ar">→</span>
+        <div className="st">${rich("alertent l'**hypothalamus** (thermorégulation)")}</div><span className="ar">→</span>
+        <div className="st good">${rich("**température générale** du corps ↑ : la fièvre")}</div>
+      </div>
+      <div className="thermo">
+        <svg viewBox="0 0 50 200" width="44" role="img" aria-label=${'Thermomètre : '+t.toFixed(1).replace('.',',')+' °C'}>
+          <rect x="17" y="8" width="16" height="160" rx="8" fill="var(--alt)" stroke="var(--line2)"/>
+          <rect x="21" y=${12+(1-h)*150} width="8" height=${h*150+10} rx="4" fill=${t>=41?'var(--neg)':t>=37.6?'var(--neu)':'var(--pos)'}/>
+          <circle cx="25" cy="178" r="15" fill=${t>=41?'var(--neg)':t>=37.6?'var(--neu)':'var(--pos)'} stroke="var(--line2)"/>
+        </svg>
+        <div style=${{display:'flex',flexDirection:'column',gap:'8px',minWidth:0}}>
+          <label htmlFor="temp"><b className="num" style=${{fontSize:'1.3rem'}}>${t.toFixed(1).replace('.',',')} °C</b></label>
+          <input id="temp" type="range" min="36" max="42" step="0.1" value=${t} onChange=${e=>setT(+e.target.value)}/>
+          <div className=${'msg '+zone.k} style=${{margin:0}}><div className="bd"><b className="h">${zone.h}</b><p>${rich(zone.d)}</p></div></div>
+          <p className="cap">Repères indicatifs. En cas de forte fièvre, on consulte un médecin.</p>
+        </div>
+      </div>
+      <div className="cols">
+        <div className="box"><b>Pourquoi la fièvre est utile</b><ol style=${{margin:0,paddingLeft:'1.3em'}}>
+          <li>${rich("Elle augmente la **fréquence cardiaque** et la circulation : plus de défenseurs arrivent.")}</li>
+          <li>${rich("Elle **facilite la phagocytose** et augmente la production d'anticorps.")}</li>
+          <li>${rich("Elle **freine la croissance** des microbes.")}</li>
+          <li>${rich("Elle **accélère la réparation** des lésions.")}</li></ol></div>
+        <div className="box"><b>Quand elle devient dangereuse</b><p className="small">${rich("Une fièvre **élevée (41 °C)** ou **prolongée** désactive certaines **enzymes** (dénaturation) indispensables au fonctionnement du corps.")}</p></div>
+      </div>
+    </section>
+    <section className="frame">
+      <h2>Quand l'inflammation devient invalidante</h2>
+      <p className="prose">${rich("Si l'inflammation se prolonge anormalement (**inflammation chronique**), elle peut abîmer les tissus et les organes. Deux familles de médicaments aident à limiter les symptômes.")}</p>
+      <div className="fig scroll"><${Venn}/></div>
+      <div className="cols">
+        <div className="box"><span className="pill c-soi" style=${{alignSelf:'flex-start'}}>antalgiques</span><p className="small">${rich("Atténuent ou suppriment la **douleur**. **Non opiacés** : douleurs légères à modérées. **Opiacés** (issus de l'opium, agissent sur les récepteurs d'opiacés) : **faibles** pour les douleurs modérées à sévères, **forts** pour les douleurs intenses ; on en devient facilement et rapidement **dépendant**.")}</p></div>
+        <div className="box"><span className="pill c-non" style=${{alignSelf:'flex-start'}}>anti-inflammatoires</span><p className="small">${rich("Empêchent la **synthèse de certains médiateurs chimiques** de l'inflammation : ils limitent la **vasodilatation**, la **douleur** et la **chaleur**.")}</p></div>
+      </div>
+      <${Msg} kind="neg" title="Opiacés forts"><p>${rich("Le **fentanyl**, opiacé très puissant, est responsable de nombreuses **surdoses mortelles**. Ces médicaments ne se prennent que sur prescription et sous surveillance médicale.")}</p><//>
+      <${Msg} kind="pos" title="À retenir"><ul>
+        <li>${rich("Fièvre : pyrogènes endogènes → hypothalamus → température ↑. Utile, mais dangereuse vers 41 °C.")}</li>
+        <li>${rich("**Aspirine** et **ibuprofène** : antalgiques **et** anti-inflammatoires. **Paracétamol** : antalgique seulement.")}</li>
+      </ul><//>
+    </section>
+  <//>`;
+}
+
+/* =========================================================
+   DONNÉES : familles d'exercices
+   ========================================================= */
+const FAMILIES = [
+{ id:'A', short:'Greffes', title:'Interpréter des expériences de greffe', lesson:'greffes',
+  goal:"Lire l'évolution d'un greffon et conclure sur les conditions de réussite.",
+  worked:{ title:"Que montre l'allogreffe ?", consigne:"Décris l'évolution du greffon dans l'allogreffe et explique ce qu'elle montre.",
+    fig:{graftRow:'allo'},
+    steps:[
+      {t:"**Jours 1 à 5** : le greffon est pâle, puis rosé. Des vaisseaux sanguins commencent à l'irriguer, **comme dans l'autogreffe**.", why:"On décrit d'abord ce qui ressemble à une greffe réussie : le début est identique."},
+      {t:"**Jours 6 et 7** : le greffon devient **brunâtre**. C'est le premier signe qui le distingue d'une autogreffe."},
+      {t:"**Jours 8 à 11** : gonflement, rougeur, petits saignements. Le receveur **réagit contre** le greffon.", why:"Tu reconnaîtras au chapitre 4 les signes d'une réaction inflammatoire."},
+      {t:"**Jour 12** : le greffon se dessèche et se détache : il est **rejeté**."},
+      {t:"**Conclusion** : même si donneur et receveur sont de la même espèce, le greffon est reconnu comme **étranger** (non-soi)."}
+    ],
+    answer:"Dans l'allogreffe, le greffon commence à se vasculariser (jours 1 à 5), puis il brunit, gonfle, rougit, saigne, et se dessèche avant de se détacher au jour 12 : il est rejeté. Le receveur reconnaît donc le greffon comme étranger, même si le donneur appartient à la même espèce." },
+  ex:[
+    {id:'A1', level:1, type:'classify', prompt:"Quel est le type de chaque greffe ?", cats:['Auto','Iso','Allo','Xéno'],
+      items:[
+        {t:"Peau de la cuisse greffée sur le bras d'un grand brûlé", c:0},
+        {t:"Rein donné par un vrai jumeau", c:1},
+        {t:"Rein donné par un donneur décédé", c:2},
+        {t:"Cœur de porc greffé chez un humain (essai expérimental)", c:3},
+        {t:"Moelle osseuse donnée par une sœur (pas jumelle)", c:2},
+        {t:"Peau de souris greffée sur un tamia (écureuil rayé)", c:3}],
+      simple:"Auto · Iso · Allo · Xéno · Allo · Xéno.",
+      detail:["**Auto** : donneur et receveur sont le **même individu**.","**Iso** : donneur et receveur sont de **vrais jumeaux**.","**Allo** : même **espèce**, mais individus différents (une sœur qui n'est pas jumelle, un donneur décédé).","**Xéno** : **espèces différentes** (porc → humain, souris → tamia)."]},
+    {id:'A2', level:2, type:'classify', prompt:"Chaque observation est-elle un signe de réussite, de rejet, ou se voit-elle dans les deux cas ?", cats:['Réussite','Rejet','Les deux'],
+      items:[
+        {t:"Greffon pâle", c:2},
+        {t:"Greffon rosé par vascularisation naissante", c:2},
+        {t:"Greffon confondu avec les tissus environnants", c:0},
+        {t:"Greffon brunâtre", c:1},
+        {t:"Gonflement, rougeur, petits saignements", c:1},
+        {t:"Greffon desséché, se détachant", c:1}],
+      simple:"Les deux · Les deux · Réussite · Rejet · Rejet · Rejet.",
+      detail:["Les premiers jours, **toutes** les greffes se ressemblent : pâle, puis rosé.","Le greffon **confondu** avec les tissus (jour 10) ne se voit que pour l'auto- et l'isogreffe.","Brunâtre, gonflé, desséché : ces signes n'apparaissent que dans l'allo- et la xénogreffe."]},
+    {id:'A3', level:2, type:'order', prompt:"Remets dans l'ordre l'évolution d'une **xénogreffe**.",
+      items:["Greffon pâle","Greffon rosé (vascularisation naissante)","Greffon brunâtre","Gonflement, rougeur, petits saignements","Greffon desséché, se détachant"], shuffle:[3,0,4,2,1],
+      simple:"Pâle → rosé → brunâtre → gonflement, rougeur, saignements → desséché.",
+      detail:["Jours 1 et 2 : pâle.","Jours 3 et 4 : rosé.","Jour 5 : brunâtre.","Jours 6 à 9 : gonflement, rougeur, saignements.","Jour 10 : desséché, se détachant."]},
+    {id:'A4', level:2, type:'qcm', prompt:"Compare l'allogreffe et la xénogreffe. Quelle différence observes-tu ?",
+      options:["Le rejet est plus rapide dans la xénogreffe (jour 10 au lieu du jour 12)","La xénogreffe réussit, l'allogreffe échoue","Le rejet est plus lent dans la xénogreffe","Il n'y a aucune différence"], answer:0,
+      hint:"Regarde le jour où le greffon se dessèche dans chaque cas.",
+      simple:"Le rejet est plus rapide dans la xénogreffe.",
+      detail:["Allogreffe : greffon desséché au **jour 12**.","Xénogreffe : greffon desséché au **jour 10** ; il brunit dès le jour 5 (jour 6 pour l'allogreffe).","Interprétation : plus le donneur est **différent** du receveur, plus le rejet est **rapide**."]},
+    {id:'A5', level:3, type:'open', prompt:"Une greffe concerne un organe, donc un ensemble de tissus composés de cellules. **Au niveau cellulaire, quelle condition doit être remplie pour que la greffe réussisse ?** Justifie à l'aide de l'isogreffe.",
+      hint:"Que portent toutes les cellules sur leur membrane ? D'où viennent les cellules de deux vrais jumeaux ?",
+      model:"Les cellules du greffon doivent porter les mêmes marqueurs (molécules HLA du complexe majeur d'histocompatibilité) que les cellules du receveur. Elles sont alors reconnues comme « soi » et tolérées. C'est le cas dans l'isogreffe : les vrais jumeaux proviennent du même zygote, donc toutes leurs cellules portent les mêmes marqueurs.",
+      criteria:["Je parle des **marqueurs** (HLA, CMH) sur la membrane des cellules","Je dis qu'ils doivent être **identiques** chez le donneur et le receveur","J'explique que le greffon est alors reconnu comme **soi** et toléré","Je justifie avec les vrais jumeaux issus du **même zygote**"],
+      detail:["Condition : marqueurs identiques.","Conséquence : greffon reconnu comme soi.","Exemple : isogreffe, même zygote, mêmes marqueurs."]}
+  ]},
+{ id:'B', short:'Soi / non-soi', title:'Soi, non-soi, marqueurs et antigènes', lesson:'marqueurs',
+  goal:"Utiliser les notions de marqueurs et d'antigènes pour expliquer une situation.",
+  worked:{ title:"Pourquoi l'isogreffe réussit-elle ?", consigne:"Explique pourquoi une greffe de peau entre deux vrais jumeaux réussit.",
+    steps:[
+      {t:"**Rappel** : toutes les cellules d'un individu proviennent d'une seule cellule, le **zygote**, et portent les mêmes marqueurs.", why:"On part de l'origine des cellules."},
+      {t:"De **vrais jumeaux** proviennent du **même zygote**, qui s'est séparé en deux embryons."},
+      {t:"Leurs cellules portent donc les **mêmes marqueurs HLA**."},
+      {t:"Le système immunitaire du receveur reconnaît le greffon comme **soi** : il le **tolère**."}
+    ],
+    answer:"Les vrais jumeaux proviennent du même zygote. Toutes leurs cellules portent donc les mêmes marqueurs (molécules HLA). Le greffon est reconnu comme « soi » par le receveur et il est toléré : la greffe réussit." },
+  ex:[
+    {id:'B1', level:1, type:'fill', prompt:"Complète le texte.",
+      parts:["L'immunité repose sur la capacité à reconnaître le soi et le non-soi, à ",{o:['tolérer','rejeter','fabriquer'],a:0}," le soi et à ",{o:['tolérer','rejeter','copier'],a:1}," le non-soi. Les molécules reconnues comme étrangères et capables de déclencher une réaction immunitaire sont les ",{o:['antigènes','enzymes','hormones'],a:0},". Chez l'homme, les marqueurs majeurs sont les molécules ",{o:['HLA','ABO','Rhésus'],a:0},", qui sont des ",{o:['glycoprotéines','lipides','sucres simples'],a:0},"."],
+      simple:"tolérer · rejeter · antigènes · HLA · glycoprotéines.",
+      detail:["Soi → toléré ; non-soi → rejeté.","**Antigène** = molécule étrangère qui déclenche une réaction immunitaire.","**HLA** = *Human Leucocyte Antigens*, les molécules du CMH chez l'homme.","Glycoprotéine = protéine de la membrane portant des sucres."]},
+    {id:'B2', level:1, type:'classify', prompt:"Marqueur majeur ou mineur ?", cats:['Majeur','Mineur'],
+      items:[
+        {t:"Molécules HLA (complexe majeur d'histocompatibilité)", c:0},
+        {t:"Molécules qui déterminent le groupe sanguin A, B, AB ou O", c:1},
+        {t:"Facteur Rhésus", c:1},
+        {t:"Combinaison unique à un individu", c:0},
+        {t:"Commun à plusieurs individus", c:1},
+        {t:"Absent des globules rouges", c:0}],
+      simple:"Majeur · Mineur · Mineur · Majeur · Mineur · Majeur.",
+      detail:["**Majeurs** = HLA : uniques, présents sur nos cellules sauf les globules rouges.","**Mineurs** = toutes les autres molécules, comme les groupes sanguins ABO et Rhésus des globules rouges : communes à plusieurs personnes."]},
+    {id:'B3', level:2, type:'classify', prompt:"Où se trouve chaque antigène ?", cats:['Fixé sur une cellule','Libre dans les liquides'],
+      items:[
+        {t:"Molécules à la surface d'une bactérie", c:0},
+        {t:"Toxine du tétanos qui circule dans le sang", c:1},
+        {t:"Molécules à la surface d'une cellule infectée par un virus", c:0},
+        {t:"Molécules à la surface d'une cellule cancéreuse", c:0},
+        {t:"Toxine libérée par une bactérie dans l'intestin", c:1},
+        {t:"Marqueurs HLA d'un greffon venant d'un autre individu", c:0}],
+      simple:"Fixé · Libre · Fixé · Fixé · Libre · Fixé.",
+      detail:["Les antigènes **fixés** sont portés par une cellule : bactérie, cellule infectée, cellule cancéreuse, cellule d'un greffon.","Les antigènes **libres** circulent seuls : les **toxines**.","Attention : les HLA du greffon sont du **soi** pour le donneur, mais du **non-soi** pour le receveur."]},
+    {id:'B4', level:2, type:'qcm', prompt:"Pourquoi est-il si difficile de trouver un donneur de rein parfaitement compatible ?",
+      options:["La combinaison des molécules HLA est unique à chaque individu","Il y a trop peu de groupes sanguins","Les reins n'ont pas de marqueurs","Les donneurs ont souvent une infection"], answer:0,
+      simple:"Parce que la combinaison HLA est unique.",
+      detail:["Chaque individu a une combinaison HLA **unique**.","La probabilité que deux personnes aient les mêmes HLA est **exceptionnellement faible**.","La compatibilité n'est donc jamais de 100 % (sauf vrais jumeaux), ce qui peut entraîner un rejet."]},
+    {id:'B5', level:3, type:'qcm', prompt:"Pour une **transfusion** de globules rouges, on vérifie seulement les groupes ABO et Rhésus. Pour une **greffe de rein**, on compare aussi les HLA. Pourquoi cette différence ?",
+      options:["Les globules rouges ne portent pas de molécules HLA : seuls leurs marqueurs mineurs comptent","Le sang n'est jamais reconnu comme étranger","Les reins ne portent pas de groupe sanguin","Les HLA ne servent qu'aux greffes d'organes du ventre"], answer:0,
+      hint:"Relis où se trouvent les marqueurs majeurs.",
+      simple:"Les globules rouges ne portent pas d'HLA.",
+      detail:["Les marqueurs majeurs (HLA) sont absents des **globules rouges**.","Un globule rouge transfusé n'est donc « vu » que par ses marqueurs **mineurs** : groupe ABO et Rhésus.","Les cellules d'un rein portent des **HLA** : il faut en plus que ceux-ci soient le plus proches possible.","En pratique, on retire aussi la plupart des globules blancs du sang donné."]}
+  ]},
+{ id:'C', short:'Innée / adaptative', title:'Réponse innée ou adaptative', lesson:'reponses',
+  goal:"Reconnaître le type de réponse à partir de ses caractéristiques et de ses cellules.",
+  worked:{ title:'Une écharde dans le doigt', consigne:"Une écharde se plante dans ton doigt. En quelques heures, la zone devient rouge et des granulocytes et des macrophages arrivent. **Quel type de réponse immunitaire est-ce ?**",
+    steps:[
+      {t:"**Vitesse** : la réaction apparaît en **quelques heures**. La réponse adaptative demande au moins une dizaine de jours.", why:"Le critère du temps permet souvent de trancher tout de suite."},
+      {t:"**Cellules** : **granulocytes** et **macrophages** font partie de la réponse **innée**."},
+      {t:"**Spécificité** : la même réaction aurait lieu avec n'importe quel microbe : elle est **non spécifique**."},
+      {t:"Les trois indices concordent : c'est la **réponse innée**."}
+    ],
+    answer:"C'est la réponse immunitaire innée : elle apparaît en quelques heures, elle fait intervenir des granulocytes et des macrophages, et elle est la même quel que soit le microbe (non spécifique)." },
+  ex:[
+    {id:'C1', level:1, type:'classify', prompt:"Innée ou adaptative ?", cats:['Innée','Adaptative'],
+      items:[
+        {t:"Présente dès la naissance", c:0},
+        {t:"Prête à agir immédiatement", c:0},
+        {t:"Spécifique à un agresseur particulier", c:1},
+        {t:"Demande au moins une dizaine de jours", c:1},
+        {t:"Ses armes ne sont pas spécifiques", c:0},
+        {t:"Comporte plusieurs étapes, plus lente", c:1},
+        {t:"Rôle essentiel lors du premier contact avec le microbe", c:0}],
+      simple:"I · I · A · A · I · A · I.",
+      detail:["**Innée** : immédiate, permanente, non spécifique, première à intervenir (primo-infection).","**Adaptative** : lente, plusieurs étapes, spécifique, très efficace."]},
+    {id:'C2', level:1, type:'classify', prompt:"Dans quelle réponse ces cellules interviennent-elles, d'après ton cours ?", cats:['Innée','Adaptative'],
+      items:[{t:"Mastocytes",c:0},{t:"Macrophages",c:0},{t:"Granulocytes",c:0},{t:"Lymphocytes B",c:1},{t:"Lymphocytes T",c:1},{t:"Cellules présentatrices d'antigènes",c:1}],
+      simple:"Innée : mastocytes, macrophages, granulocytes. Adaptative : LB, LT, cellules présentatrices d'antigènes.",
+      detail:["Réponse innée : **mastocytes, macrophages, cellules dendritiques, granulocytes**.","Réponse adaptative : **cellules présentatrices d'antigènes, lymphocytes B et T**.","Les cellules dendritiques font le lien entre les deux : elles agissent dans la réponse innée et présentent les antigènes aux lymphocytes."]},
+    {id:'C3', level:2, type:'qcm', prompt:"Pourquoi la réponse innée manque-t-elle parfois d'efficacité ?",
+      options:["Ses armes ne sont pas spécifiques à l'agresseur","Elle met au moins dix jours à démarrer","Elle n'existe pas chez le nouveau-né","Elle n'utilise aucune cellule"], answer:0,
+      simple:"Parce qu'elle n'est pas spécifique.",
+      detail:["La réponse innée utilise les **mêmes armes** pour tous les microbes.","Elle est rapide, mais pas ciblée : certains microbes y résistent.","La réponse adaptative prend alors le relais avec une défense **spécifique**."]},
+    {id:'C4', level:3, type:'open', prompt:"Nous vivons entourés de microorganismes potentiellement pathogènes, et pourtant nous sommes rarement malades. **Explique pourquoi**, en utilisant les deux types de réponse immunitaire.",
+      hint:"Que fait chaque réponse, et à quel moment ?",
+      model:"Nous disposons de deux réponses qui agissent en synergie. La réponse innée est présente dès la naissance et agit immédiatement contre tout microbe, même si elle n'est pas spécifique. Si elle ne suffit pas, la réponse adaptative, plus lente (au moins une dizaine de jours) mais spécifique et très efficace, prend le relais avec les lymphocytes B et T. Ensemble, elles forment un système de défense efficace.",
+      criteria:["Je décris la réponse **innée** (immédiate, non spécifique)","Je décris la réponse **adaptative** (lente, spécifique, efficace)","J'explique qu'elles agissent **ensemble** (en synergie)"],
+      detail:["Innée = premier rempart rapide.","Adaptative = renfort ciblé.","Synergie = défense efficace."]}
+  ]},
+{ id:'D', short:"Voies d'entrée", title:"Les voies d'entrée des microbes", lesson:'entrees',
+  goal:"Identifier la voie de contamination d'une maladie et proposer une prévention adaptée.",
+  worked:{ title:'Le tétanos', consigne:"Le tétanos est dû à une bactérie dont les spores vivent dans la terre et la poussière. **Par quelle voie entre-t-elle, et comment s'en protéger ?**",
+    steps:[
+      {t:"**Où vit le microbe ?** Dans la terre, la poussière, les déjections animales."},
+      {t:"**Comment arrive-t-il dans le corps ?** Par une **plaie souillée** : blessure, griffure, morsure, piqûre d'épine.", why:"On cherche le moment où la barrière est franchie."},
+      {t:"**Quelle voie ?** La peau est blessée : **contamination par traumatisme de la peau**."},
+      {t:"**Prévention** adaptée à cette voie : **nettoyer et désinfecter** toute blessure, être **vacciné** (rappel tous les 10 ans)."}
+    ],
+    answer:"La bactérie du tétanos entre par une plaie souillée de terre : c'est une contamination par traumatisme de la peau. Pour s'en protéger, on nettoie et on désinfecte toute blessure, et on se fait vacciner, avec un rappel tous les 10 ans." },
+  ex:[
+    {id:'D1', level:1, type:'match', prompt:"Associe chaque situation à sa voie d'entrée.",
+      options:["Respiratoire","Féco-orale / alimentaire","Traumatisme de la peau","Sanguine","Sexuelle","Fœto-maternelle"],
+      rows:[
+        {t:"Grippe attrapée en classe, près d'un élève qui tousse",a:0},
+        {t:"Toxoplasmose après avoir mangé de la viande mal cuite",a:1},
+        {t:"Tétanos après une griffure dans le jardin",a:2},
+        {t:"Hépatite C par une seringue partagée",a:3},
+        {t:"Choléra en buvant de l'eau souillée",a:1},
+        {t:"Toxoplasmose transmise au bébé pendant la grossesse",a:5}],
+      simple:"Respiratoire · Féco-orale · Peau · Sanguine · Féco-orale · Fœto-maternelle.",
+      detail:["Gouttelettes de toux → voie **respiratoire**.","Viande, eau → par la bouche : voie **féco-orale / alimentaire**.","Griffure → **traumatisme de la peau**.","Seringue → directement dans le **sang**.","Mère → bébé à travers le placenta : **fœto-maternelle**."]},
+    {id:'D2', level:2, type:'multi', prompt:"Par quelles voies le **VIH** peut-il entrer dans le corps ? Coche toutes les bonnes réponses.",
+      options:["Sexuelle","Sanguine","Fœto-maternelle","Respiratoire","En partageant un verre"], answers:[0,1,2],
+      simple:"Sexuelle, sanguine et fœto-maternelle.",
+      detail:["Le VIH se transmet par des **liquides biologiques** : sperme, sécrétions vaginales, sang, et de la mère à l'enfant (grossesse, accouchement, allaitement).","Il ne se transmet **ni** par l'air **ni** en partageant un verre."]},
+    {id:'D3', level:2, type:'multi', prompt:"La **toxoplasmose** peut entrer par deux voies. Lesquelles ?",
+      options:["Féco-orale / alimentaire","Fœto-maternelle","Respiratoire","Sexuelle"], answers:[0,1],
+      simple:"Féco-orale et fœto-maternelle.",
+      detail:["Voie **digestive** : viande crue ou mal cuite, fruits et légumes mal lavés, mains sales après la terre ou la litière du chat.","Voie **fœto-maternelle** : à travers le placenta. C'est pourquoi on dépiste les femmes enceintes."]},
+    {id:'D4', level:3, type:'open', prompt:"Pendant une épidémie de grippe, on conseille de **tousser dans son coude**, de **se laver les mains** et d'**aérer**. Explique pourquoi ces gestes sont efficaces, en partant de la voie d'entrée du virus.",
+      hint:"Comment le virus passe-t-il d'une personne à l'autre ?",
+      model:"La grippe entre par voie respiratoire : le virus est projeté dans des gouttelettes quand une personne tousse, éternue ou parle, ou il passe par des mains contaminées portées au nez, à la bouche ou aux yeux. Tousser dans son coude limite la projection de gouttelettes. Se laver les mains élimine le virus déposé sur les mains. Aérer diminue la quantité de virus dans l'air de la pièce.",
+      criteria:["J'identifie la voie **respiratoire** (gouttelettes)","Je cite aussi les **mains** contaminées","Je relie **chaque geste** à la voie qu'il bloque"],
+      detail:["Voie : respiratoire, plus le relais des mains.","Coude → moins de gouttelettes projetées.","Mains lavées → virus éliminé.","Aération → air renouvelé."]}
+  ]},
+{ id:'E', short:'Barrières', title:'Les barrières naturelles', lesson:'barrieres',
+  goal:"Classer une barrière et expliquer ce qui se passe quand elle est affaiblie.",
+  worked:{ title:'Les larmes', consigne:"Les larmes protègent l'œil de **deux façons**. Lesquelles ? Classe chacune.",
+    steps:[
+      {t:"**Première action** : les larmes **lavent** continuellement l'œil et empêchent les microbes de s'y fixer.", why:"Un liquide qui emporte les microbes agit par effet physique."},
+      {t:"→ C'est une barrière **mécanique** (le lavage)."},
+      {t:"**Deuxième action** : les larmes contiennent du **lysozyme**, une enzyme qui détruit la paroi des bactéries."},
+      {t:"→ C'est une barrière **biochimique**.", why:"Une même sécrétion peut donc jouer deux rôles. C'est aussi le cas de la salive."}
+    ],
+    answer:"Les larmes lavent l'œil en continu et empêchent les microbes de se fixer : c'est une barrière mécanique. Elles contiennent aussi du lysozyme, une enzyme qui détruit la paroi des bactéries : c'est une barrière biochimique." },
+  ex:[
+    {id:'E1', level:1, type:'classify', prompt:"Classe chaque barrière.", cats:['Mécanique','Biochimique','Biologique'],
+      items:[
+        {t:"Couches de cellules kératinisées de l'épiderme",c:0},
+        {t:"Mucus qui emprisonne les microbes",c:0},
+        {t:"Cils des voies respiratoires",c:0},
+        {t:"Écoulement de l'urine",c:0},
+        {t:"Lysozyme",c:1},
+        {t:"pH acide de la sueur et du sébum",c:1},
+        {t:"Suc gastrique",c:1},
+        {t:"Flore commensale de l'intestin",c:2},
+        {t:"Bactériocines produites par la flore",c:2}],
+      simple:"Méca : épiderme, mucus, cils, urine. Bioch : lysozyme, pH acide, suc gastrique. Biol : flore, bactériocines.",
+      detail:["**Mécanique** : un obstacle physique ou un mouvement qui piège ou évacue.","**Biochimique** : une substance chimique qui détruit ou freine les microbes.","**Biologique** : d'autres êtres vivants (la flore) qui occupent la place ou fabriquent des bactériocines. Même si les bactériocines sont des substances, ton cours les range ici, car elles sont produites par la flore."]},
+    {id:'E2', level:1, type:'fill', prompt:"Complète.",
+      parts:["L'épiderme compte de ",{o:['10 à 30','2 à 3','100 à 300'],a:0}," couches de cellules ",{o:['kératinisées','ciliées','nerveuses'],a:0},". La sueur et le sébum donnent à la peau un pH de ",{o:['3 à 5','7 à 8','10 à 12'],a:0},". Le lysozyme est une ",{o:['enzyme','hormone','cellule'],a:0}," qui détruit ",{o:['la paroi des bactéries','les virus','les globules rouges'],a:0},"."],
+      simple:"10 à 30 · kératinisées · 3 à 5 · enzyme · la paroi des bactéries.",
+      detail:["Kératine : la même protéine que dans les ongles, les cheveux, la corne.","pH 3 à 5 = acide : beaucoup de microbes ne s'y développent pas.","Le lysozyme est un « antibiotique naturel »."]},
+    {id:'E3', level:2, type:'qcm', prompt:"Les fumeurs font plus souvent des bronchites (infections des bronches). Quelle explication tirée du cours ?",
+      options:["La nicotine inhibe les cellules ciliées : le mucus chargé de microbes n'est plus évacué","La fumée tue tous les microbes","Le tabac rend la peau plus épaisse","Les fumeurs produisent trop de lysozyme"], answer:0,
+      simple:"La nicotine paralyse les cils.",
+      detail:["Normalement, les **cils** font remonter le mucus et les microbes piégés vers la gorge.","La **nicotine** inhibe ces cellules ciliées.","Le mucus stagne dans les bronches : les microbes ont le temps de s'y multiplier."]},
+    {id:'E4', level:2, type:'qcm', prompt:"Après un long traitement antibiotique, Sara développe une mycose (champignon *Candida*). Quelle barrière a été affaiblie ?",
+      options:["La flore commensale, détruite en partie par les antibiotiques","La peau, devenue plus fine","Le suc gastrique, devenu neutre","Les cils des voies respiratoires"], answer:0,
+      hint:"Les antibiotiques tuent les bactéries… toutes les bactéries.",
+      simple:"La flore commensale (barrière biologique).",
+      detail:["Les antibiotiques tuent aussi les **bactéries non pathogènes** de la flore.","La place est libre : le champignon n'a plus de **compétition** et prolifère.","C'est la barrière **biologique** qui a été affaiblie."]},
+    {id:'E5', level:3, type:'open', prompt:"Les grands brûlés sont très exposés aux infections graves. **Explique pourquoi**, à l'aide des barrières naturelles.",
+      hint:"Quelle est la barrière la plus étendue du corps ? Que contient-elle ?",
+      model:"La peau est la principale barrière mécanique : son épiderme de cellules kératinisées empêche les microbes d'entrer. Une brûlure étendue détruit cette barrière sur une grande surface : les microbes entrent directement dans les tissus. En plus, la peau brûlée perd son acidité (sueur, sébum) et sa flore commensale protectrice.",
+      criteria:["Je dis que la peau est une **barrière mécanique** (épiderme kératinisé)","J'explique que la brûlure **détruit** cette barrière et laisse entrer les microbes","Je cite au moins une autre protection perdue (**acidité**, **flore commensale**)"],
+      detail:["Barrière mécanique détruite → porte d'entrée géante.","Barrières biochimique (acidité) et biologique (flore) perdues aussi."]}
+  ]},
+{ id:'F', short:'Inflammation', title:'La réaction inflammatoire', lesson:'inflammation',
+  goal:"Expliquer les signes de l'inflammation à partir de son déroulement.",
+  worked:{ title:'Expliquer les quatre signes', consigne:"Une écorchure au genou devient rouge, chaude, gonflée et douloureuse. **Explique chacun de ces signes.**",
+    steps:[
+      {t:"**Départ** : des microbes entrent ; les **cellules sentinelles** les détectent et libèrent des **médiateurs chimiques** (cytokines, histamine).", why:"Tous les signes découlent de cette alerte chimique."},
+      {t:"Les médiateurs provoquent la **vasodilatation** : plus de sang arrive → **rougeur** et **chaleur**."},
+      {t:"Les capillaires deviennent plus perméables : **plasma** et **leucocytes** sortent (**diapédèse**) → le liquide s'accumule : **gonflement** (œdème)."},
+      {t:"L'œdème **comprime les nerfs** → **douleur**."}
+    ],
+    answer:"Les cellules sentinelles libèrent des médiateurs chimiques. Ceux-ci dilatent les vaisseaux : plus de sang arrive, d'où la rougeur et la chaleur. Les capillaires laissent sortir du plasma et des leucocytes (diapédèse) : c'est l'œdème, donc le gonflement. Cet œdème comprime les nerfs, ce qui provoque la douleur." },
+  ex:[
+    {id:'F1', level:1, type:'multi', prompt:"Coche les **quatre** manifestations locales de la réaction inflammatoire.",
+      options:["Rougeur","Chaleur","Gonflement","Douleur","Pâleur","Démangeaison"], answers:[0,1,2,3],
+      simple:"Rougeur, chaleur, gonflement, douleur.",
+      detail:["Ces quatre signes apparaissent quel que soit le microbe : la réaction est **non spécifique**.","La pâleur n'en fait pas partie : au contraire, l'afflux de sang rougit la zone."]},
+    {id:'F2', level:2, type:'order', prompt:"Remets dans l'ordre les étapes de la réaction inflammatoire.",
+      items:["Le clou blesse la peau, des bactéries pénètrent","Les cellules sentinelles reconnaissent les bactéries comme non-soi","Elles libèrent des médiateurs chimiques (cytokines, histamine)","Vasodilatation des vaisseaux sanguins locaux","Diapédèse : sortie de plasma et de leucocytes","Phagocytose des microbes"], shuffle:[3,5,0,2,4,1],
+      simple:"Effraction → détection → médiateurs → vasodilatation → diapédèse → phagocytose.",
+      detail:["Effraction de la barrière.","Détection par les sentinelles (mastocytes, macrophages, cellules dendritiques).","Alerte chimique.","Vasodilatation (rougeur, chaleur).","Diapédèse (gonflement, douleur).","Phagocytose par les phagocytes venus en renfort."]},
+    {id:'F3', level:2, type:'match', prompt:"Associe chaque observation à sa cause.",
+      options:["Plus de sang arrive (vasodilatation)","Sortie de plasma et de leucocytes (œdème)","L'œdème comprime les nerfs","Mélange de globules blancs morts, cellules mortes et microbes"],
+      rows:[{t:"Rougeur",a:0},{t:"Chaleur",a:0},{t:"Gonflement",a:1},{t:"Douleur",a:2},{t:"Pus",a:3}],
+      simple:"Rougeur et chaleur → vasodilatation · gonflement → œdème · douleur → nerfs comprimés · pus → GB morts, cellules mortes, microbes.",
+      detail:["Deux signes ont la même cause : rougeur et chaleur viennent de la vasodilatation.","Le gonflement entraîne la douleur : les causes s'enchaînent.","Le pus est la trace du combat : leucocytes morts ou affaiblis, cellules de l'épiderme mortes, microbes."]},
+    {id:'F4', level:2, type:'qcm', prompt:"Une écharde, une piqûre d'épine infectée et une coupure souillée provoquent-elles la même réaction inflammatoire ?",
+      options:["Oui : la réaction est stéréotypée, non spécifique","Non : chaque microbe déclenche des signes différents","Non : seule la coupure provoque une inflammation","Oui, mais seulement après dix jours"], answer:0,
+      simple:"Oui, elle est stéréotypée et non spécifique.",
+      detail:["Quel que soit le microbe, la réaction est **identique** : rougeur, chaleur, gonflement, douleur.","C'est une réponse **innée** : immédiate, sans apprentissage, constante dans le temps."]},
+    {id:'F5', level:3, type:'open', prompt:"Reprends la mise en situation : ton petit frère a une plaie gonflée, rouge et purulente, et refuse l'anti-inflammatoire « puisqu'il n'est pas malade ». **Explique-lui ce qui se passe et à quoi sert le médicament.**",
+      hint:"Est-ce une maladie ou une défense ? Sur quoi agit un anti-inflammatoire ?",
+      model:"Ta plaie a laissé entrer des bactéries. Ton corps se défend : c'est la réaction inflammatoire. Les cellules sentinelles ont libéré des médiateurs chimiques qui dilatent les vaisseaux (rougeur, chaleur) et laissent sortir du plasma et des globules blancs (gonflement, douleur). Les globules blancs détruisent les bactéries par phagocytose ; le pus, ce sont des globules blancs morts, des cellules mortes et des microbes. Cette défense est utile, mais elle devient gênante. L'anti-inflammatoire empêche la fabrication de certains médiateurs chimiques : il diminue la vasodilatation, donc la douleur, la chaleur et le gonflement. Le nettoyage de la plaie, lui, élimine les microbes.",
+      criteria:["J'explique que c'est une **réaction de défense** contre des microbes entrés par la plaie","Je relie au moins **deux signes** à leur cause","J'explique ce qu'est le **pus**","Je dis que l'anti-inflammatoire bloque la synthèse de **médiateurs chimiques** et limite les symptômes"],
+      detail:["Pas une maladie au sens habituel, mais une défense innée.","Signes = conséquences des médiateurs.","Pus = trace de la phagocytose.","Anti-inflammatoire = moins de médiateurs, moins de symptômes."]}
+  ]},
+{ id:'G', short:'Phagocytose', title:'La phagocytose', lesson:'phagocytose',
+  goal:"Décrire et légender les étapes de la phagocytose, puis raisonner sur un cas nouveau.",
+  worked:{ title:"Le sort d'une bactérie", consigne:"Décris ce qui arrive à une bactérie captée par un macrophage.",
+    steps:[
+      {t:"**Adhésion** : la bactérie se colle à la membrane du macrophage, qui la reconnaît grâce à ses **récepteurs**."},
+      {t:"**Ingestion** : le macrophage se déforme ; ses **pseudopodes** entourent la bactérie et l'enferment dans un **phagosome**.", why:"Retiens les deux noms de vésicule : phagosome, puis phagolysosome."},
+      {t:"**Digestion** : un **lysosome** fusionne avec le phagosome → **phagolysosome**. Ses enzymes digèrent la bactérie."},
+      {t:"**Rejet** : les déchets sont expulsés par **exocytose**."}
+    ],
+    answer:"La bactérie adhère d'abord à la membrane du macrophage, qui la reconnaît grâce à ses récepteurs. Le macrophage l'englobe avec ses pseudopodes dans un phagosome (ingestion). Un lysosome fusionne avec le phagosome pour former un phagolysosome, dont les enzymes digèrent la bactérie (digestion). Les déchets sont enfin rejetés par exocytose." },
+  ex:[
+    {id:'G1', level:1, type:'order', prompt:"Remets dans l'ordre les étapes de la phagocytose.",
+      items:["Adhésion","Ingestion","Digestion","Rejet des déchets"], shuffle:[2,0,3,1],
+      simple:"Adhésion → ingestion → digestion → rejet.",
+      detail:["Le phagocyte doit d'abord **s'accrocher** au microbe.","Puis il l'**avale** (phagosome).","Puis il le **digère** (phagolysosome).","Enfin il **rejette** les restes (exocytose)."]},
+    {id:'G2', level:1, type:'match', prompt:"Associe chaque mot à sa définition.",
+      options:["Prolongements du cytoplasme qui entourent le microbe","Vésicule qui contient le microbe ingéré","Petite vésicule riche en enzymes digestives","Vésicule où le microbe est digéré","Rejet des déchets hors de la cellule"],
+      rows:[{t:"Pseudopodes",a:0},{t:"Phagosome",a:1},{t:"Lysosome",a:2},{t:"Phagolysosome",a:3},{t:"Exocytose",a:4}],
+      simple:"Pseudopodes → prolongements · phagosome → vésicule avec le microbe · lysosome → enzymes · phagolysosome → digestion · exocytose → rejet.",
+      detail:["*Phago-* = manger ; *lyso-* = dissoudre ; *-some* = corps.","Phagosome + lysosome = **phagolysosome**."]},
+    {id:'G3', level:2, type:'match', prompt:"Légende le schéma bilan : quelle étape montre chaque dessin ?", fig:{phago:true},
+      options:["Phagocyte au repos","Adhésion","Ingestion","Digestion","Rejet des déchets"],
+      rows:[{t:"Dessin 1",a:0},{t:"Dessin 2",a:1},{t:"Dessin 3",a:2},{t:"Dessin 4",a:3},{t:"Dessin 5",a:4}],
+      hint:"Cherche où se trouve la bactérie verte : dehors, contre la membrane, enfermée, en morceaux, ou rejetée.",
+      simple:"1 repos · 2 adhésion · 3 ingestion · 4 digestion · 5 rejet.",
+      detail:["1 : la bactérie est encore **dehors**.","2 : elle **touche** la membrane.","3 : les **pseudopodes** l'entourent (phagosome).","4 : elle est **en morceaux** dans le phagolysosome, avec les enzymes orange des lysosomes.","5 : des débris **sortent** de la cellule."]},
+    {id:'G4', level:2, type:'multi', prompt:"Quelles cellules réalisent la phagocytose, d'après ton cours ?",
+      options:["Macrophages","Granulocytes","Cellules dendritiques","Globules rouges","Plaquettes"], answers:[0,1,2],
+      simple:"Macrophages, granulocytes, cellules dendritiques.",
+      detail:["Ce sont les **cellules phagocytaires** attirées en renfort par les médiateurs chimiques.","Globules rouges et plaquettes ne sont pas des leucocytes : ils ne phagocytent pas."]},
+    {id:'G5', level:3, type:'qcm', prompt:"Certaines bactéries sont entourées d'une **capsule** glissante qui empêche le phagocyte de s'y accrocher. Quelle étape est bloquée, et quelle en est la conséquence ?",
+      options:["L'adhésion : la bactérie n'est pas ingérée et peut continuer à se multiplier","La digestion : la bactérie est ingérée mais pas détruite","Le rejet : les déchets restent dans la cellule","Aucune : la capsule n'a pas d'effet"], answer:0,
+      hint:"S'accrocher, c'est quelle étape ?",
+      simple:"L'adhésion est bloquée.",
+      detail:["Sans **adhésion**, les étapes suivantes ne peuvent pas avoir lieu : chaque étape dépend de la précédente.","La bactérie échappe à la phagocytose et l'infection peut progresser.","C'est un exemple de microbe qui résiste à la réponse innée : la réponse adaptative devra prendre le relais."]}
+  ]},
+{ id:'H', short:'Fièvre, médicaments', title:'Fièvre et médicaments', lesson:'fievre',
+  goal:"Expliquer la fièvre et choisir le bon type de médicament selon le symptôme.",
+  worked:{ title:"D'où vient la fièvre ?", consigne:"Pendant une grippe, Yanis a 39 °C. **Explique l'origine de cette fièvre et si elle est utile.**",
+    steps:[
+      {t:"Des cellules **endommagées** par l'infection libèrent des médiateurs particuliers : les **pyrogènes endogènes**."},
+      {t:"Ils alertent l'**hypothalamus**, la zone du cerveau qui règle la température."},
+      {t:"La **température générale** du corps monte : c'est la **fièvre**."},
+      {t:"À 39 °C, elle est **utile** : elle accélère le cœur et la circulation, facilite la phagocytose, freine les microbes et accélère la réparation.", why:"On la surveille : vers 41 °C, ou si elle dure, elle devient dangereuse."}
+    ],
+    answer:"Les cellules endommagées par le virus libèrent des pyrogènes endogènes. Ces médiateurs alertent l'hypothalamus, qui fait monter la température du corps. À 39 °C, la fièvre est utile : elle augmente la circulation, facilite la phagocytose, freine la croissance des microbes et accélère la réparation. Elle deviendrait dangereuse vers 41 °C, car des enzymes se dénaturent." },
+  ex:[
+    {id:'H1', level:1, type:'multi', prompt:"En quoi la fièvre est-elle bénéfique ? Coche les bonnes réponses.",
+      options:["Elle augmente la fréquence cardiaque et la circulation du sang","Elle facilite la phagocytose et la production d'anticorps","Elle freine la croissance des microbes","Elle accélère la réparation des lésions","Elle détruit directement toutes les bactéries","Elle rend la peau plus épaisse"], answers:[0,1,2,3],
+      simple:"Les quatre premières.",
+      detail:["Ce sont les **quatre** bienfaits cités dans ton cours.","La fièvre **freine** les microbes, elle ne les détruit pas tous."]},
+    {id:'H2', level:1, type:'classify', prompt:"Range chaque médicament.", cats:['Antalgique seul','Antalgique + anti-inflammatoire','Antalgique opiacé'],
+      items:[{t:"Paracétamol (Dafalgan)",c:0},{t:"Aspirine",c:1},{t:"Ibuprofène (Nurofen)",c:1},{t:"Codéine",c:2},{t:"Tramadol",c:2},{t:"Morphine",c:2},{t:"Fentanyl",c:2}],
+      simple:"Paracétamol seul · aspirine et ibuprofène les deux · codéine, tramadol, morphine, fentanyl opiacés.",
+      detail:["**Paracétamol** : antalgique non opiacé, pas anti-inflammatoire.","**Aspirine, ibuprofène** : antalgiques non opiacés **et** anti-inflammatoires.","**Opiacés faibles** : codéine, tramadol. **Opiacés forts** : morphine, fentanyl."]},
+    {id:'H3', level:2, type:'qcm', prompt:"Pourquoi une fièvre de 41 °C est-elle dangereuse ?",
+      options:["Certaines enzymes indispensables se dénaturent et ne fonctionnent plus","Les microbes se multiplient plus vite","L'hypothalamus est détruit par les microbes","Le sang devient trop acide"], answer:0,
+      simple:"Les enzymes se dénaturent.",
+      detail:["Les enzymes sont des protéines dont la **forme** permet le fonctionnement.","Trop de chaleur les **déforme** (dénaturation) : elles ne fonctionnent plus.","Le fonctionnement du corps est alors menacé."]},
+    {id:'H4', level:2, type:'qcm', prompt:"Après une entorse, ta cheville est **gonflée et douloureuse**. Quel médicament agit sur la douleur **et** sur le gonflement ?",
+      options:["L'ibuprofène","Le paracétamol","La morphine","Aucun médicament"], answer:0,
+      simple:"L'ibuprofène (antalgique et anti-inflammatoire).",
+      detail:["Le gonflement vient de l'inflammation : il faut un **anti-inflammatoire**.","L'**ibuprofène** est antalgique **et** anti-inflammatoire.","Le paracétamol calme la douleur, mais pas l'inflammation.","La morphine est réservée aux douleurs intenses : risque de dépendance.","Un médicament se prend toujours selon l'avis d'un médecin ou d'un pharmacien."]},
+    {id:'H5', level:3, type:'open', prompt:"Pourquoi les antalgiques **opiacés forts** (morphine, fentanyl) sont-ils réservés aux douleurs intenses que les autres antalgiques ne calment pas ?",
+      model:"Les opiacés sont issus de l'opium et agissent sur les récepteurs d'opiacés. On en devient facilement et rapidement dépendant, et une surdose peut être mortelle (le fentanyl a causé de nombreux décès). On les réserve donc aux douleurs intenses, quand les antalgiques non opiacés ne suffisent pas, et on les utilise sous surveillance médicale.",
+      criteria:["Je dis qu'ils agissent sur les **récepteurs d'opiacés**","Je cite le risque de **dépendance**","Je cite le risque de **surdose**","Je conclus qu'on les réserve aux douleurs **intenses**, sous surveillance médicale"],
+      detail:["Puissance élevée = efficacité, mais aussi danger.","Dépendance rapide.","Surdose possible et mortelle.","Usage limité et surveillé."]}
+  ]}
+];
+
+/* vérifications rapides en fin de chaque partie de cours */
+const QUICK = {
+  greffes:[
+    {id:'q-gre-1', type:'multi', prompt:"Dans quels cas la greffe réussit-elle ?", options:["Autogreffe","Isogreffe","Allogreffe","Xénogreffe"], answers:[0,1], simple:"Autogreffe et isogreffe.", detail:"Dans ces deux cas, donneur et receveur sont reconnus comme identiques."},
+    {id:'q-gre-2', type:'qcm', prompt:"Une allogreffe se fait entre…", options:["deux individus de la même espèce","deux vrais jumeaux","deux espèces différentes","un individu et lui-même"], answer:0, simple:"Deux individus de la même espèce.", detail:"Allo = autre individu ; xéno = autre espèce ; iso = vrais jumeaux ; auto = soi-même."}],
+  marqueurs:[
+    {id:'q-mar-1', type:'qcm', prompt:"Les molécules HLA sont…", options:["les marqueurs majeurs, uniques à chaque individu","les marqueurs des groupes sanguins","des toxines bactériennes","des enzymes digestives"], answer:0, simple:"Les marqueurs majeurs.", detail:"HLA = molécules du complexe majeur d'histocompatibilité chez l'homme, combinaison unique."},
+    {id:'q-mar-2', type:'qcm', prompt:"Un antigène est…", options:["une molécule reconnue comme étrangère, qui déclenche une réaction immunitaire","une cellule du système immunitaire","un médicament contre les microbes","un marqueur du soi"], answer:0, simple:"Une molécule étrangère qui déclenche une réaction.", detail:"Les antigènes forment le non-soi ; ils sont fixés sur des cellules ou libres (toxines)."}],
+  reponses:[
+    {id:'q-rep-1', type:'qcm', prompt:"Quelle réponse est spécifique à un agresseur particulier ?", options:["La réponse adaptative","La réponse innée","Les deux","Aucune"], answer:0, simple:"La réponse adaptative.", detail:"Plus lente (au moins une dizaine de jours), mais ciblée, avec les lymphocytes B et T."},
+    {id:'q-rep-2', type:'qcm', prompt:"Les mastocytes interviennent dans la réponse…", options:["innée","adaptative"], answer:0, simple:"Innée.", detail:"Innée : mastocytes, macrophages, cellules dendritiques, granulocytes."}],
+  entrees:[
+    {id:'q-ent-1', type:'qcm', prompt:"La grippe entre surtout par la voie…", options:["respiratoire","sanguine","fœto-maternelle","sexuelle"], answer:0, simple:"Respiratoire.", detail:"Gouttelettes projetées en toussant, en éternuant ou en parlant, et mains portées au visage."},
+    {id:'q-ent-2', type:'qcm', prompt:"Une contamination fœto-maternelle se fait…", options:["de la mère à l'enfant (placenta, accouchement, allaitement)","par la nourriture","par une piqûre d'insecte","par l'air"], answer:0, simple:"De la mère à l'enfant.", detail:"Exemples : toxoplasmose, VIH."}],
+  barrieres:[
+    {id:'q-bar-1', type:'qcm', prompt:"Le lysozyme est une barrière…", options:["biochimique","mécanique","biologique"], answer:0, simple:"Biochimique.", detail:"C'est une enzyme qui détruit la paroi des bactéries."},
+    {id:'q-bar-2', type:'qcm', prompt:"La flore commensale nous protège car…", options:["elle occupe la place et empêche les pathogènes de coloniser","elle fabrique des anticorps","elle rend la peau acide","elle fait battre les cils"], answer:0, simple:"Elle occupe la place.", detail:"Les pathogènes ne peuvent pas entrer en compétition ; certaines bactéries produisent aussi des bactériocines."}],
+  inflammation:[
+    {id:'q-inf-1', type:'qcm', prompt:"La rougeur et la chaleur sont dues à…", options:["la vasodilatation","la phagocytose","la diapédèse","la fièvre"], answer:0, simple:"La vasodilatation.", detail:"Plus de sang arrive dans la zone."},
+    {id:'q-inf-2', type:'qcm', prompt:"La diapédèse, c'est…", options:["la sortie des leucocytes hors des capillaires","la digestion d'un microbe","la libération d'histamine","la formation de pus"], answer:0, simple:"La sortie des leucocytes hors des capillaires.", detail:"Avec le plasma, elle provoque l'œdème (gonflement)."}],
+  phagocytose:[
+    {id:'q-pha-1', type:'qcm', prompt:"Le phagolysosome se forme quand…", options:["un lysosome fusionne avec le phagosome","le phagocyte adhère au microbe","les déchets sont rejetés","le microbe se divise"], answer:0, simple:"Un lysosome fusionne avec le phagosome.", detail:"Ses enzymes digèrent alors le microbe."},
+    {id:'q-pha-2', type:'qcm', prompt:"Les déchets de la digestion sont rejetés par…", options:["exocytose","diapédèse","vasodilatation","desquamation"], answer:0, simple:"Exocytose.", detail:"C'est la dernière étape de la phagocytose."}],
+  fievre:[
+    {id:'q-fie-1', type:'qcm', prompt:"Quelle zone du cerveau règle la température du corps ?", options:["L'hypothalamus","Le cervelet","Le thymus","La moelle osseuse"], answer:0, simple:"L'hypothalamus.", detail:"Les pyrogènes endogènes l'alertent et la température monte."},
+    {id:'q-fie-2', type:'qcm', prompt:"Le paracétamol est…", options:["un antalgique, pas un anti-inflammatoire","un anti-inflammatoire seulement","un opiacé fort","un antibiotique"], answer:0, simple:"Un antalgique seulement.", detail:"Aspirine et ibuprofène, eux, sont antalgiques et anti-inflammatoires."}]
+};
+
+const QUIZ = [
+  {q:"Une greffe entre vrais jumeaux s'appelle…", o:["une autogreffe","une isogreffe","une allogreffe","une xénogreffe"], a:1, e:"Isogreffe : vrais jumeaux, mêmes marqueurs. Elle réussit.", m:'greffes'},
+  {q:"Dans une xénogreffe, le greffon se dessèche vers le…", o:["jour 4","jour 10","jour 12","il ne se dessèche pas"], a:1, e:"Jour 10, plus tôt que dans l'allogreffe (jour 12).", m:'greffes'},
+  {q:"Les marqueurs majeurs de nos cellules sont…", o:["les molécules HLA","les groupes sanguins ABO","le facteur Rhésus","les toxines"], a:0, e:"HLA = molécules du CMH, combinaison unique à chaque individu.", m:'marqueurs'},
+  {q:"Les groupes sanguins ABO et Rhésus sont des marqueurs…", o:["mineurs, communs à plusieurs individus","majeurs, uniques à chacun","absents des globules rouges","propres aux bactéries"], a:0, e:"Ce sont des marqueurs mineurs, portés notamment par les globules rouges.", m:'marqueurs'},
+  {q:"Une toxine bactérienne qui circule dans le sang est un antigène…", o:["libre","fixé","du soi","majeur"], a:0, e:"Les antigènes peuvent être fixés sur des cellules ou libres dans les liquides (toxines).", m:'marqueurs'},
+  {q:"La réponse immunitaire innée est…", o:["immédiate et non spécifique","lente et spécifique","absente à la naissance","réalisée par les lymphocytes B"], a:0, e:"Elle existe dès la naissance et agit tout de suite, avec les mêmes armes pour tous.", m:'reponses'},
+  {q:"Le tétanos entre surtout par…", o:["une plaie souillée de la peau","les gouttelettes de toux","la viande mal cuite","le placenta"], a:0, e:"Contamination par traumatisme de la peau.", m:'entrees'},
+  {q:"Les cils des voies respiratoires sont une barrière…", o:["mécanique","biochimique","biologique"], a:0, e:"Ils font remonter mécaniquement le mucus et les microbes vers la gorge.", m:'barrieres'},
+  {q:"Le pH de la peau (sueur, sébum) est d'environ…", o:["3 à 5","7","9 à 10","12"], a:0, e:"Cette acidité freine les champignons et les bactéries.", m:'barrieres'},
+  {q:"Qui libère les médiateurs chimiques au début de l'inflammation ?", o:["Les cellules sentinelles (mastocytes, macrophages, cellules dendritiques)","Les globules rouges","Les plaquettes","Les lymphocytes B"], a:0, e:"Elles détectent le non-soi et donnent l'alerte chimique (cytokines, histamine).", m:'inflammation'},
+  {q:"Le gonflement d'une plaie s'explique par…", o:["la sortie de plasma et de leucocytes (œdème)","la vasoconstriction","la fièvre","la desquamation"], a:0, e:"La diapédèse entraîne un œdème, qui comprime aussi les nerfs (douleur).", m:'inflammation'},
+  {q:"Pendant l'ingestion, le microbe est enfermé dans…", o:["un phagosome","un lysosome","le noyau","un capillaire"], a:0, e:"Les pseudopodes l'englobent dans une vésicule phagocytaire : le phagosome.", m:'phagocytose'},
+  {q:"La fièvre est déclenchée par…", o:["des pyrogènes endogènes qui alertent l'hypothalamus","une infection du cerveau","la phagocytose","les anti-inflammatoires"], a:0, e:"Les cellules endommagées libèrent des pyrogènes endogènes.", m:'fievre'},
+  {q:"Un anti-inflammatoire agit en…", o:["empêchant la synthèse de certains médiateurs chimiques","tuant les bactéries","augmentant la fièvre","renforçant la peau"], a:0, e:"Il limite ainsi la vasodilatation, la douleur et la chaleur.", m:'fievre'}
+];
+
+/* =========================================================
+   EXERCICES, QUIZ, MÉMO, ACCUEIL
+   ========================================================= */
+function Exercises({fam, setFam, go}){
+  const {prog} = useContext(Prog);
+  const F = FAMILIES.find(f=>f.id===fam);
+  const done = f => f.ex.filter(e=>prog[e.id]==='ok'||prog[e.id]==='seen').length;
+  const lvlNames = {1:'Niveau 1 · Reconnaître', 2:'Niveau 2 · Appliquer', 3:'Niveau 3 · Transférer'};
+  let last = 0;
+  return html`<div className="wrap">
+    <div className="frame">
+      <span className="eyebrow">S'entraîner</span>
+      <h1>Exercices par famille</h1>
+      <p className="goal">${rich("Chaque famille commence par un **exercice résolu** : lis-le étape par étape, puis fais les exercices, du niveau 1 au niveau 3. La correction s'ouvre après ta première vérification.")}</p>
+      <div className="tabs" role="tablist">${FAMILIES.map(f=>html`<button key=${f.id} className="tab" role="tab" aria-selected=${fam===f.id} onClick=${()=>setFam(f.id)}>${f.id} · ${f.short}<small className="num">${done(f)}/${f.ex.length}</small></button>`)}</div>
+      <div className="row" style=${{justifyContent:'space-between'}}>
+        <div><h2>Famille ${F.id} · ${F.title}</h2><p className="small muted">${F.goal}</p></div>
+        <button className="btn flat" onClick=${()=>go(F.lesson)}>Revoir le cours</button>
+      </div>
+    </div>
+    <${Worked} key=${'w-'+F.id} w=${F.worked}/>
+    <div className="lvlhead">À toi</div>
+    ${F.ex.map((ex,i)=>{
+      const head = ex.level!==last ? html`<div className="lvlhead" key=${'h'+ex.id}>${lvlNames[ex.level]}</div>` : null;
+      last = ex.level;
+      return html`<div key=${ex.id} style=${{display:'flex',flexDirection:'column',gap:'12px'}}>${head}<${Exercise} ex=${ex} num=${F.id+(i+1)}/></div>`;
+    })}
+    <div className="frame"><div className="footnav">
+      ${FAMILIES.indexOf(F)>0 ? html`<button className="btn flat" onClick=${()=>{ setFam(FAMILIES[FAMILIES.indexOf(F)-1].id); window.scrollTo(0,0); }}>← Famille ${FAMILIES[FAMILIES.indexOf(F)-1].id}</button>` : html`<span></span>`}
+      ${FAMILIES.indexOf(F)<FAMILIES.length-1 ? html`<button className="btn primary" onClick=${()=>{ setFam(FAMILIES[FAMILIES.indexOf(F)+1].id); window.scrollTo(0,0); }}>Famille ${FAMILIES[FAMILIES.indexOf(F)+1].id} →</button>` : html`<button className="btn primary" onClick=${()=>go('quiz')}>Quiz final →</button>`}
+    </div></div>
+  </div>`;
+}
+
+function Quiz({go}){
+  const {mark, prog} = useContext(Prog);
+  const [i, setI] = useState(0);
+  const [sel, setSel] = useState(null);
+  const [val, setVal] = useState(false);
+  const [res, setRes] = useState([]);
+  const end = i>=QUIZ.length;
+  const restart = () => { setI(0); setSel(null); setVal(false); setRes([]); };
+  if (end){
+    const score = res.filter(Boolean).length;
+    const wrong = QUIZ.map((q,k)=>({q,k})).filter(x=>!res[x.k]);
+    return html`<div className="wrap"><div className="frame">
+      <span className="eyebrow">Quiz final</span>
+      <h1 className="num">${score} / ${QUIZ.length}</h1>
+      <p className="goal">${score===QUIZ.length ? 'Tout est juste. Refais ce quiz dans quelques jours pour ancrer durablement.' : score>=9 ? 'Bon résultat. Revois les points ci-dessous, puis refais le quiz plus tard.' : 'Revois les parties indiquées, refais les exercices de la famille, puis retente le quiz.'}</p>
+      ${wrong.length ? html`<div className="items">${wrong.map(({q,k})=>{ const L = LESSONS.find(l=>l.id===q.m); return html`<div key=${k} className="item"><div className="t" style=${{flexDirection:'column',gap:'2px'}}><b>${q.q}</b><span className="small">${q.o[q.a]}. ${q.e}</span></div><button className="btn flat" onClick=${()=>go(q.m)}>Revoir : ${L.label}</button></div>`; })}</div>` : null}
+      <div className="row"><button className="btn primary" onClick=${restart}>Recommencer</button><button className="btn" onClick=${()=>go('memo')}>Fiche mémo</button></div>
+    </div></div>`;
+  }
+  const q = QUIZ[i];
+  const validate = () => { const ok = sel===q.a; const r = [...res]; r[i] = ok; setRes(r); setVal(true);
+    if (i===QUIZ.length-1){ const sc = r.filter(Boolean).length; if (!prog['quiz-best'] || sc > prog['quiz-best']) mark('quiz-best', sc); } };
+  return html`<div className="wrap"><div className="frame">
+    <span className="eyebrow">Quiz final · questions mélangées de tout le chapitre</span>
+    <div className="qprog" aria-hidden="true">${QUIZ.map((_,k)=>html`<i key=${k} className=${k<i ? (res[k]?'ok':'ko') : k===i ? 'cur' : ''}></i>`)}</div>
+    <h2>Question ${i+1} sur ${QUIZ.length}</h2>
+    <p className="prompt">${q.q}</p>
+    <div className="opts" role="radiogroup">${q.o.map((o,k)=>{
+      let cls = 'opt'; if (val && k===q.a) cls+=' good'; else if (val && k===sel) cls+=' bad';
+      return html`<button key=${k} className=${cls} role="radio" aria-checked=${sel===k?'true':'false'} disabled=${val} onClick=${()=>setSel(k)}><span className="mk"></span><span>${o}</span></button>`;
+    })}</div>
+    ${val ? html`<${Msg} kind=${sel===q.a?'pos':'neg'} title=${sel===q.a?'Juste':'La bonne réponse : '+q.o[q.a]}><p>${q.e}</p><//>` : null}
+    <div className="row">${!val ? html`<button className="btn primary" disabled=${sel===null} onClick=${validate}>Valider</button>` : html`<button className="btn primary" onClick=${()=>{ setI(i+1); setSel(null); setVal(false); }}>${i===QUIZ.length-1 ? 'Voir mon score' : 'Question suivante'}</button>`}</div>
+    ${prog['quiz-best']!==undefined ? html`<p className="small muted num">Meilleur score : ${prog['quiz-best']} / ${QUIZ.length}</p>` : null}
+  </div></div>`;
+}
+
+function K({children}){ const [s, setS] = useState(false); return html`<span className=${'k'+(s?' show':'')} onClick=${()=>setS(true)}>${children}</span>`; }
+
+/* mélange déterministe des options (la bonne réponse n'est pas toujours la première) */
+function hashStr(s){ let h = 7; for (const ch of s) h = (h*31 + ch.charCodeAt(0)) % 233280; return h; }
+function perm(n, seed){ const r = rnd(seed+1); const a = [...Array(n).keys()]; for (let i=n-1;i>0;i--){ const j = Math.floor(r()*(i+1)); [a[i],a[j]] = [a[j],a[i]]; } return a; }
+function shuffleEx(ex){
+  if (ex.type==='qcm'){ const p = perm(ex.options.length, hashStr(ex.id)); ex.options = p.map(i=>ex.options[i]); ex.answer = p.indexOf(ex.answer); }
+  else if (ex.type==='multi'){ const p = perm(ex.options.length, hashStr(ex.id)); ex.options = p.map(i=>ex.options[i]); ex.answers = ex.answers.map(a=>p.indexOf(a)); }
+}
+FAMILIES.forEach(f=>f.ex.forEach(shuffleEx));
+Object.values(QUICK).flat().forEach(shuffleEx);
+QUIZ.forEach((q,k)=>{ const p = perm(q.o.length, k*97+13); q.o = p.map(i=>q.o[i]); q.a = p.indexOf(q.a); });
+
+function Memo(){
+  const [hide, setHide] = useState(false);
+  return html`<div className="wrap">
+    <div className="frame">
+      <span className="eyebrow">Mémoriser</span>
+      <h1>Fiche mémo</h1>
+      <p className="goal">${rich("Active « Cacher les mots-clés », essaie de retrouver chaque mot de mémoire, puis clique dessus pour vérifier. Se tester est plus efficace que relire.")}</p>
+      <div className="row"><button className="btn" aria-pressed=${hide?'true':'false'} onClick=${()=>setHide(!hide)}>${hide?'Afficher les mots-clés':'Cacher les mots-clés'}</button></div>
+    </div>
+    <div className=${'memo'+(hide?' hidek':'')} key=${hide?'h':'v'}>
+      <div className="box"><h3>Greffes</h3><ul>
+        <li>Réussies : <${K}>autogreffe<//> (même individu) et <${K}>isogreffe<//> (vrais jumeaux).</li>
+        <li>Rejetées : <${K}>allogreffe<//> (même espèce) et <${K}>xénogreffe<//> (autre espèce), plus vite.</li>
+        <li>Condition : donneur et receveur reconnus comme <${K}>identiques<//>.</li>
+      </ul></div>
+      <div className="box"><h3>Soi et non-soi</h3><ul>
+        <li>Tolérer le <${K}>soi<//>, rejeter le <${K}>non-soi<//>.</li>
+        <li>Marqueurs majeurs : molécules <${K}>HLA<//> du CMH, <${K}>uniques<//>, absentes des globules rouges.</li>
+        <li>Marqueurs mineurs : groupes sanguins <${K}>ABO<//> et Rhésus, communs à plusieurs.</li>
+        <li>Molécules étrangères : les <${K}>antigènes<//>, fixés sur des cellules ou libres (<${K}>toxines<//>).</li>
+      </ul></div>
+      <div className="box"><h3>Deux réponses</h3><ul>
+        <li><${K}>Innée<//> : immédiate, non spécifique (mastocytes, macrophages, cellules dendritiques, granulocytes).</li>
+        <li><${K}>Adaptative<//> : au moins une dizaine de jours, <${K}>spécifique<//> (lymphocytes B et T).</li>
+        <li>Elles agissent en <${K}>synergie<//>.</li>
+      </ul></div>
+      <div className="box"><h3>Voies d'entrée</h3><ul>
+        <li>Féco-orale, <${K}>respiratoire<//>, sanguine, <${K}>traumatisme de la peau<//>, fœto-maternelle, sexuelle.</li>
+        <li>Tétanos : <${K}>plaie souillée<//>. Grippe : <${K}>gouttelettes<//>.</li>
+      </ul></div>
+      <div className="box"><h3>Barrières naturelles</h3><ul>
+        <li><${K}>Mécaniques<//> : peau kératinisée, muqueuses, mucus, poils et cils, lavage.</li>
+        <li><${K}>Biochimiques<//> : <${K}>lysozyme<//>, acidité (pH 3 à 5), suc gastrique.</li>
+        <li><${K}>Biologiques<//> : flore <${K}>commensale<//>, bactériocines.</li>
+      </ul></div>
+      <div className="box"><h3>Réaction inflammatoire</h3><ul>
+        <li>Cellules <${K}>sentinelles<//> → médiateurs chimiques (<${K}>cytokines<//>, histamine).</li>
+        <li><${K}>Vasodilatation<//> → rougeur, chaleur.</li>
+        <li><${K}>Diapédèse<//> → œdème : gonflement, douleur.</li>
+        <li>GB morts + cellules mortes + microbes = <${K}>pus<//>.</li>
+      </ul></div>
+      <div className="box"><h3>Phagocytose</h3><ul>
+        <li><${K}>Adhésion<//> → <${K}>ingestion<//> (phagosome) → <${K}>digestion<//> (phagolysosome) → rejet par <${K}>exocytose<//>.</li>
+        <li>Phagocytes : macrophages, granulocytes, cellules dendritiques.</li>
+      </ul></div>
+      <div className="box"><h3>Fièvre et médicaments</h3><ul>
+        <li><${K}>Pyrogènes endogènes<//> → <${K}>hypothalamus<//> → température ↑.</li>
+        <li>Dangereuse vers <${K}>41 °C<//> : dénaturation des enzymes.</li>
+        <li>Antalgiques : contre la <${K}>douleur<//>. Anti-inflammatoires : bloquent la synthèse de <${K}>médiateurs<//>.</li>
+      </ul></div>
+    </div>
+  </div>`;
+}
+
+function Home({go, reset}){
+  const {prog} = useContext(Prog);
+  const quickDone = Object.keys(QUICK).filter(k=>QUICK[k].every(q=>prog[q.id]==='ok')).length;
+  const exAll = FAMILIES.flatMap(f=>f.ex), exDone = exAll.filter(e=>prog[e.id]==='ok'||prog[e.id]==='seen').length;
+  const [confirm, setConfirm] = useState(false);
+  return html`<div className="wrap">
+    <div className="frame">
+      <span className="eyebrow">Biologie · 5e secondaire, sciences générales · UAA5 « L'organisme humain se protège »</span>
+      <h1>Chapitres 3 et 4 · Soi, non-soi et réponse immunitaire innée</h1>
+      <p className="goal">${rich("Les expériences de greffe, les marqueurs du soi, les antigènes, les deux types de réponse immunitaire, puis la réponse innée : voies d'entrée des microbes, barrières naturelles, inflammation, phagocytose et fièvre.")}</p>
+      <div className="sep"></div>
+      <h2>Comment travailler</h2>
+      <ol className="homesteps">
+        <li>${rich("Lis **une partie du cours** à la fois. Les schémas se manipulent : curseur, étapes, boutons.")}</li>
+        <li>${rich("Réponds aux deux questions **« Vérifie que tu as compris »** sans relire.")}</li>
+        <li>${rich("Ouvre la **famille d'exercices** de la partie : lis l'exercice résolu, puis fais les niveaux 1, 2 et 3.")}</li>
+        <li>${rich("Termine par le **quiz final** et la **fiche mémo** ; refais-les quelques jours plus tard.")}</li>
+      </ol>
+      <div className="row"><button className="btn primary" onClick=${()=>go('greffes')}>Commencer le cours</button><button className="btn" onClick=${()=>go('exercices','A')}>Aller aux exercices</button></div>
+    </div>
+    <div className="frame">
+      <h2>Ta progression</h2>
+      <div className="cols">
+        <div className="box"><span className="muted small">Parties de cours vérifiées</span><b className="num" style=${{fontSize:'1.4rem'}}>${quickDone} / ${LESSONS.length}</b></div>
+        <div className="box"><span className="muted small">Exercices faits</span><b className="num" style=${{fontSize:'1.4rem'}}>${exDone} / ${exAll.length}</b></div>
+        <div className="box"><span className="muted small">Meilleur score au quiz</span><b className="num" style=${{fontSize:'1.4rem'}}>${prog['quiz-best']!==undefined ? prog['quiz-best']+' / '+QUIZ.length : '—'}</b></div>
+      </div>
+      <p className="small muted">La progression est enregistrée dans ce navigateur uniquement.</p>
+      ${!confirm ? html`<div><button className="btn flat" onClick=${()=>setConfirm(true)}>Effacer ma progression</button></div>` : html`<div className="row"><span className="small">Tout effacer ?</span><button className="btn" onClick=${()=>{ reset(); setConfirm(false); }}>Oui, effacer</button><button className="btn flat" onClick=${()=>setConfirm(false)}>Annuler</button></div>`}
+      <details><summary>Principes pédagogiques utilisés</summary>
+        <div className="prose small">
+          <p>${rich("**Charge cognitive** : huit parties courtes ; les processus (inflammation, phagocytose) se dévoilent étape par étape ; une seule idée nouvelle par étape.")}</p>
+          <p>${rich("**Apprentissage multimédia** : légendes placées dans les schémas, texte à côté de l'image, codes couleur constants (bleu = soi, orange = non-soi et microbes, sarcelle = inné, violet = adaptatif).")}</p>
+          <p>${rich("**Exemple résolu puis estompage** : chaque famille commence par un raisonnement modélisé, puis des exercices de plus en plus autonomes (reconnaître, appliquer, transférer).")}</p>
+          <p>${rich("**Récupération en mémoire** : questions de vérification, quiz mélangé, fiche mémo à trous.")}</p>
+        </div>
+      </details>
+    </div>
+  </div>`;
+}
+
+/* =========================================================
+   APPLICATION
+   ========================================================= */
+const NAV = [
+  {g:'Démarrer', items:[{id:'accueil', label:'Accueil'}]},
+  {g:'Chapitre 3 · Soi et non-soi', items:LESSONS.filter(l=>l.ch===3).map(l=>({id:l.id, label:l.label, n:l.n}))},
+  {g:'Chapitre 4 · Réponse innée', items:LESSONS.filter(l=>l.ch===4).map(l=>({id:l.id, label:l.label, n:l.n}))},
+  {g:"S'entraîner", items:[{id:'exercices', label:'Exercices par famille'},{id:'quiz', label:'Quiz final'}]},
+  {g:'Mémoriser', items:[{id:'memo', label:'Fiche mémo'}]}
+];
+const IDS = NAV.flatMap(g=>g.items.map(i=>i.id));
+const VIEWS = {greffes:LessonGreffes, marqueurs:LessonMarqueurs, reponses:LessonReponses, entrees:LessonEntrees, barrieres:LessonBarrieres, inflammation:LessonInflammation, phagocytose:LessonPhagocytose, fievre:LessonFievre};
+
+function App(){
+  const [view, setView] = useState(()=>{ const h = (location.hash||'').slice(1); return IDS.includes(h) ? h : 'accueil'; });
+  const [fam, setFam] = useState('A');
+  const [prog, setProg] = useState(load);
+  const [big, setBig] = useState(()=>{ try { return localStorage.getItem(KEY+'-big')==='1'; } catch(e){ return false; } });
+  useEffect(()=>{ document.documentElement.classList.toggle('big', big); try { localStorage.setItem(KEY+'-big', big?'1':'0'); } catch(e){} }, [big]);
+  const go = (v, f) => { if (f) setFam(f); setView(v); try { history.replaceState(null,'','#'+v); } catch(e){} window.scrollTo(0,0); };
+  const mark = (id, st) => setProg(p => { if (p[id]==='ok' && st!=='ok') return p; if (p[id]===st) return p; const n = {...p, [id]:st}; save(n); return n; });
+  const reset = () => { setProg({}); save({}); };
+
+  const exAll = FAMILIES.flatMap(f=>f.ex);
+  const total = exAll.length + Object.values(QUICK).flat().length;
+  const done = exAll.filter(e=>prog[e.id]==='ok'||prog[e.id]==='seen').length + Object.values(QUICK).flat().filter(q=>prog[q.id]==='ok').length;
+  const pct = Math.round(done/total*100);
+  const lessonDone = id => (QUICK[id]||[]).every(q=>prog[q.id]==='ok');
+  const exCount = exAll.filter(e=>prog[e.id]==='ok'||prog[e.id]==='seen').length;
+
+  let page;
+  if (VIEWS[view]) page = html`<${VIEWS[view]} go=${go}/>`;
+  else if (view==='exercices') page = html`<${Exercises} fam=${fam} setFam=${setFam} go=${go}/>`;
+  else if (view==='quiz') page = html`<${Quiz} go=${go}/>`;
+  else if (view==='memo') page = html`<${Memo}/>`;
+  else page = html`<${Home} go=${go} reset=${reset}/>`;
+
+  return html`<${Prog.Provider} value=${{prog, mark}}>
+    <header className="top">
+      <svg width="28" height="28" viewBox="0 0 28 28" aria-hidden="true"><rect x="1" y="1" width="26" height="26" rx="5" fill="var(--accent-bg)" stroke="var(--accent)"/><circle cx="12" cy="15" r="8" fill="var(--cyto)" stroke="var(--nuc)"/><circle cx="10" cy="16" r="3.5" fill="var(--nuc)"/><rect x="16" y="5" width="9" height="5" rx="2.5" fill="var(--bact)"/><path d="M18,5 l1.5,-2.5 l1.5,2.5" fill="var(--nonsoi)"/></svg>
+      <div className="ttl"><b>Soi, non-soi et immunité innée</b><span>Biologie · 5e secondaire · UAA5 · chapitres 3 et 4</span></div>
+      <div className="meter" title="Progression"><span className="bar"><i style=${{width:pct+'%'}}></i></span><span className="num">${pct} %</span></div>
+      <button className="btn flat" aria-pressed=${big?'true':'false'} onClick=${()=>setBig(!big)} title="Agrandir le texte">${big ? 'A−' : 'A+'}</button>
+    </header>
+    <div className="shell">
+      <nav className="side" aria-label="Sommaire">
+        ${NAV.map(g=>html`<${React.Fragment} key=${g.g}><div className="grp">${g.g}</div>
+          ${g.items.map(it=>html`<button key=${it.id} className="navi" aria-current=${view===it.id?'page':null} onClick=${()=>go(it.id)}>
+            ${it.n ? html`<span className=${'n'+(lessonDone(it.id)?' done':'')}>${lessonDone(it.id)?'✓':it.n}</span>` : null}
+            <span className="lab">${it.label}</span>
+            ${it.id==='exercices' ? html`<span className="cnt num">${exCount}/${exAll.length}</span>` : null}
+            ${it.id==='quiz' && prog['quiz-best']!==undefined ? html`<span className="cnt num">${prog['quiz-best']}/${QUIZ.length}</span>` : null}
+          </button>`)}
+        <//>`)}
+      </nav>
+      <main>${page}</main>
+    </div>
+  <//>`;
+}
+
+/* classes SVG des cellules */
+const st = document.createElement('style');
+st.textContent = `.s-cyto{fill:var(--cyto);stroke:var(--nuc);stroke-width:.2;stroke-opacity:.55}.s-nuc{fill:var(--nuc)}.s-link{fill:none;stroke:var(--nuc);stroke-width:.8}.s-gr{fill:var(--gr)}.s-grc{fill:var(--view);opacity:.45}.s-gran{fill:var(--gran)}.s-dgran{fill:var(--nuc);opacity:.9}.s-fine{fill:var(--nuc);opacity:.4}.s-plq{fill:var(--sec);opacity:.8}`;
+document.head.appendChild(st);
+
+ReactDOM.createRoot(document.getElementById('root')).render(html`<${App}/>`);
+})();
+</script>
+
+</body></html>
