@@ -1,0 +1,1490 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Dossier Fahrenheit 451</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Noto+Serif:ital,wght@0,400;0,600;1,400&family=Noto+Sans+Mono:wght@400;500&display=swap">
+<style>
+/* Mise en page : fenêtre d'application KDE (barre d'outils + panneau latéral « Configuration du système » + vue de contenu).
+   Codes couleur fixes : passé = violet, présent = orange (le feu), avenir = vert (la renaissance). */
+:root{
+  --window:#eff0f1; --view:#fcfcfc; --alt:#f4f5f6; --button:#fcfcfc;
+  --text:#232629; --muted:#5f6670; --border:#c4c8cc; --border-soft:#dcdfe2;
+  --accent:#3daee9; --accent-strong:#1f7fb8; --accent-tint:rgba(61,174,233,.13); --accent-line:rgba(61,174,233,.55);
+  --positive:#27ae60; --positive-tint:rgba(39,174,96,.11);
+  --neutral:#e06b00; --neutral-tint:rgba(246,116,0,.11);
+  --negative:#da4453; --negative-tint:rgba(218,68,83,.10);
+  --past:#8e5bb5; --present:#e06b00; --future:#239a55;
+  --shadow:0 1px 2px rgba(35,38,41,.08),0 4px 14px rgba(35,38,41,.08);
+  --f-ui:"Noto Sans",ui-sans-serif,system-ui,"Segoe UI",Roboto,Arial,sans-serif;
+  --f-read:"Noto Serif",Georgia,"Times New Roman",serif;
+  --f-mono:"Noto Sans Mono",ui-monospace,"DejaVu Sans Mono",Menlo,monospace;
+  --scale:1; --lh:1.62;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --window:#202326; --view:#141618; --alt:#1b1d20; --button:#292c30;
+  --text:#fcfcfc; --muted:#a1a9b1; --border:#3d4247; --border-soft:#2c3035;
+  --accent:#3daee9; --accent-strong:#5cbcf0; --accent-tint:rgba(61,174,233,.16); --accent-line:rgba(61,174,233,.6);
+  --positive:#3ccf7d; --positive-tint:rgba(39,174,96,.16);
+  --neutral:#ff9a3c; --neutral-tint:rgba(246,116,0,.16);
+  --negative:#ef6b78; --negative-tint:rgba(218,68,83,.17);
+  --past:#b58ad8; --present:#ff9a3c; --future:#3ccf7d;
+  --shadow:0 1px 2px rgba(0,0,0,.4),0 6px 18px rgba(0,0,0,.35);
+  color-scheme:dark;
+}}
+:root[data-theme="dark"]{
+  --window:#202326; --view:#141618; --alt:#1b1d20; --button:#292c30;
+  --text:#fcfcfc; --muted:#a1a9b1; --border:#3d4247; --border-soft:#2c3035;
+  --accent:#3daee9; --accent-strong:#5cbcf0; --accent-tint:rgba(61,174,233,.16); --accent-line:rgba(61,174,233,.6);
+  --positive:#3ccf7d; --positive-tint:rgba(39,174,96,.16);
+  --neutral:#ff9a3c; --neutral-tint:rgba(246,116,0,.16);
+  --negative:#ef6b78; --negative-tint:rgba(218,68,83,.17);
+  --past:#b58ad8; --present:#ff9a3c; --future:#3ccf7d;
+  --shadow:0 1px 2px rgba(0,0,0,.4),0 6px 18px rgba(0,0,0,.35);
+  color-scheme:dark;
+}
+html{font-size:calc(16px * var(--scale))}
+body{background:var(--window);color:var(--text);font-family:var(--f-ui);font-size:1rem;line-height:var(--lh);
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:0 32px}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--window)}
+body.airy{--lh:1.9;letter-spacing:.012em;word-spacing:.06em}
+*{box-sizing:border-box}
+h1,h2,h3,h4{text-wrap:balance;line-height:1.25;margin:0}
+p{margin:0}
+a{color:var(--accent-strong)}
+button{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:3px}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important;scroll-behavior:auto!important}}
+
+/* Barre d'outils */
+.toolbar{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:var(--window);border-bottom:1px solid var(--border);
+  display:flex;align-items:center;gap:12px;padding-block:10px;margin-inline:calc(-1 * max(16px,env(safe-area-inset-left,0px))) calc(-1 * max(16px,env(safe-area-inset-right,0px)));
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.toolbar .appicon{width:30px;height:30px;flex:none}
+.toolbar .ttl{display:flex;flex-direction:column;min-width:0;flex:1}
+.toolbar .ttl b{font-weight:600;font-size:1rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.toolbar .ttl span{font-size:.78rem;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tools{display:flex;gap:6px;align-items:center;flex-wrap:wrap;justify-content:flex-end}
+.btn{display:inline-flex;align-items:center;gap:6px;background:var(--button);border:1px solid var(--border);border-radius:3px;padding:5px 10px;cursor:pointer;font-size:.86rem;line-height:1.3;min-height:32px}
+.btn:hover{border-color:var(--accent)}
+.btn[aria-pressed="true"]{background:var(--accent-tint);border-color:var(--accent-line)}
+.btn.icon{padding:5px 8px}
+.btn svg{width:16px;height:16px;flex:none}
+.seg{display:inline-flex}
+.seg .btn{border-radius:0;margin-left:-1px}
+.seg .btn:first-child{border-radius:3px 0 0 3px;margin-left:0}
+.seg .btn:last-child{border-radius:0 3px 3px 0}
+
+/* Disposition principale */
+.shell{max-width:1240px;margin:18px auto 0;display:grid;grid-template-columns:262px minmax(0,1fr);gap:18px;align-items:start}
+.side{position:sticky;top:calc(env(safe-area-inset-top,0px) + 70px);background:var(--view);border:1px solid var(--border);border-radius:5px;padding:8px;max-height:calc(100vh - 96px);overflow:auto}
+.side .grp{font-size:.72rem;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);padding:12px 10px 4px;font-weight:600}
+.side .grp:first-child{padding-top:4px}
+.navitem{display:flex;align-items:center;gap:10px;width:100%;text-align:left;background:none;border:1px solid transparent;border-radius:3px;padding:7px 10px;cursor:pointer;font-size:.92rem}
+.navitem:hover{background:var(--accent-tint)}
+.navitem[aria-current="page"]{background:var(--accent-tint);border-color:var(--accent-line);font-weight:600}
+.navitem svg{width:18px;height:18px;flex:none;color:var(--muted)}
+.navitem[aria-current="page"] svg{color:var(--accent-strong)}
+.navitem .lbl{flex:1;min-width:0}
+.navitem .done{width:16px;height:16px;flex:none;color:var(--positive)}
+.progress{margin:12px 10px 6px;font-size:.78rem;color:var(--muted)}
+.bar{height:4px;background:var(--border-soft);border-radius:2px;margin-top:6px;overflow:hidden}
+.bar i{display:block;height:100%;background:var(--accent);border-radius:2px;transition:width .3s}
+
+.view{background:var(--view);border:1px solid var(--border);border-radius:5px;min-width:0;padding:28px clamp(16px,4vw,44px) 36px}
+.eyebrow{font-size:.74rem;letter-spacing:.08em;text-transform:uppercase;color:var(--accent-strong);font-weight:600;margin-bottom:6px;display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.eyebrow .time{color:var(--muted);font-family:var(--f-mono);letter-spacing:0;text-transform:none;font-weight:400}
+.view h1{font-size:clamp(1.55rem,3vw,2rem);font-weight:600;margin-bottom:10px}
+.lede{font-size:1.06rem;color:var(--muted);max-width:68ch;margin-bottom:22px}
+.view h2{font-size:1.28rem;font-weight:600;margin:34px 0 12px;padding-top:16px;border-top:1px solid var(--border-soft)}
+.view h2:first-of-type{border-top:0;padding-top:0}
+.view h3{font-size:1.06rem;font-weight:600;margin:20px 0 8px}
+.prose{max-width:70ch;display:flex;flex-direction:column;gap:12px}
+.prose ul,.prose ol{margin:0;padding-left:1.3em;display:flex;flex-direction:column;gap:6px}
+.stack{display:flex;flex-direction:column;gap:14px}
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:14px}
+.grid3{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,230px),1fr));gap:12px}
+.frame{border:1px solid var(--border);border-radius:5px;background:var(--view);padding:14px 16px;min-width:0}
+.frame.alt{background:var(--alt)}
+.frame h3{margin-top:0}
+.muted{color:var(--muted)}
+.small{font-size:.86rem}
+.mono{font-family:var(--f-mono);font-size:.82rem}
+
+/* Champs de type « fiche » */
+.kv{display:grid;grid-template-columns:minmax(110px,max-content) minmax(0,1fr);gap:6px 16px;margin:0}
+.kv dt{color:var(--muted);font-size:.86rem;padding-top:2px}
+.kv dd{margin:0}
+
+/* Messages KDE */
+.msg{display:flex;gap:12px;border:1px solid var(--accent-line);background:var(--accent-tint);border-radius:4px;padding:11px 14px;max-width:72ch}
+.msg svg{width:20px;height:20px;flex:none;margin-top:2px;color:var(--accent-strong)}
+.msg .mt{font-weight:600;display:block;margin-bottom:2px}
+.msg.pos{border-color:color-mix(in srgb,var(--positive) 55%,transparent);background:var(--positive-tint)}
+.msg.pos svg{color:var(--positive)}
+.msg.warn{border-color:color-mix(in srgb,var(--neutral) 55%,transparent);background:var(--neutral-tint)}
+.msg.warn svg{color:var(--neutral)}
+.msg.neg{border-color:color-mix(in srgb,var(--negative) 55%,transparent);background:var(--negative-tint)}
+.msg.neg svg{color:var(--negative)}
+.msg > div{min-width:0}
+
+/* Citations */
+blockquote{margin:0;padding:2px 0 2px 16px;border-left:3px solid var(--present);font-family:var(--f-read);font-size:1.02rem;max-width:68ch}
+blockquote cite{display:block;font-family:var(--f-ui);font-style:normal;font-size:.8rem;color:var(--muted);margin-top:6px}
+blockquote.calm{border-left-color:var(--border)}
+
+/* Terme du glossaire */
+.term{background:none;border:0;padding:0;font:inherit;color:inherit;cursor:help;text-decoration:underline dotted var(--accent);text-decoration-thickness:1.5px;text-underline-offset:3px}
+.term:hover{color:var(--accent-strong)}
+.pop{position:fixed;z-index:60;width:min(360px,calc(100vw - 32px));background:var(--view);border:1px solid var(--border);border-radius:5px;box-shadow:var(--shadow);padding:13px 15px;font-size:.92rem;line-height:1.5}
+.pop h4{font-size:1rem;margin-bottom:4px;display:flex;justify-content:space-between;gap:10px;align-items:baseline}
+.pop .cat{font-size:.7rem;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);font-weight:500}
+.pop .ex{margin-top:8px;padding-top:8px;border-top:1px solid var(--border-soft);font-size:.86rem}
+.pop .ex b{font-weight:600}
+.pop .acts{display:flex;justify-content:space-between;margin-top:10px;gap:8px}
+
+/* Tableaux */
+.tablewrap{overflow-x:auto;border:1px solid var(--border);border-radius:5px;max-width:100%}
+table{border-collapse:collapse;width:100%;font-size:.92rem;min-width:560px}
+th,td{text-align:left;vertical-align:top;padding:9px 12px;border-bottom:1px solid var(--border-soft)}
+thead th{background:var(--alt);font-weight:600;font-size:.84rem}
+tbody tr:nth-child(even) td{background:var(--alt)}
+tbody tr:last-child td{border-bottom:0}
+th[scope="row"]{font-weight:600;background:var(--alt)}
+
+/* Onglets */
+.tabs{display:flex;gap:2px;border-bottom:1px solid var(--border);overflow-x:auto;margin-bottom:16px;scrollbar-width:thin}
+.tab{background:none;border:1px solid transparent;border-bottom:0;border-radius:4px 4px 0 0;padding:8px 14px;cursor:pointer;white-space:nowrap;font-size:.9rem;color:var(--muted);margin-bottom:-1px}
+.tab:hover{color:var(--text);background:var(--accent-tint)}
+.tab[aria-selected="true"]{color:var(--text);background:var(--view);border-color:var(--border);font-weight:600;box-shadow:inset 0 2px 0 var(--accent)}
+
+/* Repliable */
+details.fold{border:1px solid var(--border);border-radius:5px;background:var(--view)}
+details.fold > summary{cursor:pointer;padding:10px 14px;font-weight:600;list-style:none;display:flex;gap:8px;align-items:center}
+details.fold > summary::-webkit-details-marker{display:none}
+details.fold > summary::before{content:"";width:7px;height:7px;border-right:2px solid var(--muted);border-bottom:2px solid var(--muted);transform:rotate(-45deg);transition:transform .15s;flex:none;margin-right:2px}
+details.fold[open] > summary::before{transform:rotate(45deg)}
+details.fold > summary .tag{margin-left:auto}
+details.fold > .in{padding:2px 16px 16px;display:flex;flex-direction:column;gap:12px}
+
+.tag{display:inline-block;font-size:.72rem;font-weight:600;letter-spacing:.03em;padding:1px 8px;border-radius:10px;border:1px solid var(--border);color:var(--muted);background:var(--alt);white-space:nowrap}
+.tag.past{color:var(--past);border-color:color-mix(in srgb,var(--past) 50%,transparent)}
+.tag.present{color:var(--present);border-color:color-mix(in srgb,var(--present) 50%,transparent)}
+.tag.future{color:var(--future);border-color:color-mix(in srgb,var(--future) 50%,transparent)}
+.tag.acc{color:var(--accent-strong);border-color:var(--accent-line);background:var(--accent-tint)}
+
+/* Frise */
+.timeline{list-style:none;margin:0;padding:0;position:relative}
+.timeline::before{content:"";position:absolute;left:62px;top:6px;bottom:6px;width:2px;background:var(--border-soft)}
+.timeline li{display:grid;grid-template-columns:52px 22px minmax(0,1fr);gap:0 0;padding:6px 0}
+.timeline .yr{font-family:var(--f-mono);font-size:.84rem;font-weight:500;text-align:right;padding-right:6px;padding-top:1px}
+.timeline .dot{width:12px;height:12px;border-radius:50%;margin:5px 0 0 5px;border:2px solid var(--view);box-shadow:0 0 0 1px var(--border);z-index:1}
+.timeline .ev{min-width:0}
+.timeline .ev b{font-weight:600}
+.timeline li.hl .ev{background:var(--accent-tint);border:1px solid var(--accent-line);border-radius:4px;padding:6px 10px;margin-top:-4px}
+
+/* Étapes */
+.steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,150px),1fr));gap:8px;counter-reset:s;list-style:none;padding:0;margin:0}
+.steps li{border:1px solid var(--border);border-radius:5px;padding:10px 12px;background:var(--alt);position:relative;font-size:.9rem}
+.steps li::before{counter-increment:s;content:counter(s);font-family:var(--f-mono);font-size:.74rem;color:var(--accent-strong);font-weight:600;display:block;margin-bottom:2px}
+.steps li b{display:block;font-weight:600;margin-bottom:2px}
+
+.flow{display:flex;flex-wrap:wrap;align-items:stretch;gap:6px}
+.flow .node{border:1px solid var(--border);background:var(--alt);border-radius:4px;padding:8px 11px;font-size:.88rem;flex:1 1 140px;min-width:0}
+.flow .node b{display:block;font-size:.82rem;color:var(--present)}
+.flow .arr{align-self:center;color:var(--muted);font-size:1.1rem}
+
+.time3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.time3 > div{border:1px solid var(--border);border-top-width:4px;border-radius:5px;padding:12px 14px;background:var(--view)}
+.time3 .p{border-top-color:var(--past)} .time3 .n{border-top-color:var(--present)} .time3 .f{border-top-color:var(--future)}
+.time3 h4{font-size:.8rem;text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px}
+.time3 .p h4{color:var(--past)} .time3 .n h4{color:var(--present)} .time3 .f h4{color:var(--future)}
+.time3 .big{font-weight:600;font-size:1.05rem;margin-bottom:4px}
+
+/* Personnages */
+.chars{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,320px),1fr));gap:14px}
+.char h3{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
+.char .role{font-size:.82rem;color:var(--muted);font-weight:400}
+.char .fw{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:10px 0}
+.char .fw div{font-size:.88rem}
+.char .fw b{display:block;font-size:.76rem;text-transform:uppercase;letter-spacing:.05em;margin-bottom:2px}
+.char .fw .s b{color:var(--positive)} .char .fw .w b{color:var(--negative)}
+.char ul{margin:4px 0 0;padding-left:1.2em;font-size:.9rem;display:flex;flex-direction:column;gap:3px}
+.char .meaning{font-size:.86rem;border-top:1px solid var(--border-soft);padding-top:8px;margin-top:10px;color:var(--muted)}
+
+/* Correspondances roman / aujourd'hui */
+.pair{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:0;border:1px solid var(--border);border-radius:5px;overflow:hidden}
+.pair > div{padding:14px 16px;min-width:0;display:flex;flex-direction:column;gap:10px}
+.pair > div:first-child{background:var(--alt);border-right:1px solid var(--border)}
+.pair h4{font-size:.76rem;text-transform:uppercase;letter-spacing:.07em;color:var(--muted)}
+.pair ul{margin:0;padding-left:1.15em;display:flex;flex-direction:column;gap:7px;font-size:.94rem}
+.src{font-size:.76rem;color:var(--muted)}
+.src a{color:var(--muted)}
+
+/* Quiz */
+.check{border:1px solid var(--accent-line);border-radius:5px;padding:16px 18px;margin-top:30px;background:var(--accent-tint)}
+.check h3{margin:0 0 4px;display:flex;align-items:center;gap:8px}
+.check h3 svg{width:18px;height:18px;color:var(--accent-strong)}
+.q{margin-top:14px}
+.q p.qt{font-weight:600;margin-bottom:8px}
+.opts{display:flex;flex-direction:column;gap:6px}
+.opt{text-align:left;background:var(--view);border:1px solid var(--border);border-radius:4px;padding:8px 12px;cursor:pointer;font-size:.92rem;display:flex;gap:10px;align-items:flex-start}
+.opt:hover:not([disabled]){border-color:var(--accent)}
+.opt .k{font-family:var(--f-mono);font-size:.78rem;color:var(--muted);padding-top:2px}
+.opt.ok{border-color:var(--positive);background:var(--positive-tint)}
+.opt.ko{border-color:var(--negative);background:var(--negative-tint)}
+.opt[disabled]{cursor:default}
+.why{margin-top:8px;font-size:.9rem;padding:8px 12px;border-left:3px solid var(--positive);background:var(--view)}
+.why.bad{border-left-color:var(--negative)}
+
+.pager{display:flex;justify-content:space-between;gap:10px;margin-top:30px;padding-top:16px;border-top:1px solid var(--border-soft);flex-wrap:wrap;align-items:center}
+.pager .btn{min-height:38px}
+
+/* Glossaire */
+.gtools{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:16px}
+.search{flex:1 1 220px;display:flex;align-items:center;gap:8px;border:1px solid var(--border);border-radius:3px;background:var(--view);padding:0 10px;min-height:36px}
+.search:focus-within{border-color:var(--accent);box-shadow:0 0 0 2px var(--accent-tint)}
+.search input{border:0;background:none;outline:0;font:inherit;color:inherit;flex:1;min-width:0;padding:6px 0}
+.search svg{width:16px;height:16px;color:var(--muted)}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.gl{display:flex;flex-direction:column;gap:0;border:1px solid var(--border);border-radius:5px;overflow:hidden}
+.gitem{padding:13px 16px;border-bottom:1px solid var(--border-soft);display:grid;grid-template-columns:minmax(150px,220px) minmax(0,1fr);gap:6px 18px}
+.gitem:last-child{border-bottom:0}
+.gitem:nth-child(even){background:var(--alt)}
+.gitem.flash{animation:flash 1.6s ease-out}
+@keyframes flash{0%{box-shadow:inset 0 0 0 2px var(--accent)}100%{box-shadow:inset 0 0 0 2px transparent}}
+.gitem .w{font-weight:600}
+.gitem .w .tag{margin-top:4px}
+.gitem .ex{font-size:.88rem;margin-top:5px;color:var(--muted)}
+.gitem .ex b{color:var(--text);font-weight:600}
+.reveal{background:none;border:1px dashed var(--border);border-radius:4px;padding:6px 10px;cursor:pointer;color:var(--muted);text-align:left;width:100%}
+.letter{font-family:var(--f-mono);font-size:.8rem;color:var(--accent-strong);background:var(--alt);padding:4px 16px;border-bottom:1px solid var(--border-soft);font-weight:600}
+
+/* Œuvres en écho */
+.work .meta{font-size:.82rem;color:var(--muted);margin:2px 0 8px}
+.work .row{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:12px;margin-top:10px}
+.work .row > div{font-size:.9rem;border-top:2px solid var(--border-soft);padding-top:6px}
+.work .row b{display:block;font-size:.74rem;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);margin-bottom:2px}
+
+.worked{border:1px solid var(--border);border-radius:5px;padding:16px 18px;font-family:var(--f-read);line-height:1.75;max-width:72ch}
+.worked .seg-t{font-family:var(--f-ui);font-size:.66rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;padding:1px 6px;border-radius:3px;margin-right:4px;vertical-align:2px;white-space:nowrap}
+.st1{background:var(--accent-tint);color:var(--accent-strong)} .st2{background:var(--neutral-tint);color:var(--neutral)} .st3{background:var(--positive-tint);color:var(--positive)} .st4{background:color-mix(in srgb,var(--past) 16%,transparent);color:var(--past)} .st5{background:var(--negative-tint);color:var(--negative)}
+
+svg text{font-family:var(--f-ui)}
+.figure{border:1px solid var(--border);border-radius:5px;padding:12px;background:var(--view);max-width:100%;overflow-x:auto}
+.figure svg{display:block;width:100%;height:auto;min-width:520px}
+.figcap{font-size:.8rem;color:var(--muted);margin-top:6px}
+
+/* Petits écrans */
+@media (max-width:900px){
+  .shell{grid-template-columns:minmax(0,1fr)}
+  .side{position:static;max-height:none;display:flex;gap:4px;overflow-x:auto;padding:6px;scrollbar-width:thin}
+  .side .grp,.side .progress{display:none}
+  .navitem{width:auto;white-space:nowrap;flex:none;padding:6px 10px}
+  .pair{grid-template-columns:minmax(0,1fr)}
+  .pair > div:first-child{border-right:0;border-bottom:1px solid var(--border)}
+  .time3{grid-template-columns:minmax(0,1fr)}
+  .gitem{grid-template-columns:minmax(0,1fr)}
+  .work .row{grid-template-columns:minmax(0,1fr)}
+  .toolbar .ttl span{display:none}
+}
+@media (max-width:520px){
+  .tools .hide-s{display:none}
+  .char .fw{grid-template-columns:1fr}
+  .kv{grid-template-columns:minmax(0,1fr)}
+  .kv dt{padding-top:6px}
+}
+</style>
+<script>
+/* ====== GLOSSAIRE ======
+   m = mot, c = catégorie, d = définition simple, e = exemple dans le roman, a = exemple aujourd'hui */
+const CATS = {
+  roman:{l:"Mots du roman"}, lit:{l:"Littérature"}, hist:{l:"Histoire"}, pol:{l:"Politique & société"}, med:{l:"Médias & numérique"}, cog:{l:"Pensée & apprentissage"}
+};
+const GLOSS = {
+  "mur-ecran":{m:"Murs-écrans",c:"roman",d:"Écrans géants qui couvrent les murs du salon et diffusent des émissions en continu. Mildred en possède trois et rêve d'un quatrième.",e:"« Ça ne représente que deux mille dollars », dit Mildred pour obtenir le quatrième mur.",a:"On peut penser aux écrans qui nous entourent : télévision, ordinateur, téléphone."},
+  "famille":{m:"La « famille »",c:"roman",d:"Nom donné aux personnages des émissions des murs-écrans. Les spectateurs ont l'impression de faire partie de leur vie.",e:"Mildred préfère la « famille » de l'écran à son vrai mari.",a:"Voir [[parasocial]]."},
+  "coquillage":{m:"Coquillages (radio-coquillages)",c:"roman",d:"Minuscules écouteurs-radio que les personnages gardent dans les oreilles jour et nuit. Il n'y a donc jamais de silence.",e:"Mildred dort avec ses coquillages : « un océan électronique de bruit, de musique et de paroles » bat sans cesse le rivage de son esprit.",a:"Les écouteurs sans fil portés toute la journée."},
+  "limier":{m:"Limier mécanique",c:"roman",d:"Robot à huit pattes de la caserne. Il retrouve une personne grâce à son odeur et lui injecte un produit anesthésiant (procaïne ou morphine).",e:"Le Limier traque Montag après sa fuite ; il rappelle Cerbère, le chien gardien des Enfers.",a:"Il fait penser aux drones et à la reconnaissance automatique."},
+  "pompier":{m:"Pompier",c:"roman",d:"Dans le roman, les pompiers n'éteignent plus les incendies : les maisons sont ininflammables. Ils brûlent les livres et les maisons de ceux qui en cachent.",e:"Leur règlement prétend que le premier pompier fut Benjamin Franklin, en 1790. C'est faux, mais personne ne peut plus le vérifier.",a:null},
+  "dystopie":{m:"Dystopie",c:"lit",d:"Récit qui imagine une société future cauchemardesque, souvent contrôlée et privée de liberté. C'est le contraire d'une [[utopie]].",e:"La société de Montag interdit les livres et endort les gens avec des écrans.",a:"Les épisodes de *Black Mirror* sont de courtes dystopies sur nos technologies."},
+  "utopie":{m:"Utopie",c:"lit",d:"Récit qui décrit une société idéale. Le mot, inventé par Thomas More (1516), signifie en grec « lieu qui n'existe nulle part ».",e:"Pour Beatty, sa société est presque une utopie : tout le monde est « heureux ».",a:"Certaines publicités décrivent un futur parfait grâce à la technologie."},
+  "anticipation":{m:"Roman d'anticipation",c:"lit",d:"Récit qui imagine l'avenir en prolongeant des tendances du présent.",e:"Bradbury part de la télévision des années 1950 et imagine des murs entiers d'écrans.",a:"Des romans actuels imaginent l'avenir du climat ou de l'IA."},
+  "sf":{m:"Science-fiction",c:"lit",d:"Genre qui raconte des événements imaginaires rendus possibles par la science ou la technique, souvent dans le futur.",e:"Le Limier mécanique et les maisons ininflammables sont des éléments de science-fiction.",a:"*Dune*, *Star Wars*, *Black Mirror*."},
+  "avertissement":{m:"Récit d'avertissement",c:"lit",d:"Récit qui pousse un danger du présent à l'extrême pour mettre le lecteur en garde. Le but n'est pas de prédire, mais de prévenir.",e:"Bradbury a écrit son roman pour que ce monde ne devienne jamais réalité.",a:"La logique « si on continue comme ça, voilà où on va »."},
+  "allegorie":{m:"Allégorie",c:"lit",d:"Histoire ou image concrète qui représente une idée abstraite.",e:"Le [[phenix]] qui renaît de ses cendres représente l'humanité qui se reconstruit.",a:"Une balance pour représenter la justice."},
+  "caverne":{m:"Allégorie de la caverne",c:"lit",d:"Récit du philosophe grec Platon (*La République*, livre VII). Des prisonniers enchaînés prennent des ombres projetées sur un mur pour la réalité. L'un d'eux sort, découvre le soleil, revient… et les autres refusent de le croire.",e:"Mildred devant ses murs-écrans ressemble aux prisonniers ; Montag est celui qui sort. Le roman parle d'ailleurs de « cavernes électriques ».",a:"Croire tout ce que montre son fil d'actualité, c'est un peu regarder les ombres sur la paroi."},
+  "metaphore":{m:"Métaphore",c:"lit",d:"Image qui rapproche deux réalités sans mot de comparaison (sans « comme »).",e:"Le lance-flammes est un « python géant qui crachait son venin de pétrole ».",a:"« Un océan d'informations »."},
+  "symbole":{m:"Symbole",c:"lit",d:"Objet, animal, couleur ou geste qui représente une idée.",e:"La [[salamandre]] est le symbole des pompiers ; le [[phenix]], celui de la renaissance.",a:"La colombe pour la paix."},
+  "protagoniste":{m:"Protagoniste / antagoniste",c:"lit",d:"Le protagoniste est le personnage principal ; l'antagoniste est celui qui s'oppose à lui.",e:"Montag est le protagoniste ; le capitaine Beatty est son antagoniste.",a:"Dans un film de super-héros, le « méchant » est l'antagoniste."},
+  "apprentissage":{m:"Roman d'apprentissage",c:"lit",d:"Roman qui suit la transformation d'un personnage : il apprend, change de regard sur le monde et devient quelqu'un d'autre.",e:"Montag passe de l'homme qui brûle sans réfléchir à l'homme qui lit, doute et se souvient.",a:"La saga *Harry Potter* suit elle aussi la transformation de son héros."},
+  "denouement":{m:"Dénouement",c:"lit",d:"Fin d'un récit, moment où la situation se résout.",e:"La ville est détruite par une bombe ; Montag et les hommes-livres partent la reconstruire.",a:null},
+  "incipit":{m:"Incipit",c:"lit",d:"Première phrase ou premières lignes d'un roman. Il installe le ton et le monde du récit.",e:"« Le plaisir d'incendier ! » : dès la première ligne, le feu est un plaisir, pas un danger.",a:null},
+  "epigraphe":{m:"Épigraphe",c:"lit",d:"Courte citation placée au début d'un livre pour en annoncer le sens.",e:"« Si l'on vous donne du papier réglé, écrivez de l'autre côté » (Juan Ramón Jiménez) : une invitation à ne pas suivre les lignes imposées.",a:null},
+  "intertextualite":{m:"Intertextualité",c:"lit",d:"Présence d'autres textes dans un texte : citations, allusions, réécritures.",e:"Le roman cite la Bible, le poème *La Plage de Douvres* de Matthew Arnold, Swift, Marc Aurèle, Platon…",a:"Un rappeur qui reprend un vers de Baudelaire."},
+  "ironie":{m:"Ironie",c:"lit",d:"Décalage entre ce qu'on attend et ce qui se passe réellement, ou entre ce qu'on dit et ce qu'on pense.",e:"Les pompiers allument les feux au lieu de les éteindre.",a:"De 1967 à 1979, une édition scolaire de *Fahrenheit 451*… avait été censurée par l'éditeur."},
+  "hommes-livres":{m:"Hommes-livres",c:"lit",d:"Dans le roman, marginaux qui ont appris chacun un livre par cœur pour le sauver de l'oubli.",e:"Montag devient « le livre de l'Ecclésiaste ».",a:"Les archives et bibliothèques numériques jouent un rôle proche : conserver la mémoire."},
+  "ecclesiaste":{m:"Ecclésiaste",c:"lit",d:"Livre de la Bible qui médite sur le temps et la fragilité des choses humaines.",e:"Montag s'en souvient à la fin : « Temps d'abattre et temps de bâtir. »",a:null},
+  "phenix":{m:"Phénix",c:"lit",d:"Oiseau légendaire qui meurt dans les flammes et renaît de ses cendres. Symbole de renaissance.",e:"Il est brodé sur l'uniforme des pompiers ; Granger s'en sert pour parler de l'humanité qui se relève.",a:"On dit d'une ville reconstruite après une catastrophe qu'elle renaît « comme le phénix »."},
+  "salamandre":{m:"Salamandre",c:"lit",d:"Petit amphibien réel ; dans les légendes, animal capable de vivre dans le feu sans brûler.",e:"Les pompiers portent une salamandre sur la manche ; le titre de la 1re partie est « Le foyer et la salamandre ».",a:null},
+  "autodafe":{m:"Autodafé",c:"hist",d:"Destruction publique de livres par le feu. À l'origine (« acte de foi » en portugais), le mot désignait l'exécution d'hérétiques par l'Inquisition.",e:"Chaque intervention des pompiers est un autodafé.",a:"Le 10 mai 1933, les nazis brûlent des milliers de livres à Berlin."},
+  "maccarthysme":{m:"Maccarthysme",c:"hist",d:"Campagne de soupçons et d'accusations contre les communistes réels ou supposés aux États-Unis (environ 1950-1954), du nom du sénateur Joseph McCarthy. On parle aussi de « chasse aux sorcières ».",e:"La délation encouragée dans le roman (Mildred dénonce son mari) rappelle ce climat.",a:"On parle encore de « chasse aux sorcières » quand on accuse sans preuves."},
+  "liste-noire":{m:"Liste noire",c:"hist",d:"Liste de personnes qu'on surveille ou qu'on refuse d'employer à cause de leurs idées.",e:"Les McClellan, la famille de Clarisse, ont « un dossier » chez les pompiers.",a:"Dans les années 1950, des scénaristes d'Hollywood ne peuvent plus travailler sous leur nom."},
+  "guerre-froide":{m:"Guerre froide",c:"hist",d:"Rivalité entre les États-Unis et l'URSS (1947-1991), sans guerre directe entre eux, mais avec une course aux armes nucléaires et une forte propagande.",e:"Des bombardiers passent sans cesse au-dessus de la ville ; la guerre éclate et se termine en quelques secondes.",a:null},
+  "bombe":{m:"Bombe atomique / bombe H",c:"hist",d:"Armes capables de détruire une ville entière. La bombe atomique est utilisée en 1945 sur Hiroshima et Nagasaki ; la bombe H, encore plus puissante, est testée par les États-Unis (1952) puis par l'URSS (1953).",e:"À la fin, la ville de Montag est rasée en un instant.",a:null},
+  "culture-masse":{m:"Culture de masse",c:"hist",d:"Produits culturels (films, émissions, magazines) fabriqués pour plaire au plus grand nombre, souvent simplifiés.",e:"Beatty explique que les livres se sont « nivelés par le bas, normalisés en une vaste soupe ».",a:"Les contenus courts qui cherchent à faire des millions de vues."},
+  "condense":{m:"Condensé (digest)",c:"hist",d:"Version raccourcie d'un livre ou d'un article. Dans les années 1950, le magazine *Reader's Digest* vend des livres condensés par millions.",e:"« Condensés de condensés. Condensés de condensés de condensés. » (Beatty)",a:"Le résumé d'un roman produit en dix secondes par une [[ia-generative|IA générative]]."},
+  "renaissance":{m:"Renaissance",c:"hist",d:"Période européenne (XIVe-XVIe siècle) de redécouverte des textes de l'Antiquité, marquée par l'[[humanisme]] et l'imprimerie. Les historiens rappellent qu'elle naît des crises de la fin du Moyen Âge.",e:"Les hommes-livres qui sauvent des textes rappellent les humanistes qui recopiaient des manuscrits anciens.",a:null},
+  "humanisme":{m:"Humanisme",c:"hist",d:"Mouvement intellectuel de la Renaissance qui place l'être humain, son éducation et sa dignité au centre de la réflexion.",e:"Faber, ancien professeur de lettres, est une sorte d'humaniste caché.",a:null},
+  "censure":{m:"Censure",c:"pol",d:"Contrôle ou interdiction d'un texte, d'une image ou d'une idée par une autorité.",e:"Tous les livres sont interdits par la loi.",a:"Retirer un livre des bibliothèques scolaires est une forme de censure."},
+  "autocensure":{m:"Autocensure",c:"pol",d:"Fait de se censurer soi-même : ne pas dire ou ne pas écrire quelque chose par peur des réactions.",e:"Faber a vu le danger venir mais, dit-il, « je n'ai pas parlé ».",a:"Ne pas donner son avis en ligne par peur du harcèlement."},
+  "totalitarisme":{m:"Totalitarisme",c:"pol",d:"Régime qui veut contrôler toute la vie des individus : la politique, mais aussi la pensée, les loisirs, la vie privée.",e:"Dans *1984*, le Parti surveille chaque geste grâce aux télécrans.",a:"Les régimes nazi et stalinien sont les exemples historiques classiques."},
+  "propagande":{m:"Propagande",c:"pol",d:"Messages diffusés pour imposer une idée ou un pouvoir, en jouant sur les émotions plus que sur les preuves.",e:"La fausse capture de Montag, filmée en direct, rassure le public.",a:null},
+  "democratie-liberale":{m:"Démocratie libérale",c:"pol",d:"Régime où l'on vote librement, et où des libertés (presse, expression, justice indépendante) protègent chacun, y compris les minorités et l'opposition.",e:"La société du roman a gardé les élections, mais plus la liberté de penser.",a:"La Belgique est une démocratie libérale : la presse peut critiquer le gouvernement."},
+  "democratie-illiberale":{m:"Démocratie illibérale",c:"pol",d:"Régime où les élections continuent, mais où le pouvoir affaiblit les contre-pouvoirs : justice, médias, universités, associations. Le mot est popularisé par le journaliste Fareed Zakaria en 1997.",e:"On vote encore pour le « Président Noble »… parce qu'il est grand et beau.",a:"En 2014, le Premier ministre hongrois Viktor Orbán déclare vouloir bâtir un « État illibéral »."},
+  "autocratie-electorale":{m:"Autocratie électorale",c:"pol",d:"Régime où il y a des élections, mais pas vraiment libres et équitables (médias contrôlés, opposants gênés).",e:null,a:"En 2022, le Parlement européen qualifie la Hongrie de « régime hybride d'autocratie électorale »."},
+  "etat-de-droit":{m:"État de droit",c:"pol",d:"Situation où tout le monde, même le gouvernement, doit respecter la loi, sous le contrôle de juges indépendants.",e:"Les pompiers sont à la fois « censeurs, juges et bourreaux » : il n'y a plus d'État de droit.",a:null},
+  "pluralisme":{m:"Pluralisme",c:"pol",d:"Existence de plusieurs opinions, partis et médias différents, qui peuvent s'exprimer librement.",e:"Beatty : « proposez-lui-en un seul. Mieux encore, ne lui en proposez aucun. »",a:"Plusieurs journaux d'opinions différentes dans un même pays."},
+  "tyrannie-majorite":{m:"Tyrannie de la majorité",c:"pol",d:"Idée d'Alexis de Tocqueville (*De la démocratie en Amérique*, 1835-1840) : en démocratie, la majorité peut écraser ceux qui pensent autrement, même sans violence. Tocqueville parle aussi d'un « despotisme doux » qui rend les citoyens passifs.",e:"Ce n'est pas un dictateur, mais la pression de tous qui a fait disparaître les livres.",a:null},
+  "conformisme":{m:"Conformisme",c:"pol",d:"Fait d'adopter les idées et les comportements du groupe pour ne pas se faire remarquer.",e:"Clarisse est jugée « insociable » parce qu'elle marche et pose des questions.",a:"Suivre une tendance en ligne parce que tout le monde la suit."},
+  "dissident":{m:"Dissident",c:"pol",d:"Personne qui s'oppose ouvertement au pouvoir ou aux idées dominantes.",e:"Faber et les hommes-livres sont des dissidents.",a:null},
+  "delation":{m:"Délation",c:"pol",d:"Fait de dénoncer quelqu'un aux autorités, souvent en secret.",e:"Mildred donne l'alarme contre son propre mari.",a:null},
+  "ia-generative":{m:"IA générative",c:"med",d:"Programme d'intelligence artificielle qui produit du texte, des images ou des sons à partir d'une demande (un « prompt »). Il calcule des suites probables à partir d'immenses quantités d'exemples ; il ne « comprend » pas comme un humain.",e:"Les murs-écrans fabriquent un monde sur mesure pour chaque spectateur.",a:"ChatGPT, rendu public en novembre 2022."},
+  "hallucination":{m:"Hallucination (d'une IA)",c:"med",d:"Erreur d'une IA générative qui invente une information fausse et la présente avec assurance.",e:null,a:"Une IA qui cite un livre ou un article qui n'existe pas."},
+  "algorithme":{m:"Algorithme de recommandation",c:"med",d:"Programme qui choisit ce que l'on voit sur une plateforme (vidéos, publications) selon ce qui retient notre attention.",e:"Les murs-écrans décident de ce que la « famille » montre à Mildred.",a:"Le fil « Pour toi » d'une application vidéo."},
+  "bulle":{m:"Bulle de filtre / chambre d'écho",c:"med",d:"Situation où l'on ne voit plus que des contenus qui confirment nos goûts et nos opinions, parce que l'algorithme et notre entourage les sélectionnent.",e:"Mildred et ses amies ne rencontrent jamais une idée qui les dérange.",a:null},
+  "attention-eco":{m:"Économie de l'attention",c:"med",d:"Modèle économique où les plateformes gagnent de l'argent en captant le plus longtemps possible notre attention (pour afficher de la publicité).",e:"Le métro diffuse sans arrêt la publicité « Dentifrice Denham ».",a:"Notifications et défilement infini sont conçus pour nous retenir."},
+  "defilement":{m:"Défilement infini",c:"med",d:"Fil de contenus qui ne s'arrête jamais : il n'y a pas de « fin de page » qui inviterait à s'arrêter.",e:"Les émissions des murs-écrans ne s'interrompent jamais.",a:null},
+  "parasocial":{m:"Relation parasociale",c:"med",d:"Impression d'avoir un lien personnel avec quelqu'un qu'on ne connaît qu'à travers un écran.",e:"Mildred appelle « la famille » les personnages de ses murs-écrans.",a:"Avoir l'impression qu'un influenceur est un ami."},
+  "infox":{m:"Infox (fake news)",c:"med",d:"Information fausse présentée comme vraie, souvent sous l'apparence d'un article ou d'une vidéo d'actualité.",e:"L'arrestation d'un faux Montag, diffusée en direct.",a:null},
+  "desinformation":{m:"Désinformation / mésinformation",c:"med",d:"La **désinformation** est une fausse information diffusée **volontairement** pour tromper. La **mésinformation** est une erreur partagée **de bonne foi**.",e:"La télévision choisit un passant innocent pour « jouer » Montag : c'est de la désinformation.",a:"Partager une rumeur sans vérifier, c'est de la mésinformation."},
+  "deepfake":{m:"Hypertrucage (deepfake)",c:"med",d:"Vidéo, image ou voix fabriquée par une IA pour faire croire qu'une personne a dit ou fait quelque chose.",e:null,a:"Une fausse vidéo d'un dirigeant politique annonçant sa démission."},
+  "post-verite":{m:"Post-vérité",c:"med",d:"Situation où les émotions et les croyances pèsent plus que les faits dans la formation de l'opinion.",e:"Mme Bowles vote pour le candidat le plus « beau ».",a:null},
+  "esprit-critique":{m:"Esprit critique",c:"cog",d:"Capacité à examiner une information avant d'y croire : qui parle ? avec quelles preuves ? dans quel but ?",e:"Montag demande à Faber : « je veux que vous m'appreniez à comprendre ce que je lis. »",a:null},
+  "decharge":{m:"Décharge cognitive",c:"cog",d:"Fait de confier à un outil un travail que notre cerveau ferait sinon (se souvenir, calculer, rédiger). Utile pour libérer de l'attention ; risqué si l'on n'apprend plus à le faire soi-même.",e:"Les citoyens laissent les murs-écrans penser à leur place.",a:"Faire rédiger un raisonnement par une IA au lieu de le construire soi-même."},
+  "charge":{m:"Charge cognitive",c:"cog",d:"Effort que demande une tâche à notre mémoire de travail, qui ne peut traiter que peu d'éléments à la fois. Si la charge est trop forte, on n'apprend plus (théorie de John Sweller).",e:"Montag essaie de lire la Bible dans le métro sous la publicité « Dentifrice Denham » : trop d'informations, les mots lui échappent.",a:"Lire un texte difficile pendant que les notifications sonnent."},
+  "attention":{m:"Attention soutenue",c:"cog",d:"Capacité à rester concentré longtemps sur une même tâche.",e:"Clarisse observe la rosée, la lune, la pluie : elle prend le temps.",a:"Lire un roman de 200 pages demande une attention soutenue."},
+  "lecture-profonde":{m:"Lecture profonde",c:"cog",d:"Lecture lente et attentive qui permet de comprendre, de faire des liens, de ressentir et de critiquer. La chercheuse Maryanne Wolf montre qu'elle s'apprend et qu'elle peut s'affaiblir si on ne la pratique plus.",e:"Faber parle des « pores » des livres : leurs détails pris sur le vif.",a:"Relire un passage, l'annoter, en discuter."},
+  "litteratie":{m:"Littératie",c:"cog",d:"Capacité à comprendre, utiliser et évaluer des textes écrits pour agir dans la vie.",e:"Mildred sait faire fonctionner ses écrans, mais pas lire un poème.",a:null},
+  "pisa":{m:"PISA",c:"cog",d:"Enquête internationale de l'OCDE qui évalue les élèves de 15 ans en lecture, mathématiques et sciences.",e:null,a:"PISA 2025 : moyenne OCDE en lecture de 461 points, la plus basse jamais mesurée."},
+  "pirls":{m:"PIRLS",c:"cog",d:"Enquête internationale qui évalue la lecture des élèves de 4e primaire (9-10 ans), tous les cinq ans.",e:null,a:"PIRLS 2021 : 494 points en Fédération Wallonie-Bruxelles, sous la moyenne internationale (500)."},
+  "loisir":{m:"Loisir (au sens de Faber)",c:"cog",d:"Pas seulement du temps libre : du temps **pour réfléchir** et assimiler ce qu'on apprend. Le mot grec *skholè* (« loisir ») a donné… « école ».",e:"« Du temps libre, oui. Mais du temps pour réfléchir ? » (Faber)",a:null},
+  "historicite":{m:"Régime d'historicité",c:"cog",d:"Manière dont une société relie le passé, le présent et l'avenir (notion de l'historien François Hartog, 2003).",e:"La société de Montag a coupé ces liens : passé brûlé, avenir vide.",a:null},
+  "presentisme":{m:"Présentisme",c:"cog",d:"Selon François Hartog, rapport au temps où le présent domine tout : le passé s'efface et l'avenir inquiète.",e:"Écrans, vitesse, distraction permanente : la société de Montag vit dans un présent sans fin.",a:"« Tout, tout de suite » ; l'actualité chasse l'actualité."},
+  "experience-attente":{m:"Espace d'expérience / horizon d'attente",c:"cog",d:"Notions de l'historien Reinhart Koselleck : ce que le passé nous a appris / ce que nous espérons ou craignons pour l'avenir.",e:"Brûler les livres détruit l'espace d'expérience ; personne n'imagine plus d'avenir.",a:null},
+  "memoire-collective":{m:"Mémoire collective",c:"cog",d:"Souvenirs partagés par un groupe (événements, textes, traditions) qui forment son identité.",e:"Les pompiers croient que leur métier a toujours consisté à brûler des livres.",a:null}
+};
+</script>
+<script>
+/* ====== CONTENUS ====== */
+const ED = "trad. J. Chambon et H. Robillot, Gallimard, Folio SF";
+
+const PARTS = [
+  {id:"p1", n:"1re partie", t:"Le foyer et la salamandre",
+   sens:"Le **foyer**, c'est à la fois la maison (le foyer familial) et l'endroit où brûle le feu. La [[salamandre]] est l'emblème des pompiers. Le titre réunit donc la vie privée de Montag et son métier de destructeur.",
+   lieu:"La ville : la rue de Montag, sa maison, la caserne, la maison de la vieille dame.",
+   moment:"Quelques jours d'automne, surtout la nuit.",
+   perso:"Montag, Clarisse, Mildred, Beatty, la vieille dame, Stoneman et Black.",
+   actions:[
+     "Montag rentre du travail, fier d'avoir brûlé des livres. Sur le trottoir, il rencontre **Clarisse**, 17 ans, qui lui demande : « Est-ce que vous êtes heureux ? »",
+     "Chez lui, il découvre que **Mildred** a avalé tout un flacon de somnifères. Deux techniciens la « réparent » avec des machines. Le lendemain, elle ne se souvient de rien.",
+     "Montag revoit Clarisse plusieurs fois. Elle l'oblige à regarder le monde : la pluie, la lune, les gens qui ne se parlent plus.",
+     "À la caserne, le [[limier|Limier mécanique]] gronde quand Montag s'approche, comme s'il le soupçonnait.",
+     "Une **vieille dame** refuse de quitter sa maison remplie de livres et y met elle-même le feu. Montag, bouleversé, a volé un livre.",
+     "Clarisse a disparu : Mildred finit par dire qu'elle a sans doute été tuée par une voiture.",
+     "Montag, malade, reste au lit. **Beatty** vient lui rendre visite et lui explique comment la société en est arrivée à brûler les livres.",
+     "Après son départ, Montag montre à Mildred la vingtaine de livres qu'il cache derrière la grille du climatiseur."
+   ]},
+  {id:"p2", n:"2e partie", t:"Le tamis et le sable",
+   sens:"Enfant, Montag a essayé de remplir un tamis avec du sable : plus il en versait, plus le sable s'écoulait. Dans le métro, il lit la Bible, mais les mots lui échappent de la même façon, couverts par la publicité « Dentifrice Denham ». Le titre dit la difficulté de **retenir** ce qu'on lit dans un monde de bruit.",
+   lieu:"La maison de Montag, le métro, la maison de Faber.",
+   moment:"Le lendemain, du jour au soir.",
+   perso:"Montag, Mildred, Faber, Mme Phelps et Mme Bowles (les amies de Mildred), Beatty.",
+   actions:[
+     "Montag et Mildred essaient de lire. Mildred ne comprend pas et retourne vers ses murs-écrans.",
+     "Montag rend visite à **Faber**, un ancien professeur de lettres rencontré un an plus tôt dans un parc. Faber lui explique ce qui manque à la société : la qualité de l'information, le loisir de la penser et le droit d'agir.",
+     "Faber donne à Montag un petit écouteur pour le guider à distance. Ils imaginent un plan pour réimprimer des livres.",
+     "Chez lui, Montag interrompt les amies de Mildred qui parlent de la guerre et des élections sans y réfléchir. Il leur lit un poème, *La Plage de Douvres*. Mme Phelps pleure, Mme Bowles est furieuse.",
+     "Montag rapporte un livre à Beatty pour détourner les soupçons. À la caserne, Beatty le provoque à coups de citations.",
+     "Une alarme retentit. Le camion s'arrête… devant la maison de Montag."
+   ]},
+  {id:"p3", n:"3e partie", t:"L'éclat de la flamme",
+   sens:"Le titre anglais, *Burning Bright*, rappelle un poème de William Blake. La flamme change de sens : elle ne détruit plus, elle **éclaire** et **réchauffe**, comme le feu de camp des hommes-livres.",
+   lieu:"La maison de Montag, les rues de la ville, la maison de Faber, le fleuve, la forêt, les anciens rails.",
+   moment:"La même nuit, jusqu'à l'aube du lendemain.",
+   perso:"Montag, Beatty, Mildred, Faber, le Limier, Granger et les hommes-livres.",
+   actions:[
+     "Mildred a dénoncé son mari et part en taxi. Beatty oblige Montag à brûler sa propre maison.",
+     "Beatty découvre l'écouteur de Faber. Montag retourne le lance-flammes contre lui et le tue, puis neutralise les deux autres pompiers et le Limier.",
+     "Blessé, il fuit. Il cache des livres chez un collègue pour le compromettre, puis se réfugie chez Faber, qui part pour Saint Louis retrouver un ancien imprimeur.",
+     "Un nouveau Limier est lancé ; la poursuite est diffusée en direct à la télévision. Montag se jette dans le **fleuve** et se laisse porter hors de la ville.",
+     "Il rejoint **Granger** et les [[hommes-livres]], d'anciens professeurs qui ont chacun appris un livre par cœur. À la télévision, il voit la police « arrêter » un faux Montag pour finir le spectacle.",
+     "La guerre éclate : en quelques secondes, des bombes détruisent la ville.",
+     "À l'aube, Granger parle du [[phenix]]. Le groupe repart vers la ville en ruines pour aider à reconstruire. Montag se souvient de l'[[ecclesiaste|Ecclésiaste]] et de l'Apocalypse."
+   ]}
+];
+
+const CHARS = [
+  {id:"montag", nom:"Guy Montag", role:"Pompier, protagoniste", age:"30 ans", metier:"Pompier (depuis une dizaine d'années)",
+   forces:"Curiosité qui se réveille, courage, capacité à douter de lui-même.",
+   faiblesses:"Impulsif, parfois naïf (il lit un poème aux amies de Mildred), violent quand il est acculé.",
+   events:["Rencontre Clarisse et se demande s'il est heureux.","Voit une vieille dame mourir avec ses livres.","Demande à Faber de lui apprendre à lire vraiment.","Brûle sa maison, tue Beatty, fuit par le fleuve.","Devient « le livre de l'Ecclésiaste »."],
+   sens:"*Montag* veut dire « lundi » en allemand : le jour de la lune, astre lié à l'eau. Or Montag finit sauvé par le fleuve. Son prénom de famille (Guy) est banal : c'est un homme ordinaire qui s'éveille."},
+  {id:"clarisse", nom:"Clarisse McClellan", role:"La voisine, déclencheuse", age:"17 ans", metier:"Élève, envoyée chez un psychanalyste parce qu'elle est jugée « insociable »",
+   forces:"Curiosité, attention aux autres et à la nature, liberté de pensée.",
+   faiblesses:"Fragile face à une société qui la rejette ; elle a peur des jeunes de son âge, très violents.",
+   events:["Demande à Montag : « Est-ce que vous êtes heureux ? »","Lui parle de la pluie, de la lune, des gens qui ne se parlent plus.","Disparaît : sans doute tuée par une voiture."],
+   sens:"*Clarisse* évoque la **clarté**. Elle est associée à la lune, à la blancheur, à la lumière : elle éclaire Montag. « J'ai dix-sept ans et je suis folle », dit-elle avec humour."},
+  {id:"mildred", nom:"Mildred Montag (Millie)", role:"L'épouse", age:"30 ans", metier:"Aucun ; passe ses journées devant les murs-écrans",
+   forces:"Bien adaptée à sa société ; elle sait ce qu'elle veut (un quatrième mur-écran).",
+   faiblesses:"Dépendante aux écrans, incapable de parler de ses émotions, oublieuse (elle ne se rappelle plus où elle a rencontré Montag).",
+   events:["Avale tout un flacon de somnifères, puis nie l'avoir fait.","Réclame un quatrième mur-écran à deux mille dollars.","Dénonce son mari et part en taxi avant que la maison brûle."],
+   sens:"Elle incarne le **présent sans profondeur** : tout est oublié dès que c'est fini. Sa tentative de suicide montre que le « bonheur » de cette société cache un grand malheur."},
+  {id:"beatty", nom:"Capitaine Beatty", role:"Chef des pompiers, antagoniste", age:"Plus âgé que Montag", metier:"Capitaine de la caserne",
+   forces:"Très cultivé, intelligent, excellent orateur ; il connaît l'histoire.",
+   faiblesses:"Cynique, manipulateur ; il a lu les livres mais les a trahis. Il semble presque chercher sa propre mort.",
+   events:["Explique à Montag l'origine de la censure (1re partie).","Le provoque avec des citations à la caserne.","Est tué par Montag avec son propre lance-flammes."],
+   sens:"Son nom évoque l'anglais *to beat* (« battre »). Paradoxe central : c'est l'homme qui a le plus lu qui brûle les livres. Il prouve que la culture seule ne suffit pas à rendre libre."},
+  {id:"faber", nom:"Faber", role:"Le mentor", age:"Vieil homme", metier:"Ancien professeur de lettres (d'anglais), à la retraite",
+   forces:"Savoir, lucidité, capacité à transmettre.",
+   faiblesses:"Peureux ; il reconnaît s'être tu quand il fallait parler.",
+   events:["Récite un poème à Montag dans un parc, un an avant le récit.","Lui explique les « trois choses » qui manquent.","Le guide avec un écouteur, puis part chercher un imprimeur."],
+   sens:"En latin, *faber* signifie « artisan », celui qui fabrique. Faber est aussi le nom d'une marque de crayons : il est l'homme de l'écrit."},
+  {id:"granger", nom:"Granger", role:"Chef des hommes-livres", age:"Adulte", metier:"Ancien intellectuel, auteur d'un livre sur l'individu et la société",
+   forces:"Sagesse, patience, sens du temps long.",
+   faiblesses:"Vit caché, sans pouvoir agir sur la ville.",
+   events:["Accueille Montag au bord des rails.","Lui montre la fausse capture à la télévision.","Parle du phénix et propose de « construire une miroiterie »."],
+   sens:"*Granger* évoque la grange, le grain que l'on conserve pour le semer plus tard : les livres gardés en mémoire."}
+];
+const MINOR = [
+  {n:"Stoneman et Black", d:"Collègues pompiers. *Stoneman* = « homme de pierre », *Black* = « noir » : des hommes sans conscience."},
+  {n:"La vieille dame", d:"Préfère mourir avec ses livres. Elle cite Latimer, brûlé vif en 1555 : « Nous allons en ce jour […] allumer en Angleterre une chandelle qui […] ne s'éteindra jamais. »"},
+  {n:"Mme Phelps et Mme Bowles", d:"Amies de Mildred. Elles parlent de la guerre, des enfants et des élections sans émotion ni réflexion."},
+  {n:"Le Limier mécanique", d:"Robot traqueur à huit pattes. Il rappelle Cerbère, le chien des Enfers."}
+];
+
+const TIMELINE = [
+  {y:"1933", c:"livres", t:"**10 mai** : à Berlin, les nazis brûlent des milliers de livres d'auteurs juifs ou opposants. Le poète Heinrich Heine avait écrit un siècle plus tôt : « Là où l'on brûle des livres, on finit par brûler des hommes »."},
+  {y:"1945", c:"guerre", t:"**Août** : bombes atomiques sur Hiroshima et Nagasaki. Le progrès technique peut désormais détruire l'humanité."},
+  {y:"1947", c:"politique", t:"Début de la [[guerre-froide|guerre froide]]. À Hollywood, dix scénaristes et réalisateurs refusent de répondre à une commission d'enquête sur le communisme : ils sont mis sur [[liste-noire|liste noire]]."},
+  {y:"1949", c:"guerre", t:"L'URSS teste sa première bombe atomique. George Orwell publie *1984*."},
+  {y:"1950", c:"politique", t:"Le sénateur Joseph McCarthy affirme avoir une liste de communistes infiltrés : début du [[maccarthysme]]. Début de la guerre de Corée. Environ 9 % des foyers américains ont la télévision."},
+  {y:"1951", c:"livres", t:"Bradbury publie *The Fireman* (« Le Pompier »), première version du roman, dans la revue *Galaxy*. Il l'a tapée à la machine dans le sous-sol d'une bibliothèque universitaire, sur une machine à louer qui coûtait 10 cents la demi-heure."},
+  {y:"1952", c:"guerre", t:"Les États-Unis testent la première bombe H, bien plus puissante que celle d'Hiroshima."},
+  {y:"1953", c:"livres", hl:true, t:"**Juin** : le président Eisenhower lance aux étudiants : « Ne rejoignez pas les brûleurs de livres ». Des ouvrages jugés suspects viennent d'être retirés des bibliothèques américaines à l'étranger. **19 juin** : exécution des époux Rosenberg, accusés d'espionnage atomique. **Août** : bombe H soviétique. **19 octobre** : parution de *Fahrenheit 451*."},
+  {y:"1954", c:"politique", t:"Le roman paraît en feuilleton dans la revue *Playboy*. **Décembre** : le Sénat condamne McCarthy, ce qui marque la fin de son influence."},
+  {y:"1955", c:"medias", t:"Environ deux foyers américains sur trois ont désormais la télévision. Première traduction française du roman (Denoël, collection « Présence du futur »)."},
+  {y:"1966", c:"livres", t:"François Truffaut adapte le roman au cinéma, avec Oskar Werner et Julie Christie (qui joue à la fois Clarisse et Linda, la femme de Montag)."},
+  {y:"1967-1979", c:"livres", t:"Ironie de l'histoire : une édition scolaire du roman, expurgée par l'éditeur (jurons et passages jugés choquants supprimés), circule aux États-Unis. Bradbury l'apprend et ajoute en 1979 une postface pour dénoncer cette censure."}
+];
+const TLCOL = {livres:"var(--present)", guerre:"var(--negative)", politique:"var(--past)", medias:"var(--accent)"};
+const TLLAB = {livres:"Livres et censure", guerre:"Guerre et nucléaire", politique:"Politique", medias:"Médias"};
+
+/* ====== F451 AUJOURD'HUI ====== */
+const TODAY = [
+  {id:"ia", t:"IA génératives : penser à notre place ?", tag:"Médias & numérique",
+   roman:[
+     {q:"Condensés de condensés. Condensés de condensés de condensés. La politique ? Une colonne, deux phrases, un gros titre ! Et tout se volatilise !", w:"Beatty, 1re partie"},
+     {q:"Bourrez les gens de données incombustibles, gorgez-les de “faits” […]. Ils auront alors l'impression de penser, ils auront le sentiment du mouvement tout en faisant du sur-place.", w:"Beatty, 1re partie"}
+   ],
+   romanTxt:"Dans le roman, des machines ont remplacé l'effort : les livres sont devenus des [[condense|condensés]], les écrans fournissent les émotions, le [[limier|Limier]] traque à la place des humains.",
+   auj:[
+     "Depuis la sortie publique de ChatGPT (novembre 2022), une [[ia-generative|IA générative]] peut résumer un roman, rédiger une dissertation ou produire une image en quelques secondes.",
+     "Ces outils peuvent [[hallucination|halluciner]] : inventer des faits, des citations ou des sources, avec assurance.",
+     "Une étude du MIT Media Lab (2025) a observé que des participants qui rédigeaient avec ChatGPT montraient une activité cérébrale moins connectée et se souvenaient moins bien de leur propre texte. Prudence : étude préliminaire, sur 54 personnes seulement.",
+     "L'Union européenne encadre ces systèmes depuis 2024 par un règlement sur l'IA (*AI Act*)."
+   ],
+   src:[{l:"Kosmyna et al., « Your Brain on ChatGPT », MIT Media Lab, 2025 (prépublication)",u:"https://arxiv.org/abs/2506.08872"}],
+   nuance:"Bradbury ne condamne pas la technique en soi. Une IA peut aussi aider : lire un texte à voix haute pour un élève dyslexique, expliquer un mot, proposer des exercices. La vraie question est celle de Faber : l'outil me donne-t-il une information de qualité, du temps pour réfléchir, et la liberté d'agir ? Ou pense-t-il à ma place ([[decharge|décharge cognitive]]) ?",
+   qd:"Lire le résumé d'un roman fait par une IA, est-ce « avoir lu » ce roman ? Qu'est-ce qui se perd en chemin (Faber parle des « pores » du texte) ?"},
+  {id:"rs", t:"Réseaux sociaux : la « famille » dans la poche", tag:"Médias & numérique",
+   roman:[
+     {q:"Ça ne représente que deux mille dollars.", w:"Mildred, qui veut un quatrième mur-écran, 1re partie"},
+     {q:"Il vous précipite si vite vers ses propres conclusions que votre esprit n'a pas le temps de se récrier : “Quelle idiotie !”", w:"Faber, à propos du salon-télé, 2e partie"}
+   ],
+   romanTxt:"Les [[mur-ecran|murs-écrans]] font vivre Mildred avec une [[famille|« famille »]] fictive ; les [[coquillage|coquillages]] remplissent ses oreilles jour et nuit. Personne ne se parle vraiment.",
+   auj:[
+     "En 2026, pour la première fois, les réseaux sociaux et plateformes vidéo sont la première porte d'accès à l'information en ligne (54 % des personnes interrogées), devant les sites et applications d'information (51 %).",
+     "Le modèle de ces plateformes repose sur l'[[attention-eco|économie de l'attention]] : [[defilement|défilement infini]], notifications, [[algorithme|recommandations]] personnalisées.",
+     "Les liens avec des créateurs de contenu peuvent devenir des [[parasocial|relations parasociales]] : on a l'impression de connaître quelqu'un qu'on n'a jamais rencontré.",
+     "Plusieurs pays limitent l'accès des mineurs : l'Australie interdit les réseaux sociaux aux moins de 16 ans depuis décembre 2025 ; l'Union européenne impose des obligations aux grandes plateformes (*Digital Services Act*)."
+   ],
+   src:[{l:"Reuters Institute, Digital News Report 2026",u:"https://reutersinstitute.politics.ox.ac.uk/digital-news-report/2026"}],
+   nuance:"Les réseaux sociaux ne sont pas seulement des murs-écrans. Ils permettent aussi de s'organiser, de témoigner, de découvrir des livres : sur BookTok, des jeunes recommandent des romans et en font des succès de librairie. Mildred regarde ; un utilisateur peut aussi créer et débattre.",
+   qd:"Mildred est-elle une victime ou une complice de son propre malheur ? Et nous, face à nos écrans ?"},
+  {id:"fake", t:"Fake news : fabriquer la réalité", tag:"Médias & numérique",
+   roman:[
+     {q:"Si vous ne voulez pas qu'un homme se rende malheureux avec la politique, n'allez pas lui casser la tête en lui proposant deux points de vue sur une question ; proposez-lui-en un seul. Mieux encore, ne lui en proposez aucun.", w:"Beatty, 1re partie"},
+     {q:"C'est de la poudre aux yeux. […] Le spectacle doit courir vers sa conclusion !", w:"Granger, devant la fausse capture de Montag, 3e partie"}
+   ],
+   romanTxt:"À la fin, la police ne retrouve pas Montag. Pour ne pas décevoir le public, la télévision filme l'arrestation d'un passant innocent présenté comme le fugitif. Plus tôt, le règlement des pompiers affirmait que leur premier chef fut Benjamin Franklin : l'histoire elle-même est falsifiée.",
+   auj:[
+     "En 2026, 62 % des personnes interrogées dans 48 pays disent avoir du mal à distinguer le vrai du faux en ligne (en hausse de 4 points).",
+     "La confiance dans l'information tombe à 37 %, le niveau le plus bas depuis le début de la mesure (2015).",
+     "Les [[deepfake|hypertrucages]] permettent de fabriquer une vidéo ou une voix crédible ; la frontière entre [[desinformation|désinformation et mésinformation]] devient floue quand chacun partage sans vérifier."
+   ],
+   src:[{l:"Reuters Institute, Digital News Report 2026",u:"https://reutersinstitute.politics.ox.ac.uk/digital-news-report/2026"}],
+   nuance:"L'expression « fake news » est elle-même devenue une arme : certains responsables politiques l'utilisent pour discréditer des journalistes qui disent vrai. Il vaut mieux parler précisément d'[[infox]], de [[desinformation|désinformation]] ou de [[propagande]].",
+   qd:"Pourquoi Granger dit-il que la fausse capture est faite pour « sauver la face » ? Qui a intérêt à ce que le public croie à cette fin ?"},
+  {id:"pisa", t:"Lire moins, lire moins bien ?", tag:"École & cognition",
+   roman:[
+     {q:"Livres raccourcis. Condensés, Digests. Abrégés. Tout est réduit au gag, à la chute.", w:"Beatty, 1re partie"},
+     {q:"Du temps libre, oui. Mais du temps pour réfléchir ?", w:"Faber, 2e partie"}
+   ],
+   romanTxt:"Dans le roman, personne n'a eu besoin d'interdire la lecture au départ : les gens ont d'abord cessé de lire, puis l'État a interdit ce que plus personne ne défendait. Bradbury l'a résumé ainsi : « il y a plus d'une façon de brûler un livre ».",
+   auj:[
+     "**PISA 2025** (publié le 8 septembre 2026) : la moyenne de l'OCDE en lecture tombe à **461 points**, la plus basse jamais mesurée, environ 14 points de moins qu'en 2022.",
+     "En **Fédération Wallonie-Bruxelles**, les élèves de 15 ans obtiennent **466 points**, 15 de moins qu'en 2018. La FWB reste légèrement au-dessus d'une moyenne OCDE qui baisse ; la Flandre a reculé beaucoup plus fort.",
+     "Les élèves peinent surtout avec les **textes longs** et les tâches complexes. La part d'élèves qui lisent vite mais mal (« lecture hâtive ») a presque doublé depuis 2018, à 9 %.",
+     "Plus tôt dans la scolarité, **PIRLS 2021** : 494 points en FWB en 4e primaire, sous la moyenne internationale (500) et loin des pays de référence (531)."
+   ],
+   chart:true,
+   src:[{l:"OCDE, PISA 2025 Results (Volume I)",u:"https://www.oecd.org/en/publications/2026/09/pisa-2025-results-volume-i_5265bfb1.html"},{l:"RTBF, 8 septembre 2026",u:"https://www.rtbf.be/article/pisa-2025-chute-internationale-notre-systeme-educatif-un-peu-plus-equitable-11781158"},{l:"DH, 8 septembre 2026",u:"https://www.dhnet.be/actu/belgique/2026/09/08/la-degringolade-se-poursuit-en-maths-et-en-lecture-revele-la-nouvelle-etude-pisa-je-veux-casser-la-spirale-negative-des-resultats-E5W42NST4VGKFJI6BU256P4DSI/"},{l:"ULiège, PIRLS 2021 en bref",u:"https://www.pirls-fwb.uliege.be/upload/docs/application/pdf/2023-05/pirls_2021_en_bref.pdf"}],
+   nuance:"Attention aux raccourcis : PISA ne prouve pas que « les écrans rendent bêtes ». L'OCDE cite plusieurs facteurs possibles : effets du Covid, absentéisme, pratiques numériques fragmentées, baisse de l'attention et de la persévérance. Une corrélation n'est pas une cause. Le roman, lui, propose une hypothèse : la [[lecture-profonde|lecture profonde]] s'affaiblit quand on n'a plus le [[loisir]] de penser.",
+   qd:"Selon toi, qu'est-ce qui rend la lecture d'un texte long plus difficile aujourd'hui ? Propose deux causes et une solution concrète pour ta classe."},
+  {id:"illib", t:"Démocraties illibérales : voter sans penser ?", tag:"Politique & société",
+   roman:[
+     {q:"J'ai voté aux dernières élections, comme tout le monde, et je n'ai pas caché que c'était pour le Président Noble. Je crois que c'est un des plus beaux Présidents que nous ayons jamais eu.", w:"Mme Bowles, 2e partie"},
+     {q:"Tout ça n'est pas venu d'en haut. Il n'y a pas eu de décret, de déclaration, de censure au départ, non !", w:"Beatty, 1re partie"}
+   ],
+   romanTxt:"La société de Montag n'a pas supprimé les élections. On vote encore, mais pour le candidat le plus grand et le plus beau. La guerre est déclarée sans débat. Les pompiers sont devenus « censeurs, juges et bourreaux » : il n'y a plus de séparation des pouvoirs.",
+   auj:[
+     "Une [[democratie-illiberale|démocratie illibérale]] garde les élections mais affaiblit les contre-pouvoirs. En 2014, Viktor Orbán dit vouloir faire de la Hongrie un « État illibéral ». En 2022, le Parlement européen la qualifie de « régime hybride d'[[autocratie-electorale|autocratie électorale]] ».",
+     "En Hongrie, une loi de 2021 limite l'accès des mineurs aux contenus évoquant l'homosexualité ; en 2023, une chaîne de librairies est condamnée à une amende pour avoir vendu sans emballage plastique une bande dessinée pour adolescents racontant l'amour entre deux garçons.",
+     "Le 12 avril 2026, le parti d'opposition Tisza remporte les élections avec une majorité des deux tiers, mettant fin à 16 ans de pouvoir d'Orbán. Les élections peuvent donc encore corriger une dérive.",
+     "Selon l'institut V-Dem (2026), près d'un quart des pays du monde sont en voie d'autocratisation ; la **liberté d'expression** est le domaine qui recule le plus.",
+     "Aux États-Unis, PEN America a recensé **11 982 retraits de livres** dans les écoles publiques pendant l'année scolaire 2025-2026, un record. *La Servante écarlate* fait partie des titres souvent visés."
+   ],
+   src:[{l:"OSW, 13 avril 2026",u:"https://www.osw.waw.pl/en/publikacje/analyses/2026-04-13/elections-hungary-triumph-peter-magyar"},{l:"V-Dem, Democracy Report 2026",u:"https://v-dem.net/news/press-release-democratic-backsliding-reaches-western-democracies-with-us-decline-unprecedented/"},{l:"Texas Public Radio (PEN America), 9 octobre 2026",u:"https://www.tpr.org/news/2026-10-09/pen-america-reports-record-school-book-bans-with-texas-accounting-for-over-8-000-titles"}],
+   nuance:"La société de *Fahrenheit 451* n'est pas exactement une démocratie illibérale : c'est une fiction poussée à l'extrême. Et la censure peut venir de tous les côtés politiques. En 2023, les livres de Roald Dahl ont été réécrits par leur éditeur pour retirer des mots jugés blessants, ce qui a provoqué un large débat ; l'éditeur a finalement aussi gardé une version originale. Beatty décrivait déjà une censure née de la volonté de ne froisser personne.",
+   qd:"Pourquoi Bradbury montre-t-il des personnages qui votent ? Un pays où l'on vote est-il forcément un pays libre ?"}
+];
+
+/* ====== ŒUVRES EN ÉCHO ====== */
+const WORKS = [
+  {t:"Nous autres", a:"Ievgueni Zamiatine", y:"1920 (écrit), 1924 (publié en anglais)", g:"Roman, Russie", lvl:"Exigeant",
+   r:"Dans l'État unique, les citoyens portent des numéros, vivent dans des maisons de verre et suivent un horaire commun. L'ingénieur D-503 construit un vaisseau spatial. Sa rencontre avec I-330, une femme rebelle, réveille en lui une « âme ». À la fin, l'État opère tous les citoyens pour leur retirer l'imagination.",
+   echo:"C'est l'ancêtre des dystopies du XXe siècle. Comme Bradbury, Zamiatine montre une société qui supprime la rêverie pour garantir le bonheur.",
+   diff:"Chez Zamiatine, c'est une opération chirurgicale ; chez Bradbury, ce sont les écrans et la vitesse."},
+  {t:"Le Meilleur des mondes", a:"Aldous Huxley", y:"1932", g:"Roman, Royaume-Uni", lvl:"Accessible",
+   r:"Dans l'État mondial, les êtres humains sont fabriqués en laboratoire et conditionnés dès la naissance pour accepter leur caste. Une drogue, le *soma*, efface toute tristesse. Un « Sauvage », élevé hors de ce système et nourri de Shakespeare, découvre ce monde et ne le supporte pas.",
+   echo:"Le bonheur obligatoire, la drogue (les somnifères de Mildred), le divertissement permanent : c'est la dystopie la plus proche de *Fahrenheit 451*.",
+   diff:"La fin d'Huxley est sans espoir ; Bradbury termine sur une renaissance."},
+  {t:"1984", a:"George Orwell", y:"1949", g:"Roman, Royaume-Uni", lvl:"Accessible",
+   r:"Winston Smith travaille au ministère de la Vérité, où il réécrit les archives pour qu'elles disent toujours ce que veut le Parti. Big Brother surveille tout le monde grâce aux télécrans. Winston tient un journal secret et aime Julia, ce qui est interdit. Ils sont trahis, torturés et brisés.",
+   echo:"Falsifier le passé pour contrôler l'avenir ; des écrans dans chaque maison ; un personnage qui travaille pour le pouvoir puis s'éveille.",
+   diff:"Chez Orwell, le pouvoir terrorise ; chez Bradbury, il anesthésie. Le citoyen de *1984* a peur, celui de *Fahrenheit 451* s'amuse."},
+  {t:"Dune", a:"Frank Herbert", y:"1965", g:"Roman, États-Unis", lvl:"Exigeant",
+   r:"Des milliers d'années dans le futur, un empereur, des familles nobles et un ordre religieux se disputent la planète désertique Arrakis, seule source d'une épice précieuse. Le jeune Paul Atréides devient le prophète d'un peuple du désert.",
+   echo:"Comme Bradbury, Herbert ne croit plus que l'avenir sera forcément meilleur : c'est la « fin du futurisme ».",
+   diff:"Dans *Dune*, le futur ressemble au Moyen Âge ; dans *Fahrenheit 451*, le décor reste ultra-moderne, mais le progrès tourne à vide."},
+  {t:"Se distraire à en mourir", a:"Neil Postman", y:"1985", g:"Essai, États-Unis", lvl:"Exigeant",
+   r:"Postman analyse la télévision américaine. Selon lui, quand tout devient spectacle (l'information, la politique, l'école), le débat public perd sa profondeur. Il oppose deux cauchemars : celui d'Orwell, où l'on interdit les livres, et celui d'Huxley, où plus personne n'a envie d'en lire.",
+   echo:"Postman donne raison à Huxley… et donc aussi à Bradbury. Son analyse s'applique très bien aux réseaux sociaux d'aujourd'hui.",
+   diff:"C'est un essai argumenté, pas une fiction : utile pour un travail de synthèse."},
+  {t:"La Servante écarlate", a:"Margaret Atwood", y:"1985", g:"Roman, Canada", lvl:"Exigeant",
+   r:"Aux anciens États-Unis devenus la République de Galaad, un régime religieux a pris le pouvoir. Les femmes n'ont plus le droit de lire, d'écrire ni de posséder quoi que ce soit. Defred, « servante », raconte sa vie et ses souvenirs du monde d'avant.",
+   echo:"Interdire la lecture pour contrôler les esprits ; un récit qui est lui-même un acte de mémoire.",
+   diff:"La censure vient ici d'un pouvoir religieux autoritaire, et vise d'abord les femmes. Ironie : ce roman est aujourd'hui l'un des plus retirés des écoles américaines."},
+  {t:"Le Passeur", a:"Lois Lowry", y:"1993", g:"Roman jeunesse, États-Unis", lvl:"Accessible",
+   r:"Dans une communauté parfaite, sans douleur ni couleurs, chacun reçoit un métier à 12 ans. Jonas est choisi pour devenir le « dépositaire de la mémoire » : il est le seul à recevoir les souvenirs du passé, joyeux et terribles. Il découvre ce que la communauté a sacrifié.",
+   echo:"Une seule personne garde la mémoire de tous : c'est l'idée des hommes-livres. Très accessible pour entrer dans la dystopie.",
+   diff:"La mémoire n'est pas dans des livres mais transmise d'esprit à esprit."},
+  {t:"Le Cercle", a:"Dave Eggers", y:"2013", g:"Roman, États-Unis", lvl:"Accessible",
+   r:"Mae entre dans la plus puissante entreprise numérique du monde. Tout y est partagé, noté, filmé. Ses slogans : « Les secrets sont des mensonges », « Partager, c'est prendre soin ». Mae devient une star de la transparence totale.",
+   echo:"Les réseaux sociaux remplacent les murs-écrans : l'aliénation ne vient pas d'une interdiction, mais d'une participation joyeuse.",
+   diff:"Ici, on n'efface pas l'information : on en produit trop, et on supprime la vie privée."},
+  {t:"Station Eleven", a:"Emily St. John Mandel", y:"2014", g:"Roman, Canada", lvl:"Accessible",
+   r:"Une pandémie détruit la civilisation. Vingt ans plus tard, une troupe de musiciens et de comédiens, la Symphonie itinérante, voyage de village en village pour jouer Shakespeare. Sa devise : « Survivre ne suffit pas ».",
+   echo:"Comme les hommes-livres, des survivants portent la culture à travers les ruines pour reconstruire.",
+   diff:"La catastrophe est sanitaire et non politique ; le roman insiste sur la beauté de ce qui reste."},
+  {t:"« Chute libre » (*Black Mirror*, saison 3)", a:"Charlie Brooker (série)", y:"2016", g:"Épisode de série, Royaume-Uni", lvl:"Accessible",
+   r:"Chacun note tout le monde de 1 à 5 étoiles après chaque échange. Lacie veut améliorer sa note pour accéder à un meilleur logement ; à force de sourires forcés, tout s'effondre.",
+   echo:"Le bonheur affiché comme une obligation, comme chez Mildred et ses amies ; la peur d'être différent, comme Clarisse.",
+   diff:"Ce n'est pas l'État qui contrôle, mais le regard permanent des autres."},
+  {t:"Klara et le Soleil", a:"Kazuo Ishiguro", y:"2021", g:"Roman, Royaume-Uni", lvl:"Accessible",
+   r:"Klara est une « Amie artificielle », un robot acheté pour tenir compagnie à une adolescente malade, Josie. Elle observe les humains avec une attention extrême et se demande ce qui rend une personne unique.",
+   echo:"Une machine attentive et douce, très loin du Limier : le roman pose la question de ce que l'IA peut, ou ne peut pas, remplacer chez l'humain.",
+   diff:"Ishiguro ne décrit pas une dictature mais une société inégalitaire où la technologie trie les enfants."}
+];
+
+const SOURCES = [
+  {l:"Ray Bradbury, *Fahrenheit 451*, "+ED+" (préface de Jacques Chambon)."},
+  {l:"*Fahrenheit 451 de Ray Bradbury* (analyse), LePetitLittéraire.fr, 2016."},
+  {l:"Dossier « *Fahrenheit 451* : le temps brûlé » (notions de F. Hartog, R. Koselleck, G. Frantzwa)."},
+  {l:"François Hartog, *Régimes d'historicité. Présentisme et expériences du temps*, Seuil, 2003."},
+  {l:"Neil Postman, *Se distraire à en mourir*, 1985 (trad. fr. Pluriel)."},
+  {l:"OCDE, PISA 2025 Results (Volume I), septembre 2026",u:"https://www.oecd.org/en/publications/2026/09/pisa-2025-results-volume-i_5265bfb1.html"},
+  {l:"RTBF, « PISA 2025 : les résultats des élèves francophones reculent… », 8 septembre 2026",u:"https://www.rtbf.be/article/pisa-2025-chute-internationale-notre-systeme-educatif-un-peu-plus-equitable-11781158"},
+  {l:"ULiège, PIRLS 2021 en bref (FWB)",u:"https://www.pirls-fwb.uliege.be/upload/docs/application/pdf/2023-05/pirls_2021_en_bref.pdf"},
+  {l:"Reuters Institute, Digital News Report 2026",u:"https://reutersinstitute.politics.ox.ac.uk/digital-news-report/2026"},
+  {l:"V-Dem Institute, Democracy Report 2026",u:"https://v-dem.net/news/press-release-democratic-backsliding-reaches-western-democracies-with-us-decline-unprecedented/"},
+  {l:"OSW, élections hongroises du 12 avril 2026",u:"https://www.osw.waw.pl/en/publikacje/analyses/2026-04-13/elections-hungary-triumph-peter-magyar"},
+  {l:"PEN America via Texas Public Radio, 9 octobre 2026",u:"https://www.tpr.org/news/2026-10-09/pen-america-reports-record-school-book-bans-with-texas-accounting-for-over-8-000-titles"},
+  {l:"Kosmyna et al., « Your Brain on ChatGPT », MIT Media Lab, 2025",u:"https://arxiv.org/abs/2506.08872"},
+  {l:"FWB, référentiel de compétences terminales en éducation à la philosophie et à la citoyenneté (2017)",u:"https://gallilex.cfwb.be/sites/default/files/imports/43741_000.pdf"}
+];
+
+/* ====== QUESTIONS DE VÉRIFICATION ====== */
+const CHECKS = {
+  fiche:[
+    {q:"Que désigne le nombre 451 dans le titre ?",o:["L'année où se déroule l'histoire","La température (en degrés Fahrenheit) à laquelle le papier s'enflamme","Le numéro de la caserne de Montag"],a:1,w:"451 °F, soit environ 233 °C. Le chiffre figure aussi sur le casque de Montag."},
+    {q:"À quel genre appartient le roman ?",o:["Roman historique","Dystopie (science-fiction d'anticipation)","Conte merveilleux"],a:1,w:"C'est une [[dystopie]] : elle imagine une société future cauchemardesque pour alerter le lecteur."}
+  ],
+  resume:[
+    {q:"Qui pose à Montag la question « Est-ce que vous êtes heureux ? »",o:["Mildred","Faber","Clarisse"],a:2,w:"Clarisse, dès la première partie. Cette question déclenche l'éveil de Montag."},
+    {q:"Que signifie l'image du « tamis et du sable » ?",o:["La difficulté de retenir ce qu'on lit dans un monde de bruit","Le désert où se cachent les hommes-livres","Le sable que les pompiers jettent sur les feux"],a:0,w:"Comme le sable qui s'écoule du tamis, les mots de la Bible échappent à Montag sous la publicité du métro."},
+    {q:"Qui dénonce Montag ?",o:["Clarisse","Mildred","Faber"],a:1,w:"Mildred donne l'alarme contre son propre mari, puis part en taxi."}
+  ],
+  personnages:[
+    {q:"Quel paradoxe incarne le capitaine Beatty ?",o:["Il n'a jamais lu un livre","Il a énormément lu, mais il brûle les livres","Il aide secrètement les hommes-livres"],a:1,w:"Beatty connaît les livres mieux que personne. Il prouve que la culture seule ne suffit pas à rendre libre."},
+    {q:"Que représente Faber pour Montag ?",o:["Un rival","Un mentor","Un collègue pompier"],a:1,w:"Faber, ancien professeur, guide Montag dans sa lecture et dans sa fuite."}
+  ],
+  contexte:[
+    {q:"Quel climat politique domine aux États-Unis en 1953 ?",o:["Le maccarthysme, la peur du communisme et la délation","La crise de 1929","La guerre du Vietnam"],a:0,w:"Le [[maccarthysme]] encourage soupçons et dénonciations, comme dans le roman."},
+    {q:"Quel nouveau média s'installe dans les foyers américains au moment où Bradbury écrit ?",o:["La radio","La télévision","Internet"],a:1,w:"Moins de 10 % des foyers en 1950, environ deux sur trois en 1955 : les murs-écrans grossissent ce phénomène."}
+  ],
+  analyse:[
+    {q:"Selon Beatty, d'où vient d'abord la censure des livres ?",o:["D'un décret du gouvernement","Du public lui-même, qui voulait des contenus plus courts et qui ne choquent personne","D'une invasion étrangère"],a:1,w:"« Tout ça n'est pas venu d'en haut. » C'est la grande différence avec *1984*."},
+    {q:"Quelles sont les trois choses qui manquent selon Faber ?",o:["L'argent, le pouvoir, la gloire","La qualité de l'information, le loisir de l'assimiler, le droit d'agir","Les livres, les bibliothèques, les professeurs"],a:1,w:"Ce sont trois critères très utiles pour juger un média, y compris aujourd'hui."},
+    {q:"Que symbolise le phénix à la fin ?",o:["La guerre","La renaissance de l'humanité qui apprend de ses erreurs","Le pouvoir des pompiers"],a:1,w:"Granger : l'homme a sur le phénix l'avantage de savoir qu'il a fait des bêtises."}
+  ],
+  temps:[
+    {q:"Qu'est-ce que le présentisme, selon François Hartog ?",o:["Un rapport au temps où le présent domine, le passé s'efface et l'avenir inquiète","La croyance que demain sera meilleur","L'imitation des héros du passé"],a:0,w:"Le [[presentisme]] : un présent qui écrase à la fois le passé et l'avenir."},
+    {q:"Pourquoi faut-il être prudent en disant que Bradbury décrit le présentisme ?",o:["Parce que c'est faux","Parce que la notion date de 2003 : on dira qu'il l'anticipe ou le préfigure","Parce que Bradbury était historien"],a:1,w:"Attention à l'anachronisme : on parle d'une lecture « à la lumière de » Hartog."}
+  ],
+  aujourdhui:[
+    {q:"Que montrent les résultats de PISA 2025 en lecture ?",o:["Une forte hausse dans tous les pays","La moyenne OCDE la plus basse jamais mesurée","Aucune évolution depuis 2000"],a:1,w:"461 points en moyenne OCDE ; 466 en FWB."},
+    {q:"Quelle est la différence entre désinformation et mésinformation ?",o:["Aucune","La désinformation est volontaire, la mésinformation est une erreur de bonne foi","La mésinformation vient toujours de l'État"],a:1,w:"L'intention fait la différence."},
+    {q:"Qu'est-ce qu'une démocratie illibérale ?",o:["Une dictature sans élections","Un régime qui garde les élections mais affaiblit la justice, la presse et les contre-pouvoirs","Une monarchie constitutionnelle"],a:1,w:"Le mot est popularisé par Fareed Zakaria en 1997."}
+  ],
+  echos:[
+    {q:"Quelle opposition Neil Postman fait-il entre Orwell et Huxley ?",o:["Orwell craint qu'on interdise les livres, Huxley que plus personne n'ait envie d'en lire","Orwell parle de l'Amérique, Huxley de la Russie","Aucune : ils disent la même chose"],a:0,w:"Bradbury se situe entre les deux, avec une préférence pour le cauchemar d'Huxley."},
+    {q:"Quel roman jeunesse confie la mémoire de tous à un seul personnage, comme les hommes-livres ?",o:["*Le Passeur*","*Le Cercle*","*Nous autres*"],a:0,w:"Dans *Le Passeur*, Jonas devient le « dépositaire de la mémoire »."}
+  ]
+};
+</script>
+<div id="root"></div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.3.1/umd/react.production.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.3.1/umd/react-dom.production.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/htm@3.1.1/dist/htm.umd.js"></script>
+<script>
+const {useState,useEffect,useRef,useMemo,useContext,createContext,Fragment} = React;
+const h = React.createElement;
+const html = htm.bind(h);
+
+/* ---------- Icônes (traits fins, style Breeze) ---------- */
+const IC = {
+  home:"M3 11.5 12 4l9 7.5M5.5 9.5V20h13V9.5M10 20v-5h4v5",
+  card:"M4 5h16v14H4zM8 9h5M8 12.5h8M8 16h6",
+  list:"M8 6h12M8 12h12M8 18h12M4 6h.01M4 12h.01M4 18h.01",
+  people:"M9 11a3 3 0 1 0 0-6 3 3 0 0 0 0 6zM3.5 19c.6-3 2.8-5 5.5-5s4.9 2 5.5 5M16 11a2.5 2.5 0 1 0 0-5M17 14c2 .4 3.3 2.2 3.6 5",
+  clock:"M12 21a9 9 0 1 0 0-18 9 9 0 0 0 0 18zM12 7v5l3.5 2",
+  lens:"M10.5 17a6.5 6.5 0 1 0 0-13 6.5 6.5 0 0 0 0 13zM15.5 15.5 20 20",
+  hourglass:"M7 3h10M7 21h10M8 3c0 4.5 8 5 8 9s-8 4.5-8 9M16 3c0 4.5-8 5-8 9s8 4.5 8 9",
+  globe:"M12 21a9 9 0 1 0 0-18 9 9 0 0 0 0 18zM3 12h18M12 3c2.5 2.6 3.7 5.6 3.7 9s-1.2 6.4-3.7 9c-2.5-2.6-3.7-5.6-3.7-9S9.5 5.6 12 3z",
+  books:"M4 4h4v16H4zM9.5 4h4v16h-4zM15 5.2l3.8-1 4 15.4-3.8 1z",
+  pen:"M4 20h4L19 9l-4-4L4 16zM13.5 6.5l4 4",
+  dict:"M5 4h11a3 3 0 0 1 3 3v13H8a3 3 0 0 1-3-3zM5 17a3 3 0 0 1 3-3h11M9 8h6",
+  info:"M12 21a9 9 0 1 0 0-18 9 9 0 0 0 0 18zM12 11v6M12 7.5v.01",
+  check:"M5 12.5 10 17 19 7",
+  warn:"M12 4 21 20H3zM12 10v4.5M12 17v.01",
+  bulb:"M9 18h6M10 21h4M12 3a6 6 0 0 0-3.5 10.9c.6.5 1 1.2 1 2.1h5c0-.9.4-1.6 1-2.1A6 6 0 0 0 12 3z",
+  search:"M10.5 17a6.5 6.5 0 1 0 0-13 6.5 6.5 0 0 0 0 13zM15.5 15.5 20 20",
+  left:"M15 5l-7 7 7 7", right:"M9 5l7 7-7 7",
+  sun:"M12 16a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4",
+  moon:"M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z",
+  auto:"M12 21a9 9 0 1 0 0-18v18z M12 3a9 9 0 0 1 0 18",
+  quiz:"M9.5 9a2.5 2.5 0 1 1 3.5 2.3c-.7.3-1 1-1 1.7v.5M12 17v.01M12 21a9 9 0 1 0 0-18 9 9 0 0 0 0 18z",
+  close:"M6 6l12 12M18 6 6 18",
+  flame:"M12 21c-3.9 0-6.5-2.6-6.5-6 0-3.6 3-5.6 3.5-9 1.8 1.2 2.6 3 2.6 4.7C13 9.5 14 8 14.2 6c2.4 1.9 4.3 5 4.3 8.5 0 3.7-2.7 6.5-6.5 6.5z"
+};
+function Icon({n,className}){ return html`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" className=${className||""} aria-hidden="true"><path d=${IC[n]}/></svg>`; }
+
+/* ---------- Texte enrichi : **gras**, *italique*, [[terme]] ou [[terme|libellé]] ---------- */
+const TermCtx = createContext(null);
+function labelFor(id){ const g=GLOSS[id]; if(!g) return id; return /^[A-ZÉ]{2}/.test(g.m)?g.m:g.m.charAt(0).toLowerCase()+g.m.slice(1); }
+function Term({id,label}){
+  const ctx=useContext(TermCtx);
+  if(!GLOSS[id]) return label||id;
+  return html`<button type="button" className="term" aria-haspopup="dialog" onClick=${e=>{e.stopPropagation();ctx.open(id,e.currentTarget)}}>${label||labelFor(id)}</button>`;
+}
+function rich(s){
+  if(s==null) return null;
+  const out=[]; const re=/(\*\*[^*]+\*\*|\[\[[^\]]+\]\]|\*[^*\s][^*]*\*)/g; let last=0,m,k=0;
+  while((m=re.exec(s))){
+    if(m.index>last) out.push(s.slice(last,m.index));
+    const t=m[0];
+    if(t.startsWith("**")) out.push(h("strong",{key:k++},rich(t.slice(2,-2))));
+    else if(t.startsWith("[[")){ const [id,lab]=t.slice(2,-2).split("|"); out.push(h(Term,{key:k++,id,label:lab})); }
+    else out.push(h("em",{key:k++},t.slice(1,-1)));
+    last=re.lastIndex;
+  }
+  if(last<s.length) out.push(s.slice(last));
+  return out;
+}
+const P = ({c}) => html`<p>${rich(c)}</p>`;
+function Prose({children}){ return html`<div className="prose">${children}</div>`; }
+function Msg({kind,title,icon,children}){
+  const ic=icon||({pos:"bulb",warn:"warn",neg:"warn"}[kind]||"info");
+  return html`<div className=${"msg "+(kind||"")} role="note"><${Icon} n=${ic}/><div>${title&&html`<span className="mt">${title}</span>`}${children}</div></div>`;
+}
+function Quote({q,w,calm}){ return html`<blockquote className=${calm?"calm":""}>« ${q} »${w&&html`<cite>${w}</cite>`}</blockquote>`; }
+
+/* ---------- Sections ---------- */
+const SECTIONS = [
+  {id:"accueil",g:"Démarrer",l:"Accueil",ic:"home",min:5},
+  {id:"fiche",g:"Lire",l:"Fiche d'identité",ic:"card",min:8},
+  {id:"resume",g:"Lire",l:"Résumé",ic:"list",min:12},
+  {id:"personnages",g:"Lire",l:"Personnages",ic:"people",min:12},
+  {id:"contexte",g:"Comprendre",l:"Contexte historique",ic:"clock",min:12},
+  {id:"analyse",g:"Comprendre",l:"Analyse de l'œuvre",ic:"lens",min:25},
+  {id:"temps",g:"Comprendre",l:"Le temps brûlé",ic:"hourglass",min:15},
+  {id:"aujourdhui",g:"Relier",l:"F451 aujourd'hui",ic:"globe",min:25},
+  {id:"echos",g:"Relier",l:"Œuvres en écho",ic:"books",min:15},
+  {id:"pistes",g:"Relier",l:"Pistes de travail",ic:"pen",min:20},
+  {id:"glossaire",g:"Outils",l:"Glossaire",ic:"dict",min:null},
+  {id:"enseignant",g:"Outils",l:"Pour l'enseignant",ic:"info",min:null}
+];
+
+/* ---------- Quiz ---------- */
+function Check({id}){
+  const qs=CHECKS[id]; const [ans,setAns]=useState({});
+  if(!qs) return null;
+  const score=Object.keys(ans).filter(k=>ans[k]===qs[k].a).length;
+  const done=Object.keys(ans).length===qs.length;
+  return html`<section className="check" aria-label="Vérifie ta compréhension">
+    <h3><${Icon} n="quiz"/>Vérifie ta compréhension</h3>
+    <p className="small muted">Réponds sans regarder plus haut : se tester aide à retenir.</p>
+    ${qs.map((q,i)=>html`<div className="q" key=${i}>
+      <p className="qt">${i+1}. ${rich(q.q)}</p>
+      <div className="opts">${q.o.map((o,j)=>{
+        const chosen=ans[i]; const st=chosen==null?"":(j===q.a?"ok":(j===chosen?"ko":""));
+        return html`<button type="button" key=${j} className=${"opt "+st} disabled=${chosen!=null} onClick=${()=>setAns({...ans,[i]:j})}><span className="k">${String.fromCharCode(65+j)}</span><span>${rich(o)}</span></button>`;})}</div>
+      ${ans[i]!=null&&html`<div className=${"why"+(ans[i]===q.a?"":" bad")}><b>${ans[i]===q.a?"Bonne réponse. ":"Pas tout à fait. "}</b>${rich(q.w)}</div>`}
+    </div>`)}
+    ${done&&html`<p className="small" style=${{marginTop:"12px"}}><b>${score} / ${qs.length}</b> ${score===qs.length?"— tout est juste.":"— relis le passage concerné, puis réessaie."} <button type="button" className="btn" style=${{marginLeft:"8px"}} onClick=${()=>setAns({})}>Recommencer</button></p>`}
+  </section>`;
+}
+
+/* ---------- Accueil ---------- */
+function Accueil({go}){
+  const keys=["dystopie","autodafe","censure","presentisme","desinformation","democratie-illiberale"];
+  return html`<${Fragment}>
+    <${Prose}>
+      <p style=${{fontSize:"1.08rem"}}>Un pompier qui brûle les livres, une épouse absorbée par ses écrans, une adolescente qui pose une question simple : <em>« Est-ce que vous êtes heureux ? »</em> Publié en 1953, <em>Fahrenheit 451</em> parle de censure, mais surtout d'une société qui a cessé de lire, de se souvenir et de penser.</p>
+      <p>Ce dossier t'accompagne en trois temps : <b>lire</b> l'œuvre (fiche, résumé, personnages), la <b>comprendre</b> (contexte, analyse), puis la <b>relier</b> à notre monde (IA, réseaux sociaux, désinformation, lecture, démocratie).</p>
+    <//>
+    <h2>Ce que tu sauras faire</h2>
+    <div className="grid3" style=${{gridTemplateColumns:"repeat(auto-fit,minmax(min(100%,190px),1fr))"}}>
+      <div className="frame"><b>Présenter l'œuvre</b><p className="small muted">auteur, genre, intrigue, personnages, contexte de 1953.</p></div>
+      <div className="frame"><b>Analyser</b><p className="small muted">les symboles, les thèmes, le style et la structure du roman.</p></div>
+      <div className="frame"><b>Comparer</b><p className="small muted">le roman avec d'autres œuvres et avec notre société, faits et sources à l'appui.</p></div>
+      <div className="frame"><b>Argumenter</b><p className="small muted">défendre un avis nuancé, à l'écrit comme à l'oral.</p></div>
+    </div>
+    <h2>Avant de commencer : six mots-clés</h2>
+    <${Prose}><p>Ces mots reviennent partout dans le dossier. Clique sur chacun pour lire sa définition. Les mots <span style=${{textDecoration:"underline dotted var(--accent)",textDecorationThickness:"1.5px",textUnderlineOffset:"3px"}}>soulignés en pointillé</span> fonctionnent tous de la même façon.</p><//>
+    <div className="chips" style=${{marginTop:"12px"}}>${keys.map(k=>html`<span key=${k} className="tag acc" style=${{fontSize:".9rem",padding:"4px 12px"}}><${Term} id=${k} label=${GLOSS[k].m}/></span>`)}</div>
+    <h2>Parcours conseillé</h2>
+    <ol className="steps">
+      ${SECTIONS.filter(s=>s.min).slice(1).map(s=>html`<li key=${s.id}><b><button type="button" className="term" style=${{textDecoration:"none",cursor:"pointer",fontWeight:600}} onClick=${()=>go(s.id)}>${s.l}</button></b><span className="muted small">≈ ${s.min} min</span></li>`)}
+    </ol>
+    <h2>Comment ce dossier est construit</h2>
+    <div className="stack">
+      <${Msg} title="Une idée à la fois">Chaque rubrique traite un seul aspect. Prends-les dans l'ordre et fais une pause entre deux.<//>
+      <${Msg} kind="pos" title="Se tester pour retenir">Chaque rubrique se termine par quelques questions. Réponds de mémoire, avant de relire.<//>
+      <${Msg} kind="warn" title="Le code couleur du temps"><span style=${{color:"var(--past)",fontWeight:600}}>violet = passé</span>, <span style=${{color:"var(--present)",fontWeight:600}}>orange = présent (le feu)</span>, <span style=${{color:"var(--future)",fontWeight:600}}>vert = avenir (la renaissance)</span>.<//>
+    </div>
+    <h2>La question qui guide le dossier</h2>
+    <blockquote className="calm" style=${{fontStyle:"italic"}}>En quoi un roman écrit en 1953 sur des pompiers qui brûlent des livres nous aide-t-il à comprendre notre rapport actuel aux écrans, à l'information et à la démocratie ?</blockquote>
+  <//>`;
+}
+
+/* ---------- Fiche ---------- */
+function Fiche(){
+  return html`<${Fragment}>
+    <div className="grid2">
+      <div className="frame">
+        <h3>L'œuvre</h3>
+        <dl className="kv">
+          <dt>Titre</dt><dd><em>Fahrenheit 451</em> (titre original identique)</dd>
+          <dt>Écrit en</dt><dd>1953 (première version, <em>The Fireman</em>, en 1951)</dd>
+          <dt>Genre littéraire</dt><dd>Roman de science-fiction, <${Term} id="dystopie"/>, roman d'<${Term} id="anticipation" label="anticipation"/></dd>
+          <dt>Sujet central</dt><dd>Dans une société qui interdit les livres, un pompier chargé de les brûler découvre la lecture et se révolte.</dd>
+          <dt>Titre expliqué</dt><dd>451 °F (environ 233 °C) : température à laquelle le papier s'enflamme.</dd>
+          <dt>Structure</dt><dd>3 parties : « Le foyer et la salamandre », « Le tamis et le sable », « L'éclat de la flamme ».</dd>
+          <dt>Édition utilisée</dt><dd>${ED}</dd>
+          <dt>Épigraphe</dt><dd><em>« Si l'on vous donne du papier réglé, écrivez de l'autre côté. »</em> (Juan Ramón Jiménez)</dd>
+        </dl>
+      </div>
+      <div className="frame">
+        <h3>Le cadre</h3>
+        <dl className="kv">
+          <dt>Lieu</dt><dd>Une grande ville américaine jamais nommée, sa banlieue de maisons identiques, puis la campagne au-delà du fleuve.</dd>
+          <dt>Époque</dt><dd>Un futur proche, sans date précise. Deux guerres atomiques ont déjà eu lieu ; une troisième se prépare.</dd>
+          <dt>Durée</dt><dd>Quelques jours d'automne.</dd>
+          <dt>Narration</dt><dd>Récit à la 3e personne, centré sur ce que vit et ressent Montag (focalisation interne).</dd>
+          <dt>Personnages principaux</dt><dd>Guy Montag (pompier), Clarisse McClellan (voisine), Mildred (épouse), le capitaine Beatty, Faber (ancien professeur), Granger (chef des hommes-livres).</dd>
+        </dl>
+      </div>
+    </div>
+    <h2>L'auteur : Ray Bradbury</h2>
+    <div className="grid2">
+      <div className="frame">
+        <dl className="kv">
+          <dt>Ses dates</dt><dd>22 août 1920, Waukegan (Illinois) – 5 juin 2012, Los Angeles</dd>
+          <dt>Nationalité</dt><dd>Américain</dd>
+          <dt>Métiers</dt><dd>Romancier, nouvelliste, poète, dramaturge, scénariste</dd>
+        </dl>
+        <h3>Sa vie</h3>
+        <${Prose}>
+          <p>Bradbury grandit pendant la crise des années 1930. Sa famille s'installe à Los Angeles en 1934. Il ne va pas à l'université : il vend des journaux dans la rue et passe ses journées dans les bibliothèques publiques. Il dira qu'elles l'ont « élevé ».</p>
+          <p>Il publie ses premières nouvelles dans des revues de science-fiction à la fin des années 1930. Le succès arrive avec <em>Chroniques martiennes</em> (1950), puis <em>Fahrenheit 451</em> (1953).</p>
+          <p>Il écrit plusieurs centaines de nouvelles et le scénario du film <em>Moby Dick</em> (John Huston, 1956). En 2012, la NASA donne son nom au site d'atterrissage du robot Curiosity sur Mars.</p>
+        <//>
+      </div>
+      <div className="frame">
+        <h3>Ses œuvres principales</h3>
+        <div className="tablewrap" style=${{border:0}}>
+          <table style=${{minWidth:"0"}}><tbody>
+            <tr><td className="mono">1947</td><td><em>Dark Carnival</em> (nouvelles fantastiques)</td></tr>
+            <tr><td className="mono">1950</td><td><em>Chroniques martiennes</em> (nouvelles)</td></tr>
+            <tr><td className="mono">1951</td><td><em>L'Homme illustré</em> (nouvelles)</td></tr>
+            <tr><td className="mono">1953</td><td><em>Fahrenheit 451</em> (roman)</td></tr>
+            <tr><td className="mono">1957</td><td><em>Le Vin de l'été</em> (roman)</td></tr>
+            <tr><td className="mono">1962</td><td><em>La Foire des ténèbres</em> (roman)</td></tr>
+          </tbody></table>
+        </div>
+        <p className="small muted" style=${{marginTop:"10px"}}>Bradbury se disait plutôt auteur de fantastique et de poésie. Pour lui, <em>Fahrenheit 451</em> était son seul vrai roman de science-fiction.</p>
+      </div>
+    </div>
+    <h2>Le roman en cinq phrases</h2>
+    <${Prose}>
+      <ol>
+        <li>Guy Montag est pompier : il brûle les livres, interdits par la loi, et il en est fier.</li>
+        <li>Sa rencontre avec Clarisse, une adolescente curieuse, et la mort d'une vieille dame qui refuse d'abandonner ses livres le font douter.</li>
+        <li>Il cache des livres chez lui et cherche de l'aide auprès de Faber, un ancien professeur.</li>
+        <li>Dénoncé par sa femme Mildred, il doit brûler sa propre maison, tue son capitaine Beatty et s'enfuit.</li>
+        <li>Il rejoint les hommes-livres, qui apprennent les livres par cœur ; la ville est détruite par la guerre et ils partent la reconstruire.</li>
+      </ol>
+    <//>
+    <div style=${{marginTop:"18px"}}><${Msg} title="Ta fiche « Mots cherchés dans le dictionnaire »">Le <b>glossaire</b> du dossier (menu « Outils ») réunit plus de 70 mots et notions, avec une définition simple et des exemples. Ajoute dans ta fiche ceux que tu ne connaissais pas.<//></div>
+  <//>`;
+}
+
+/* ---------- Résumé ---------- */
+function Resume(){
+  const [t,setT]=useState(0); const p=PARTS[t];
+  return html`<${Fragment}>
+    <div className="tabs" role="tablist" aria-label="Parties du roman">
+      ${PARTS.map((x,i)=>html`<button key=${x.id} role="tab" type="button" className="tab" aria-selected=${i===t} onClick=${()=>setT(i)}>${x.n} · ${x.t}</button>`)}
+    </div>
+    <div className="stack" role="tabpanel">
+      <div className="frame alt"><h3 style=${{marginTop:0}}>Pourquoi ce titre ?</h3><${Prose}><${P} c=${p.sens}/><//></div>
+      <dl className="kv">
+        <dt>Lieu</dt><dd>${p.lieu}</dd>
+        <dt>Moment</dt><dd>${p.moment}</dd>
+        <dt>Personnages</dt><dd>${p.perso}</dd>
+      </dl>
+      <h3>Actions</h3>
+      <ol className="prose" style=${{paddingLeft:"1.3em",margin:0}}>${p.actions.map((a,i)=>html`<li key=${i}>${rich(a)}</li>`)}</ol>
+      <div className="pager" style=${{marginTop:"6px"}}>
+        <button type="button" className="btn" disabled=${t===0} onClick=${()=>setT(t-1)}><${Icon} n="left"/>Partie précédente</button>
+        <button type="button" className="btn" disabled=${t===PARTS.length-1} onClick=${()=>setT(t+1)}>Partie suivante<${Icon} n="right"/></button>
+      </div>
+    </div>
+  <//>`;
+}
+
+/* ---------- Personnages ---------- */
+function CharMap(){
+  const C={x:340,y:210};
+  const nodes=[
+    {n:"Clarisse",r:"la voisine",x:130,y:70,k:"pos",l:"l'éveille"},
+    {n:"Faber",r:"le mentor",x:550,y:70,k:"pos",l:"le guide"},
+    {n:"Mildred",r:"l'épouse",x:110,y:230,k:"neg",l:"le dénonce"},
+    {n:"Granger",r:"les hommes-livres",x:570,y:230,k:"pos",l:"l'accueille"},
+    {n:"La vieille dame",r:"meurt avec ses livres",x:150,y:375,k:"neu",l:"le bouleverse"},
+    {n:"Beatty",r:"le capitaine",x:370,y:385,k:"neg",l:"le manipule"},
+    {n:"Le Limier",r:"robot traqueur",x:575,y:375,k:"neg",l:"le traque"}
+  ];
+  const col={pos:"var(--positive)",neg:"var(--negative)",neu:"var(--neutral)"};
+  return html`<div className="figure">
+    <svg viewBox="0 0 680 420" role="img" aria-label="Carte des relations autour de Montag">
+      ${nodes.map((d,i)=>{const mx=C.x+(d.x-C.x)*0.58, my=C.y+(d.y-C.y)*0.58; return html`<g key=${"l"+i}>
+        <line x1=${C.x} y1=${C.y} x2=${d.x} y2=${d.y} stroke=${col[d.k]} strokeWidth="1.6" strokeDasharray=${d.k==="neg"?"5 4":"none"} opacity="0.75"/>
+        <text x=${mx} y=${my-4} textAnchor="middle" fontSize="12.5" fill="var(--text)" stroke="var(--view)" strokeWidth="5" paintOrder="stroke" strokeLinejoin="round">${d.l}</text></g>`;})}
+      ${nodes.map((d,i)=>html`<g key=${"n"+i}>
+        <rect x=${d.x-70} y=${d.y-21} width="140" height="42" rx="4" fill="var(--view)" stroke=${col[d.k]} strokeWidth="1.5"/>
+        <text x=${d.x} y=${d.y-3} textAnchor="middle" fontSize="13.5" fontWeight="600" fill="var(--text)">${d.n}</text>
+        <text x=${d.x} y=${d.y+13} textAnchor="middle" fontSize="11" fill="var(--muted)">${d.r}</text></g>`)}
+      <rect x=${C.x-62} y=${C.y-24} width="124" height="48" rx="4" fill="var(--accent-tint)" stroke="var(--accent)" strokeWidth="2"/>
+      <text x=${C.x} y=${C.y-3} textAnchor="middle" fontSize="15" fontWeight="700" fill="var(--text)">Guy Montag</text>
+      <text x=${C.x} y=${C.y+14} textAnchor="middle" fontSize="11" fill="var(--muted)">le pompier</text>
+    </svg>
+    <p className="figcap"><span style=${{color:"var(--positive)",fontWeight:600}}>Trait plein vert</span> : personnages qui aident Montag à s'éveiller. <span style=${{color:"var(--negative)",fontWeight:600}}>Tirets rouges</span> : personnages qui le retiennent ou le menacent. <span style=${{color:"var(--neutral)",fontWeight:600}}>Orange</span> : l'événement-choc.</p>
+  </div>`;
+}
+function Personnages(){
+  return html`<${Fragment}>
+    <${CharMap}/>
+    <h2>Fiches personnages</h2>
+    <div className="chars">
+      ${CHARS.map(c=>html`<article className="frame char" key=${c.id}>
+        <h3>${c.nom} <span className="role">${c.role}</span></h3>
+        <dl className="kv small"><dt>Âge</dt><dd>${c.age}</dd><dt>Métier</dt><dd>${c.metier}</dd></dl>
+        <div className="fw"><div className="s"><b>Forces</b>${c.forces}</div><div className="w"><b>Faiblesses</b>${c.faiblesses}</div></div>
+        <b className="small">Événements marquants</b>
+        <ul>${c.events.map((e,i)=>html`<li key=${i}>${e}</li>`)}</ul>
+        <p className="meaning">${rich(c.sens)}</p>
+      </article>`)}
+    </div>
+    <h2>Personnages secondaires</h2>
+    <div className="grid2">${MINOR.map(m=>html`<div className="frame alt" key=${m.n}><b>${m.n}</b><p className="small" style=${{marginTop:"4px"}}>${rich(m.d)}</p></div>`)}</div>
+    <h2>Deux femmes, deux rapports au monde</h2>
+    <div className="tablewrap"><table>
+      <thead><tr><th></th><th>Mildred</th><th>Clarisse</th></tr></thead>
+      <tbody>
+        <tr><th scope="row">Rapport au temps</th><td>Vit dans l'instant, oublie tout</td><td>Prend le temps, observe, se souvient</td></tr>
+        <tr><th scope="row">Rapport aux autres</th><td>Parle à la « famille » des écrans</td><td>Parle avec sa vraie famille, questionne Montag</td></tr>
+        <tr><th scope="row">Rapport à la nature</th><td>Enfermée dans le salon</td><td>Pluie, lune, rosée, pissenlits</td></tr>
+        <tr><th scope="row">Bonheur</th><td>Dit qu'elle est heureuse… et avale des somnifères</td><td>Demande « Est-ce que vous êtes heureux ? »</td></tr>
+        <tr><th scope="row">Rôle pour Montag</th><td>Le retient, puis le dénonce</td><td>L'éveille</td></tr>
+      </tbody></table></div>
+  <//>`;
+}
+
+/* ---------- Contexte ---------- */
+function Contexte(){
+  return html`<${Fragment}>
+    <${Prose}>
+      <p>Bradbury écrit dans l'Amérique du début des années 1950. Le pays est riche et confiant dans le progrès, mais il a peur : peur de la bombe, peur du communisme, peur de l'« ennemi intérieur ». Quatre réalités de l'époque nourrissent directement le roman.</p>
+    <//>
+    <div className="grid2" style=${{marginTop:"16px"}}>
+      <div className="frame"><h3>1. La guerre froide et la bombe</h3><p className="small">Depuis Hiroshima (1945), on sait qu'une ville peut disparaître en un instant. En 1953, les deux superpuissances possèdent la bombe H. Dans le roman, les bombardiers survolent la ville et la guerre est « gagnée » en quelques secondes.</p></div>
+      <div className="frame"><h3>2. Le maccarthysme</h3><p className="small">Le sénateur McCarthy traque les communistes réels ou supposés. Des artistes, des scénaristes, des professeurs perdent leur travail ; la délation est encouragée. Dans le roman, Mildred dénonce son mari, et Faber, professeur, a dû se taire.</p></div>
+      <div className="frame"><h3>3. La télévision et la culture de masse</h3><p className="small">Moins de 10 % des foyers américains ont la télévision en 1950, environ deux sur trois en 1955. Les magazines vendent des livres « condensés » par millions. Bradbury pousse cette tendance à l'extrême : murs-écrans, condensés de condensés.</p></div>
+      <div className="frame"><h3>4. La mémoire des autodafés</h3><p className="small">Bradbury a vu, enfant, les images des livres brûlés par les nazis en 1933. Il connaît aussi l'incendie de la bibliothèque d'Alexandrie, symbole de savoir perdu. Brûler des livres, c'est vouloir effacer des idées… et souvent des gens.</p></div>
+    </div>
+    <h2>Frise chronologique</h2>
+    <div className="chips" style=${{marginBottom:"14px"}}>${Object.keys(TLLAB).map(k=>html`<span key=${k} className="tag" style=${{display:"inline-flex",alignItems:"center",gap:"6px"}}><i style=${{width:"9px",height:"9px",borderRadius:"50%",background:TLCOL[k],display:"inline-block"}}></i>${TLLAB[k]}</span>`)}</div>
+    <ol className="timeline">
+      ${TIMELINE.map((e,i)=>html`<li key=${i} className=${e.hl?"hl":""}><span className="yr">${e.y}</span><span className="dot" style=${{background:TLCOL[e.c]}}></span><div className="ev">${rich(e.t)}</div></li>`)}
+    </ol>
+    <h2>Une œuvre de son temps… et de tous les temps</h2>
+    <div className="stack">
+      <${Msg} title="À retenir">Une ${html`<${Term} id="dystopie"/>`} parle toujours du présent de son auteur, même quand elle se passe dans le futur. Bradbury ne prédit pas : il grossit les dangers de 1953 pour nous alerter. C'est un ${html`<${Term} id="avertissement" label="récit d'avertissement"/>`}.<//>
+      <${Msg} kind="warn" title="Ce que Bradbury en disait">Dans les années 2000, Bradbury expliquait que son roman parlait moins de la censure d'État que de la télévision, qui détruit l'intérêt pour la lecture. Dans sa postface de 1979, il écrit qu'« il y a plus d'une façon de brûler un livre ».<//>
+    </div>
+  <//>`;
+}
+
+/* ---------- Analyse ---------- */
+function Analyse(){
+  return html`<${Fragment}>
+    <h2>1. Un titre, une épigraphe, un incipit</h2>
+    <div className="stack">
+      <${Prose}>
+        <p>Le <b>titre</b> est une donnée scientifique froide : 451 degrés Fahrenheit. Il annonce un monde où le feu est une technique comme une autre, mesurée et contrôlée.</p>
+        <p>L'${html`<${Term} id="epigraphe"/>`} invite au contraire à la désobéissance : écrire « de l'autre côté » du papier réglé, c'est refuser les lignes imposées.</p>
+        <p>L'${html`<${Term} id="incipit"/>`} surprend le lecteur : le feu y est un plaisir, presque une fête.</p>
+      <//>
+      <${Quote} q="Le plaisir d'incendier ! Quel plaisir extraordinaire c'était de voir les choses se faire dévorer, de les voir noircir et se transformer." w="Première phrase du roman"/>
+      <${Msg} kind="pos" title="Piste d'analyse">Relève dans l'incipit les ${html`<${Term} id="metaphore" label="métaphores"/>`} : le lance-flammes est un « python géant », Montag un « chef d'orchestre » qui dirige des « symphonies en feu majeur », les livres meurent « comme autant de pigeons ». La destruction est rendue belle : c'est tout le piège de cette société.<//>
+    </div>
+
+    <h2>2. Le feu : une même flamme, deux sens</h2>
+    <div className="tablewrap"><table>
+      <thead><tr><th>Partie</th><th>Le feu…</th><th>Exemple</th></tr></thead>
+      <tbody>
+        <tr><th scope="row">1. Le foyer et la salamandre</th><td><span className="tag present">détruit</span> et fascine</td><td>Les autodafés ; la vieille dame qui brûle avec ses livres.</td></tr>
+        <tr><th scope="row">2. Le tamis et le sable</th><td><span className="tag present">menace</span> Montag lui-même</td><td>Le camion s'arrête devant sa maison.</td></tr>
+        <tr><th scope="row">3. L'éclat de la flamme</th><td><span className="tag future">réchauffe</span> et éclaire</td><td>Le feu de camp des hommes-livres : « brûler » prend un autre sens.</td></tr>
+      </tbody></table></div>
+    <${Prose}><p style=${{marginTop:"12px"}}>Au moment de rejoindre les hommes-livres, Montag découvre un feu qui ne sert pas à détruire mais à se réunir. La flamme, symbole de mort au début, devient symbole de vie et de transmission, comme le ${html`<${Term} id="phenix"/>`} qui renaît de ses cendres.</p><//>
+
+    <h2>3. Une censure venue d'en bas</h2>
+    <${Prose}><p>Le cœur théorique du roman est le long discours de Beatty à la fin de la 1re partie. Il explique que la censure n'a pas été imposée par un dictateur : elle est née des goûts du public.</p><//>
+    <div className="flow" style=${{margin:"14px 0"}}>
+      <div className="node"><b>1. Vitesse</b>Le monde s'accélère : cinéma, radio, télévision.</div><span className="arr" aria-hidden="true">→</span>
+      <div className="node"><b>2. Raccourcis</b>Les livres deviennent des condensés, puis des résumés de dix lignes.</div><span className="arr" aria-hidden="true">→</span>
+      <div className="node"><b>3. Ne froisser personne</b>On retire tout ce qui pourrait gêner un groupe ou une minorité.</div><span className="arr" aria-hidden="true">→</span>
+      <div className="node"><b>4. Égalité forcée</b>Le mot « intellectuel » devient une injure.</div><span className="arr" aria-hidden="true">→</span>
+      <div className="node"><b>5. Pompiers</b>Ils deviennent « censeurs, juges et bourreaux officiels ».</div>
+    </div>
+    <div className="stack">
+      <${Quote} q="Nous ne naissons pas libres et égaux, comme le proclame la Constitution, on nous rend égaux. Chaque homme doit être l'image de l'autre, comme ça tout le monde est content." w="Beatty, 1re partie"/>
+      <${Quote} q="Un livre est un fusil chargé dans la maison d'à côté. Brûlons-le." w="Beatty, 1re partie"/>
+    </div>
+    <h3>Comparer avec 1984</h3>
+    <div className="tablewrap"><table>
+      <thead><tr><th></th><th><em>1984</em> (Orwell, 1949)</th><th><em>Fahrenheit 451</em> (Bradbury, 1953)</th></tr></thead>
+      <tbody>
+        <tr><th scope="row">Qui détruit le passé ?</th><td>Le Parti, par la contrainte</td><td>La société elle-même, par goût du confort</td></tr>
+        <tr><th scope="row">Moyen principal</th><td>Peur, surveillance, mensonge</td><td>Divertissement, vitesse, distraction</td></tr>
+        <tr><th scope="row">Le citoyen est…</th><td>Terrorisé</td><td>Anesthésié</td></tr>
+        <tr><th scope="row">Les écrans servent à…</th><td>Surveiller (télécrans)</td><td>Distraire (murs-écrans)</td></tr>
+      </tbody></table></div>
+
+    <h2>4. Le bonheur obligatoire</h2>
+    <${Prose}>
+      <p>Beatty le dit : « Les gens veulent être heureux. » Tout est fait pour éviter la tristesse, le doute, le conflit. Mais le roman montre l'envers de ce bonheur : Mildred avale un flacon entier de somnifères, des adolescents se tuent en voiture, Montag avoue à Faber : « On a tout ce qu'il faut pour être heureux, mais on ne l'est pas. »</p>
+      <p>La question de Clarisse, <em>« Est-ce que vous êtes heureux ? »</em>, est donc une bombe : elle oblige Montag à regarder ce qu'il ne voyait plus.</p>
+    <//>
+
+    <h2>5. Les trois choses qui manquent, selon Faber</h2>
+    <${Quote} q="Un, comme j'ai dit, la qualité de l'information. Deux : le loisir de l'assimiler. Et trois : le droit d'accomplir des actions fondées sur ce que nous apprend l'interaction des deux autres éléments." w="Faber, 2e partie"/>
+    <div className="grid3" style=${{marginTop:"14px"}}>
+      <div className="frame"><span className="tag acc">1</span><h3>La qualité</h3><p className="small">Faber parle de « texture » : un bon livre a des « pores », des détails pris sur le vif. Il montre la vie telle qu'elle est, avec ses aspérités.</p></div>
+      <div className="frame"><span className="tag acc">2</span><h3>Le loisir</h3><p className="small">Pas du temps libre, mais du temps <b>pour réfléchir</b>. On peut discuter avec un livre, le refermer ; on ne peut pas discuter avec un mur-écran qui hurle.</p></div>
+      <div className="frame"><span className="tag acc">3</span><h3>Le droit d'agir</h3><p className="small">Savoir et réfléchir ne servent à rien si l'on n'a pas la liberté d'agir à partir de ce qu'on a compris.</p></div>
+    </div>
+    <div style=${{marginTop:"14px"}}><${Msg} title="Un outil pour aujourd'hui">Ces trois critères permettent de juger n'importe quel média : un réseau social, une IA, un journal télévisé, un roman. Tu les retrouveras dans « F451 aujourd'hui » et dans « Pistes de travail ».<//></div>
+    <${Quote} calm q="Les livres n'étaient qu'un des nombreux types de réceptacles destinés à conserver ce que nous avions peur d'oublier. Ils n'ont absolument rien de magique." w="Faber, 2e partie"/>
+
+    <h2>6. Montag, un roman d'apprentissage</h2>
+    <${Prose}><p>Le parcours de Montag suit les étapes d'un ${html`<${Term} id="apprentissage" label="roman d'apprentissage"/>`} :</p><//>
+    <ol className="steps" style=${{marginTop:"12px"}}>
+      <li><b>Aveuglement</b>Pompier fier, sourire « farouche ».</li>
+      <li><b>Doute</b>La question de Clarisse.</li>
+      <li><b>Choc</b>La vieille dame qui meurt avec ses livres.</li>
+      <li><b>Recherche</b>Il lit, cherche Faber.</li>
+      <li><b>Rupture</b>Il brûle sa maison, tue Beatty.</li>
+      <li><b>Passage</b>Il traverse le fleuve, change de vêtements.</li>
+      <li><b>Mémoire</b>Il devient un homme-livre.</li>
+    </ol>
+    <${Prose}><p style=${{marginTop:"12px"}}>La traversée du fleuve est un moment-clé : Montag y est comme lavé de son ancienne vie. Beaucoup de lecteurs y voient une sorte de baptême, une seconde naissance.</p><//>
+
+    <h2>7. L'allégorie de la caverne</h2>
+    <${Prose}><p>Le roman réécrit l'${html`<${Term} id="caverne" label="allégorie de la caverne"/>`} de Platon. Le texte parle d'ailleurs de « cavernes électriques ».</p><//>
+    <div className="tablewrap" style=${{marginTop:"12px"}}><table>
+      <thead><tr><th>Chez Platon</th><th>Dans <em>Fahrenheit 451</em></th></tr></thead>
+      <tbody>
+        <tr><td>Les prisonniers enchaînés</td><td>Mildred et ses amies devant les murs-écrans</td></tr>
+        <tr><td>Les ombres sur la paroi</td><td>Les émissions de la « famille »</td></tr>
+        <tr><td>Le prisonnier qui se libère</td><td>Montag</td></tr>
+        <tr><td>Le soleil, la vérité</td><td>Les livres, la nature, l'aube finale</td></tr>
+        <tr><td>Les autres refusent de le croire</td><td>Mildred et ses amies rejettent Montag et le dénoncent</td></tr>
+      </tbody></table></div>
+
+    <h2>8. Un monde infernal</h2>
+    <${Prose}><p>De nombreux détails évoquent les Enfers. Le feu règne partout. Le lance-flammes est un « python », la machine qui soigne Mildred ressemble à un cobra. Montag descend dans le métro, sous terre. Le ${html`<${Term} id="limier" label="Limier"/>`} rappelle Cerbère, le chien qui garde les Enfers, et le fleuve qui sauve Montag rappelle le Styx, la frontière entre le monde des morts et celui des vivants. La ville est un enfer confortable dont on ne sort qu'en traversant l'eau.</p><//>
+
+    <h2>9. Le style de Bradbury</h2>
+    <div className="grid2">
+      <div className="frame"><h3>Une prose poétique</h3><p className="small">Bradbury écrit comme un poète : ${html`<${Term} id="metaphore" label="métaphores"/>`} nombreuses, comparaisons, couleurs, sensations. Clarisse a « le visage brillant comme neige dans le clair de lune ». Le traducteur Jacques Chambon relève plus de dix métaphores dès les premiers paragraphes.</p></div>
+      <div className="frame"><h3>Un rythme qui imite la vitesse</h3><p className="small">Dans le discours de Beatty, les phrases raccourcissent, s'emballent, se réduisent à des onomatopées : « Hé ! Bang ! Paf ! Vlan, bing, bong, boum ! » La forme imite ce que le contenu dénonce : un monde qui va trop vite pour penser.</p></div>
+    </div>
+
+    <h2>10. Le dénouement : renaître de ses cendres</h2>
+    <div className="stack">
+      <${Quote} q="Nous avons conscience de l'énorme bêtise que nous venons de faire. […] À chaque génération, nous trouvons un peu plus de monde qui se souvient." w="Granger, 3e partie"/>
+      <${Prose}>
+        <p>Le roman ne se termine pas sur la destruction, mais sur une marche à l'aube. Granger propose de construire d'abord « une miroiterie » pour que l'humanité puisse « se regarder longuement » : avant de reconstruire, il faut se voir tel qu'on est.</p>
+        <p>Montag se souvient enfin de deux textes bibliques : l'${html`<${Term} id="ecclesiaste" label="Ecclésiaste"/>`} (« Temps d'abattre et temps de bâtir ») et l'Apocalypse, avec l'arbre de vie dont « les feuilles […] sont pour guérir les nations ». La dernière phrase, « Quand nous atteindrons la ville », est tournée vers l'avenir.</p>
+      <//>
+      <${Quote} calm q="La différence entre l'homme qui ne fait que tondre le gazon et un vrai jardinier réside dans le toucher." w="Granger, citant son grand-père, 3e partie"/>
+      <${Msg} kind="warn" title="Une fin vraiment heureuse ?">La ville et ses habitants (Mildred sans doute) sont détruits. L'espoir existe, mais il est fragile et lent : les hommes-livres savent qu'il faudra peut-être des générations. Bradbury ne promet pas un monde meilleur, il en ouvre la possibilité.<//>
+    </div>
+  <//>`;
+}
+
+/* ---------- Le temps brûlé (Hartog) ---------- */
+function Temps(){
+  return html`<${Fragment}>
+    <${Prose}>
+      <p>On lit souvent <em>Fahrenheit 451</em> comme un roman sur la censure. On peut aller plus loin : en brûlant ses livres, cette société détruit sa <b>mémoire</b>, et une société sans mémoire ne sait plus imaginer son <b>avenir</b>. C'est donc aussi un roman sur <b>le temps</b>.</p>
+    <//>
+    <h2>Deux outils d'historiens</h2>
+    <div className="grid2">
+      <div className="frame"><h3>Le régime d'historicité</h3><p className="small">Pour l'historien François Hartog (2003), un ${html`<${Term} id="historicite" label="régime d'historicité"/>`} est la manière dont une société relie passé, présent et avenir. Question à se poser : <em>qu'est-ce qui donne du sens à ce que je vis aujourd'hui ?</em> Ce que m'ont transmis mes ancêtres, ce que j'espère construire, ou seulement l'instant ?</p></div>
+      <div className="frame"><h3>Expérience et attente</h3><p className="small">L'historien allemand Reinhart Koselleck distingue l'<b>espace d'expérience</b> (ce que le passé nous a appris) et l'<b>horizon d'attente</b> (ce que nous espérons ou craignons). Une société en bonne santé relie les deux.</p></div>
+    </div>
+    <div style=${{marginTop:"14px"}}><${Msg} kind="pos" title="Une image pour retenir">Un conducteur regarde à la fois dans son rétroviseur (le passé) et à travers son pare-brise (l'avenir). S'il ne regarde que l'un des deux, il a un accident.<//></div>
+    <h2>Trois manières de vivre le temps</h2>
+    <div className="tablewrap"><table>
+      <thead><tr><th>Régime</th><th>Période (environ)</th><th>Ce qui compte le plus</th><th>Idée-clé</th></tr></thead>
+      <tbody>
+        <tr><th scope="row">Ancien régime</th><td>Antiquité → XVIIIe s.</td><td><span className="tag past">le passé</span></td><td>On imite les anciens ; l'histoire donne des leçons.</td></tr>
+        <tr><th scope="row">Régime moderne (futuriste)</th><td>1789 → fin du XXe s.</td><td><span className="tag future">le futur</span></td><td>On croit au progrès : demain sera meilleur.</td></tr>
+        <tr><th scope="row">Présentisme</th><td>Depuis 1989 environ</td><td><span className="tag present">le présent</span></td><td>On vit dans l'immédiat ; l'avenir inquiète.</td></tr>
+      </tbody></table></div>
+    <h2>Appliquer ces outils au roman</h2>
+    <div className="time3">
+      <div className="p"><h4>Le passé</h4><p className="big">Brûlé</p><p className="small">Les livres, mémoire de la société, sont détruits. L'histoire est réécrite : les pompiers croient que leur métier a été fondé en 1790 par Benjamin Franklin. Mildred ne se souvient plus de sa rencontre avec Montag.</p></div>
+      <div className="n"><h4>Le présent</h4><p className="big">Saturé</p><p className="small">Murs-écrans, coquillages, vitesse : il n'y a jamais de silence. Marcher ou discuter paraît suspect. Mildred incarne ce présent sans profondeur.</p></div>
+      <div className="f"><h4>L'avenir</h4><p className="big">Vide</p><p className="small">La guerre approche et personne ne s'en inquiète. Sans mémoire ni réflexion, la société ne peut plus imaginer autre chose que son confort quotidien.</p></div>
+    </div>
+    <div style=${{marginTop:"14px"}}><${Msg} title="Bilan">Passé brûlé, présent saturé, avenir vide : le rétroviseur et le pare-brise sont tous deux obscurcis. On peut lire le roman comme une anticipation du ${html`<${Term} id="presentisme"/>`} décrit par Hartog cinquante ans plus tard.<//></div>
+    <h2>La « fin du futurisme »</h2>
+    <${Prose}><p>Après Hiroshima, la science-fiction cesse de croire que le progrès rendra forcément le monde meilleur. Trois œuvres « cassent » le temps de trois façons :</p><//>
+    <div className="tablewrap" style=${{marginTop:"12px"}}><table>
+      <thead><tr><th></th><th><em>Dune</em> (1965)</th><th><em>1984</em> (1949)</th><th><em>Fahrenheit 451</em> (1953)</th></tr></thead>
+      <tbody>
+        <tr><th scope="row">Le passé</th><td>Il revient (empire, nobles, guerre sainte)</td><td>Il est falsifié</td><td>Il est brûlé</td></tr>
+        <tr><th scope="row">Le présent</th><td>Féodal et religieux</td><td>Surveillé</td><td>Saturé d'écrans</td></tr>
+        <tr><th scope="row">L'avenir</th><td>Une répétition du passé</td><td>Figé pour toujours</td><td>Vide, sans projet</td></tr>
+        <tr><th scope="row">Lueur d'espoir</th><td>—</td><td>Très faible</td><td>Les hommes-livres</td></tr>
+      </tbody></table></div>
+    <${Prose}><p style=${{marginTop:"12px"}}>Chez Bradbury, le décor reste ultra-moderne, mais le progrès tourne à vide : il n'apporte ni liberté ni bonheur. Le futurisme meurt <b>de l'intérieur</b>.</p><//>
+    <h2>Le dénouement, une nouvelle Renaissance ?</h2>
+    <div className="grid2">
+      <div className="frame"><h3>Les ressemblances</h3><ul className="small" style=${{paddingLeft:"1.2em",margin:0,display:"flex",flexDirection:"column",gap:"5px"}}>
+        <li>Les hommes-livres sauvent des textes menacés, comme les humanistes qui recopiaient les manuscrits antiques.</li>
+        <li>Ils fuient la ville avec leur savoir, comme les savants byzantins partis vers l'Italie avec leurs manuscrits grecs.</li>
+        <li>Le renouveau naît d'une crise, comme la ${html`<${Term} id="renaissance" label="Renaissance"/>`} est née des crises de la fin du Moyen Âge.</li>
+        <li>Le phénix : une « re-naissance » au sens propre, à l'aube.</li>
+      </ul></div>
+      <div className="frame"><h3>Un regard critique</h3><ul className="small" style=${{paddingLeft:"1.2em",margin:0,display:"flex",flexDirection:"column",gap:"5px"}}>
+        <li>L'image « ténèbres puis lumière » est un récit inventé par les humanistes eux-mêmes (l'historien Guillaume Frantzwa parle d'un mythe).</li>
+        <li>Renversement ironique : chez Bradbury, l'âge obscur est <b>hypermoderne</b>, produit par les écrans et la vitesse.</li>
+        <li>Apprendre des textes par cœur, c'est aussi ce que faisaient les moines du Moyen Âge : il y a continuité.</li>
+        <li>Montag porte la Bible, d'autres des philosophes : héritage religieux et héritage profane cohabitent.</li>
+      </ul></div>
+    </div>
+    <h2>Précautions de méthode</h2>
+    <div className="stack">
+      <${Msg} kind="warn" title="Attention à l'anachronisme">Bradbury ne connaissait pas le mot « présentisme », apparu cinquante ans après son roman. On dira qu'il l'<b>anticipe</b> ou le <b>préfigure</b>.<//>
+      <${Msg} kind="warn" title="Une analogie n'est pas une identité">La fin du roman <em>ressemble</em> à une Renaissance ; elle n'est pas la Renaissance historique. Montre les ressemblances <b>et</b> les différences.<//>
+      <${Msg} kind="warn" title="Des historiens, pas des critiques littéraires">Hartog et Frantzwa étudient des sociétés réelles. Écris : « on peut lire le roman à la lumière de… ».<//>
+    </div>
+  <//>`;
+}
+
+/* ---------- Graphique PISA ---------- */
+function PisaChart(){
+  const X=y=>90+(y-2018)*(400/7), Y=v=>220-(v-450)*(190/45);
+  const oecd=[[2018,487],[2022,476],[2025,461]], fwb=[[2018,481],[2025,466]];
+  return html`<div className="figure" style=${{marginTop:"6px"}}>
+    <svg viewBox="0 0 600 262" role="img" aria-label="Scores moyens en lecture PISA : OCDE 487 en 2018, 476 en 2022, 461 en 2025 ; Fédération Wallonie-Bruxelles 481 en 2018 et 466 en 2025">
+      ${[450,460,470,480,490].map(v=>html`<g key=${v}><line x1="70" x2="540" y1=${Y(v)} y2=${Y(v)} stroke="var(--border-soft)"/><text x="62" y=${Y(v)+4} textAnchor="end" fontSize="11" fill="var(--muted)">${v}</text></g>`)}
+      ${[2018,2022,2025].map(y=>html`<text key=${y} x=${X(y)} y="246" textAnchor="middle" fontSize="12" fill="var(--muted)">${y}</text>`)}
+      <polyline points=${oecd.map(p=>X(p[0])+","+Y(p[1])).join(" ")} fill="none" stroke="var(--accent)" strokeWidth="2.5"/>
+      <line x1=${X(2018)} y1=${Y(481)} x2=${X(2025)} y2=${Y(466)} stroke="var(--present)" strokeWidth="2.5" strokeDasharray="6 5"/>
+      ${oecd.map(p=>html`<g key=${"o"+p[0]}><circle cx=${X(p[0])} cy=${Y(p[1])} r=${p[0]===2025?5.5:4} fill="var(--accent)" stroke="var(--view)" strokeWidth="2"/><text x=${X(p[0])} y=${p[0]===2025?Y(p[1])+21:Y(p[1])-11} textAnchor="middle" fontSize="12" fontWeight="600" fill="var(--text)">${p[1]}</text></g>`)}
+      ${fwb.map(p=>html`<g key=${"f"+p[0]}><circle cx=${X(p[0])} cy=${Y(p[1])} r=${p[0]===2025?5.5:4} fill="var(--present)" stroke="var(--view)" strokeWidth="2"/><text x=${X(p[0])} y=${p[0]===2025?Y(p[1])-11:Y(p[1])+20} textAnchor="middle" fontSize="12" fontWeight="600" fill="var(--present)">${p[1]}</text></g>`)}
+      <text x="548" y=${Y(461)+4} fontSize="12" fill="var(--accent-strong)" fontWeight="600">OCDE</text>
+      <text x="548" y=${Y(466)+4} fontSize="12" fill="var(--present)" fontWeight="600">FWB</text>
+    </svg>
+    <p className="figcap">Score moyen en compréhension de l'écrit, élèves de 15 ans (PISA). Moyenne OCDE : 487 (2018), 476 (2022), 461 (2025). Fédération Wallonie-Bruxelles : 481 (2018), 466 (2025) ; le score FWB de 2022 n'est pas repris ici, d'où les pointillés.</p>
+  </div>`;
+}
+
+/* ---------- F451 aujourd'hui ---------- */
+function Aujourdhui(){
+  const [t,setT]=useState(0); const d=TODAY[t];
+  return html`<${Fragment}>
+    <${Prose}><p>Pour chaque thème : à gauche, ce que montre le roman ; à droite, ce que disent les faits d'aujourd'hui. Lis toujours la <b>nuance</b> : un roman n'est pas une prophétie, et une comparaison sérieuse montre aussi les différences.</p><//>
+    <div className="tabs" role="tablist" aria-label="Thèmes contemporains" style=${{marginTop:"16px"}}>
+      ${TODAY.map((x,i)=>html`<button key=${x.id} role="tab" type="button" className="tab" aria-selected=${i===t} onClick=${()=>setT(i)}>${x.t.split(" :")[0]}</button>`)}
+    </div>
+    <div className="stack" role="tabpanel">
+      <h2 style=${{marginTop:"4px",borderTop:0,paddingTop:0}}>${d.t}</h2>
+      <div className="pair">
+        <div><h4>Dans le roman</h4>${d.roman.map((r,i)=>html`<${Quote} key=${i} q=${r.q} w=${r.w}/>`)}<p className="small">${rich(d.romanTxt)}</p></div>
+        <div><h4>Aujourd'hui</h4><ul>${d.auj.map((a,i)=>html`<li key=${i}>${rich(a)}</li>`)}</ul>
+          ${d.src&&html`<p className="src">Sources : ${d.src.map((s,i)=>html`<${Fragment} key=${i}>${i>0?" · ":""}<a href=${s.u} target="_blank" rel="noopener">${s.l}</a><//>`)}</p>`}
+        </div>
+      </div>
+      ${d.chart&&html`<${PisaChart}/>`}
+      <${Msg} kind="warn" title="Nuance">${rich(d.nuance)}<//>
+      <${Msg} kind="pos" title="Question pour débattre" icon="quiz">${rich(d.qd)}<//>
+      <div className="pager" style=${{marginTop:"4px"}}>
+        <button type="button" className="btn" disabled=${t===0} onClick=${()=>setT(t-1)}><${Icon} n="left"/>Thème précédent</button>
+        <span className="small muted">${t+1} / ${TODAY.length}</span>
+        <button type="button" className="btn" disabled=${t===TODAY.length-1} onClick=${()=>setT(t+1)}>Thème suivant<${Icon} n="right"/></button>
+      </div>
+    </div>
+    <h2>Ce que Bradbury ne dit pas</h2>
+    <${Prose}><p>Bradbury n'est pas contre la technique : il critique une culture qui préfère le divertissement à la pensée. Faber le dit lui-même : la télévision et la radio « pourraient transmettre la même profusion de détails et de savoir, mais ce n'est pas le cas ». La question n'est donc pas « écrans ou livres ? », mais : <b>qu'est-ce qui nous donne de la qualité, du temps pour penser et la liberté d'agir ?</b></p><//>
+  <//>`;
+}
+
+/* ---------- Œuvres en écho ---------- */
+function Echos(){
+  return html`<${Fragment}>
+    <${Prose}><p>Bradbury n'est pas seul. Avant lui, d'autres auteurs ont imaginé des sociétés qui contrôlent les esprits ; après lui, beaucoup ont répondu à son roman. Ces œuvres permettent de comparer, et de choisir une lecture complémentaire.</p><//>
+    <h2>Trois cauchemars, trois méthodes</h2>
+    <div className="tablewrap"><table>
+      <thead><tr><th></th><th><em>Le Meilleur des mondes</em> (1932)</th><th><em>1984</em> (1949)</th><th><em>Fahrenheit 451</em> (1953)</th></tr></thead>
+      <tbody>
+        <tr><th scope="row">Arme du pouvoir</th><td>Le plaisir, la drogue, le conditionnement</td><td>La peur, la surveillance</td><td>La distraction, la vitesse</td></tr>
+        <tr><th scope="row">Les livres</th><td>Inutiles, oubliés</td><td>Réécrits, détruits</td><td>Brûlés… après avoir été délaissés</td></tr>
+        <tr><th scope="row">Le héros</th><td>Le « Sauvage », lecteur de Shakespeare</td><td>Winston, qui réécrit les archives</td><td>Montag, qui brûle les livres</td></tr>
+        <tr><th scope="row">La fin</th><td>Désespérée</td><td>Le héros est brisé</td><td>Une renaissance possible</td></tr>
+      </tbody></table></div>
+    <div style=${{marginTop:"14px"}}><${Msg} title="La clé de Neil Postman (1985)">Orwell craignait ceux qui interdiraient les livres ; Huxley craignait qu'il n'y ait plus besoin de les interdire, parce que plus personne ne voudrait en lire. Bradbury montre les deux à la fois : d'abord le désintérêt, ensuite l'interdiction.<//></div>
+    <h2>Fiches des œuvres</h2>
+    <div className="stack">
+      ${WORKS.map(w=>html`<details className="fold work" key=${w.t}>
+        <summary><span>${rich(w.t.startsWith("«")?w.t:"*"+w.t+"*")}</span><span className="muted small" style=${{fontWeight:400}}>${w.a}, ${w.y.split(" ")[0]}</span><span className=${"tag "+(w.lvl==="Accessible"?"future":"acc")}>${w.lvl}</span></summary>
+        <div className="in">
+          <p className="meta">${w.g} · ${w.y}</p>
+          <p>${rich(w.r)}</p>
+          <div className="row"><div><b>Ce qui répond à <em>Fahrenheit 451</em></b>${rich(w.echo)}</div><div><b>La différence</b>${rich(w.diff)}</div></div>
+        </div>
+      </details>`)}
+    </div>
+    <h2>Adaptations</h2>
+    <div className="grid2">
+      <div className="frame"><b>Fahrenheit 451</b>, François Truffaut, 1966<p className="small muted" style=${{marginTop:"4px"}}>Seul film en anglais de Truffaut. Julie Christie y joue à la fois Clarisse et la femme de Montag, ce qui rend visible leur opposition. Les génériques sont dits à voix haute, sans aucun texte écrit à l'écran.</p></div>
+      <div className="frame"><b>Fahrenheit 451</b>, Ramin Bahrani, 2018<p className="small muted" style=${{marginTop:"4px"}}>Téléfilm qui transpose l'histoire à l'ère d'Internet et des réseaux sociaux : utile pour comparer les choix d'adaptation.</p></div>
+    </div>
+  <//>`;
+}
+
+/* ---------- Pistes de travail ---------- */
+const MEDIA=["Une application de vidéos courtes","Un assistant d'IA (type ChatGPT)","Un journal télévisé","Un roman lu en entier","Un podcast d'actualité"];
+const CRIT=[{k:"q",l:"Qualité",h:"L'information a-t-elle de la « texture » : des détails, des sources, de la nuance ?"},{k:"t",l:"Loisir",h:"Me laisse-t-il du temps pour réfléchir, m'arrêter, revenir en arrière ?"},{k:"a",l:"Droit d'agir",h:"M'aide-t-il à agir par moi-même, ou décide-t-il à ma place ?"}];
+function FaberGrid(){
+  const [m,setM]=useState(0); const [sc,setSc]=useState({});
+  const key=k=>m+"-"+k; const vals=CRIT.map(c=>sc[key(c.k)]);
+  const all=vals.every(v=>v!=null); const tot=vals.reduce((a,b)=>a+(b||0),0);
+  return html`<div className="frame">
+    <h3 style=${{marginTop:0}}>La grille de Faber</h3>
+    <p className="small muted">Choisis un média, puis évalue-le selon les trois critères de Faber. Justifie chaque note par un exemple précis.</p>
+    <div className="chips" style=${{margin:"10px 0 14px"}}>${MEDIA.map((x,i)=>html`<button type="button" key=${i} className="btn" aria-pressed=${i===m} onClick=${()=>setM(i)}>${x}</button>`)}</div>
+    <div className="stack">
+      ${CRIT.map(c=>html`<div key=${c.k} style=${{display:"grid",gridTemplateColumns:"minmax(0,1fr) auto",gap:"8px 14px",alignItems:"center"}}>
+        <div><b>${c.l}</b><p className="small muted">${c.h}</p></div>
+        <div className="seg" role="group" aria-label=${c.l}>${["Faible","Moyen","Fort"].map((l,j)=>html`<button type="button" key=${j} className="btn" aria-pressed=${sc[key(c.k)]===j+1} onClick=${()=>setSc({...sc,[key(c.k)]:j+1})}>${l}</button>`)}</div>
+      </div>`)}
+    </div>
+    ${all&&html`<div style=${{marginTop:"14px"}}><${Msg} kind=${tot>=7?"pos":tot>=5?"":"warn"} title=${tot>=7?"Un média qui nourrit la pensée":tot>=5?"Un média à utiliser avec méthode":"Un média proche des murs-écrans"}>${tot>=7?"Selon ta grille, ce média respecte les trois conditions de Faber. Vérifie que ton jugement repose sur des exemples précis.":tot>=5?"Il peut servir, à condition de compenser ses faiblesses : vérifier les sources, prendre le temps, garder la main.":"Selon ta grille, ce média ressemble à la « famille » de Mildred. Que faudrait-il changer dans ton usage pour qu'il serve ta réflexion ?"}<//></div>`}
+  </div>`;
+}
+function Pistes(){
+  return html`<${Fragment}>
+    <h2>Méthode : comparer le roman et notre société</h2>
+    <ol className="steps">
+      <li><b>Repérer</b>un mécanisme dans le roman (ex. : les condensés).</li>
+      <li><b>Nommer</b>la notion avec le bon mot (glossaire).</li>
+      <li><b>Citer</b>un passage précis du roman.</li>
+      <li><b>Trouver</b>un fait actuel daté et sourcé.</li>
+      <li><b>Nuancer</b>: ressemblances ET différences.</li>
+    </ol>
+    <h2>Exemple rédigé</h2>
+    <p className="small muted" style=${{marginBottom:"10px"}}>Un paragraphe argumenté construit avec la méthode. Les étiquettes montrent le rôle de chaque phrase.</p>
+    <div className="worked">
+      <span className="seg-t st1">Idée</span>Dans <em>Fahrenheit 451</em>, la disparition des livres commence par leur raccourcissement. <span className="seg-t st2">Citation</span>Le capitaine Beatty raconte comment les classiques ont été réduits à des « condensés de condensés », jusqu'à n'être plus qu'« une colonne, deux phrases, un gros titre ». <span className="seg-t st3">Analyse</span>La répétition et l'accélération des phrases imitent ce qu'elles décrivent : un monde qui va trop vite pour penser. <span className="seg-t st4">Lien actuel</span>Aujourd'hui, une IA générative peut résumer un roman en quelques secondes, et l'enquête PISA 2025 montre que les élèves de 15 ans peinent surtout face aux textes longs. <span className="seg-t st5">Nuance</span>Toutefois, un résumé n'est pas en soi une censure, et PISA n'établit pas de lien de cause à effet avec les outils numériques ; le roman nous invite plutôt à nous demander ce que nous perdons quand nous ne prenons plus le temps de lire un texte entier.
+    </div>
+    <h2>Problématiques possibles</h2>
+    <${Prose}><ul>
+      <li>En quoi la destruction des livres révèle-t-elle une crise du rapport au temps, et comment le dénouement propose-t-il de la réparer ?</li>
+      <li>Une société peut-elle perdre sa liberté sans qu'aucun dictateur ne la lui retire ?</li>
+      <li>Le bonheur promis par la société de Montag est-il compatible avec la pensée ?</li>
+      <li>Dans quelle mesure <em>Fahrenheit 451</em> éclaire-t-il notre rapport aux écrans et à l'information ?</li>
+    </ul><//>
+    <h3>Un plan possible (pour la première problématique)</h3>
+    <ol className="steps">
+      <li><b>Un passé perdu</b>Livres brûlés, histoire réécrite (comparaison avec <em>1984</em>).</li>
+      <li><b>Un présent saturé</b>Écrans, vitesse, Mildred ; une censure voulue par tous (Beatty).</li>
+      <li><b>Un avenir rouvert</b>Clarisse, les hommes-livres, le phénix ; une « renaissance » à nuancer.</li>
+    </ol>
+    <h2>Activités</h2>
+    <div className="stack">
+      <${FaberGrid}/>
+      <details className="fold"><summary>Synthèse de documents<span className="tag">écrit</span></summary><div className="in">
+        <p>Rassemble trois documents : l'extrait du discours de Beatty sur les condensés, les résultats PISA 2025 (rubrique « F451 aujourd'hui »), un article de presse sur l'IA à l'école. Rédige une synthèse de 250 mots qui répond à la question : <em>« Lire, est-ce encore nécessaire à l'heure des résumés automatiques ? »</em></p>
+        <p className="small muted">Critères : les trois documents sont exploités, les idées sont regroupées par thème (et non document par document), aucun avis personnel dans la synthèse.</p>
+      </div></details>
+      <details className="fold"><summary>Débat argumenté<span className="tag">oral</span></summary><div className="in">
+        <p>Choisis une question, prépare trois arguments, un exemple tiré du roman et un fait actuel sourcé pour chacun :</p>
+        <${Prose}><ul>
+          <li>Faut-il interdire les réseaux sociaux aux moins de 15 ans ?</li>
+          <li>Un résumé produit par une IA peut-il remplacer la lecture d'un roman ?</li>
+          <li>Faut-il réécrire les livres anciens pour ne choquer personne ?</li>
+          <li>Un pays où l'on vote est-il forcément un pays libre ?</li>
+        </ul><//>
+        <p className="small muted">Règle de Faber pour le débat : chaque intervenant reformule l'argument précédent avant d'y répondre. On prend le temps de penser.</p>
+      </div></details>
+      <details className="fold"><summary>Écriture d'invention<span className="tag">écrit</span></summary><div className="in">
+        <${Prose}><ul>
+          <li><b>Le journal de Clarisse</b> : écris trois pages de son journal, la semaine où elle rencontre Montag.</li>
+          <li><b>Montag en 2026</b> : réécris la scène du salon avec les amies de Mildred, mais avec nos écrans d'aujourd'hui (téléphones, notifications, vidéos courtes).</li>
+          <li><b>Le discours de Granger</b> : à l'arrivée dans la ville détruite, Granger s'adresse aux survivants. Écris son discours (une page).</li>
+        </ul><//>
+      </div></details>
+      <details className="fold"><summary>Devenir homme-livre<span className="tag">oral</span></summary><div className="in">
+        <p>Choisis un texte court (poème, extrait de roman, discours) que tu voudrais sauver de l'oubli. Apprends-en 10 à 15 lignes par cœur. Devant la classe, dis-le, puis explique en deux minutes pourquoi ce texte mérite d'être transmis.</p>
+      </div></details>
+      <details className="fold"><summary>Lecture analytique : trois extraits<span className="tag">analyse</span></summary><div className="in">
+        <${Prose}><ol>
+          <li><b>L'incipit</b> (1re partie, première page) : comment le feu est-il rendu fascinant ? Relève les métaphores et le champ lexical de la fête.</li>
+          <li><b>Le discours de Beatty</b> (fin de la 1re partie) : comment le rythme des phrases imite-t-il la vitesse qu'il décrit ? Quels arguments Beatty utilise-t-il pour justifier la censure ?</li>
+          <li><b>Le phénix</b> (fin de la 3e partie) : en quoi ce passage transforme-t-il le sens du feu ? Quelle vision de l'histoire Granger propose-t-il ?</li>
+        </ol><//>
+      </div></details>
+      <details className="fold"><summary>Carnet de lecture, partie par partie<span className="tag">lecture</span></summary><div className="in">
+        <${Prose}>
+          <p><b>1re partie.</b> Pourquoi Montag ne sait-il pas répondre à la question de Clarisse ? Que révèle la scène de l'overdose de Mildred ? Pourquoi la vieille dame préfère-t-elle mourir ?</p>
+          <p><b>2e partie.</b> Que représente le tamis ? Quelles sont les trois choses qui manquent selon Faber ? Pourquoi Mme Phelps pleure-t-elle en entendant le poème ?</p>
+          <p><b>3e partie.</b> Pourquoi Beatty se laisse-t-il presque tuer ? Que montre la fausse capture télévisée ? Que veut dire Granger avec sa « miroiterie » ?</p>
+        <//>
+      </div></details>
+    </div>
+  <//>`;
+}
+
+/* ---------- Glossaire ---------- */
+const norm=s=>s.normalize("NFD").replace(/[̀-ͯ]/g,"").toLowerCase();
+function Glossaire({focus,clearFocus}){
+  const [q,setQ]=useState(""); const [cat,setCat]=useState("all"); const [train,setTrain]=useState(false); const [shown,setShown]=useState({});
+  const list=useMemo(()=>Object.entries(GLOSS).map(([id,g])=>({id,...g})).sort((a,b)=>norm(a.m.replace(/^La « /,"")).localeCompare(norm(b.m.replace(/^La « /,"")),"fr")),[]);
+  useEffect(()=>{ if(!focus) return; setQ(""); setCat("all");
+    const t=setTimeout(()=>{ const el=document.getElementById("g-"+focus); if(el){ el.scrollIntoView({behavior:"smooth",block:"center"}); el.classList.remove("flash"); void el.offsetWidth; el.classList.add("flash"); } clearFocus(); },60);
+    return ()=>clearTimeout(t); },[focus]);
+  const nq=norm(q.trim());
+  const items=list.filter(g=>(cat==="all"||g.c===cat)&&(!nq||norm(g.m+" "+g.d+" "+(g.e||"")+" "+(g.a||"")).includes(nq)));
+  let lastL="";
+  return html`<${Fragment}>
+    <div className="gtools">
+      <label className="search"><${Icon} n="search"/><input id="gsearch" type="search" placeholder="Chercher un mot ou une notion…" value=${q} onInput=${e=>setQ(e.target.value)} aria-label="Chercher dans le glossaire"/></label>
+      <button type="button" className="btn" aria-pressed=${train} onClick=${()=>{setTrain(!train);setShown({});}}><${Icon} n="quiz"/>Mode entraînement</button>
+    </div>
+    <div className="chips" style=${{marginBottom:"14px"}}>
+      <button type="button" className="btn" aria-pressed=${cat==="all"} onClick=${()=>setCat("all")}>Tout (${list.length})</button>
+      ${Object.entries(CATS).map(([k,v])=>html`<button type="button" key=${k} className="btn" aria-pressed=${cat===k} onClick=${()=>setCat(k)}>${v.l} (${list.filter(g=>g.c===k).length})</button>`)}
+    </div>
+    ${train&&html`<div style=${{marginBottom:"14px"}}><${Msg} kind="pos" title="Mode entraînement">Les définitions sont cachées. Essaie de définir chaque mot à voix haute, puis vérifie.<//></div>`}
+    ${items.length===0?html`<p className="muted">Aucun mot ne correspond à « ${q} ». Essaie un autre mot ou choisis « Tout ».</p>`:html`<div className="gl">
+      ${items.map(g=>{ const L=norm(g.m.replace(/^La « /,"")).charAt(0).toUpperCase(); const head=L!==lastL; lastL=L;
+        return html`<${Fragment} key=${g.id}>${head&&html`<div className="letter" aria-hidden="true">${L}</div>`}
+        <div className="gitem" id=${"g-"+g.id}>
+          <div className="w">${g.m}<br/><span className="tag">${CATS[g.c].l}</span></div>
+          <div>${train&&!shown[g.id]?html`<button type="button" className="reveal" onClick=${()=>setShown({...shown,[g.id]:true})}>Afficher la définition</button>`:html`<${Fragment}>
+            <p>${rich(g.d)}</p>
+            ${g.e&&html`<p className="ex"><b>Dans le roman :</b> ${rich(g.e)}</p>`}
+            ${g.a&&html`<p className="ex"><b>Aujourd'hui :</b> ${rich(g.a)}</p>`}<//>`}
+          </div></div><//>`;})}
+    </div>`}
+  <//>`;
+}
+
+/* ---------- Pour l'enseignant ---------- */
+function Enseignant(){
+  const rows=[
+    ["Segmentation","Une notion par rubrique ; onglets pour les parties du roman et les thèmes contemporains ; œuvres en écho repliées.","Réduit la charge intrinsèque en découpant le contenu en unités digestes."],
+    ["Pré-entraînement","Six mots-clés définis dès l'accueil ; glossaire disponible partout.","Les notions sont connues avant d'être utilisées dans l'analyse."],
+    ["Contiguïté spatiale","Définitions en bulle, à côté du mot ; citation du roman et fait actuel côte à côte.","Évite les allers-retours (effet d'attention partagée)."],
+    ["Signalement","Encadrés « À retenir », « Nuance », « Piste » ; code couleur constant passé / présent / avenir.","Oriente l'attention vers l'essentiel."],
+    ["Cohérence","Aucune image décorative ; schémas seulement quand ils portent du sens (carte des personnages, frise, graphique PISA).","Supprime la charge extrinsèque inutile."],
+    ["Exemple travaillé","Paragraphe argumentatif annoté selon ses fonctions.","Modèle explicite avant la production autonome."],
+    ["Effet de test","Questions à choix multiple avec rétroaction en fin de rubrique ; mode entraînement du glossaire.","La récupération en mémoire consolide l'apprentissage."],
+    ["Inversion d'expertise","Approfondissements (Hartog, Renaissance, Postman) séparés du parcours principal.","Les élèves avancés approfondissent sans surcharger les autres."]
+  ];
+  return html`<${Fragment}>
+    <${Prose}><p>Ce dossier s'adresse à des élèves de 5e secondaire (3e degré de l'enseignement de transition en Fédération Wallonie-Bruxelles). Il peut accompagner une séquence de 4 à 6 semaines autour de la lecture intégrale du roman.</p><//>
+    <h2>Principes de conception</h2>
+    <p className="small muted" style=${{marginBottom:"10px"}}>Théorie de la charge cognitive (Sweller) et principes de l'apprentissage multimédia (Mayer).</p>
+    <div className="tablewrap"><table>
+      <thead><tr><th>Principe</th><th>Mise en œuvre dans le dossier</th><th>Effet recherché</th></tr></thead>
+      <tbody>${rows.map(r=>html`<tr key=${r[0]}><th scope="row">${r[0]}</th><td>${r[1]}</td><td>${r[2]}</td></tr>`)}</tbody>
+    </table></div>
+    <h2>Liens avec les référentiels</h2>
+    <div className="grid2">
+      <div className="frame"><h3>Français</h3><p className="small">Les activités mobilisent les unités d'acquis d'apprentissage du 3e degré : rechercher et garder des traces de l'information, réduire / résumer / comparer / synthétiser (synthèse de documents), défendre une opinion à l'écrit et à l'oral (débat), s'inscrire dans une œuvre culturelle (écriture d'invention, homme-livre) et relater une expérience culturelle (carnet de lecture). Vérifiez la numérotation et les attendus dans le programme de votre réseau.</p></div>
+      <div className="frame"><h3>Éducation à la philosophie et à la citoyenneté</h3><p className="small">Au 3e degré, le roman rejoint directement les UAA « Vérité et pouvoir », « Liberté et responsabilité » et « Participer au processus démocratique » (référentiel de 2017). La rubrique « F451 aujourd'hui » peut servir de base à un travail interdisciplinaire.</p></div>
+    </div>
+    <h2>Accessibilité et différenciation</h2>
+    <${Prose}><ul>
+      <li>Boutons <b>A− / A+</b> et <b>Interligne</b> dans la barre d'outils : taille du texte et espacement réglables (utile pour les élèves dyslexiques).</li>
+      <li>Thème clair ou sombre ; navigation complète au clavier.</li>
+      <li>Œuvres en écho classées « Accessible » ou « Exigeant » pour orienter les lectures complémentaires.</li>
+      <li>Les rubriques « Le temps brûlé » et « Œuvres en écho » peuvent être réservées aux élèves qui souhaitent approfondir.</li>
+    </ul><//>
+    <h2>Sources</h2>
+    <${Prose}><ul>${SOURCES.map((s,i)=>html`<li key=${i} className="small">${s.u?html`<a href=${s.u} target="_blank" rel="noopener">${rich(s.l)}</a>`:rich(s.l)}</li>`)}</ul><//>
+    <p className="small muted" style=${{marginTop:"14px"}}>Les citations du roman proviennent de l'édition ${ED}. Les données contemporaines sont arrêtées à octobre 2026.</p>
+  <//>`;
+}
+
+/* ---------- Application ---------- */
+function loadPrefs(){ try{ const p=JSON.parse(localStorage.getItem("f451-prefs")||"{}"); return p&&typeof p==="object"?p:{}; }catch(e){ return {}; } }
+function App(){
+  const init=loadPrefs();
+  const fromHash=(()=>{ try{ const h=(location.hash||"").slice(1); return SECTIONS.some(s=>s.id===h)?h:null; }catch(e){ return null; } })();
+  const [sec,setSec]=useState(fromHash||init.sec||"accueil");
+  const [theme,setTheme]=useState(init.theme||"system");
+  const [scale,setScale]=useState(init.scale||1);
+  const [airy,setAiry]=useState(!!init.airy);
+  const [read,setRead]=useState(init.read||{});
+  const [pop,setPop]=useState(null);
+  const [focus,setFocus]=useState(null);
+  const popRef=useRef(null);
+
+  useEffect(()=>{ try{ localStorage.setItem("f451-prefs",JSON.stringify({sec,theme,scale,airy,read})); }catch(e){} },[sec,theme,scale,airy,read]);
+  useEffect(()=>{ const r=document.documentElement; if(theme==="system") r.removeAttribute("data-theme"); else r.setAttribute("data-theme",theme); },[theme]);
+  useEffect(()=>{ document.documentElement.style.setProperty("--scale",scale); },[scale]);
+  useEffect(()=>{ document.body.classList.toggle("airy",airy); },[airy]);
+  useEffect(()=>{
+    if(!pop) return;
+    const y0=window.scrollY; const close=e=>{ if(e&&e.type==="scroll"&&Math.abs(window.scrollY-y0)<60) return; setPop(null); };
+    const key=e=>{ if(e.key==="Escape") setPop(null); };
+    const click=e=>{ if(popRef.current&&!popRef.current.contains(e.target)) setPop(null); };
+    window.addEventListener("scroll",close,{passive:true}); window.addEventListener("resize",close); document.addEventListener("keydown",key); document.addEventListener("click",click);
+    return ()=>{ window.removeEventListener("scroll",close); window.removeEventListener("resize",close); document.removeEventListener("keydown",key); document.removeEventListener("click",click); };
+  },[pop]);
+
+  const go=id=>{ setSec(id); setPop(null); try{ history.replaceState(null,"","#"+id); }catch(e){} window.scrollTo({top:0}); };
+  const ctx=useMemo(()=>({open:(id,el)=>{
+    const r=el.getBoundingClientRect(); const W=Math.min(360,window.innerWidth-32);
+    const left=Math.max(16,Math.min(r.left,window.innerWidth-W-16));
+    const below=window.innerHeight-r.bottom>260;
+    setPop({id,left,top:below?r.bottom+8:null,bottom:below?null:window.innerHeight-r.top+8});
+  }}),[]);
+
+  const idx=SECTIONS.findIndex(s=>s.id===sec); const S=SECTIONS[idx];
+  const reading=SECTIONS.filter(s=>s.min); const nRead=reading.filter(s=>read[s.id]).length;
+  const body={accueil:html`<${Accueil} go=${go}/>`,fiche:html`<${Fiche}/>`,resume:html`<${Resume}/>`,personnages:html`<${Personnages}/>`,contexte:html`<${Contexte}/>`,analyse:html`<${Analyse}/>`,temps:html`<${Temps}/>`,aujourdhui:html`<${Aujourdhui}/>`,echos:html`<${Echos}/>`,pistes:html`<${Pistes}/>`,glossaire:html`<${Glossaire} focus=${focus} clearFocus=${()=>setFocus(null)}/>`,enseignant:html`<${Enseignant}/>`}[sec];
+  const titles={accueil:"Fahrenheit 451",fiche:"Fiche d'identité",resume:"Résumé, partie par partie",personnages:"Les personnages",contexte:"Le contexte historique",analyse:"Analyse de l'œuvre",temps:"Le temps brûlé",aujourdhui:"Fahrenheit 451 aujourd'hui",echos:"Œuvres en écho",pistes:"Pistes de travail",glossaire:"Glossaire",enseignant:"Pour l'enseignant"};
+  const ledes={accueil:"Ray Bradbury, 1953 · Dossier de lecture et d'analyse pour la 5e secondaire",fiche:"Les informations essentielles sur l'œuvre et son auteur.",resume:"Trois parties, trois étapes de l'éveil de Montag.",personnages:"Qui aide Montag à s'éveiller, et qui le retient ?",contexte:"L'Amérique de 1953 : la bombe, la peur, la télévision.",analyse:"Symboles, thèmes, structure et style.",temps:"Lire le roman avec les outils des historiens : passé, présent, avenir.",aujourdhui:"IA, réseaux sociaux, désinformation, lecture, démocratie : ce que le roman nous aide à voir.",echos:"Les œuvres qui préparent, prolongent ou contredisent Fahrenheit 451.",pistes:"Méthode, exemple rédigé et activités pour l'écrit et l'oral.",glossaire:"Tous les mots difficiles et toutes les notions du dossier, avec des exemples.",enseignant:"Choix didactiques, liens avec les référentiels et sources."};
+  const g=pop&&GLOSS[pop.id];
+  let lastG="";
+
+  return html`<${TermCtx.Provider} value=${ctx}>
+    <header className="toolbar">
+      <svg className="appicon" viewBox="0 0 32 32" aria-hidden="true"><rect x="1" y="1" width="30" height="30" rx="5" fill="var(--accent-tint)" stroke="var(--accent-line)"/><path d="M9 8h9l5 5v11H9z" fill="var(--view)" stroke="var(--accent-strong)" strokeWidth="1.4" strokeLinejoin="round"/><path d="M16 26c-2.8 0-4.6-1.8-4.6-4.2 0-2.5 2.1-3.9 2.5-6.3 1.3.8 1.8 2.1 1.8 3.3.5-.8 1.2-1.8 1.3-3.2 1.7 1.3 3 3.5 3 6 0 2.6-1.9 4.4-4 4.4z" fill="var(--present)"/></svg>
+      <div className="ttl"><b>Fahrenheit 451</b><span>Ray Bradbury · fiche de lecture et analyse · 5e secondaire</span></div>
+      <div className="tools">
+        <div className="seg hide-s" role="group" aria-label="Taille du texte">
+          <button type="button" className="btn" onClick=${()=>setScale(Math.max(.9,+(scale-.05).toFixed(2)))} aria-label="Réduire le texte">A−</button>
+          <button type="button" className="btn" onClick=${()=>setScale(Math.min(1.3,+(scale+.05).toFixed(2)))} aria-label="Agrandir le texte">A+</button>
+        </div>
+        <button type="button" className="btn hide-s" aria-pressed=${airy} onClick=${()=>setAiry(!airy)}>Interligne</button>
+        <div className="seg" role="group" aria-label="Thème">
+          ${[["system","auto","Thème du système"],["light","sun","Thème clair"],["dark","moon","Thème sombre"]].map(([k,ic,l])=>html`<button type="button" key=${k} className="btn icon" aria-pressed=${theme===k} aria-label=${l} title=${l} onClick=${()=>setTheme(k)}><${Icon} n=${ic}/></button>`)}
+        </div>
+      </div>
+    </header>
+    <div className="shell">
+      <nav className="side" aria-label="Sommaire">
+        ${SECTIONS.map(s=>{ const head=s.g!==lastG; lastG=s.g; return html`<${Fragment} key=${s.id}>${head&&html`<div className="grp">${s.g}</div>`}
+          <button type="button" className="navitem" aria-current=${s.id===sec?"page":undefined} onClick=${()=>go(s.id)}><${Icon} n=${s.ic}/><span className="lbl">${s.l}</span>${read[s.id]&&html`<${Icon} n="check" className="done"/>`}</button><//>`; })}
+        <div className="progress">${nRead} rubrique${nRead>1?"s":""} lue${nRead>1?"s":""} sur ${reading.length}<div className="bar"><i style=${{width:(nRead/reading.length*100)+"%"}}></i></div></div>
+      </nav>
+      <main className="view" id="main">
+        <div className="eyebrow"><span>${S.g}</span>${S.min&&html`<span className="time">≈ ${S.min} min</span>`}</div>
+        <h1>${titles[sec]}</h1>
+        <p className="lede">${ledes[sec]}</p>
+        ${body}
+        <${Check} key=${"c-"+sec} id=${sec}/>
+        <div className="pager">
+          ${idx>0?html`<button type="button" className="btn" onClick=${()=>go(SECTIONS[idx-1].id)}><${Icon} n="left"/>${SECTIONS[idx-1].l}</button>`:html`<span></span>`}
+          ${S.min&&html`<label className="small" style=${{display:"inline-flex",gap:"8px",alignItems:"center",cursor:"pointer"}}><input id=${"read-"+sec} type="checkbox" style=${{accentColor:"var(--accent)",width:"16px",height:"16px"}} checked=${!!read[sec]} onChange=${e=>setRead({...read,[sec]:e.target.checked})}/>Rubrique lue</label>`}
+          ${idx<SECTIONS.length-1?html`<button type="button" className="btn" onClick=${()=>go(SECTIONS[idx+1].id)}>${SECTIONS[idx+1].l}<${Icon} n="right"/></button>`:html`<span></span>`}
+        </div>
+      </main>
+    </div>
+    ${g&&html`<div className="pop" ref=${popRef} role="dialog" aria-label=${g.m} style=${{left:pop.left+"px",top:pop.top!=null?pop.top+"px":"auto",bottom:pop.bottom!=null?pop.bottom+"px":"auto"}}>
+      <h4><span>${g.m}</span><span className="cat">${CATS[g.c].l}</span></h4>
+      <p>${rich(g.d)}</p>
+      ${(g.e||g.a)&&html`<div className="ex">${g.e&&html`<p><b>Dans le roman :</b> ${rich(g.e)}</p>`}${g.a&&html`<p style=${{marginTop:g.e?"6px":0}}><b>Aujourd'hui :</b> ${rich(g.a)}</p>`}</div>`}
+      <div className="acts"><button type="button" className="btn" onClick=${()=>{const id=pop.id;setPop(null);setFocus(id);setSec("glossaire");try{history.replaceState(null,"","#glossaire");}catch(e){}}}>Voir dans le glossaire</button><button type="button" className="btn icon" aria-label="Fermer" onClick=${()=>setPop(null)}><${Icon} n="close"/></button></div>
+    </div>`}
+  <//>`;
+}
+ReactDOM.createRoot(document.getElementById("root")).render(h(App));
+</script>
+
+</body></html>
