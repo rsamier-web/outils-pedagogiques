@@ -1,0 +1,1232 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Ludvortaro Mineklonia</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;500;600;700&family=Noto+Sans+Mono:wght@400;500&family=Silkscreen&display=swap">
+<style>
+/* Layout: KDE/Kirigami application shell. Toolbar on top, sidebar navigation on desktop,
+   bottom tab bar on phone, one working pane. Breeze neutrals, Mineclonia grass and soil as accents. */
+:root{
+  --bg:#eff0f1; --surface:#fcfcfc; --surface-2:#e4e7e9; --line:#c6cbcf; --fg:#232629; --muted:#596066;
+  --accent:#3f7a25; --on-accent:#ffffff; --accent-soft:#e0eed6;
+  --soil:#7a4f2a; --soil-soft:#f2e7db;
+  --focus:#2980b9; --focus-ring:#3daee9; --focus-soft:#dcedf8;
+  --good:#1e8a4c; --good-soft:#dcf2e4; --warn:#b15e00; --warn-soft:#fcefdc; --bad:#c23040; --bad-soft:#fbe3e6;
+  --grass:#5fa037; --grass-dark:#3f7a25; --dirt:#8a5a33;
+  --shadow:0 1px 2px rgba(35,38,41,.08);
+  --font:"Noto Sans", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --mono:"Noto Sans Mono", ui-monospace, "DejaVu Sans Mono", Menlo, monospace;
+  --pixel:"Silkscreen", "Noto Sans Mono", monospace;
+  --r:6px; --r-s:4px;
+}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){
+  --bg:#1b1e20; --surface:#232629; --surface-2:#2e3236; --line:#41474d; --fg:#f1f2f3; --muted:#a7afb6;
+  --accent:#7cbf4a; --on-accent:#10200a; --accent-soft:#2b3a22;
+  --soil:#d2a679; --soil-soft:#3a2f25;
+  --focus:#5cb8ec; --focus-ring:#3daee9; --focus-soft:#1f3442;
+  --good:#5fd08e; --good-soft:#1f3a2b; --warn:#f2a54a; --warn-soft:#3d2f1c; --bad:#f07080; --bad-soft:#40232a;
+  --shadow:0 1px 2px rgba(0,0,0,.35); color-scheme:dark;
+}}
+:root[data-theme="dark"]{
+  --bg:#1b1e20; --surface:#232629; --surface-2:#2e3236; --line:#41474d; --fg:#f1f2f3; --muted:#a7afb6;
+  --accent:#7cbf4a; --on-accent:#10200a; --accent-soft:#2b3a22;
+  --soil:#d2a679; --soil-soft:#3a2f25;
+  --focus:#5cb8ec; --focus-ring:#3daee9; --focus-soft:#1f3442;
+  --good:#5fd08e; --good-soft:#1f3a2b; --warn:#f2a54a; --warn-soft:#3d2f1c; --bad:#f07080; --bad-soft:#40232a;
+  --shadow:0 1px 2px rgba(0,0,0,.35); color-scheme:dark;
+}
+html,body{height:100%}
+body{background:var(--bg);color:var(--fg);font-family:var(--font);font-size:15px;line-height:1.5;-webkit-text-size-adjust:100%}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:30;background:var(--surface)}
+*{box-sizing:border-box}
+h1,h2,h3{text-wrap:balance;margin:0;line-height:1.25}
+button,input,select,textarea{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--focus-ring);outline-offset:2px}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+
+/* toolbar */
+.tb{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:var(--surface);border-bottom:1px solid var(--line);
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:0;
+  height:52px;display:flex;align-items:center;gap:12px}
+.blk{width:22px;height:22px;flex:none;border-radius:2px;image-rendering:pixelated;
+  background:
+   linear-gradient(90deg,transparent 0 18%,var(--grass-dark) 18% 30%,transparent 30% 60%,var(--grass-dark) 60% 72%,transparent 72%) 0 32%/100% 14% no-repeat,
+   linear-gradient(var(--grass) 0 36%,var(--dirt) 36%);
+  box-shadow:inset 0 0 0 1px rgba(0,0,0,.25)}
+.brand{display:flex;flex-direction:column;line-height:1.1;min-width:0}
+.brand b{font-family:var(--pixel);font-weight:400;font-size:15px;letter-spacing:.02em;white-space:nowrap}
+.brand span{font-size:12px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tb .grow{flex:1}
+.pill{display:inline-flex;align-items:center;gap:6px;font-size:12px;color:var(--muted);border:1px solid var(--line);border-radius:999px;padding:2px 10px;white-space:nowrap;background:var(--bg)}
+.pill i{width:8px;height:8px;border-radius:50%;background:var(--muted);display:inline-block}
+.pill.ok i{background:var(--good)} .pill.busy i{background:var(--warn)}
+
+/* shell */
+.shell{display:grid;grid-template-columns:1fr;min-height:calc(100% - 52px)}
+.side{display:none}
+.main{min-width:0;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:20px 96px}
+.wrap{max-width:780px;margin:0 auto;display:flex;flex-direction:column;gap:20px}
+.nav-b{position:fixed;left:0;right:0;bottom:0;z-index:20;background:var(--surface);border-top:1px solid var(--line);
+  display:grid;grid-template-columns:repeat(4,1fr);
+  padding-left:max(8px,env(safe-area-inset-left,0px));padding-right:max(8px,env(safe-area-inset-right,0px));padding-block:4px calc(4px + env(safe-area-inset-bottom,0px))}
+.nav-b button{background:none;border:0;border-radius:var(--r);display:flex;flex-direction:column;align-items:center;gap:2px;padding:6px 2px;font-size:11.5px;color:var(--muted);cursor:pointer}
+.nav-b button[aria-current="page"]{color:var(--accent);font-weight:600}
+.nav-b svg{width:22px;height:22px}
+@media (min-width:880px){
+  .shell{grid-template-columns:232px 1fr}
+  .side{display:flex;flex-direction:column;gap:2px;border-right:1px solid var(--line);background:var(--surface);
+    padding:14px 10px;position:sticky;top:calc(52px + env(safe-area-inset-top,0px));height:calc(100vh - 52px - env(safe-area-inset-top,0px));align-self:start}
+  .side button{display:flex;align-items:center;gap:10px;border:0;background:none;text-align:left;padding:8px 10px;border-radius:var(--r-s);cursor:pointer;color:var(--fg)}
+  .side button:hover{background:var(--surface-2)}
+  .side button[aria-current="page"]{background:var(--focus-soft);box-shadow:inset 3px 0 0 var(--focus-ring)}
+  .side svg{width:18px;height:18px;color:var(--muted)}
+  .side .lbl{display:flex;flex-direction:column;line-height:1.2}
+  .side .lbl small{color:var(--muted);font-size:11.5px}
+  .side .foot{margin-top:auto;font-size:12px;color:var(--muted);padding:8px 10px}
+  .nav-b{display:none}
+  .main{padding-block:28px 48px}
+}
+
+/* type */
+.ph{display:flex;flex-direction:column;gap:4px}
+.ph h1{font-size:24px;font-weight:600}
+.ph p{margin:0;color:var(--muted);max-width:62ch}
+h2.sec{font-size:13px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;color:var(--muted)}
+.eo{font-weight:600}
+.muted{color:var(--muted)}
+.small{font-size:13px}
+
+/* controls */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;min-height:36px;padding:6px 14px;border-radius:var(--r-s);
+  border:1px solid var(--line);background:var(--surface);color:var(--fg);cursor:pointer;box-shadow:var(--shadow);text-decoration:none;white-space:nowrap}
+.btn:hover{border-color:var(--focus-ring)}
+.btn.pri{background:var(--accent);border-color:var(--accent);color:var(--on-accent);font-weight:600}
+.btn.pri:hover{filter:brightness(1.07)}
+.btn.ghost{background:transparent;box-shadow:none}
+.btn.danger{color:var(--bad)}
+.btn:disabled{opacity:.5;cursor:default}
+.btn svg{width:18px;height:18px}
+.ico{min-width:36px;padding:6px}
+.row{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chip{border:1px solid var(--line);background:var(--surface);border-radius:999px;padding:4px 12px;font-size:13px;cursor:pointer;color:var(--fg)}
+.chip[aria-pressed="true"]{background:var(--accent-soft);border-color:var(--accent);color:var(--fg)}
+.chip[aria-pressed="true"]::before{content:"✓ ";color:var(--accent);font-weight:700}
+input[type=text],input[type=search],textarea,select{width:100%;min-height:40px;padding:8px 10px;border:1px solid var(--line);border-radius:var(--r-s);background:var(--surface);color:var(--fg)}
+textarea{min-height:88px;resize:vertical;line-height:1.45}
+input[type=range]{width:100%;accent-color:var(--accent)}
+label.f{display:flex;flex-direction:column;gap:6px;font-size:13.5px;font-weight:500}
+label.f .hint{font-weight:400;color:var(--muted);font-size:12.5px}
+.kbd{display:flex;flex-wrap:wrap;gap:4px;margin-top:6px}
+.kbd button{min-width:36px;height:34px;border:1px solid var(--line);background:var(--surface-2);border-radius:var(--r-s);cursor:pointer;font-size:15px}
+.kbd span{font-size:12px;color:var(--muted);align-self:center;margin-left:6px}
+
+/* panels */
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow)}
+.pad{padding:16px}
+.grid2{display:grid;grid-template-columns:1fr;gap:16px}
+@media (min-width:640px){.grid2{grid-template-columns:1fr 1fr}}
+
+/* counts */
+.counts{display:flex;gap:18px;flex-wrap:wrap;font-variant-numeric:tabular-nums}
+.counts div{display:flex;align-items:baseline;gap:6px}
+.counts b{font-size:22px;font-weight:600}
+.c-new b{color:var(--focus)} .c-lrn b{color:var(--bad)} .c-rev b{color:var(--good)}
+.counts small{color:var(--muted);font-size:13px}
+
+/* flashcard */
+.flash{min-height:300px;display:flex;flex-direction:column}
+.flash-top{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:10px 14px;border-bottom:1px solid var(--line);font-size:12.5px;color:var(--muted)}
+.tag{display:inline-flex;align-items:center;gap:4px;border-radius:var(--r-s);padding:1px 7px;font-size:11.5px;border:1px solid var(--line);color:var(--muted);background:var(--bg);white-space:nowrap}
+.tag.R{border-color:var(--good);color:var(--good)} .tag.L,.tag.V{border-color:var(--focus);color:var(--focus)}
+.tag.K{border-color:var(--soil);color:var(--soil)} .tag.P{border-style:dashed}
+.flash-body{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;padding:24px 16px;text-align:center}
+.big{font-size:clamp(28px,7vw,42px);font-weight:600;line-height:1.15;overflow-wrap:anywhere}
+.big.fr{font-weight:500}
+.say{display:flex;gap:6px;justify-content:center}
+.ans{width:100%;border-top:1px dashed var(--line);padding-top:16px;display:flex;flex-direction:column;align-items:center;gap:10px}
+.ans .tr{font-size:20px}
+.morph{font-family:var(--mono);font-size:17px;display:inline-flex;flex-wrap:wrap;gap:6px;justify-content:center}
+.mw{display:inline-flex;align-items:center;flex-wrap:nowrap}
+.mo{padding:1px 5px;border-radius:3px}
+.mo.rt{background:var(--surface-2);color:var(--fg);font-weight:500}
+.mo.pf{background:var(--focus-soft);color:var(--focus)}
+.mo.sf{background:var(--soil-soft);color:var(--soil)}
+.mo.en,.mo.ln{color:var(--muted)}
+.dot{color:var(--line);padding:0 1px}
+.leg{font-size:12.5px;color:var(--muted);display:flex;flex-wrap:wrap;gap:4px 14px;justify-content:center}
+.leg b{font-family:var(--mono);font-weight:500;color:var(--soil)}
+.leg b.p{color:var(--focus)}
+.ex{max-width:56ch;font-size:14.5px;display:flex;flex-direction:column;gap:2px}
+.ex .e{font-style:italic}
+.note{font-size:13px;color:var(--muted);max-width:56ch}
+.flash-act{border-top:1px solid var(--line);padding:12px;display:flex;justify-content:center}
+.grades{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;width:100%}
+.grades button{display:flex;flex-direction:column;align-items:center;gap:0;padding:6px 4px;min-height:52px;border-radius:var(--r-s);border:1px solid var(--line);background:var(--surface);cursor:pointer}
+.grades button small{font-size:11.5px;color:var(--muted);font-variant-numeric:tabular-nums}
+.grades .g1{border-bottom:3px solid var(--bad)} .grades .g2{border-bottom:3px solid var(--warn)}
+.grades .g3{border-bottom:3px solid var(--good)} .grades .g4{border-bottom:3px solid var(--focus)}
+.grades button:hover{background:var(--surface-2)}
+.keys{font-size:12px;color:var(--muted);text-align:center}
+@media (hover:none){.keys{display:none}}
+.done{padding:28px 18px;text-align:center;display:flex;flex-direction:column;gap:12px;align-items:center}
+
+/* theme progress */
+.tp{display:flex;flex-direction:column}
+.tp-row{display:grid;grid-template-columns:minmax(0,1fr) 120px 44px;gap:12px;align-items:center;padding:9px 14px;border-top:1px solid var(--line)}
+.tp-row:first-child{border-top:0}
+.tp-row .nm{min-width:0}
+.tp-row .nm b{font-weight:600;font-size:14px}
+.tp-row .nm small{display:block;color:var(--muted);font-size:12px}
+.bar{height:8px;border-radius:2px;background:var(--surface-2);display:flex;overflow:hidden}
+.bar i{display:block;height:100%}
+.bar .m{background:var(--accent)} .bar .l{background:var(--warn)}
+.tp-row .n{font-size:12.5px;color:var(--muted);text-align:right;font-variant-numeric:tabular-nums}
+.lg{display:flex;gap:14px;font-size:12px;color:var(--muted);flex-wrap:wrap}
+.lg i{display:inline-block;width:10px;height:10px;border-radius:2px;margin-right:5px;vertical-align:-1px}
+
+/* exercise ladder */
+.ladder{display:flex;flex-direction:column}
+.lv{display:grid;grid-template-columns:36px minmax(0,1fr) auto;gap:12px;align-items:center;padding:12px 14px;border-top:1px solid var(--line)}
+.lv:first-child{border-top:0}
+.lv .num{width:32px;height:32px;display:grid;place-items:center;font-family:var(--pixel);font-size:14px;border-radius:var(--r-s);background:var(--accent-soft);color:var(--accent)}
+.lv .txt{min-width:0}
+.lv .txt b{font-weight:600}
+.lv .txt b span{font-weight:400;color:var(--muted)}
+.lv .txt p{margin:2px 0 0;font-size:13px;color:var(--muted)}
+.lv .best{font-size:12px;color:var(--muted);display:block;margin-top:2px;font-variant-numeric:tabular-nums}
+.stage{display:flex;flex-direction:column;gap:6px;font-size:12px;color:var(--muted)}
+
+/* session */
+.sess-head{display:flex;align-items:center;gap:10px;padding:10px 14px;border-bottom:1px solid var(--line);font-size:13px;color:var(--muted)}
+.prog{flex:1;height:6px;background:var(--surface-2);border-radius:2px;overflow:hidden}
+.prog i{display:block;height:100%;background:var(--accent)}
+.q{padding:20px 16px;display:flex;flex-direction:column;gap:14px}
+.q .ask{font-size:13px;color:var(--muted)}
+.q .prompt{font-size:22px;font-weight:600;line-height:1.3;overflow-wrap:anywhere}
+.q .prompt.s{font-size:18px;font-weight:500}
+.opts{display:grid;grid-template-columns:1fr;gap:8px}
+@media (min-width:560px){.opts.two{grid-template-columns:1fr 1fr}}
+.opt{text-align:left;padding:10px 12px;border:1px solid var(--line);border-radius:var(--r-s);background:var(--surface);cursor:pointer;display:flex;gap:10px;align-items:flex-start;min-height:44px}
+.opt:hover{border-color:var(--focus-ring)}
+.opt .k{font-family:var(--mono);font-size:12px;color:var(--muted);border:1px solid var(--line);border-radius:3px;padding:0 5px;margin-top:2px}
+.opt.ok{background:var(--good-soft);border-color:var(--good)}
+.opt.no{background:var(--bad-soft);border-color:var(--bad)}
+.opt:disabled{cursor:default;color:var(--fg)}
+.tiles{display:flex;flex-wrap:wrap;gap:8px}
+.tile{font-family:var(--mono);font-size:17px;padding:6px 12px;border:1px solid var(--line);border-bottom-width:3px;border-radius:var(--r-s);background:var(--surface);cursor:pointer;min-width:40px}
+.tile:disabled{opacity:.3;cursor:default}
+.built{min-height:50px;border:1px dashed var(--line);border-radius:var(--r-s);padding:8px 10px;display:flex;flex-wrap:wrap;gap:4px;align-items:center;font-family:var(--mono);font-size:19px}
+.built:empty::before{content:"Touchez les morceaux dans l’ordre";font-family:var(--font);font-size:13px;color:var(--muted)}
+.built span{background:var(--surface-2);padding:1px 6px;border-radius:3px}
+.fb{border-radius:var(--r-s);padding:12px 14px;display:flex;flex-direction:column;gap:6px;font-size:14.5px}
+.fb.ok{background:var(--good-soft);border-left:4px solid var(--good)}
+.fb.no{background:var(--bad-soft);border-left:4px solid var(--bad)}
+.fb.mid{background:var(--warn-soft);border-left:4px solid var(--warn)}
+.fb.info{background:var(--surface-2);border-left:4px solid var(--focus)}
+.fb b.t{font-weight:600}
+.checks{display:flex;flex-direction:column;gap:3px;font-size:13.5px}
+.checks .y{color:var(--good)} .checks .n{color:var(--bad)}
+.cloze{font-size:19px;line-height:1.6}
+.cloze .gap{display:inline-block;min-width:80px;border-bottom:2px solid var(--accent);color:var(--accent);font-weight:600;padding:0 4px}
+.bubble{align-self:flex-start;max-width:min(520px,100%);background:var(--surface-2);border-radius:14px 14px 14px 4px;padding:10px 14px;display:flex;flex-direction:column;gap:2px}
+.bubble .who{font-size:13px;font-weight:600;color:var(--soil)}
+.bubble .msg{font-size:16.5px}
+.bubble.me{align-self:flex-end;background:var(--accent-soft);border-radius:14px 14px 4px 14px}
+.sess-foot{border-top:1px solid var(--line);padding:12px 16px;display:flex;justify-content:flex-end;gap:8px;flex-wrap:wrap}
+
+/* lexicon */
+.lex-tools{display:grid;grid-template-columns:1fr;gap:10px}
+@media (min-width:640px){.lex-tools{grid-template-columns:1fr 220px}}
+.lex{display:flex;flex-direction:column}
+.lx{border-top:1px solid var(--line)}
+.lx:first-child{border-top:0}
+.lx-h{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr) auto;gap:10px;align-items:center;padding:9px 10px 9px 14px;cursor:pointer}
+.lx-h .e{font-weight:600;overflow-wrap:anywhere}
+.lx-h .f{color:var(--muted);overflow-wrap:anywhere}
+.lx-d{padding:0 14px 14px;display:flex;flex-direction:column;gap:8px;align-items:flex-start}
+.lx-d .morph{justify-content:flex-start}
+.lx-d .leg{justify-content:flex-start}
+.lx-th{padding:10px 14px 4px;font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);background:var(--bg);border-top:1px solid var(--line)}
+.lx-th:first-child{border-top:0}
+
+/* settings */
+.set{display:flex;flex-direction:column;gap:14px}
+.status{font-size:13.5px;border-left:3px solid var(--focus);background:var(--focus-soft);padding:8px 12px;border-radius:0 var(--r-s) var(--r-s) 0}
+.status.warn{border-color:var(--warn);background:var(--warn-soft)}
+.rng{display:grid;grid-template-columns:minmax(0,1fr) 52px;gap:10px;align-items:center}
+.rng output{font-variant-numeric:tabular-nums;font-size:13px;text-align:right;color:var(--muted)}
+ul.plain{margin:0;padding-left:18px;display:flex;flex-direction:column;gap:6px;font-size:14px}
+.src-list{display:flex;flex-direction:column;gap:6px;font-size:13.5px}
+.src-list div{display:flex;gap:8px;align-items:baseline}
+a{color:var(--focus)}
+@media (prefers-reduced-motion:no-preference){
+  .flash-body,.q{animation:in .18s ease-out}
+  @keyframes in{from{opacity:.4;transform:translateY(3px)}to{opacity:1;transform:none}}
+}
+</style>
+
+<header class="tb">
+  <div class="blk" aria-hidden="true"></div>
+  <div class="brand"><b>Ludvortaro</b><span>Mineklonia · esperanto ⇄ français</span></div>
+  <div class="grow"></div>
+  <span class="pill" id="sync"><i></i><span>Ce navigateur</span></span>
+</header>
+
+<div class="shell">
+  <nav class="side" aria-label="Sections">
+    <button data-view="kartoj"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="3" y="6" width="13" height="15" rx="2"/><path d="M8 3h11a2 2 0 0 1 2 2v13"/></svg><span class="lbl">Cartes<small>Kartoj · révision</small></span></button>
+    <button data-view="ekzercoj"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M4 20h4V14H4zM10 20h4V9h-4zM16 20h4V4h-4z"/></svg><span class="lbl">Exercices<small>Ekzercoj · 7 niveaux</small></span></button>
+    <button data-view="vortaro"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M4 5a2 2 0 0 1 2-2h13v16H6a2 2 0 0 0-2 2z"/><path d="M4 21V5"/><path d="M8 7h7M8 11h7"/></svg><span class="lbl">Lexique<small>Vortaro · recherche</small></span></button>
+    <button data-view="agordoj"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M4 7h10M18 7h2M4 17h4M12 17h8"/><circle cx="16" cy="7" r="2"/><circle cx="10" cy="17" r="2"/></svg><span class="lbl">Réglages<small>Agordoj · voix</small></span></button>
+    <div class="foot" id="side-foot"></div>
+  </nav>
+
+  <main class="main">
+    <div class="wrap">
+
+      <section id="v-kartoj" class="view" hidden>
+        <div class="ph"><h1>Cartes</h1><p>Répétition espacée à la manière d’Anki. Dites-vous la réponse à voix haute, retournez la carte, puis notez honnêtement.</p></div>
+        <div class="counts" id="counts"></div>
+        <div class="panel flash" id="flash"></div>
+        <div class="row"><span class="small muted" id="theme-summary"></span><button class="btn ghost" id="toggle-themes" aria-expanded="false">Choisir les thèmes</button></div>
+        <div class="panel pad" id="theme-box" hidden><div class="chips" id="chips-k"></div></div>
+        <div class="row" style="justify-content:space-between"><h2 class="sec">Progression par thème</h2>
+          <div class="lg"><span><i style="background:var(--accent)"></i>maîtrisés (≥ 21 j)</span><span><i style="background:var(--warn)"></i>en cours</span><span><i style="background:var(--surface-2);border:1px solid var(--line)"></i>nouveaux</span></div></div>
+        <div class="panel tp" id="tprog"></div>
+      </section>
+
+      <section id="v-ekzercoj" class="view" hidden>
+        <div id="ex-home" class="wrap" style="gap:20px">
+          <div class="ph"><h1>Exercices</h1><p>Sept niveaux, du plus guidé au plus libre : reconnaître, composer, rappeler, puis employer les mots en phrase et en conversation. Chaque réponse reçoit une correction immédiate.</p></div>
+          <div class="panel pad" style="display:flex;flex-direction:column;gap:10px">
+            <span class="small muted">Thèmes utilisés pour les niveaux 1 à 3 (les niveaux 4 à 7 mélangent tous les thèmes)</span>
+            <div class="chips" id="chips-e"></div>
+          </div>
+          <div class="panel ladder" id="ladder"></div>
+        </div>
+        <div id="ex-sess" class="panel" hidden></div>
+      </section>
+
+      <section id="v-vortaro" class="view" hidden>
+        <div class="ph"><h1>Lexique</h1><p>Tous les mots, avec leur décomposition et leur source. Touchez une ligne pour l’ouvrir.</p></div>
+        <div class="lex-tools">
+          <input type="search" id="lx-q" placeholder="Chercher en espéranto ou en français (cx → ĉ accepté)" aria-label="Chercher">
+          <select id="lx-t" aria-label="Thème"></select>
+        </div>
+        <div class="small muted" id="lx-n"></div>
+        <div class="panel lex" id="lex"></div>
+      </section>
+
+      <section id="v-agordoj" class="view" hidden>
+        <div class="ph"><h1>Réglages</h1><p>Voix, rythme des révisions et données.</p></div>
+        <div class="panel pad set">
+          <h2 class="sec">Synthèse vocale</h2>
+          <div class="status" id="tts-status"></div>
+          <label class="f" for="tts-voice">Voix<select id="tts-voice"></select></label>
+          <label class="f" for="tts-mode">Adaptation phonétique
+            <select id="tts-mode">
+              <option value="auto">Automatique (selon la langue de la voix)</option>
+              <option value="none">Aucune (texte espéranto tel quel)</option>
+              <option value="pl">Polonais (ĉ → cz, ŝ → sz, ŭ → ł…)</option>
+              <option value="hr">Croate (ĉ → č, ŝ → š, ĵ → ž…)</option>
+            </select>
+            <span class="hint">Une voix polonaise prononce l’espéranto de façon proche : mêmes consonnes et accent tonique sur l’avant-dernière syllabe.</span>
+          </label>
+          <div class="grid2">
+            <label class="f" for="tts-rate">Vitesse<div class="rng"><input type="range" id="tts-rate" min="0.5" max="1.4" step="0.05"><output id="o-rate"></output></div></label>
+            <label class="f" for="tts-pitch">Hauteur<div class="rng"><input type="range" id="tts-pitch" min="0.6" max="1.5" step="0.05"><output id="o-pitch"></output></div></label>
+          </div>
+          <label class="row small" for="tts-auto"><input type="checkbox" id="tts-auto"> Lire automatiquement le mot espéranto sur les cartes</label>
+          <label class="f" for="tts-test">Phrase d’essai<input type="text" id="tts-test" value="Saluton! Mi fosas per mia diamanta pioĉo."></label>
+          <div class="row"><button class="btn pri" id="tts-play">Écouter</button><button class="btn" id="tts-slow">Écouter lentement</button></div>
+          <p class="small muted" style="margin:0">Pour une vraie voix espéranto : sur Linux, eSpeak NG (voix « eo ») est souvent proposé au navigateur via speech-dispatcher ; sur Android, l’application eSpeak NG peut servir de moteur de synthèse. Sous Windows et macOS, installez une voix polonaise (Paulina, Zosia) pour profiter de l’adaptation.</p>
+        </div>
+
+        <div class="panel pad set">
+          <h2 class="sec">Révisions</h2>
+          <div class="grid2">
+            <label class="f" for="s-per">Nouvelles cartes par jour<select id="s-per"><option>5</option><option>10</option><option>15</option><option>20</option><option>30</option></select></label>
+            <label class="f" for="s-dir">Sens des cartes<select id="s-dir">
+              <option value="r">Reconnaissance (espéranto → français)</option>
+              <option value="p">Production (français → espéranto)</option>
+              <option value="rp">Les deux (la production vient après la reconnaissance)</option></select></label>
+          </div>
+          <p class="small muted" style="margin:0">Commencer par la reconnaissance allège la charge : la carte de production d’un mot n’apparaît qu’une fois le mot reconnu au moins un jour.</p>
+        </div>
+
+        <div class="panel pad set">
+          <h2 class="sec">Données</h2>
+          <div class="status" id="data-status"></div>
+          <div class="row"><button class="btn danger" id="reset">Effacer ma progression</button><span id="reset-confirm" hidden class="row"><span class="small">Tout effacer ?</span><button class="btn danger" id="reset-yes">Oui, effacer</button><button class="btn" id="reset-no">Annuler</button></span></div>
+        </div>
+
+        <div class="panel pad set">
+          <h2 class="sec">Sources des mots</h2>
+          <div class="src-list" id="src-list"></div>
+          <p class="small muted" style="margin:0">Vérifications : <a href="https://github.com/revuloj/revo-fonto" target="_blank" rel="noopener">ReVo</a>, traductions espéranto de <a href="https://github.com/luanti-org/luanti" target="_blank" rel="noopener">Luanti</a> et de <a href="https://github.com/MineClone2/MineClone2" target="_blank" rel="noopener">VoxeLibre</a>, discussions de <a href="https://ludanto.net/" target="_blank" rel="noopener">ludanto.net</a>. Avant d’employer une proposition, un coup d’œil au PIV reste prudent.</p>
+        </div>
+
+        <div class="panel pad set">
+          <h2 class="sec">Comment l’application est construite</h2>
+          <ul class="plain">
+            <li><b>Segmentation.</b> Douze thèmes courts, dix nouvelles cartes par jour, des sessions d’exercices de quatre à huit questions.</li>
+            <li><b>Pré-apprentissage.</b> Les thèmes concrets (verbes, outils, ressources) viennent avant le jargon de la quête de l’End.</li>
+            <li><b>Signalement.</b> Chaque mot est découpé en préfixe, racine, suffixe et terminaison, en couleurs, avec le sens des affixes.</li>
+            <li><b>Modalité et contiguïté.</b> Le mot écrit, sa prononciation et un exemple de jeu apparaissent ensemble, au même endroit.</li>
+            <li><b>Estompage.</b> Les exercices passent de la reconnaissance guidée à la production libre ; la traduction des messages du niveau 7 est masquée par défaut.</li>
+            <li><b>Récupération espacée.</b> L’algorithme des cartes reprend celui d’Anki (SM-2) : chaque rappel réussi espace la révision suivante.</li>
+          </ul>
+        </div>
+      </section>
+
+    </div>
+  </main>
+</div>
+
+<nav class="nav-b" aria-label="Sections">
+  <button data-view="kartoj"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="3" y="6" width="13" height="15" rx="2"/><path d="M8 3h11a2 2 0 0 1 2 2v13"/></svg>Cartes</button>
+  <button data-view="ekzercoj"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M4 20h4V14H4zM10 20h4V9h-4zM16 20h4V4h-4z"/></svg>Exercices</button>
+  <button data-view="vortaro"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M4 5a2 2 0 0 1 2-2h13v16H6a2 2 0 0 0-2 2z"/><path d="M4 21V5"/><path d="M8 7h7M8 11h7"/></svg>Lexique</button>
+  <button data-view="agordoj"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M4 7h10M18 7h2M4 17h4M12 17h8"/><circle cx="16" cy="7" r="2"/><circle cx="10" cy="17" r="2"/></svg>Réglages</button>
+</nav>
+
+<script>
+(function(){
+'use strict';
+const $=(s,r=document)=>r.querySelector(s);
+const $$=(s,r=document)=>Array.from(r.querySelectorAll(s));
+const esc=s=>String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const MIN=60000, DAY=86400000;
+const now=()=>Date.now();
+const shuffle=a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;};
+const sample=(a,n)=>shuffle(a).slice(0,n);
+
+/* ---------- Thèmes et sources ---------- */
+const THEMES=[
+ {k:'ago',eo:'Agoj',fr:'Verbes d’action'},
+ {k:'ilo',eo:'Iloj kaj ekipaĵo',fr:'Outils et équipement'},
+ {k:'rim',eo:'Rimedoj',fr:'Ressources'},
+ {k:'lok',eo:'Lokoj kaj strukturoj',fr:'Lieux et structures'},
+ {k:'srv',eo:'Servilo kaj ludo',fr:'Serveur et jeu'},
+ {k:'ifc',eo:'Interfaco',fr:'Interface'},
+ {k:'est',eo:'Estaĵoj',fr:'Créatures'},
+ {k:'fin',eo:'La Fino',fr:'Quête de l’End'},
+ {k:'inf',eo:'La Infero',fr:'Le Nether'},
+ {k:'sor',eo:'Sorĉado kaj alkemio',fr:'Enchantement et alchimie'},
+ {k:'rug',eo:'Ruĝŝtono',fr:'Redstone et mécanismes'},
+ {k:'alt',eo:'Strategio',fr:'Stratégie et fin de partie'}
+];
+const TH=Object.fromEntries(THEMES.map((t,i)=>[t.k,Object.assign({i},t)]));
+const SRC={
+ R:['ReVo','Racine ou forme attestée dans ReVo'],
+ L:['Luanti','Traduction officielle du moteur Luanti'],
+ V:['Officiel','Traduction officielle VoxeLibre / Mineclonia'],
+ K:['Groupe','Usage de la communauté ludanto.net'],
+ P:['Proposition','Formation régulière, non attestée'],
+ U:['Courant','Mot courant']
+};
+
+/* ---------- Vocabulaire : [thème, eo, fr, morphèmes, source, note, exemple eo, exemple fr, variantes] ---------- */
+const RAW=[
+['ago','fosi','creuser','fos·i','R','','Ni fosis tunelon sub la monto.','Nous avons creusé un tunnel sous la montagne.'],
+['ago','elfosi','extraire (en creusant)','el·fos·i','R','','Mi elfosis diamantojn el la muro.','J’ai extrait des diamants du mur.'],
+['ago','trafosi','creuser à travers','tra·fos·i','R','','Ni trafosis la tutan monton.','Nous avons creusé à travers toute la montagne.'],
+['ago','preterfosi','dépasser en creusant','preter·fos·i','K','','Eble ni preterfosis la fortikaĵon.','Nous avons peut-être dépassé la forteresse en creusant.'],
+['ago','kavi','creuser une cavité','kav·i','R','','Mi kavis grandan kubon en la tero.','J’ai creusé un grand cube dans la terre.'],
+['ago','mini','miner','min·i','R','','Ni minis la tutan nokton.','Nous avons miné toute la nuit.'],
+['ago','haki','couper (du bois)','hak·i','R','','Mi hakis tri arbojn por fari tabulojn.','J’ai coupé trois arbres pour faire des planches.'],
+['ago','frapi','frapper','frap·i','R','','Frapu la blokon plurfoje por rompi ĝin.','Frappe le bloc plusieurs fois pour le casser.'],
+['ago','meti','poser (un bloc)','met·i','L','Luanti : « Meti/uzi » = poser/utiliser.','Metu blokon sub viajn piedojn.','Pose un bloc sous tes pieds.'],
+['ago','forĵeti','lâcher, jeter','for·ĵet·i','L','','Forĵetu la nebezonatajn ŝtonojn.','Jette les pierres inutiles.'],
+['ago','konstrui','construire','konstru·i','U','','Ni konstruas kastelon apud la maro.','Nous construisons un château près de la mer.'],
+['ago','fandi','fondre (un minerai)','fand·i','R','','Mi fandas ferercon en la forno.','Je fais fondre du minerai de fer dans le four.'],
+['ago','kuiri','cuire','kuir·i','R','','Kuiru la viandon en la forno.','Fais cuire la viande dans le four.'],
+['ago','rikolti','récolter','rikolt·i','R','','Rikoltu la tritikon, kiam ĝi flaviĝas.','Récolte le blé quand il jaunit.'],
+['ago','planti','planter','plant·i','R','','Mi plantis arbidojn ĉirkaŭ la domo.','J’ai planté de jeunes arbres autour de la maison.'],
+['ago','kaŝiri','se faufiler (sneak)','kaŝ·ir·i','L','Composé de kaŝi (cacher) et iri (aller).','Kaŝiru ĉe la rando por ne fali.','Faufile-toi au bord pour ne pas tomber.'],
+['ago','esplori','explorer','esplor·i','U','','Ni esploros la nemalkovritan parton de la mondo.','Nous explorerons la partie inexplorée du monde.'],
+['ago','lokalizi','repérer, localiser','lokaliz·i','U','','Ni ne sukcesis lokalizi la fortikaĵon.','Nous n’avons pas réussi à localiser la forteresse.'],
+['ago','ĵeti','lancer','ĵet·i','K','','Ĵetu la okulon en la aeron.','Lance l’œil en l’air.'],
+['ago','pafi','tirer (à l’arc)','paf·i','R','','La skeleto pafas sagojn.','Le squelette tire des flèches.'],
+['ago','ĉasi','chasser','ĉas·i','K','','Oni devas ĉasi finulojn por akiri finperlojn.','Il faut chasser des endermen pour obtenir des perles.'],
+['ago','ripari','réparer','ripar·i','U','','Mi riparis mian pioĉon per la amboso.','J’ai réparé ma pioche avec l’enclume.'],
+['ago','teleporti','téléporter','teleport·i','U','Usuel mais absent de ReVo. Plus sobre : transloki sin.','La admino teleportis min al la vilaĝo.','L’admin m’a téléporté au village.'],
+['ago','salti','sauter','salt·i','L',''],
+['ago','naĝi','nager','naĝ·i','U',''],
+['ago','grimpi','grimper','grimp·i','U',''],
+
+['ilo','pioĉo','pioche','pioĉ·o','R','','Per diamanta pioĉo oni povas fosi obsidianon.','Avec une pioche en diamant, on peut creuser l’obsidienne.'],
+['ilo','ŝovelilo','pelle','ŝovel·il·o','R','','Per ŝovelilo oni fosas teron kaj sablon pli rapide.','Avec une pelle, on creuse plus vite la terre et le sable.'],
+['ilo','hakilo','hache','hak·il·o','R','','Per la hakilo mi hakis tri arbojn.','Avec la hache, j’ai coupé trois arbres.'],
+['ilo','glavo','épée','glav·o','R','','La glavo estas la plej bona armilo kontraŭ zombioj.','L’épée est la meilleure arme contre les zombies.'],
+['ilo','tondilo','cisailles','tond·il·o','R','','Per tondilo oni tondas ŝafojn.','Avec des cisailles, on tond les moutons.'],
+['ilo','sarkilo','houe','sark·il·o','U',''],
+['ilo','fiŝkaptilo','canne à pêche','fiŝ·kapt·il·o','R','La traduction officielle dit « fiŝkano ».','Per fiŝkaptilo mi kaptis salmon.','Avec la canne à pêche, j’ai attrapé un saumon.','fiŝkano'],
+['ilo','arko','arc','ark·o','R','','Mi pafis sagon per mia arko.','J’ai tiré une flèche avec mon arc.'],
+['ilo','sago','flèche','sag·o','R',''],
+['ilo','ŝildo','bouclier','ŝild·o','R','','La ŝildo protektas vin kontraŭ la sagoj de skeletoj.','Le bouclier te protège des flèches des squelettes.'],
+['ilo','kiraso','armure','kiras·o','R','','Fera kiraso protektas kontraŭ multaj vundoj.','Une armure en fer protège de nombreuses blessures.'],
+['ilo','kasko','casque','kask·o','R',''],
+['ilo','torĉo','torche','torĉ·o','R','','Metu torĉojn sur la murojn, por ke la monstroj ne aperu.','Mets des torches sur les murs pour que les monstres n’apparaissent pas.'],
+['ilo','sitelo','seau','sitel·o','U','','Verŝu sitelon da akvo sur la lafon por fari obsidianon.','Verse un seau d’eau sur la lave pour faire de l’obsidienne.'],
+['ilo','fajrilo','briquet','fajr·il·o','U','','Per fajrilo oni ekbruligas la inferan portalon.','Avec un briquet, on allume le portail du Nether.'],
+['ilo','horloĝo','horloge','horloĝ·o','V',''],
+['ilo','labortablo','établi','labor·tabl·o','P','','Ĉe la labortablo oni kreas ilojn el tabuloj.','À l’établi, on fabrique des outils avec des planches.'],
+['ilo','forno','four','forn·o','R','','En la forno mi fandas ferercon.','Dans le four, je fais fondre du minerai de fer.'],
+['ilo','kesto','coffre','kest·o','R','On dit aussi « kofro ».','Mi metis ĉiujn diamantojn en la keston.','J’ai mis tous les diamants dans le coffre.','kofro'],
+['ilo','amboso','enclume','ambos·o','R','','Per amboso oni riparas kaj kunigas ilojn.','Avec une enclume, on répare et on combine les outils.'],
+['ilo','lito','lit','lit·o','R','','Se vi dormas en lito, vi renaskiĝos tie.','Si tu dors dans un lit, tu réapparaîtras là.'],
+['ilo','dinamito','TNT','dinamit·o','V',''],
+
+['rim','ŝtono','pierre','ŝton·o','U',''],
+['rim','tero','terre','ter·o','U',''],
+['rim','sablo','sable','sabl·o','U',''],
+['rim','gruzo','gravier','gruz·o','R','','Gruzo falas, kiam oni fosas sub ĝi.','Le gravier tombe quand on creuse dessous.'],
+['rim','ŝtipo','bûche','ŝtip·o','R','','El unu ŝtipo oni faras kvar tabulojn.','Avec une bûche, on fait quatre planches.'],
+['rim','tabulo','planche','tabul·o','R',''],
+['rim','bastoneto','bâton','baston·et·o','U','-et- : diminutif (petit bâton).'],
+['rim','erco','minerai','erc·o','R','','Erco estas ŝtono, kiu enhavas metalon.','Un minerai est une pierre qui contient du métal.'],
+['rim','fererco','minerai de fer','fer·erc·o','V','','Mi trovis ferercon apud la kaverno.','J’ai trouvé du minerai de fer près de la caverne.'],
+['rim','karboerco','minerai de charbon','karb·o·erc·o','V',''],
+['rim','ingoto','lingot','ingot·o','R','','Mi fandis ok ferajn ingotojn.','J’ai fondu huit lingots de fer.'],
+['rim','karbo','charbon','karb·o','U',''],
+['rim','diamanto','diamant','diamant·o','U','','Diamantoj troviĝas tre profunde.','Les diamants se trouvent très profond.'],
+['rim','smeraldo','émeraude','smerald·o','U',''],
+['rim','lazurito','lapis-lazuli','lazurit·o','R','La traduction officielle dit « lazurŝtono ».','','','lazurŝtono'],
+['rim','kvarco','quartz','kvarc·o','R',''],
+['rim','obsidiano','obsidienne','obsidian·o','R','','Obsidiano estiĝas, kiam akvo tuŝas lafon.','L’obsidienne se forme quand l’eau touche la lave.'],
+['rim','lafo','lave','laf·o','R','','Atentu: sub ĉi tiu ŝtono estas lafo!','Attention : sous cette pierre, il y a de la lave !'],
+['rim','akvofonto','source d’eau','akv·o·font·o','V',''],
+['rim','pulvo','poudre (à canon)','pulv·o','R','','Eksplodulo lasas pulvon post sia morto.','Un creeper laisse de la poudre après sa mort.'],
+['rim','lano','laine','lan·o','R','','El lano oni faras litojn.','Avec de la laine, on fait des lits.'],
+['rim','ŝnuro','ficelle','ŝnur·o','R','','Araneoj lasas ŝnurojn.','Les araignées laissent de la ficelle.'],
+
+['lok','ĉefmondo','Overworld (monde principal)','ĉef·mond·o','P','La traduction officielle dit simplement « la mondo ».','Post la Infero ni revenis al la ĉefmondo.','Après le Nether, nous sommes revenus dans l’Overworld.'],
+['lok','fortikaĵo','forteresse (stronghold)','fortik·aĵ·o','R','','La okuloj montras la direkton al la fortikaĵo.','Les yeux montrent la direction de la forteresse.'],
+['lok','minejo','mine','min·ej·o','R','-ej- : lieu où se fait l’action.','Ni trovis forlasitan minejon plenan de reloj.','Nous avons trouvé une mine abandonnée pleine de rails.'],
+['lok','forgeskelo','donjon (dungeon)','forges·kel·o','L','Mot du moteur Luanti : la « cave oubliée ».','En la forgeskelo estas monstroaperejo kaj kesto.','Dans le donjon, il y a un générateur de monstres et un coffre.'],
+['lok','groto','grotte','grot·o','R','','Malantaŭ la akvofalo estas groto.','Derrière la cascade, il y a une grotte.'],
+['lok','kaverno','caverne','kavern·o','R','','Mi lasis torĉojn en la kaverno por retrovi la vojon.','J’ai laissé des torches dans la caverne pour retrouver le chemin.'],
+['lok','kavernego','grande caverne','kavern·eg·o','L','-eg- : augmentatif.','Tre profunde troviĝas kavernegoj.','Très profond, on trouve de grandes cavernes.'],
+['lok','ŝakto','puits (de mine)','ŝakt·o','R','','Li fosis ŝakton ĝis la bazroko.','Il a creusé un puits jusqu’à la bedrock.'],
+['lok','tunelo','tunnel','tunel·o','U',''],
+['lok','helika ŝtuparo','escalier en colimaçon','helik·a ŝtup·ar·o','K','ReVo donne aussi « helica ŝtuparo ».','Ni boris helikan ŝtuparon malsupren.','Nous avons foré un escalier en colimaçon vers le bas.'],
+['lok','monstroaperejo','générateur de monstres (spawner)','monstr·o·aper·ej·o','K','Lieu (-ej-) où apparaissent (aperi) les monstres.','Ni trovis monstroaperejon per la sonmapo.','Nous avons trouvé un générateur de monstres grâce à la carte sonar.'],
+['lok','klimato','biome','klimat·o','L','Plus précis en biologie : « biomo ».','En dezerta klimato estas multe da sablo.','Dans un biome désertique, il y a beaucoup de sable.','biomo'],
+['lok','koordinatoj','coordonnées','koordinat·oj','K','','Sendu al mi viajn koordinatojn.','Envoie-moi tes coordonnées.'],
+['lok','profundeco','profondeur','profund·ec·o','K','-ec- : qualité abstraite.','La fortikaĵo ne estas en tia profundeco.','La forteresse n’est pas à une telle profondeur.'],
+['lok','bazroko','bedrock','baz·rok·o','P','À la place de l’anglicisme « bedrock ».','Oni ne povas fosi tra la bazroko.','On ne peut pas creuser à travers la bedrock.'],
+['lok','vilaĝo','village','vilaĝ·o','U',''],
+
+['srv','ludo','jeu','lud·o','R','','Mineklonia estas ludo de konstruado kaj esplorado.','Mineclonia est un jeu de construction et d’exploration.'],
+['srv','kunludado','partie à plusieurs','kun·lud·ad·o','K','-ad- : action qui dure.','Ni renkontiĝas por kunludado ĉiun unuan sabaton.','On se retrouve pour jouer ensemble chaque premier samedi.'],
+['srv','mondo','monde','mond·o','L',''],
+['srv','mondero','bloc (unité du monde)','mond·er·o','L','-er- : élément d’un tout. « bloko » est aussi compris.','Ĉiu mondero havas siajn koordinatojn.','Chaque bloc a ses coordonnées.','bloko'],
+['srv','mondopeco','portion de carte (16×16×16)','mond·o·pec·o','L','','La servilo sendas la mondopecojn unu post la alia.','Le serveur envoie les portions de carte l’une après l’autre.'],
+['srv','mondestigilo','générateur de monde','mond·est·ig·il·o','L','Outil (-il-) qui fait (-ig-) exister (esti) le monde.','La mondestigilo ne kreis la fortikaĵon.','Le générateur de monde n’a pas créé la forteresse.'],
+['srv','fontnombro','graine (seed)','font·nombr·o','L','On dit aussi « greno ».','Kun la sama fontnombro oni ricevas la saman mondon.','Avec la même graine, on obtient le même monde.','greno'],
+['srv','modifaĵo','mod','modif·aĵ·o','L','','Ĉu vi instalis novan modifaĵon?','As-tu installé un nouveau mod ?'],
+['srv','servilo','serveur','serv·il·o','L','','La servilo estas ĉiam ŝaltita.','Le serveur est toujours allumé.'],
+['srv','pordo','port (réseau)','pord·o','L','Le même mot que « porte ».','La pordo de Mineklonia estas 30000.','Le port de Mineclonia est 30000.'],
+['srv','sekura kopio','sauvegarde','sekur·a kopi·o','K','On lit aussi « savkopio ».','La servilo faras sekuran kopion ĉiusemajne.','Le serveur fait une sauvegarde chaque semaine.','savkopio'],
+['srv','ĝisdatigi','mettre à jour','ĝis·dat·ig·i','K','','Mi ĝisdatigis la servilon hodiaŭ matene.','J’ai mis à jour le serveur ce matin.'],
+['srv','retprokrasto','lag, ping','ret·prokrast·o','L','','La retprokrasto estas tro granda hodiaŭ.','Le lag est trop important aujourd’hui.'],
+['srv','ekrankopio','capture d’écran','ekran·kopi·o','L','','Vidu la sekvan ekrankopion.','Voir la capture d’écran suivante.'],
+['srv','administranto','admin','administr·ant·o','K','Familier : admino.','Nur administranto rajtas uzi tiun komandon.','Seul un admin a le droit d’utiliser cette commande.','admino'],
+['srv','rajto','droit, privilège','rajt·o','L','','Vi ne havas la rajton flugi.','Tu n’as pas le droit de voler.'],
+['srv','komando','commande','komand·o','L','','Tajpu la komandon en la babilejo.','Tape la commande dans le chat.'],
+['srv','krea reĝimo','mode créatif','kre·a reĝim·o','L','','En krea reĝimo oni havas senliman materialon.','En mode créatif, on a des matériaux illimités.'],
+['srv','postviva reĝimo','mode survie','post·viv·a reĝim·o','V','','En postviva reĝimo oni devas manĝi.','En mode survie, il faut manger.'],
+['srv','trapasi','traverser les murs (noclip)','tra·pas·i','L','Luanti : « trapasa reĝimo ». À la place de « noclip-i ».','Kiel administranto vi povas trapasi murojn.','En tant qu’admin, tu peux traverser les murs.'],
+['srv','fluga reĝimo','mode vol','flug·a reĝim·o','L',''],
+['srv','eraro','bug, erreur','erar·o','K','À la place de « bugo ». Familier : cimo.','Mi raportis eraron al la administranto.','J’ai signalé un bug à l’admin.','cimo'],
+['srv','ensaluti','se connecter','en·salut·i','L','Le bouton de Luanti s’appelle « Saluti ».','Tajpu vian nomon kaj pasvorton por ensaluti.','Tape ton nom et ton mot de passe pour te connecter.'],
+['srv','pasvorto','mot de passe','pas·vort·o','L',''],
+
+['ifc','inventaro','inventaire','inventar·o','V','Luanti dit aussi « portaĵujo ».','Mia inventaro estas plena.','Mon inventaire est plein.','portaĵujo'],
+['ifc','portaĵo','objet (item)','port·aĵ·o','L','','Ĉi tiu portaĵo ne stakiĝas.','Cet objet ne s’empile pas.'],
+['ifc','fulmobreto','barre rapide','fulm·o·bret·o','L','','Metu la torĉojn en vian fulmobreton.','Mets les torches dans ta barre rapide.'],
+['ifc','stako','pile (stack)','stak·o','R','','Unu stako enhavas ĝis 64 blokojn.','Une pile contient jusqu’à 64 blocs.'],
+['ifc','recepto','recette','recept·o','R',''],
+['ifc','kreado','artisanat (crafting)','kre·ad·o','V','','La kreado de pioĉo bezonas tri blokojn kaj du bastonetojn.','Fabriquer une pioche demande trois blocs et deux bâtons.'],
+['ifc','krei','fabriquer (crafter)','kre·i','V','','Mi kreis feran pioĉon.','J’ai fabriqué une pioche en fer.'],
+['ifc','atingo','succès (advancement)','ating·o','V','','Mi ricevis novan atingon!','J’ai obtenu un nouveau succès !'],
+['ifc','babilejo','chat (salon de discussion)','babil·ej·o','L','','Skribu ion en la babilejo.','Écris quelque chose dans le chat.'],
+['ifc','mapeto','mini-carte','map·et·o','L','-et- : diminutif.','La mapeto montras la kavernojn sub mi.','La mini-carte montre les cavernes sous moi.'],
+['ifc','renaskiĝi','réapparaître (respawn)','re·nask·iĝ·i','L','VoxeLibre dit aussi « reaperi ».','Post la morto mi renaskiĝis apud mia lito.','Après ma mort, je suis réapparu à côté de mon lit.','reaperi'],
+
+['est','estaĵoj','mobs (créatures)','est·aĵ·oj','V',''],
+['est','monstro','monstre','monstr·o','K',''],
+['est','zombio','zombie','zombi·o','R',''],
+['est','skeleto','squelette','skelet·o','R',''],
+['est','araneo','araignée','arane·o','R',''],
+['est','eksplodulo','creeper','eksplod·ul·o','P','-ul- : être caractérisé par… (ici : qui explose).','Atentu, eksplodulo malantaŭ vi!','Attention, un creeper derrière toi !'],
+['est','finulo','enderman','fin·ul·o','P','Dans le groupe : « nigraj uloj ».','Ne rigardu la finulon en la okulojn!','Ne regarde pas l’enderman dans les yeux !'],
+['est','vilaĝano','villageois','vilaĝ·an·o','U','-an- : membre, habitant.'],
+['est','drako','dragon','drak·o','R','','La drako atendas nin en Finujo.','Le dragon nous attend dans l’End.'],
+
+['fin','finokulo','œil de l’Ender','fin·okul·o','P','Dans le groupe : « okuloj », « magiaj okuloj ».','Ĵetu finokulon: ĝi flugas al la fortikaĵo.','Lance un œil : il vole vers la forteresse.','okulo|magia okulo'],
+['fin','finperlo','perle de l’Ender','fin·perl·o','P','On lit aussi « perlo de finaĵo ».','Por fari finokulon oni bezonas finperlon kaj fajropulvon.','Pour faire un œil, il faut une perle et de la poudre de blaze.','perlo de finaĵo'],
+['fin','fajropulvo','poudre de blaze','fajr·o·pulv·o','K',''],
+['fin','malŝpari','gaspiller','mal·ŝpar·i','K','mal- : contraire (ŝpari = économiser).','Mi malŝparis dudek ses okulojn.','J’ai gaspillé vingt-six yeux.'],
+['fin','rompiĝi','se briser','romp·iĝ·i','U','-iĝ- : intransitif (se casser tout seul).','Kelkfoje la okulo rompiĝas en la aero.','Parfois l’œil se brise en l’air.'],
+['fin','trianguli','trianguler','triangul·i','P','','Ĵetu okulojn el du lokoj por trianguli la pozicion.','Lance des yeux depuis deux endroits pour trianguler la position.'],
+['fin','portalejo','salle du portail','portal·ej·o','K','','En la portalejo estas la portalo al la Fino.','Dans la salle du portail se trouve le portail de l’End.'],
+['fin','portalkadro','cadre du portail','portal·kadr·o','P','','La portalkadro havas dek du lokojn por okuloj.','Le cadre du portail a douze emplacements pour les yeux.'],
+['fin','portalo','portail','portal·o','R',''],
+['fin','elirejo','sortie','el·ir·ej·o','K','','La plej bona elirejo en la fortikaĵon estas vertikala.','La meilleure entrée dans la forteresse est verticale.'],
+['fin','aktivigi','activer','aktiv·ig·i','U','-ig- : rendre (actif).','Ni aktivigos la portalon per la lasta okulo.','Nous activerons le portail avec le dernier œil.'],
+['fin','Finujo','l’End (dimension)','Fin·uj·o','K','-uj- comme pour un pays (Francujo). On dit aussi « la Fino ».','La drako atendas nin en Finujo.','Le dragon nous attend dans l’End.','la fino|fino'],
+['fin','finkristalo','cristal de l’End','fin·kristal·o','P','','Unue detruu la finkristalojn sur la kolonoj.','Détruis d’abord les cristaux sur les colonnes.'],
+['fin','drakovo','œuf de dragon','drak·ov·o','P','','Post la batalo restas la drakovo.','Après le combat, il reste l’œuf de dragon.'],
+['fin','transirejo','portail de retour (gateway)','trans·ir·ej·o','P','','Post la venko aperas transirejo al la finurboj.','Après la victoire, un passage apparaît vers les villes de l’End.'],
+['fin','konkulo','shulker','konk·ul·o','P','Être (-ul-) à coquille (konko).','Konkuloj kaŝiĝas en la finurboj.','Les shulkers se cachent dans les villes de l’End.'],
+['fin','elitroj','élytres','elitr·oj','R','En zoologie : les ailes rigides du scarabée.','Per elitroj kaj raketoj oni flugas tre rapide.','Avec des élytres et des fusées, on vole très vite.'],
+['fin','glisflugi','planer','glis·flug·i','P','','Kun elitroj oni glisflugas de alta loko.','Avec des élytres, on plane depuis un endroit élevé.'],
+['fin','ringo','anneau (zone des forteresses)','ring·o','K','','La fortikaĵoj troviĝas en ringoj ĉirkaŭ la centro de la mondo.','Les forteresses se trouvent en anneaux autour du centre du monde.'],
+
+['inf','Infero','Nether','Infer·o','R','','Ni iros al la Infero por ĉasi fajrestaĵojn.','Nous irons dans le Nether chasser des blazes.'],
+['inf','infera portalo','portail du Nether','infer·a portal·o','P','','Por fari inferan portalon oni bezonas obsidianon.','Pour faire un portail du Nether, il faut de l’obsidienne.'],
+['inf','ekbruligi','allumer','ek·brul·ig·i','U','ek- : début ; -ig- : faire (brûler).','Ekbruligu la portalon per fajrilo.','Allume le portail avec un briquet.'],
+['inf','inferŝtono','netherrack','infer·ŝton·o','P','','Inferŝtono brulas senfine.','La netherrack brûle sans fin.'],
+['inf','animsablo','sable des âmes','anim·sabl·o','P','','Sur animsablo oni marŝas malrapide.','Sur le sable des âmes, on marche lentement.'],
+['inf','lumŝtono','pierre lumineuse (glowstone)','lum·ŝton·o','P','','Lumŝtono pendas de la plafono de la Infero.','La pierre lumineuse pend du plafond du Nether.'],
+['inf','nederito','netherite','nederit·o','V','Anglicisme officiel ; alternative proposée : inferito.','Nederitaj iloj ne brulas en lafo.','Les outils en netherite ne brûlent pas dans la lave.','inferito'],
+['inf','fajrestaĵo','blaze','fajr·est·aĵ·o','P','Dans le groupe : « fajraperaĵo ».','Fajrestaĵoj flugas kaj pafas fajrobulojn.','Les blazes volent et tirent des boules de feu.','fajraperaĵo'],
+['inf','fajrostango','bâton de blaze','fajr·o·stang·o','P','','El fajrostango oni faras fajropulvon.','Avec un bâton de blaze, on fait de la poudre de blaze.'],
+['inf','fantomego','ghast','fantom·eg·o','P','Racine fantom- attestée ; -eg- : augmentatif.','La fantomego krias kaj pafas fajrobulojn.','Le ghast crie et tire des boules de feu.'],
+['inf','magmokubo','cube de magma','magm·o·kub·o','P','','Magmokuboj saltas en la lafaj lagoj.','Les cubes de magma sautent dans les lacs de lave.'],
+['inf','porkulo','piglin','pork·ul·o','P','','Porkuloj ŝatas oron.','Les piglins aiment l’or.'],
+['inf','infera fortikaĵo','forteresse du Nether','infer·a fortik·aĵ·o','K','','La infera fortikaĵo estas konstruita el malhelaj brikoj.','La forteresse du Nether est construite en briques sombres.'],
+['inf','bastiono','vestige (bastion)','bastion·o','R','','En la bastiono loĝas multaj porkuloj.','Beaucoup de piglins vivent dans le vestige.'],
+
+['sor','sorĉi','enchanter','sorĉ·i','R','','Mi sorĉis mian glavon.','J’ai enchanté mon épée.'],
+['sor','sorĉtablo','table d’enchantement','sorĉ·tabl·o','P','','Metu librobretarojn ĉirkaŭ la sorĉtablon.','Mets des étagères à livres autour de la table d’enchantement.'],
+['sor','sperto','expérience (XP)','spert·o','U','','Oni ricevas sperton, kiam oni mortigas monstrojn.','On gagne de l’expérience quand on tue des monstres.'],
+['sor','librobretaro','étagère à livres','libr·o·bret·ar·o','P','-ar- : ensemble (de planches).','Dek kvin librobretaroj donas la plej fortajn sorĉojn.','Quinze étagères donnent les enchantements les plus forts.'],
+['sor','eliksiro','potion','eliksir·o','U','','Trinku eliksiron de fajrorezisto antaŭ la Infero.','Bois une potion de résistance au feu avant le Nether.'],
+['sor','eliksirfarilo','alambic (brewing stand)','eliksir·far·il·o','P','','La eliksirfarilo bezonas fajropulvon.','L’alambic a besoin de poudre de blaze.'],
+['sor','kaldrono','chaudron','kaldron·o','R',''],
+['sor','fiolo','fiole','fiol·o','U',''],
+['sor','fajrorezisto','résistance au feu','fajr·o·rezist·o','U',''],
+['sor','noktovido','vision nocturne','nokt·o·vid·o','U','','Kun eliksiro de noktovido oni vidas en la mallumo.','Avec une potion de vision nocturne, on voit dans le noir.'],
+
+['rug','ruĝŝtono','redstone','ruĝ·ŝton·o','V','','Per ruĝŝtono oni konstruas cirkvitojn.','Avec la redstone, on construit des circuits.'],
+['rug','cirkvito','circuit','cirkvit·o','U','','Mia cirkvito ne funkcias.','Mon circuit ne fonctionne pas.'],
+['rug','levilo','levier','lev·il·o','R','','Tiru la levilon por malfermi la pordon.','Tire le levier pour ouvrir la porte.'],
+['rug','butono','bouton','buton·o','U','','Premu la butonon por ŝalti la lampon.','Appuie sur le bouton pour allumer la lampe.'],
+['rug','premplato','plaque de pression','prem·plat·o','P','','Kiam oni paŝas sur la premplaton, la pordo malfermiĝas.','Quand on marche sur la plaque, la porte s’ouvre.'],
+['rug','piŝto','piston','piŝt·o','U','','La piŝto puŝas la blokon antaŭen.','Le piston pousse le bloc en avant.'],
+['rug','relajso','répéteur','relajs·o','R','','La relajso plifortigas kaj prokrastas la signalon.','Le répéteur renforce et retarde le signal.'],
+['rug','komparilo','comparateur','kompar·il·o','P',''],
+['rug','observilo','observateur','observ·il·o','P','','La observilo rimarkas ŝanĝojn de la bloko antaŭ si.','L’observateur détecte les changements du bloc devant lui.'],
+['rug','funelo','trémie','funel·o','U','','La funelo transdonas aĵojn en la keston.','La trémie fait passer les objets dans le coffre.'],
+['rug','relo','rail','rel·o','R',''],
+['rug','vagoneto','wagonnet','vagon·et·o','R','','La vagoneto ruliĝas sur la reloj.','Le wagonnet roule sur les rails.'],
+
+['alt','signallumo','balise (beacon)','signal·lum·o','P','','La signallumo donas rapidecon al ĉiuj proksimaj ludantoj.','La balise donne de la vitesse à tous les joueurs proches.'],
+['alt','totemo de senmorteco','totem d’immortalité','totem·o de sen·mort·ec·o','R','','La totemo de senmorteco savas vin de la morto unufoje.','Le totem d’immortalité te sauve de la mort une fois.'],
+['alt','reaperejo','point de réapparition','re·aper·ej·o','P','','Mia reaperejo estas en la vilaĝo.','Mon point de réapparition est au village.'],
+['alt','tridento','trident','trident·o','U',''],
+['alt','arbalesto','arbalète','arbalest·o','R',''],
+['alt','Velkulo','Wither','Velk·ul·o','P','Racine velki (flétrir).','La Velkulo estas pli danĝera ol la drako.','Le Wither est plus dangereux que le dragon.'],
+['alt','spertofarmo','ferme à expérience','spert·o·farm·o','P','','Ni konstruis spertofarmon apud la monstroaperejo.','Nous avons construit une ferme à XP près du générateur.'],
+['alt','monstrofarmo','ferme à monstres','monstr·o·farm·o','P',''],
+['alt','provizejo','réserve, entrepôt','proviz·ej·o','P','','Ĉiuj ingotoj estas en la provizejo.','Tous les lingots sont dans la réserve.'],
+['alt','bazo','base','baz·o','U',''],
+['alt','rapidludo','speedrun','rapid·lud·o','P',''],
+['alt','spektanta reĝimo','mode spectateur','spekt·ant·a reĝim·o','P','']
+];
+const slug=s=>s.normalize('NFD').replace(/[̀-ͯ]/g,'').toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');
+const WORDS=[]; const seen=new Set();
+RAW.forEach(r=>{let id=slug(r[1]); while(seen.has(id)) id+='2'; seen.add(id);
+  WORDS.push({id,t:r[0],e:r[1],f:r[2],m:r[3]||r[1],s:r[4]||'U',n:r[5]||'',x:r[6]||'',y:r[7]||'',alt:(r[8]||'').split('|').filter(Boolean)});});
+WORDS.sort((a,b)=>TH[a.t].i-TH[b.t].i);
+const WBY=Object.fromEntries(WORDS.map(w=>[w.id,w]));
+
+/* ---------- Phrases d'exercice ---------- */
+const CLOZE=[
+ {s:'Mi bezonas ___ por fosi ŝtonon.',a:['pioĉon'],w:'pioĉo',fr:'J’ai besoin d’une pioche pour creuser la pierre.'},
+ {s:'La okuloj montras la direkton al la ___.',a:['fortikaĵo'],w:'fortikaĵo',fr:'Les yeux montrent la direction de la forteresse.'},
+ {s:'Sub la monto ni trovis grandan ___.',a:['kavernon','kavernegon'],w:'kaverno',fr:'Sous la montagne, nous avons trouvé une grande caverne.'},
+ {s:'Por iri al la Infero oni bezonas ___ el obsidiano.',a:['portalon'],w:'portalo',fr:'Pour aller dans le Nether, il faut un portail en obsidienne.'},
+ {s:'Kiel administranto vi povas ___ tra la muroj.',a:['trapasi','pasi'],w:'trapasi',fr:'En tant qu’admin, tu peux passer à travers les murs.'},
+ {s:'Hieraŭ mi ___ ĝis la bazroko.',a:['elfosis','fosis'],w:'elfosi',fr:'Hier, j’ai creusé jusqu’à la bedrock.'},
+ {s:'Ĵetu la ___ en la aeron por vidi la direkton.',a:['okulon','finokulon'],w:'finokulo',fr:'Lance l’œil en l’air pour voir la direction.'},
+ {s:'Mi fandas ___ en la forno por akiri ingotojn.',a:['ferercon','ercon'],w:'fererco',fr:'Je fais fondre du minerai de fer dans le four pour obtenir des lingots.'},
+ {s:'Mia ___ estas plena; mi metos aĵojn en la keston.',a:['inventaro','portaĵujo'],w:'inventaro',fr:'Mon inventaire est plein ; je vais mettre des objets dans le coffre.'},
+ {s:'Ĉe la ___ oni kreas ilojn el tabuloj.',a:['labortablo'],w:'labortablo',fr:'À l’établi, on fabrique des outils avec des planches.'},
+ {s:'Por fari finokulon mi bezonas fajropulvon kaj ___.',a:['finperlon'],w:'finperlo',fr:'Pour faire un œil, j’ai besoin de poudre de blaze et d’une perle.'},
+ {s:'En la kaverno ni trovis ___: monstroj aperas senĉese.',a:['monstroaperejon'],w:'monstroaperejo',fr:'Dans la caverne, nous avons trouvé un générateur : des monstres apparaissent sans cesse.'},
+ {s:'Hodiaŭ la ___ estas tro granda; ĉio malrapidas.',a:['retprokrasto'],w:'retprokrasto',fr:'Aujourd’hui le lag est trop important ; tout ralentit.'},
+ {s:'Mi mortis en lafo kaj ___ apud mia lito.',a:['renaskiĝis','reaperis'],w:'renaskiĝi',fr:'Je suis mort dans la lave et je suis réapparu à côté de mon lit.'},
+ {s:'Por akiri fajrostangojn oni devas ĉasi ___.',a:['fajrestaĵojn','fajraperaĵojn'],w:'fajrestaĵo',fr:'Pour obtenir des bâtons de blaze, il faut chasser des blazes.'},
+ {s:'Ni boris ___ ŝtuparon por ne preterfosi la fortikaĵon.',a:['helikan','helican'],w:'helika ŝtuparo',fr:'Nous avons foré un escalier en colimaçon pour ne pas dépasser la forteresse.'},
+ {s:'Metu ___ sur la murojn, por ke la monstroj ne aperu.',a:['torĉojn'],w:'torĉo',fr:'Mets des torches sur les murs pour que les monstres n’apparaissent pas.'},
+ {s:'Oni ne povas fosi tra la ___.',a:['bazroko'],w:'bazroko',fr:'On ne peut pas creuser à travers la bedrock.'},
+ {s:'Kun ___ oni povas glisflugi de alta monto.',a:['elitroj'],w:'elitroj',fr:'Avec des élytres, on peut planer depuis une haute montagne.'},
+ {s:'Ĉu vi instalis novan ___ por la servilo?',a:['modifaĵon'],w:'modifaĵo',fr:'As-tu installé un nouveau mod pour le serveur ?'},
+ {s:'Ni plenigos la ___ per dek du okuloj.',a:['portalkadron','kadron'],w:'portalkadro',fr:'Nous remplirons le cadre du portail avec douze yeux.'},
+ {s:'Mi ___ mian glavon per la sorĉtablo.',a:['sorĉis'],w:'sorĉi',fr:'J’ai enchanté mon épée avec la table d’enchantement.'},
+ {s:'Notu viajn ___, por ke ni povu reveni.',a:['koordinatojn'],w:'koordinatoj',fr:'Note tes coordonnées pour que nous puissions revenir.'},
+ {s:'La drako atendas nin en ___.',a:['finujo','la fino'],w:'Finujo',fr:'Le dragon nous attend dans l’End.'}
+];
+const CHOOSE=[
+ {fr:'J’ai trouvé deux générateurs de monstres avec la carte sonar.',o:['Mi trovis du monstroaperejojn per la sonmapo.','Mi trovis du monstroaperejoj per la sonmapo.','Mi trovis du monstroaperejon per la sonmapo.'],why:'Complément d’objet direct au pluriel : -o + -j + -n → monstroaperejojn.'},
+ {fr:'Allons dans le Nether.',o:['Ni iru al la Infero.','Ni iru al la Inferon.','Ni iru en la Infero.'],why:'Après « al », jamais d’accusatif. « en la Infero » sans -n veut dire « aller et venir à l’intérieur du Nether ».'},
+ {fr:'J’ai trouvé un bug dans le mod.',o:['Mi trovis eraron en la modifaĵo.','Mi trovis bugon en la modo.','Mi trovis bugon en la modifaĵo.'],why:'« bugo » est un anglicisme ; « modo » signifie « mode, manière ». On dit « eraro » et « modifaĵo ».'},
+ {fr:'Le serveur s’éteint pour la sauvegarde.',o:['La servilo malŝaltiĝas por la sekura kopio.','La servilo malŝaltigas por la sekura kopio.','La servilo malŝaltas por la sekura kopio.'],why:'Sans complément d’objet, le verbe est intransitif : -iĝ- (malŝaltiĝi = s’éteindre).'},
+ {fr:'Je suis tombé dans la caverne (depuis l’extérieur).',o:['Mi falis en la kavernon.','Mi falis en la kaverno.','Mi falis al la kaverno.'],why:'« en » + accusatif marque le mouvement vers l’intérieur. Sans -n, on comprend qu’on est tombé en étant déjà dedans.'},
+ {fr:'Je n’ai pas encore trouvé la forteresse.',o:['Mi ankoraŭ ne trovis la fortikaĵon.','Mi ne ankoraŭ trovis la fortikaĵon.','Mi ankoraŭ ne trovis la fortikaĵo.'],why:'« ankoraŭ ne » (et non « ne ankoraŭ », calque du français) ; la forteresse est l’objet : -n.'},
+ {fr:'La caverne est très grande.',o:['La kaverno estas tre granda.','La kaverno estas tre grande.','La kaverno estas tre grandan.'],why:'Après « esti », l’adjectif qui qualifie le sujet garde la terminaison -a, sans -n.'},
+ {fr:'Chaque joueur protège son propre drapeau.',o:['Ĉiu ludanto protektas sian flagon.','Ĉiu ludanto protektas lian flagon.','Ĉiu ludanto protektas sia flagon.'],why:'« sia » renvoie au sujet de la phrase ; « lian » désignerait le drapeau de quelqu’un d’autre. Et l’objet prend -n : sian.'},
+ {fr:'Je pense que les yeux se trompent.',o:['Mi pensas, ke la okuloj eraras.','Mi pensas la okuloj eraras.','Mi pensas que la okuloj eraras.'],why:'La subordonnée est introduite par « ke » (et non « que », espagnol/français).'},
+ {fr:'J’ai creusé jusqu’à la bedrock.',o:['Mi fosis ĝis la bazroko.','Mi fosis ĝis la bazrokon.','Mi fosis ĝis bedrock.'],why:'Après une préposition comme « ĝis », pas d’accusatif ; « bedrock » est un anglicisme.'},
+ {fr:'Je creuse avec une pioche.',o:['Mi fosas per pioĉo.','Mi fosas kun pioĉo.','Mi fosas pro pioĉo.'],why:'« per » = au moyen de ; « kun » = en compagnie de ; « pro » = à cause de.'},
+ {fr:'J’ai beaucoup de diamants.',o:['Mi havas multe da diamantoj.','Mi havas multe de diamantoj.','Mi havas multe da diamantojn.'],why:'Après une expression de quantité : « da » + nominatif.'},
+ {fr:'Il faut mettre des torches pour que les monstres n’apparaissent pas.',o:['Oni devas meti torĉojn, por ke la monstroj ne aperu.','Oni devas meti torĉojn, por ke la monstroj ne aperas.','Oni devas meti torĉoj, por ke la monstroj ne aperu.'],why:'Après « por ke », le verbe se met au volitif en -u ; « torĉojn » est l’objet.'},
+ {fr:'Nous avons cherché la forteresse jusqu’au soir.',o:['Ni serĉis la fortikaĵon ĝis la vespero.','Ni serĉis por la fortikaĵo ĝis la vespero.','Ni serĉis la fortikaĵo ĝis la vespero.'],why:'« serĉi » est transitif : pas de « por », et l’objet prend -n.'}
+];
+const TRANS=[
+ {fr:'J’ai creusé jusqu’à la bedrock, mais je n’ai rien trouvé.',m:'Mi fosis ĝis la bazroko, sed mi trovis nenion.',k:[['fos','fosi'],['bazrok','bazroko'],['nenion','nenion (objet : -n)']]},
+ {fr:'Les yeux pointent vers le nord-est.',m:'La okuloj montras al nordoriento.',k:[['okul','okulo'],['montr','montri'],['nordorient','nordoriento']]},
+ {fr:'Il nous faut douze yeux pour activer le portail.',m:'Ni bezonas dek du okulojn por aktivigi la portalon.',k:[['okulojn','okulojn (-j-n)'],['aktivig','aktivigi'],['portalon','portalon (-n)']]},
+ {fr:'N’oublie pas ta pioche en diamant !',m:'Ne forgesu vian diamantan pioĉon!',k:[['forgesu','volitif -u'],['diamantan','diamantan (-a-n)'],['pioĉon','pioĉon (-n)']]},
+ {fr:'Le serveur sera éteint pendant une minute pour la sauvegarde.',m:'La servilo estos malŝaltita dum unu minuto por la sekura kopio.',k:[['servilo','servilo'],['malŝalt','malŝalti'],['kopio','sekura kopio']]},
+ {fr:'Nous avons trouvé un générateur de monstres dans la grotte.',m:'Ni trovis monstroaperejon en la groto.',k:[['monstroaperejon','monstroaperejon (-n)'],['groto','groto']]},
+ {fr:'Je vais chasser des blazes dans la forteresse du Nether.',m:'Mi ĉasos fajrestaĵojn en la infera fortikaĵo.',k:[['ĉas','ĉasi'],['fajrestaĵojn','fajrestaĵojn (-j-n)'],['infera fortikaĵo','infera fortikaĵo']]},
+ {fr:'Pose des torches pour que les monstres n’apparaissent pas.',m:'Metu torĉojn, por ke la monstroj ne aperu.',k:[['metu','metu (volitif)'],['torĉojn','torĉojn (-j-n)'],['aperu','aperu (volitif après por ke)']]},
+ {fr:'Peux-tu confirmer les coordonnées avec tes droits d’admin ?',m:'Ĉu vi povas konfirmi la koordinatojn per viaj administraj rajtoj?',k:[['ĉu','ĉu (question)'],['koordinatojn','koordinatojn (-j-n)'],['per','per'],['rajt','rajtoj']]},
+ {fr:'Nous avons peut-être dépassé la forteresse en creusant.',m:'Eble ni preterfosis la fortikaĵon.',k:[['eble','eble'],['preterfos','preterfosi'],['fortikaĵon','fortikaĵon (-n)']]},
+ {fr:'Mon inventaire est plein, je vais tout mettre dans le coffre.',m:'Mia inventaro estas plena, mi metos ĉion en la keston.',k:[['inventaro','inventaro'],['plena','plena'],['keston','en la keston (direction : -n)']]}
+];
+const CHAT=[
+ {who:'Ludanto',msg:'Kie vi estas nun? Mi ne vidas vin sur la mapeto.',fr:'Où es-tu maintenant ? Je ne te vois pas sur la mini-carte.',m:['Mi estas en la minejo, ĉe la koordinatoj x 120, z -340.','Mi estas profunde en kaverno sub la vilaĝo; mi sendos al vi miajn koordinatojn.'],k:[['koordinat','koordinatoj'],['estas','esti + lieu']]},
+ {who:'Ludanto',msg:'Ĉu vi havas sufiĉe da finokuloj por la portalo?',fr:'As-tu assez d’yeux pour le portail ?',m:['Ne, mi havas nur ok. Ni bezonas pliajn finperlojn kaj fajropulvon.','Jes, mi havas dek du okulojn, sufiĉe por la tuta portalkadro.'],k:[['okul','okulo / finokulo'],['perl','finperlo'],['bezon','bezoni']]},
+ {who:'Admino',msg:'La servilo ne respondas. Kio okazas ĉe vi?',fr:'Le serveur ne répond pas. Que se passe-t-il chez toi ?',m:['Eble ĝi estas malŝaltita por la sekura kopio. Mi atendos unu minuton.','Ĉe mi la retprokrasto estas tre granda; mi rekonektiĝos.'],k:[['malŝalt','malŝaltita / malŝaltiĝi'],['kopi','sekura kopio'],['retprokrast','retprokrasto']]},
+ {who:'Ludanto',msg:'Mi falis en lafon kaj perdis ĉion!',fr:'Je suis tombé dans la lave et j’ai tout perdu !',m:['Ho ve! Ĉu vi memoras, kie vi mortis? Post via renaskiĝo ni iros tien kune.','Domaĝe! Venu al mia bazo, mi donos al vi pioĉon kaj glavon.'],k:[['renask','renaskiĝi'],['kune','kune'],['vi','tutoiement : vi']]},
+ {who:'Ludanto',msg:'Kiun ilon mi bezonas por fosi obsidianon?',fr:'De quel outil ai-je besoin pour creuser de l’obsidienne ?',m:['Vi bezonas diamantan pioĉon.','Nur diamanta aŭ nederita pioĉo povas fosi obsidianon.'],k:[['pioĉon','pioĉon (-n)'],['diamant','diamanta']]},
+ {who:'Ludanto',msg:'Ĉu ni batalos kontraŭ la drako ĉi-sabate?',fr:'Est-ce qu’on combat le dragon ce samedi ?',m:['Jes! Mi alportos arkon, multe da sagoj kaj torĉojn.','Ankoraŭ ne: ni unue devas trovi la portalejon.'],k:[['arkon','arkon (-n)'],['sag','sagoj'],['ankoraŭ ne','ankoraŭ ne']]},
+ {who:'Ludanto',msg:'La okuloj montras ĉi tien, sed ni trovis nenion. Kion fari?',fr:'Les yeux montrent ici, mais on n’a rien trouvé. Que faire ?',m:['Ni ĵetu okulojn el alia loko por trianguli la pozicion.','Eble la fortikaĵo estas pli profunde; ni boru helikan ŝtuparon malsupren.'],k:[['ĵet','ĵeti'],['triangul','trianguli'],['fortikaĵ','fortikaĵo']]},
+ {who:'Admino',msg:'Kiun modifaĵon vi volas, ke mi instalu?',fr:'Quel mod veux-tu que j’installe ?',m:['Mi ŝatus modifaĵon, kiu montras la koordinatojn sur la ekrano.','Bonvolu instali la mapeton por ĉiuj ludantoj.'],k:[['modifaĵ','modifaĵo'],['bonvolu','bonvolu (politesse)']]}
+];
+
+/* ---------- Morphologie ---------- */
+const AFF={re:'de nouveau',el:'hors de',tra:'à travers',preter:'au-delà, à côté',for:'au loin',mal:'contraire',ek:'début d’action',dis:'dispersion',trans:'de l’autre côté',post:'après',ĝis:'jusqu’à',kun:'avec',en:'dans',sen:'sans',
+ il:'outil',ej:'lieu',uj:'contenant, pays',ad:'action qui dure',aĵ:'chose concrète',ec:'qualité',eg:'augmentatif',et:'diminutif',ig:'rendre, faire faire',iĝ:'devenir, se…',ul:'être caractérisé par',an:'membre, habitant',ist:'métier',er:'élément d’un tout',ar:'ensemble',ant:'qui fait (actif)',ebl:'possible'};
+const PRE=new Set(['re','el','tra','preter','for','mal','ek','dis','trans','post','ĝis','kun','en','sen']);
+const SUF=new Set(['il','ej','uj','ad','aĵ','ec','eg','et','ig','iĝ','ul','an','ist','er','ar','ant','ebl']);
+const END=new Set(['o','a','i','e','oj','aj','u','on','ojn']);
+function segClass(s,i,arr){
+  const low=s.toLowerCase();
+  if(arr.length>1&&i===arr.length-1&&END.has(low)) return 'en';
+  if(i>0&&i<arr.length-1&&low==='o') return 'ln';
+  if(i===0&&arr.length>2&&PRE.has(low)) return 'pf';
+  if(i>0&&SUF.has(low)) return 'sf';
+  return 'rt';
+}
+function morphHTML(m){
+  return '<span class="morph" aria-label="Décomposition">'+m.split(' ').map(word=>{const segs=word.split('·');
+    return '<span class="mw">'+segs.map((s,i)=>{const c=segClass(s,i,segs);const tip=(c==='pf'||c==='sf')&&AFF[s.toLowerCase()]?' title="'+esc(AFF[s.toLowerCase()])+'"':'';return '<span class="mo '+c+'"'+tip+'>'+esc(s)+'</span>';}).join('<span class="dot">·</span>')+'</span>';}).join(' ')+'</span>';
+}
+function legendHTML(m){
+  const out=[];const got=new Set();
+  m.split(' ').forEach(word=>{const segs=word.split('·');segs.forEach((s,i)=>{const c=segClass(s,i,segs);const l=s.toLowerCase();if((c==='pf'||c==='sf')&&AFF[l]&&!got.has(c+l)){got.add(c+l);out.push('<span><b class="'+(c==='pf'?'p':'')+'">'+(c==='pf'?l+'-':'-'+l+'-')+'</b> '+esc(AFF[l])+'</span>');}});});
+  return out.length?'<div class="leg">'+out.join('')+'</div>':'';
+}
+
+/* ---------- Saisie : x-système et lettres accentuées ---------- */
+const HX={c:'ĉ',g:'ĝ',h:'ĥ',j:'ĵ',s:'ŝ',u:'ŭ',C:'Ĉ',G:'Ĝ',H:'Ĥ',J:'Ĵ',S:'Ŝ',U:'Ŭ'};
+const xsys=s=>s.replace(/([cghjsuCGHJSU])[xX]/g,(m,a)=>HX[a]);
+const norm=s=>xsys(String(s)).toLowerCase().replace(/[.!?,;:«»"“”()]/g,' ').replace(/[’']/g,"'").replace(/\s+/g,' ').trim();
+const bare=s=>s.normalize('NFD').replace(/[̀-ͯ]/g,'');
+const dropLa=s=>s.replace(/^la /,'');
+function lev(a,b){const m=a.length,n=b.length;if(Math.abs(m-n)>1)return 2;const d=Array.from({length:m+1},(_,i)=>[i]);for(let j=1;j<=n;j++)d[0][j]=j;for(let i=1;i<=m;i++)for(let j=1;j<=n;j++)d[i][j]=Math.min(d[i-1][j]+1,d[i][j-1]+1,d[i-1][j-1]+(a[i-1]===b[j-1]?0:1));return d[m][n];}
+function check(input,answers){
+  const n=dropLa(norm(input)); if(!n) return {r:'empty'};
+  const A=answers.map(a=>dropLa(norm(a)));
+  if(A.includes(n)) return {r:'ok'};
+  if(A.some(a=>bare(a)===bare(n))) return {r:'accent'};
+  if(A.some(a=>a===n+'n'||a===n+'jn')) return {r:'accn'};
+  if(A.some(a=>a+'n'===n)) return {r:'extran'};
+  if(n.length>4&&A.some(a=>lev(a,n)===1)) return {r:'typo'};
+  return {r:'no'};
+}
+function attachX(el){
+  el.addEventListener('input',()=>{const v=el.value,c=el.selectionStart;const nv=xsys(v);if(nv!==v){const diff=v.length-nv.length;el.value=nv;try{el.setSelectionRange(c-diff,c-diff);}catch(e){}}});
+}
+function kbdHTML(target){
+  return '<div class="kbd" data-for="'+target+'">'+['ĉ','ĝ','ĥ','ĵ','ŝ','ŭ'].map(c=>'<button type="button" tabindex="-1" data-ch="'+c+'">'+c+'</button>').join('')+'<span>ou cx, gx, sx, ux…</span></div>';
+}
+document.addEventListener('mousedown',e=>{if(e.target.closest('.kbd button'))e.preventDefault();});
+document.addEventListener('click',e=>{const b=e.target.closest('.kbd button');if(!b)return;const el=document.getElementById(b.parentElement.dataset.for);if(!el)return;
+  const s=el.selectionStart??el.value.length,t=el.selectionEnd??s;el.value=el.value.slice(0,s)+b.dataset.ch+el.value.slice(t);el.focus();try{el.setSelectionRange(s+1,s+1);}catch(err){}});
+
+/* ---------- Synthèse vocale ---------- */
+const TTS={ok:typeof window.speechSynthesis!=='undefined'&&typeof window.SpeechSynthesisUtterance!=='undefined',voices:[],
+  set:{voice:'',mode:'auto',rate:0.85,pitch:1,auto:true}};
+const LS_TTS='lvm-tts-v1', LS_DATA='lvm-progress-v1';
+try{const t=JSON.parse(localStorage.getItem(LS_TTS)||'null');if(t)Object.assign(TTS.set,t);}catch(e){}
+const saveTTS=()=>{try{localStorage.setItem(LS_TTS,JSON.stringify(TTS.set));}catch(e){}};
+function currentVoice(){
+  const v=TTS.voices;if(!v.length)return null;
+  if(TTS.set.voice){const f=v.find(x=>x.voiceURI===TTS.set.voice);if(f)return f;}
+  return v.find(x=>/^eo/i.test(x.lang))||v.find(x=>/^pl/i.test(x.lang))||v.find(x=>/^(hr|sr|bs)/i.test(x.lang))||null;
+}
+function adaptMode(v){
+  const m=TTS.set.mode;if(m!=='auto')return m;if(!v)return 'none';const l=(v.lang||'').toLowerCase();
+  if(l.startsWith('eo'))return 'none';if(l.startsWith('pl'))return 'pl';if(/^(hr|sr|bs)/.test(l))return 'hr';return 'none';
+}
+const toPl=s=>s.toLowerCase().replace(/ĉ/g,'cz').replace(/ĝ/g,'dż').replace(/ĥ/g,'ch').replace(/ĵ/g,'ż').replace(/ŝ/g,'sz').replace(/ŭ/g,'ł').replace(/v/g,'w');
+const toHr=s=>s.toLowerCase().replace(/ĉ/g,'č').replace(/ĝ/g,'dž').replace(/ĥ/g,'h').replace(/ĵ/g,'ž').replace(/ŝ/g,'š').replace(/ŭ/g,'u');
+let userActed=false;
+function speak(text,slow){
+  if(!TTS.ok||!text)return;
+  try{
+    window.speechSynthesis.cancel();
+    const v=currentVoice(),mode=adaptMode(v);let s=String(text).replace(/·/g,'').replace(/___/g,'…');
+    if(mode==='pl')s=toPl(s);else if(mode==='hr')s=toHr(s);
+    const u=new SpeechSynthesisUtterance(s);
+    if(v){u.voice=v;u.lang=v.lang;}else u.lang='eo';
+    u.rate=Math.max(0.3,TTS.set.rate*(slow?0.7:1));u.pitch=TTS.set.pitch;
+    window.speechSynthesis.speak(u);
+  }catch(e){}
+}
+function loadVoices(){if(!TTS.ok)return;try{TTS.voices=window.speechSynthesis.getVoices()||[];}catch(e){TTS.voices=[];}renderVoiceUI();}
+if(TTS.ok){loadVoices();try{window.speechSynthesis.addEventListener('voiceschanged',loadVoices);}catch(e){window.speechSynthesis.onvoiceschanged=loadVoices;}}
+const SPK='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M4 9h4l5-4v14l-5-4H4z"/><path d="M16.5 8.5a5 5 0 0 1 0 7M19 6a8.5 8.5 0 0 1 0 12"/></svg>';
+const sayBtns=(text,label)=>TTS.ok?'<span class="say"><button class="btn ico" data-say="'+esc(text)+'" aria-label="Écouter '+esc(label||text)+'" title="Écouter">'+SPK+'</button><button class="btn ico small" data-say="'+esc(text)+'" data-slow="1" aria-label="Écouter lentement" title="Écouter lentement">0,7×</button></span>':'';
+document.addEventListener('click',e=>{userActed=true;const b=e.target.closest('[data-say]');if(b){e.stopPropagation();speak(b.dataset.say,!!b.dataset.slow);}},true);
+document.addEventListener('keydown',()=>{userActed=true;},true);
+
+/* ---------- Données et synchronisation ---------- */
+function defaults(){return {v:1,cards:{},newLog:{},extra:{},quiz:{},settings:{themes:THEMES.map(t=>t.k),dir:'r',perDay:10},updated:0};}
+function sanitize(d){const b=defaults();if(!d||typeof d!=='object')return b;const o=Object.assign(b,d);o.settings=Object.assign(defaults().settings,d.settings||{});
+  o.settings.themes=(o.settings.themes||[]).filter(k=>TH[k]);if(!o.settings.themes.length)o.settings.themes=THEMES.map(t=>t.k);
+  for(const k of ['cards','newLog','extra','quiz'])if(!o[k]||typeof o[k]!=='object')o[k]={};return o;}
+let S=defaults();
+try{S=sanitize(JSON.parse(localStorage.getItem(LS_DATA)||'null'));}catch(e){S=defaults();}
+const Cloud={ref:null,mode:'local',saving:false,pending:false,timer:null};
+function setSync(state){
+  const p=$('#sync');p.classList.remove('ok','busy');
+  if(state==='cloud'){p.classList.add('ok');p.lastElementChild.textContent='Synchronisé';p.title='Progression enregistrée sur votre compte : PC et téléphone';}
+  else if(state==='busy'){p.classList.add('busy');p.lastElementChild.textContent='Enregistrement…';}
+  else{p.lastElementChild.textContent='Ce navigateur';p.title='Progression enregistrée dans ce navigateur seulement';}
+  const ds=$('#data-status');if(ds){ds.classList.toggle('warn',Cloud.mode!=='cloud');ds.textContent=Cloud.mode==='cloud'?'Votre progression est enregistrée sur votre compte Claude. Ouvrez cette page sur le PC ou le téléphone : vous retrouvez les mêmes cartes.':'Votre progression est enregistrée dans ce navigateur. La synchronisation entre appareils s’active quand la page est ouverte depuis votre compte Claude.';}
+}
+function writeLocal(){try{localStorage.setItem(LS_DATA,JSON.stringify(S));}catch(e){}}
+function save(){S.updated=now();writeLocal();if(Cloud.ref){clearTimeout(Cloud.timer);Cloud.timer=setTimeout(flush,1200);}}
+async function flush(){
+  if(!Cloud.ref)return;if(Cloud.saving){Cloud.pending=true;return;}
+  Cloud.saving=true;setSync('busy');
+  const body=JSON.parse(JSON.stringify(S));
+  try{await Cloud.ref.set(body);setSync('cloud');}
+  catch(e){
+    if(e&&e.code==='unavailable'){await new Promise(r=>setTimeout(r,800+Math.random()*1200));try{await Cloud.ref.set(body);setSync('cloud');}catch(e2){setSync('cloud');}}
+    else{Cloud.ref=null;Cloud.mode='local';setSync('local');}
+  }
+  Cloud.saving=false;if(Cloud.pending){Cloud.pending=false;flush();}
+}
+async function initCloud(){
+  const c=window.claude;if(!c||typeof c.use!=='function'){setSync('local');return;}
+  try{
+    const [db,user]=await Promise.all([c.use('db'),c.use('user')]);
+    if(!db||!user){setSync('local');return;}
+    const id=await user.id();if(!id){setSync('local');return;}
+    const ref=db.doc('data/users/'+id+'/progress');
+    const snap=await ref.get();
+    Cloud.ref=ref;Cloud.mode='cloud';
+    if(snap.exists){const d=snap.data()||{};
+      if((d.updated||0)>(S.updated||0)){S=sanitize(JSON.parse(JSON.stringify(d)));writeLocal();refreshAll();setSync('cloud');}
+      else if((S.updated||0)>(d.updated||0)){flush();}else setSync('cloud');}
+    else{if(S.updated)flush();else setSync('cloud');}
+  }catch(e){Cloud.ref=null;Cloud.mode='local';setSync('local');}
+}
+
+/* ---------- Planificateur (SM-2, comme Anki) ---------- */
+const LEARN=[1,10],RELEARN=[10];
+function dayStart(t){const d=new Date(t);d.setHours(4,0,0,0);if(d.getTime()>t)d.setDate(d.getDate()-1);return d.getTime();}
+function todayKey(){const d=new Date(dayStart(now()));return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');}
+function sched(c0,g,t){
+  t=t||now();
+  const c=c0?Object.assign({},c0):{q:'new',s:0,i:0,e:2.5,r:0,l:0,d:t};
+  c.r++;
+  if(c.q==='rev'){
+    if(g===1){c.l++;c.e=Math.max(1.3,Math.round((c.e-0.2)*100)/100);c.i=Math.max(1,Math.round(c.i*0.5));c.q='rel';c.s=0;c.d=t+RELEARN[0]*MIN;return c;}
+    const hard=Math.max(c.i+1,Math.round(c.i*1.2)),good=Math.max(hard+1,Math.round(c.i*c.e)),easy=Math.max(good+1,Math.round(c.i*c.e*1.3));
+    if(g===2){c.e=Math.max(1.3,Math.round((c.e-0.15)*100)/100);c.i=hard;}
+    else if(g===3){c.i=good;}
+    else{c.e=Math.round((c.e+0.15)*100)/100;c.i=easy;}
+    c.d=dayStart(t)+c.i*DAY;return c;
+  }
+  const relearn=c.q==='rel';const steps=relearn?RELEARN:LEARN;
+  if(c.q==='new'){c.q='lrn';c.s=0;}
+  const goodGrad=relearn?Math.max(1,c.i):1,easyGrad=relearn?Math.max(1,c.i)+1:4;
+  if(g===1){c.s=0;c.d=t+steps[0]*MIN;}
+  else if(g===2){const m=(c.s===0&&steps.length>1)?(steps[0]+steps[1])/2:steps[c.s];c.d=t+m*MIN;}
+  else if(g===3){if(c.s+1<steps.length){c.s++;c.d=t+steps[c.s]*MIN;}else{c.q='rev';c.i=goodGrad;c.d=dayStart(t)+c.i*DAY;}}
+  else{c.q='rev';c.i=easyGrad;c.d=dayStart(t)+c.i*DAY;}
+  return c;
+}
+function fmtDays(i){if(i<30)return i+' j';if(i<365){const m=Math.round(i/30*10)/10;return String(m).replace('.',',')+' mois';}const y=Math.round(i/365*10)/10;return String(y).replace('.',',')+' an'+(y>=2?'s':'');}
+function fmtIvl(c,t){if(c.q==='rev')return fmtDays(c.i);const ms=c.d-t;if(ms<MIN)return '<1 min';if(ms<60*MIN)return Math.round(ms/MIN)+' min';return Math.round(ms/3600000)+' h';}
+function fmtWait(ms){if(ms<60*MIN)return Math.max(1,Math.round(ms/MIN))+' min';if(ms<DAY)return Math.round(ms/3600000)+' h';const d=Math.round(ms/DAY);return d===1?'demain':d+' jours';}
+
+function activeKeys(){
+  const th=new Set(S.settings.themes);const dirs=S.settings.dir==='rp'?['r','p']:[S.settings.dir];const out=[];
+  for(const w of WORDS){if(!th.has(w.t))continue;for(const d of dirs)out.push(w.id+'|'+d);}return out;
+}
+const newDone=()=>S.newLog[todayKey()]||0;
+const newLimit=()=>S.settings.perDay+(S.extra[todayKey()]||0);
+function queues(){
+  const t=now(),keys=activeKeys(),lrn=[],rev=[],nw=[];
+  for(const k of keys){const c=S.cards[k];
+    if(!c){if(S.settings.dir==='rp'&&k.endsWith('|p')){const rc=S.cards[k.slice(0,-2)+'|r'];if(!rc||rc.q==='lrn'||rc.q==='new')continue;}nw.push(k);continue;}
+    if(c.q==='rev'){if(c.d<=t)rev.push(k);}else lrn.push(k);}
+  lrn.sort((a,b)=>S.cards[a].d-S.cards[b].d);rev.sort((a,b)=>S.cards[a].d-S.cards[b].d);
+  const left=Math.max(0,newLimit()-newDone());
+  return {lrn,rev,nw:nw.slice(0,left),nwAll:nw.length};
+}
+let sinceNew=0,cur=null,revealed=false,lastKey=null;
+function pickNext(){
+  const t=now(),q=queues();
+  const due=q.lrn.filter(k=>S.cards[k].d<=t&&k!==lastKey);
+  if(due.length)return due[0];
+  if(q.rev.length&&q.nw.length){if(sinceNew>=3){sinceNew=0;return q.nw[0];}sinceNew++;return q.rev[0];}
+  if(q.rev.length)return q.rev[0];
+  if(q.nw.length)return q.nw[0];
+  const ahead=q.lrn.filter(k=>S.cards[k].d<=t+20*MIN);
+  if(ahead.length)return ahead[0];
+  return null;
+}
+
+/* ---------- Vue Cartes ---------- */
+function renderCounts(){
+  const q=queues(),t=now(),end=dayStart(t)+DAY;
+  const lrnToday=q.lrn.filter(k=>S.cards[k].d<end).length;
+  $('#counts').innerHTML='<div class="c-new"><b>'+q.nw.length+'</b><small>nouvelles</small></div><div class="c-lrn"><b>'+lrnToday+'</b><small>en apprentissage</small></div><div class="c-rev"><b>'+q.rev.length+'</b><small>à réviser</small></div>';
+  const sel=S.settings.themes.length;
+  $('#theme-summary').textContent=sel===THEMES.length?'Tous les thèmes ('+WORDS.length+' mots)':sel+' thème'+(sel>1?'s':'')+' sur '+THEMES.length+' : '+S.settings.themes.map(k=>TH[k].fr).join(', ');
+}
+function cardFace(k){
+  const [id,dir]=k.split('|');const w=WBY[id];if(!w)return '';
+  const th=TH[w.t];const c=S.cards[k];
+  const state=!c?'Nouvelle':c.q==='rev'?'Révision':'Apprentissage';
+  const top='<div class="flash-top"><span>'+esc(th.fr)+' · '+(dir==='r'?'reconnaître':'produire')+'</span><span>'+state+'</span></div>';
+  let body='<div class="flash-body">';
+  if(dir==='r'){body+='<div class="big" lang="eo">'+esc(w.e)+'</div>'+sayBtns(w.e);}
+  else{body+='<div class="ask small muted">Comment dit-on en espéranto ?</div><div class="big fr">'+esc(w.f)+'</div>';}
+  if(revealed){
+    body+='<div class="ans">';
+    if(dir==='r')body+='<div class="tr">'+esc(w.f)+'</div>';
+    else body+='<div class="big" lang="eo">'+esc(w.e)+'</div>'+sayBtns(w.e);
+    body+=morphHTML(w.m)+legendHTML(w.m);
+    if(w.x)body+='<div class="ex"><span class="e" lang="eo">'+esc(w.x)+' '+(TTS.ok?'<button class="btn ico ghost" data-say="'+esc(w.x)+'" aria-label="Écouter l’exemple" title="Écouter l’exemple" style="min-height:28px;vertical-align:middle">'+SPK+'</button>':'')+'</span><span class="muted">'+esc(w.y)+'</span></div>';
+    if(w.n||w.alt.length)body+='<div class="note">'+esc(w.n)+'</div>';
+    body+='<span class="tag '+w.s+'" title="'+esc(SRC[w.s][1])+'">'+esc(SRC[w.s][0])+'</span>';
+    body+='</div>';
+  }
+  body+='</div>';
+  let act='<div class="flash-act">';
+  if(!revealed)act+='<div style="display:flex;flex-direction:column;gap:6px;align-items:center;width:100%"><button class="btn pri" id="reveal" style="min-width:220px">Afficher la réponse</button><span class="keys">Espace ou Entrée</span></div>';
+  else{const t=now();act+='<div style="width:100%;display:flex;flex-direction:column;gap:6px"><div class="grades">'+[['À revoir',1],['Difficile',2],['Correct',3],['Facile',4]].map(([l,g])=>'<button class="g'+g+'" data-grade="'+g+'">'+l+'<small>'+fmtIvl(sched(c,g,t),t)+'</small></button>').join('')+'</div><span class="keys">Touches 1 à 4</span></div>';}
+  act+='</div>';
+  return top+body+act;
+}
+function renderFlash(){
+  const el=$('#flash');
+  if(!cur){
+    const t=now();let next=Infinity;for(const k of activeKeys()){const c=S.cards[k];if(c&&c.d<next)next=c.d;}
+    const q=queues();
+    let html='<div class="done"><div class="blk" style="width:34px;height:34px" aria-hidden="true"></div><h2 style="font-size:19px">Plus rien à réviser pour l’instant</h2>';
+    if(isFinite(next)&&next>t)html+='<p class="muted" style="margin:0">Prochaine carte dans '+fmtWait(next-t)+'.</p>';
+    html+='<div class="row" style="justify-content:center">';
+    if(q.nwAll>0)html+='<button class="btn pri" id="more-new">Apprendre 10 nouvelles cartes</button>';
+    html+='<button class="btn" data-go="ekzercoj">Faire des exercices</button></div></div>';
+    el.innerHTML=html;return;
+  }
+  el.innerHTML=cardFace(cur);
+}
+function nextCard(){cur=pickNext();revealed=false;renderFlash();renderCounts();
+  if(cur&&userActed&&TTS.set.auto&&cur.endsWith('|r'))speak(WBY[cur.split('|')[0]].e);}
+function reveal(){if(!cur||revealed)return;revealed=true;renderFlash();
+  if(userActed&&TTS.set.auto&&cur.endsWith('|p'))speak(WBY[cur.split('|')[0]].e);
+  const b=$('#flash [data-grade="3"]');if(b)b.focus({preventScroll:true});}
+function grade(g){
+  if(!cur||!revealed)return;const k=cur;const wasNew=!S.cards[k];
+  S.cards[k]=sched(S.cards[k],g);if(wasNew){const d=todayKey();S.newLog[d]=(S.newLog[d]||0)+1;}
+  lastKey=g===1?k:null;pruneLogs();save();nextCard();renderProgress();
+}
+function pruneLogs(){const keep=new Set();const t=dayStart(now());for(let i=0;i<14;i++){const d=new Date(t-i*DAY);keep.add(d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0'));}
+  for(const o of [S.newLog,S.extra])for(const k of Object.keys(o))if(!keep.has(k))delete o[k];}
+$('#flash').addEventListener('click',e=>{
+  if(e.target.closest('#reveal'))return reveal();
+  const g=e.target.closest('[data-grade]');if(g)return grade(+g.dataset.grade);
+  if(e.target.closest('#more-new')){const d=todayKey();S.extra[d]=(S.extra[d]||0)+10;save();nextCard();}
+});
+function wordStatus(w){
+  const dirs=S.settings.dir==='rp'?['r','p']:[S.settings.dir];let st=0;
+  for(const d of dirs){const c=S.cards[w.id+'|'+d];if(!c)continue;if(c.q==='rev'&&c.i>=21)st=Math.max(st,2);else st=Math.max(st,1);}
+  return st;
+}
+function renderProgress(){
+  $('#tprog').innerHTML=THEMES.map(t=>{const ws=WORDS.filter(w=>w.t===t.k);let m=0,l=0;ws.forEach(w=>{const s=wordStatus(w);if(s===2)m++;else if(s===1)l++;});
+    const n=ws.length;const off=!S.settings.themes.includes(t.k);
+    return '<div class="tp-row"'+(off?' style="opacity:.55"':'')+'><div class="nm"><b>'+esc(t.fr)+'</b><small lang="eo">'+esc(t.eo)+(off?' · non étudié':'')+'</small></div><div class="bar" role="img" aria-label="'+m+' maîtrisés, '+l+' en cours sur '+n+'"><i class="m" style="width:'+(m/n*100)+'%"></i><i class="l" style="width:'+(l/n*100)+'%"></i></div><div class="n">'+(m+l)+'/'+n+'</div></div>';}).join('');
+}
+function chipsHTML(){return THEMES.map(t=>'<button class="chip" data-th="'+t.k+'" aria-pressed="'+S.settings.themes.includes(t.k)+'">'+esc(t.fr)+'</button>').join('');}
+function renderChips(){$('#chips-k').innerHTML=chipsHTML();$('#chips-e').innerHTML=chipsHTML();}
+document.addEventListener('click',e=>{const c=e.target.closest('.chip[data-th]');if(!c)return;const k=c.dataset.th;const set=new Set(S.settings.themes);
+  if(set.has(k)){if(set.size===1)return;set.delete(k);}else set.add(k);
+  S.settings.themes=THEMES.map(t=>t.k).filter(x=>set.has(x));save();renderChips();renderCounts();renderProgress();if(!revealed)nextCard();});
+$('#toggle-themes').addEventListener('click',e=>{const b=$('#theme-box');b.hidden=!b.hidden;e.currentTarget.setAttribute('aria-expanded',String(!b.hidden));e.currentTarget.textContent=b.hidden?'Choisir les thèmes':'Masquer les thèmes';});
+
+/* ---------- Vue Exercices ---------- */
+const LEVELS=[
+ {n:1,k:'mcq',eo:'Rekoni',fr:'Reconnaître',d:'Lire et entendre un mot, choisir sa traduction.',len:8,st:'Guidé'},
+ {n:2,k:'tiles',eo:'Kunmeti',fr:'Composer',d:'Assembler un mot à partir de sa racine et de ses affixes.',len:8,st:'Guidé'},
+ {n:3,k:'type',eo:'Rememori',fr:'Rappeler',d:'Écrire le mot espéranto à partir du français.',len:8,st:'Rappel'},
+ {n:4,k:'cloze',eo:'Kunteksto',fr:'Compléter',d:'Compléter une phrase de jeu avec la bonne forme : -n, -j, temps.',len:8,st:'Rappel'},
+ {n:5,k:'choose',eo:'Ĝusta frazo',fr:'Choisir la phrase juste',d:'Repérer la phrase correcte : accusatif, affixes, anglicismes.',len:7,st:'Phrase'},
+ {n:6,k:'trans',eo:'Traduki',fr:'Traduire',d:'Traduire une phrase de jeu puis la comparer au modèle.',len:5,st:'Production'},
+ {n:7,k:'chat',eo:'Babili',fr:'Converser',d:'Répondre à un message de joueur puis comparer aux réponses modèles.',len:4,st:'Production'}
+];
+function renderLadder(){
+  $('#ladder').innerHTML=LEVELS.map(L=>{const b=S.quiz[L.n];
+    return '<div class="lv"><div class="num">'+L.n+'</div><div class="txt"><b><span lang="eo" style="font-weight:600;color:var(--fg)">'+esc(L.eo)+'</span> <span>· '+esc(L.fr)+'</span></b><p>'+esc(L.d)+'</p><span class="best">'+esc(L.st)+' · '+L.len+' questions'+(b!=null?' · meilleur score '+b+' %':'')+'</span></div><button class="btn'+(L.n===1&&b==null?' pri':'')+'" data-start="'+L.n+'">Commencer</button></div>';}).join('');
+}
+const poolWords=()=>{const th=new Set(S.settings.themes);return WORDS.filter(w=>th.has(w.t));};
+let X=null;
+function makeItems(L){
+  const P=poolWords();
+  if(L.k==='mcq')return sample(P,L.len).map(w=>{let d=P.filter(o=>o.t===w.t&&o.id!==w.id&&o.f!==w.f);if(d.length<3)d=WORDS.filter(o=>o.id!==w.id&&o.f!==w.f);const opts=shuffle([w,...sample(d,3)]);return {w,opts:opts.map(o=>({t:o.f,ok:o.id===w.id}))};});
+  if(L.k==='tiles'){let c=P.filter(w=>!w.m.includes(' ')&&w.m.split('·').length>=3);if(c.length<L.len)c=WORDS.filter(w=>!w.m.includes(' ')&&w.m.split('·').length>=3);
+    return sample(c,L.len).map(w=>{const segs=w.m.split('·').map(s=>s.toLowerCase());const pool=['il','ej','uj','ig','iĝ','et','eg','ul','aĵ','ad','ar','mal','re'].filter(a=>!segs.includes(a));
+      const tiles=shuffle(segs.concat(sample(pool,2))).map((t,i)=>({t,i}));return {w,segs,tiles,built:[]};});}
+  if(L.k==='type')return sample(P,L.len).map(w=>({w}));
+  if(L.k==='cloze')return sample(CLOZE,L.len).map(c=>({c,hint:false}));
+  if(L.k==='choose')return sample(CHOOSE,L.len).map(c=>({c,opts:shuffle(c.o.map((t,i)=>({t,ok:i===0})))}));
+  if(L.k==='trans')return sample(TRANS,L.len).map(c=>({c}));
+  if(L.k==='chat')return sample(CHAT,L.len).map(c=>({c,showFr:false}));
+}
+function startLevel(n){
+  const L=LEVELS.find(l=>l.n===n);const items=makeItems(L);
+  X={L,items,i:0,score:0,ans:false,miss:[]};
+  $('#ex-home').hidden=true;$('#ex-sess').hidden=false;renderQ();window.scrollTo({top:0,behavior:'instant'});
+}
+function exitSession(){X=null;$('#ex-sess').hidden=true;$('#ex-home').hidden=false;renderLadder();}
+function sessHead(){
+  const p=X.i/X.items.length*100;
+  return '<div class="sess-head"><span class="num" style="font-family:var(--pixel)">N'+X.L.n+'</span><span lang="eo">'+esc(X.L.eo)+'</span><div class="prog" role="progressbar" aria-valuemin="0" aria-valuemax="'+X.items.length+'" aria-valuenow="'+X.i+'"><i style="width:'+p+'%"></i></div><span style="font-variant-numeric:tabular-nums">'+(X.i+1)+'/'+X.items.length+'</span><button class="btn ghost" id="x-quit">Quitter</button></div>';
+}
+function renderQ(){
+  if(X.i>=X.items.length)return renderEnd();
+  const it=X.items[X.i],k=X.L.k;let h=sessHead()+'<div class="q">';
+  if(k==='mcq'){
+    h+='<div class="ask">Que signifie ce mot ?</div><div class="row"><div class="prompt" lang="eo">'+esc(it.w.e)+'</div>'+sayBtns(it.w.e)+'</div>';
+    h+='<div class="opts two">'+it.opts.map((o,i)=>'<button class="opt'+(X.ans?(o.ok?' ok':(it.pick===i?' no':'')):'')+'" data-opt="'+i+'"'+(X.ans?' disabled':'')+'><span class="k">'+(i+1)+'</span><span>'+esc(o.t)+'</span></button>').join('')+'</div>';
+    if(X.ans)h+=fbWord(it.w,it.pick!=null&&it.opts[it.pick].ok);
+  }
+  else if(k==='tiles'){
+    h+='<div class="ask">Composez le mot espéranto qui signifie :</div><div class="prompt s">'+esc(it.w.f)+'</div>';
+    h+='<div class="built" id="built">'+it.built.map(i=>'<span>'+esc(it.tiles[i].t)+'</span>').join('')+'</div>';
+    if(!X.ans){h+='<div class="tiles">'+it.tiles.map((t,i)=>'<button class="tile" data-tile="'+i+'"'+(it.built.includes(i)?' disabled':'')+'>'+esc(t.t)+'</button>').join('')+'</div>';
+      h+='<div class="row"><button class="btn" id="t-undo"'+(it.built.length?'':' disabled')+'>Retirer le dernier</button><button class="btn" id="t-clear"'+(it.built.length?'':' disabled')+'>Tout effacer</button></div>';}
+    else h+=fbWord(it.w,it.res==='ok');
+  }
+  else if(k==='type'){
+    h+='<div class="ask">Écrivez en espéranto :</div><div class="prompt s">'+esc(it.w.f)+'</div>';
+    h+='<input type="text" id="x-in" autocomplete="off" autocapitalize="off" spellcheck="false" lang="eo" aria-label="Votre réponse"'+(X.ans?' disabled value="'+esc(it.val)+'"':'')+'>'+(X.ans?'':kbdHTML('x-in'));
+    if(X.ans)h+=fbType(it.res,it.w);
+  }
+  else if(k==='cloze'){
+    const parts=it.c.s.split('___');
+    h+='<div class="ask">Complétez la phrase (accordez le mot si besoin).</div><div class="cloze" lang="eo">'+esc(parts[0])+'<span class="gap">'+(X.ans?esc(it.c.a[0]):'?')+'</span>'+esc(parts[1]||'')+'</div>';
+    h+='<div class="small muted">'+esc(it.c.fr)+'</div>';
+    h+='<input type="text" id="x-in" autocomplete="off" autocapitalize="off" spellcheck="false" lang="eo" aria-label="Mot manquant"'+(X.ans?' disabled value="'+esc(it.val)+'"':'')+'>';
+    if(!X.ans){h+=kbdHTML('x-in');h+='<div>'+(it.hint?'<span class="small">Mot de base : <b lang="eo">'+esc(it.c.w)+'</b></span>':'<button class="btn ghost" id="x-hint">Indice : mot de base</button>')+'</div>';}
+    else{const ok=it.res==='ok'||it.res==='accent';h+='<div class="fb '+(ok?'ok':(it.res==='typo'||it.res==='accn'||it.res==='extran')?'mid':'no')+'"><b class="t">'+(it.res==='ok'?'Juste.':it.res==='accent'?'Juste, aux accents près.':it.res==='accn'?'Presque : il manque la terminaison de l’objet (-n ou -jn).':it.res==='extran'?'Presque : ici le mot ne prend pas de -n.':it.res==='typo'?'Presque : une lettre de différence.':'Pas tout à fait.')+'</b><span>Réponse attendue : <b lang="eo">'+esc(it.c.a[0])+'</b> (mot de base : '+esc(it.c.w)+').</span>'+(TTS.ok?'<div>'+sayBtns(it.c.s.replace('___',it.c.a[0]),'la phrase')+'</div>':'')+'</div>';}
+  }
+  else if(k==='choose'){
+    h+='<div class="ask">Quelle phrase traduit correctement ?</div><div class="prompt s">'+esc(it.c.fr)+'</div>';
+    h+='<div class="opts">'+it.opts.map((o,i)=>'<button class="opt'+(X.ans?(o.ok?' ok':(it.pick===i?' no':'')):'')+'" data-opt="'+i+'"'+(X.ans?' disabled':'')+' lang="eo"><span class="k">'+(i+1)+'</span><span>'+esc(o.t)+'</span></button>').join('')+'</div>';
+    if(X.ans){const ok=it.opts[it.pick].ok;h+='<div class="fb '+(ok?'ok':'no')+'"><b class="t">'+(ok?'Juste.':'Pas tout à fait.')+'</b><span>'+esc(it.c.why)+'</span></div>';}
+  }
+  else if(k==='trans'){
+    h+='<div class="ask">Traduisez en espéranto :</div><div class="prompt s">'+esc(it.c.fr)+'</div>';
+    h+='<textarea id="x-in" lang="eo" spellcheck="false" autocapitalize="sentences" aria-label="Votre traduction"'+(X.ans?' disabled':'')+'>'+(X.ans?esc(it.val):'')+'</textarea>'+(X.ans?'':kbdHTML('x-in'));
+    if(X.ans)h+=fbFree(it,'Modèle',[it.c.m]);
+  }
+  else if(k==='chat'){
+    h+='<div class="ask">Répondez à ce message comme dans le salon du serveur.</div>';
+    h+='<div class="bubble"><span class="who">'+esc(it.c.who)+'</span><span class="msg" lang="eo">'+esc(it.c.msg)+'</span>'+(it.showFr?'<span class="small muted">'+esc(it.c.fr)+'</span>':'')+'</div>';
+    h+='<div class="row">'+sayBtns(it.c.msg,'le message')+(it.showFr?'':'<button class="btn ghost" id="x-fr">Voir la traduction</button>')+'</div>';
+    if(X.ans)h+='<div class="bubble me"><span class="who" style="color:var(--accent)">Vous</span><span class="msg" lang="eo">'+esc(it.val||'…')+'</span></div>';
+    else h+='<textarea id="x-in" lang="eo" spellcheck="false" autocapitalize="sentences" aria-label="Votre réponse"></textarea>'+kbdHTML('x-in');
+    if(X.ans)h+=fbFree(it,'Réponses possibles',it.c.m);
+  }
+  h+='</div><div class="sess-foot">';
+  if(!X.ans){
+    if(k==='tiles')h+='<button class="btn pri" id="x-check"'+(it.built.length?'':' disabled')+'>Vérifier</button>';
+    else if(k==='type'||k==='cloze')h+='<button class="btn ghost" id="x-skip">Je ne sais pas</button><button class="btn pri" id="x-check">Vérifier</button>';
+    else if(k==='trans'||k==='chat')h+='<button class="btn pri" id="x-check">Voir la correction</button>';
+  }else if(!(k==='trans'||k==='chat')||it.rated){h+='<button class="btn pri" id="x-next">'+(X.i+1<X.items.length?'Continuer':'Voir le résultat')+'</button>';}
+  h+='</div>';
+  $('#ex-sess').innerHTML=h;
+  const inp=$('#x-in');if(inp&&!X.ans){attachX(inp);setTimeout(()=>inp.focus({preventScroll:true}),30);}
+  const nx=$('#x-next');if(nx)nx.focus({preventScroll:true});
+}
+function fbWord(w,ok){
+  return '<div class="fb '+(ok?'ok':'no')+'"><b class="t">'+(ok?'Juste.':'Pas tout à fait.')+'</b><span><b lang="eo">'+esc(w.e)+'</b> = '+esc(w.f)+'</span>'+morphHTML(w.m).replace('class="morph"','class="morph" style="justify-content:flex-start"')+legendHTML(w.m).replace('class="leg"','class="leg" style="justify-content:flex-start"')+(w.x?'<span class="small"><i lang="eo">'+esc(w.x)+'</i></span>':'')+'</div>';
+}
+function fbType(res,w){
+  const cls=res==='ok'||res==='accent'?'ok':(res==='typo'||res==='accn'||res==='extran')?'mid':'no';
+  const t={ok:'Juste.',accent:'Juste, mais attention aux lettres accentuées.',typo:'Presque : une lettre de différence.',accn:'Presque : il manque une terminaison.',extran:'Presque : le mot de base ne prend pas de -n.',no:'Pas tout à fait.',empty:'Voici la réponse.'}[res];
+  return '<div class="fb '+cls+'"><b class="t">'+t+'</b><span>Réponse : <b lang="eo">'+esc(w.e)+'</b>'+(w.alt.length?' (aussi : '+esc(w.alt.join(', '))+')':'')+'</span>'+(TTS.ok?'<div>'+sayBtns(w.e)+'</div>':'')+morphHTML(w.m).replace('class="morph"','class="morph" style="justify-content:flex-start"')+'</div>';
+}
+function fbFree(it,title,models){
+  const n=bare(norm(it.val||''));
+  const checks=it.c.k.map(([p,l])=>{const hit=n.includes(bare(norm(p)));return '<span class="'+(hit?'y':'n')+'">'+(hit?'✓ ':'✗ ')+esc(l)+'</span>';}).join('');
+  let h='<div class="fb info"><b class="t">'+esc(title)+'</b>'+models.map(m=>'<span lang="eo"><b>'+esc(m)+'</b> '+(TTS.ok?'<button class="btn ico ghost" data-say="'+esc(m)+'" aria-label="Écouter" title="Écouter" style="min-height:28px">'+SPK+'</button>':'')+'</span>').join('')+
+    '<span class="small muted">Mots et formes repérés dans votre réponse :</span><div class="checks">'+checks+'</div>'+(X.L.k==='chat'?'<span class="small muted">D’autres réponses sont possibles : comparez le sens et les formes, pas les mots exacts.</span>':'')+'</div>';
+  if(!it.rated)h+='<div class="row"><span class="small">Votre réponse était :</span><button class="btn" data-rate="1">Juste</button><button class="btn" data-rate="0.5">Presque</button><button class="btn" data-rate="0">À revoir</button></div>';
+  else h+='<span class="small muted">Noté : '+(it.rate===1?'juste':it.rate===0.5?'presque':'à revoir')+'</span>';
+  return h;
+}
+function answer(extra){
+  const it=X.items[X.i],k=X.L.k;
+  if(k==='mcq'||k==='choose'){it.pick=extra;const ok=it.opts[extra].ok;if(ok)X.score++;else X.miss.push(k==='mcq'?it.w.e+' = '+it.w.f:it.c.o[0]);if(k==='mcq'&&TTS.ok&&userActed)speak(it.w.e);}
+  else if(k==='tiles'){const s=it.built.map(i=>it.tiles[i].t).join('');it.res=s===it.w.e.toLowerCase()?'ok':'no';if(it.res==='ok')X.score++;else X.miss.push(it.w.e+' = '+it.w.f);speak(it.w.e);}
+  else if(k==='type'){const v=$('#x-in').value;it.val=v;it.res=extra==='skip'?'empty':check(v,[it.w.e].concat(it.w.alt)).r;if(it.res==='ok'||it.res==='accent')X.score++;else X.miss.push(it.w.e+' = '+it.w.f);speak(it.w.e);}
+  else if(k==='cloze'){const v=$('#x-in').value;it.val=v;it.res=extra==='skip'?'empty':check(v,it.c.a).r;if(it.res==='ok'||it.res==='accent')X.score++;else X.miss.push(it.c.s.replace('___',it.c.a[0]));}
+  else if(k==='trans'||k==='chat'){it.val=$('#x-in')?$('#x-in').value:'';}
+  X.ans=true;renderQ();
+}
+function renderEnd(){
+  const pct=Math.round(X.score/X.items.length*100);const prev=S.quiz[X.L.n];
+  if(prev==null||pct>prev){S.quiz[X.L.n]=pct;save();}
+  const nxt=LEVELS.find(l=>l.n===X.L.n+1);
+  let h='<div class="sess-head"><span class="num" style="font-family:var(--pixel)">N'+X.L.n+'</span><span lang="eo">'+esc(X.L.eo)+'</span><div class="prog"><i style="width:100%"></i></div></div><div class="q" style="align-items:flex-start">';
+  h+='<div class="prompt">'+pct+' %</div><div class="muted">'+(Math.round(X.score*10)/10)+' sur '+X.items.length+(prev!=null?' · meilleur score précédent '+prev+' %':'')+'</div>';
+  h+='<p style="margin:0">'+(pct>=80?'Niveau acquis. Passez au suivant quand vous voulez.':pct>=50?'En bonne voie : refaites une série pour consolider.':'Revoyez ces mots dans les cartes, puis réessayez.')+'</p>';
+  if(X.miss.length)h+='<div class="fb no" style="width:100%"><b class="t">À retravailler</b>'+X.miss.map(m=>'<span lang="eo">'+esc(m)+'</span>').join('')+'</div>';
+  h+='</div><div class="sess-foot"><button class="btn" id="x-quit">Retour aux niveaux</button><button class="btn'+(nxt&&pct>=80?'':' pri')+'" data-start="'+X.L.n+'">Recommencer</button>'+(nxt?'<button class="btn'+(pct>=80?' pri':'')+'" data-start="'+nxt.n+'">Niveau '+nxt.n+'</button>':'')+'</div>';
+  $('#ex-sess').innerHTML=h;
+}
+document.addEventListener('click',e=>{const s=e.target.closest('[data-start]');if(s)startLevel(+s.dataset.start);});
+$('#ex-sess').addEventListener('click',e=>{
+  if(!X)return;const it=X.items[X.i];
+  if(e.target.closest('#x-quit'))return exitSession();
+  const o=e.target.closest('[data-opt]');if(o&&!X.ans)return answer(+o.dataset.opt);
+  const t=e.target.closest('[data-tile]');if(t&&!X.ans){it.built.push(+t.dataset.tile);speak(it.tiles[+t.dataset.tile].t);return renderQ();}
+  if(e.target.closest('#t-undo')){it.built.pop();return renderQ();}
+  if(e.target.closest('#t-clear')){it.built=[];return renderQ();}
+  if(e.target.closest('#x-hint')){it.hint=true;const v=$('#x-in').value;renderQ();$('#x-in').value=v;return;}
+  if(e.target.closest('#x-fr')){it.showFr=true;const v=$('#x-in')?$('#x-in').value:'';renderQ();if($('#x-in'))$('#x-in').value=v;return;}
+  if(e.target.closest('#x-check'))return answer();
+  if(e.target.closest('#x-skip'))return answer('skip');
+  const r=e.target.closest('[data-rate]');if(r){const v=+r.dataset.rate;it.rated=true;it.rate=v;X.score+=v;if(v<1)X.miss.push(Array.isArray(it.c.m)?it.c.m[0]:it.c.m);return renderQ();}
+  if(e.target.closest('#x-next')){X.i++;X.ans=false;renderQ();window.scrollTo({top:0,behavior:'instant'});}
+});
+
+/* ---------- Vue Lexique ---------- */
+function renderLexSelect(){$('#lx-t').innerHTML='<option value="">Tous les thèmes</option>'+THEMES.map(t=>'<option value="'+t.k+'">'+esc(t.fr)+'</option>').join('');}
+let openLex=null;
+function renderLex(){
+  const q=bare(norm($('#lx-q').value||'')),th=$('#lx-t').value;
+  const list=WORDS.filter(w=>(!th||w.t===th)&&(!q||bare(norm(w.e+' '+w.f+' '+w.alt.join(' '))).includes(q)));
+  $('#lx-n').textContent=list.length+' mot'+(list.length>1?'s':'');
+  let h='',last='';
+  for(const w of list){
+    if(w.t!==last&&!q){h+='<div class="lx-th">'+esc(TH[w.t].fr)+' · <span lang="eo">'+esc(TH[w.t].eo)+'</span></div>';last=w.t;}
+    const open=openLex===w.id;
+    h+='<div class="lx"><div class="lx-h" data-lx="'+w.id+'" role="button" tabindex="0" aria-expanded="'+open+'"><span class="e" lang="eo">'+esc(w.e)+'</span><span class="f">'+esc(w.f)+'</span><span class="row" style="gap:6px;flex-wrap:nowrap"><span class="tag '+w.s+'" title="'+esc(SRC[w.s][1])+'">'+esc(SRC[w.s][0])+'</span>'+(TTS.ok?'<button class="btn ico ghost" data-say="'+esc(w.e)+'" aria-label="Écouter '+esc(w.e)+'" title="Écouter">'+SPK+'</button>':'')+'</span></div>';
+    if(open){h+='<div class="lx-d">'+morphHTML(w.m)+legendHTML(w.m)+(w.x?'<div class="ex"><span class="e" lang="eo">'+esc(w.x)+'</span><span class="muted">'+esc(w.y)+'</span></div>':'')+(w.n?'<div class="note">'+esc(w.n)+'</div>':'')+(w.alt.length?'<div class="note">Variantes acceptées : <span lang="eo">'+esc(w.alt.join(', '))+'</span></div>':'')+(w.x&&TTS.ok?'<button class="btn" data-say="'+esc(w.x)+'">Écouter l’exemple</button>':'')+'</div>';}
+    h+='</div>';
+  }
+  $('#lex').innerHTML=h||'<div class="pad muted">Aucun mot ne correspond.</div>';
+}
+$('#lex').addEventListener('click',e=>{if(e.target.closest('[data-say]'))return;const r=e.target.closest('[data-lx]');if(!r)return;openLex=openLex===r.dataset.lx?null:r.dataset.lx;renderLex();});
+$('#lex').addEventListener('keydown',e=>{if((e.key==='Enter'||e.key===' ')&&e.target.matches('[data-lx]')){e.preventDefault();openLex=openLex===e.target.dataset.lx?null:e.target.dataset.lx;renderLex();const el=$('[data-lx="'+e.target.dataset.lx+'"]');if(el)el.focus();}});
+attachX($('#lx-q'));$('#lx-q').addEventListener('input',()=>{openLex=null;renderLex();});$('#lx-t').addEventListener('change',renderLex);
+
+/* ---------- Vue Réglages ---------- */
+function renderVoiceUI(){
+  const sel=$('#tts-voice');if(!sel)return;
+  if(!TTS.ok){$('#tts-status').className='status warn';$('#tts-status').textContent='La synthèse vocale n’est pas disponible dans ce navigateur. Le reste de l’application fonctionne normalement.';sel.disabled=true;return;}
+  const v=TTS.voices.slice().sort((a,b)=>{const r=x=>/^eo/i.test(x.lang)?0:/^pl/i.test(x.lang)?1:/^(hr|sr|bs)/i.test(x.lang)?2:3;return r(a)-r(b)||a.lang.localeCompare(b.lang)||a.name.localeCompare(b.name);});
+  const cv=currentVoice();
+  sel.innerHTML='<option value="">Automatique'+(cv?' ('+esc(cv.name)+')':'')+'</option>'+v.map(x=>'<option value="'+esc(x.voiceURI)+'"'+(TTS.set.voice===x.voiceURI?' selected':'')+'>'+esc(x.name)+' — '+esc(x.lang)+'</option>').join('');
+  const st=$('#tts-status');const mode=adaptMode(cv);
+  if(!v.length){st.className='status warn';st.textContent='Aucune voix n’est encore chargée. Touchez « Écouter » : certains navigateurs ne livrent leurs voix qu’après une première lecture.';}
+  else if(cv&&/^eo/i.test(cv.lang)){st.className='status';st.textContent='Voix espéranto trouvée : '+cv.name+'.';}
+  else if(cv&&mode!=='none'){st.className='status';st.textContent='Pas de voix espéranto sur cet appareil. La voix '+cv.name+' ('+cv.lang+') lit les mots avec une adaptation '+(mode==='pl'?'polonaise':'croate')+' de l’orthographe : la prononciation est proche, sans être parfaite.';}
+  else{st.className='status warn';st.textContent='Aucune voix espéranto, polonaise ou croate sur cet appareil. Choisissez une voix ci-dessous et une adaptation phonétique, ou installez une voix (voir plus bas).';}
+}
+function bindSettings(){
+  const r=$('#tts-rate'),p=$('#tts-pitch');
+  r.value=TTS.set.rate;p.value=TTS.set.pitch;$('#o-rate').textContent=(+TTS.set.rate).toFixed(2)+'×';$('#o-pitch').textContent=(+TTS.set.pitch).toFixed(2);
+  $('#tts-mode').value=TTS.set.mode;$('#tts-auto').checked=!!TTS.set.auto;
+  r.addEventListener('input',()=>{TTS.set.rate=+r.value;$('#o-rate').textContent=(+r.value).toFixed(2)+'×';saveTTS();});
+  p.addEventListener('input',()=>{TTS.set.pitch=+p.value;$('#o-pitch').textContent=(+p.value).toFixed(2);saveTTS();});
+  $('#tts-mode').addEventListener('change',e=>{TTS.set.mode=e.target.value;saveTTS();renderVoiceUI();});
+  $('#tts-voice').addEventListener('change',e=>{TTS.set.voice=e.target.value;saveTTS();renderVoiceUI();});
+  $('#tts-auto').addEventListener('change',e=>{TTS.set.auto=e.target.checked;saveTTS();});
+  attachX($('#tts-test'));
+  $('#tts-play').addEventListener('click',()=>{speak($('#tts-test').value);setTimeout(loadVoices,400);});
+  $('#tts-slow').addEventListener('click',()=>speak($('#tts-test').value,true));
+  if(!TTS.ok){['#tts-play','#tts-slow','#tts-mode','#tts-rate','#tts-pitch','#tts-auto'].forEach(s=>$(s).disabled=true);}
+  $('#s-per').value=String(S.settings.perDay);$('#s-dir').value=S.settings.dir;
+  $('#s-per').addEventListener('change',e=>{S.settings.perDay=+e.target.value;save();refreshAll();});
+  $('#s-dir').addEventListener('change',e=>{S.settings.dir=e.target.value;save();refreshAll();});
+  $('#reset').addEventListener('click',()=>{$('#reset-confirm').hidden=false;$('#reset').hidden=true;});
+  $('#reset-no').addEventListener('click',()=>{$('#reset-confirm').hidden=true;$('#reset').hidden=false;});
+  $('#reset-yes').addEventListener('click',()=>{const keep=S.settings;S=defaults();S.settings=keep;save();if(Cloud.ref)flush();$('#reset-confirm').hidden=true;$('#reset').hidden=false;refreshAll();});
+  $('#src-list').innerHTML=Object.keys(SRC).map(k=>'<div><span class="tag '+k+'">'+esc(SRC[k][0])+'</span><span>'+esc(SRC[k][1])+'</span></div>').join('');
+}
+
+/* ---------- Navigation et clavier ---------- */
+const VIEWS=['kartoj','ekzercoj','vortaro','agordoj'];
+let view='kartoj';
+function show(v){
+  if(!VIEWS.includes(v))v='kartoj';view=v;
+  VIEWS.forEach(x=>{$('#v-'+x).hidden=x!==v;});
+  $$('[data-view]').forEach(b=>{if(b.dataset.view===v)b.setAttribute('aria-current','page');else b.removeAttribute('aria-current');});
+  try{history.replaceState(null,'','#'+v);}catch(e){}
+  if(v==='vortaro')renderLex();if(v==='ekzercoj'&&!X)renderLadder();if(v==='agordoj')renderVoiceUI();
+  window.scrollTo({top:0,behavior:'instant'});
+}
+document.addEventListener('click',e=>{const b=e.target.closest('[data-view],[data-go]');if(b)show(b.dataset.view||b.dataset.go);});
+document.addEventListener('keydown',e=>{
+  const typing=e.target.matches('input,textarea,select');
+  if(view==='kartoj'&&!typing&&!e.target.closest('button[data-say]')&&!(e.target.matches('[data-grade]')&&(e.key===' '||e.key==='Enter'))){
+    if(!revealed&&(e.key===' '||e.key==='Enter')){if(e.target.matches('button')&&e.target.id!=='reveal')return;e.preventDefault();reveal();return;}
+    if(revealed&&/^[1-4]$/.test(e.key)){e.preventDefault();grade(+e.key);return;}
+    if(revealed&&(e.key===' ')){e.preventDefault();grade(3);return;}
+  }
+  if(view==='ekzercoj'&&X){
+    const k=X.L.k;
+    if(!X.ans&&(k==='mcq'||k==='choose')&&!typing&&/^[1-4]$/.test(e.key)){const i=+e.key-1;if(i<X.items[X.i].opts.length){e.preventDefault();answer(i);}return;}
+    if(e.key==='Enter'&&!e.shiftKey){
+      if(X.ans){const nx=$('#x-next');if(nx&&e.target!==nx){e.preventDefault();nx.click();}return;}
+      if(typing&&e.target.id==='x-in'&&(k==='type'||k==='cloze')){e.preventDefault();answer();}
+    }
+  }
+});
+function refreshAll(){renderChips();renderCounts();renderProgress();if(!revealed||!cur)nextCard();else renderFlash();renderLadder();if(view==='vortaro')renderLex();
+  if($('#s-per'))$('#s-per').value=String(S.settings.perDay);if($('#s-dir'))$('#s-dir').value=S.settings.dir;}
+$('#side-foot').textContent=WORDS.length+' mots · 12 thèmes';
+
+/* ---------- Démarrage ---------- */
+renderChips();renderLexSelect();bindSettings();renderLadder();renderProgress();nextCard();renderVoiceUI();
+let h0='';try{h0=(location.hash||'').replace('#','');}catch(e){}
+show(VIEWS.includes(h0)?h0:'kartoj');
+setSync('local');initCloud();
+setInterval(()=>{if(view==='kartoj'&&!cur){nextCard();}else if(view==='kartoj')renderCounts();},30000);
+window.__lvm={sched,check,WORDS,morphHTML,queues};
+})();
+</script>
+
+</body></html>
