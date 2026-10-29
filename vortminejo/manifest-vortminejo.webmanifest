@@ -1,0 +1,33 @@
+{
+  "id": "vortminejo",
+  "name": "Vortminejo",
+  "short_name": "Vortminejo",
+  "description": "Riĉa vortaro estas ora minejo! Esperantaj vortoj, frazoj kaj gvidiloj en la mondo de Mineklonia.",
+  "lang": "eo",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#1b1e20",
+  "theme_color": "#232629",
+  "icons": [
+    {
+      "src": "icon-vortminejo-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "icon-vortminejo-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "icon-vortminejo-maskable.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ]
+}
