@@ -1,0 +1,886 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Le recueil d'expériences culturelles — la méthode pas à pas</title>
+<style>
+:root{
+  --bg:#eff0f1; --surface:#fcfcfc; --text:#232629; --muted:#55595d;
+  --border:#bdc3c7; --line:#dfe2e4;
+  --accent:#1d99f3; --accent-text:#1272b8; --accent-soft:#e3f2fd;
+  /* code couleur constant des parties du récit */
+  --p1:#1d99f3; --p1s:#e6f3fd;   /* informative */
+  --p2:#27ae60; --p2s:#e7f6ec;   /* narrative/descriptive + contexte */
+  --p3:#f67400; --p3s:#fef0e3;   /* argumentative */
+  --p4:#8e44ad; --p4s:#f3eaf7;   /* conclusion */
+  --ok:#27ae60; --oks:#e7f6ec; --ko:#da4453; --kos:#fbe9eb;
+  --radius:6px;
+}
+*{box-sizing:border-box}
+html{font-size:17px}
+body{margin:0;background:var(--bg);color:var(--text);
+  font-family:"Noto Sans","Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;line-height:1.6}
+a{color:var(--accent-text)}
+header.top{background:var(--surface);border-bottom:1px solid var(--border);padding:.7rem 1.2rem;
+  display:flex;align-items:center;gap:.8rem;position:sticky;top:0;z-index:5}
+header.top h1{font-size:1.05rem;margin:0;font-weight:600}
+header.top .sub{color:var(--muted);font-size:.85rem}
+.progress{margin-left:auto;font-size:.85rem;color:var(--muted);white-space:nowrap}
+.layout{display:grid;grid-template-columns:260px 1fr;max-width:1180px;margin:0 auto;gap:1.2rem;padding:1.2rem}
+nav.steps{position:sticky;top:4.2rem;align-self:start;background:var(--surface);border:1px solid var(--border);
+  border-radius:var(--radius);padding:.4rem}
+nav.steps button{display:flex;gap:.6rem;align-items:flex-start;width:100%;text-align:left;background:none;border:0;
+  padding:.55rem .6rem;border-radius:4px;font:inherit;font-size:.92rem;color:var(--text);cursor:pointer;line-height:1.35}
+nav.steps button:hover{background:var(--bg)}
+nav.steps button[aria-current="true"]{background:var(--accent-soft);color:var(--accent-text);font-weight:600}
+nav.steps .n{flex:0 0 1.6rem;height:1.6rem;border-radius:50%;border:1px solid var(--border);display:grid;place-items:center;
+  font-size:.8rem;background:var(--surface)}
+nav.steps button[aria-current="true"] .n{border-color:var(--accent);background:var(--accent);color:#fff}
+nav.steps button.seen .n::after{content:""}
+nav.steps .sep{border-top:1px solid var(--line);margin:.4rem .3rem}
+main{min-width:0}
+section.step{display:none;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);
+  padding:1.6rem 2rem 2rem}
+section.step.active{display:block}
+section.step > h2{margin:0 0 .3rem;font-size:1.5rem}
+.kicker{color:var(--muted);margin:0 0 1.2rem;max-width:70ch}
+h3{font-size:1.15rem;margin:2rem 0 .6rem;padding-bottom:.25rem;border-bottom:1px solid var(--line)}
+h4{font-size:1rem;margin:1.2rem 0 .4rem}
+p,li{max-width:72ch}
+ul,ol{padding-left:1.3rem}
+li{margin:.2rem 0}
+.box{border:1px solid var(--border);border-radius:var(--radius);padding:1rem 1.2rem;margin:1rem 0;background:var(--surface)}
+.box.key{border-left:4px solid var(--accent);background:var(--accent-soft)}
+.box.warn{border-left:4px solid var(--p3);background:var(--p3s)}
+.box h4:first-child{margin-top:0}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+.grid4{display:grid;grid-template-columns:repeat(4,1fr);gap:.7rem}
+table{border-collapse:collapse;width:100%;margin:.8rem 0;font-size:.95rem}
+th,td{border:1px solid var(--line);padding:.5rem .65rem;text-align:left;vertical-align:top}
+th{background:var(--bg);font-weight:600}
+.tag{display:inline-block;font-size:.78rem;font-weight:600;padding:.05rem .5rem;border-radius:999px;color:#fff;
+  vertical-align:middle;white-space:nowrap}
+.t1{background:var(--p1)} .t2{background:var(--p2)} .t3{background:var(--p3)} .t4{background:var(--p4)}
+.chip{display:inline-grid;place-items:center;min-width:1.6rem;height:1.6rem;border-radius:50%;background:var(--accent);
+  color:#fff;font-size:.82rem;font-weight:700;margin-right:.4rem}
+/* schéma du recueil */
+.schema{display:flex;flex-wrap:wrap;gap:.6rem;align-items:stretch;margin:1rem 0}
+.schema .blk{border:1px solid var(--border);border-radius:var(--radius);padding:.7rem;background:#fff;min-width:150px;flex:1}
+.schema .blk h5{margin:0 0 .4rem;font-size:.92rem}
+.schema .intro{border:2px solid var(--accent);background:var(--accent-soft)}
+.schema .arrow{align-self:center;color:var(--muted);font-size:1.3rem}
+.bar{font-size:.8rem;padding:.2rem .45rem;border-radius:3px;margin:.18rem 0;color:var(--text)}
+.b1{background:var(--p1s);border-left:4px solid var(--p1)} .b2{background:var(--p2s);border-left:4px solid var(--p2)}
+.b3{background:var(--p3s);border-left:4px solid var(--p3)} .b4{background:var(--p4s);border-left:4px solid var(--p4)}
+.b0{background:var(--bg);border-left:4px solid var(--border)}
+/* parties du récit */
+.part{border:1px solid var(--line);border-left:6px solid;border-radius:var(--radius);padding:.9rem 1.1rem;margin:.8rem 0}
+.part.p1{border-left-color:var(--p1);background:var(--p1s)} .part.p2{border-left-color:var(--p2);background:var(--p2s)}
+.part.p3{border-left-color:var(--p3);background:var(--p3s)} .part.p4{border-left-color:var(--p4);background:var(--p4s)}
+.part h4{margin:0 0 .4rem}
+/* exemple annoté : annotation collée au texte (contiguïté spatiale) */
+.annot{display:grid;grid-template-columns:1fr 230px;gap:0;border:1px solid var(--line);border-radius:var(--radius);
+  overflow:hidden;margin:1rem 0}
+.annot .row{display:contents}
+.annot .txt{padding:.7rem 1rem;border-bottom:1px solid var(--line);background:#fff}
+.annot .note{padding:.7rem .8rem;border-bottom:1px solid var(--line);font-size:.86rem;line-height:1.45}
+.annot .row:last-child .txt,.annot .row:last-child .note{border-bottom:0}
+.annot .r1 .txt{border-left:6px solid var(--p1)} .annot .r1 .note{background:var(--p1s)}
+.annot .r2 .txt{border-left:6px solid var(--p2)} .annot .r2 .note{background:var(--p2s)}
+.annot .r3 .txt{border-left:6px solid var(--p3)} .annot .r3 .note{background:var(--p3s)}
+.annot .r4 .txt{border-left:6px solid var(--p4)} .annot .r4 .note{background:var(--p4s)}
+.annot .ri .txt{border-left:6px solid var(--accent)} .annot .ri .note{background:var(--accent-soft)}
+mark.arg{background:#ffe2c4;padding:0 .1rem}
+/* cartes dépliables */
+details{border:1px solid var(--border);border-radius:var(--radius);margin:.6rem 0;background:#fff}
+details > summary{cursor:pointer;padding:.65rem .9rem;font-weight:600;list-style:none;display:flex;gap:.5rem;align-items:center}
+details > summary::before{content:"▸";color:var(--muted);transition:transform .15s}
+details[open] > summary::before{transform:rotate(90deg)}
+details > summary::-webkit-details-marker{display:none}
+details .inner{padding:0 1rem .9rem 1.9rem}
+/* émotions */
+.emo{border:1px solid var(--line);border-radius:var(--radius);padding:.7rem;background:#fff}
+.emo h5{margin:0 0 .4rem;font-size:.95rem}
+.emo ul{list-style:none;padding:0;margin:0;font-size:.9rem}
+/* quiz */
+.quiz{border:1px solid var(--border);border-radius:var(--radius);padding:1rem 1.2rem;margin:1.2rem 0;background:var(--bg)}
+.quiz > h4{margin:0 0 .3rem}
+.quiz .consigne{color:var(--muted);font-size:.92rem;margin:0 0 .6rem}
+.qitem{background:#fff;border:1px solid var(--line);border-radius:var(--radius);padding:.7rem .9rem;margin:.55rem 0}
+.qitem .q{margin:0 0 .5rem}
+.qitem .opts{display:flex;flex-wrap:wrap;gap:.4rem}
+.qitem button{font:inherit;font-size:.86rem;padding:.3rem .7rem;border:1px solid var(--border);border-radius:4px;
+  background:var(--surface);cursor:pointer;color:var(--text)}
+.qitem button:hover{border-color:var(--accent)}
+.qitem button:disabled{cursor:default;opacity:.65}
+.qitem button.good{background:var(--oks);border-color:var(--ok);opacity:1;font-weight:600}
+.qitem button.bad{background:var(--kos);border-color:var(--ko);opacity:1}
+.fb{margin-top:.5rem;font-size:.9rem;padding:.45rem .7rem;border-radius:4px;display:none}
+.fb.show{display:block}
+.fb.ok{background:var(--oks);border-left:4px solid var(--ok)}
+.fb.ko{background:var(--kos);border-left:4px solid var(--ko)}
+.score{font-size:.9rem;color:var(--muted);margin-top:.4rem}
+.btn{font:inherit;font-size:.9rem;padding:.45rem .9rem;border:1px solid var(--border);border-radius:4px;background:var(--surface);
+  cursor:pointer;color:var(--text)}
+.btn:hover{border-color:var(--accent)}
+.btn.primary{background:var(--accent);border-color:var(--accent);color:#fff}
+.btn.primary:hover{background:#1287db}
+/* checklists */
+.check{list-style:none;padding:0}
+.check li{display:flex;gap:.6rem;align-items:flex-start;padding:.35rem 0;border-bottom:1px dashed var(--line)}
+.check input{margin-top:.35rem;width:1.05rem;height:1.05rem;accent-color:var(--accent);flex:0 0 auto}
+/* brouillon */
+.draft{border:1px solid var(--border);border-radius:var(--radius);padding:1rem 1.1rem;margin:.8rem 0;background:#fff}
+.draft label{font-weight:600;display:flex;align-items:center}
+.draft .help{font-size:.88rem;color:var(--muted);margin:.25rem 0 .5rem}
+.starters{display:flex;flex-wrap:wrap;gap:.35rem;margin:.3rem 0 .5rem}
+.starters button{font:inherit;font-size:.8rem;padding:.2rem .55rem;border:1px dashed var(--accent);border-radius:999px;
+  background:var(--accent-soft);color:var(--accent-text);cursor:pointer}
+textarea{width:100%;min-height:6.5rem;font:inherit;font-size:.95rem;padding:.6rem .7rem;border:1px solid var(--border);
+  border-radius:4px;resize:vertical;line-height:1.5;color:var(--text)}
+textarea:focus,button:focus-visible{outline:2px solid var(--accent);outline-offset:1px}
+#assembled{white-space:pre-wrap;background:#fff;border:1px solid var(--border);border-radius:var(--radius);padding:1rem 1.2rem;
+  min-height:3rem}
+.pager{display:flex;justify-content:space-between;margin-top:2.2rem;padding-top:1rem;border-top:1px solid var(--line);gap:.6rem}
+.muted{color:var(--muted)}
+.small{font-size:.88rem}
+footer{max-width:1180px;margin:0 auto;padding:0 1.2rem 2rem;color:var(--muted);font-size:.8rem}
+@media (max-width:860px){
+  header.top{position:static;flex-wrap:wrap;padding:.6rem .8rem}
+  header.top .sub{display:none}
+  .progress{margin-left:0}
+  .layout{grid-template-columns:1fr;padding:.6rem}
+  nav.steps{position:static;display:flex;overflow-x:auto;gap:.2rem}
+  nav.steps button{flex:0 0 auto;width:auto}
+  nav.steps .t,nav.steps .sep{display:none}
+  section.step{padding:1.1rem 1rem 1.4rem}
+  .grid2,.grid4{grid-template-columns:1fr 1fr}
+  .annot{grid-template-columns:1fr}
+  .annot .note{border-bottom:1px solid var(--line)}
+}
+@media (max-width:520px){ .grid2,.grid4{grid-template-columns:1fr} .schema{flex-direction:column} .schema .arrow{transform:rotate(90deg);align-self:center} }
+@media print{
+  header.top,nav.steps,.pager,.quiz,.draft,.btn{display:none!important}
+  body{background:#fff} .layout{display:block;padding:0}
+  section.step{display:block!important;border:0;page-break-after:always;padding:0}
+}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div>
+    <h1>Le recueil d'expériences culturelles</h1>
+    <div class="sub">Méthode pas à pas — tâche finale UAA6 · focus sur l'introduction</div>
+  </div>
+  <div class="progress" id="progress"></div>
+</header>
+
+<div class="layout">
+  <nav class="steps" id="nav" aria-label="Étapes"></nav>
+  <main id="main">
+
+<!-- ============ 1 ============ -->
+<section class="step" id="s1" data-title="La tâche en un coup d'œil">
+  <h2>1. La tâche en un coup d'œil</h2>
+  <p class="kicker">Avant d'entrer dans les détails, regarde le schéma global : tout le reste de la méthode sert à fabriquer ces blocs.</p>
+
+  <div class="box key">
+    <h4>Ce que tu dois produire</h4>
+    <p style="margin:0">Un <strong>recueil organisé et motivé</strong> (ton dossier « chef-d'œuvre culturel ») qui rassemble <strong>plusieurs récits de rencontres culturelles</strong>, présentés de manière <strong>claire, cohérente et soignée</strong>, et qui commence par une <strong>introduction</strong>.</p>
+  </div>
+
+  <div class="schema" aria-label="Schéma du recueil">
+    <div class="blk intro">
+      <h5>Introduction</h5>
+      <div class="bar b0">① Accroche</div>
+      <div class="bar b0">② Ma vision « avant »</div>
+      <div class="bar b0">③ Ce qui l'a fait évoluer</div>
+      <div class="bar b0">④ Ma définition aujourd'hui</div>
+      <div class="bar b0">⑤ Annonce du plan</div>
+    </div>
+    <div class="arrow" aria-hidden="true">→</div>
+    <div class="blk">
+      <h5>Récit de rencontre n° 1</h5>
+      <div class="bar b1">Partie informative</div>
+      <div class="bar b2">Contexte + narration / description</div>
+      <div class="bar b3">Partie argumentative</div>
+      <div class="bar b4">Conclusion</div>
+      <div class="bar b0">+ traces (ticket, photo, affiche…)</div>
+    </div>
+    <div class="arrow" aria-hidden="true">→</div>
+    <div class="blk">
+      <h5>Récit n° 2, n° 3…</h5>
+      <p class="small muted" style="margin:0">Même structure, mais :<br>• un domaine artistique <strong>2 fois maximum</strong><br>• une <strong>forme variée</strong> d'un récit à l'autre</p>
+    </div>
+  </div>
+
+  <h3>Les 4 objectifs visés</h3>
+  <ol>
+    <li><strong>Observer et analyser</strong> une œuvre, d'un point de vue <em>technique</em> et <em>émotionnel</em>.</li>
+    <li><strong>Relater et partager</strong> des expériences culturelles.</li>
+    <li><strong>Faire le point</strong> sur ta formation culturelle (c'est le rôle de l'introduction).</li>
+    <li><strong>Motiver tes choix</strong> : chaque œuvre retenue, chaque avis doit être justifié.</li>
+  </ol>
+
+  <h3>La procédure complète, dans l'ordre</h3>
+  <table>
+    <thead><tr><th style="width:2.5rem">#</th><th>Étape</th><th>Ce que tu fais concrètement</th></tr></thead>
+    <tbody>
+      <tr><td>1</td><td>Collecter</td><td>À chaque rencontre (en classe, dans un autre cours, dans ta vie privée), tu remplis une <strong>fiche d'archivage</strong> « à chaud » et tu gardes les traces.</td></tr>
+      <tr><td>2</td><td>Sélectionner</td><td>Tu choisis les rencontres les plus riches, en variant les domaines (2 fois maximum le même).</td></tr>
+      <tr><td>3</td><td>Analyser</td><td>Pour chaque œuvre : <strong>observer</strong> (objectif) → <strong>ressentir</strong> (mots précis) → <strong>interpréter</strong> (subjectif).</td></tr>
+      <tr><td>4</td><td>Rédiger les récits</td><td>Structure en 3 parties + contexte + conclusion, dans une forme variée.</td></tr>
+      <tr><td>5</td><td>Organiser</td><td>Tu choisis un ordre (chronologique, par domaine, par thème…) et tu le gardes partout.</td></tr>
+      <tr><td>6</td><td>Écrire l'introduction</td><td>Tu peux l'ébaucher tôt, mais tu la <strong>finalises en dernier</strong> : elle annonce un plan qui doit déjà exister.</td></tr>
+      <tr><td>7</td><td>Relire et soigner</td><td>Orthographe, mise en page, cohérence entre l'introduction et le contenu.</td></tr>
+    </tbody>
+  </table>
+
+  <div class="quiz" data-quiz="q0"></div>
+</section>
+
+<!-- ============ 2 ============ -->
+<section class="step" id="s2" data-title="Les notions de base">
+  <h2>2. Les notions de base</h2>
+  <p class="kicker">Ces notions sont la matière première de ton introduction (ta définition de la culture) et de tes récits (le domaine de chaque œuvre). Ouvre une carte à la fois.</p>
+
+  <details open>
+    <summary>Qu'est-ce que la culture ?</summary>
+    <div class="inner">
+      <p>La culture ne se limite pas aux musées ou aux « vieux livres ». Elle regroupe tout ce que les êtres humains créent pour exprimer, comprendre et partager le monde. Dans cette culture, il y a <strong>les arts</strong>, classés aujourd'hui en <strong>10 catégories</strong> :</p>
+      <table>
+        <tbody>
+          <tr><td>1. Architecture</td><td>6. Arts de la scène (théâtre, danse, cirque…)</td></tr>
+          <tr><td>2. Sculpture</td><td>7. Cinéma</td></tr>
+          <tr><td>3. Arts visuels (peinture, dessin)</td><td>8. Arts médiatiques (radio, télévision, photographie)</td></tr>
+          <tr><td>4. Musique</td><td>9. Bande dessinée</td></tr>
+          <tr><td>5. Littérature (dont la poésie)</td><td>10. Jeux vidéo et arts multimédias</td></tr>
+        </tbody>
+      </table>
+      <p class="small muted">D'où vient ce classement ? Dans l'Antiquité, 9 muses inspiraient les arts. Au Moyen Âge, on distinguait les arts libéraux (grammaire, rhétorique, musique…) des arts « mécaniques » (architecture, sculpture, peinture…). Au XIXᵉ siècle, Hegel retient 5 arts ; les historiens en ont ajouté 5 depuis. Le classement évolue donc : on peut imaginer un 11ᵉ art.</p>
+    </div>
+  </details>
+
+  <details>
+    <summary>À quoi sert la culture ?</summary>
+    <div class="inner">
+      <p>Le texte de Carole Fréchette (« Si j'étais ministre de la culture ») imagine des « journées sans culture » : on comprend alors qu'elle n'est pas superflue mais <strong>essentielle</strong>. Ses principaux rôles :</p>
+      <ul>
+        <li><strong>Divertir</strong> et apporter du plaisir.</li>
+        <li><strong>Nourrir l'imaginaire</strong> et la créativité.</li>
+        <li><strong>Émouvoir</strong> : faire ressentir, mettre des mots sur ce qu'on vit.</li>
+        <li><strong>Faire réfléchir</strong> et développer l'esprit critique.</li>
+        <li><strong>Ouvrir aux autres</strong> : découvrir d'autres cultures, devenir plus tolérant.</li>
+        <li><strong>Créer du lien</strong> : partager des émotions, se reconnaître dans l'humanité commune.</li>
+        <li><strong>Se construire</strong> : mieux se connaître, trouver un équilibre.</li>
+      </ul>
+    </div>
+  </details>
+
+  <details>
+    <summary>Des citations à réutiliser (accroche de l'introduction)</summary>
+    <div class="inner">
+      <ul>
+        <li>« La culture, c'est la possibilité d'être plus grand que nous sommes. » — Erik Orsenna</li>
+        <li>« Il n'y a pas d'homme cultivé, il n'y a que des hommes qui se cultivent. » — Maréchal Foch</li>
+        <li>« La culture, c'est ce qui répond à l'homme lorsqu'il se demande ce qu'il fait sur terre. » — André Malraux</li>
+        <li>« Ce n'est pas le champ qui nourrit, c'est la culture. » — Proverbe russe</li>
+        <li>« La culture est un pont. » — Rachid Benzine</li>
+      </ul>
+      <p class="small">Une citation n'est jamais posée seule : tu dois l'<strong>expliquer</strong> et dire <strong>pourquoi tu l'as choisie</strong>.</p>
+    </div>
+  </details>
+
+  <details>
+    <summary>Le « beau » est relatif</summary>
+    <div class="inner">
+      <p>Ce qui est « beau » pour l'un ne l'est pas forcément pour l'autre : la beauté varie selon les <strong>individus</strong>, les <strong>cultures</strong>, les <strong>époques</strong> et les <strong>traditions</strong> (pense aux tatouages, aux piercings, à un tableau de Picasso…).</p>
+      <p><strong>Conséquence pour ton travail :</strong> « c'est beau » ou « c'est nul » ne suffit jamais. Ton avis est personnel, il doit donc être <strong>argumenté</strong> pour être recevable.</p>
+    </div>
+  </details>
+
+  <div class="quiz" data-quiz="q1"></div>
+</section>
+
+<!-- ============ 3 ============ -->
+<section class="step" id="s3" data-title="Observer, ressentir, interpréter">
+  <h2>3. Observer, ressentir, interpréter</h2>
+  <p class="kicker">Face à une œuvre, tu travailles en trois temps. Les mélanger rend le texte confus : sépare-les.</p>
+
+  <div class="grid2">
+    <div class="box">
+      <h4>Observer = décrire (objectif)</h4>
+      <p class="small">Tu restes neutre : tu dis ce que tout le monde peut constater.</p>
+      <ul class="small">
+        <li>Que voit-on ? Qu'entend-on ?</li>
+        <li>Que décrit l'œuvre ? À quoi ressemble-t-elle ?</li>
+        <li>Comment l'œuvre est-elle créée ? (technique, matériaux)</li>
+        <li>Y a-t-il des références historiques ?</li>
+      </ul>
+    </div>
+    <div class="box">
+      <h4>Interpréter = donner du sens (subjectif)</h4>
+      <p class="small">Tu fais appel à tes souvenirs, à tes émotions, à ton ressenti.</p>
+      <ul class="small">
+        <li>Que raconte l'œuvre ? Quel est son message ?</li>
+        <li>Que croit-on voir ? À quoi cela fait-il penser ?</li>
+        <li>À quoi cela fait-il réfléchir ?</li>
+        <li>Que ressent-on face à l'œuvre ?</li>
+      </ul>
+    </div>
+  </div>
+
+  <h3>Ressentir : nommer l'émotion avec précision</h3>
+  <p>« J'ai bien aimé » ne dit rien au lecteur. Choisis un mot précis, puis donne sa cause : <em>« J'étais <strong>angoissé</strong> parce que le cri du personnage semble se propager dans tout le paysage. »</em></p>
+  <div class="grid4">
+    <div class="emo"><h5>Peur</h5><ul><li>angoissé</li><li>craintif</li><li>effrayé</li><li>épouvanté</li><li>horrifié</li><li>inquiet</li><li>méfiant</li><li>nerveux</li><li>paniqué</li><li>soucieux</li><li>sur la défensive</li><li>vulnérable</li></ul></div>
+    <div class="emo"><h5>Tristesse</h5><ul><li>affligé</li><li>blessé</li><li>désespéré</li><li>éteint</li><li>meurtri</li><li>nostalgique</li><li>secoué</li><li>traumatisé</li><li>vidé</li></ul></div>
+    <div class="emo"><h5>Colère</h5><ul><li>agacé</li><li>dégoûté</li><li>exaspéré</li><li>frustré</li><li>irrité</li><li>révolté</li><li>vexé</li></ul></div>
+    <div class="emo"><h5>Joie</h5><ul><li>comblé</li><li>enchanté</li><li>enthousiaste</li><li>euphorique</li><li>jovial</li><li>ravi</li><li>reconnaissant</li><li>stimulé</li></ul></div>
+  </div>
+  <p class="small muted">Autres mots utiles face à une œuvre : admiration, fascination, malaise, confusion, émerveillement, apaisement.</p>
+
+  <h3>Le vocabulaire technique du domaine</h3>
+  <p>Pour que le lecteur puisse <strong>imaginer</strong> l'œuvre, utilise le lexique propre à son domaine.</p>
+  <details>
+    <summary>Cinéma et séries</summary>
+    <div class="inner">
+      <table><tbody>
+        <tr><td><strong>réalisateur</strong></td><td>dirige la fabrication du film</td><td><strong>producteur</strong></td><td>finance et organise le projet</td></tr>
+        <tr><td><strong>scénario</strong></td><td>texte détaillé du film (scènes, dialogues)</td><td><strong>synopsis</strong></td><td>résumé bref de l'histoire</td></tr>
+        <tr><td><strong>protagoniste</strong></td><td>personnage principal</td><td><strong>figurant</strong></td><td>personne présente à l'écran, sans rôle parlant</td></tr>
+        <tr><td><strong>plan</strong></td><td>image filmée sans coupure</td><td><strong>champ</strong></td><td>ce que la caméra cadre</td></tr>
+        <tr><td><strong>bande originale</strong></td><td>musique composée pour le film</td><td><strong>scénographie</strong></td><td>organisation de l'espace, des décors</td></tr>
+        <tr><td><strong>blockbuster</strong></td><td>film à très gros budget et grand succès</td><td><strong>divulgâcher</strong></td><td>révéler la fin (= spoiler) : à éviter !</td></tr>
+      </tbody></table>
+    </div>
+  </details>
+  <details>
+    <summary>Littérature</summary>
+    <div class="inner">
+      <table><tbody>
+        <tr><td><strong>auteur</strong></td><td>celui qui écrit</td><td><strong>narrateur</strong></td><td>celui qui raconte (≠ auteur)</td></tr>
+        <tr><td><strong>narrateur homodiégétique</strong></td><td>présent dans le récit qu'il raconte</td><td><strong>narrateur autodiégétique</strong></td><td>raconte sa propre histoire</td></tr>
+        <tr><td><strong>narrateur hétérodiégétique</strong></td><td>absent du récit qu'il raconte</td><td><strong>antihéros</strong></td><td>personnage aux traits contraires au héros traditionnel</td></tr>
+        <tr><td><strong>genre</strong></td><td>classe les formes d'écrit (roman, poésie…)</td><td><strong>courant</strong></td><td>mouvement d'une époque (romantisme…)</td></tr>
+        <tr><td><strong>roman</strong></td><td>récit d'imagination en prose, assez long</td><td><strong>essai</strong></td><td>ouvrage où l'auteur expose ses idées</td></tr>
+        <tr><td><strong>style</strong></td><td>manière d'écrire</td><td><strong>ellipse</strong></td><td>omission volontaire d'éléments du récit</td></tr>
+      </tbody></table>
+    </div>
+  </details>
+  <details>
+    <summary>Autres domaines (pistes de mots)</summary>
+    <div class="inner">
+      <ul>
+        <li><strong>Musique :</strong> artiste, album, titre, genre, rythme, tempo, mélodie, paroles, instruments, arrangement, sonorité, refrain.</li>
+        <li><strong>Peinture / photographie :</strong> technique (huile, aquarelle…), support, dimensions, composition, premier plan / arrière-plan, couleurs chaudes / froides, lumière, cadrage, noir et blanc.</li>
+        <li><strong>Sculpture :</strong> matériau (marbre, bronze…), volume, posture, texture, socle.</li>
+        <li><strong>Architecture :</strong> architecte, matériaux, structure, façade, voûte, volume, lumière, fonction du bâtiment.</li>
+        <li><strong>Scène :</strong> mise en scène, comédien, chorégraphie, décor, costumes, éclairages.</li>
+      </ul>
+    </div>
+  </details>
+
+  <h3>La boîte à arguments : 7 façons d'analyser une œuvre</h3>
+  <p>Ces approches (vues pour le cinéma) t'aident à trouver des <strong>arguments de domaines différents</strong> pour ta partie argumentative.</p>
+  <table>
+    <thead><tr><th>Approche</th><th>La question qu'elle pose</th></tr></thead>
+    <tbody>
+      <tr><td>Esthétique</td><td>Comment l'œuvre est-elle faite ? Images, couleurs, lumière, cadrage, décors.</td></tr>
+      <tr><td>Narratologie</td><td>Comment l'histoire est-elle construite ? Rythme, enchaînement des événements.</td></tr>
+      <tr><td>Sémiologie</td><td>Quels symboles, quels indices donnent du sens ? Quel message caché ?</td></tr>
+      <tr><td>Auteurisme</td><td>Que révèle l'œuvre de son auteur ? Son style, sa vision du monde, ses autres œuvres.</td></tr>
+      <tr><td>Gender studies</td><td>Comment les femmes et les hommes sont-ils représentés ? Y a-t-il des stéréotypes ?</td></tr>
+      <tr><td>Approche historique</td><td>Quelle place l'œuvre occupe-t-elle dans l'histoire de son art ? Qu'apporte-t-elle de nouveau ?</td></tr>
+      <tr><td>Critique</td><td>Quel jugement porter ? On mêle subjectivité (ton goût) et objectivité (les analyses ci-dessus).</td></tr>
+    </tbody>
+  </table>
+
+  <div class="quiz" data-quiz="q2"></div>
+</section>
+
+<!-- ============ 4 ============ -->
+<section class="step" id="s4" data-title="Le récit d'une rencontre">
+  <h2>4. Le récit d'une rencontre culturelle</h2>
+  <p class="kicker">Un récit d'expérience culturelle est un <strong>texte personnel</strong> qui raconte la rencontre entre toi et une œuvre. Son but : <strong>donner envie au lecteur de découvrir l'œuvre</strong>.</p>
+
+  <h3>La structure : 3 parties + une conclusion</h3>
+  <p class="small muted">Le même code couleur est utilisé partout dans cette page.</p>
+
+  <div class="part p1">
+    <h4><span class="tag t1">1</span> Partie informative — la carte d'identité de l'œuvre</h4>
+    <p style="margin:.2rem 0">Titre, auteur (artiste, réalisateur…), date, genre ou type d'œuvre, lieu (musée, salle, plateforme…). Pour une œuvre plastique : technique et dimensions.</p>
+  </div>
+  <div class="part p2">
+    <h4><span class="tag t2">2</span> Partie narrative / descriptive + le contexte</h4>
+    <p style="margin:.2rem 0"><strong>Le contexte</strong> : les circonstances de la rencontre. Avec qui ? Où ? Quand ? Comment ? Pourquoi cette œuvre ? Qu'en savais-tu avant ? Quelles étaient tes attentes, tes a priori ? Le contexte a-t-il aidé ou gêné la rencontre ?</p>
+    <p style="margin:.4rem 0 .2rem"><strong>L'œuvre elle-même</strong>, pour qu'un lecteur qui ne la connaît pas puisse l'imaginer :</p>
+    <ul style="margin:.2rem 0">
+      <li><strong>Décrire</strong> = exposer ses caractéristiques principales (peinture, sculpture, bâtiment).</li>
+      <li><strong>Raconter</strong> = résumer brièvement l'histoire ou expliquer ses thèmes (roman) : c'est le <strong>résumé apéritif</strong>, qui donne envie sans divulguer la fin.</li>
+      <li>Les deux à la fois pour un film, une pièce de théâtre, une chanson.</li>
+    </ul>
+    <p class="small" style="margin:.3rem 0 0">Règle d'or : en dire <strong>assez, mais pas trop</strong>.</p>
+  </div>
+  <div class="part p3">
+    <h4><span class="tag t3">3</span> Partie argumentative — le jugement de goût motivé</h4>
+    <ul style="margin:.2rem 0">
+      <li><strong>Au moins 3 arguments distincts</strong>, positifs et/ou négatifs.</li>
+      <li>Des arguments <strong>variés</strong> : chacun porte sur un aspect différent (esthétique, personnages, message, musique, jeu d'acteur…).</li>
+      <li>Chaque argument est <strong>développé</strong> et <strong>illustré par un exemple concret tiré de l'œuvre</strong>.</li>
+      <li>Des arguments <strong>pertinents</strong> : en lien direct avec l'œuvre.</li>
+    </ul>
+  </div>
+  <div class="part p4">
+    <h4><span class="tag t4">4</span> Conclusion</h4>
+    <p style="margin:.2rem 0">Un bilan de tes arguments et une <strong>recommandation</strong> au lecteur (à qui conseillerais-tu cette œuvre ? pourquoi ?).</p>
+  </div>
+
+  <h3>Exemple résolu et commenté</h3>
+  <p>Lis le texte à gauche, puis le commentaire collé à droite.</p>
+  <div class="annot">
+    <div class="row r1">
+      <div class="txt">« Le Voyage de Chihiro » est un film d'animation japonais réalisé par Hayao Miyazaki et produit par le studio Ghibli en 2001. Il a reçu l'Ours d'or à Berlin et l'Oscar du meilleur film d'animation.</div>
+      <div class="note"><span class="tag t1">Informative</span><br>Titre, genre, réalisateur, studio, date : la carte d'identité est complète.</div>
+    </div>
+    <div class="row r2">
+      <div class="txt">Je l'ai découvert un dimanche soir de pluie, avec ma petite sœur qui réclamait « un dessin animé ». Moi, je traînais des pieds : pour moi, l'animation, c'était pour les enfants.</div>
+      <div class="note"><span class="tag t2">Contexte</span><br>Quand, avec qui, pourquoi + l'a priori de départ. Le lecteur comprend d'où part le narrateur.</div>
+    </div>
+    <div class="row r2">
+      <div class="txt">Chihiro, une fillette de dix ans, déménage avec ses parents. En chemin, la famille s'aventure dans une ville abandonnée qui, la nuit venue, se remplit d'esprits étranges. Pour sauver ses parents, Chihiro doit travailler dans des bains publics tenus par une sorcière… Parviendra-t-elle à rentrer chez elle ?</div>
+      <div class="note"><span class="tag t2">Narration</span><br>Résumé apéritif : la situation de départ et l'enjeu, mais pas la fin. La question finale donne envie.</div>
+    </div>
+    <div class="row r3">
+      <div class="txt">Trois éléments m'ont fait changer d'avis. D'abord, <mark class="arg">l'esthétique</mark> : les décors, dessinés à la main, fourmillent de détails, comme les centaines de lanternes des bains qui s'allument au crépuscule. Ensuite, <mark class="arg">le personnage principal</mark> évolue vraiment : capricieuse au début, Chihiro devient courageuse et généreuse. Enfin, <mark class="arg">le message</mark> fait réfléchir : les parents qui se goinfrent sans demander la permission, ou l'esprit de la rivière couvert de déchets, dénoncent la cupidité et la pollution. Seul bémol : le rythme ralentit un peu au milieu du film.</div>
+      <div class="note"><span class="tag t3">Argumentative</span><br>3 arguments de domaines différents (surlignés), chacun suivi d'un exemple précis. Connecteurs : d'abord, ensuite, enfin. Une nuance négative rend l'avis crédible.</div>
+    </div>
+    <div class="row r4">
+      <div class="txt">Bref, j'ai été enchanté par ce film qui parle autant aux enfants qu'aux adultes. Je le conseille à tous ceux qui pensent, comme moi avant, que l'animation est réservée aux petits.</div>
+      <div class="note"><span class="tag t4">Conclusion</span><br>Émotion précise (« enchanté »), bilan et recommandation qui renvoie à l'a priori du début.</div>
+    </div>
+  </div>
+
+  <h3>Les erreurs fréquentes</h3>
+  <table>
+    <thead><tr><th>Erreur</th><th>Exemple</th><th>Correction</th></tr></thead>
+    <tbody>
+      <tr><td>Carte d'identité incomplète</td><td>« J'ai découvert un court-métrage sur YouTube. »</td><td>Titre, auteur, date, genre, support.</td></tr>
+      <tr><td>Avis vague</td><td>« Je l'ai trouvé bien. »</td><td>Une émotion précise + des arguments.</td></tr>
+      <tr><td>Contexte absent</td><td>Le texte commence directement par le résumé.</td><td>Où, quand, avec qui, pourquoi, a priori.</td></tr>
+      <tr><td>Résumé trop long ou divulgâcheur</td><td>Toute l'histoire, fin comprise.</td><td>Situation de départ + enjeu, puis on s'arrête.</td></tr>
+      <tr><td>Arguments non illustrés</td><td>« Les décors sont magnifiques. »</td><td>« … comme les lanternes qui s'allument au crépuscule. »</td></tr>
+      <tr><td>Arguments du même domaine</td><td>Trois remarques sur les images.</td><td>Varier : esthétique, personnages, message, musique…</td></tr>
+    </tbody>
+  </table>
+
+  <h3>Ma checklist pour chaque récit</h3>
+  <ul class="check" data-check="recit">
+    <li><input type="checkbox" id="cr1"><label for="cr1">La carte d'identité est complète (titre, auteur, date, genre, lieu ou support ; technique et dimensions si besoin).</label></li>
+    <li><input type="checkbox" id="cr2"><label for="cr2">Le contexte répond à : où, quand, avec qui, comment, pourquoi, avec quels a priori.</label></li>
+    <li><input type="checkbox" id="cr3"><label for="cr3">Un lecteur qui ne connaît pas l'œuvre peut l'imaginer ; je ne divulgue pas la fin.</label></li>
+    <li><input type="checkbox" id="cr4"><label for="cr4">J'ai au moins 3 arguments, de domaines différents, chacun illustré par un exemple tiré de l'œuvre.</label></li>
+    <li><input type="checkbox" id="cr5"><label for="cr5">J'ai nommé mes émotions avec des mots précis.</label></li>
+    <li><input type="checkbox" id="cr6"><label for="cr6">Ma conclusion fait le bilan et recommande (ou non) l'œuvre.</label></li>
+    <li><input type="checkbox" id="cr7"><label for="cr7">J'ai utilisé le vocabulaire technique du domaine.</label></li>
+    <li><input type="checkbox" id="cr8"><label for="cr8">J'ai joint des traces (ticket, photo, affiche, prospectus…).</label></li>
+  </ul>
+
+  <div class="quiz" data-quiz="q3"></div>
+  <div class="quiz" data-quiz="q4"></div>
+</section>
+
+<!-- ============ 5 ============ -->
+<section class="step" id="s5" data-title="Construire le recueil">
+  <h2>5. Construire le recueil</h2>
+  <p class="kicker">Un recueil, c'est une sélection <strong>organisée</strong> et <strong>motivée</strong> : on doit comprendre pourquoi ces œuvres-là, et pourquoi dans cet ordre.</p>
+
+  <h3>Archiver au fil de l'année</h3>
+  <p>À chaque rencontre, remplis tout de suite une fiche courte : les souvenirs s'effacent vite.</p>
+  <table>
+    <thead><tr><th>Rubrique</th><th>À noter</th></tr></thead>
+    <tbody>
+      <tr><td>Objet</td><td>Titre, auteur, date, genre / domaine</td></tr>
+      <tr><td>Rencontre</td><td>Date, lieu, avec qui, dans quel cadre (cours, sortie, vie privée)</td></tr>
+      <tr><td>À chaud</td><td>2 ou 3 mots d'émotion précis, un détail marquant</td></tr>
+      <tr><td>Raisons</td><td>Pourquoi cette œuvre mérite d'entrer dans le recueil</td></tr>
+      <tr><td>Traces</td><td>Ticket, photo, affiche, programme, capture d'écran</td></tr>
+    </tbody>
+  </table>
+
+  <h3>Choisir les domaines</h3>
+  <p><strong>Règle : tu ne peux pas exploiter plus de deux fois le même domaine.</strong> Les pistes proposées par le dossier :</p>
+  <div class="grid2">
+    <div class="box small"><strong>A. Musique</strong> — un artiste ou un album que tu aimes ; une grande œuvre classique.<br><strong>B. Littérature</strong> — un livre, un poème qui t'a marqué ; une œuvre de tes anciens cours.<br><strong>C. Photographie</strong> — un photographe célèbre (3 images au moins) ; une photo connue ; l'interview d'un photographe.<br><strong>D. Peinture</strong> — une exposition ; un peintre célèbre (3 images) ; une interview ; un cours ou un stage.</div>
+    <div class="box small"><strong>E. Architecture</strong> — un architecte célèbre (3 images) ; la visite d'un site ; une interview.<br><strong>F. Cinéma</strong> — un film primé ; une adaptation comparée au livre ; un grand classique ; une série ou un documentaire.<br><strong>G. Sculpture</strong> — une exposition ; un sculpteur célèbre ; une interview ; un cours ou un stage.<br><strong>H. Art contemporain</strong> — un « performeur » célèbre ; une œuvre de performeur, son auteur, sa portée.</div>
+  </div>
+
+  <h3>Varier la forme des récits</h3>
+  <p>La partie argumentative peut prendre la forme de ton choix : <strong>avis argumenté</strong>, <strong>affiche publicitaire</strong>, <strong>interview</strong>, <strong>guide touristique</strong>, <strong>conversation de messagerie</strong>, <strong>lettre à un ami</strong>, <strong>article de presse</strong>… Varie les approches d'un récit à l'autre, sans perdre les 3 parties.</p>
+
+  <h3>Organiser l'ensemble</h3>
+  <p>Choisis <strong>un</strong> principe d'organisation et annonce-le dans l'introduction :</p>
+  <ul>
+    <li><strong>Chronologique</strong> : de la rencontre la plus ancienne à la plus récente (idéal pour montrer une évolution).</li>
+    <li><strong>Par domaine</strong> : musique, puis cinéma, puis littérature…</li>
+    <li><strong>Par thème</strong> : les œuvres qui m'ont fait rire, réfléchir, bouleversé…</li>
+    <li><strong>Du plus scolaire au plus personnel</strong> : les découvertes en classe, puis celles faites seul.</li>
+  </ul>
+  <div class="box key small">Pense à une <strong>table des matières</strong> et à une mise en page régulière (mêmes titres, mêmes intertitres pour chaque récit) : c'est ce qui rend le dossier « clair, cohérent et soigné ».</div>
+
+  <div class="quiz" data-quiz="q5"></div>
+</section>
+
+<!-- ============ 6 ============ -->
+<section class="step" id="s6" data-title="L'introduction du recueil">
+  <h2>6. L'introduction du recueil</h2>
+  <p class="kicker">L'introduction est une <strong>réflexion personnelle sur la culture</strong>. Elle montre à ton professeur comment ta vision a évolué pendant ton parcours, puis elle présente le dossier. C'est la première chose qu'il lira.</p>
+
+  <h3>Les 5 ingrédients obligatoires</h3>
+  <div class="part" style="border-left-color:var(--accent);background:#fff">
+    <h4><span class="chip">1</span>L'accroche</h4>
+    <p style="margin:0">Capte l'attention du lecteur : une <strong>citation que tu développes</strong> (explique-la et dis pourquoi tu l'as choisie) ou une <strong>touche d'humour</strong>, une anecdote.</p>
+  </div>
+  <div class="part" style="border-left-color:var(--accent);background:#fff">
+    <h4><span class="chip">2</span>Ta vision « avant »</h4>
+    <p style="margin:0">Comment percevais-tu la culture en entrant en 5ᵉ ? Tes <strong>idées reçues</strong>, tes <strong>clichés</strong>, tes <strong>a priori</strong>. Sois honnête : c'est le point de départ de l'évolution.</p>
+  </div>
+  <div class="part" style="border-left-color:var(--accent);background:#fff">
+    <h4><span class="chip">3</span>Ce qui l'a fait évoluer</h4>
+    <p style="margin:0">Ce que tu as <strong>appris</strong>, ce qui t'a <strong>surpris</strong> ou <strong>ému</strong> pendant ton parcours, avec au moins un <strong>exemple précis</strong> (une sortie, une œuvre vue en classe, une découverte personnelle).</p>
+  </div>
+  <div class="part" style="border-left-color:var(--accent);background:#fff">
+    <h4><span class="chip">4</span>Ta définition personnelle de la culture</h4>
+    <p style="margin:0">Ce qu'est la culture <strong>pour toi aujourd'hui</strong>, ce qu'elle comprend (et ce qu'elle ne comprend pas), et <strong>à quoi elle sert</strong>. Tu peux réutiliser ton texte d'environ 10 lignes écrit au début de l'année.</p>
+  </div>
+  <div class="part" style="border-left-color:var(--accent);background:#fff">
+    <h4><span class="chip">5</span>L'annonce du plan</h4>
+    <p style="margin:0">Ce que le lecteur va trouver dans le dossier : combien de rencontres, quels domaines, dans quel ordre, et comment chaque récit est construit.</p>
+  </div>
+  <div class="box warn"><strong>Attention : l'introduction est un texte suivi.</strong> Pas de liste, pas de tirets : des paragraphes reliés par des connecteurs.</div>
+
+  <h3>Se préparer : nourrir sa réflexion</h3>
+  <p>Avant d'écrire, réponds (au brouillon ou à l'oral) à ces questions du dossier :</p>
+  <ul>
+    <li>La culture que tu « consommes » en dehors de l'école est-elle différente de celle à laquelle l'école te donne accès ? En quoi ?</li>
+    <li>Quelles activités culturelles as-tu faites pendant ton parcours scolaire ?</li>
+    <li>Que t'apporte la culture de l'école ? Et celle que tu choisis toi-même ?</li>
+    <li>Quels sont tes derniers coups de cœur en matière d'art et de culture ?</li>
+  </ul>
+  <details>
+    <summary>Les trois témoignages : dans lequel te reconnais-tu ?</summary>
+    <div class="inner">
+      <p><strong>Julie</strong> a grandi dans une famille curieuse : musées, concerts, festivals, solfège. Pour elle, la culture est partout.</p>
+      <p><strong>Dorian</strong> ne se dit pas « fan de culture » : peu de théâtre, peu de livres scolaires. Mais il lit des mangas, joue aux jeux vidéo, écoute du métal… et apprécie les sorties scolaires qui lui font découvrir ce qu'il n'aurait pas cherché seul.</p>
+      <p><strong>Enzo</strong> trouve la culture inutile, « compliquée », réservée aux intellos, alors qu'il regarde des films et écoute de la musique tous les jours.</p>
+      <p class="small"><strong>À retenir :</strong> beaucoup d'élèves pratiquent la culture sans le savoir. Ton introduction peut justement raconter ce passage : « je pensais être Enzo, je me découvre un peu Dorian… ».</p>
+    </div>
+  </details>
+  <details>
+    <summary>La leçon de <em>Petit Pays</em> (Gaël Faye) : passer du résumé au ressenti</summary>
+    <div class="inner">
+      <p>Au début, le narrateur se contente de <strong>résumer</strong> les livres prêtés par Mme Economopoulos (l'histoire, les actions, les lieux, les personnages). Puis il se met à dire <strong>ce qu'il ressent</strong>, ses questions, son avis sur l'auteur et les personnages. La lecture devient alors une évasion, une ouverture sur le monde et une découverte de lui-même.</p>
+      <p class="small"><strong>C'est exactement le mouvement attendu dans ton introduction :</strong> ne pas énumérer les activités faites, mais montrer ce qu'elles ont changé en toi.</p>
+    </div>
+  </details>
+
+  <h3>Exemple d'introduction commentée</h3>
+  <p class="small muted">Texte écrit pour un élève imaginaire : il sert de modèle de structure, pas de texte à recopier.</p>
+  <div class="annot">
+    <div class="row ri">
+      <div class="txt">« Il n'y a pas d'homme cultivé, il n'y a que des hommes qui se cultivent. » Cette phrase du maréchal Foch m'a d'abord fait sourire : je me voyais mal « me cultiver » comme on cultive des tomates. Pourtant, en repensant à mes deux dernières années, je me rends compte qu'elle décrit exactement ce qui m'est arrivé.</div>
+      <div class="note"><span class="chip">1</span><strong>Accroche</strong><br>Citation + touche d'humour + lien avec soi. La dernière phrase sert de transition.</div>
+    </div>
+    <div class="row ri">
+      <div class="txt">En entrant en 5ᵉ, j'avais une idée très précise de la culture : des musées silencieux, des livres épais imposés en classe et des documentaires que personne ne regarde. Bref, un truc d'« intellos ». Mes séries, mon rap et mes jeux vidéo n'en faisaient pas partie : c'était juste du divertissement.</div>
+      <div class="note"><span class="chip">2</span><strong>Vision « avant »</strong><br>Clichés exprimés à l'imparfait. Honnêteté = crédibilité.</div>
+    </div>
+    <div class="row ri">
+      <div class="txt">Ma vision a changé petit à petit. La projection de <em>Nuit et Brouillard</em> en classe m'a bouleversé : j'ai compris qu'un film pouvait faire réfléchir autant qu'un cours d'histoire. La visite de la mosquée Hassan II m'a surpris : je n'avais jamais regardé un bâtiment comme une œuvre d'art, avec ses zelliges et ses plafonds sculptés. Enfin, j'ai découvert que les albums que j'écoute depuis toujours avaient, eux aussi, une histoire, un style et un message.</div>
+      <div class="note"><span class="chip">3</span><strong>Évolution</strong><br>Des exemples précis, des émotions nommées (bouleversé, surpris), au passé composé.</div>
+    </div>
+    <div class="row ri">
+      <div class="txt">Aujourd'hui, je définirais la culture comme tout ce que les êtres humains créent pour exprimer ce qu'ils ressentent, comprendre le monde et le partager avec les autres. Elle ne se limite pas aux œuvres « classiques » : elle relie les gens, elle ouvre l'esprit et elle aide à mieux se connaître.</div>
+      <div class="note"><span class="chip">4</span><strong>Définition</strong><br>Ce qu'elle est, ce qu'elle comprend, à quoi elle sert. Au présent.</div>
+    </div>
+    <div class="row ri">
+      <div class="txt">Ce dossier rassemble six rencontres culturelles, présentées dans l'ordre chronologique : un film, un roman, une photographie, un bâtiment, un album et un spectacle. Pour chacune, je présenterai l'œuvre, je raconterai les circonstances de ma découverte, puis je donnerai mon avis argumenté. Bonne lecture… et, qui sait, bonnes découvertes !</div>
+      <div class="note"><span class="chip">5</span><strong>Annonce du plan</strong><br>Nombre, domaines, ordre, structure des récits. Clin d'œil final qui boucle avec l'accroche.</div>
+    </div>
+  </div>
+
+  <h3>Les outils de langue</h3>
+  <table>
+    <thead><tr><th>Moment</th><th>Temps verbal</th><th>Connecteurs et tournures</th></tr></thead>
+    <tbody>
+      <tr><td>Avant</td><td>Imparfait</td><td>Au début, pendant longtemps, à l'époque, je pensais que, pour moi, la culture était…</td></tr>
+      <tr><td>Déclics</td><td>Passé composé</td><td>Puis, un jour, tout a changé lorsque, c'est alors que, j'ai découvert que…</td></tr>
+      <tr><td>Aujourd'hui</td><td>Présent</td><td>Désormais, aujourd'hui, je considère que, je définirais la culture comme…</td></tr>
+      <tr><td>Plan</td><td>Futur / présent</td><td>Ce dossier rassemble, vous y découvrirez, d'abord… ensuite… enfin…</td></tr>
+    </tbody>
+  </table>
+
+  <div class="quiz" data-quiz="q6"></div>
+
+  <h3>À toi : le brouillon guidé</h3>
+  <p>Écris chaque ingrédient séparément. Les amorces sont des aides facultatives : clique pour les insérer, puis complète. Ton texte est enregistré dans ce navigateur.</p>
+  <div id="drafts"></div>
+  <div style="display:flex;gap:.5rem;flex-wrap:wrap;margin:.8rem 0">
+    <button class="btn primary" id="assemble">Assembler mon introduction</button>
+    <button class="btn" id="copy">Copier le texte</button>
+    <button class="btn" id="clear">Tout effacer</button>
+  </div>
+  <div id="assembled" aria-live="polite"><span class="muted small">Ton introduction assemblée apparaîtra ici.</span></div>
+  <p class="small muted" id="wc"></p>
+
+  <h3>Ma checklist pour l'introduction</h3>
+  <ul class="check" data-check="intro">
+    <li><input type="checkbox" id="ci1"><label for="ci1">J'accroche le lecteur (citation expliquée ou touche d'humour).</label></li>
+    <li><input type="checkbox" id="ci2"><label for="ci2">Je décris ma vision de départ (clichés, a priori).</label></li>
+    <li><input type="checkbox" id="ci3"><label for="ci3">Je montre comment elle a évolué, avec au moins un exemple précis et une émotion nommée.</label></li>
+    <li><input type="checkbox" id="ci4"><label for="ci4">Je donne ma définition personnelle de la culture et son rôle.</label></li>
+    <li><input type="checkbox" id="ci5"><label for="ci5">J'annonce le contenu et l'organisation du dossier, et cela correspond au dossier réel.</label></li>
+    <li><input type="checkbox" id="ci6"><label for="ci6">J'écris un texte suivi, en paragraphes, avec des connecteurs.</label></li>
+    <li><input type="checkbox" id="ci7"><label for="ci7">J'utilise l'imparfait pour « avant », le passé composé pour les déclics, le présent pour aujourd'hui.</label></li>
+    <li><input type="checkbox" id="ci8"><label for="ci8">J'ai relu l'orthographe et la ponctuation.</label></li>
+  </ul>
+</section>
+
+<!-- ============ 7 ============ -->
+<section class="step" id="s7" data-title="Note pédagogique">
+  <h2>Note pédagogique (pour l'adulte accompagnant)</h2>
+  <p class="kicker">Comment cette synthèse applique la théorie de la charge cognitive (Sweller) et la théorie cognitive de l'apprentissage multimédia (Mayer).</p>
+  <table>
+    <thead><tr><th>Principe</th><th>Ce qu'il dit</th><th>Application dans cette page</th></tr></thead>
+    <tbody>
+      <tr><td>Charge intrinsèque / interactivité des éléments</td><td>Une tâche dont les éléments interagissent beaucoup sature la mémoire de travail du novice.</td><td>La tâche est décomposée en composantes apprises séparément (5 ingrédients de l'intro, 4 parties du récit), puis réassemblées (brouillon guidé → assemblage).</td></tr>
+      <tr><td>Pré-entraînement</td><td>Connaître les concepts clés avant le processus réduit la charge pendant la méthode.</td><td>Étapes 2 et 3 (notions, lexique) avant les étapes 4 à 6 (méthode).</td></tr>
+      <tr><td>Cohérence</td><td>Retirer tout élément décoratif ou non essentiel.</td><td>Pas d'images décoratives ni d'animations ; détails historiques en petit, dans des cartes repliables.</td></tr>
+      <tr><td>Signalisation</td><td>Mettre en évidence l'organisation de l'information.</td><td>Code couleur constant pour les parties du récit, numéros ①–⑤ pour l'intro, arguments surlignés.</td></tr>
+      <tr><td>Contiguïté spatiale / attention partagée</td><td>Placer les explications au plus près de ce qu'elles commentent.</td><td>Exemples annotés : commentaire sur la même ligne que le passage ; consignes et amorces collées aux champs d'écriture.</td></tr>
+      <tr><td>Segmentation</td><td>Découper en unités dont l'apprenant contrôle le rythme.</td><td>Une étape par écran, navigation libre, cartes ouvertes une à une.</td></tr>
+      <tr><td>Redondance</td><td>Ne pas présenter la même information sous deux formes simultanées.</td><td>Le schéma de l'étape 1 n'est pas doublé d'un texte qui le répète ; chaque notion n'apparaît qu'à un endroit.</td></tr>
+      <tr><td>Multimédia / double codage</td><td>Texte + représentation visuelle valent mieux que texte seul.</td><td>Schéma du recueil, tableaux comparatifs (observer / interpréter, temps verbaux).</td></tr>
+      <tr><td>Exemples résolus et estompage</td><td>Exemple résolu → exercice à compléter → tâche autonome ; les aides disparaissent progressivement.</td><td>Récit et intro modèles commentés → amorces de phrases facultatives → checklists d'autonomie. L'élève plus avancé peut ignorer les amorces (effet d'inversion de l'expertise).</td></tr>
+      <tr><td>Pratique de récupération</td><td>Se tester consolide davantage que relire.</td><td>Un quiz par étape avec rétroaction immédiate et explicative.</td></tr>
+      <tr><td>Effet de génération</td><td>Produire soi-même renforce la mémorisation.</td><td>Brouillon guidé de l'introduction.</td></tr>
+      <tr><td>Personnalisation</td><td>Un style conversationnel favorise l'engagement.</td><td>Tutoiement, adresse directe à l'élève.</td></tr>
+      <tr><td>Modalité</td><td>Images + narration orale mieux qu'images + texte écrit.</td><td>La page est muette : pour un élève lecteur lent, l'adulte lit à voix haute les exemples commentés pendant que l'élève suit les annotations.</td></tr>
+    </tbody>
+  </table>
+  <p class="small muted">Accessibilité : police sans empattement, interligne 1,6, lignes d'environ 70 caractères, texte non justifié, contrastes suffisants, page imprimable (les quiz et le brouillon sont masqués à l'impression).</p>
+</section>
+
+    <div class="pager" id="pager">
+      <button class="btn" id="prev">← Étape précédente</button>
+      <button class="btn primary" id="next">Étape suivante →</button>
+    </div>
+  </main>
+</div>
+
+<footer>Synthèse réalisée à partir du syllabus « La culture, c'est quoi ? » — tâche finale UAA6 : réalisation d'un recueil organisé et motivé de récits de rencontres culturelles.</footer>
+
+<script>
+(function(){
+  "use strict";
+  var store = {
+    get:function(k,d){try{var v=localStorage.getItem("recueil:"+k);return v===null?d:JSON.parse(v);}catch(e){return d;}},
+    set:function(k,v){try{localStorage.setItem("recueil:"+k,JSON.stringify(v));}catch(e){}}
+  };
+
+  /* ---------- navigation ---------- */
+  var sections = Array.prototype.slice.call(document.querySelectorAll("section.step"));
+  var nav = document.getElementById("nav");
+  var seen = store.get("seen",{});
+  sections.forEach(function(s,i){
+    if(i===sections.length-1){var sep=document.createElement("div");sep.className="sep";nav.appendChild(sep);}
+    var b=document.createElement("button");
+    b.type="button";
+    b.innerHTML='<span class="n">'+(i===sections.length-1?"i":(i+1))+'</span><span class="t">'+s.dataset.title+'</span>';
+    b.addEventListener("click",function(){go(i);});
+    nav.appendChild(b);
+  });
+  var navBtns = nav.querySelectorAll("button");
+  var current = 0;
+  function go(i){
+    current=Math.max(0,Math.min(sections.length-1,i));
+    sections.forEach(function(s,j){s.classList.toggle("active",j===current);});
+    navBtns.forEach(function(b,j){b.setAttribute("aria-current",j===current?"true":"false");});
+    seen[current]=true; store.set("seen",seen); store.set("current",current);
+    document.getElementById("prev").disabled=current===0;
+    var nx=document.getElementById("next");
+    nx.disabled=current===sections.length-1;
+    nx.textContent=current===sections.length-2?"Note pédagogique →":"Étape suivante →";
+    var n=Object.keys(seen).filter(function(k){return k<sections.length-1;}).length;
+    document.getElementById("progress").textContent="Étapes vues : "+Math.min(n,sections.length-1)+" / "+(sections.length-1);
+    window.scrollTo(0,0);
+  }
+  document.getElementById("prev").addEventListener("click",function(){go(current-1);});
+  document.getElementById("next").addEventListener("click",function(){go(current+1);});
+
+  /* ---------- quiz ---------- */
+  var QUIZ = {
+    q0:{title:"Vérifie : la tâche globale",consigne:"Une seule réponse juste par question.",items:[
+      {q:"Quand faut-il finaliser l'introduction du recueil ?",opts:["En premier, avant tout le reste","En dernier, quand les récits sont prêts","Elle est facultative"],a:1,
+       why:"Elle annonce le plan du dossier : ce plan doit déjà exister pour être annoncé correctement."},
+      {q:"Combien de fois peux-tu exploiter le même domaine artistique ?",opts:["Une seule fois","Deux fois maximum","Autant que tu veux"],a:1,
+       why:"La consigne fixe un maximum de deux récits par domaine, pour garantir la variété."},
+      {q:"Que doit-on joindre à chaque récit, si possible ?",opts:["Une bibliographie","Des traces de l'expérience (ticket, photos, affiche…)","Une note du professeur"],a:1,
+       why:"Les traces prouvent la rencontre et rendent le dossier vivant."}
+    ]},
+    q1:{title:"Vérifie : les notions de base",consigne:"Une seule réponse juste par question.",items:[
+      {q:"Combien d'arts compte-t-on dans le classement actuel ?",opts:["7","9","10"],a:2,why:"Hegel en distinguait 5 ; 5 autres ont été ajoutés depuis, jusqu'aux jeux vidéo."},
+      {q:"Pourquoi « c'est beau » ne suffit-il pas comme avis ?",opts:["Parce que le beau est relatif : il faut argumenter","Parce que c'est trop court","Parce qu'il faut toujours critiquer"],a:0,
+       why:"Le beau varie selon les personnes, les cultures et les époques : seul un avis argumenté est recevable."},
+      {q:"Dans le texte de Carole Fréchette, la culture est présentée comme…",opts:["Un luxe superflu","Une urgence secondaire","Essentielle, comme l'oxygène"],a:2,
+       why:"Les « journées sans culture » font ressentir le manque : la culture est vitale."}
+    ]},
+    q2:{type:"sort",title:"Vérifie : observer ou interpréter ?",consigne:"Pour chaque phrase, choisis la bonne catégorie.",cats:["Observation","Interprétation"],items:[
+      {q:"La sculpture représente une femme assise en tailleur, les mains posées sur les genoux.",a:0,why:"C'est un constat que tout le monde peut faire."},
+      {q:"Des fissures lumineuses traversent son corps.",a:0,why:"Description neutre de ce que l'on voit."},
+      {q:"On dirait qu'une lumière intérieure cherche à sortir : elle se libère.",a:1,why:"« On dirait », « se libère » : c'est un sens que tu donnes à l'œuvre."},
+      {q:"La gare est couverte d'une immense voûte blanche en acier et en verre.",a:0,why:"Forme, couleur et matériaux : c'est de l'observation."},
+      {q:"Cette voûte me fait penser à des ailes : on a envie de partir.",a:1,why:"Association personnelle et ressenti : interprétation."},
+      {q:"Le photographe dénonce l'indifférence du monde face à la famine.",a:1,why:"Tu formules un message : c'est une interprétation."}
+    ]},
+    q3:{type:"sort",title:"Vérifie : dans quelle partie du récit ?",consigne:"Classe chaque phrase dans la partie où elle a sa place.",cats:["Informative","Contexte / narration","Argumentative","Conclusion"],items:[
+      {q:"Persépolis est un roman graphique autobiographique de Marjane Satrapi, publié en quatre tomes.",a:0,why:"Titre, genre, auteur, publication : carte d'identité."},
+      {q:"Ma mère me l'a offert pour mes 15 ans ; je n'avais jamais lu de BD « sérieuse ».",a:1,why:"Circonstances de la rencontre et a priori : contexte."},
+      {q:"Marji, une petite fille, grandit à Téhéran pendant une période de bouleversements politiques…",a:1,why:"Début de résumé apéritif : narration."},
+      {q:"Le dessin en noir et blanc, très simple, rend les scènes violentes supportables, comme celle de…",a:2,why:"Argument esthétique illustré par un exemple : partie argumentative."},
+      {q:"Je recommande ce livre à tous ceux qui pensent que la BD, c'est seulement pour rire.",a:3,why:"Recommandation au lecteur : conclusion."}
+    ]},
+    q4:{title:"Vérifie : le meilleur début",consigne:"Lequel de ces débuts de récit (tirés du dossier) est le plus réussi ?",items:[
+      {q:"Choisis le meilleur début.",opts:[
+        "« De Freitas (Stéphane), À voix haute, film documentaire, 2016. »",
+        "« J'ai découvert le court-métrage Fish & Chicks en zonant sur YouTube. Je l'ai trouvé bien. »",
+        "« Je suis allée au musée de la Boverie en avril dernier et j'ai choisi une peinture de Christiane Willemsen, Les Rails (1977), huile de 95 × 100 cm. »"],a:2,
+       why:"Le 3ᵉ donne la carte d'identité complète ET le contexte, en phrases. Le 1ᵉʳ est une simple référence ; le 2ᵉ manque d'informations et l'avis est vague."}
+    ]},
+    q5:{title:"Vérifie : le recueil",consigne:"Une seule réponse juste par question.",items:[
+      {q:"Quand remplir la fiche d'archivage d'une rencontre ?",opts:["En fin d'année","Tout de suite, « à chaud »","Seulement si l'œuvre m'a plu"],a:1,
+       why:"Les émotions et les détails s'effacent vite : on les note immédiatement."},
+      {q:"Quel principe d'organisation met le mieux en valeur l'évolution de ta vision ?",opts:["L'ordre alphabétique","L'ordre chronologique","L'ordre de taille des textes"],a:1,
+       why:"La chronologie montre un parcours, ce qui fait écho à l'introduction."}
+    ]},
+    q6:{type:"sort",title:"Vérifie : quel ingrédient de l'introduction ?",consigne:"Associe chaque phrase à son ingrédient.",cats:["① Accroche","② Avant","③ Évolution","④ Définition","⑤ Plan"],items:[
+      {q:"« La culture, c'est la possibilité d'être plus grand que nous sommes », écrit Erik Orsenna. Je ne l'ai compris que récemment.",a:0,why:"Citation développée et reliée à soi : accroche."},
+      {q:"En entrant en 5ᵉ, je pensais que la culture était réservée aux « intellos ».",a:1,why:"Imparfait + cliché de départ : la vision « avant »."},
+      {q:"Tout a changé quand j'ai assisté à mon premier concert de musique classique.",a:2,why:"Un déclic précis, au passé composé : l'évolution."},
+      {q:"Aujourd'hui, la culture est pour moi tout ce qui nous aide à comprendre le monde et les autres.",a:3,why:"Présent + définition personnelle."},
+      {q:"Vous découvrirez dans ce dossier cinq rencontres, classées par domaine.",a:4,why:"Contenu et organisation du dossier : annonce du plan."}
+    ]}
+  };
+
+  function renderQuiz(el){
+    var Q=QUIZ[el.dataset.quiz]; if(!Q) return;
+    var isSort=Q.type==="sort", total=Q.items.length, done=0, good=0;
+    var h='<h4>'+Q.title+'</h4><p class="consigne">'+Q.consigne+'</p>';
+    el.innerHTML=h;
+    var scoreEl=document.createElement("div"); scoreEl.className="score";
+    Q.items.forEach(function(it){
+      var box=document.createElement("div"); box.className="qitem";
+      var p=document.createElement("p"); p.className="q"; p.textContent=it.q; box.appendChild(p);
+      var opts=document.createElement("div"); opts.className="opts";
+      var labels=isSort?Q.cats:it.opts;
+      if(!isSort){opts.style.flexDirection="column";opts.style.alignItems="flex-start";}
+      var fb=document.createElement("div"); fb.className="fb";
+      labels.forEach(function(lab,k){
+        var b=document.createElement("button"); b.type="button"; b.textContent=lab;
+        if(!isSort) b.style.textAlign="left";
+        b.addEventListener("click",function(){
+          var ok=k===it.a;
+          opts.querySelectorAll("button").forEach(function(x,j){x.disabled=true;if(j===it.a)x.classList.add("good");});
+          if(!ok) b.classList.add("bad");
+          fb.className="fb show "+(ok?"ok":"ko");
+          fb.textContent=(ok?"Exact. ":"Pas tout à fait : la bonne réponse est « "+labels[it.a]+" ». ")+it.why;
+          done++; if(ok) good++;
+          scoreEl.textContent=done===total?("Score : "+good+" / "+total+(good===total?" — parfait !":" — relis les explications, puis recommence si besoin.")):"";
+          if(done===total) retry.style.display="inline-block";
+        });
+        opts.appendChild(b);
+      });
+      box.appendChild(opts); box.appendChild(fb); el.appendChild(box);
+    });
+    el.appendChild(scoreEl);
+    var retry=document.createElement("button"); retry.className="btn"; retry.textContent="Recommencer"; retry.style.display="none";
+    retry.style.marginTop=".5rem";
+    retry.addEventListener("click",function(){renderQuiz(el);});
+    el.appendChild(retry);
+  }
+  document.querySelectorAll(".quiz").forEach(renderQuiz);
+
+  /* ---------- checklists ---------- */
+  document.querySelectorAll("[data-check] input[type=checkbox]").forEach(function(cb){
+    cb.checked=!!store.get("cb:"+cb.id,false);
+    cb.addEventListener("change",function(){store.set("cb:"+cb.id,cb.checked);});
+  });
+
+  /* ---------- brouillon guidé ---------- */
+  var DRAFT=[
+    {k:"accroche",t:"Accroche",help:"Une citation expliquée, ou une anecdote / touche d'humour. Termine par une phrase de transition vers toi.",
+     s:["« … », écrit ","Cette phrase m'a d'abord fait ","Si l'on m'avait dit, il y a deux ans, que ","Pourtant, en y repensant, "]},
+    {k:"avant",t:"Ma vision « avant »",help:"Comment voyais-tu la culture en entrant en 5ᵉ ? Tes clichés, tes a priori. Utilise l'imparfait.",
+     s:["En entrant en 5ᵉ, pour moi, la culture, c'était ","Je pensais que ","Je n'imaginais pas que ","À l'époque, mes séries, ma musique, mes jeux "]},
+    {k:"evolution",t:"Ce qui l'a fait évoluer",help:"Au moins un exemple précis (sortie, œuvre, découverte) et une émotion nommée. Utilise le passé composé.",
+     s:["Tout a commencé à changer lorsque ","J'ai été surpris(e) par ","Ce qui m'a le plus ému(e), c'est ","J'ai découvert que "]},
+    {k:"definition",t:"Ma définition aujourd'hui",help:"Ce qu'est la culture pour toi, ce qu'elle comprend, à quoi elle sert. Utilise le présent.",
+     s:["Aujourd'hui, je définirais la culture comme ","Elle ne se limite pas à ","Elle comprend aussi ","Selon moi, elle sert à "]},
+    {k:"plan",t:"Annonce du plan",help:"Combien de rencontres ? Quels domaines ? Dans quel ordre ? Comment chaque récit est-il construit ?",
+     s:["Ce dossier rassemble ","Elles sont présentées ","Pour chacune, je ","Bonne lecture "]}
+  ];
+  var dWrap=document.getElementById("drafts");
+  DRAFT.forEach(function(d,i){
+    var box=document.createElement("div"); box.className="draft";
+    box.innerHTML='<label for="d-'+d.k+'"><span class="chip">'+(i+1)+'</span>'+d.t+'</label><p class="help">'+d.help+'</p>';
+    var st=document.createElement("div"); st.className="starters";
+    var ta=document.createElement("textarea"); ta.id="d-"+d.k; ta.value=store.get("d:"+d.k,"");
+    ta.addEventListener("input",function(){store.set("d:"+d.k,ta.value);});
+    d.s.forEach(function(s){
+      var b=document.createElement("button"); b.type="button"; b.textContent=s.trim()+"…";
+      b.addEventListener("click",function(){
+        var pos=ta.selectionStart!=null?ta.selectionStart:ta.value.length;
+        var before=ta.value.slice(0,pos), after=ta.value.slice(pos);
+        var sep=(before && !/\s$/.test(before))?" ":"";
+        ta.value=before+sep+s+after; ta.focus();
+        var np=(before+sep+s).length; ta.setSelectionRange(np,np);
+        store.set("d:"+d.k,ta.value);
+      });
+      st.appendChild(b);
+    });
+    box.appendChild(st); box.appendChild(ta); dWrap.appendChild(box);
+  });
+  var out=document.getElementById("assembled"), wc=document.getElementById("wc");
+  function assemble(){
+    var parts=DRAFT.map(function(d){return document.getElementById("d-"+d.k).value.trim();}).filter(Boolean);
+    if(!parts.length){out.innerHTML='<span class="muted small">Écris au moins un paragraphe pour l\'assembler.</span>';wc.textContent="";return "";}
+    var txt=parts.join("\n\n");
+    out.textContent=txt;
+    var words=txt.split(/\s+/).filter(Boolean).length;
+    var missing=DRAFT.filter(function(d){return !document.getElementById("d-"+d.k).value.trim();}).map(function(d){return d.t;});
+    wc.textContent=words+" mots · "+parts.length+" paragraphe(s)"+(missing.length?" · Il manque : "+missing.join(", "):" · Les 5 ingrédients sont présents.");
+    return txt;
+  }
+  document.getElementById("assemble").addEventListener("click",assemble);
+  document.getElementById("copy").addEventListener("click",function(){
+    var t=assemble(); if(!t) return;
+    var btn=this;
+    function done(){btn.textContent="Copié ✓";setTimeout(function(){btn.textContent="Copier le texte";},1500);}
+    if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(t).then(done,function(){fallback(t);done();});}
+    else{fallback(t);done();}
+  });
+  function fallback(t){var a=document.createElement("textarea");a.value=t;document.body.appendChild(a);a.select();
+    try{document.execCommand("copy");}catch(e){} document.body.removeChild(a);}
+  document.getElementById("clear").addEventListener("click",function(){
+    if(!window.confirm("Effacer tout le brouillon de l'introduction ?")) return;
+    DRAFT.forEach(function(d){document.getElementById("d-"+d.k).value="";store.set("d:"+d.k,"");});
+    out.innerHTML='<span class="muted small">Ton introduction assemblée apparaîtra ici.</span>'; wc.textContent="";
+  });
+
+  go(store.get("current",0));
+})();
+</script>
+</body>
+</html>
