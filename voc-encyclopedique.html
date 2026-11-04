@@ -1,0 +1,1511 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Vocabulaire encyclopédique</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,400;0,600;0,700;1,400&family=Noto+Sans+Mono:wght@500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  /* Palette Breeze (KDE Plasma) : fenêtre, vue, en-tête, texte, accent */
+  --bg:#eff0f1; --view:#fcfcfc; --header:#e3e5e7; --text:#232629; --muted:#5d6468;
+  --border:#c4c9cd; --btn:#f7f8f8; --accent:#3daee9; --accent-ink:#1b7cb5; --accent-soft:rgba(61,174,233,.15);
+  --pos:#27ae60; --pos-soft:rgba(39,174,96,.13); --neg:#da4453; --neg-soft:rgba(218,68,83,.11); --warn:#f67400; --warn-soft:rgba(246,116,0,.12);
+  --seg-a:rgba(61,174,233,.22); --seg-b:rgba(246,116,0,.20);
+  --font:"Noto Sans", "Segoe UI", system-ui, -apple-system, sans-serif;
+  --mono:"Noto Sans Mono", ui-monospace, "DejaVu Sans Mono", monospace;
+  --r:4px;
+  color-scheme:light;
+  /* Mise en page : barre d'outils + panneau latéral + vue de contenu, comme une application KDE */
+}
+@media (prefers-color-scheme:dark){ :root:not([data-theme="light"]){
+  --bg:#292c30; --view:#1b1e20; --header:#31363b; --text:#fcfcfc; --muted:#a8b0b7;
+  --border:#4a5056; --btn:#31363b; --accent:#3daee9; --accent-ink:#5cc0f2; --accent-soft:rgba(61,174,233,.2);
+  --pos:#2ecc71; --pos-soft:rgba(46,204,113,.16); --neg:#ed5565; --neg-soft:rgba(237,85,101,.16); --warn:#f67400; --warn-soft:rgba(246,116,0,.18);
+  --seg-a:rgba(61,174,233,.3); --seg-b:rgba(246,116,0,.28); color-scheme:dark; } }
+:root[data-theme="dark"]{
+  --bg:#292c30; --view:#1b1e20; --header:#31363b; --text:#fcfcfc; --muted:#a8b0b7;
+  --border:#4a5056; --btn:#31363b; --accent:#3daee9; --accent-ink:#5cc0f2; --accent-soft:rgba(61,174,233,.2);
+  --pos:#2ecc71; --pos-soft:rgba(46,204,113,.16); --neg:#ed5565; --neg-soft:rgba(237,85,101,.16); --warn:#f67400; --warn-soft:rgba(246,116,0,.18);
+  --seg-a:rgba(61,174,233,.3); --seg-b:rgba(246,116,0,.28); color-scheme:dark; }
+
+*{box-sizing:border-box}
+html,body{height:100%;margin:0}
+body{background:var(--bg);color:var(--text);font:15px/1.5 var(--font);-webkit-font-smoothing:antialiased}
+#root{height:100%}
+button,input,select,textarea{font:inherit;color:inherit}
+h1,h2,h3{text-wrap:balance;line-height:1.25;margin:0}
+h1{font-size:1.6rem;font-weight:600}
+h2{font-size:1.15rem;font-weight:600;margin:1.6rem 0 .6rem}
+h3{font-size:1rem;font-weight:600;margin:1rem 0 .4rem}
+p{margin:.4rem 0}
+.muted,.muted-t{color:var(--muted);fill:var(--muted)}
+.small{font-size:.86rem}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+.grow{flex:1}
+.measure{max-width:68ch}
+.center{text-align:center}
+.mono{font-family:var(--mono)}
+kbd{font:600 .72rem var(--mono);border:1px solid var(--border);border-bottom-width:2px;border-radius:3px;padding:0 .3rem;margin-left:.35rem;background:var(--view);color:var(--muted)}
+:focus-visible{outline:2px solid var(--accent);outline-offset:1px}
+
+/* ---------- coquille ---------- */
+.app{display:grid;grid-template-rows:auto 1fr;height:100%}
+.toolbar{display:flex;align-items:center;gap:12px;padding:8px 14px;background:var(--header);border-bottom:1px solid var(--border);flex-wrap:wrap}
+.brand{display:flex;align-items:center;gap:8px;font-weight:600}
+.brand-bg{fill:var(--accent)} .brand-ln{stroke:#fff;stroke-width:1.6;stroke-linecap:round}
+.filters{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+select{background:var(--btn);border:1px solid var(--border);border-radius:3px;padding:4px 8px;min-height:32px}
+select:hover{border-color:var(--accent)}
+.cb{display:flex;align-items:center;gap:5px;font-size:.88rem;color:var(--muted)}
+.cb input{accent-color:var(--accent)}
+.body{display:grid;grid-template-columns:200px 1fr;min-height:0}
+.side{background:var(--bg);border-right:1px solid var(--border);padding:10px 8px;display:flex;flex-direction:column;gap:2px}
+.navitem{display:flex;align-items:center;gap:10px;padding:7px 10px;border:1px solid transparent;border-radius:3px;background:none;cursor:pointer;text-align:left}
+.navitem:hover{background:var(--accent-soft)}
+.navitem.on{background:var(--accent-soft);border-color:var(--accent)}
+.ico{flex:none}
+.main{background:var(--view);overflow:auto;min-height:0}
+.page{padding:22px 28px 48px;max-width:1080px}
+.page.narrow{max-width:800px}
+.page-head{margin-bottom:14px}
+.lead{color:var(--muted);max-width:70ch;margin-top:.4rem}
+.h-sub{font-size:.95rem;font-weight:600;margin:1.2rem 0 .5rem;color:var(--muted)}
+.empty{padding:2rem 0;color:var(--muted)}
+section{margin-bottom:6px}
+
+/* ---------- éléments communs ---------- */
+.panel{border:1px solid var(--border);border-radius:var(--r);padding:16px 18px;background:var(--view);margin:12px 0}
+.btn{display:inline-flex;align-items:center;gap:6px;background:var(--btn);border:1px solid var(--border);border-radius:3px;padding:6px 13px;min-height:34px;cursor:pointer}
+.btn:hover:not(:disabled){border-color:var(--accent)}
+.btn:disabled{opacity:.5;cursor:default}
+.btn.primary{background:var(--accent-soft);border-color:var(--accent)}
+.btn.primary:hover:not(:disabled){background:rgba(61,174,233,.28)}
+.btn.danger{border-color:var(--neg);background:var(--neg-soft)}
+.btn.wide{width:100%;justify-content:center;padding:10px}
+.btn.icon-only{padding:4px 6px;min-height:28px;vertical-align:middle}
+.linkbtn{background:none;border:none;color:var(--accent-ink);cursor:pointer;padding:4px 0;text-decoration:underline;text-underline-offset:3px}
+.chip{display:inline-flex;align-items:center;gap:6px;font-size:.8rem;border:1px solid var(--border);border-radius:20px;padding:1px 9px;white-space:nowrap;background:var(--view)}
+.chip.niv{font-variant-numeric:tabular-nums;color:var(--muted)}
+.count-chip{color:var(--muted)}
+.dot{width:9px;height:9px;border-radius:50%;flex:none;display:inline-block}
+.tag{font-size:.78rem;border-radius:3px;padding:0 6px;margin-left:6px}
+.tag.ok{background:var(--pos-soft);color:var(--text)} .tag.ko{background:var(--neg-soft);color:var(--text)}
+.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}
+.big{font-size:1.9rem;font-weight:600;font-variant-numeric:tabular-nums;line-height:1.1}
+.big .small{font-size:1rem;color:var(--muted)}
+.today{display:flex;gap:30px;align-items:center;flex-wrap:wrap}
+.today.panel{margin-top:4px}
+.note{border-left:3px solid var(--warn);background:var(--warn-soft);padding:6px 10px;border-radius:0 3px 3px 0}
+
+/* mots décomposés : signalement des éléments de formation */
+.segword{white-space:nowrap}
+.seg{border-radius:2px;padding:0 1px}
+.seg.a{background:var(--seg-a);box-shadow:inset 0 -2px 0 var(--accent)}
+.seg.b{background:var(--seg-b);box-shadow:inset 0 -2px 0 var(--warn)}
+.seg.hi{outline:2px solid var(--text);outline-offset:1px}
+.rootchips{display:flex;flex-wrap:wrap;gap:6px}
+.rootchip{font-size:.88rem;border-radius:3px;padding:2px 8px}
+.rootchip.a{background:var(--seg-a)} .rootchip.b{background:var(--seg-b)}
+
+/* fiche mot */
+.detail-head{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:6px}
+.word-big{font-size:1.5rem;font-weight:600;margin:.2rem 0}
+.facts{display:grid;grid-template-columns:150px 1fr;gap:6px 14px;margin:8px 0 0}
+.facts dt{color:var(--muted);font-size:.88rem;padding-top:2px}
+.facts dd{margin:0}
+.ex{font-style:italic}
+.lure{font-weight:600}
+.detail.compact .facts{grid-template-columns:120px 1fr}
+
+/* ---------- accueil ---------- */
+.facts3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:12px}
+.fact{border:1px solid var(--border);border-radius:var(--r);padding:12px 14px;display:flex;flex-direction:column;gap:4px}
+.fact b{font-size:1.15rem;font-variant-numeric:tabular-nums}
+.fact span{color:var(--muted);font-size:.9rem}
+.steps{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+.step{display:flex;flex-direction:column;gap:6px;text-align:left;border:1px solid var(--border);border-radius:var(--r);padding:12px 14px;background:var(--view);cursor:pointer}
+.step:hover{border-color:var(--accent);background:var(--accent-soft)}
+.step span{color:var(--muted);font-size:.9rem}
+.adult ul{padding-left:1.2rem;margin:.3rem 0} .adult li{margin:.3rem 0;max-width:80ch}
+.refs li{font-size:.88rem}
+
+/* ---------- explorer ---------- */
+.explorer{display:grid;grid-template-columns:270px 1fr;min-height:100%}
+.reslist{border-right:1px solid var(--border);padding:12px 8px;background:var(--bg)}
+.resgroup{margin-bottom:10px}
+.resgroup-t{display:flex;align-items:center;gap:7px;font-size:.78rem;font-weight:600;text-transform:uppercase;letter-spacing:.04em;color:var(--muted);padding:4px 8px}
+.resitem{display:flex;justify-content:space-between;gap:8px;width:100%;text-align:left;padding:6px 8px 6px 24px;border:1px solid transparent;border-radius:3px;background:none;cursor:pointer;font-size:.92rem}
+.resitem:hover{background:var(--accent-soft)}
+.resitem.on{background:var(--accent-soft);border-color:var(--accent)}
+.count{color:var(--muted);font-variant-numeric:tabular-nums;font-size:.85rem}
+.crumbs{margin-bottom:6px}
+.figure{margin:12px 0}
+.figure figcaption{font-size:.85rem;margin-top:4px}
+.schema{width:100%;height:auto;display:block;max-height:340px}
+.wgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:10px}
+.wcard{display:flex;flex-direction:column;gap:6px;text-align:left;border:1px solid var(--border);border-radius:var(--r);padding:10px 12px;background:var(--view);cursor:pointer}
+.wcard:hover{border-color:var(--accent)}
+.wcard.on{border-color:var(--accent);background:var(--accent-soft)}
+.wcard-top{display:flex;justify-content:space-between;align-items:center;gap:8px}
+.wcard-d{color:var(--muted);font-size:.88rem}
+
+/* SVG */
+.svlbl{fill:var(--text);font-family:var(--font)}
+.svlbl.muted{fill:var(--muted)}
+.svlbl.strong{font-weight:600}
+.svlbl.link{fill:var(--accent-ink);cursor:pointer;text-decoration:underline;text-decoration-thickness:1px}
+.svlbl.link:hover{font-weight:600}
+.svlbl.on{font-weight:700;fill:var(--text);text-decoration:none}
+.svlbl:focus-visible{outline:none;font-weight:700}
+.sv-fill{fill:var(--accent-soft)}
+.sv-stroke{fill:none;stroke:var(--text);stroke-width:1.5}
+.sv-stroke1{fill:none;stroke:var(--muted);stroke-width:1.2}
+.sv-stroke2{fill:none;stroke:var(--text);stroke-width:1.6}
+.sv-faint{fill:none;stroke:var(--muted);stroke-width:.8;opacity:.55}
+.sv-dash{fill:none;stroke:var(--muted);stroke-width:1.1;stroke-dasharray:5 4}
+.sv-strong{stroke:var(--text);stroke-width:2.2}
+.sv-line{stroke:var(--muted);stroke-width:.9}
+.sv-dot{fill:var(--text)}
+.sv-accent{fill:none;stroke:var(--accent);stroke-width:2.2}
+.sv-accent2{fill:none;stroke:var(--accent);stroke-width:2;stroke-dasharray:6 4}
+.sv-accent3{fill:none;stroke:var(--accent);stroke-width:2.6}
+.sv-accent3.dashed{stroke-dasharray:6 4;stroke-width:2}
+.sv-accentdot{fill:var(--accent)}
+.sv-arrowhead{fill:var(--accent)}
+.sv-cyto{fill:var(--pos-soft)}
+.sv-membrane{fill:none;stroke:var(--pos);stroke-width:3}
+.sv-nucleus{fill:rgba(155,89,182,.28);stroke:#8e44ad;stroke-width:1.5}
+.sv-chloro{fill:rgba(39,174,96,.55);stroke:var(--pos);stroke-width:1}
+.sv-box{fill:var(--view);stroke:var(--border);stroke-width:1.2}
+.sv-particle{fill:var(--accent);opacity:.8}
+.sv-zoombox{fill:none;stroke:var(--text);stroke-width:1;stroke-dasharray:3 3}
+.band.b1{fill:rgba(218,68,83,.14)} .band.b2{fill:rgba(218,68,83,.26)} .band.b3{fill:rgba(218,68,83,.40)} .band.b4{fill:rgba(218,68,83,.56)}
+.warbar{fill:var(--text);opacity:.75} .warbar.light{opacity:.4}
+
+/* ---------- flashcards ---------- */
+.seg-ctl{display:inline-flex;border:1px solid var(--border);border-radius:3px;overflow:hidden;margin:4px 0}
+.seg-ctl button{border:none;background:var(--btn);padding:7px 14px;cursor:pointer;border-right:1px solid var(--border)}
+.seg-ctl button:last-child{border-right:none}
+.seg-ctl button.on{background:var(--accent-soft);box-shadow:inset 0 -2px 0 var(--accent)}
+.ex-head{display:flex;align-items:center;gap:10px;margin-bottom:10px;flex-wrap:wrap}
+.progress{height:4px;background:var(--border);border-radius:2px;overflow:hidden;margin:6px 0 14px;flex-basis:100%}
+.progress div{height:100%;background:var(--accent);transition:width .25s}
+.flashcard{border:1px solid var(--border);border-radius:6px;padding:28px 26px;min-height:260px;background:var(--view);cursor:pointer;display:flex;flex-direction:column;justify-content:center;gap:10px;box-shadow:0 1px 3px rgba(0,0,0,.08)}
+.flashcard:hover{border-color:var(--accent)}
+.flashcard.flipped{cursor:default}
+.fc-front{text-align:center;display:flex;flex-direction:column;align-items:center;gap:12px}
+.fc-meta{display:flex;gap:6px;flex-wrap:wrap;align-items:center;margin-bottom:6px}
+.fc-front .fc-meta{justify-content:center}
+.fc-word{font-size:2rem;font-weight:600;display:flex;align-items:center;gap:8px;justify-content:center;flex-wrap:wrap}
+.fc-def{font-size:1.25rem;max-width:46ch}
+.fc-q{color:var(--muted)}
+.fc-title{font-size:1.4rem}
+.fc-sep{border-top:1px dashed var(--border);margin:6px 0}
+.fc-back{animation:fade .2s ease-out}
+.fc-back .fc-word{justify-content:flex-start}
+@keyframes fade{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
+.fc-actions{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:14px}
+.fc-actions .wide{grid-column:1/-1}
+.rate{flex-direction:column;align-items:flex-start;gap:1px;padding:9px 13px;text-align:left}
+.rate span{font-size:.8rem;color:var(--muted)}
+.rate.r0{border-left:4px solid var(--neg)} .rate.r1{border-left:4px solid var(--warn)} .rate.r2{border-left:4px solid var(--pos)}
+.boxbar{display:flex;height:14px;border-radius:3px;overflow:hidden;background:var(--bg);border:1px solid var(--border)}
+.bx{height:100%}
+.bx0{background:var(--border)} .bx1{background:var(--neg)} .bx2{background:var(--warn)} .bx3{background:#fdbc4b} .bx4{background:#8fd18f} .bx5{background:var(--pos)}
+.boxlegend{display:flex;flex-wrap:wrap;gap:4px 14px;margin-top:6px;font-size:.82rem;color:var(--muted)}
+.boxlegend b{color:var(--text);font-variant-numeric:tabular-nums}
+.sw{display:inline-block;width:10px;height:10px;border-radius:2px;margin-right:5px;vertical-align:-1px}
+.done{border-color:var(--pos);background:var(--pos-soft)}
+
+/* ---------- exercices ---------- */
+.levels{display:flex;flex-direction:column;gap:8px}
+.level{display:flex;gap:14px;align-items:center;text-align:left;border:1px solid var(--border);border-radius:var(--r);padding:12px 16px;background:var(--view);cursor:pointer}
+.level:hover{border-color:var(--accent);background:var(--accent-soft)}
+.lv-n{flex:none;width:34px;height:34px;border-radius:50%;border:2px solid var(--accent);display:grid;place-items:center;font-weight:700;font-variant-numeric:tabular-nums}
+.lv-body{display:flex;flex-direction:column;gap:3px;flex:1}
+.lv-top{display:flex;gap:8px;align-items:center}
+.lv-d{font-size:.9rem;color:var(--muted);max-width:75ch}
+.lv-stat{font-size:.8rem}
+.lv-badge{font-variant-numeric:tabular-nums;font-weight:600;border:1px solid var(--border);border-radius:3px;padding:2px 8px}
+.lv-badge.ok{border-color:var(--pos);background:var(--pos-soft)}
+.ex-title{margin-bottom:6px}
+.ex-prog{display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;margin-top:8px}
+.q-t{font-size:1.08rem;margin:.6rem 0}
+.qword{font-size:1.15rem}
+.opts{display:flex;flex-direction:column;gap:8px;margin-top:10px}
+.opts.two{display:grid;grid-template-columns:1fr 1fr}
+.opt{display:flex;gap:10px;align-items:flex-start;text-align:left;border:1px solid var(--border);border-radius:3px;padding:9px 12px;background:var(--btn);cursor:pointer}
+.opt:hover:not(:disabled){border-color:var(--accent)}
+.opt:disabled{cursor:default}
+.optk{flex:none;width:22px;height:22px;border-radius:3px;border:1px solid var(--border);display:grid;place-items:center;font-size:.8rem;font-weight:600;color:var(--muted);background:var(--view)}
+.opt.good{border-color:var(--pos);background:var(--pos-soft)}
+.opt.bad{border-color:var(--neg);background:var(--neg-soft)}
+.opt.dim{opacity:.55}
+.opt.jnsp{color:var(--muted)}
+.opt.jnsp.sel{opacity:1;border-color:var(--muted)}
+.corr{margin-top:14px;border:1px solid var(--border);border-left-width:4px;border-radius:3px;padding:10px 14px}
+.corr.ok{border-left-color:var(--pos);background:var(--pos-soft)}
+.corr.ko{border-left-color:var(--neg);background:var(--neg-soft)}
+.corr.mid{border-left-color:var(--warn);background:var(--warn-soft)}
+.corr-mark{font-weight:700;margin-right:6px}
+.corr-detail{margin-top:8px;padding-top:8px;border-top:1px solid var(--border);background:var(--view);margin:8px -14px -10px;padding:12px 14px;border-radius:0 0 3px 0}
+.mini{border-top:1px solid var(--border);padding:6px 0}
+.mini summary{cursor:pointer}
+.match{display:grid;grid-template-columns:minmax(150px,1fr) 2fr;gap:14px}
+.mcol{display:flex;flex-direction:column;gap:8px}
+.mitem{text-align:left;border:1px solid var(--border);border-radius:3px;padding:8px 11px;background:var(--btn);cursor:pointer;min-height:44px;transition:background .15s}
+.mitem.word{font-weight:600}
+.mitem:hover:not(:disabled){border-color:var(--accent)}
+.mitem.sel{border-color:var(--accent);background:var(--accent-soft);box-shadow:0 0 0 1px var(--accent)}
+.mitem.good{border-color:var(--pos);background:var(--pos-soft);cursor:default}
+.mitem.bad{border-color:var(--neg);background:var(--neg-soft)}
+.def-box{font-size:1.15rem;border:1px solid var(--border);border-radius:3px;padding:12px 14px;background:var(--bg)}
+.hint{color:var(--text);background:var(--accent-soft);border-radius:3px;padding:6px 10px;font-size:.95rem}
+.recall{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+.recall input{flex:1;min-width:200px;border:1px solid var(--border);border-radius:3px;padding:7px 10px;background:var(--view);font-size:1.05rem}
+.recall input:focus{border-color:var(--accent);outline:none;box-shadow:0 0 0 1px var(--accent)}
+.worked{padding-left:1.3rem} .worked li{margin:.45rem 0}
+.bank{display:flex;flex-wrap:wrap;gap:8px;padding:10px;border:1px dashed var(--border);border-radius:3px;margin:8px 0 14px}
+.chipbtn{border:1px solid var(--border);border-radius:20px;padding:4px 12px;background:var(--btn);cursor:pointer}
+.chipbtn:hover:not(:disabled){border-color:var(--accent)}
+.chipbtn.sel{border-color:var(--accent);background:var(--accent-soft);box-shadow:0 0 0 1px var(--accent)}
+.chipbtn.used{opacity:.45}
+.cloze{font-size:1.08rem;line-height:2.3;max-width:70ch}
+.blank{display:inline;border:none;border-bottom:2px solid var(--accent);background:var(--accent-soft);border-radius:3px 3px 0 0;padding:1px 8px;cursor:pointer;min-width:90px;font-weight:600}
+.blank.sel{box-shadow:0 0 0 2px var(--accent)}
+.blank.good{background:var(--pos-soft);border-bottom-color:var(--pos)}
+.blank.bad{background:var(--neg-soft);border-bottom-color:var(--neg)}
+.fix{font-weight:400;color:var(--pos)}
+.nowrap{white-space:nowrap}
+.cl-item{border-top:1px solid var(--border);padding:6px 0}
+.cl-item p{margin:.15rem 0}
+textarea{width:100%;border:1px solid var(--border);border-radius:3px;padding:8px 10px;background:var(--view);resize:vertical;margin-bottom:8px}
+textarea:focus{border-color:var(--accent);outline:none;box-shadow:0 0 0 1px var(--accent)}
+.lbl{display:block;font-weight:600;margin:10px 0 4px}
+.checks{display:flex;flex-direction:column;gap:6px}
+.check{display:flex;gap:8px;align-items:flex-start}
+.check input{margin-top:4px;accent-color:var(--accent)}
+
+/* ---------- progression ---------- */
+.prow{padding:8px 0;border-bottom:1px solid var(--border)}
+.prow:last-child{border-bottom:none}
+.prow-h{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px}
+.table-wrap{overflow-x:auto}
+.tbl{border-collapse:collapse;width:100%;max-width:640px}
+.tbl th,.tbl td{border-bottom:1px solid var(--border);padding:6px 10px;text-align:left}
+.tbl th{font-weight:600;color:var(--muted);font-size:.88rem}
+.tbl .num{font-variant-numeric:tabular-nums;text-align:right}
+.warnbox{border-color:var(--neg);background:var(--neg-soft)}
+
+/* ---------- petits écrans ---------- */
+@media (max-width:900px){
+  .explorer{grid-template-columns:1fr}
+  .reslist{border-right:none;border-bottom:1px solid var(--border);display:flex;gap:6px;overflow-x:auto;padding:8px}
+  .resgroup{display:flex;gap:4px;margin:0;flex:none}
+  .resgroup-t{display:none}
+  .resitem{white-space:nowrap;padding:5px 10px;border-color:var(--border);width:auto}
+  .steps{grid-template-columns:1fr 1fr}
+}
+@media (max-width:720px){
+  .figure{overflow-x:auto}
+  .schema{min-width:560px;max-height:none}
+  .body{grid-template-columns:1fr;grid-template-rows:auto 1fr}
+  .side{flex-direction:row;overflow-x:auto;border-right:none;border-bottom:1px solid var(--border);padding:6px}
+  .navitem{flex:none;padding:6px 10px}
+  .page{padding:16px 16px 40px}
+  .facts3{grid-template-columns:1fr}
+  .facts,.detail.compact .facts{grid-template-columns:1fr}
+  .facts dt{padding-top:6px}
+  .match{grid-template-columns:1fr 1.4fr;gap:8px}
+  .opts.two{grid-template-columns:1fr}
+  .fc-actions{grid-template-columns:1fr}
+  .brand span{font-size:.95rem}
+}
+@media (max-width:420px){ .steps{grid-template-columns:1fr} .match{grid-template-columns:1fr} }
+@media (prefers-reduced-motion:reduce){ *{animation:none!important;transition:none!important} }
+
+</style>
+</head>
+<body>
+<div id="root"><p style="padding:24px;font-family:sans-serif">Chargement du vocabulaire encyclopédique…</p></div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.3.1/umd/react.production.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.3.1/umd/react-dom.production.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/htm@3.1.1/dist/htm.umd.js"></script>
+<script>
+/* ===== Données : matières, réseaux, mots, racines, textes ===== */
+const MAT = {
+  hist:{n:"Histoire",c:"#da4453"}, geo:{n:"Géographie",c:"#1abc9c"}, svt:{n:"SVT",c:"#27ae60"},
+  pc:{n:"Physique-chimie",c:"#9b59b6"}, math:{n:"Mathématiques",c:"#1d99f3"}, fr:{n:"Français",c:"#f67400"},
+  emc:{n:"EMC",c:"#c9a400"}, tech:{n:"Technologie",c:"#7f8c8d"}
+};
+const NIVS = ["CM","6e","5e","4e","3e"];
+
+const RES = [
+  {id:"h-anti",m:"hist",t:"Cités et empires de l'Antiquité",q:"Qui gouverne dans les cités grecques et à Rome ?",s:"frise"},
+  {id:"h-ma",m:"hist",t:"Seigneurs, paysans et Église au Moyen Âge",q:"Qui possède la terre et qui la travaille au Moyen Âge ?",s:"frise"},
+  {id:"h-rev",m:"hist",t:"Du roi absolu à la Révolution",q:"Comment passe-t-on du pouvoir du roi au pouvoir de la nation ?",s:"frise"},
+  {id:"h-xix",m:"hist",t:"Industrialisation et colonisation",q:"Comment les usines et les colonies transforment-elles le XIXe siècle ?",s:"frise"},
+  {id:"h-xx",m:"hist",t:"Guerres et totalitarismes au XXe siècle",q:"Comment les guerres du XXe siècle touchent-elles toute la société ?",s:"frise"},
+  {id:"g-rep",m:"geo",t:"Se repérer sur la Terre",q:"Comment situer un lieu sur la Terre ?",s:"globe"},
+  {id:"g-ville",m:"geo",t:"Habiter la ville",q:"Comment les villes grandissent-elles ?"},
+  {id:"g-monde",m:"geo",t:"Mondialisation et développement",q:"Comment le monde est-il relié par les échanges ?"},
+  {id:"s-cell",m:"svt",t:"La cellule et le vivant",q:"De quoi les êtres vivants sont-ils faits ?",s:"cell"},
+  {id:"s-corps",m:"svt",t:"Le corps humain en action",q:"Comment les aliments et le dioxygène arrivent-ils aux organes ?"},
+  {id:"s-eco",m:"svt",t:"Écosystèmes et planète Terre",q:"Comment les êtres vivants et la planète interagissent-ils ?"},
+  {id:"s-gen",m:"svt",t:"Hérédité et défenses de l'organisme",q:"Comment se transmettent les caractères et comment l'organisme se défend-il ?"},
+  {id:"p-mat",m:"pc",t:"La matière et ses transformations",q:"De quoi la matière est-elle faite et comment change-t-elle d'état ?",s:"etats"},
+  {id:"p-ener",m:"pc",t:"Électricité, mouvement et énergie",q:"Comment décrire le courant électrique, les mouvements et l'énergie ?"},
+  {id:"m-geo",m:"math",t:"Figures et constructions",q:"Comment nommer les figures et les lignes qui les construisent ?",s:"geom"},
+  {id:"m-num",m:"math",t:"Nombres, calcul et fonctions",q:"Comment nommer les nombres et les opérations ?"},
+  {id:"f-rec",m:"fr",t:"Récit, poésie et figures de style",q:"Avec quels mots analyser un récit ou un poème ?"},
+  {id:"f-lex",m:"fr",t:"Les mots et leur sens",q:"Avec quels mots parler des mots ?"},
+  {id:"f-arg",m:"fr",t:"Argumenter",q:"Avec quels mots analyser une argumentation ?"},
+  {id:"e-rep",m:"emc",t:"Vivre en République",q:"Comment la République organise-t-elle les pouvoirs et protège-t-elle les libertés ?",s:"pouvoirs"},
+  {id:"t-sys",m:"tech",t:"Objets techniques et programmes",q:"Comment fonctionne un objet technique programmé ?"}
+];
+
+/* [mot, réseau, niveau, définition, exemple, formation "seg|seg:clé,clé" , piège, explication du piège] */
+const RAW = [
+["cité","h-anti","6e","Communauté de citoyens qui se gouvernent eux-mêmes, formée d'une ville et de son territoire.","Athènes et Sparte sont deux cités grecques rivales.","","Ensemble d'immeubles construits en banlieue","c'est le sens moderne de « cité » (un quartier d'habitat)."],
+["citoyen","h-anti","6e","Membre d'une cité qui a le droit de participer aux décisions politiques.","À Athènes, seuls les hommes libres nés de parents athéniens sont citoyens.","","Habitant d'une grande ville","c'est un citadin : habiter en ville ne donne pas de droits politiques."],
+["démocratie","h-anti","6e","Régime politique dans lequel le pouvoir appartient aux citoyens.","Au Ve siècle av. J.-C., Athènes est une démocratie.","démo|cratie:demo,cratie","Science qui étudie les populations","c'est la démographie, qui a la même racine démo- (le peuple)."],
+["polythéisme","h-anti","6e","Croyance en plusieurs dieux.","Les Grecs pratiquent le polythéisme : ils honorent Athéna, Poséidon ou Héra.","poly|thé|isme:poly,theo,-","Étude des figures à plusieurs côtés","confusion avec poly- de « polygone » : ici, -thé- veut dire « dieu »."],
+["monothéisme","h-anti","6e","Croyance en un dieu unique.","Le judaïsme, le christianisme et l'islam sont des monothéismes.","mono|thé|isme:mono,theo,-","Discours prononcé par une seule personne","c'est un monologue : même préfixe mono-, mais -logue veut dire « parole »."],
+["oracle","h-anti","6e","Réponse d'un dieu à une question, transmise par un prêtre ou une prêtresse.","À Delphes, les Grecs viennent consulter l'oracle.","","Personne qui parle très bien en public","c'est un orateur : les deux mots se ressemblent à l'oral."],
+["tyran","h-anti","6e","Dans la Grèce antique, homme qui prend seul le pouvoir, souvent par la force.","Pisistrate fut tyran d'Athènes au VIe siècle av. J.-C.","","Pièce qui sert à tirer ou à tendre quelque chose","c'est un tirant, un mot qui se prononce presque pareil."],
+["république","h-anti","6e","Régime politique où le pouvoir n'est pas héréditaire et où les dirigeants sont choisis pour un temps limité.","Rome est une république de 509 à 27 av. J.-C.","","Réponse vive à une critique","c'est une réplique : le début du mot est le même."],
+["sénat","h-anti","6e","À Rome, assemblée d'anciens magistrats qui dirige la politique de la République.","Le sénat romain décide de la guerre et contrôle les finances.","","Établissement où l'on soigne des malades","c'est un sanatorium : seule la sonorité est proche."],
+["empire","h-anti","6e","État très vaste, formé de nombreux peuples et territoires, dirigé par un empereur.","En 27 av. J.-C., Auguste devient le premier empereur de Rome.","","Fait de devenir plus grave","c'est le verbe « empirer », qui n'a rien à voir avec l'empereur."],
+["légion","h-anti","6e","Unité de l'armée romaine composée d'environ 5 000 soldats.","Les légions défendent les frontières de l'Empire romain.","","Plante cultivée pour être mangée","c'est un légume : les deux mots commencent par « lég- »."],
+["archonte","h-anti","6e","Haut magistrat qui gouverne la cité d'Athènes.","À l'époque classique, les archontes d'Athènes sont tirés au sort.","","Vase grec à deux anses","piège cité par Alain Lieury : un mot rare se confond avec un objet du même thème (le vase, c'est l'amphore)."],
+
+["seigneur","h-ma","5e","Homme qui possède une seigneurie et exerce son pouvoir sur les paysans qui y vivent.","Le seigneur rend la justice et lève des taxes sur ses terres.","","Personne âgée","le mot vient du latin senior (« plus âgé »), mais au Moyen Âge il désigne le maître d'une terre."],
+["vassal","h-ma","5e","Seigneur qui a juré fidélité à un seigneur plus puissant, en échange d'une terre.","Lors de l'hommage, le vassal s'agenouille devant son suzerain.","","Ensemble des plats et des assiettes","c'est la vaisselle : seule la sonorité est proche."],
+["suzerain","h-ma","5e","Seigneur qui reçoit l'hommage d'un vassal et lui confie un fief.","Le roi est le suzerain des grands seigneurs du royaume.","","Qui exerce l'autorité suprême dans un État","c'est un souverain : les deux mots se ressemblent."],
+["fief","h-ma","5e","Terre confiée par un suzerain à son vassal en échange de sa fidélité.","Le chevalier reçoit un fief pour vivre et s'équiper.","","Personne en qui l'on peut avoir confiance","c'est une personne fiable ou fidèle : même début, sens différent."],
+["serf","h-ma","5e","Paysan non libre, attaché à la terre de son seigneur.","Le serf ne peut pas quitter la seigneurie sans autorisation.","","Grand animal de la forêt qui porte des bois","c'est le cerf, son homophone : même prononciation, autre orthographe."],
+["corvée","h-ma","5e","Travail gratuit que les paysans doivent au seigneur.","Plusieurs jours par an, les paysans font la corvée sur les terres du seigneur.","","Petit navire de guerre","c'est une corvette : les deux mots se ressemblent."],
+["dîme","h-ma","5e","Impôt versé à l'Église, environ un dixième des récoltes.","Le curé prélève la dîme sur le blé des paysans.","","Jour de repos de la semaine","c'est le dimanche : même début, sans lien de sens."],
+["monastère","h-ma","5e","Lieu où vivent des moines ou des moniales, à l'écart du monde, pour prier et travailler.","L'abbaye de Cluny, fondée en 910, est un grand monastère.","mona|stère:mono,-","Personne qui gouverne seule un royaume","c'est un monarque : même racine mono- (« seul »), mais pas le même sens."],
+["croisade","h-ma","5e","Expédition militaire de chrétiens d'Occident pour prendre Jérusalem et les lieux saints.","La première croisade part en 1096.","","Endroit où deux routes se coupent","c'est un croisement : même radical « crois- »."],
+["hégire","h-ma","5e","Départ de Mahomet de La Mecque vers Médine en 622 ; c'est le début du calendrier musulman.","L'an 1 de l'hégire correspond à l'année 622 de notre calendrier.","","Domination d'un pays sur les autres","c'est l'hégémonie : les deux mots commencent de la même façon."],
+["chrétienté","h-ma","5e","Ensemble des pays et des peuples chrétiens.","Au Moyen Âge, le pape veut guider toute la chrétienté.","","Cérémonie qui fait entrer dans l'Église","c'est le baptême : même thème religieux, mot différent."],
+
+["monarchie absolue","h-rev","4e","Régime où le roi détient tous les pouvoirs, qu'il dit tenir de Dieu.","Louis XIV incarne la monarchie absolue.","mon|archie| absolue:mono,archie,-","Régime dirigé par un petit groupe de riches","c'est l'oligarchie : -archie veut bien dire « pouvoir », mais mon- veut dire « un seul »."],
+["Lumières","h-rev","4e","Mouvement d'idées du XVIIIe siècle qui défend la raison, la liberté et la tolérance.","Voltaire et Montesquieu sont des philosophes des Lumières.","","Fête religieuse où l'on allume des bougies","c'est le sens courant de « lumière » ; en histoire, le mot désigne un mouvement d'idées."],
+["tiers état","h-rev","4e","Dans la France d'Ancien Régime, tous ceux qui n'appartiennent ni au clergé ni à la noblesse.","Le tiers état représente plus de 95 % de la population en 1789.","","Le tiers des habitants d'un pays","lecture mathématique de « tiers » : ici, tiers veut dire « troisième ordre »."],
+["privilège","h-rev","4e","Droit particulier réservé à certains groupes, comme la noblesse et le clergé.","Les nobles ont le privilège de ne pas payer la taille.","","Ce qui passe en premier","c'est une priorité : les deux mots commencent par « pri- »."],
+["cahier de doléances","h-rev","4e","Registre où les Français écrivent leurs plaintes et leurs souhaits en 1789.","Dans les cahiers de doléances, les paysans réclament la fin des droits seigneuriaux.","","Registre de messages après un décès","ce sont des condoléances : les deux mots se terminent pareil."],
+["souveraineté nationale","h-rev","4e","Principe selon lequel le pouvoir appartient à la nation, c'est-à-dire à l'ensemble des citoyens.","La Déclaration des droits de l'homme et du citoyen affirme la souveraineté nationale.","","Pouvoir du roi sur la nation","c'est l'inverse : en 1789, la souveraineté passe du roi à la nation."],
+["constitution","h-rev","4e","Texte qui fixe l'organisation des pouvoirs d'un État et les droits des citoyens.","En 1791, la France se dote de sa première constitution écrite.","","Résistance physique d'une personne","c'est un autre sens du mot (« avoir une solide constitution »)."],
+["régicide","h-rev","4e","Meurtre d'un roi ; aussi la personne qui le commet.","L'exécution de Louis XVI en 1793 est un régicide.","régi|cide:reg,cide","Produit qui tue les insectes","piège cité par Alain Lieury : c'est un insecticide, qui a le même suffixe -cide (« qui tue »)."],
+["abolition","h-rev","4e","Suppression officielle d'une loi, d'un droit ou d'une pratique.","L'abolition définitive de l'esclavage dans les colonies françaises date de 1848.","","Punition sévère d'une faute","abolir, ce n'est pas punir : c'est supprimer."],
+["suffrage universel","h-rev","4e","Droit de vote accordé à tous les citoyens adultes.","Le suffrage universel masculin est établi en 1848 ; les femmes votent pour la première fois en 1945.","suffrage |uni|versel:-,uni,-","Souffrance partagée par tout le monde","seule la sonorité de « suffrage » rappelle « souffrance »."],
+
+["industrialisation","h-xix","4e","Développement des usines et de la production en grande quantité grâce aux machines.","L'industrialisation transforme l'Europe au XIXe siècle.","","Qualité d'une personne qui travaille avec ardeur","c'est être industrieux, un adjectif ancien de la même famille."],
+["machine à vapeur","h-xix","4e","Machine qui transforme l'énergie de la vapeur d'eau chauffée en mouvement.","La machine à vapeur fait fonctionner les locomotives et les usines.","","Appareil qui produit de la vapeur pour repasser le linge","c'est un objet du quotidien ; en histoire, la machine à vapeur produit du mouvement."],
+["prolétaire","h-xix","4e","Ouvrier qui ne possède que sa force de travail et vit de son salaire.","Au XIXe siècle, beaucoup de prolétaires travaillent plus de 12 heures par jour.","","Personne qui parle trop longuement","c'est être prolixe : même début « pro- »."],
+["syndicat","h-xix","4e","Association de travailleurs qui défend leurs intérêts.","En 1884, une loi autorise les syndicats en France.","syn|dicat:syn,-","Ensemble des signes d'une maladie","c'est un syndrome : même préfixe syn- (« ensemble »)."],
+["colonie","h-xix","4e","Territoire dominé et exploité par un État étranger.","L'Algérie devient une colonie française à partir de 1830.","","Groupe d'enfants partis en vacances ensemble","c'est un autre sens courant du mot (« partir en colonie »)."],
+["colonisation","h-xix","4e","Conquête et domination d'un territoire et de sa population par un État étranger.","La colonisation de l'Afrique s'accélère à la fin du XIXe siècle.","","Construction de colonnes de pierre","c'est un faux rapprochement avec « colonne »."],
+["capitalisme","h-xix","4e","Système économique fondé sur la propriété privée des entreprises et la recherche du profit.","Le capitalisme se développe avec les banques et les grandes entreprises.","","Choix de la ville principale d'un pays","c'est un faux rapprochement avec « capitale »."],
+["émigration","h-xix","4e","Départ de personnes qui quittent leur pays pour s'installer ailleurs.","Au XIXe siècle, des millions d'Européens émigrent vers l'Amérique.","","Arrivée de personnes venues d'un autre pays","c'est l'immigration : é- (« hors de ») indique la sortie, im- (« dans ») l'entrée."],
+
+["guerre totale","h-xx","3e","Guerre qui mobilise toutes les forces d'un pays : soldats, civils, économie et propagande.","La Première Guerre mondiale devient une guerre totale.","","Guerre qui touche tous les pays du monde","« totale » ne veut pas dire « mondiale » : c'est toute la société qui est mobilisée."],
+["tranchée","h-xx","3e","Long fossé creusé pour protéger les soldats des tirs ennemis.","De 1915 à 1918, les soldats vivent dans les tranchées.","","Morceau coupé dans un pain","c'est une tranche : même radical, autre sens."],
+["armistice","h-xx","3e","Accord qui arrête les combats entre des armées.","L'armistice du 11 novembre 1918 met fin aux combats.","","Ensemble des armes d'un pays","c'est l'armement : même début « arm- »."],
+["génocide","h-xx","3e","Extermination volontaire et organisée d'un peuple ou d'un groupe humain.","Les nazis commettent le génocide des Juifs et des Tsiganes.","géno|cide:geno,cide","Science de l'hérédité","c'est la génétique, qui partage la racine gén- (« naissance, race »)."],
+["totalitarisme","h-xx","3e","Régime où l'État contrôle tout : la politique, l'économie, la pensée et la vie privée.","L'Allemagne nazie et l'URSS de Staline sont des régimes totalitaires.","","Calcul de la somme de plusieurs nombres","c'est un total : seul le début du mot est commun."],
+["propagande","h-xx","3e","Ensemble des moyens utilisés par un pouvoir pour imposer ses idées à la population.","Les affiches de propagande glorifient le chef.","","Promenade à pied","c'est une promenade : seule la sonorité est proche."],
+["déportation","h-xx","3e","Transfert forcé de personnes vers des camps, loin de chez elles.","Des dizaines de milliers de Juifs et de résistants de France sont victimes de la déportation.","","Départ d'un bateau qui quitte le port","faux rapprochement avec « port »."],
+["collaboration","h-xx","3e","Politique d'entente et d'aide à l'occupant allemand pendant la Seconde Guerre mondiale.","Le régime de Vichy choisit la collaboration avec l'Allemagne nazie.","","Travail d'équipe entre plusieurs personnes","c'est le sens courant ; en histoire, le mot désigne l'aide à l'occupant."],
+["résistance","h-xx","3e","Action de ceux qui luttent contre l'occupant et contre le régime de Vichy.","Jean Moulin unifie les mouvements de la Résistance intérieure.","","Composant qui freine le passage du courant","c'est un autre sens, en physique (la résistance électrique)."],
+["guerre froide","h-xx","3e","Affrontement indirect entre les États-Unis et l'URSS, de 1947 à 1991, sans guerre directe entre eux.","Le mur de Berlin est un symbole de la guerre froide.","","Guerre qui se déroule dans les régions polaires","lecture littérale de « froide » : ici, froide veut dire « sans combat direct »."],
+["décolonisation","h-xx","3e","Processus par lequel les colonies obtiennent leur indépendance.","La décolonisation de l'Afrique a lieu surtout dans les années 1950 et 1960.","dé|colonisation:de,-","Départ en vacances des enfants d'une colonie","faux rapprochement avec la « colonie de vacances »."],
+
+["équateur","g-rep","CM","Ligne imaginaire qui partage la Terre en deux moitiés, à égale distance des deux pôles.","Les pays situés près de l'équateur ont un climat chaud toute l'année.","équa|teur:equi,-","Pays d'Amérique du Sud","c'est l'Équateur, un pays traversé par cette ligne et nommé d'après elle."],
+["hémisphère","g-rep","CM","Chacune des deux moitiés de la Terre, séparées par l'équateur.","La France est située dans l'hémisphère Nord.","hémi|sphère:hemi,sphere","Boule de verre décorative","c'est une sphère : le mot ne dit pas « moitié »."],
+["pôle","g-rep","CM","Chacun des deux points extrêmes de l'axe autour duquel tourne la Terre.","Il fait très froid près des pôles.","","Pièce de bois plantée dans le sol","c'est un poteau : seule la sonorité est proche."],
+["planisphère","g-rep","CM","Carte qui représente toute la surface de la Terre à plat.","Sur le planisphère, les océans occupent la plus grande place.","plani|sphère:plani,sphere","Planète entourée d'anneaux","faux rapprochement avec « planète » : plani- veut dire « plat »."],
+["échelle","g-rep","CM","Rapport entre une distance mesurée sur la carte et la distance réelle.","À l'échelle 1/100 000, 1 cm sur la carte représente 1 km.","","Objet à barreaux pour monter","c'est le sens courant ; en géographie, l'échelle est un rapport de distances."],
+["légende","g-rep","CM","Encadré qui explique les couleurs et les symboles d'une carte.","Lis la légende avant d'interpréter la carte.","","Récit merveilleux transmis par la tradition","c'est un autre sens du mot, en français."],
+["relief","g-rep","CM","Ensemble des formes de la surface terrestre : montagnes, plaines, plateaux, vallées.","Le relief des Alpes est très élevé.","","Ce qui reste à la fin d'un repas","sens ancien (« les reliefs du repas »)."],
+["latitude","g-rep","6e","Position d'un lieu au nord ou au sud de l'équateur, mesurée en degrés.","Paris est situé à environ 49° de latitude nord.","","Liberté d'agir comme on le souhaite","autre sens du mot (« avoir toute latitude »)."],
+["longitude","g-rep","6e","Position d'un lieu à l'est ou à l'ouest d'une ligne de référence qui relie les pôles, mesurée en degrés.","La latitude et la longitude forment les coordonnées géographiques d'un lieu.","","Longueur d'un objet","faux rapprochement avec « longueur »."],
+["tropique","g-rep","6e","Chacune des deux lignes imaginaires, au nord et au sud de l'équateur, qui limitent la zone chaude.","Le tropique du Cancer est situé dans l'hémisphère Nord.","","Plante qui pousse dans les pays chauds","c'est une plante tropicale : le nom désigne une ligne, pas une plante."],
+["littoral","g-rep","6e","Zone de contact entre la terre et la mer.","Le littoral méditerranéen attire de nombreux touristes.","","Qui suit exactement le sens des mots","c'est « littéral », un paronyme : une seule lettre change."],
+
+["urbanisation","g-ville","6e","Augmentation de la part de la population qui vit en ville.","L'urbanisation est très rapide en Afrique.","urb|anisation:urb,-","Politesse dans les relations","c'est l'urbanité, un mot de la même famille au sens de « politesse »."],
+["métropole","g-ville","6e","Grande ville qui concentre la population, les activités et les fonctions de commandement.","Lyon est une métropole régionale.","métro|pole:metro,pole","Réseau de trains souterrains","c'est le métro, abréviation de « chemin de fer métropolitain »."],
+["agglomération","g-ville","6e","Ensemble formé par une ville et ses banlieues, sans interruption des constructions.","L'agglomération parisienne compte plus de 10 millions d'habitants.","","Embouteillage de voitures","faux rapprochement avec l'idée de foule ; le mot désigne un espace urbain."],
+["densité de population","g-ville","6e","Nombre moyen d'habitants par kilomètre carré.","La densité de population de la France est d'environ 120 habitants par km².","","Poids total d'une population","c'est une confusion avec la densité en physique."],
+["bidonville","g-ville","5e","Quartier d'habitations précaires construites avec des matériaux de récupération.","À Mumbai, des millions de personnes vivent dans des bidonvilles.","","Ville spécialisée dans le pétrole","faux rapprochement avec « bidon »."],
+["aménagement","g-ville","5e","Organisation d'un territoire par la construction d'équipements : routes, logements, parcs.","La création d'une ligne de tramway est un aménagement urbain.","","Changement de logement","c'est un déménagement : même radical « ménag- »."],
+["mégapole","g-ville","4e","Très grande ville de plus de 10 millions d'habitants.","Lagos et Tokyo sont des mégapoles.","méga|pole:mega,pole","Chaîne de grandes villes reliées sur des centaines de kilomètres","c'est une mégalopole, un mot très proche."],
+["périurbanisation","g-ville","4e","Extension de la ville sur les campagnes qui l'entourent, avec des lotissements et des zones d'activités.","La périurbanisation allonge les trajets en voiture.","péri|urb|anisation:peri,urb,-","Disparition d'une ville détruite","péri- ne veut pas dire « périr » mais « autour »."],
+["étalement urbain","g-ville","4e","Extension de la ville sur des espaces de plus en plus vastes, souvent au détriment des terres agricoles.","L'étalement urbain grignote les champs autour de Toulouse.","","Présentation de marchandises sur un étal","faux rapprochement avec l'étal du marché."],
+
+["développement durable","g-monde","5e","Développement qui répond aux besoins actuels sans compromettre ceux des générations futures.","Réduire ses déchets participe au développement durable.","","Croissance qui dure très longtemps sans s'arrêter","« durable » ne veut pas dire « sans fin » : il s'agit de préserver l'avenir."],
+["mondialisation","g-monde","4e","Mise en relation des différentes parties du monde par les échanges de marchandises, de personnes, de capitaux et d'informations.","Un téléphone assemblé en Asie avec des métaux venus d'Afrique est un produit de la mondialisation.","","Organisation d'une compétition mondiale","faux rapprochement avec « mondial »."],
+["flux","g-monde","4e","Déplacement de personnes, de marchandises, de capitaux ou d'informations d'un lieu à un autre.","Les flux de marchandises passent par le détroit de Malacca.","","Qui manque de netteté","c'est « flou » : les deux mots se ressemblent."],
+["interface","g-monde","4e","Zone de contact entre deux espaces différents, qui favorise les échanges.","La frontière entre le Mexique et les États-Unis est une interface.","inter|face:inter,-","Écran par lequel on utilise un logiciel","c'est le sens en informatique ; en géographie, c'est une zone de contact."],
+["conteneur","g-monde","4e","Grande caisse métallique de taille standard qui sert à transporter les marchandises.","Un grand porte-conteneurs peut transporter plus de 20 000 conteneurs.","","Personne qui raconte des histoires","c'est un conteur, qui se prononce presque pareil."],
+["firme transnationale","g-monde","4e","Grande entreprise qui produit et vend dans de nombreux pays.","Une firme transnationale peut avoir des usines sur trois continents.","firme |trans|nationale:-,trans,-","Entreprise de transport international","trans- veut dire « à travers » : ici, à travers les nations."],
+["façade maritime","g-monde","3e","Littoral où se succèdent de grands ports ouverts sur le monde.","La Northern Range est la principale façade maritime de l'Europe.","","Devant d'un immeuble au bord de la mer","lecture littérale de « façade »."],
+["délocalisation","g-monde","3e","Transfert d'une activité vers un autre pays, souvent où la main-d'œuvre coûte moins cher.","La délocalisation d'une usine textile vers le Bangladesh supprime des emplois en France.","","Perte du sens de l'orientation","c'est la désorientation : même préfixe, autre radical."],
+["IDH","g-monde","3e","Indice de développement humain : il combine l'espérance de vie, l'éducation et le niveau de vie.","La Norvège a l'un des IDH les plus élevés du monde.","","Indicateur du nombre d'habitants","le nombre d'habitants, c'est la population ; l'IDH mesure le développement."],
+
+["germination","s-cell","CM","Développement d'une graine qui donne une jeune plante.","La germination du haricot nécessite de l'eau, de l'air et une température favorable.","","Contamination par des microbes","faux rapprochement avec « germe » au sens de microbe."],
+["cellule","s-cell","6e","Plus petite unité du vivant ; tout être vivant est formé d'une ou de plusieurs cellules.","Au microscope, on observe les cellules de l'épiderme d'oignon.","","Petite pièce fermée d'une prison","c'est un autre sens du mot « cellule »."],
+["noyau","s-cell","6e","Partie de la cellule qui contient l'information génétique.","Au microscope, le noyau apparaît souvent plus sombre que le reste de la cellule.","","Partie dure au centre de certains fruits","c'est le sens courant ; en biologie, c'est un élément de la cellule."],
+["unicellulaire","s-cell","6e","Formé d'une seule cellule.","La paramécie est un être vivant unicellulaire.","uni|cellulaire:uni,-","Habillé de la même façon que les autres","c'est porter un uniforme : même préfixe uni- (« un »)."],
+["pluricellulaire","s-cell","6e","Formé de nombreuses cellules.","L'être humain est pluricellulaire : il compte des dizaines de milliers de milliards de cellules.","pluri|cellulaire:pluri,-","Qui a plusieurs couleurs","c'est multicolore : plusieurs couleurs, pas plusieurs cellules."],
+["micro-organisme","s-cell","6e","Être vivant si petit qu'on ne peut le voir qu'au microscope.","Les levures et les bactéries sont des micro-organismes.","micro|-organisme:micro,-","Petit appareil électronique","c'est un micro-ordinateur : même préfixe micro- (« petit »)."],
+["chlorophylle","s-cell","6e","Pigment vert des plantes qui capte la lumière pour la photosynthèse.","Les feuilles sont vertes grâce à la chlorophylle.","chloro|phylle:chloro,phylle","Produit qui désinfecte l'eau des piscines","c'est le chlore : même racine chlor- (« vert pâle »)."],
+["membrane","s-cell","5e","Fine enveloppe qui entoure la cellule et contrôle les échanges avec l'extérieur.","Le dioxygène traverse la membrane pour entrer dans la cellule.","","Partie d'un tambour qui vibre","c'est un autre sens du mot (la peau tendue du tambour)."],
+["cytoplasme","s-cell","5e","Contenu de la cellule, situé entre la membrane et le noyau.","Les chloroplastes se trouvent dans le cytoplasme des cellules végétales.","cyto|plasme:cyto,-","Matière qu'on moule pour fabriquer des objets","faux rapprochement avec « plastique »."],
+["photosynthèse","s-cell","5e","Fabrication de matière par les plantes vertes à partir de lumière, d'eau et de dioxyde de carbone ; elle rejette du dioxygène.","Grâce à la photosynthèse, les feuilles produisent du dioxygène.","photo|synthèse:photo,synth","Montage de plusieurs photographies","photo- veut dire « lumière », pas « photographie »."],
+
+["digestion","s-corps","5e","Transformation des aliments en nutriments dans le tube digestif.","La digestion commence dans la bouche avec la salive.","","Fait de bien comprendre une information","c'est un sens figuré (« digérer une nouvelle »)."],
+["nutriment","s-corps","5e","Petite molécule issue de la digestion, qui passe dans le sang.","Le glucose est un nutriment.","","Femme qui garde et nourrit un bébé","c'est une nourrice : même famille d'origine, autre sens."],
+["absorption intestinale","s-corps","5e","Passage des nutriments de l'intestin grêle vers le sang.","L'absorption intestinale est facilitée par les nombreux replis de l'intestin grêle.","","Fait de boire beaucoup d'eau","c'est le sens courant de « absorber »."],
+["enzyme","s-corps","5e","Molécule qui accélère une transformation chimique, comme la digestion d'un aliment.","L'amylase de la salive est une enzyme qui digère l'amidon.","","Maladie qui irrite la peau","c'est l'eczéma : seule la sonorité est proche."],
+["alvéole pulmonaire","s-corps","5e","Petit sac des poumons où le dioxygène passe de l'air au sang.","Les échanges gazeux ont lieu dans les alvéoles pulmonaires.","","Petite case de cire d'une ruche","c'est un autre sens du mot « alvéole »."],
+["artère","s-corps","5e","Vaisseau qui transporte le sang du cœur vers les organes.","L'aorte est la plus grosse artère du corps.","","Personne qui crée des œuvres","c'est un artiste : seul le début du mot est commun."],
+["veine","s-corps","5e","Vaisseau qui ramène le sang des organes vers le cœur.","Les veines du poignet sont visibles sous la peau.","","Chance inattendue","c'est un sens familier (« avoir de la veine »)."],
+["capillaire","s-corps","5e","Vaisseau sanguin très fin où se font les échanges entre le sang et les cellules.","Les capillaires relient les artères aux veines.","","Produit de soin pour les cheveux","c'est le sens courant (« soin capillaire ») ; le mot vient du latin capillus, « cheveu », car ces vaisseaux sont fins comme des cheveux."],
+["globule rouge","s-corps","5e","Cellule du sang qui transporte le dioxygène.","Les globules rouges contiennent de l'hémoglobine, qui fixe le dioxygène.","","Cellule du sang qui combat les microbes","c'est le globule blanc."],
+["neurone","s-corps","4e","Cellule du système nerveux qui transmet des messages.","Les neurones communiquent entre eux par des milliards de connexions.","","Personne très anxieuse","faux rapprochement avec « nerveux »."],
+
+["chaîne alimentaire","s-eco","CM","Suite d'êtres vivants dans laquelle chacun est mangé par le suivant.","Herbe → lapin → renard est une chaîne alimentaire.","","Usine qui fabrique des aliments","c'est une chaîne de production."],
+["carnivore","s-eco","CM","Animal qui se nourrit de la chair d'autres animaux.","Le loup est carnivore.","carni|vore:carn,vore","Fête où l'on se déguise","c'est le carnaval : même début « carn- »."],
+["herbivore","s-eco","CM","Animal qui se nourrit de végétaux.","La vache est herbivore.","herbi|vore:herb,vore","Animal qui mange de tout","c'est un omnivore : omni- veut dire « tout »."],
+["biodiversité","s-eco","6e","Diversité des êtres vivants et des milieux de vie.","La forêt amazonienne abrite une biodiversité exceptionnelle.","bio|diversité:bio,-","Variété de produits issus de l'agriculture biologique","bio- veut dire « vie », pas « agriculture biologique »."],
+["producteur primaire","s-eco","6e","Être vivant qui fabrique sa propre matière, comme les végétaux chlorophylliens.","Les algues sont les producteurs primaires des océans.","","Personne qui finance un film","c'est le sens courant de « producteur »."],
+["décomposeur","s-eco","6e","Être vivant qui transforme la matière morte en matière minérale.","Les champignons et les bactéries du sol sont des décomposeurs.","dé|composeur:de,-","Personne qui écrit de la musique","c'est un compositeur : les deux mots se ressemblent."],
+["fossile","s-eco","6e","Reste ou trace d'un être vivant conservé dans une roche.","Les ammonites fossiles indiquent un ancien milieu marin.","","Trou creusé dans le sol","c'est une fosse : même origine latine (« creuser »), autre sens."],
+["écosystème","s-eco","5e","Ensemble formé par un milieu de vie, les êtres vivants qui y vivent et leurs relations.","Une mare est un écosystème.","éco|système:eco,-","Méthode pour faire des économies","c'est l'économie : même racine éco- (« maison »)."],
+["érosion","s-eco","5e","Usure et destruction progressive des roches par l'eau, le vent ou la glace.","L'érosion fait reculer les falaises du littoral.","","Attaque d'un métal par la rouille","c'est la corrosion : les deux mots se terminent pareil."],
+["plaque tectonique","s-eco","4e","Grand morceau rigide de la surface de la Terre, qui se déplace lentement.","L'Himalaya est né de la collision de deux plaques tectoniques.","plaque |tecton|ique:-,tecton,-","Mouvement de danse très rapide","faux rapprochement avec une danse à la mode dans les années 2000."],
+["séisme","s-eco","4e","Tremblement de terre causé par une rupture brutale des roches en profondeur.","Le Japon subit de nombreux séismes chaque année.","séis|me:sism,-","Division d'un groupe en deux camps opposés","c'est un schisme : les deux mots se ressemblent à l'oral."],
+["magma","s-eco","4e","Roche fondue, à très haute température, présente en profondeur.","Lors d'une éruption, le magma sort du volcan sous forme de lave.","","Homme d'affaires très puissant","c'est un magnat : une seule lettre change."],
+
+["chromosome","s-gen","3e","Élément du noyau, formé d'ADN, qui porte les gènes.","L'être humain possède 46 chromosomes dans la plupart de ses cellules.","chromo|some:chromo,soma","Instrument qui mesure le temps","c'est un chronomètre : chromo- (« couleur ») et chrono- (« temps ») se ressemblent."],
+["gène","s-gen","3e","Portion d'ADN qui contient l'information d'un caractère héréditaire.","Le gène du groupe sanguin existe en plusieurs versions : A, B et O.","","Sentiment de malaise","c'est la gêne, avec un accent circonflexe."],
+["allèle","s-gen","3e","Version d'un gène.","Les allèles A, B et O déterminent le groupe sanguin.","","Chemin bordé d'arbres","c'est une allée : seule la sonorité est proche."],
+["ADN","s-gen","3e","Molécule qui porte l'information génétique dans le noyau des cellules.","L'ADN est formé de deux brins enroulés en double hélice.","","Liquide qui circule dans les vaisseaux","c'est le sang ; l'ADN se trouve dans les cellules."],
+["caryotype","s-gen","3e","Image des chromosomes d'une cellule, classés par paires.","Le caryotype permet de repérer une trisomie 21.","caryo|type:caryo,typ","Ensemble des traits de personnalité","c'est le caractère : seul le début est proche."],
+["mutation","s-gen","3e","Modification de l'ADN d'un gène, qui peut créer un nouvel allèle.","Une mutation peut rendre une bactérie résistante à un antibiotique.","","Changement de poste d'un employé","c'est un autre sens du mot (« être muté »)."],
+["bactérie","s-gen","3e","Être vivant formé d'une seule cellule, sans noyau.","Certaines bactéries de l'intestin aident à la digestion.","","Réserve d'énergie électrique","c'est une batterie : seule la sonorité est proche."],
+["virus","s-gen","3e","Agent infectieux qui ne peut se multiplier qu'à l'intérieur d'une cellule.","La grippe est causée par un virus.","","Bactérie très résistante","un virus n'est pas une bactérie : il n'est pas formé de cellule."],
+["anticorps","s-gen","3e","Molécule produite par certains globules blancs, qui neutralise un microbe précis.","Après un vaccin, l'organisme produit des anticorps.","anti|corps:anti,-","Partie avant du corps","anti- veut dire « contre », pas « avant » (qui se dit ante-)."],
+["vaccin","s-gen","3e","Produit qui prépare le système immunitaire à reconnaître un microbe sans provoquer la maladie.","Le vaccin contre la rougeole se fait dans l'enfance.","","Médicament qui tue les bactéries","c'est un antibiotique."],
+["antibiotique","s-gen","3e","Médicament qui détruit les bactéries ou bloque leur multiplication ; il est sans effet sur les virus.","Les antibiotiques ne soignent pas la grippe.","anti|bio|tique:anti,bio,-","Médicament qui protège des virus","faux : les antibiotiques n'agissent pas sur les virus."],
+["phagocytose","s-gen","3e","Capture et destruction d'un microbe par certains globules blancs.","La phagocytose est une réaction rapide de l'organisme.","phago|cyt|ose:phago,cyto,-","Peur excessive des microbes","ce serait un mot en -phobie : phago- veut dire « manger »."],
+
+["molécule","p-mat","5e","Groupe d'atomes liés entre eux.","Une molécule d'eau est formée de deux atomes d'hydrogène et d'un atome d'oxygène.","","Grosse dent du fond de la bouche","c'est une molaire : même début « mol- »."],
+["fusion","p-mat","5e","Passage de l'état solide à l'état liquide.","La fusion de la glace a lieu à 0 °C.","","Passage de l'état liquide à l'état solide","c'est l'inverse : la solidification."],
+["solidification","p-mat","5e","Passage de l'état liquide à l'état solide.","Au congélateur, l'eau se solidifie en glace.","","Renforcement d'un mur qui menace de tomber","c'est le sens courant de « rendre solide »."],
+["vaporisation","p-mat","5e","Passage de l'état liquide à l'état gazeux.","L'ébullition est une vaporisation rapide.","","Pulvérisation de parfum","c'est le sens courant de « vaporiser »."],
+["condensation","p-mat","5e","Passage de l'état gazeux à l'état liquide.","La buée sur une vitre froide vient de la condensation de la vapeur d'eau.","","Résumé très court d'un texte","c'est un condensé : même famille, autre sens."],
+["solution","p-mat","5e","Mélange homogène obtenu en dissolvant une substance dans un liquide.","L'eau sucrée est une solution.","","Réponse à un problème","c'est le sens courant de « solution »."],
+["soluté","p-mat","5e","Substance qui se dissout dans un liquide.","Dans l'eau salée, le sel est le soluté.","","Liquide dans lequel on dissout une substance","c'est le solvant."],
+["solvant","p-mat","5e","Liquide dans lequel on dissout une substance.","L'eau est le solvant le plus courant.","","Substance qui se dissout dans un liquide","c'est le soluté."],
+["mélange homogène","p-mat","5e","Mélange dans lequel on ne distingue pas les constituants à l'œil nu.","L'eau salée est un mélange homogène.","mélange |homo|gène:-,homo,geno","Mélange dont on distingue les constituants","c'est un mélange hétérogène : hétéro- veut dire « autre », homo- « même »."],
+["atome","p-mat","4e","Très petite particule qui constitue la matière ; les atomes s'assemblent pour former les molécules.","Le carbone, l'hydrogène et l'oxygène sont des atomes.","","Bombe très destructrice","faux rapprochement avec la « bombe atomique »."],
+["masse volumique","p-mat","4e","Masse d'un volume donné d'une substance, par exemple en g/cm³.","La masse volumique de l'eau liquide est d'environ 1 g/cm³.","","Volume total occupé par un objet","c'est une confusion entre masse et volume."],
+
+["trajectoire","p-ener","6e","Ensemble des positions successives occupées par un objet en mouvement.","La trajectoire d'un ballon lancé est une courbe.","","Durée d'un trajet","c'est une confusion entre le chemin parcouru et le temps."],
+["circuit en série","p-ener","5e","Circuit électrique dans lequel les composants forment une seule boucle.","Dans un circuit en série, si une lampe grille, les autres s'éteignent.","","Course automobile disputée plusieurs fois","c'est le sens sportif de « circuit »."],
+["dipôle","p-ener","5e","Composant électrique qui possède deux points de branchement.","Une lampe, une pile et un moteur sont des dipôles.","di|pôle:di,-","Région située près des deux pôles de la Terre","lecture géographique de « pôle » : ici, les deux pôles sont les deux points de branchement."],
+["conducteur","p-ener","5e","Matériau qui laisse passer le courant électrique.","Le cuivre est un bon conducteur.","","Personne qui dirige un véhicule","c'est le sens courant de « conducteur »."],
+["isolant","p-ener","5e","Matériau qui ne laisse pas passer le courant électrique.","Le plastique qui entoure les fils électriques est un isolant.","","Personne qui vit seule","c'est une personne isolée."],
+["énergie renouvelable","p-ener","5e","Énergie produite à partir d'une source qui se reconstitue rapidement : soleil, vent, eau.","Les éoliennes produisent une énergie renouvelable.","","Énergie qu'on peut racheter quand elle est épuisée","lecture littérale de « renouveler »."],
+["tension électrique","p-ener","4e","Grandeur électrique mesurée en volts (V) avec un voltmètre.","Une pile plate a une tension de 4,5 V.","","Désaccord entre deux personnes","c'est le sens courant de « tension »."],
+["intensité du courant","p-ener","4e","Grandeur qui mesure le débit du courant électrique, en ampères (A), avec un ampèremètre.","Dans un circuit en série, l'intensité est la même en tout point.","","Volume sonore d'une enceinte","c'est un sens courant de « intensité »."],
+["énergie cinétique","p-ener","3e","Énergie que possède un objet du fait de sa vitesse.","Plus une voiture roule vite, plus son énergie cinétique est grande.","énergie |ciné|tique:-,kine,-","Énergie utilisée dans les salles de cinéma","ciné- veut dire « mouvement » : le cinéma, ce sont des images en mouvement."],
+["gravitation","p-ener","3e","Attraction qui s'exerce entre tous les objets qui ont une masse.","La gravitation retient la Lune autour de la Terre.","grav|itation:grav,-","Action de graver un dessin","c'est une gravure : même début « grav- », autre origine."],
+["poids","p-ener","3e","Force d'attraction exercée par la Terre sur un objet ; il se mesure en newtons (N).","Sur la Lune, ton poids est environ six fois plus faible que sur Terre, mais ta masse ne change pas.","","Quantité de matière d'un objet, en kilogrammes","c'est la masse, à ne pas confondre avec le poids."],
+
+["parallèles","m-geo","CM","Se dit de droites qui ne se coupent jamais.","Les rails d'une voie ferrée sont parallèles.","para|llèles:para,-","Se dit de droites qui se coupent à angle droit","ce sont des droites perpendiculaires."],
+["perpendiculaires","m-geo","CM","Se dit de deux droites qui se coupent en formant un angle droit.","Les bords d'une feuille A4 sont perpendiculaires.","","Se dit d'une droite verticale","perpendiculaire ne veut pas dire vertical : deux droites penchées peuvent être perpendiculaires."],
+["polygone","m-geo","CM","Figure fermée formée de segments.","Le triangle et l'hexagone sont des polygones.","poly|gone:poly,gone","Figure fermée formée de lignes courbes","un polygone n'a que des côtés droits."],
+["quadrilatère","m-geo","CM","Polygone à quatre côtés.","Le carré, le losange et le trapèze sont des quadrilatères.","quadri|latère:quadri,lat","Figure à quatre angles droits","c'est le rectangle, un quadrilatère particulier."],
+["périmètre","m-geo","CM","Longueur du contour d'une figure.","Le périmètre d'un carré de 3 cm de côté est 12 cm.","péri|mètre:peri,metre","Mesure de la surface d'une figure","c'est l'aire."],
+["aire","m-geo","CM","Mesure de la surface d'une figure.","L'aire d'un rectangle de 4 cm sur 3 cm est 12 cm².","","Longueur du contour d'une figure","c'est le périmètre."],
+["diagonale","m-geo","6e","Segment qui relie deux sommets non consécutifs d'un polygone.","Les diagonales d'un rectangle ont la même longueur.","dia|gonale:dia,gone","Segment qui relie deux sommets consécutifs","c'est un côté du polygone."],
+["médiatrice","m-geo","6e","Droite perpendiculaire à un segment qui passe par son milieu.","Tout point de la médiatrice est à égale distance des extrémités du segment.","médi|atrice:medi,-","Personne qui aide à régler un conflit","c'est un autre sens, hors des mathématiques."],
+["symétrie axiale","m-geo","6e","Transformation qui associe à une figure son image par pliage le long d'une droite, l'axe.","Par symétrie axiale, une figure garde sa forme et ses dimensions.","","Rotation d'une figure autour d'un point","c'est une rotation (ou une symétrie centrale)."],
+["bissectrice","m-geo","5e","Demi-droite qui partage un angle en deux angles égaux.","La bissectrice d'un angle de 60° le partage en deux angles de 30°.","bi|ssect|rice:bi,sect,-","Droite qui coupe un segment en son milieu, perpendiculairement","c'est la médiatrice."],
+["parallélogramme","m-geo","5e","Quadrilatère dont les côtés opposés sont parallèles deux à deux.","Les diagonales d'un parallélogramme se coupent en leur milieu.","","Quadrilatère qui a quatre côtés de même longueur","c'est le losange, un parallélogramme particulier."],
+["hypoténuse","m-geo","4e","Dans un triangle rectangle, côté opposé à l'angle droit ; c'est le plus long.","Le théorème de Pythagore permet de calculer l'hypoténuse.","hypo|ténuse:hypo,-","Idée qu'on n'a pas encore prouvée","c'est une hypothèse : même préfixe hypo- (« sous »)."],
+
+["numérateur","m-num","CM","Nombre écrit au-dessus de la barre d'une fraction.","Dans 3/4, le numérateur est 3.","numér|ateur:numer,-","Nombre écrit au-dessous de la barre d'une fraction","c'est le dénominateur."],
+["dénominateur","m-num","CM","Nombre écrit au-dessous de la barre d'une fraction : il indique en combien de parts égales on partage l'unité.","Dans 3/4, le dénominateur est 4.","","Personne qui dénonce","c'est un dénonciateur : même début « déno- »."],
+["quotient","m-num","CM","Résultat d'une division.","Le quotient de 20 par 4 est 5.","","Ce qui se passe chaque jour","c'est le quotidien : même début « quot- »."],
+["multiple","m-num","CM","Nombre obtenu en multipliant un nombre entier par un autre nombre entier.","24 est un multiple de 6.","","Nombre qui divise exactement un autre nombre","c'est un diviseur."],
+["diviseur","m-num","6e","Nombre entier qui divise un autre nombre sans reste.","5 est un diviseur de 35.","","Résultat d'une division","c'est le quotient."],
+["proportionnalité","m-num","6e","Relation entre deux grandeurs où l'on passe de l'une à l'autre en multipliant toujours par le même nombre.","Le prix payé est proportionnel au nombre de baguettes achetées.","","Équilibre harmonieux des parties du corps","c'est le sens courant de « proportions »."],
+["pourcentage","m-num","6e","Proportion exprimée sur 100.","20 % de 50 €, c'est 10 €.","","Somme d'argent gagnée sur une vente","c'est une commission : elle peut s'exprimer en pourcentage, mais ce n'est pas la définition."],
+["nombre premier","m-num","5e","Nombre entier qui a exactement deux diviseurs : 1 et lui-même.","2, 3, 5, 7 et 11 sont des nombres premiers.","","Premier nombre d'une liste","lecture littérale de « premier »."],
+["probabilité","m-num","5e","Nombre compris entre 0 et 1 qui mesure la chance qu'un événement se produise.","La probabilité d'obtenir 6 avec un dé équilibré est 1/6.","","Qualité d'une personne honnête","c'est la probité : seul le début est commun."],
+["équation","m-num","4e","Égalité qui contient une ou plusieurs inconnues.","La solution de l'équation 2x + 3 = 11 est 4.","équa|tion:equi,-","Ligne imaginaire qui partage la Terre","c'est l'équateur : même racine équ- (« égal »)."],
+["puissance","m-num","4e","Produit d'un nombre par lui-même plusieurs fois.","2⁵ se lit « 2 puissance 5 » et vaut 2 × 2 × 2 × 2 × 2 = 32.","","Force physique d'un athlète","c'est le sens courant de « puissance »."],
+["fonction","m-num","3e","Processus qui associe à chaque nombre un unique nombre, appelé son image.","Pour la fonction f(x) = 2x, l'image de 3 est 6.","","Poste occupé par quelqu'un dans une entreprise","c'est le sens courant de « fonction »."],
+
+["narrateur","f-rec","6e","Celui qui raconte l'histoire ; il peut être un personnage ou rester extérieur au récit.","Dans ce roman, le narrateur raconte son enfance à la première personne.","","Écrivain qui a signé le livre","c'est l'auteur : il ne se confond pas forcément avec le narrateur."],
+["péripétie","f-rec","6e","Événement imprévu qui change la situation des personnages.","Le naufrage est une péripétie du récit.","","Long voyage autour d'une région","c'est un périple : les deux mots commencent par « péri- »."],
+["dénouement","f-rec","6e","Fin d'un récit, où l'intrigue se résout.","Au dénouement, le héros retrouve enfin sa famille.","","Fait de défaire un nœud","c'est le sens propre de « dénouer »."],
+["strophe","f-rec","6e","Groupe de vers séparé des autres par un blanc.","Ce sonnet compte quatre strophes.","","Ligne d'un poème","c'est un vers."],
+["comparaison","f-rec","6e","Figure de style qui rapproche deux éléments à l'aide d'un outil (comme, pareil à, ressembler à).","« Ses yeux brillaient comme des étoiles » est une comparaison.","","Figure qui rapproche deux éléments sans outil de comparaison","c'est la métaphore."],
+["champ lexical","f-rec","6e","Ensemble des mots qui se rapportent à un même thème.","« Vague, écume, marée » appartiennent au champ lexical de la mer.","","Ensemble des mots construits sur le même radical","c'est une famille de mots."],
+["métaphore","f-rec","5e","Figure de style qui rapproche deux éléments sans outil de comparaison.","« Ses yeux sont des étoiles » est une métaphore.","","Corps céleste qui traverse le ciel","c'est un météore : même début « mét- »."],
+["personnification","f-rec","5e","Figure de style qui donne des caractéristiques humaines à un animal, un objet ou une idée.","« Le vent hurlait sa colère » est une personnification.","","Description du caractère d'un personnage","c'est le portrait moral : faux rapprochement avec « personnalité »."],
+["hyperbole","f-rec","4e","Figure de style qui exagère pour frapper l'esprit.","« Je meurs de faim » est une hyperbole.","hyper|bole:hyper,-","Figure qui adoucit une idée pour la rendre moins brutale","c'est l'euphémisme, le contraire de l'exagération."],
+["focalisation interne","f-rec","4e","Point de vue où l'histoire est racontée à travers les yeux et les pensées d'un personnage.","En focalisation interne, le lecteur ne sait que ce que voit et pense le personnage.","","Capacité à bien se concentrer","c'est le sens courant de « se focaliser »."],
+["alexandrin","f-rec","4e","Vers de douze syllabes.","Racine écrit ses tragédies en alexandrins.","","Habitant d'Alexandrie","c'est le sens premier du mot, hors de la poésie."],
+
+["synonyme","f-lex","CM","Mot qui a un sens proche d'un autre mot.","« Débuter » est un synonyme de « commencer ».","syn|onyme:syn,onyme","Mot de sens contraire","c'est un antonyme."],
+["antonyme","f-lex","CM","Mot de sens contraire.","« Chaud » est l'antonyme de « froid ».","ant|onyme:anti,onyme","Mot qui se prononce comme un autre mais n'a pas le même sens","c'est un homonyme."],
+["homonyme","f-lex","CM","Mot qui se prononce (ou s'écrit) comme un autre mot, mais n'a pas le même sens.","« Serf » et « cerf » sont des homonymes.","hom|onyme:homo,onyme","Mot qui a un sens proche d'un autre","c'est un synonyme."],
+["radical","f-lex","CM","Partie d'un mot qui porte le sens principal et qu'on retrouve dans toute sa famille.","Dans « terrain, terrestre, enterrer », le radical est « terr- ».","","Qui a des idées extrêmes","c'est le sens courant de « radical »."],
+["préfixe","f-lex","CM","Élément placé avant le radical pour former un nouveau mot.","Dans « défaire », « dé- » est un préfixe.","pré|fixe:pre,-","Élément placé après le radical","c'est un suffixe."],
+["suffixe","f-lex","CM","Élément placé après le radical pour former un nouveau mot.","Dans « jardinier », « -ier » est un suffixe.","","Ce qui est en quantité assez grande","faux rapprochement avec « suffire »."],
+["polysémie","f-lex","6e","Fait, pour un mot, d'avoir plusieurs sens.","Le mot « cellule » est polysémique : il désigne une pièce de prison ou une unité du vivant.","poly|sémie:poly,sem","Fait de parler plusieurs langues","c'est être polyglotte : même préfixe poly-."],
+["étymologie","f-lex","6e","Origine et histoire d'un mot.","L'étymologie de « démocratie » est grecque : dêmos, le peuple, et kratos, le pouvoir.","étymo|logie:etymo,logie","Étude des insectes","c'est l'entomologie : les deux mots se ressemblent."],
+["néologisme","f-lex","4e","Mot nouvellement créé.","« Courriel » est un néologisme créé pour remplacer « e-mail ».","néo|logisme:neo,logie","Mot ancien qu'on n'utilise plus","c'est un archaïsme, le contraire."],
+["connotation","f-lex","3e","Sens supplémentaire, souvent affectif, qu'un mot évoque en plus de son sens premier.","Le mot « rouge » peut avoir une connotation de danger ou de passion.","","Sens premier d'un mot, celui du dictionnaire","c'est la dénotation."],
+
+["thèse","f-arg","4e","Opinion que l'on défend dans un texte argumentatif.","La thèse de l'auteur est que la lecture rend libre.","","Fait précis qui illustre une idée","c'est un exemple."],
+["argument","f-arg","4e","Raison avancée pour justifier une thèse.","Un bon argument est appuyé par un exemple précis.","","Dispute bruyante entre deux personnes","c'est une querelle : argumenter, ce n'est pas se disputer."],
+["objection","f-arg","4e","Argument opposé à une thèse.","Il répond à l'objection de son adversaire.","","Chose qu'on peut toucher","faux rapprochement avec « objet »."],
+["connecteur logique","f-arg","4e","Mot qui indique le lien entre deux idées : cause, conséquence, opposition…","« Donc », « car » et « pourtant » sont des connecteurs logiques.","","Câble qui relie deux appareils","c'est le sens courant de « connecteur »."],
+["implicite","f-arg","4e","Qui n'est pas dit directement mais qu'on peut comprendre.","Le message implicite de l'affiche est qu'il faut économiser l'eau.","","Qui est dit clairement","c'est explicite, le contraire."],
+["concession","f-arg","3e","Fait de reconnaître une part de vérité à l'opinion adverse avant de la nuancer.","« Certes, les écrans divertissent, mais ils fatiguent les yeux » contient une concession.","","Emplacement acheté dans un cimetière","c'est un autre sens du mot, hors de l'argumentation."],
+["réfutation","f-arg","3e","Fait de démontrer qu'une thèse ou un argument est faux.","Sa réfutation s'appuie sur des chiffres précis.","","Opinion que les autres ont de quelqu'un","c'est la réputation : une seule lettre change."],
+
+["citoyenneté","e-rep","6e","Ensemble des droits et des devoirs d'un citoyen.","Voter est un acte de citoyenneté.","","Ensemble des habitants d'une ville","ce sont les citadins."],
+["laïcité","e-rep","5e","Principe qui sépare l'État et les religions, et garantit à chacun la liberté de croire ou de ne pas croire.","La loi de 1905 fonde la laïcité en France.","","Interdiction de toutes les religions","contresens fréquent : la laïcité protège la liberté de conscience."],
+["discrimination","e-rep","5e","Traitement inégal et défavorable d'une personne en raison de son origine, de son sexe, de son handicap…","Refuser un logement à cause de l'origine est une discrimination punie par la loi.","","Capacité à distinguer deux sons proches","c'est un sens technique (la discrimination auditive), hors de l'EMC."],
+["préjugé","e-rep","5e","Opinion toute faite, souvent négative, formée sans connaître vraiment.","Les préjugés peuvent conduire à la discrimination.","pré|jugé:pre,-","Décision rendue par un tribunal","c'est un jugement : pré- veut dire « avant », on juge avant de connaître."],
+["séparation des pouvoirs","e-rep","4e","Principe qui confie les pouvoirs législatif, exécutif et judiciaire à des institutions différentes.","Montesquieu défend la séparation des pouvoirs.","","Concentration de tous les pouvoirs entre les mains d'un seul","c'est l'inverse : le pouvoir absolu."],
+["pouvoir législatif","e-rep","4e","Pouvoir de voter les lois ; en France, il appartient au Parlement.","L'Assemblée nationale et le Sénat exercent le pouvoir législatif.","pouvoir |légis|latif:-,leg,-","Pouvoir de juger les délits","c'est le pouvoir judiciaire."],
+["pouvoir exécutif","e-rep","4e","Pouvoir de faire appliquer les lois et de gouverner.","Le président de la République et le gouvernement exercent le pouvoir exécutif.","","Pouvoir de voter les lois","c'est le pouvoir législatif."],
+["pouvoir judiciaire","e-rep","4e","Pouvoir de rendre la justice, exercé par les juges et les tribunaux.","Le pouvoir judiciaire doit être indépendant du gouvernement.","","Pouvoir de faire appliquer les lois","c'est le pouvoir exécutif."],
+["référendum","e-rep","3e","Vote par lequel les citoyens répondent par oui ou par non à une question.","En 2005, les Français ont rejeté par référendum le traité constitutionnel européen.","","Adulte chargé d'accompagner un élève","c'est un référent : même début « réf- »."],
+
+["algorithme","t-sys","5e","Suite ordonnée d'instructions qui permet de résoudre un problème.","Une recette de cuisine ressemble à un algorithme.","","Battement régulier d'une musique","c'est un rythme : la fin du mot se ressemble."],
+["capteur","t-sys","5e","Composant qui recueille une information : lumière, température, présence…","Un capteur de luminosité déclenche l'éclairage public.","capt|eur:capt,-","Composant qui produit une action, comme un moteur","c'est un actionneur."],
+["actionneur","t-sys","5e","Composant qui agit sur l'environnement : moteur, lampe, buzzer…","Le moteur du portail automatique est un actionneur.","","Personne qui possède des parts d'une entreprise","c'est un actionnaire : seule la fin change."],
+["cahier des charges","t-sys","5e","Document qui décrit les besoins et les contraintes qu'un objet doit respecter.","Le cahier des charges impose une autonomie de 8 heures.","","Registre des dépenses d'un logement","faux rapprochement avec les « charges » à payer."],
+["boucle","t-sys","5e","Instruction qui fait répéter une suite d'actions.","Une boucle « répéter 10 fois » évite d'écrire dix fois la même instruction.","","Instruction qui teste une condition (si… alors)","c'est une instruction conditionnelle."],
+["variable","t-sys","4e","Dans un programme, case nommée qui stocke une valeur pouvant changer.","La variable « score » augmente de 1 à chaque bonne réponse.","","Valeur qui ne change jamais","c'est une constante, le contraire."],
+["prototype","t-sys","4e","Premier modèle d'un objet, fabriqué pour être testé avant la production.","Les élèves impriment un prototype en 3D pour le tester.","proto|type:proto,typ","Objet fabriqué en grande série","c'est l'inverse : le prototype est le premier exemplaire."]
+];
+
+/* Éléments de formation : [forme, sens, origine] */
+const ROOTS = {
+demo:["démo-","peuple","grec dêmos"], cratie:["-cratie","pouvoir","grec kratos"], poly:["poly-","plusieurs, nombreux","grec polus"],
+theo:["thé(o)-","dieu","grec theos"], mono:["mono-","seul, un seul","grec monos"], archie:["-archie","commandement, pouvoir","grec arkhê"],
+reg:["régi-","roi","latin rex, regis"], cide:["-cide","qui tue","latin caedere, « tuer »"], geno:["gén(o)-, -gène","naissance, origine, race","grec genos"],
+syn:["syn-, sym-","avec, ensemble","grec sun"], de:["dé-","séparation, inversion","latin de-, dis-"], equi:["équ(i)-, équa-","égal","latin aequus"],
+hemi:["hémi-","moitié","grec hêmi"], sphere:["-sphère","boule","grec sphaira"], plani:["plani-","plat","latin planus"],
+uni:["uni-","un seul","latin unus"], urb:["urb-","ville","latin urbs"], metro:["métro-","mère","grec mêtêr"],
+pole:["-pole","ville, cité","grec polis"], mega:["még(a)-","grand","grec megas"], peri:["péri-","autour","grec peri"],
+inter:["inter-","entre","latin inter"], trans:["trans-","à travers, au-delà","latin trans"], cyto:["cyt(o)-","cellule","grec kutos"],
+pluri:["pluri-","plusieurs","latin plures"], micro:["micro-","petit","grec mikros"], photo:["photo-","lumière","grec phôs, phôtos"],
+synth:["-synthèse","assemblage, fabrication","grec sunthesis"], chloro:["chlor(o)-","vert pâle","grec khlôros"], phylle:["-phylle","feuille","grec phullon"],
+eco:["éco-","maison, milieu de vie","grec oikos"], bio:["bio-","vie","grec bios"], carn:["carni-","chair, viande","latin caro, carnis"],
+herb:["herbi-","herbe, végétal","latin herba"], vore:["-vore","qui mange","latin vorare"], tecton:["tecton-","construction","grec tektôn, « charpentier »"],
+sism:["séis-, sism(o)-","secousse","grec seismos"], chromo:["chromo-","couleur","grec khrôma"], soma:["-some","corps","grec sôma"],
+caryo:["caryo-","noyau","grec karuon"], typ:["-type","modèle, empreinte","grec tupos"], anti:["anti-, ant-","contre","grec anti"],
+phago:["phago-","manger","grec phagein"], homo:["homo-, hom-","même, semblable","grec homos"], di:["di-","deux","grec dis"],
+kine:["ciné-","mouvement","grec kinêsis"], grav:["grav-","lourd","latin gravis"], para:["para-","à côté de","grec para"],
+quadri:["quadri-","quatre","latin quattuor"], lat:["-latère","côté","latin latus, lateris"], metre:["-mètre","mesure","grec metron"],
+dia:["dia-","à travers","grec dia"], gone:["-gone, -gonale","angle","grec gônia"], medi:["médi-","milieu","latin medius"],
+bi:["bi-, bis-","deux","latin bis"], sect:["-sect-","couper","latin secare"], hypo:["hypo-","sous, en dessous","grec hupo"],
+numer:["numér-","nombre","latin numerus"], hyper:["hyper-","au-dessus, à l'excès","grec huper"], onyme:["-onyme","nom, mot","grec onoma"],
+sem:["-sém-","sens, signe","grec sêma"], etymo:["étymo-","vrai","grec etumos"], logie:["-logie, -logue","parole, étude, science","grec logos"],
+neo:["néo-","nouveau","grec neos"], pre:["pré-","avant","latin prae"], leg:["légis-","loi","latin lex, legis"],
+capt:["capt-","prendre, saisir","latin capere"], proto:["proto-","premier","grec prôtos"], graph:["-graphie, -graphe","écrire, décrire","grec graphein"],
+omni:["omni-","tout","latin omnis"], chrono:["chrono-","temps","grec khronos"], glotte:["-glotte","langue","grec glôtta"],
+geo:["géo-","terre","grec gê"], hydro:["hydro-","eau","grec hudôr"], phobe:["-phobe","qui craint","grec phobos"],
+scope:["-scope","observer","grec skopein"], cycle:["-cycle","cercle, roue","grec kuklos"]
+};
+
+/* Mots inconnus à deviner grâce aux racines : [mot, formation, définition, piège1, explication1, piège2, explication2] */
+const TRANSFER = [
+["théocratie","théo|cratie:theo,cratie","Régime où le pouvoir est exercé au nom d'un dieu, souvent par des religieux.","Étude scientifique des religions","ce serait la théologie : -logie veut dire « étude ».","Croyance en plusieurs dieux","c'est le polythéisme."],
+["démographie","démo|graphie:demo,graph","Étude de la population : naissances, décès, migrations.","Pouvoir exercé par le peuple","c'est la démocratie : -cratie veut dire « pouvoir ».","Description des paysages d'un pays","ce serait la géographie : géo- veut dire « terre »."],
+["pesticide","pesti|cide:-,cide","Produit qui tue les organismes nuisibles aux cultures.","Maladie qui détruit les récoltes","-cide désigne ce qui tue, pas une maladie.","Produit qui fait pousser les plantes","c'est un engrais."],
+["omnivore","omni|vore:omni,vore","Qui mange de tout, des végétaux comme des animaux.","Qui ne mange que de la viande","c'est carnivore.","Qui voit tout autour de lui","-vore veut dire « qui mange », pas « qui voit »."],
+["sismographe","sismo|graphe:sism,graph","Appareil qui enregistre les secousses du sol.","Spécialiste des tremblements de terre","ce serait un sismologue : -logue désigne le spécialiste.","Carte des volcans actifs","sism- concerne les secousses, pas les volcans."],
+["hémicycle","hémi|cycle:hemi,cycle","Salle en forme de demi-cercle, comme celle de l'Assemblée nationale.","Vélo à une seule roue","c'est un monocycle : mono- veut dire « un seul ».","Cercle complet de sièges","hémi- veut dire « moitié »."],
+["chronomètre","chrono|mètre:chrono,metre","Instrument qui mesure le temps avec précision.","Instrument qui mesure la température","c'est un thermomètre : therm- veut dire « chaleur ».","Récit des événements dans l'ordre du temps","c'est une chronique."],
+["microbiologie","micro|bio|logie:micro,bio,logie","Science qui étudie les êtres vivants microscopiques.","Petit manuel de biologie","micro- ne qualifie pas le livre mais les êtres étudiés.","Étude de la vie des insectes","c'est l'entomologie."],
+["polyglotte","poly|glotte:poly,glotte","Qui parle plusieurs langues.","Qui croit en plusieurs dieux","c'est polythéiste.","Figure à plusieurs côtés","c'est un polygone."],
+["géologie","géo|logie:geo,logie","Science qui étudie la Terre : ses roches, sa structure et son histoire.","Description des territoires et des paysages","c'est la géographie : -graphie veut dire « décrire ».","Calcul des longueurs et des surfaces","c'est la géométrie : -métrie veut dire « mesure »."],
+["hydrophobe","hydro|phobe:hydro,phobe","Qui craint l'eau ou la repousse.","Qui vit dans l'eau","ce serait aquatique.","Qui boit beaucoup d'eau","-phobe veut dire « qui craint »."],
+["périscope","péri|scope:peri,scope","Instrument qui permet de voir autour d'un obstacle, par exemple au-dessus d'un mur.","Instrument pour observer les étoiles","c'est un télescope : télé- veut dire « loin ».","Instrument qui mesure un contour","-scope veut dire « observer », pas « mesurer » (-mètre)."]
+];
+
+/* Textes à compléter : {forme} ou {forme#mot du lexique} ; x = mots pièges */
+const CLOZE = [
+{r:"h-anti",t:"Au Ve siècle av. J.-C., Athènes est une {cité} indépendante. Les hommes libres nés de parents athéniens sont des {citoyens#citoyen} : ils votent les lois à l'assemblée. Ce régime, où le pouvoir appartient aux citoyens, s'appelle la {démocratie}.",x:["légion","empires"]},
+{r:"h-ma",t:"Au Moyen Âge, le {seigneur} domine les paysans de sa seigneurie. Il a reçu sa terre, un {fief}, d'un seigneur plus puissant, son suzerain. Les paysans non libres, les {serfs#serf}, doivent aussi travailler gratuitement pour lui : c'est la {corvée}.",x:["cerfs","dîme"]},
+{r:"h-rev",t:"En 1789, les députés du {tiers état} se proclament Assemblée nationale. Ils abolissent les {privilèges#privilège} de la noblesse et du clergé. En 1791, la France se dote d'une {constitution} qui limite le pouvoir du roi. L'exécution de Louis XVI, en 1793, est un {régicide}.",x:["génocide","doléances"]},
+{r:"h-xix",t:"Au XIXe siècle, l'{industrialisation} transforme l'Europe. Dans les usines, la {machine à vapeur} actionne les métiers à tisser. Les ouvriers, ou {prolétaires#prolétaire}, s'organisent en {syndicats#syndicat} pour défendre leurs droits.",x:["colonies","syndromes"]},
+{r:"h-xx",t:"Pendant la Première Guerre mondiale, les soldats vivent dans les {tranchées#tranchée}. Les combats prennent fin avec l'{armistice} du 11 novembre 1918. Pendant la Seconde Guerre mondiale, les nazis commettent le {génocide} des Juifs et des Tsiganes, tandis qu'en France des hommes et des femmes entrent dans la {Résistance#résistance}.",x:["collaboration","armement"]},
+{r:"g-rep",t:"L'{équateur} partage la Terre en deux {hémisphères#hémisphère}. Pour situer un lieu au nord ou au sud de cette ligne, on donne sa {latitude}. Pour le situer à l'est ou à l'ouest, on donne sa {longitude}.",x:["tropique","longueur"]},
+{r:"g-ville",t:"Aujourd'hui, plus de la moitié de l'humanité vit en ville : c'est l'effet de l'{urbanisation}. Les villes de plus de 10 millions d'habitants sont des {mégapoles#mégapole}. Autour des villes, la {périurbanisation} transforme les campagnes en lotissements.",x:["bidonvilles","mégalopoles"]},
+{r:"g-monde",t:"Les marchandises voyagent dans des {conteneurs#conteneur} sur d'immenses navires. Ces {flux} relient les grands ports d'une même {façade maritime} au reste du monde. Cette mise en relation de toutes les parties du globe s'appelle la {mondialisation}.",x:["conteurs","délocalisation"]},
+{r:"s-cell",t:"Tous les êtres vivants sont formés de {cellules#cellule}. Chacune est entourée d'une {membrane} et contient un {noyau}. Dans les feuilles, la {chlorophylle} capte la lumière.",x:["chlore","fossiles"]},
+{r:"s-corps",t:"Dans l'intestin grêle, les aliments transformés par la {digestion} deviennent des {nutriments#nutriment}. Ceux-ci passent dans le sang, qui part du cœur vers les organes par les {artères#artère} et revient au cœur par les {veines#veine}.",x:["alvéoles","artistes"]},
+{r:"s-eco",t:"Une mare est un {écosystème}. Les algues, {producteurs primaires#producteur primaire}, fabriquent leur matière grâce à la lumière. Les larves de libellule sont {carnivores#carnivore} : elles mangent d'autres animaux. Quand les êtres vivants meurent, les {décomposeurs#décomposeur} transforment leurs restes en matière minérale.",x:["herbivores","compositeurs"]},
+{r:"s-gen",t:"Le noyau de la plupart de nos cellules contient 46 {chromosomes#chromosome}, formés d'{ADN}. Un {gène} peut exister en plusieurs versions, appelées {allèles#allèle}.",x:["allées","gêne"]},
+{r:"p-mat",t:"Quand on chauffe un glaçon, il fond : c'est la {fusion}. Si l'on continue à chauffer, l'eau bout et devient gazeuse : c'est la {vaporisation}. Sur une vitre froide, la vapeur d'eau redevient liquide : c'est la {condensation}.",x:["solidification","dissolution"]},
+{r:"p-ener",t:"Dans un {circuit en série}, les {dipôles#dipôle} forment une seule boucle. Les fils sont en cuivre, un bon {conducteur}, entouré de plastique, un {isolant}.",x:["solvant","tension électrique"]},
+{r:"m-geo",t:"Un {quadrilatère} a quatre côtés. Si ses côtés opposés sont parallèles deux à deux, c'est un {parallélogramme}. Dans un triangle rectangle, le côté opposé à l'angle droit est l'{hypoténuse}. La longueur du contour d'une figure est son {périmètre}.",x:["aire","hypothèse"]},
+{r:"m-num",t:"Dans la fraction 3/8, le {numérateur} est 3 et le {dénominateur} est 8. Quand on divise 42 par 6, on obtient un {quotient} égal à 7. Le nombre 7 n'a que deux diviseurs, 1 et lui-même : c'est un {nombre premier}.",x:["quotidien","multiple"]},
+{r:"f-rec",t:"Celui qui raconte l'histoire est le {narrateur}. Au milieu du récit, une tempête surprend les héros : c'est une {péripétie}. À la fin, au moment du {dénouement}, ils rentrent enfin chez eux.",x:["auteur","strophe"]},
+{r:"f-lex",t:"« Débuter » et « commencer » sont des {synonymes#synonyme}. « Grand » et « petit » sont des {antonymes#antonyme}. Dans « terrestre », on reconnaît le {radical} « terr- », suivi du {suffixe} « -estre ».",x:["préfixe","homonymes"]},
+{r:"f-arg",t:"L'auteur défend une {thèse} : la lecture rend libre. Il l'appuie sur plusieurs {arguments#argument}. Il fait d'abord une {concession} (« Certes, lire demande du temps… »), puis il passe à la {réfutation} de l'idée adverse.",x:["réputation","objets"]},
+{r:"e-rep",t:"En France, la Constitution organise la {séparation des pouvoirs}. Le Parlement exerce le {pouvoir législatif}. Le gouvernement exerce le {pouvoir exécutif}, et les juges exercent le {pouvoir judiciaire}.",x:["laïcité","référendum"]},
+{r:"t-sys",t:"Un portail automatique utilise un {capteur} de présence. Le programme suit un {algorithme} : si une voiture est détectée, le moteur, qui est l'{actionneur}, ouvre le portail. Avant la fabrication en série, on teste un {prototype}.",x:["actionnaire","rythme"]}
+];
+
+/* Explications des pièges hors lexique */
+const LUREX = {
+"cerfs":"« cerfs » (les animaux) est l'homophone de « serfs » (les paysans non libres).",
+"conteurs":"un conteur raconte des histoires ; la caisse métallique s'écrit « conteneur ».",
+"allées":"une allée est un chemin ; la version d'un gène s'écrit « allèle ».",
+"gêne":"avec un accent circonflexe, « gêne » est un sentiment de malaise ; le gène s'écrit avec un accent grave.",
+"compositeurs":"un compositeur écrit de la musique ; celui qui transforme la matière morte est un décomposeur.",
+"artistes":"un artiste crée des œuvres ; le vaisseau sanguin est une artère.",
+"actionnaire":"un actionnaire possède des parts d'entreprise ; le composant qui agit est un actionneur.",
+"rythme":"le rythme est un battement régulier ; la suite d'instructions est un algorithme.",
+"hypothèse":"une hypothèse est une idée à vérifier ; le côté du triangle rectangle est l'hypoténuse.",
+"quotidien":"le quotidien, c'est ce qui arrive chaque jour ; le résultat d'une division est le quotient.",
+"chlore":"le chlore désinfecte l'eau ; le pigment vert des plantes est la chlorophylle.",
+"réputation":"la réputation est l'opinion qu'on a de quelqu'un ; démontrer qu'une idée est fausse, c'est la réfutation.",
+"syndromes":"un syndrome est un ensemble de signes d'une maladie ; l'association de travailleurs est un syndicat.",
+"mégalopoles":"une mégalopole est une chaîne de villes ; une ville de plus de 10 millions d'habitants est une mégapole.",
+"longueur":"la longueur mesure un objet ; la position est-ouest d'un lieu est sa longitude.",
+"armement":"l'armement désigne les armes ; l'accord qui arrête les combats est l'armistice.",
+"doléances":"il faudrait « cahiers de doléances », et ce ne sont pas eux qu'on abolit en 1789.",
+"auteur":"l'auteur écrit le livre ; celui qui raconte l'histoire, dans le texte, est le narrateur.",
+"objets":"un objet est une chose ; les raisons qui appuient une thèse sont des arguments.",
+"dissolution":"la dissolution est le fait de dissoudre un solide dans un liquide, pas un changement d'état.",
+"fossiles":"les fossiles sont des restes conservés dans les roches.",
+"empires":"un empire est un vaste État ; Athènes est une cité.",
+"colonies":"une colonie est un territoire dominé ; les ouvriers s'organisent en syndicats."
+};
+
+</script>
+<script>
+/* ===== Application ===== */
+const {useState, useEffect, useMemo, useRef, useCallback} = React;
+const html = htm.bind(React.createElement);
+const Frag = React.Fragment;
+
+/* ---------- utilitaires ---------- */
+const slug = s => s.normalize("NFD").replace(/[̀-ͯ]/g,"").toLowerCase().replace(/[^a-z0-9]+/g,"-").replace(/^-|-$/g,"");
+const norm = s => (s||"").normalize("NFD").replace(/[̀-ͯ]/g,"").toLowerCase().replace(/[’']/g,"'").replace(/\s+/g," ").trim();
+const shuffle = a => { a=[...a]; for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1)); [a[i],a[j]]=[a[j],a[i]];} return a; };
+const sample = (a,n) => shuffle(a).slice(0,n);
+const pick = a => a[Math.floor(Math.random()*a.length)];
+const DAY = 86400000;
+const parseMorph = mo => { if(!mo) return null; const [s,k]=mo.split(":"); const ks=k.split(","); return s.split("|").map((t,j)=>({t, k: ks[j]==="-"?null:ks[j]})); };
+
+const RES_BY = Object.fromEntries(RES.map(r=>[r.id,r]));
+const W = RAW.map(a => { const [w,r,n,d,e,mo,l,lx]=a; return {id:slug(w), w, r, n, d, e, segs:parseMorph(mo), l, lx, m:RES_BY[r].m}; });
+const WBY = Object.fromEntries(W.map(w=>[w.id,w]));
+const TR = TRANSFER.map(a => ({w:a[0], segs:parseMorph(a[1]), d:a[2], lures:[[a[3],a[4]],[a[5],a[6]]]}));
+const ROOT_WORDS = {};
+W.forEach(w => (w.segs||[]).forEach(s => { if(s.k){ (ROOT_WORDS[s.k]=ROOT_WORDS[s.k]||[]).push(w.w); } }));
+TR.forEach(w => (w.segs||[]).forEach(s => { if(s.k){ (ROOT_WORDS[s.k]=ROOT_WORDS[s.k]||[]).push(w.w); } }));
+const nivIdx = n => NIVS.indexOf(n);
+const inF = (w,f) => (f.m==="all"||w.m===f.m) && (f.n==="all" || (f.cum ? nivIdx(w.n)<=nivIdx(f.n) : w.n===f.n));
+
+/* ---------- mémoire locale (Leitner) ---------- */
+const KEY = "vocab-encyclo-v1";
+const INTERVAL = [0,0,1,3,7,16]; // jours selon la boîte 1..5
+function loadStore(){ try{ const s=JSON.parse(localStorage.getItem(KEY)); if(s && s.cards) return s; }catch(e){} return {cards:{}, ex:{}}; }
+function saveStore(s){ try{ localStorage.setItem(KEY, JSON.stringify(s)); }catch(e){} }
+function rateCard(s, id, r){
+  const now = Date.now(); const c = s.cards[id] || {b:1};
+  let b = c.b || 1, due;
+  if(r===0){ b=1; due=now; }
+  else if(r===1){ due = now + Math.max(1, INTERVAL[b])*DAY; }
+  else { b = Math.min(5, b+1); due = now + INTERVAL[b]*DAY; }
+  s.cards[id] = {b, due, seen:(c.seen||0)+1};
+}
+function markReview(s, ids){ const now=Date.now(); ids.forEach(id => { s.cards["w:"+id] = {b:1, due:now, seen:((s.cards["w:"+id]||{}).seen||0)}; }); }
+
+/* ---------- synthèse vocale ---------- */
+function speak(t){ try{ const u=new SpeechSynthesisUtterance(t); u.lang="fr-FR"; u.rate=0.9; speechSynthesis.cancel(); speechSynthesis.speak(u); }catch(e){} }
+const canSpeak = (()=>{ try{ return "speechSynthesis" in window; }catch(e){ return false; } })();
+
+/* ---------- icônes (style Breeze, monochromes) ---------- */
+const ICON = {
+  accueil:"M3 9.5 10 4l7 5.5V16a1 1 0 0 1-1 1h-3.5v-4.5h-5V17H4a1 1 0 0 1-1-1z",
+  explorer:"M10 3.5a2 2 0 1 1 0 4 2 2 0 0 1 0-4zM4.5 12.5a2 2 0 1 1 0 4 2 2 0 0 1 0-4zM15.5 12.5a2 2 0 1 1 0 4 2 2 0 0 1 0-4zM9 7.2 5.6 12.8M11 7.2l3.4 5.6M6.5 14.5h7",
+  cartes:"M3.5 6.5h10v9h-10zM6.5 4.5h10v9",
+  exercices:"M4 4.5h12v11H4zM7 8l1.5 1.5L12 6M7 12.5h6",
+  progres:"M4 16V11M8.5 16V7M13 16V9.5M17 16V4.5M3 16.5h15",
+  sound:"M4 8h3l4-3v10l-4-3H4zM13.5 7.5a3.5 3.5 0 0 1 0 5M15.5 5.5a6.5 6.5 0 0 1 0 9",
+  back:"M12 5 7 10l5 5"
+};
+const Ico = ({n, s=18}) => html`<svg className="ico" width=${s} height=${s} viewBox="0 0 20 20" aria-hidden="true"><path d=${ICON[n]} fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"/></svg>`;
+
+/* ---------- petits composants ---------- */
+const MatChip = ({m}) => html`<span className="chip"><span className="dot" style=${{background:MAT[m].c}}></span>${MAT[m].n}</span>`;
+const NivChip = ({n}) => html`<span className="chip niv">${n}</span>`;
+const SpeakBtn = ({t}) => canSpeak ? html`<button className="btn icon-only" title="Écouter" aria-label=${"Écouter « "+t+" »"} onClick=${e=>{e.stopPropagation(); speak(t);}}><${Ico} n="sound" s=${16}/></button>` : null;
+
+function Seg({segs, w, hi}){
+  if(!segs) return html`<span>${w}</span>`;
+  let c=0;
+  return html`<span className="segword">${segs.map((s,i)=> s.k
+    ? html`<span key=${i} className=${"seg "+((c++)%2?"b":"a")+(hi===i?" hi":"")} title=${ROOTS[s.k][0]+" : "+ROOTS[s.k][1]}>${s.t}</span>`
+    : html`<span key=${i}>${s.t}</span>`)}</span>`;
+}
+function RootChips({segs}){
+  if(!segs) return null;
+  const ks = segs.filter(s=>s.k); let c=0;
+  return html`<div className="rootchips">${ks.map((s,i)=>html`<span key=${i} className=${"rootchip "+((c++)%2?"b":"a")}><b>${ROOTS[s.k][0]}</b> ${ROOTS[s.k][1]} <span className="muted">(${ROOTS[s.k][2]})</span></span>`)}</div>`;
+}
+
+function WordDetail({w, note, compact}){
+  if(!w) return null;
+  const r = RES_BY[w.r];
+  return html`<div className=${"detail"+(compact?" compact":"")}>
+    ${!compact && html`<div className="detail-head">
+      <h3 className="word-big"><${Seg} segs=${w.segs} w=${w.w}/></h3><${SpeakBtn} t=${w.w}/>
+      <span className="grow"></span><${MatChip} m=${w.m}/><${NivChip} n=${w.n}/>
+    </div>`}
+    ${note && html`<p className="note">${note}</p>`}
+    <dl className="facts">
+      <dt>Définition</dt><dd>${w.d}</dd>
+      <dt>En contexte</dt><dd className="ex">${w.e}</dd>
+      ${w.segs && html`<${Frag}><dt>Formation</dt><dd><${RootChips} segs=${w.segs}/></dd><//>`}
+      ${!compact && html`<${Frag}><dt>Réseau</dt><dd>${r.t}</dd><//>`}
+    </dl>
+  </div>`;
+}
+
+/* ---------- schémas (apprentissage multimédia : étiquettes posées sur l'image) ---------- */
+function Lbl({x,y,id,children,anchor="start",sel,onPick,size=13,cls=""}){
+  const ok = id && WBY[id];
+  const act = () => ok && onPick(id);
+  return html`<text x=${x} y=${y} textAnchor=${anchor} fontSize=${size}
+    className=${"svlbl "+cls+(ok?" link":"")+(ok&&sel===id?" on":"")}
+    tabIndex=${ok?0:undefined} role=${ok?"button":undefined}
+    onClick=${ok?act:undefined} onKeyDown=${ok?(e=>{if(e.key==="Enter"||e.key===" "){e.preventDefault();act();}}):undefined}>${children}</text>`;
+}
+
+function SchemaGlobe({sel,onPick}){
+  const cx=200, cy=150, R=110, t=43.7, hw=100.9;
+  return html`<svg viewBox="-20 0 580 300" className="schema" role="img" aria-label="La Terre : pôles, équateur, tropiques, hémisphères, latitude et longitude">
+    <circle cx=${cx} cy=${cy} r=${R} className="sv-fill"/>
+    <ellipse cx=${cx} cy=${cy} rx="55" ry=${R} className="sv-faint"/>
+    <ellipse cx=${cx} cy=${cy} rx="95" ry=${R} className="sv-faint"/>
+    <line x1=${cx} y1=${cy-R} x2=${cx} y2=${cy+R} className="sv-faint"/>
+    <line x1=${cx-hw} y1=${cy-t} x2=${cx+hw} y2=${cy-t} className="sv-dash"/>
+    <line x1=${cx-hw} y1=${cy+t} x2=${cx+hw} y2=${cy+t} className="sv-dash"/>
+    <line x1=${cx-R} y1=${cy} x2=${cx+R} y2=${cy} className="sv-strong"/>
+    <circle cx=${cx} cy=${cy} r=${R} className="sv-stroke"/>
+    <circle cx=${cx} cy=${cy-R} r="4" className="sv-dot"/><circle cx=${cx} cy=${cy+R} r="4" className="sv-dot"/>
+    <line x1=${cx} y1=${cy} x2=${cx+77.8} y2=${cy-77.8} className="sv-accent"/>
+    <path d=${`M ${cx+38} ${cy} A 38 38 0 0 0 ${cx+26.9} ${cy-26.9}`} className="sv-accent"/>
+    <circle cx=${cx+77.8} cy=${cy-77.8} r="4" className="sv-accentdot"/>
+    <path d=${`M ${cx+4} ${cy+12} L ${cx+52} ${cy+12}`} className="sv-accent" markerEnd="url(#arr)"/>
+    <defs><marker id="arr" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0 0 10 5 0 10z" className="sv-arrowhead"/></marker></defs>
+    <${Lbl} x=${cx+44} y=${cy-12} id="latitude" sel=${sel} onPick=${onPick} size=${12}>latitude<//>
+    <${Lbl} x=${cx+6} y=${cy+28} id="longitude" sel=${sel} onPick=${onPick} size=${12}>longitude<//>
+    <line x1="80" y1="45" x2="80" y2="145" className="sv-line"/><line x1="80" y1="155" x2="80" y2="255" className="sv-line"/>
+    <${Lbl} x=${72} y=${100} anchor="end" id="hemisphere" sel=${sel} onPick=${onPick}>hémisphère<//>
+    <text x="72" y="116" textAnchor="end" className="svlbl muted" fontSize="12">Nord</text>
+    <${Lbl} x=${72} y=${200} anchor="end" id="hemisphere" sel=${sel} onPick=${onPick}>hémisphère<//>
+    <text x="72" y="216" textAnchor="end" className="svlbl muted" fontSize="12">Sud</text>
+    ${[[cy-R,"pôle","Nord","pole"],[cy-t,"tropique","du Cancer","tropique"],[cy,"équateur","","equateur"],[cy+t,"tropique","du Capricorne","tropique"],[cy+R,"pôle","Sud","pole"]].map(([y,a,b,id],i)=>{
+      const x0 = cx + Math.sqrt(Math.max(0,R*R-(y-cy)*(y-cy)));
+      return html`<g key=${i}><line x1=${x0+3} y1=${y} x2="350" y2=${y} className="sv-line"/>
+        <${Lbl} x=${356} y=${y+4} id=${id} sel=${sel} onPick=${onPick}>${a}<//>
+        ${b && html`<text x=${356+a.length*7.6+6} y=${y+4} className="svlbl muted" fontSize="13">${b}</text>`}</g>`;})}
+  </svg>`;
+}
+
+function SchemaCell({sel,onPick}){
+  return html`<svg viewBox="0 0 560 270" className="schema" role="img" aria-label="Une cellule végétale : membrane, cytoplasme, noyau, chloroplastes">
+    <rect x="50" y="35" width="290" height="200" rx="38" className="sv-cyto"/>
+    <rect x="50" y="35" width="290" height="200" rx="38" className="sv-membrane"/>
+    <circle cx="140" cy="125" r="36" className="sv-nucleus"/>
+    ${[[250,80,-20],[285,160,15],[205,200,0],[110,200,25],[290,105,40]].map(([x,y,r],i)=>html`<ellipse key=${i} cx=${x} cy=${y} rx="19" ry="9" transform=${`rotate(${r} ${x} ${y})`} className="sv-chloro"/>`)}
+    <line x1="330" y1="60" x2="372" y2="50" className="sv-line"/><${Lbl} x=${378} y=${54} id="membrane" sel=${sel} onPick=${onPick}>membrane<//>
+    <line x1="300" y1="130" x2="372" y2="110" className="sv-line"/><${Lbl} x=${378} y=${114} id="cytoplasme" sel=${sel} onPick=${onPick}>cytoplasme<//>
+    <line x1="176" y1="125" x2="372" y2="170" className="sv-line"/><${Lbl} x=${378} y=${174} id="noyau" sel=${sel} onPick=${onPick}>noyau<//>
+    <line x1="303" y1="160" x2="372" y2="225" className="sv-line"/><text x="378" y="222" className="svlbl" fontSize="13">chloroplaste, qui contient</text>
+    <${Lbl} x=${378} y=${240} id="chlorophylle" sel=${sel} onPick=${onPick}>la chlorophylle<//>
+    <${Lbl} x=${195} y=${262} anchor="middle" id="cellule" sel=${sel} onPick=${onPick} size=${12}>cellule<//>
+    <text x="236" y="262" className="svlbl muted" fontSize="12">végétale (vue au microscope)</text>
+  </svg>`;
+}
+
+function SchemaEtats({sel,onPick}){
+  const box=(x,y,label,kind)=>{
+    const dots=[]; const seed=[[.2,.3],[.5,.25],[.8,.3],[.25,.7],[.55,.72],[.8,.68],[.4,.48],[.68,.5],[.12,.5]];
+    for(let i=0;i<9;i++){ let px,py;
+      if(kind==="s"){ px=x+22+(i%3)*28; py=y+22+Math.floor(i/3)*16; }
+      else if(kind==="l"){ px=x+16+seed[i][0]*100; py=y+30+seed[i][1]*38; }
+      else { px=x+10+seed[(i*4)%9][0]*120; py=y+12+seed[(i*7)%9][1]*56; }
+      dots.push(html`<circle key=${i} cx=${px} cy=${py} r="5" className="sv-particle"/>`); }
+    return html`<g><rect x=${x} y=${y} width="140" height="80" rx="4" className="sv-box"/>${kind==="s"&&html`<rect x=${x+12} y=${y+12} width="76" height="52" rx="2" className="sv-faint"/>`}${dots}
+      <text x=${x+70} y=${y+100} textAnchor="middle" className="svlbl strong" fontSize="14">${label}</text></g>`;
+  };
+  return html`<svg viewBox="0 0 560 300" className="schema" role="img" aria-label="Les trois états de l'eau et les changements d'état">
+    <defs><marker id="arr2" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 10 5 0 10z" className="sv-arrowhead"/></marker></defs>
+    ${box(30,180,"solide","s")}${box(210,20,"liquide","l")}${box(390,180,"gaz","g")}
+    <path d="M120 175 L210 95" className="sv-accent" markerEnd="url(#arr2)"/>
+    <path d="M222 108 L134 186" className="sv-accent2" markerEnd="url(#arr2)"/>
+    <path d="M352 95 L440 175" className="sv-accent" markerEnd="url(#arr2)"/>
+    <path d="M426 186 L340 108" className="sv-accent2" markerEnd="url(#arr2)"/>
+    <${Lbl} x=${150} y=${120} anchor="end" id="fusion" sel=${sel} onPick=${onPick}>fusion<//>
+    <${Lbl} x=${190} y=${165} id="solidification" sel=${sel} onPick=${onPick}>solidification<//>
+    <${Lbl} x=${410} y=${120} id="vaporisation" sel=${sel} onPick=${onPick}>vaporisation<//>
+    <${Lbl} x=${372} y=${165} anchor="end" id="condensation" sel=${sel} onPick=${onPick}>condensation<//>
+    <text x="280" y="250" textAnchor="middle" className="svlbl muted" fontSize="12">flèches pleines : on chauffe · flèches pointillées : on refroidit</text>
+    <text x="330" y="268" textAnchor="end" className="svlbl muted" fontSize="12">chaque rond représente une</text>
+    <${Lbl} x=${334} y=${268} id="molecule" sel=${sel} onPick=${onPick} size=${12}>molécule<//>
+  </svg>`;
+}
+
+function SchemaGeom({sel,onPick}){
+  return html`<svg viewBox="0 0 632 240" className="schema" role="img" aria-label="Quatre figures : hypoténuse, médiatrice, bissectrice, parallélogramme et diagonales">
+    <g><polygon points="20,180 20,60 130,180" className="sv-stroke2"/><line x1="20" y1="60" x2="130" y2="180" className="sv-accent3"/>
+      <polyline points="20,166 34,166 34,180" className="sv-stroke1"/>
+      <${Lbl} x=${80} y=${112} id="hypotenuse" sel=${sel} onPick=${onPick} size=${12}>hypoténuse<//>
+      <text x="75" y="212" textAnchor="middle" className="svlbl muted" fontSize="12">triangle rectangle</text></g>
+    <g><line x1="165" y1="140" x2="285" y2="140" className="sv-stroke2"/><line x1="225" y1="55" x2="225" y2="195" className="sv-accent3"/>
+      <polyline points="225,128 237,128 237,140" className="sv-stroke1"/>
+      <line x1="192" y1="134" x2="198" y2="146" className="sv-stroke1"/><line x1="252" y1="134" x2="258" y2="146" className="sv-stroke1"/>
+      <circle cx="165" cy="140" r="3" className="sv-dot"/><circle cx="285" cy="140" r="3" className="sv-dot"/>
+      <${Lbl} x=${231} y=${68} id="mediatrice" sel=${sel} onPick=${onPick} size=${12}>médiatrice<//>
+      <text x="225" y="212" textAnchor="middle" className="svlbl muted" fontSize="12">d'un segment</text></g>
+    <g><line x1="320" y1="180" x2="445" y2="180" className="sv-stroke2"/><line x1="320" y1="180" x2="382" y2="72" className="sv-stroke2"/>
+      <line x1="320" y1="180" x2="440" y2="111" className="sv-accent3"/>
+      <path d="M 350 180 A 30 30 0 0 0 346 165" className="sv-stroke1"/><path d="M 356 171 A 40 40 0 0 0 340 145" className="sv-stroke1"/>
+      <${Lbl} x=${395} y=${108} id="bissectrice" sel=${sel} onPick=${onPick} size=${12}>bissectrice<//>
+      <text x="380" y="212" textAnchor="middle" className="svlbl muted" fontSize="12">d'un angle</text></g>
+    <g><polygon points="470,170 580,170 605,90 495,90" className="sv-stroke2"/>
+      <line x1="470" y1="170" x2="605" y2="90" className="sv-accent3 dashed"/><line x1="580" y1="170" x2="495" y2="90" className="sv-accent3 dashed"/>
+      <${Lbl} x=${537} y=${212} anchor="middle" id="parallelogramme" sel=${sel} onPick=${onPick} size=${12}>parallélogramme<//>
+      <text x="537" y="230" textAnchor="middle" className="svlbl muted" fontSize="12">et ses</text>
+      <${Lbl} x=${560} y=${230} id="diagonale" sel=${sel} onPick=${onPick} size=${12}>diagonales<//></g>
+  </svg>`;
+}
+
+function SchemaPouvoirs({sel,onPick}){
+  const col=(x,id,t,a,b)=>html`<g><rect x=${x} y="78" width="180" height="112" rx="4" className="sv-box"/>
+    <${Lbl} x=${x+90} y=${104} anchor="middle" id=${id} sel=${sel} onPick=${onPick} size=${14}>${t}<//>
+    <text x=${x+90} y="136" textAnchor="middle" className="svlbl" fontSize="12">${a}</text>
+    <text x=${x+90} y="168" textAnchor="middle" className="svlbl strong" fontSize="13">${b}</text>
+    <line x1="300" y1="44" x2=${x+90} y2="78" className="sv-line"/></g>`;
+  return html`<svg viewBox="0 0 600 250" className="schema" role="img" aria-label="La séparation des pouvoirs en France">
+    <rect x="215" y="12" width="170" height="32" rx="4" className="sv-box"/>
+    <${Lbl} x=${300} y=${33} anchor="middle" id="constitution" sel=${sel} onPick=${onPick}>Constitution<//>
+    ${col(10,"pouvoir-legislatif","pouvoir législatif","Parlement : Assemblée + Sénat","vote les lois")}
+    ${col(210,"pouvoir-executif","pouvoir exécutif","Président + gouvernement","fait appliquer les lois")}
+    ${col(410,"pouvoir-judiciaire","pouvoir judiciaire","juges et tribunaux","rend la justice")}
+    <path d="M10 206 v8 h580 v-8" className="sv-line"/>
+    <${Lbl} x=${300} y=${236} anchor="middle" id="separation-des-pouvoirs" sel=${sel} onPick=${onPick}>séparation des pouvoirs<//>
+  </svg>`;
+}
+
+function SchemaFrise({sel,onPick}){
+  const X = y => 20 + (y+800)/2825*600;
+  const Z = y => 20 + (y-1750)/275*600;
+  const P = [["Antiquité",-800,476,1],["Moyen Âge",476,1492,2],["Temps modernes",1492,1789,3],["Époque contemporaine",1789,2025,4]];
+  const ev = [[-508,62,"−508","democratie","démocratie"],[-27,82,"−27","empire","empire"],[622,62,"622","hegire","hégire"],[1096,82,"1096","croisade","croisade"]];
+  const up = (yr, row, years, id, t, anchor) => { const x=Z(yr); const tx = anchor==="end" ? x-4 : x+4;
+    return html`<g><line x1=${x} y1="190" x2=${x} y2=${row+4} className="sv-line"/>
+      <text x=${tx} y=${row} textAnchor=${anchor} className="svlbl" fontSize="12"><tspan className="muted-t">${years} </tspan></text>
+      ${anchor==="end"
+        ? html`<${Lbl} x=${tx - years.length*6.6 - 4} y=${row} anchor="end" id=${id} sel=${sel} onPick=${onPick} size=${12}>${t}<//>`
+        : html`<${Lbl} x=${tx + years.length*6.6 + 4} y=${row} id=${id} sel=${sel} onPick=${onPick} size=${12}>${t}<//>`}</g>`; };
+  return html`<svg viewBox="0 0 660 262" className="schema" role="img" aria-label="Frise chronologique de −800 à aujourd'hui, avec un zoom sur 1750-2025">
+    ${P.map(([n,a,b,k],i)=>html`<g key=${"lg"+i}><rect x=${20+[0,120,230,370][i]} y="6" width="12" height="12" className=${"band b"+k}/><text x=${36+[0,120,230,370][i]} y="16" className="svlbl" fontSize="12">${n}</text></g>`)}
+    ${P.map(([n,a,b,k],i)=>html`<rect key=${"m"+i} x=${X(a)} y="100" width=${X(b)-X(a)} height="20" className=${"band b"+k}/>`)}
+    <line x1="20" y1="120" x2="620" y2="120" className="sv-stroke1"/>
+    <rect x=${X(1750)} y="96" width=${620-X(1750)} height="28" className="sv-zoombox"/>
+    ${[[-800,"−800"],[0,"0"],[1000,"1000"]].map(([y,t],i)=>html`<g key=${"t"+i}><line x1=${X(y)} y1="120" x2=${X(y)} y2="125" className="sv-stroke1"/><text x=${X(y)} y="138" textAnchor="middle" className="svlbl muted" fontSize="11">${t}</text></g>`)}
+    <text x=${X(1750)-4} y="138" textAnchor="end" className="svlbl muted" fontSize="11">1750</text>
+    <text x="634" y="114" className="svlbl muted" fontSize="11">↓</text>
+    ${ev.map(([y,ly,yt,id,t],i)=>html`<g key=${"e"+i}><line x1=${X(y)} y1="100" x2=${X(y)} y2=${ly+4} className="sv-line"/><circle cx=${X(y)} cy="110" r="3" className="sv-dot"/>
+      <text x=${X(y)-4} y=${ly} textAnchor="end" className="svlbl muted" fontSize="12">${yt}</text>
+      <${Lbl} x=${X(y)+4} y=${ly} id=${id} sel=${sel} onPick=${onPick} size=${12}>${t}<//></g>`)}
+    <text x="20" y="152" className="svlbl strong" fontSize="12">Zoom : 1750 – 2025</text>
+    <rect x=${Z(1750)} y="190" width=${Z(1789)-Z(1750)} height="20" className="band b3"/>
+    <rect x=${Z(1789)} y="190" width=${Z(2025)-Z(1789)} height="20" className="band b4"/>
+    ${[[1914,1918],[1939,1945]].map(([a,b],i)=>html`<rect key=${"w"+i} x=${Z(a)} y="192" width=${Z(b)-Z(a)} height="16" className="warbar"/>`)}
+    <rect x=${Z(1947)} y="196" width=${Z(1991)-Z(1947)} height="8" className="warbar light"/>
+    <line x1="20" y1="210" x2="620" y2="210" className="sv-stroke1"/>
+    ${[1800,1850,1900,1950,2000].map((y,i)=>html`<text key=${"z"+i} x=${Z(y)} y="186" textAnchor="middle" className="svlbl muted" fontSize="10">${y}</text>`)}
+    ${up(1916,170,"1914-1918","guerre-totale","guerre totale","end")}
+    ${up(1942,152,"1939-1945","genocide","génocide","start")}
+    ${up(1969,170,"1947-1991","guerre-froide","guerre froide","start")}
+    <line x1=${Z(1789)} y1="210" x2=${Z(1789)} y2="224" className="sv-line"/>
+    <text x=${Z(1789)-48} y="234" textAnchor="end" className="svlbl muted" fontSize="12">1789</text>
+    <${Lbl} x=${Z(1789)-4} y=${234} anchor="end" id="souverainete-nationale" sel=${sel} onPick=${onPick} size=${12}>nation<//>
+    <line x1=${Z(1793)} y1="210" x2=${Z(1793)} y2="242" className="sv-line"/>
+    <text x=${Z(1793)+4} y="252" className="svlbl muted" fontSize="12">1793</text>
+    <${Lbl} x=${Z(1793)+38} y=${252} id="regicide" sel=${sel} onPick=${onPick} size=${12}>régicide<//>
+    <line x1=${Z(1848)} y1="210" x2=${Z(1848)} y2="224" className="sv-line"/>
+    <text x=${Z(1848)+4} y="234" className="svlbl muted" fontSize="12">1848</text>
+    <${Lbl} x=${Z(1848)+38} y=${234} id="suffrage-universel" sel=${sel} onPick=${onPick} size=${12}>suffrage universel<//>
+  </svg>`;
+}
+const SCHEMAS = {frise:SchemaFrise, globe:SchemaGlobe, cell:SchemaCell, etats:SchemaEtats, geom:SchemaGeom, pouvoirs:SchemaPouvoirs};
+
+/* ---------- Accueil ---------- */
+function Home({go, pool, store}){
+  const now = Date.now();
+  const due = pool.filter(w => store.cards["w:"+w.id] && store.cards["w:"+w.id].due <= now).length;
+  const known = pool.filter(w => (store.cards["w:"+w.id]||{}).b >= 4).length;
+  const [open,setOpen] = useState(false);
+  const steps = [
+    ["explorer","1. Comprendre","Découvre les mots par réseaux, avec leur définition, un exemple, leur formation et un schéma quand il aide."],
+    ["cartes","2. Mémoriser","Récupère chaque mot de mémoire avec les flashcards. Les cartes reviennent au bon moment (boîtes de Leitner)."],
+    ["exercices","3. Manipuler","Reconnais, associe, retrouve, décompose : les exercices deviennent plus complexes d'un niveau à l'autre."],
+    ["exercices","4. Utiliser","Emploie le mot dans un texte, puis dans tes propres phrases et définitions."]
+  ];
+  return html`<div className="page">
+    <header className="page-head"><h1>Vocabulaire encyclopédique</h1>
+      <p className="lead">Les mots des matières scolaires, du CM à la 3e : ${W.length} mots répartis en ${RES.length} réseaux, et ${Object.keys(ROOTS).length} éléments de formation (préfixes, suffixes, racines).</p></header>
+
+    <section className="today panel">
+      <div><div className="big">${due}</div><div className="muted">cartes à revoir aujourd'hui</div></div>
+      <div><div className="big">${known}<span className="small"> / ${pool.length}</span></div><div className="muted">mots bien installés (boîte 4 ou 5)</div></div>
+      <div className="grow"></div>
+      <button className="btn primary" onClick=${()=>go("cartes")}>Ouvrir les flashcards</button>
+    </section>
+
+    <section>
+      <h2>Ce qu'on appelle vocabulaire encyclopédique</h2>
+      <p className="measure">Ce sont les mots propres à chaque matière : <i>vassal</i> en histoire, <i>hypoténuse</i> en mathématiques, <i>allèle</i> en SVT. Ils s'ajoutent au vocabulaire courant et doivent être appris, car on les rencontre rarement hors de l'école. Alain Lieury a appelé « mémoire encyclopédique » le stock de ces mots et des concepts qu'ils désignent.</p>
+      <div className="facts3">
+        <div className="fact"><b>≈ 6 000 → 24 000</b><span>mots nouveaux dans les manuels, de la 6e à la 3e (Lieury)</span></div>
+        <div className="fact"><b>11 095</b><span>entrées recensées dans les manuels du CP au CM2 (Déro et Fenouillet, 2014)</span></div>
+        <div className="fact"><b>Meilleur prédicteur</b><span>de la réussite scolaire que le raisonnement ou la mémoire de travail (Lieury et coll.)</span></div>
+      </div>
+    </section>
+
+    <section>
+      <h2>Comment apprendre un mot</h2>
+      <div className="steps">${steps.map(([r,t,d],i)=>html`<button key=${i} className="step" onClick=${()=>go(r)}><b>${t}</b><span>${d}</span></button>`)}</div>
+    </section>
+
+    <section>
+      <button className="btn" aria-expanded=${open} onClick=${()=>setOpen(!open)}>${open?"Masquer":"Afficher"} les repères pour l'adulte qui accompagne</button>
+      ${open && html`<div className="panel adult">
+        <h3>Principes appliqués</h3>
+        <ul>
+          <li><b>Segmentation et pré-apprentissage</b> : un mot à la fois, des séances courtes (5 à 8 items), et la découverte des réseaux avant les exercices.</li>
+          <li><b>Organisation sémantique</b> : les mots sont rangés par réseaux de notions, comme la mémoire encyclopédique s'organise (Postal et Lieury, 1998).</li>
+          <li><b>Signalement</b> : préfixes, suffixes et racines sont colorés dans le mot ; le mot étudié est mis en évidence dans le schéma.</li>
+          <li><b>Contiguïté spatiale et cohérence</b> : les étiquettes sont posées sur le schéma, sans légende séparée ni décoration.</li>
+          <li><b>Double codage et modalité</b> : schéma explicatif quand l'image porte du sens, et lecture à voix haute du mot sur demande (synthèse vocale du navigateur).</li>
+          <li><b>Exemple résolu puis estompage</b> : le niveau « Décomposer » commence par un exemple guidé ; les aides des niveaux suivants sont facultatives et coûtent des points.</li>
+          <li><b>Récupération espacée</b> : les flashcards suivent cinq boîtes de Leitner (revue le jour même, puis à 1, 3, 7 et 16 jours).</li>
+          <li><b>Inversion de l'effet d'expertise</b> : la correction détaillée s'ouvre seule après une erreur, et reste repliée après une bonne réponse.</li>
+          <li><b>Pas de leurre pendant l'encodage</b> : les fiches et les flashcards ne montrent que la forme juste. Une confusion n'est expliquée qu'en correction, quand l'élève l'a lui-même produite.</li>
+          <li><b>Pièges lexicaux</b> : comme dans le test Lexis, les QCM proposent des mots proches par le son ou la forme (<i>régicide</i> / <i>insecticide</i>), et le barème +1 / −1 / 0 décourage les réponses au hasard.</li>
+        </ul>
+        <h3>À savoir</h3>
+        <p className="measure">Les 56 items du QMES-E (Déro, Fenouillet et Lieury, 2019) ont été volontairement écartés du lexique, pour que le questionnaire reste utilisable comme évaluation. La progression est enregistrée dans ce navigateur uniquement.</p>
+        <h3>Références</h3>
+        <ul className="refs">
+          <li>Lieury, A., Van Acker, P. et Durand, P. (1995). Mémoire encyclopédique et réussite en 4e et en 3e. <i>Psychologie et psychométrie</i>, 16(1) et 16(3).</li>
+          <li>Lieury, A. et Lorant, S. (2013). Encyclopedic memory: long-term memory capacity for knowledge vocabulary in middle school. <i>International Journal of Educational Psychology</i>, 2(1), 56-80.</li>
+          <li>Lieury, A., Lorant, S., Le Cam, M. et Rocher, T. (2013). Évaluation de la mémoire encyclopédique chez 30 000 élèves de 6e. <i>Bulletin de psychologie</i>, 66(1), 9-21.</li>
+          <li>Déro, M. et Fenouillet, F. (2014). Estimation du vocabulaire encyclopédique scolaire mémorisé à l'école élémentaire. <i>Bulletin de psychologie</i>, 530, 127-141.</li>
+          <li>Déro, M., Fenouillet, F. et Lieury, A. (2019). Étude préliminaire d'un test de mémoire encyclopédique chez les élèves de CM2 : le QMES-E. <i>Bulletin de psychologie</i>, 563, 347-364.</li>
+          <li>Sweller, J., Ayres, P. et Kalyuga, S. (2011). <i>Cognitive Load Theory</i>. Springer.</li>
+          <li>Mayer, R. E. (2021). <i>Multimedia Learning</i> (3e éd.). Cambridge University Press.</li>
+        </ul>
+      </div>`}
+    </section>
+  </div>`;
+}
+
+/* ---------- Explorer ---------- */
+function Explorer({pool}){
+  const avail = useMemo(()=>RES.filter(r=>pool.some(w=>w.r===r.id)),[pool]);
+  const [rid,setRid] = useState(avail[0] && avail[0].id);
+  const [wid,setWid] = useState(null);
+  const detailRef = useRef(null);
+  useEffect(()=>{ if(!avail.find(r=>r.id===rid)){ setRid(avail[0]&&avail[0].id); setWid(null);} },[avail]);
+  if(!avail.length) return html`<div className="page"><h1>Explorer</h1><p className="empty">Aucun mot ne correspond aux filtres. Élargis la matière ou le niveau dans la barre du haut.</p></div>`;
+  const r = RES_BY[rid] || avail[0];
+  const words = pool.filter(w=>w.r===r.id);
+  const Sch = r.s && SCHEMAS[r.s];
+  const choose = id => { setWid(id); setTimeout(()=>{ try{ detailRef.current && detailRef.current.scrollIntoView({block:"nearest", behavior: matchMedia("(prefers-reduced-motion: reduce)").matches?"auto":"smooth"}); }catch(e){} }, 30); };
+  const groups = Object.keys(MAT).map(m=>[m, avail.filter(x=>x.m===m)]).filter(g=>g[1].length);
+  return html`<div className="explorer">
+    <nav className="reslist" aria-label="Réseaux de mots">
+      ${groups.map(([m,rs])=>html`<div key=${m} className="resgroup"><div className="resgroup-t"><span className="dot" style=${{background:MAT[m].c}}></span>${MAT[m].n}</div>
+        ${rs.map(x=>html`<button key=${x.id} className=${"resitem"+(x.id===r.id?" on":"")} onClick=${()=>{setRid(x.id); setWid(null);}}>
+          <span>${x.t}</span><span className="count">${pool.filter(w=>w.r===x.id).length}</span></button>`)}</div>`)}
+    </nav>
+    <div className="page">
+      <header className="page-head"><div className="crumbs"><${MatChip} m=${r.m}/></div><h1>${r.t}</h1><p className="lead">${r.q}</p></header>
+      ${Sch && html`<figure className="panel figure"><${Sch} sel=${wid} onPick=${choose}/><figcaption className="muted">Clique sur un mot souligné pour ouvrir sa fiche.</figcaption></figure>`}
+      <div ref=${detailRef}>${wid && WBY[wid] && html`<div className="panel"><${WordDetail} w=${WBY[wid]}/>${!pool.find(w=>w.id===wid) && html`<p className="muted small">Ce mot est hors des filtres actuels.</p>`}</div>`}</div>
+      <h2 className="h-sub">${words.length} mot${words.length>1?"s":""} dans ce réseau</h2>
+      <div className="wgrid">${words.map(w=>html`<button key=${w.id} className=${"wcard"+(w.id===wid?" on":"")} onClick=${()=>choose(w.id)} aria-pressed=${w.id===wid}>
+        <span className="wcard-top"><b><${Seg} segs=${w.segs} w=${w.w}/></b><${NivChip} n=${w.n}/></span>
+        <span className="wcard-d">${w.d}</span></button>`)}</div>
+    </div>
+  </div>`;
+}
+
+/* ---------- Flashcards ---------- */
+function Flashcards({pool, store, upd, f}){
+  const [mode,setMode] = useState("ws");
+  const rootKeys = useMemo(()=>{ const set=new Set(); (f.m==="all"&&f.n==="all"? Object.keys(ROOTS):[]).forEach(k=>set.add(k)); pool.forEach(w=>(w.segs||[]).forEach(s=>s.k&&set.add(s.k))); return [...set]; },[pool,f]);
+  const deck = useMemo(()=> mode==="r" ? rootKeys.map(k=>"r:"+k) : pool.map(w=>(mode==="ws"?"w:":"s:")+w.id),[mode,pool,rootKeys]);
+  const [sess,setSess] = useState(null);
+  const now = Date.now();
+  const due = deck.filter(id=>store.cards[id] && store.cards[id].due<=now);
+  const fresh = deck.filter(id=>!store.cards[id]);
+  const boxes = [0,1,2,3,4,5].map(b=>deck.filter(id=> b===0 ? !store.cards[id] : (store.cards[id]||{}).b===b).length);
+
+  const start = () => {
+    const d = [...due].sort((a,b)=>store.cards[a].due-store.cards[b].due).slice(0,20);
+    const nf = Math.max(0, Math.min(8, 20-d.length));
+    const q = shuffle([...d, ...shuffle(fresh).slice(0,nf)]);
+    if(!q.length) return;
+    setSess({q, i:0, flip:false, again:{}, res:[0,0,0]});
+  };
+  const flip = () => setSess(s=>s && !s.flip ? {...s, flip:true} : s);
+  const rate = r => {
+    if(!sess || !sess.flip) return;
+    const id = sess.q[sess.i];
+    upd(s=>rateCard(s,id,r));
+    setSess(s=>{ const q=[...s.q]; const again={...s.again}; if(r===0 && !again[id]){ q.push(id); again[id]=1; }
+      const res=[...s.res]; res[r]++; return {...s, q, again, res, i:s.i+1, flip:false}; });
+  };
+  useEffect(()=>{
+    if(!sess || sess.i>=sess.q.length) return;
+    const h = e => { if(e.target.tagName==="INPUT"||e.target.tagName==="TEXTAREA"||e.target.tagName==="SELECT") return;
+      if(e.key===" "||e.key==="Enter"){ e.preventDefault(); if(!sess.flip) flip(); }
+      else if(sess.flip && ["1","2","3"].includes(e.key)) rate(+e.key-1); };
+    window.addEventListener("keydown",h); return ()=>window.removeEventListener("keydown",h);
+  });
+
+  const face = (id, back) => {
+    const [p,k] = [id.slice(0,1), id.slice(2)];
+    if(p==="r"){ const R=ROOTS[k];
+      return back ? html`<div className="fc-back"><div className="fc-title">${R[0]} = <b>${R[1]}</b></div><p className="muted">Origine : ${R[2]}</p>
+        <p>Exemples : ${(ROOT_WORDS[k]||[]).slice(0,6).join(", ")}</p></div>`
+      : html`<div className="fc-front"><div className="fc-q">Que signifie cet élément ?</div><div className="fc-word mono">${R[0]}</div><p className="muted">Pense à un mot qui le contient : ${(ROOT_WORDS[k]||[])[0]||""}</p></div>`; }
+    const w = WBY[k];
+    if(p==="w") return back ? html`<div className="fc-back"><${WordDetail} w=${w} compact=${true}/></div>`
+      : html`<div className="fc-front"><div className="fc-meta"><${MatChip} m=${w.m}/><${NivChip} n=${w.n}/></div><div className="fc-word"><${Seg} segs=${w.segs} w=${w.w}/> <${SpeakBtn} t=${w.w}/></div><p className="muted">Dis sa définition dans ta tête ou à voix haute, puis retourne la carte.</p></div>`;
+    return back ? html`<div className="fc-back"><div className="fc-word"><${Seg} segs=${w.segs} w=${w.w}/> <${SpeakBtn} t=${w.w}/></div><p className="ex">${w.e}</p><${RootChips} segs=${w.segs}/></div>`
+      : html`<div className="fc-front"><div className="fc-meta"><${MatChip} m=${w.m}/><${NivChip} n=${w.n}/></div><div className="fc-def">${w.d}</div><p className="muted">Quel est le mot ? Retrouve-le avant de retourner la carte.</p></div>`;
+  };
+
+  const MODES = [["ws","Du mot au sens"],["sw","Du sens au mot"],["r","Préfixes et racines"]];
+  if(sess && sess.i < sess.q.length){
+    const id = sess.q[sess.i]; const c = store.cards[id];
+    return html`<div className="page narrow">
+      <div className="ex-head"><button className="btn" onClick=${()=>setSess(null)}><${Ico} n="back" s=${16}/> Arrêter</button>
+        <span className="grow"></span><span className="muted">Carte ${sess.i+1} / ${sess.q.length}</span>
+        <span className="chip">${c? "Boîte "+c.b+" / 5" : "Nouvelle carte"}</span></div>
+      <div className="progress"><div style=${{width:(sess.i/sess.q.length*100)+"%"}}></div></div>
+      <div className=${"flashcard"+(sess.flip?" flipped":"")} onClick=${flip} role="button" tabIndex="0" aria-label="Carte : appuie sur Espace pour la retourner">
+        ${face(id,false)}
+        ${sess.flip && html`<div className="fc-sep"></div>`}
+        ${sess.flip && face(id,true)}
+      </div>
+      ${!sess.flip ? html`<div className="fc-actions"><button className="btn primary wide" onClick=${flip}>Retourner la carte <kbd>Espace</kbd></button></div>`
+       : html`<div className="fc-actions" aria-label="Évalue ta réponse">
+          <button className="btn rate r0" onClick=${()=>rate(0)}><b>À revoir</b><span>je ne savais pas <kbd>1</kbd></span></button>
+          <button className="btn rate r1" onClick=${()=>rate(1)}><b>Difficile</b><span>j'ai hésité <kbd>2</kbd></span></button>
+          <button className="btn rate r2" onClick=${()=>rate(2)}><b>Je savais</b><span>sans hésiter <kbd>3</kbd></span></button></div>`}
+    </div>`;
+  }
+  return html`<div className="page">
+    <header className="page-head"><h1>Flashcards</h1><p className="lead">Retrouver un mot de mémoire, plutôt que le relire, est ce qui l'installe durablement. Chaque carte passe dans une boîte plus haute quand tu la sais, et revient plus tard.</p></header>
+    ${sess && html`<div className="panel done"><b>Séance terminée.</b> ${sess.res[2]} « je savais », ${sess.res[1]} « difficile », ${sess.res[0]} « à revoir ».</div>`}
+    <div className="seg-ctl" role="tablist">${MODES.map(([k,t])=>html`<button key=${k} role="tab" aria-selected=${mode===k} className=${mode===k?"on":""} onClick=${()=>{setMode(k); setSess(null);}}>${t}</button>`)}</div>
+    <div className="panel">
+      <div className="today"><div><div className="big">${due.length}</div><div className="muted">à revoir maintenant</div></div>
+        <div><div className="big">${fresh.length}</div><div className="muted">nouvelles cartes</div></div><div className="grow"></div>
+        <button className="btn primary" disabled=${!due.length && !fresh.length} onClick=${start}>Commencer la séance (${Math.min(20,due.length)+Math.max(0,Math.min(8,20-Math.min(20,due.length),fresh.length))} cartes)</button></div>
+      <h3 className="h-sub">Répartition dans les boîtes</h3>
+      <${BoxBar} counts=${boxes}/>
+      ${!due.length && !fresh.length && html`<p className="muted">Rien à revoir pour l'instant dans ce paquet. Reviens demain, ou change de filtre.</p>`}
+    </div>
+    <p className="muted small">Une séance compte au plus 20 cartes, dont 8 nouvelles, pour garder une charge raisonnable. Une carte « à revoir » repasse une fois en fin de séance.</p>
+  </div>`;
+}
+function BoxBar({counts}){
+  const tot = counts.reduce((a,b)=>a+b,0)||1;
+  const lab = ["nouvelles","boîte 1","boîte 2","boîte 3","boîte 4","boîte 5"];
+  return html`<div><div className="boxbar">${counts.map((c,i)=> c? html`<div key=${i} className=${"bx bx"+i} style=${{width:(c/tot*100)+"%"}} title=${lab[i]+" : "+c}></div>`:null)}</div>
+    <div className="boxlegend">${counts.map((c,i)=>html`<span key=${i}><i className=${"sw bx"+i}></i>${lab[i]} <b>${c}</b></span>`)}</div></div>`;
+}
+
+/* ---------- Exercices ---------- */
+const LEVELS = [
+  {id:1, t:"Reconnaître", aim:"Comprendre", d:"Choisir le bon sens parmi des pièges proches par le son ou la forme. Barème des tests Lexis et QMES-E : +1, −1, 0 pour « je ne sais pas »."},
+  {id:2, t:"Associer", aim:"Comprendre", d:"Relier cinq mots d'un même réseau à leur définition : il faut distinguer des notions voisines."},
+  {id:3, t:"Retrouver le mot", aim:"Mémoriser", d:"Écrire le mot à partir de sa définition. Deux indices sont possibles, au prix d'un demi-point."},
+  {id:4, t:"Décomposer", aim:"Manipuler", d:"Trouver le sens d'un préfixe ou d'une racine, puis deviner le sens de mots jamais vus."},
+  {id:5, t:"Mettre en contexte", aim:"Manipuler", d:"Compléter un court texte de la discipline avec les mots qui conviennent, en évitant les pièges."},
+  {id:6, t:"Employer", aim:"Utiliser", d:"Définir le mot avec ses propres mots et l'employer dans une phrase, puis se corriger avec un modèle."}
+];
+
+function Correction({ok, simple, children, partial}){
+  const [open,setOpen] = useState(!ok);
+  return html`<div className=${"corr "+(ok?"ok":partial?"mid":"ko")} aria-live="polite">
+    <div className="corr-simple"><span className="corr-mark">${ok?"Juste":partial?"Presque":"Pas tout à fait"}</span> ${simple}</div>
+    ${children && html`<button className="linkbtn" aria-expanded=${open} onClick=${()=>setOpen(!open)}>${open?"Masquer":"Voir"} la correction détaillée</button>`}
+    ${open && children && html`<div className="corr-detail">${children}</div>`}
+  </div>`;
+}
+
+function QcmEx({pool, onDone}){
+  const items = useMemo(()=> sample(pool, Math.min(8,pool.length)).map(w=>{
+    let alt = W.filter(x=>x.r===w.r && x.id!==w.id); if(!alt.length) alt = W.filter(x=>x.m===w.m && x.id!==w.id);
+    const o = pick(alt);
+    return {w, opts: shuffle([{t:w.d,k:"ok"},{t:w.l,k:"lure"},{t:o.d,k:"sem",src:o}])};
+  }),[]);
+  const [i,setI]=useState(0), [ans,setAns]=useState(null), [score,setScore]=useState(0), [rev,setRev]=useState([]);
+  const it = items[i];
+  const choose = k => { if(ans) return; setAns(k); const p = k==="ok"?1:k==="jnsp"?0:-1; setScore(s=>s+p); if(k!=="ok") setRev(r=>[...r,it.w.id]); };
+  const next = () => { if(i+1>=items.length) onDone({score, max:items.length, review:rev, unit:"points (+1 / −1 / 0)"}); else { setI(i+1); setAns(null);} };
+  const chosen = ans && it.opts.find(o=>o.k===ans);
+  const note = ans==="lure" ? "Tu as choisi un piège : « "+it.w.l+" », "+it.w.lx : ans==="sem" ? "Tu as choisi la définition de « "+chosen.src.w+" », un mot du même réseau." : null;
+  return html`<div>
+    <${ExProgress} i=${i} n=${items.length} score=${score}/>
+    <div className="panel q">
+      <div className="fc-meta"><${MatChip} m=${it.w.m}/><${NivChip} n=${it.w.n}/></div>
+      <p className="q-t">En ${MAT[it.w.m].n.toLowerCase()}, que signifie <b className="qword">${it.w.w}</b> ? <${SpeakBtn} t=${it.w.w}/></p>
+      <div className="opts">
+        ${it.opts.map((o,j)=>html`<button key=${j} className=${"opt"+(ans?(o.k==="ok"?" good":ans===o.k?" bad":" dim"):"")} disabled=${!!ans} onClick=${()=>choose(o.k)}><span className="optk">${"ABC"[j]}</span>${o.t}</button>`)}
+        <button className=${"opt jnsp"+(ans==="jnsp"?" sel":ans?" dim":"")} disabled=${!!ans} onClick=${()=>choose("jnsp")}><span className="optk">?</span>Je ne sais pas</button>
+      </div>
+      ${ans && html`<${Correction} ok=${ans==="ok"} simple=${ans==="ok"?"+1 point.": ans==="jnsp" ? "0 point. La réponse était : « "+it.w.d+" »" : "−1 point. La réponse était : « "+it.w.d+" »"}>
+        <${WordDetail} w=${it.w} note=${note}/><//>`}
+      ${ans && html`<div className="actions"><button className="btn primary" onClick=${next}>${i+1>=items.length?"Voir le bilan":"Question suivante"}</button></div>`}
+    </div></div>`;
+}
+
+function MatchEx({pool, onDone}){
+  const boards = useMemo(()=>{
+    const byR = {}; pool.forEach(w=>(byR[w.r]=byR[w.r]||[]).push(w));
+    const rich = shuffle(Object.values(byR).filter(a=>a.length>=5));
+    const out = [];
+    for(let b=0;b<2;b++){ if(rich[b]) out.push(sample(rich[b],5)); else { const rest=pool.filter(w=>!out.flat().includes(w)); if(rest.length>=3) out.push(sample(rest,Math.min(5,rest.length))); } }
+    return out;
+  },[]);
+  const [bi,setBi]=useState(0), [selW,setSelW]=useState(null), [selD,setSelD]=useState(null), [done,setDone]=useState({}), [err,setErr]=useState({}), [flash,setFlash]=useState(null), [total,setTotal]=useState(0);
+  const board = boards[bi]; const defs = useMemo(()=>shuffle(board), [bi]);
+  const tryPair = (w,d) => { if(w===d){ setDone(x=>({...x,[w]:1})); } else { setErr(x=>({...x,[w]:1})); setFlash([w,d]); setTimeout(()=>setFlash(null),600); } setSelW(null); setSelD(null); };
+  const clickW = id => { if(done[id]) return; if(selD) tryPair(id,selD); else setSelW(id===selW?null:id); };
+  const clickD = id => { if(done[id]) return; if(selW) tryPair(selW,id); else setSelD(id===selD?null:id); };
+  const complete = board.every(w=>done[w.id]);
+  const firstTry = board.filter(w=>!err[w.id]).length;
+  const next = () => { const t = total+firstTry; if(bi+1>=boards.length) onDone({score:t, max:boards.reduce((a,b)=>a+b.length,0), review:boards.flat().filter(w=>err[w.id]).map(w=>w.id), unit:"paires trouvées du premier coup"}); else { setTotal(t); setBi(bi+1); setDone({}); } };
+  return html`<div>
+    <${ExProgress} i=${bi} n=${boards.length} label="Plateau"/>
+    <div className="panel q">
+      <p className="q-t">Relie chaque mot à sa définition. Clique sur un mot, puis sur la définition qui lui correspond.${RES_BY[board[0].r] && board.every(w=>w.r===board[0].r) ? html`<${Frag}> <span className="muted">Réseau : ${RES_BY[board[0].r].t}.</span><//>` : ""}</p>
+      <div className="match">
+        <div className="mcol">${board.map(w=>html`<button key=${w.id} className=${"mitem word"+(done[w.id]?" good":"")+(selW===w.id?" sel":"")+(flash&&flash[0]===w.id?" bad":"")} disabled=${!!done[w.id]} onClick=${()=>clickW(w.id)}><${Seg} segs=${w.segs} w=${w.w}/></button>`)}</div>
+        <div className="mcol">${defs.map(w=>html`<button key=${w.id} className=${"mitem"+(done[w.id]?" good":"")+(selD===w.id?" sel":"")+(flash&&flash[1]===w.id?" bad":"")} disabled=${!!done[w.id]} onClick=${()=>clickD(w.id)}>${done[w.id]?html`<b>${w.w} : </b>`:""}${w.d}</button>`)}</div>
+      </div>
+      ${complete && html`<${Correction} ok=${firstTry===board.length} partial=${firstTry>=3} simple=${firstTry+" paire"+(firstTry>1?"s":"")+" sur "+board.length+" trouvée"+(firstTry>1?"s":"")+" du premier coup."}>
+        ${board.map(w=>html`<details key=${w.id} className="mini" open=${!!err[w.id]}><summary><b>${w.w}</b>${err[w.id]?html` <span className="tag ko">erreur</span>`:""}</summary><${WordDetail} w=${w} compact=${true}/></details>`)}<//>`}
+      ${complete && html`<div className="actions"><button className="btn primary" onClick=${next}>${bi+1>=boards.length?"Voir le bilan":"Plateau suivant"}</button></div>`}
+    </div></div>`;
+}
+
+function RecallEx({pool, onDone}){
+  const items = useMemo(()=>sample(pool, Math.min(6,pool.length)),[]);
+  const [i,setI]=useState(0), [val,setVal]=useState(""), [hint,setHint]=useState(0), [res,setRes]=useState(null), [score,setScore]=useState(0), [rev,setRev]=useState([]);
+  const w = items[i]; const inp = useRef(null);
+  useEffect(()=>{ inp.current && inp.current.focus(); },[i]);
+  const masked = useMemo(()=>{ const stem = norm(w.w.split(" ")[0]).slice(0, Math.max(3, Math.min(5, w.w.length-2)));
+    return w.e.split(/(\s+)/).map(t=> norm(t).replace(/^(«|\(|l'|d'|qu')/,"").startsWith(stem) ? "_____" : t).join(""); },[i]);
+  const check = (giveUp) => {
+    if(res) return;
+    const a = val.trim(); let r;
+    if(!giveUp && a.toLowerCase()===w.w.toLowerCase()) r="ok";
+    else if(!giveUp && (norm(a)===norm(w.w) || norm(a)===norm(w.w)+"s" || norm(a)+"s"===norm(w.w))) r="near";
+    else r="ko";
+    const p = r==="ko"?0:(hint?0.5:1); setScore(s=>s+p); if(r==="ko"||hint) setRev(x=>[...x,w.id]); setRes(r);
+  };
+  const next = () => { if(i+1>=items.length) onDone({score, max:items.length, review:rev, unit:"points"}); else { setI(i+1); setVal(""); setHint(0); setRes(null);} };
+  return html`<div>
+    <${ExProgress} i=${i} n=${items.length} score=${score}/>
+    <div className="panel q">
+      <div className="fc-meta"><${MatChip} m=${w.m}/><${NivChip} n=${w.n}/></div>
+      <p className="q-t">Quel mot correspond à cette définition ?</p>
+      <p className="def-box">${w.d}</p>
+      ${hint>=1 && html`<p className="hint">Indice 1 : le mot commence par « <b>${w.w.slice(0,2)}</b> » et compte ${w.w.replace(/[\s-]/g,"").length} lettres${w.w.includes(" ")?" (en plusieurs mots)":""}.</p>`}
+      ${hint>=2 && html`<p className="hint">Indice 2 : ${masked}</p>`}
+      <form className="recall" onSubmit=${e=>{e.preventDefault(); check(false);}}>
+        <label htmlFor="recall-in" className="sr">Ta réponse</label>
+        <input id="recall-in" ref=${inp} value=${val} disabled=${!!res} onInput=${e=>setVal(e.target.value)} autoComplete="off" spellCheck="false" placeholder="Écris le mot"/>
+        <button type="submit" className="btn primary" disabled=${!!res || !val.trim()}>Valider</button>
+        <button type="button" className="btn" disabled=${!!res || hint>=2} onClick=${()=>setHint(h=>h+1)}>Indice${hint?" suivant":""}</button>
+        <button type="button" className="btn" disabled=${!!res} onClick=${()=>check(true)}>Je ne sais pas</button>
+      </form>
+      ${res && html`<${Correction} ok=${res==="ok"} partial=${res==="near"} simple=${res==="ok" ? (hint?"½ point (avec indice). ":"1 point. ")+"C'est bien « "+w.w+" »." : res==="near" ? "Le mot est reconnu, mais vérifie l'orthographe : « "+w.w+" »." : "Le mot attendu était « "+w.w+" »."}>
+        <${WordDetail} w=${w}/><//>`}
+      ${res && html`<div className="actions"><button className="btn primary" onClick=${next}>${i+1>=items.length?"Voir le bilan":"Mot suivant"}</button></div>`}
+    </div></div>`;
+}
+
+function RootsEx({pool, onDone}){
+  const [demo,setDemo]=useState(true);
+  const items = useMemo(()=>{
+    let src = pool.filter(w=>w.segs && w.segs.some(s=>s.k)); if(src.length<5) src = W.filter(w=>w.segs && w.segs.some(s=>s.k));
+    const rq = sample(src,5).map(w=>{ const idx = pick(w.segs.map((s,j)=>s.k?j:-1).filter(j=>j>=0)); const k=w.segs[idx].k;
+      const others = shuffle(Object.keys(ROOTS).filter(x=>ROOTS[x][1]!==ROOTS[k][1])).reduce((a,x)=>{ if(a.length<3 && !a.some(y=>ROOTS[y][1]===ROOTS[x][1])) a.push(x); return a; },[]);
+      return {type:"root", w, idx, k, opts: shuffle([k,...others])}; });
+    const tq = sample(TR,3).map(t=>({type:"tr", t, opts: shuffle([{t:t.d,ok:true},{t:t.lures[0][0],x:t.lures[0][1]},{t:t.lures[1][0],x:t.lures[1][1]}])}));
+    return [rq[0],rq[1],rq[2],tq[0],rq[3],tq[1],rq[4],tq[2]].filter(Boolean);
+  },[]);
+  const [i,setI]=useState(0), [ans,setAns]=useState(null), [help,setHelp]=useState(false), [score,setScore]=useState(0), [rev,setRev]=useState([]);
+  if(demo){ const ex = WBY["hemisphere"];
+    return html`<div className="panel q">
+      <span className="chip">Exemple résolu</span>
+      <h2>Comment décomposer un mot</h2>
+      <p className="word-big center"><${Seg} segs=${ex.segs} w=${ex.w}/></p>
+      <ol className="worked">
+        <li><b>Repère les éléments.</b> Hémisphère = <span className="seg a">hémi</span> + <span className="seg b">sphère</span>.</li>
+        <li><b>Cherche le sens de chacun.</b> hémi- = « moitié » (grec) ; -sphère = « boule » (grec).</li>
+        <li><b>Assemble.</b> Une hémisphère, c'est « une moitié de boule ».</li>
+        <li><b>Vérifie avec le contexte.</b> En géographie : chacune des deux moitiés de la Terre, séparées par l'équateur. Le sens assemblé est cohérent.</li>
+      </ol>
+      <p className="muted">À toi : d'abord des éléments dans des mots du lexique, puis des mots jamais vus dont tu devineras le sens.</p>
+      <div className="actions"><button className="btn primary" onClick=${()=>setDemo(false)}>Commencer</button></div>
+    </div>`; }
+  const it = items[i];
+  const done = () => { if(i+1>=items.length) onDone({score, max:items.length, review:rev, unit:"points"}); else { setI(i+1); setAns(null); setHelp(false);} };
+  if(it.type==="root"){
+    const R = ROOTS[it.k]; const choose = k => { if(ans) return; setAns(k); if(k===it.k) setScore(s=>s+1); else setRev(r=>[...r,it.w.id]); };
+    return html`<div><${ExProgress} i=${i} n=${items.length} score=${score}/>
+      <div className="panel q">
+        <div className="fc-meta"><${MatChip} m=${it.w.m}/><span className="chip">Élément de formation</span></div>
+        <p className="word-big center"><${Seg} segs=${it.w.segs} w=${it.w.w} hi=${it.idx}/></p>
+        <p className="q-t">Dans « ${it.w.w} », que signifie l'élément <b className="mono">${R[0]}</b> ?</p>
+        <div className="opts two">${it.opts.map((k,j)=>html`<button key=${j} className=${"opt"+(ans?(k===it.k?" good":ans===k?" bad":" dim"):"")} disabled=${!!ans} onClick=${()=>choose(k)}><span className="optk">${"ABCD"[j]}</span>${ROOTS[k][1]}</button>`)}</div>
+        ${ans && html`<${Correction} ok=${ans===it.k} simple=${R[0]+" veut dire « "+R[1]+" » ("+R[2]+")."}>
+          <p><b>Autres mots formés avec ${R[0]}</b> : ${(ROOT_WORDS[it.k]||[]).join(", ")}.</p>
+          <${WordDetail} w=${it.w} compact=${true}/><//>`}
+        ${ans && html`<div className="actions"><button className="btn primary" onClick=${done}>${i+1>=items.length?"Voir le bilan":"Suivant"}</button></div>`}
+      </div></div>`;
+  }
+  const t = it.t; const chosen = ans!==null && it.opts[ans];
+  const choose = j => { if(ans!==null) return; setAns(j); if(it.opts[j].ok) setScore(s=>s+(help?0.5:1)); };
+  return html`<div><${ExProgress} i=${i} n=${items.length} score=${score}/>
+    <div className="panel q">
+      <span className="chip">Mot nouveau</span>
+      <p className="word-big center"><${Seg} segs=${t.segs} w=${t.w}/></p>
+      <p className="q-t">Tu ne connais peut-être pas ce mot. D'après ses éléments, que signifie-t-il ?</p>
+      ${!help && ans===null && html`<button className="linkbtn" onClick=${()=>setHelp(true)}>Afficher le sens des éléments (½ point)</button>`}
+      ${help && html`<${RootChips} segs=${t.segs}/>`}
+      <div className="opts">${it.opts.map((o,j)=>html`<button key=${j} className=${"opt"+(ans!==null?(o.ok?" good":ans===j?" bad":" dim"):"")} disabled=${ans!==null} onClick=${()=>choose(j)}><span className="optk">${"ABC"[j]}</span>${o.t}</button>`)}</div>
+      ${ans!==null && html`<${Correction} ok=${!!chosen.ok} simple=${"« "+t.w+" » : "+t.d}>
+        <p><b>Décomposition</b> :</p><${RootChips} segs=${t.segs}/>
+        ${!chosen.ok && html`<p className="note">Ta réponse, « ${chosen.t} » : ${chosen.x}</p>`}
+        <p className="muted">C'est la même démarche qui permet, devant un mot inconnu d'une leçon, d'en deviner le sens avant de le vérifier.</p><//>`}
+      ${ans!==null && html`<div className="actions"><button className="btn primary" onClick=${done}>${i+1>=items.length?"Voir le bilan":"Suivant"}</button></div>`}
+    </div></div>`;
+}
+
+function parseCloze(c){ const parts=c.t.split(/\{([^}]+)\}/); const blanks=[]; const seq=parts.map((p,j)=>{ if(j%2){ const [form,lem]=p.split("#"); const b={form, id:slug(lem||form)}; blanks.push(b); return {blank:blanks.length-1, after:""}; } return {text:p}; });
+  for(let j=1;j<seq.length;j+=2){ const nx=seq[j+1]; if(nx){ const m=nx.text.match(/^[.,;:!?…)]+/); if(m){ seq[j].after=m[0]; nx.text=nx.text.slice(m[0].length); } } }
+  return {seq, blanks}; }
+function ClozeEx({pool, f, onDone}){
+  const paras = useMemo(()=>{
+    const ok = CLOZE.filter(c => (f.m==="all"||RES_BY[c.r].m===f.m) && parseCloze(c).blanks.some(b=>WBY[b.id] && inF(WBY[b.id], f)));
+    return sample(ok.length?ok:CLOZE, 2);
+  },[]);
+  const [pi,setPi]=useState(0), [fill,setFill]=useState({}), [sel,setSel]=useState(null), [checked,setChecked]=useState(false), [score,setScore]=useState(0), [max,setMax]=useState(0), [rev,setRev]=useState([]);
+  const c = paras[pi]; const P = useMemo(()=>parseCloze(c),[pi]);
+  const bank = useMemo(()=>shuffle([...P.blanks.map(b=>b.form), ...c.x]),[pi]);
+  const used = Object.values(fill);
+  const place = (bi, form) => { setFill(x=>{ const y={...x}; Object.keys(y).forEach(k=>{ if(y[k]===form) delete y[k]; }); y[bi]=form; return y; }); setSel(null); };
+  const clickBlank = bi => { if(checked) return; if(sel!==null && typeof sel==="string"){ place(bi, sel); } else if(fill[bi]!==undefined){ setFill(x=>{const y={...x}; delete y[bi]; return y;}); } else setSel(bi); };
+  const clickChip = form => { if(checked) return; if(typeof sel==="number"){ place(sel, form); } else setSel(sel===form?null:form); };
+  const all = P.blanks.every((b,j)=>fill[j]!==undefined);
+  const nOk = P.blanks.filter((b,j)=>fill[j]===b.form).length;
+  const check = () => { setChecked(true); setScore(s=>s+nOk); setMax(m=>m+P.blanks.length); setRev(r=>[...r, ...P.blanks.filter((b,j)=>fill[j]!==b.form && WBY[b.id]).map(b=>b.id)]); };
+  const next = () => { if(pi+1>=paras.length) onDone({score, max, review:rev, unit:"mots bien placés"}); else { setPi(pi+1); setFill({}); setChecked(false); setSel(null);} };
+  return html`<div><${ExProgress} i=${pi} n=${paras.length} label="Texte"/>
+    <div className="panel q">
+      <div className="fc-meta"><${MatChip} m=${RES_BY[c.r].m}/><span className="muted">${RES_BY[c.r].t}</span></div>
+      <p className="q-t">Complète le texte. Choisis un mot dans la réserve, puis clique sur l'emplacement. Deux mots de la réserve sont des pièges.</p>
+      <div className="bank" aria-label="Réserve de mots">${bank.map((form,j)=>html`<button key=${j} className=${"chipbtn"+(sel===form?" sel":"")+(used.includes(form)?" used":"")} disabled=${checked} onClick=${()=>clickChip(form)}>${form}</button>`)}</div>
+      <p className="cloze">${P.seq.map((s,j)=> s.text!==undefined ? html`<span key=${j}>${s.text}</span>`
+        : html`<span key=${j} className="nowrap"><button className=${"blank"+(sel===s.blank?" sel":"")+(checked?(fill[s.blank]===P.blanks[s.blank].form?" good":" bad"):"")} onClick=${()=>clickBlank(s.blank)} aria-label=${"Emplacement "+(s.blank+1)}>${fill[s.blank] || "……"}${checked && fill[s.blank]!==P.blanks[s.blank].form ? html`<span className="fix"> → ${P.blanks[s.blank].form}</span>`:""}</button>${s.after}</span>`)}</p>
+      ${!checked && html`<div className="actions"><button className="btn primary" disabled=${!all} onClick=${check}>Vérifier</button></div>`}
+      ${checked && html`<${Correction} ok=${nOk===P.blanks.length} partial=${nOk>0} simple=${nOk+" mot"+(nOk>1?"s":"")+" bien placé"+(nOk>1?"s":"")+" sur "+P.blanks.length+"."}>
+        ${P.blanks.map((b,j)=>{ const w=WBY[b.id]; const got=fill[j]; const wrong=got!==b.form; const gw = W.find(x=>norm(x.w)===norm(got)||norm(x.w)+"s"===norm(got));
+          return html`<div key=${j} className="cl-item"><p><b>${j+1}. ${b.form}</b> ${wrong?html`<span className="tag ko">tu as mis « ${got} »</span>`:html`<span className="tag ok">juste</span>`}</p>
+            ${w && html`<p className="small">${w.d}</p>`}
+            ${wrong && html`<p className="note small">« ${got} » : ${LUREX[got] || (gw ? gw.d : "ce mot ne convient pas ici.")}</p>`}</div>`; })}<//>`}
+      ${checked && html`<div className="actions"><button className="btn primary" onClick=${next}>${pi+1>=paras.length?"Voir le bilan":"Texte suivant"}</button></div>`}
+    </div></div>`;
+}
+
+function ProdEx({pool, store, onDone}){
+  const items = useMemo(()=>{ const seen = pool.filter(w=>(store.cards["w:"+w.id]||{}).b>=2); return sample(seen.length>=3?seen:pool, Math.min(3,pool.length)); },[]);
+  const [i,setI]=useState(0), [def,setDef]=useState(""), [sen,setSen]=useState(""), [aid,setAid]=useState(false), [shown,setShown]=useState(false), [chk,setChk]=useState([false,false,false,false]), [score,setScore]=useState(0), [rev,setRev]=useState([]);
+  const w = items[i];
+  const CRIT = ["Ma définition donne la catégorie générale (c'est un… / c'est une…).","Ma définition donne au moins un trait qui distingue ce mot des mots voisins.","Ma phrase montre le sens du mot : on pourrait le deviner grâce au contexte.","Le mot est bien orthographié et bien accordé dans ma phrase."];
+  const verdict = ok => { if(ok) setScore(s=>s+1); else setRev(r=>[...r,w.id]); if(i+1>=items.length) onDone({score:score+(ok?1:0), max:items.length, review: ok?rev:[...rev,w.id], unit:"mots maîtrisés (auto-évaluation)"}); else { setI(i+1); setDef(""); setSen(""); setAid(false); setShown(false); setChk([false,false,false,false]); } };
+  const sibs = W.filter(x=>x.r===w.r && x.id!==w.id).slice(0,4);
+  return html`<div><${ExProgress} i=${i} n=${items.length} score=${score}/>
+    <div className="panel q">
+      <div className="fc-meta"><${MatChip} m=${w.m}/><${NivChip} n=${w.n}/></div>
+      <p className="word-big center"><${Seg} segs=${w.segs} w=${w.w}/> <${SpeakBtn} t=${w.w}/></p>
+      <label className="lbl" htmlFor="prod-def">1. Définis ce mot avec tes propres mots</label>
+      <textarea id="prod-def" rows="2" value=${def} disabled=${shown} onInput=${e=>setDef(e.target.value)}></textarea>
+      <label className="lbl" htmlFor="prod-sen">2. Écris une phrase où tu l'emploies en ${MAT[w.m].n.toLowerCase()}</label>
+      <textarea id="prod-sen" rows="2" value=${sen} disabled=${shown} onInput=${e=>setSen(e.target.value)}></textarea>
+      ${!shown && html`<div className="actions">
+        <button className="btn" disabled=${aid} onClick=${()=>setAid(true)}>Aide pour commencer</button>
+        <button className="btn primary" disabled=${!def.trim() && !sen.trim()} onClick=${()=>setShown(true)}>Voir la correction</button></div>`}
+      ${aid && !shown && html`<div className="hint"><p>Définition : « ${w.w.charAt(0).toUpperCase()+w.w.slice(1)}, c'est un(e) … qui … »</p><p>Phrase : reprends une situation de ta leçon de ${MAT[w.m].n.toLowerCase()}. Tu peux réutiliser : ${sibs.map(s=>s.w).join(", ")}.</p></div>`}
+      ${shown && html`<div className="corr mid"><div className="corr-simple"><span className="corr-mark">Compare avec le modèle</span></div>
+        <div className="corr-detail">
+          <dl className="facts"><dt>Définition modèle</dt><dd>${w.d}</dd><dt>Phrase modèle</dt><dd className="ex">${w.e}</dd>
+          ${w.segs && html`<${Frag}><dt>Formation</dt><dd><${RootChips} segs=${w.segs}/></dd><//>`}</dl>
+          <p className="lbl">Vérifie ta production :</p>
+          <div className="checks">${CRIT.map((c,j)=>html`<label key=${j} className="check"><input type="checkbox" id=${"crit-"+j} checked=${chk[j]} onChange=${()=>setChk(x=>x.map((v,k)=>k===j?!v:v))}/> ${c}</label>`)}</div>
+          <div className="actions"><button className="btn rate r0" onClick=${()=>verdict(false)}><b>À retravailler</b><span>la carte repasse en boîte 1</span></button>
+            <button className="btn rate r2" onClick=${()=>verdict(true)} disabled=${chk.filter(Boolean).length<3}><b>Réussi</b><span>au moins 3 critères cochés</span></button></div>
+        </div></div>`}
+    </div></div>`;
+}
+
+function ExProgress({i,n,score,label}){
+  return html`<div className="ex-prog"><span className="muted">${label||"Question"} ${i+1} / ${n}</span>${score!==undefined && html`<span className="muted">Score : <b>${String(score).replace(".",",")}</b></span>`}
+    <div className="progress"><div style=${{width:(i/n*100)+"%"}}></div></div></div>`;
+}
+
+function Exercises({pool, store, upd, f}){
+  const [lvl,setLvl]=useState(null), [run,setRun]=useState(0), [result,setResult]=useState(null);
+  const finish = r => { setResult(r); const pct = r.max? Math.max(0,Math.round(r.score/r.max*100)) : 0;
+    upd(s=>{ const e=s.ex[lvl.id]||{n:0,best:0}; s.ex[lvl.id]={n:e.n+1, best:Math.max(e.best,pct), last:pct}; }); };
+  const startL = L => { setLvl(L); setResult(null); setRun(x=>x+1); };
+  if(lvl && pool.length<4) return html`<div className="page"><p className="empty">Il faut au moins 4 mots dans les filtres pour s'exercer. Élargis la matière ou le niveau dans la barre du haut.</p><button className="btn" onClick=${()=>setLvl(null)}>Retour aux niveaux</button></div>`;
+  if(lvl){
+    const props = {pool, f, store, onDone:finish, key:run};
+    const Comp = {1:QcmEx,2:MatchEx,3:RecallEx,4:RootsEx,5:ClozeEx,6:ProdEx}[lvl.id];
+    return html`<div className="page narrow">
+      <div className="ex-head"><button className="btn" onClick=${()=>{setLvl(null); setResult(null);}}><${Ico} n="back" s=${16}/> Niveaux</button><span className="grow"></span>
+        <span className="chip">Niveau ${lvl.id} · ${lvl.aim}</span></div>
+      <h1 className="ex-title">${lvl.t}</h1>
+      ${result ? html`<${EndScreen} r=${result} lvl=${lvl} onAgain=${()=>startL(lvl)} onNext=${lvl.id<6?()=>startL(LEVELS[lvl.id]):null} upd=${upd}/>` : html`<${Comp} ...${props}/>`}
+    </div>`;
+  }
+  return html`<div className="page">
+    <header className="page-head"><h1>Exercices</h1><p className="lead">Six niveaux de complexité croissante. Commence par le niveau 1 sur un réseau que tu as exploré, et monte quand tu dépasses 80 %.</p></header>
+    <div className="levels">${LEVELS.map(L=>{ const e=store.ex[L.id]; return html`<button key=${L.id} className="level" onClick=${()=>startL(L)}>
+      <span className="lv-n">${L.id}</span>
+      <span className="lv-body"><span className="lv-top"><b>${L.t}</b><span className="chip">${L.aim}</span></span><span className="lv-d">${L.d}</span>
+        <span className="lv-stat muted">${e ? e.n+" séance"+(e.n>1?"s":"")+" · meilleur score "+e.best+" %" : "Pas encore commencé"}</span></span>
+      ${e && html`<span className=${"lv-badge"+(e.best>=80?" ok":"")}>${e.best} %</span>`}</button>`; })}</div>
+  </div>`;
+}
+
+function EndScreen({r, lvl, onAgain, onNext, upd}){
+  const [added,setAdded]=useState(false);
+  const pct = r.max? Math.max(0,Math.round(r.score/r.max*100)) : 0;
+  const rev = [...new Set(r.review)].filter(id=>WBY[id]);
+  return html`<div className="panel q">
+    <h2>Bilan</h2>
+    <div className="today"><div><div className="big">${String(r.score).replace(".",",")}<span className="small"> / ${r.max}</span></div><div className="muted">${r.unit}</div></div>
+      <div><div className="big">${pct} %</div><div className="muted">${pct>=80?"Tu peux passer au niveau suivant.":pct>=50?"Encore une séance sur ce niveau.":"Revois les mots en flashcards, puis recommence."}</div></div></div>
+    ${rev.length>0 && html`<div><h3 className="h-sub">Mots à revoir</h3><p>${rev.map(id=>WBY[id].w).join(", ")}</p>
+      <button className="btn" disabled=${added} onClick=${()=>{ upd(s=>markReview(s,rev)); setAdded(true); }}>${added?"Ajoutés aux flashcards (boîte 1)":"Les ajouter aux flashcards à revoir"}</button></div>`}
+    <div className="actions"><button className="btn" onClick=${onAgain}>Recommencer ce niveau</button>${onNext && html`<button className="btn primary" onClick=${onNext}>Niveau suivant</button>`}</div>
+  </div>`;
+}
+
+/* ---------- Progression ---------- */
+function Progress({pool, store, upd}){
+  const [confirm,setConfirm]=useState(false);
+  const rows = Object.keys(MAT).map(m=>{ const ws=pool.filter(w=>w.m===m); return [m, [0,1,2,3,4,5].map(b=>ws.filter(w=> b===0 ? !store.cards["w:"+w.id] : (store.cards["w:"+w.id]||{}).b===b).length), ws.length]; }).filter(r=>r[2]);
+  return html`<div className="page">
+    <header className="page-head"><h1>Progression</h1><p className="lead">Place des mots dans les boîtes des flashcards (mode « du mot au sens »), par matière. Un mot en boîte 4 ou 5 a été retrouvé plusieurs fois, à plusieurs jours d'intervalle.</p></header>
+    <div className="panel">${rows.map(([m,c,n])=>html`<div key=${m} className="prow"><div className="prow-h"><${MatChip} m=${m}/><span className="muted">${c[4]+c[5]} / ${n} installés</span></div><${BoxBar} counts=${c}/></div>`)}</div>
+    <h2>Exercices</h2>
+    <div className="table-wrap"><table className="tbl"><thead><tr><th>Niveau</th><th>Séances</th><th>Dernier score</th><th>Meilleur score</th></tr></thead>
+      <tbody>${LEVELS.map(L=>{const e=store.ex[L.id]; return html`<tr key=${L.id}><td>${L.id}. ${L.t}</td><td className="num">${e?e.n:0}</td><td className="num">${e?e.last+" %":"–"}</td><td className="num">${e?e.best+" %":"–"}</td></tr>`;})}</tbody></table></div>
+    <p className="muted small">La progression est enregistrée dans ce navigateur, sur cet appareil.</p>
+    ${!confirm ? html`<button className="btn" onClick=${()=>setConfirm(true)}>Effacer toute la progression</button>`
+      : html`<div className="panel warnbox"><p>Effacer toutes les cartes et tous les scores ? Cette action ne peut pas être annulée.</p><div className="actions"><button className="btn danger" onClick=${()=>{ upd(s=>{s.cards={}; s.ex={};}); setConfirm(false); }}>Oui, tout effacer</button><button className="btn" onClick=${()=>setConfirm(false)}>Annuler</button></div></div>`}
+  </div>`;
+}
+
+/* ---------- Coquille de l'application ---------- */
+const NAV = [["accueil","Accueil"],["explorer","Explorer"],["cartes","Flashcards"],["exercices","Exercices"],["progres","Progression"]];
+function useHash(){
+  const get = () => { const h=(location.hash||"").slice(1); return NAV.some(n=>n[0]===h)?h:"accueil"; };
+  const [h,setH] = useState(get);
+  useEffect(()=>{ const fn=()=>setH(get()); window.addEventListener("hashchange",fn); return ()=>window.removeEventListener("hashchange",fn); },[]);
+  const go = x => { try{ if(location.hash!=="#"+x) location.hash=x; }catch(e){} setH(x); try{ document.getElementById("main").scrollTop=0; }catch(e){} };
+  return [h,go];
+}
+
+function App(){
+  const [route,go] = useHash();
+  const [store,setStore] = useState(loadStore);
+  const upd = useCallback(fn => setStore(s => { const n=JSON.parse(JSON.stringify(s)); fn(n); saveStore(n); return n; }), []);
+  const [f,setF] = useState({m:"all", n:"all", cum:true});
+  const pool = useMemo(()=>W.filter(w=>inF(w,f)),[f]);
+  const page = {
+    accueil: html`<${Home} go=${go} pool=${pool} store=${store}/>`,
+    explorer: html`<${Explorer} pool=${pool} key=${f.m+f.n+f.cum}/>`,
+    cartes: html`<${Flashcards} pool=${pool} store=${store} upd=${upd} f=${f} key=${f.m+f.n+f.cum}/>`,
+    exercices: html`<${Exercises} pool=${pool} store=${store} upd=${upd} f=${f} key=${f.m+f.n+f.cum}/>`,
+    progres: html`<${Progress} pool=${pool} store=${store} upd=${upd}/>`
+  }[route];
+  return html`<div className="app">
+    <header className="toolbar">
+      <div className="brand"><svg width="22" height="22" viewBox="0 0 22 22" aria-hidden="true"><rect x="2.5" y="3.5" width="17" height="15" rx="2" className="brand-bg"/><path d="M6 8h6M6 11h10M6 14h7" className="brand-ln"/></svg><span>Vocabulaire encyclopédique</span></div>
+      <div className="grow"></div>
+      <div className="filters">
+        <label htmlFor="f-mat" className="sr">Matière</label>
+        <select id="f-mat" value=${f.m} onChange=${e=>setF({...f,m:e.target.value})}><option value="all">Toutes les matières</option>${Object.keys(MAT).map(m=>html`<option key=${m} value=${m}>${MAT[m].n}</option>`)}</select>
+        <label htmlFor="f-niv" className="sr">Niveau</label>
+        <select id="f-niv" value=${f.n} onChange=${e=>setF({...f,n:e.target.value})}><option value="all">Tous les niveaux</option>${NIVS.map(n=>html`<option key=${n} value=${n}>${f.cum?"Jusqu'au ":"Seulement "}${n}</option>`)}</select>
+        <label className="cb" htmlFor="f-cum"><input type="checkbox" id="f-cum" checked=${f.cum} onChange=${e=>setF({...f,cum:e.target.checked})}/> niveaux précédents</label>
+        <span className="chip count-chip">${pool.length} mots</span>
+      </div>
+    </header>
+    <div className="body">
+      <nav className="side" aria-label="Sections">${NAV.map(([k,t])=>html`<button key=${k} className=${"navitem"+(route===k?" on":"")} aria-current=${route===k?"page":undefined} onClick=${()=>go(k)}><${Ico} n=${k}/><span>${t}</span></button>`)}</nav>
+      <main className="main" id="main">${page}</main>
+    </div>
+  </div>`;
+}
+
+ReactDOM.createRoot(document.getElementById("root")).render(html`<${App}/>`);
+
+</script>
+</body>
+</html>
