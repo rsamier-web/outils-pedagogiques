@@ -1,6 +1,6 @@
 // Service worker du Marchand : fonctionne hors ligne après la première visite.
 // Changez VERSION à chaque mise à jour de index.html pour forcer le rafraîchissement.
-const VERSION = 'marchand-v1';
+const VERSION = 'marchand-v2';
 const CORE = ['./', './index.html', './manifest-marchand.webmanifest', './icon-192.png', './icon-512.png', './icon-maskable-512.png', './apple-touch-icon.png'];
 
 self.addEventListener('install', e => {
