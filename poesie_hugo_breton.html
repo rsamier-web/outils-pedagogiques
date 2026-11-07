@@ -1,0 +1,1264 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>De Hugo à Breton</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,300;0,400;0,600;0,700;1,400&family=Noto+Serif:ital,wght@0,400;1,400&display=swap" rel="stylesheet">
+<style>
+/* Plan : l'environnement visuel de KDE Plasma (thème Breeze). Fenêtre gris clair, vues blanches,
+   bleu Breeze pour la sélection et le focus, Noto Sans partout, Noto Serif pour les vers.
+   Une seule touche de couleur par mouvement, issue de la palette d'icônes Breeze (signalement). */
+:root {
+  --window: #EFF0F1;
+  --view: #FCFCFC;
+  --ink: #232627;
+  --muted: #6A737D;
+  --rule: #C9CDD1;
+  --accent: #3DAEE9;
+  --link: #2980B9;
+  --good: #27AE60;
+  --bad: #DA4453;
+  --paper: var(--window);
+  --surface: var(--view);
+  --display: "Noto Sans", "Segoe UI", system-ui, sans-serif;
+  --body: "Noto Sans", "Segoe UI", system-ui, sans-serif;
+  --verse: "Noto Serif", Georgia, "Times New Roman", serif;
+  --c-romantisme: #DA4453;
+  --c-baudelaire: #8E44AD;
+  --c-parnasse: #16A085;
+  --c-symbolisme: #2980B9;
+  --c-mallarme: #5D6D7E;
+  --c-cros: #B9770E;
+  --c-dada: #D35400;
+  --c-surrealisme: #C2185B;
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --window: #202326; --view: #141618; --ink: #FCFCFC; --muted: #A1A9B1; --rule: #3B4045;
+    --accent: #3DAEE9; --link: #1D99F3; --good: #3EC07A; --bad: #ED5A6A;
+    --c-romantisme: #F0707D; --c-baudelaire: #B27BD0; --c-parnasse: #3CC5A6; --c-symbolisme: #5DB4F0;
+    --c-mallarme: #9AA8B6; --c-cros: #E5B04F; --c-dada: #F68B3C; --c-surrealisme: #F06292;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --window: #202326; --view: #141618; --ink: #FCFCFC; --muted: #A1A9B1; --rule: #3B4045;
+  --accent: #3DAEE9; --link: #1D99F3; --good: #3EC07A; --bad: #ED5A6A;
+  --c-romantisme: #F0707D; --c-baudelaire: #B27BD0; --c-parnasse: #3CC5A6; --c-symbolisme: #5DB4F0;
+  --c-mallarme: #9AA8B6; --c-cros: #E5B04F; --c-dada: #F68B3C; --c-surrealisme: #F06292;
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; }
+body { background: var(--window); color: var(--ink); font-family: var(--body); font-size: 16px; line-height: 1.6; }
+h1, h2, h3 { font-family: var(--display); font-weight: 600; line-height: 1.2; text-wrap: balance; margin: 0; }
+p { margin: 0; }
+a { color: var(--link); }
+button { font: inherit; color: inherit; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; border-radius: 4px; }
+.num { font-variant-numeric: tabular-nums; }
+
+/* barre d'outils, comme l'en-tête d'une application KDE */
+.top { position: sticky; top: 0; z-index: 20; background: var(--window); border-bottom: 1px solid var(--rule); }
+.top-in { max-width: 1180px; margin: 0 auto; padding: 0 16px; display: flex; align-items: center; gap: 16px; }
+.brand { font-weight: 600; font-size: 16px; white-space: nowrap; padding: 10px 6px; background: none; border: 0; cursor: pointer; border-radius: 4px; }
+.brand i { font-style: normal; font-weight: 400; color: var(--muted); }
+.brand:hover { background: color-mix(in srgb, var(--accent) 15%, transparent); }
+.tabs { display: flex; gap: 2px; overflow-x: auto; scrollbar-width: none; flex: 1; }
+.tabs::-webkit-scrollbar { display: none; }
+.tab { border: 0; background: none; padding: 12px 12px 10px; cursor: pointer; white-space: nowrap; color: var(--muted); border-bottom: 3px solid transparent; font-size: 14.5px; }
+.tab[aria-current="page"] { color: var(--ink); border-bottom-color: var(--accent); }
+.tab:hover { color: var(--ink); background: color-mix(in srgb, var(--accent) 10%, transparent); }
+.tab .step { font-variant-numeric: tabular-nums; color: var(--muted); margin-right: 6px; }
+
+main { max-width: 1180px; margin: 0 auto; padding: 24px 16px 56px; display: grid; gap: 24px; }
+.lead { color: var(--muted); max-width: 70ch; }
+.eyebrow { font-size: 13px; color: var(--muted); font-weight: 600; }
+.panel { background: var(--view); border: 1px solid var(--rule); border-radius: 6px; padding: 18px; }
+.btn { border: 1px solid var(--rule); background: var(--view); border-radius: 4px; padding: 7px 14px; cursor: pointer; font-size: 14.5px; box-shadow: 0 1px 1px rgba(0,0,0,.06); }
+.btn:hover { border-color: var(--accent); }
+.btn:active { background: color-mix(in srgb, var(--accent) 22%, var(--view)); }
+.btn.primary { border-color: var(--accent); background: color-mix(in srgb, var(--accent) 14%, var(--view)); }
+.btn.primary:hover { background: color-mix(in srgb, var(--accent) 24%, var(--view)); }
+.row { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+
+/* accueil */
+.hero { display: grid; gap: 14px; padding: 4px 0; }
+.hero h1 { font-size: clamp(32px, 5vw, 48px); font-weight: 300; }
+.hero h1 em { font-style: normal; color: var(--muted); }
+.hero .dates { font-size: 16px; color: var(--muted); }
+.ribbon { display: grid; grid-template-columns: repeat(8, minmax(0, 1fr)); gap: 6px; }
+.ribbon button { min-width: 0; border: 1px solid var(--rule); border-radius: 6px; cursor: pointer; padding: 10px 10px 9px; background: var(--view); text-align: left; display: grid; gap: 2px; position: relative; overflow: hidden; }
+.ribbon button::before { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 4px; background: var(--mc); }
+.ribbon button:hover { border-color: var(--accent); background: color-mix(in srgb, var(--accent) 8%, var(--view)); }
+.ribbon .n { font-weight: 600; font-size: 14px; line-height: 1.25; padding-left: 4px; }
+.ribbon .d { font-size: 12px; color: var(--muted); padding-left: 4px; }
+@media (max-width: 900px) { .ribbon { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+@media (max-width: 480px) { .ribbon { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+.path { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 10px; }
+.path button { text-align: left; border: 1px solid var(--rule); background: var(--view); border-radius: 6px; padding: 16px; cursor: pointer; display: grid; gap: 4px; align-content: start; }
+.path button:hover { border-color: var(--accent); background: color-mix(in srgb, var(--accent) 8%, var(--view)); }
+.path .k { font-size: 13px; font-weight: 600; color: var(--muted); }
+.path h3 { font-size: 16px; }
+.path p { color: var(--muted); font-size: 14.5px; }
+details.design { background: var(--view); border: 1px solid var(--rule); border-radius: 6px; padding: 12px 16px; }
+details.design summary { cursor: pointer; font-weight: 600; font-size: 15px; }
+details.design ul { margin: 10px 0 0; padding-left: 20px; display: grid; gap: 6px; font-size: 15px; }
+
+/* notions */
+.notion-groups { display: grid; gap: 24px; }
+.ngrid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 10px; margin-top: 10px; }
+.ncard { background: var(--view); border: 1px solid var(--rule); border-radius: 6px; padding: 14px; display: grid; gap: 6px; align-content: start; }
+.ncard h3 { font-size: 15.5px; }
+.ncard .def { font-size: 15px; }
+.ncard .ex { font-size: 14px; color: var(--muted); border-left: 2px solid var(--rule); padding-left: 10px; }
+.ncard.hidden .def, .ncard.hidden .ex { filter: blur(6px); user-select: none; }
+.ncard .reveal { justify-self: start; font-size: 13px; padding: 3px 10px; }
+
+/* frise */
+.frise-wrap { background: var(--view); border: 1px solid var(--rule); border-radius: 6px; overflow: hidden; }
+.frise-scroll { overflow-x: auto; position: relative; }
+.frise { position: relative; }
+.axis-t { position: absolute; font-size: 12px; color: var(--muted); transform: translateX(-50%); }
+.gridline { position: absolute; top: 0; bottom: 0; width: 1px; background: var(--rule); opacity: .55; }
+.war { position: absolute; top: 0; bottom: 0; background: repeating-linear-gradient(135deg, color-mix(in srgb, var(--ink) 8%, transparent) 0 3px, transparent 3px 8px); }
+.focusband { position: absolute; top: 0; bottom: 0; background: color-mix(in srgb, var(--mc) 8%, transparent); border-left: 1px dashed var(--mc); border-right: 1px dashed var(--mc); }
+.ev { position: absolute; font-size: 12px; white-space: nowrap; padding-left: 6px; border-left: 2px solid var(--muted); line-height: 16px; }
+.ev b { font-weight: 600; font-variant-numeric: tabular-nums; }
+.band { position: absolute; height: 20px; border-radius: 3px; background: var(--mc); border: 0; cursor: pointer; padding: 0; }
+.band-l { position: absolute; font-weight: 600; font-size: 13.5px; white-space: nowrap; border: 0; background: none; cursor: pointer; padding: 0 4px; line-height: 20px; color: var(--mc); border-radius: 3px; }
+.band-l small { color: var(--muted); font-weight: 400; }
+.life { position: absolute; height: 18px; border-radius: 3px; border: 1px solid var(--mc); background: color-mix(in srgb, var(--mc) 12%, var(--view)); cursor: pointer; padding: 0 6px; font-size: 12px; line-height: 16px; text-align: left; white-space: nowrap; overflow: visible; }
+.life:hover { background: color-mix(in srgb, var(--mc) 24%, var(--view)); }
+.life.sel { background: var(--mc); color: #FFFFFF; }
+.frise-tools { display: flex; flex-wrap: wrap; gap: 6px; padding: 10px 12px; border-bottom: 1px solid var(--rule); align-items: center; background: var(--window); }
+.chip { border: 1px solid var(--rule); background: var(--view); border-radius: 4px; padding: 4px 10px; cursor: pointer; font-size: 13.5px; display: inline-flex; gap: 6px; align-items: center; }
+.chip::before { content: ""; width: 9px; height: 9px; border-radius: 2px; background: var(--mc, var(--muted)); }
+.chip:hover { border-color: var(--accent); }
+.chip[aria-pressed="true"] { border-color: var(--accent); background: color-mix(in srgb, var(--accent) 20%, var(--view)); }
+.detail { padding: 12px 16px; border-top: 1px solid var(--rule); min-height: 60px; display: grid; gap: 4px; }
+.detail .who { font-size: 18px; font-weight: 600; }
+
+/* parcours : panneau latéral comme dans Dolphin */
+.parcours { display: grid; grid-template-columns: 210px minmax(0, 1fr); gap: 20px; align-items: start; }
+.rail { position: sticky; top: 64px; display: grid; gap: 2px; background: var(--view); border: 1px solid var(--rule); border-radius: 6px; padding: 6px; }
+.rail button { text-align: left; border: 1px solid transparent; background: none; padding: 6px 8px; border-radius: 4px; cursor: pointer; display: flex; gap: 10px; align-items: center; font-size: 14.5px; }
+.rail button::before { content: ""; width: 10px; height: 10px; border-radius: 2px; background: var(--mc); flex: none; }
+.rail button:hover { background: color-mix(in srgb, var(--accent) 12%, transparent); }
+.rail button[aria-current="true"] { background: color-mix(in srgb, var(--accent) 22%, transparent); border-color: var(--accent); }
+.rail .nn { display: none; }
+@media (max-width: 860px) {
+  .parcours { grid-template-columns: 1fr; }
+  .rail { position: static; display: flex; overflow-x: auto; }
+  .rail button { white-space: nowrap; }
+}
+.sec-head { display: grid; gap: 4px; }
+.sec-head h2 { font-size: clamp(26px, 3.6vw, 34px); font-weight: 300; }
+.sec-head .per { color: var(--muted); font-variant-numeric: tabular-nums; display: flex; gap: 8px; align-items: center; }
+.sec-head .per::before { content: ""; width: 24px; height: 4px; border-radius: 2px; background: var(--mc); }
+.retenir { background: var(--view); border: 1px solid var(--rule); border-left: 4px solid var(--mc); border-radius: 6px; padding: 12px 16px; }
+.retenir h3 { font-size: 14px; color: var(--ink); }
+.retenir ol { margin: 6px 0 0; padding-left: 22px; display: grid; gap: 4px; }
+.steps { display: flex; gap: 0; flex-wrap: wrap; border-bottom: 1px solid var(--rule); }
+.stepbtn { border: 0; background: none; padding: 8px 14px 7px; cursor: pointer; font-size: 14.5px; color: var(--muted); border-bottom: 3px solid transparent; }
+.stepbtn:hover { color: var(--ink); background: color-mix(in srgb, var(--accent) 10%, transparent); }
+.stepbtn[aria-current="step"] { color: var(--ink); border-bottom-color: var(--accent); }
+.textsel { display: flex; gap: 6px; flex-wrap: wrap; }
+.textsel .stepbtn { border: 1px solid var(--rule); border-radius: 4px; background: var(--view); padding: 5px 12px; }
+.textsel .stepbtn[aria-current="step"] { border-color: var(--accent); background: color-mix(in srgb, var(--accent) 20%, var(--view)); }
+.prose { display: grid; gap: 12px; max-width: 72ch; }
+.prose ul { margin: 0; padding-left: 20px; display: grid; gap: 6px; }
+table.t { border-collapse: collapse; width: 100%; font-size: 14.5px; background: var(--view); }
+.tscroll { overflow-x: auto; border: 1px solid var(--rule); border-radius: 6px; }
+table.t th, table.t td { text-align: left; padding: 8px 10px; border-bottom: 1px solid var(--rule); vertical-align: top; }
+table.t tbody tr:last-child td { border-bottom: 0; }
+table.t tbody tr:nth-child(even) { background: color-mix(in srgb, var(--window) 55%, var(--view)); }
+table.t th { font-size: 13px; font-weight: 600; color: var(--muted); background: var(--window); }
+table.t td.d { white-space: nowrap; font-variant-numeric: tabular-nums; }
+.bio { display: grid; gap: 8px; max-width: 72ch; }
+.bio h3 { font-size: 20px; font-weight: 400; }
+
+.reading { display: grid; grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr); gap: 16px; align-items: start; }
+@media (max-width: 900px) { .reading { grid-template-columns: 1fr; } }
+.poem { background: var(--view); border: 1px solid var(--rule); border-radius: 6px; padding: 18px 16px; position: sticky; top: 64px; max-height: calc(100vh - 84px); overflow-y: auto; }
+@media (max-width: 900px) { .poem { position: static; max-height: none; } }
+.poem h3 { font-size: 20px; font-weight: 400; }
+.poem .ref { color: var(--muted); font-size: 13.5px; margin: 2px 0 4px; }
+.poem .src { font-size: 12.5px; color: var(--muted); }
+.stanza { margin-top: 12px; }
+.vl { display: grid; grid-template-columns: 30px 1fr; font-family: var(--verse); font-size: 16.5px; line-height: 1.6; border-radius: 3px; transition: background-color .15s; }
+.vl .vn { font-family: var(--body); font-size: 11px; color: var(--muted); text-align: right; padding-right: 10px; padding-top: 4px; font-variant-numeric: tabular-nums; }
+.vl.hi { background: color-mix(in srgb, var(--accent) 22%, transparent); box-shadow: inset 2px 0 0 var(--accent); }
+.vl.prose-p { font-size: 16px; margin-top: 10px; }
+.dedic { font-family: var(--verse); font-style: italic; margin-top: 8px; padding-left: 30px; }
+.points { display: grid; gap: 8px; }
+.point { text-align: left; border: 1px solid var(--rule); background: var(--view); border-radius: 6px; padding: 12px 14px; cursor: pointer; display: grid; gap: 4px; font-size: 15px; }
+.point:hover { border-color: var(--accent); }
+.point[aria-pressed="true"] { border-color: var(--accent); background: color-mix(in srgb, var(--accent) 12%, var(--view)); }
+.point h4 { margin: 0; font-size: 15px; font-weight: 600; }
+.point .vrefs { font-size: 12.5px; color: var(--muted); font-weight: 600; font-variant-numeric: tabular-nums; }
+.point blockquote { margin: 4px 0 0; padding-left: 10px; border-left: 2px solid var(--accent); font-family: var(--verse); font-size: 14.5px; }
+.hint { font-size: 13.5px; color: var(--muted); }
+.pager { display: flex; justify-content: space-between; gap: 8px; flex-wrap: wrap; border-top: 1px solid var(--rule); padding-top: 14px; }
+
+/* liens */
+.chain { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
+.chain span.m { border-radius: 4px; padding: 3px 9px; font-size: 13.5px; background: var(--view); border: 1px solid var(--rule); display: inline-flex; gap: 6px; align-items: center; }
+.chain span.m::before { content: ""; width: 9px; height: 9px; border-radius: 2px; background: var(--mc); }
+.chain span.arr { color: var(--muted); }
+
+/* quiz */
+.quiz { max-width: 760px; display: grid; gap: 16px; }
+.qmeta { display: flex; justify-content: space-between; color: var(--muted); font-size: 13.5px; }
+.bar { height: 4px; background: var(--rule); border-radius: 2px; overflow: hidden; }
+.bar i { display: block; height: 100%; background: var(--accent); transition: width .3s; }
+.qtext { font-size: 19px; font-weight: 600; line-height: 1.4; }
+.qquote { font-family: var(--verse); font-size: 18px; border-left: 3px solid var(--accent); padding-left: 12px; }
+.opts { display: grid; gap: 6px; }
+.opt { text-align: left; border: 1px solid var(--rule); background: var(--view); border-radius: 4px; padding: 10px 14px; cursor: pointer; font-size: 15.5px; display: flex; gap: 12px; align-items: baseline; }
+.opt:hover:not(:disabled) { border-color: var(--accent); background: color-mix(in srgb, var(--accent) 8%, var(--view)); }
+.opt .l { font-weight: 600; color: var(--muted); font-variant-numeric: tabular-nums; }
+.opt.ok { border-color: var(--good); background: color-mix(in srgb, var(--good) 14%, var(--view)); }
+.opt.ko { border-color: var(--bad); background: color-mix(in srgb, var(--bad) 12%, var(--view)); }
+.opt:disabled { cursor: default; }
+.fb { border-radius: 6px; padding: 12px 14px; display: grid; gap: 6px; border: 1px solid var(--rule); background: var(--view); }
+.fb.ok { border-left: 4px solid var(--good); }
+.fb.ko { border-left: 4px solid var(--bad); }
+.fb strong.v { font-size: 16px; }
+.setup { display: grid; gap: 14px; }
+.choice { display: flex; flex-wrap: wrap; gap: 6px; }
+.choice .chip::before { display: none; }
+.score { font-size: 48px; font-weight: 300; line-height: 1; }
+.errlist { display: grid; gap: 8px; }
+.errlist .e { border: 1px solid var(--rule); border-left: 4px solid var(--bad); padding: 8px 12px; background: var(--view); border-radius: 4px; display: grid; gap: 4px; }
+footer { color: var(--muted); font-size: 12.5px; text-align: center; padding: 0 16px 28px; }
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+</style>
+</head>
+<body>
+<div id="root"></div>
+<script src="https://cdn.jsdelivr.net/npm/react@18.3.1/umd/react.production.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/react-dom@18.3.1/umd/react-dom.production.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/htm@3.1.1/dist/htm.umd.js"></script>
+<script>
+/* ====================== DONNÉES ====================== */
+const SECTIONS = [
+{
+  id: "romantisme", name: "Le romantisme", short: "Romantisme", period: "1820 – 1850", span: [1820, 1850],
+  retenir: [
+    "Le **« moi » lyrique** au centre : le poète dit ses joies, ses amours et ses deuils.",
+    "La **nature** sert de miroir à l'âme ; le poète se veut aussi guide du peuple.",
+    "Hugo, chef de file. *Les Contemplations* (1856), publiées en exil, pleurent sa fille Léopoldine."
+  ],
+  intro: [
+    "Le romantisme domine la poésie française de 1820 à 1850 environ. Il commence avec les *Méditations poétiques* de Lamartine (1820). Hugo en devient le chef de file avec la préface de *Cromwell* (1827), puis la « bataille d'*Hernani* » (1830), quand jeunes romantiques et classiques s'affrontent au théâtre.",
+    "C'est une **réaction contre le classicisme** et ses règles."
+  ],
+  principes: [
+    ["Le lyrisme", "le poète exprime son « moi », ses joies, ses deuils, ses amours."],
+    ["La nature comme miroir de l'âme", "paysages, saisons et lumières reflètent les sentiments."],
+    ["Le mal du siècle", "mélancolie, solitude, sentiment d'être né trop tard."],
+    ["La liberté dans l'art", "mélange des genres, assouplissement de l'alexandrin."],
+    ["L'engagement", "le poète se veut guide du peuple, « écho sonore » de son temps."]
+  ],
+  outro: "C'est contre ce lyrisme que réagira le Parnasse, avec l'impersonnalité et l'art pour l'art.",
+  auteursTitre: "Les auteurs emblématiques",
+  auteurs: [
+    ["Germaine de Staël", 1766, 1817, "Précurseur : *De l'Allemagne* (1810)"],
+    ["François-René de Chateaubriand", 1768, 1848, "Précurseur : *René* (1802), *Mémoires d'outre-tombe*"],
+    ["Marceline Desbordes-Valmore", 1786, 1859, "Poésie élégiaque, admirée par Verlaine"],
+    ["Alphonse de Lamartine", 1790, 1869, "*Méditations poétiques* (1820), « Le Lac »"],
+    ["Alfred de Vigny", 1797, 1863, "*Les Destinées*, poésie philosophique"],
+    ["Victor Hugo", 1802, 1885, "Chef de file : *Les Contemplations* (1856), *Les Misérables* (1862)"],
+    ["Alexandre Dumas", 1802, 1870, "Drame romantique, romans historiques"],
+    ["George Sand", 1804, 1876, "Romancière, *Indiana* (1832)"],
+    ["Gérard de Nerval", 1808, 1855, "*Les Chimères* (1854), « El Desdichado »"],
+    ["Alfred de Musset", 1810, 1857, "*Les Nuits*, *Lorenzaccio* (1834)"]
+  ],
+  bio: { nom: "Victor Hugo (1802-1885)", texte: [
+    "Hugo traverse tout le siècle : poète, dramaturge, romancier et homme politique. Il s'oppose au coup d'État de Louis-Napoléon Bonaparte (1851) et vit presque vingt ans en exil, à Jersey puis à Guernesey.",
+    "C'est là qu'il publie *Les Contemplations* (1856), « les mémoires d'une âme » selon sa préface. Le recueil tourne autour d'un drame : sa fille Léopoldine se noie dans la Seine à Villequier, le 4 septembre 1843, avec son mari."
+  ]},
+  textes: [{
+    titre: "« Demain, dès l'aube… »", ref: "*Les Contemplations*, 1856, livre IV « Pauca meae », XIV",
+    source: ["La langue française", "https://www.lalanguefrancaise.com/litterature/demain-des-l-aube-hugo"],
+    strophes: [
+      ["Demain, dès l'aube, à l'heure où blanchit la campagne,", "Je partirai. Vois-tu, je sais que tu m'attends.", "J'irai par la forêt, j'irai par la montagne.", "Je ne puis demeurer loin de toi plus longtemps."],
+      ["Je marcherai les yeux fixés sur mes pensées,", "Sans rien voir au dehors, sans entendre aucun bruit,", "Seul, inconnu, le dos courbé, les mains croisées,", "Triste, et le jour pour moi sera comme la nuit."],
+      ["Je ne regarderai ni l'or du soir qui tombe,", "Ni les voiles au loin descendant vers Harfleur,", "Et quand j'arriverai, je mettrai sur ta tombe", "Un bouquet de houx vert et de bruyère en fleur."]
+    ],
+    analyse: [
+      { t: "Un suspense délicat", v: [2, 11], d: "Pendant deux strophes, on croit lire un rendez-vous amoureux (« je sais que tu m'attends »). Le mot « tombe », à la rime de l'avant-dernier vers, révèle que le « tu » est une morte. Le poème se relit alors entièrement." },
+      { t: "La marche", v: [2, 3, 5], d: "Les futurs (« je partirai », « j'irai », « je marcherai ») disent une décision ferme, un pèlerinage. La répétition « j'irai par… j'irai par… » donne le rythme des pas." },
+      { t: "Le refus du monde", v: [6, 8, 9, 10], d: "Le père ne voit rien, n'entend rien. La nature romantique est là (aube, forêt, voiles vers Harfleur), mais il refuse de la regarder : « le jour pour moi sera comme la nuit ». Le paysage ne console plus." },
+      { t: "Le bouquet final", v: [12], d: "Le houx reste vert toute l'année et la bruyère fleurit en automne. Ces plantes humbles et durables disent une fidélité qui résiste au temps. Le poème lui-même est ce bouquet offert à Léopoldine." },
+      { t: "Un lyrisme sobre", v: [4, 7], d: "Le « je » s'adresse à une absente. Mais Hugo reste sobre : pas de cris, des alexandrins simples. L'émotion naît de la retenue." },
+      { t: "Pour faire des liens", v: [], d: "La marche vers la tombe rappelle la fuite rêvée de Mallarmé (« Fuir ! là-bas fuir ! ») et le poète-marcheur de « Ma Bohème » et de « Sensation » chez Rimbaud. Mais chez Rimbaud, la marche devient liberté joyeuse, et non plus deuil." }
+    ]
+  }]
+},
+{
+  id: "baudelaire", name: "Baudelaire, entre romantisme et modernité", short: "Baudelaire", period: "1857 – 1869", span: [1857, 1869],
+  retenir: [
+    "Au **carrefour** : héritier du romantisme, ami du Parnasse, précurseur du symbolisme.",
+    "L'inventeur de la **modernité** poétique : la ville, la laideur, l'ennui deviennent poésie.",
+    "Thèmes clés : **spleen et idéal**, **correspondances**, **poète maudit**."
+  ],
+  intro: [
+    "Baudelaire n'appartient à aucun mouvement : il est au **carrefour** de tous. Il hérite du romantisme (mélancolie, sentiment d'exil), il partage avec le Parnasse le culte de la forme (il dédie *Les Fleurs du mal* à Théophile Gautier, « poète impeccable ») et il annonce le symbolisme avec la théorie des correspondances.",
+    "Surtout, il invente la **modernité** poétique : la ville, la laideur, l'ennui deviennent des sujets de poésie."
+  ],
+  principes: [
+    ["Le spleen et l'idéal", "le poète est déchiré entre l'ennui, l'angoisse (« spleen ») et l'aspiration à la beauté absolue (« idéal »)."],
+    ["Les correspondances", "le monde visible est un ensemble de symboles qui renvoient à un monde spirituel, et les sens se répondent entre eux."],
+    ["La beauté du mal et du laid", "« extraire la beauté du Mal », transformer la boue en or."],
+    ["Le poète maudit", "génie incompris, rejeté par la société."]
+  ],
+  outro: "",
+  auteursTitre: "Autour de Baudelaire",
+  auteurs: [
+    ["Théophile Gautier", 1811, 1872, "Dédicataire des *Fleurs du mal*, « poète impeccable »"],
+    ["Charles Baudelaire", 1821, 1867, "*Les Fleurs du mal* (1857, 1861), *Le Spleen de Paris* (1869)"],
+    ["Arthur Rimbaud", 1854, 1891, "Héritier : Baudelaire est pour lui « le premier voyant »"]
+  ],
+  bio: { nom: "Charles Baudelaire (1821-1867)", texte: [
+    "Il perd son père à 6 ans et supporte mal le remariage de sa mère avec le général Aupick. Sa famille l'envoie en 1841 vers les Indes pour l'éloigner de la bohème parisienne : il s'arrête à l'île Maurice et à La Réunion.",
+    "Critique d'art et traducteur d'Edgar Poe, il publie *Les Fleurs du mal* en 1857. Le livre est condamné pour « outrage à la morale publique » : six poèmes sont censurés. Une deuxième édition, augmentée, paraît en 1861. *Le Spleen de Paris*, ses poèmes en prose, paraît après sa mort."
+  ]},
+  textes: [{
+    titre: "« Correspondances »", ref: "*Les Fleurs du mal*, 1857, « Spleen et Idéal », IV",
+    source: ["Lyrics Translate", "https://lyricstranslate.com/en/correspondances-correspondences.html"],
+    strophes: [
+      ["La Nature est un temple où de vivants piliers", "Laissent parfois sortir de confuses paroles ;", "L'homme y passe à travers des forêts de symboles", "Qui l'observent avec des regards familiers."],
+      ["Comme de longs échos qui de loin se confondent", "Dans une ténébreuse et profonde unité,", "Vaste comme la nuit et comme la clarté,", "Les parfums, les couleurs et les sons se répondent."],
+      ["Il est des parfums frais comme des chairs d'enfants,", "Doux comme les hautbois, verts comme les prairies,", "— Et d'autres, corrompus, riches et triomphants,"],
+      ["Ayant l'expansion des choses infinies,", "Comme l'ambre, le musc, le benjoin et l'encens,", "Qui chantent les transports de l'esprit et des sens."]
+    ],
+    analyse: [
+      { t: "Deux sortes de correspondances", v: [1, 3, 8], d: "Dans le premier quatrain, des correspondances « verticales » : la nature est un « temple » sacré, couvert de « symboles » qui renvoient à un monde invisible. Ensuite, des correspondances « horizontales » : les sens se répondent entre eux." },
+      { t: "La synesthésie en action", v: [9, 10], d: "Un parfum peut être « frais » (toucher), « doux comme les hautbois » (ouïe), « vert » (vue). Le poème pratique ce qu'il décrit." },
+      { t: "Le rôle du poète", v: [2, 3, 4], d: "L'homme ordinaire passe sans comprendre les « confuses paroles ». Le poète est celui qui déchiffre le monde." },
+      { t: "L'ambivalence finale", v: [11, 12, 13, 14], d: "Aux parfums innocents (enfants, prairies) s'opposent des parfums « corrompus, riches et triomphants ». On retrouve le déchirement entre spleen et idéal, entre l'esprit et les sens." },
+      { t: "Postérité", v: [], d: "Ce sonnet devient le texte fondateur du symbolisme. Il annonce « Voyelles » de Rimbaud, où chaque voyelle a une couleur." }
+    ]
+  }, {
+    titre: "« L'Albatros »", ref: "*Les Fleurs du mal*, 2ᵉ édition, 1861, « Spleen et Idéal », II",
+    source: ["Je révise", "https://www.jerevise.fr/wp-content/uploads/studio/FRANCAIS/LECTURE-EXPRESSION-ECRITE/poeme-poesie/poesie-cours.pdf"],
+    strophes: [
+      ["Souvent, pour s'amuser, les hommes d'équipage", "Prennent des albatros, vastes oiseaux des mers,", "Qui suivent, indolents compagnons de voyage,", "Le navire glissant sur les gouffres amers."],
+      ["À peine les ont-ils déposés sur les planches,", "Que ces rois de l'azur, maladroits et honteux,", "Laissent piteusement leurs grandes ailes blanches", "Comme des avirons traîner à côté d'eux."],
+      ["Ce voyageur ailé, comme il est gauche et veule !", "Lui, naguère si beau, qu'il est comique et laid !", "L'un agace son bec avec un brûle-gueule,", "L'autre mime, en boitant, l'infirme qui volait !"],
+      ["Le Poète est semblable au prince des nuées", "Qui hante la tempête et se rit de l'archer ;", "Exilé sur le sol au milieu des huées,", "Ses ailes de géant l'empêchent de marcher."]
+    ],
+    analyse: [
+      { t: "Un récit, puis une morale", v: [13], d: "Les trois premières strophes racontent une scène que Baudelaire a pu voir lors de son voyage de 1841. La dernière donne la clé : l'albatros est une **allégorie** du poète." },
+      { t: "La chute du roi", v: [6, 10, 13], d: "Les antithèses opposent la grandeur de l'oiseau en vol (« rois de l'azur », « prince des nuées ») à sa misère sur le pont (« maladroits et honteux », « comique et laid »)." },
+      { t: "La cruauté de la foule", v: [1, 11, 12, 15], d: "Les marins s'en prennent à l'oiseau « pour s'amuser », par ennui. Ils représentent la société qui méprise ce qu'elle ne comprend pas." },
+      { t: "Le paradoxe final", v: [16], d: "Ce qui fait le génie du poète le rend inadapté au monde ordinaire. C'est l'image fondatrice du **poète maudit**." }
+    ]
+  }]
+},
+{
+  id: "parnasse", name: "Le Parnasse", short: "Parnasse", period: "1866 – 1880", span: [1866, 1880],
+  retenir: [
+    "Né en 1866 avec le recueil *Le Parnasse contemporain* ; **réaction contre le lyrisme** romantique.",
+    "**L'art pour l'art**, l'impersonnalité, la forme parfaite : le sonnet est la forme reine.",
+    "Heredia, *Les Trophées* (1893) : « Les Conquérants »."
+  ],
+  intro: [
+    "Le Parnasse naît dans les années 1860. Son nom vient d'un recueil collectif, *Le Parnasse contemporain* (1866). Le Parnasse est une montagne grecque, le séjour d'Apollon et des Muses.",
+    "C'est une **réaction contre le romantisme** : les parnassiens refusent l'épanchement du « moi », les grands sentiments et l'engagement politique à la Hugo."
+  ],
+  principes: [
+    ["L'art pour l'art", "la poésie n'a pas à être utile, elle vise seulement le Beau."],
+    ["L'impersonnalité", "le poète s'efface derrière son sujet."],
+    ["Le travail de la forme", "vers parfait, rimes riches, sonnet. Le poète se voit comme un orfèvre ou un sculpteur."],
+    ["Des sujets lointains", "Antiquité, histoire, exotisme, traités avec une grande érudition."]
+  ],
+  outro: "",
+  auteursTitre: "Les auteurs emblématiques",
+  auteurs: [
+    ["Théophile Gautier", 1811, 1872, "Précurseur : *Émaux et Camées* (1852), théoricien de l'art pour l'art"],
+    ["Leconte de Lisle", 1818, 1894, "Chef de file : *Poèmes antiques* (1852), *Poèmes barbares* (1862)"],
+    ["Théodore de Banville", 1823, 1891, "*Les Cariatides*, *Odes funambulesques* ; virtuosité formelle"],
+    ["Sully Prudhomme", 1839, 1907, "Premier prix Nobel de littérature (1901)"],
+    ["Catulle Mendès", 1841, 1909, "Cofondateur du *Parnasse contemporain*"],
+    ["José-Maria de Heredia", 1842, 1905, "*Les Trophées* (1893), sommet du sonnet parnassien"],
+    ["François Coppée", 1842, 1908, "Poète populaire du quotidien, *Les Humbles*"]
+  ],
+  bio: { nom: "José-Maria de Heredia (1842-1905)", texte: [
+    "Né à Cuba, il a fait toute sa carrière en France. Il a publié un seul recueil, *Les Trophées* (1893), qui compte 118 sonnets ciselés pendant trente ans. Ce recueil l'a fait entrer à l'Académie française."
+  ]},
+  textes: [{
+    titre: "« Les Conquérants »", ref: "*Les Trophées*, 1893",
+    source: ["Representative French Poetry, Université de Toronto", "https://rpo.library.utoronto.ca/poems/les-conquerants"],
+    strophes: [
+      ["Comme un vol de gerfauts hors du charnier natal,", "Fatigués de porter leurs misères hautaines,", "De Palos de Moguer, routiers et capitaines", "Partaient, ivres d'un rêve héroïque et brutal."],
+      ["Ils allaient conquérir le fabuleux métal", "Que Cipango mûrit dans ses mines lointaines,", "Et les vents alizés inclinaient leurs antennes", "Aux bords mystérieux du monde Occidental."],
+      ["Chaque soir, espérant des lendemains épiques,", "L'azur phosphorescent de la mer des Tropiques", "Enchantait leur sommeil d'un mirage doré ;"],
+      ["Ou penchés à l'avant des blanches caravelles,", "Ils regardaient monter en un ciel ignoré", "Du fond de l'Océan des étoiles nouvelles."]
+    ],
+    analyse: [
+      { t: "Le sujet", v: [3, 6], d: "Les conquistadors espagnols partent vers l'Amérique. Palos de Moguer est le port d'où Christophe Colomb est parti en 1492. Cipango est le nom du Japon chez Marco Polo, un pays rêvé et couvert d'or." },
+      { t: "Un portrait ambigu", v: [1, 2, 4], d: "La comparaison avec des **gerfauts** (des rapaces) qui quittent un **charnier** donne une image de prédateurs. Les **oxymores** « misères hautaines » et « rêve héroïque et brutal » montrent des hommes à la fois grandioses et violents." },
+      { t: "Du réel au rêve", v: [9, 10, 11], d: "Les quatrains parlent d'or et de conquête. Les tercets basculent dans le sommeil, le « mirage » et la contemplation. On ne voit jamais les conquistadors conquérir quoi que ce soit." },
+      { t: "La chute", v: [14], d: "Le dernier vers repousse les « étoiles nouvelles » tout à la fin : les constellations de l'hémisphère Sud, inconnues des Européens. L'or rêvé se transforme en lumière ; on peut aussi y lire la gloire future des conquistadors." },
+      { t: "La perfection parnassienne", v: [7], d: "Sonnet régulier en alexandrins (ABBA ABBA CCD EDE), rimes riches (épiques / Tropiques), vocabulaire technique (*antennes* désigne les vergues des voiles). Le poète ne dit jamais « je »." }
+    ]
+  }]
+},
+{
+  id: "symbolisme", name: "Le symbolisme", short: "Symbolisme", period: "1880 – 1900", span: [1880, 1900],
+  retenir: [
+    "*Manifeste du symbolisme* de Jean Moréas (*Le Figaro*, 1886) ; ancêtre : Baudelaire.",
+    "**Suggérer plutôt que décrire** ; la **musique** avant tout.",
+    "Verlaine, « Art poétique » : l'impair, la nuance, « tout le reste est littérature »."
+  ],
+  intro: [
+    "Le symbolisme se développe dans les années 1880. Son acte de naissance officiel est le **Manifeste du symbolisme** de Jean Moréas, publié dans *Le Figaro* en 1886. Son grand ancêtre est **Baudelaire**, avec « Correspondances ».",
+    "Il réagit à la fois contre le **Parnasse**, jugé trop descriptif et trop froid, et contre le **naturalisme** de Zola, jugé trop matérialiste."
+  ],
+  principes: [
+    ["Suggérer plutôt que décrire", "évoquer une impression ou une Idée par des images et des symboles."],
+    ["La musique", "le poème doit agir comme une mélodie, par ses sonorités et son rythme."],
+    ["Le mystère, le rêve, l'au-delà", "la poésie est un moyen d'atteindre une réalité supérieure."],
+    ["La libération du vers", "vers impairs, puis vers libre."]
+  ],
+  outro: "Verlaine réunit Corbière, Rimbaud et Mallarmé sous le nom de « poètes maudits », dans un essai de 1884.",
+  auteursTitre: "Les auteurs emblématiques",
+  auteurs: [
+    ["Paul Verlaine", 1844, 1896, "*Romances sans paroles* (1874), « Art poétique »"],
+    ["Tristan Corbière", 1845, 1875, "*Les Amours jaunes* (1873), poète maudit"],
+    ["Arthur Rimbaud", 1854, 1891, "*Une saison en enfer* (1873), *Illuminations*, « Voyelles »"],
+    ["Émile Verhaeren", 1855, 1916, "Poète belge, *Les Villes tentaculaires* (1895)"],
+    ["Jean Moréas", 1856, 1910, "Auteur du *Manifeste du symbolisme* (1886)"],
+    ["Gustave Kahn", 1859, 1936, "Théoricien du vers libre"],
+    ["Jules Laforgue", 1860, 1887, "*Les Complaintes* (1885), pionnier du vers libre"],
+    ["Maurice Maeterlinck", 1862, 1949, "Théâtre symboliste, *Pelléas et Mélisande* ; prix Nobel 1911"]
+  ],
+  bio: { nom: "Paul Verlaine (1844-1896)", texte: [
+    "Verlaine commence dans la mouvance parnassienne (*Poèmes saturniens*, 1866), puis s'en éloigne avec *Fêtes galantes* et *Romances sans paroles*. Sa vie est chaotique : relation passionnée avec Rimbaud, coup de revolver sur lui en 1873, deux ans de prison en Belgique.",
+    "Il écrit « Art poétique » en 1874, en prison. Le poème est publié dans *Jadis et naguère* (1884) et devient le manifeste des jeunes symbolistes."
+  ]},
+  textes: [{
+    titre: "« Art poétique »", ref: "*Jadis et naguère*, 1884 (écrit en 1874). Pour l'oral, les strophes 1 à 4 suffisent.",
+    source: ["Larousse", "https://www.larousse.fr/encyclopedie/oeuvre/Jadis_et_nagu%C3%A8re/125503"],
+    strophes: [
+      ["De la musique avant toute chose,", "Et pour cela préfère l'Impair", "Plus vague et plus soluble dans l'air,", "Sans rien en lui qui pèse ou qui pose."],
+      ["Il faut aussi que tu n'ailles point", "Choisir tes mots sans quelque méprise :", "Rien de plus cher que la chanson grise", "Où l'Indécis au Précis se joint."],
+      ["C'est des beaux yeux derrière des voiles,", "C'est le grand jour tremblant de midi,", "C'est, par un ciel d'automne attiédi,", "Le bleu fouillis des claires étoiles !"],
+      ["Car nous voulons la Nuance encor,", "Pas la Couleur, rien que la nuance !", "Oh ! la nuance seule fiance", "Le rêve au rêve et la flûte au cor !"],
+      ["Fuis du plus loin la Pointe assassine,", "L'Esprit cruel et le Rire impur,", "Qui font pleurer les yeux de l'Azur,", "Et tout cet ail de basse cuisine !"],
+      ["Prends l'éloquence et tords-lui son cou !", "Tu feras bien, en train d'énergie,", "De rendre un peu la Rime assagie.", "Si l'on n'y veille, elle ira jusqu'où ?"],
+      ["Ô qui dira les torts de la Rime ?", "Quel enfant sourd ou quel nègre fou", "Nous a forgé ce bijou d'un sou", "Qui sonne creux et faux sous la lime ?"],
+      ["De la musique encore et toujours !", "Que ton vers soit la chose envolée", "Qu'on sent qui fuit d'une âme en allée", "Vers d'autres cieux à d'autres amours."],
+      ["Que ton vers soit la bonne aventure", "Éparse au vent crispé du matin", "Qui va fleurant la menthe et le thym…", "Et tout le reste est littérature."]
+    ],
+    analyse: [
+      { t: "Un paradoxe", v: [1, 2], d: "Un « art poétique » fixe des règles, comme celui de Boileau au XVIIᵉ siècle. Verlaine reprend ce genre normatif pour prôner le flou, l'impair et l'imprécision, à l'impératif, en s'adressant à un « tu » qui représente le poète." },
+      { t: "L'impair mis en pratique", v: [2, 3], d: "Tout le poème est en **vers de 9 syllabes** (ennéasyllabes). Le rythme boite légèrement et flotte : il est « soluble dans l'air ». Le poème fait ce qu'il dit." },
+      { t: "Contre le Parnasse", v: [9, 10, 13, 14], d: "« Pas la Couleur, rien que la nuance ! » Le Parnasse peignait des tableaux nets ; Verlaine veut des demi-teintes. Les yeux derrière des voiles, le midi tremblant montrent la beauté de ce qui est voilé." },
+      { t: "Contre la rhétorique", v: [21, 25, 27, 28], d: "« Prends l'éloquence et tords-lui son cou ! » vise la poésie oratoire romantique (Hugo). Verlaine attaque aussi la rime, « bijou d'un sou »… mais il continue à rimer. L'ironie est volontaire." },
+      { t: "La chute", v: [33, 34, 35, 36], d: "Ici, « littérature » est péjoratif : c'est l'artifice, le travail visible. La vraie poésie doit ressembler à une sensation fugitive, l'odeur de la menthe et du thym le matin." },
+      { t: "À savoir pour l'entretien", v: [26], d: "L'expression « nègre fou » reflète les préjugés racistes de l'époque. Si l'examinateur t'interroge dessus, tu peux le dire simplement." }
+    ]
+  }]
+},
+{
+  id: "mallarme", name: "Mallarmé, du symbolisme à la poésie pure", short: "Mallarmé", period: "1863 – 1898", span: [1863, 1898],
+  retenir: [
+    "Maître reconnu du symbolisme ; ses « **mardis** », rue de Rome, réunissent la jeune génération.",
+    "Une poésie **pure** et **hermétique** : nommer un objet supprime le plaisir de deviner.",
+    "Hanté par la **page blanche** et la peur de la stérilité."
+  ],
+  intro: [
+    "Mallarmé est rattaché au **symbolisme**, dont il devient le maître reconnu dans les années 1880-1890. Il pousse l'idée de suggestion jusqu'au bout : dans un entretien de 1891, il explique en substance que **nommer un objet supprime l'essentiel du plaisir du poème, qui consiste à deviner peu à peu**.",
+    "Pour lui, la poésie ne parle pas du monde : elle crée par le langage une réalité pure, absente du monde réel. D'où une poésie de plus en plus **hermétique** : syntaxe disloquée, mots rares, sens multiples."
+  ],
+  principes: [],
+  outro: "",
+  auteursTitre: "Autour de Mallarmé : les habitués des mardis",
+  auteurs: [
+    ["Édouard Manet", 1832, 1883, "Peintre, ami proche ; portrait de Mallarmé (1876)"],
+    ["Villiers de l'Isle-Adam", 1838, 1889, "*Contes cruels* (1883), ami intime"],
+    ["Stéphane Mallarmé", 1842, 1898, "*L'Après-midi d'un faune* (1876), *Un coup de dés* (1897)"],
+    ["Claude Debussy", 1862, 1918, "*Prélude à l'après-midi d'un faune* (1894)"],
+    ["Henri de Régnier", 1864, 1936, "Poète symboliste, disciple fidèle"],
+    ["Paul Claudel", 1868, 1955, "Poète et dramaturge, *Cinq Grandes Odes*"],
+    ["André Gide", 1869, 1951, "*Les Nourritures terrestres* (1897)"],
+    ["Pierre Louÿs", 1870, 1925, "*Les Chansons de Bilitis* (1894)"],
+    ["Paul Valéry", 1871, 1945, "Héritier direct, *Le Cimetière marin* (1920)"]
+  ],
+  bio: { nom: "Stéphane Mallarmé (1842-1898)", texte: [
+    "Professeur d'anglais au lycée, il mène une vie extérieure très modeste. Il écrit peu et lentement, souvent accablé par la peur de la stérilité.",
+    "Ses œuvres majeures sont *L'Après-midi d'un faune* (1876), mis en musique par Debussy, et *Un coup de dés jamais n'abolira le hasard* (1897), un poème qui fait travailler l'espace de la page. Ses trois poèmes du corpus montrent son évolution."
+  ]},
+  textes: [{
+    titre: "« Apparition »", ref: "1863, poème de jeunesse",
+    source: ["Oxford Song", "https://oxfordsong.org/song/apparition-2"],
+    strophes: [[
+      "La lune s'attristait. Des séraphins en pleurs", "Rêvant, l'archet aux doigts, dans le calme des fleurs", "Vaporeuses, tiraient de mourantes violes", "De blancs sanglots glissant sur l'azur des corolles.", "— C'était le jour béni de ton premier baiser.", "Ma songerie aimant à me martyriser", "S'enivrait savamment du parfum de tristesse", "Que même sans regret et sans déboire laisse", "La cueillaison d'un Rêve au cœur qui l'a cueilli.", "J'errais donc, l'œil rivé sur le pavé vieilli", "Quand avec du soleil aux cheveux, dans la rue", "Et dans le soir, tu m'es en riant apparue", "Et j'ai cru voir la fée au chapeau de clarté", "Qui jadis sur mes beaux sommeils d'enfant gâté", "Passait, laissant toujours de ses mains mal fermées", "Neiger de blancs bouquets d'étoiles parfumées."
+    ]],
+    analyse: [
+      { t: "Un poème de jeunesse", v: [6, 7], d: "Encore lisible et très marqué par **Baudelaire** : la mélancolie, le goût de souffrir (« aimant à me martyriser »), les parfums." },
+      { t: "Deux temps", v: [1, 2, 11, 12], d: "Un décor éthéré et irréel (lune, anges musiciens, fleurs), puis l'apparition très concrète de la femme dans la rue, « avec du soleil aux cheveux »." },
+      { t: "Des synesthésies", v: [4], d: "Des « sanglots » musicaux sont « blancs » et glissent sur l'« azur » des fleurs : le mélange des sens est typiquement symboliste." },
+      { t: "La chute", v: [13, 14, 15, 16], d: "La femme aimée se confond avec une fée de l'enfance. L'amour fait revenir un émerveillement perdu. Le poème finit sur une neige lumineuse et parfumée." },
+      { t: "La musicalité", v: [], d: "Alexandrins en rimes plates, allitérations douces en [s] et [l]." }
+    ]
+  }, {
+    titre: "« Brise marine »", ref: "1865, publié dans *Le Parnasse contemporain* (1866)",
+    source: ["La langue française", "https://www.lalanguefrancaise.com/litterature/mallarme-brise-marine-commentaire"],
+    strophes: [[
+      "La chair est triste, hélas ! et j'ai lu tous les livres.", "Fuir ! là-bas fuir ! Je sens que des oiseaux sont ivres", "D'être parmi l'écume inconnue et les cieux !", "Rien, ni les vieux jardins reflétés par les yeux", "Ne retiendra ce cœur qui dans la mer se trempe", "Ô nuits ! ni la clarté déserte de ma lampe", "Sur le vide papier que la blancheur défend", "Et ni la jeune femme allaitant son enfant.", "Je partirai ! Steamer balançant ta mâture,", "Lève l'ancre pour une exotique nature !", "Un Ennui, désolé par les cruels espoirs,", "Croit encore à l'adieu suprême des mouchoirs !", "Et, peut-être, les mâts, invitant les orages,", "Sont-ils de ceux qu'un vent penche sur les naufrages", "Perdus, sans mâts, sans mâts, ni fertiles îlots…", "Mais, ô mon cœur, entends le chant des matelots !"
+    ]],
+    analyse: [
+      { t: "Un premier vers célèbre", v: [1], d: "Le poète a tout épuisé, le plaisir des sens (« la chair ») comme le savoir (« tous les livres ») : c'est l'**Ennui** baudelairien, le spleen." },
+      { t: "Le désir de fuite", v: [2, 9], d: "Exclamations et répétitions (« Fuir ! là-bas fuir ! »). On reconnaît l'intertexte du « Voyage » et de « Parfum exotique » de Baudelaire." },
+      { t: "Ce qu'il veut quitter", v: [6, 7, 8], d: "La vie de famille (Mallarmé vient d'être père) et surtout la **page blanche** : « le vide papier que la blancheur défend », l'angoisse de ne pas pouvoir écrire." },
+      { t: "Un mot moderne", v: [9], d: "« Steamer » (bateau à vapeur, un anglicisme) contraste avec la rêverie : le départ reste concret." },
+      { t: "Une fin ambivalente", v: [15, 16], d: "Le poète imagine le naufrage (« sans mâts, sans mâts »), mais le dernier vers relance le désir : l'appel du voyage est plus fort que la peur, comme le chant des sirènes." }
+    ]
+  }, {
+    titre: "« Le vierge, le vivace et le bel aujourd'hui »", ref: "1885, *Poésies*",
+    source: ["Wikisource, édition Deman de 1899", "https://fr.m.wikisource.org/wiki/Po%C3%A9sies_(Mallarm%C3%A9)/%C3%89dition_1899"],
+    strophes: [
+      ["Le vierge, le vivace et le bel aujourd'hui", "Va-t-il nous déchirer avec un coup d'aile ivre", "Ce lac dur oublié que hante sous le givre", "Le transparent glacier des vols qui n'ont pas fui !"],
+      ["Un cygne d'autrefois se souvient que c'est lui", "Magnifique mais qui sans espoir se délivre", "Pour n'avoir pas chanté la région où vivre", "Quand du stérile hiver a resplendi l'ennui."],
+      ["Tout son col secouera cette blanche agonie", "Par l'espace infligée à l'oiseau qui le nie,", "Mais non l'horreur du sol où le plumage est pris."],
+      ["Fantôme qu'à ce lieu son pur éclat assigne,", "Il s'immobilise au songe froid de mépris", "Que vêt parmi l'exil inutile le Cygne."]
+    ],
+    analyse: [
+      { t: "Le Mallarmé hermétique", v: [14], d: "Syntaxe tordue, inversions : le sujet « le Cygne » n'arrive qu'au tout dernier mot. Le sens est à reconstruire." },
+      { t: "Une allégorie", v: [3, 4, 11], d: "Un cygne est prisonnier d'un lac gelé : c'est le **poète** paralysé par la **stérilité**. Les « vols qui n'ont pas fui » sont les poèmes qu'il n'a pas réussi à écrire." },
+      { t: "Le règne du blanc", v: [1, 3, 4, 9], d: "Vierge, givre, glacier, blanche agonie, cygne : c'est encore la **page blanche** de « Brise marine »." },
+      { t: "Le « sonnet en i »", v: [], d: "Toutes les rimes contiennent le son [i] (aujourd'hui, ivre, fui, ennui, agonie, pris, Cygne…). Ce son aigu et répété donne une impression de froid." },
+      { t: "Le jeu de mots", v: [12, 14], d: "*Cygne / signe* : le cygne est aussi le mot poétique. Le « pur éclat » et le « fantôme » suggèrent qu'il devient une constellation, celle du Cygne : l'échec se change en beauté éternelle." },
+      { t: "Intertexte", v: [], d: "« Le Cygne » de Baudelaire, autre oiseau exilé, symbole du poète." }
+    ]
+  }]
+},
+{
+  id: "cros", name: "Charles Cros, la fantaisie hors école", short: "Charles Cros", period: "1871 – 1888", span: [1871, 1888],
+  retenir: [
+    "Un poète **hors école**, dans la bohème parisienne : Zutistes, Hydropathes, Chat Noir.",
+    "**Non-sens, fantaisie, humour noir** ; le monologue comique.",
+    "Aussi inventeur : le paléophone (1877), quelques mois avant le phonographe d'Edison."
+  ],
+  intro: [
+    "Charles Cros n'appartient à aucun mouvement : ni parnassien, ni symboliste, ni décadent. Il fréquente pourtant tous les cercles de la bohème littéraire parisienne.",
+    "Cette veine joue avec le **non-sens**, la **fantaisie** et le **monologue comique**, genre mis à la mode par le comédien Coquelin cadet, de la Comédie-Française, qui popularise « Le Hareng saur »."
+  ],
+  principes: [
+    ["Les Zutistes (1871-1872)", "un petit groupe de poètes qui écrivent des parodies dans l'*Album zutique*, avec Verlaine et Rimbaud."],
+    ["Les Hydropathes (à partir de 1878)", "un club de poètes et d'artistes qui mêlent lectures, chansons et fumisteries."],
+    ["Le cabaret du Chat Noir (à partir de 1881)", "à Montmartre, où se mêlent poésie, humour et chanson."]
+  ],
+  outro: "",
+  auteursTitre: "Les auteurs de cette veine fantaisiste",
+  auteurs: [
+    ["Charles Cros", 1842, 1888, "*Le Coffret de santal* (1873), « Le Hareng saur »"],
+    ["Paul Verlaine", 1844, 1896, "Membre du cercle zutique"],
+    ["Émile Goudeau", 1849, 1906, "Fondateur des Hydropathes (1878)"],
+    ["Arthur Rimbaud", 1854, 1891, "Contributions à l'*Album zutique*"],
+    ["Alphonse Allais", 1854, 1905, "Humoriste, pilier du Chat Noir"],
+    ["Jules Laforgue", 1860, 1887, "*Les Complaintes* (1885), ironie et fantaisie"]
+  ],
+  bio: { nom: "Charles Cros (1842-1888)", texte: [
+    "Poète et inventeur. En 1877, il décrit le principe d'un appareil pour enregistrer et reproduire les sons, le « paléophone », quelques mois avant le phonographe d'Edison. Il travaille aussi sur la photographie en couleurs.",
+    "Ami de Verlaine, il héberge un temps Rimbaud à Paris à l'automne 1871. Son unique recueil, *Le Coffret de santal*, paraît en 1873, la même année qu'*Une saison en enfer*. Il meurt pauvre et peu reconnu ; aujourd'hui, l'Académie Charles-Cros décerne des prix pour la musique enregistrée."
+  ]},
+  textes: [{
+    titre: "« Le Hareng saur »", ref: "*Le Coffret de santal*, 1873. La ponctuation varie légèrement selon les éditions.",
+    source: ["DBNL", "https://www.dbnl.org/tekst/rode006gedo01_01/rode006gedo01_01_0057.php"],
+    dedicace: "À Guy.",
+    strophes: [
+      ["Il était un grand mur blanc — nu, nu, nu,", "Contre le mur une échelle — haute, haute, haute,", "Et, par terre, un hareng saur — sec, sec, sec."],
+      ["Il vient, tenant dans ses mains — sales, sales, sales,", "Un marteau lourd, un grand clou — pointu, pointu, pointu,", "Un peloton de ficelle — gros, gros, gros."],
+      ["Alors il monte à l'échelle — haute, haute, haute,", "Et plante le clou pointu — toc, toc, toc,", "Tout en haut du grand mur blanc — nu, nu, nu."],
+      ["Il laisse aller le marteau — qui tombe, qui tombe, qui tombe,", "Attache au clou la ficelle — longue, longue, longue,", "Et, au bout, le hareng saur — sec, sec, sec."],
+      ["Il redescend de l'échelle — haute, haute, haute,", "L'emporte avec le marteau — lourd, lourd, lourd,", "Et puis, il s'en va ailleurs, — loin, loin, loin."],
+      ["Et, depuis, le hareng saur — sec, sec, sec,", "Au bout de cette ficelle — longue, longue, longue,", "Très lentement se balance — toujours, toujours, toujours."],
+      ["J'ai composé cette histoire, — simple, simple, simple,", "Pour mettre en fureur les gens — graves, graves, graves,", "Et amuser les enfants — petits, petits, petits."]
+    ],
+    analyse: [
+      { t: "Une histoire qui ne raconte rien", v: [1, 4], d: "Un homme anonyme suspend un hareng saur à un clou, puis s'en va. Aucune explication, aucune morale. Le poème parodie le conte (« Il était… ») et la poésie sérieuse." },
+      { t: "Une mécanique de la répétition", v: [1, 8], d: "Chaque vers se termine par un mot répété trois fois après un tiret : on dirait une comptine. Les onomatopées (« toc, toc, toc ») renforcent l'effet." },
+      { t: "Une image absurde et inquiétante", v: [18], d: "Le hareng qui « très lentement se balance » au bout de sa ficelle fait penser à un pendu. L'humour frise le malaise : c'est déjà de l'**humour noir**." },
+      { t: "La chute qui donne la clé", v: [19, 20, 21], d: "Le poète révèle son intention : « mettre en fureur les gens — graves » et « amuser les enfants — petits ». Une provocation contre l'esprit de sérieux, une défense du jeu." },
+      { t: "Pour faire des liens", v: [], d: "Avec **Rimbaud** et les parodies de l'*Album zutique* ; avec **Dada** (« Pour faire un poème dadaïste » est lui aussi un mode d'emploi absurde) ; avec le **surréalisme**, qui fait de Cros un précurseur de l'humour noir." }
+    ]
+  }]
+},
+{
+  id: "dada", name: "Dada", short: "Dada", period: "1916 – 1923", span: [1916, 1923],
+  retenir: [
+    "Né à Zurich en **1916**, au Cabaret Voltaire, en pleine Première Guerre mondiale.",
+    "Une **révolte totale** : anti-art, provocation, **hasard** ; « DADA ne signifie rien ».",
+    "Tzara, « Pour faire un poème dadaïste » (1920) ; rupture avec Breton en 1922."
+  ],
+  intro: [
+    "Dada naît en **février 1916 à Zurich**, en Suisse neutre, en pleine Première Guerre mondiale. Des artistes réfugiés fondent le **Cabaret Voltaire** et y lisent des poèmes absurdes, crient, se déguisent. Le nom aurait été trouvé en ouvrant un dictionnaire au hasard : *dada* désigne le cheval de bois des enfants. Tzara l'écrit dans son manifeste de 1918 : « DADA ne signifie rien ».",
+    "Dada est une **révolte totale** : la civilisation européenne, avec sa raison, sa morale et sa culture, a produit le massacre de 1914-1918. Elle ne mérite donc plus aucun respect."
+  ],
+  principes: [
+    ["L'anti-art", "détruire les valeurs artistiques établies : la beauté, le sérieux, le génie."],
+    ["La provocation", "scandales, spectacles chahutés, insultes au public."],
+    ["Le hasard et le non-sens", "poèmes faits de sons (Hugo Ball, « Karawane »), poèmes lus à plusieurs voix, collages."],
+    ["Le ready-made", "Marcel Duchamp expose un urinoir signé, *Fontaine* (1917) : le geste de l'artiste suffit à faire l'œuvre."]
+  ],
+  outro: "De Dada au surréalisme : Tzara arrive à Paris en 1920 et Breton, Aragon et Soupault le rejoignent. Mais Dada ne fait que détruire, et Breton veut construire. La rupture a lieu en 1922 ; Breton fonde le surréalisme en 1924.",
+  auteursTitre: "Les auteurs et artistes emblématiques",
+  auteurs: [
+    ["Francis Picabia", 1879, 1953, "Peintre et poète, revue *391*, figure de Dada à Paris"],
+    ["Emmy Hennings", 1885, 1948, "Poétesse et performeuse, cofondatrice du Cabaret Voltaire"],
+    ["Hugo Ball", 1886, 1927, "Fondateur du Cabaret Voltaire, poèmes phonétiques (« Karawane »)"],
+    ["Hans (Jean) Arp", 1886, 1966, "Peintre, sculpteur et poète, collages « selon les lois du hasard »"],
+    ["Raoul Hausmann", 1886, 1971, "Dada berlinois, photomontage"],
+    ["Marcel Duchamp", 1887, 1968, "Ready-made, *Fontaine* (1917)"],
+    ["Kurt Schwitters", 1887, 1948, "Collages *Merz*, *Ursonate* (poème sonore)"],
+    ["Man Ray", 1890, 1976, "Photographe, Dada new-yorkais puis parisien"],
+    ["Richard Huelsenbeck", 1892, 1974, "Cofondateur à Zurich, lance Dada à Berlin"],
+    ["Marcel Janco", 1895, 1984, "Peintre, masques du Cabaret Voltaire"],
+    ["Tristan Tzara", 1896, 1963, "Principal porte-voix, *Sept manifestes Dada*"]
+  ],
+  bio: { nom: "Tristan Tzara (1896-1963)", texte: [
+    "De son vrai nom Samuel Rosenstock, il est né en Roumanie. Il est l'animateur et le principal porte-voix de Dada, auteur de ses grands manifestes.",
+    "Après Dada, il se rapproche du surréalisme puis du Parti communiste, et participe à la Résistance. Son grand recueil de maturité est *L'Homme approximatif* (1931)."
+  ]},
+  textes: [{
+    titre: "« Pour faire un poème dadaïste »", ref: "*Manifeste sur l'amour faible et l'amour amer*, section VIII, lu à Paris en décembre 1920 ; repris dans *Sept manifestes Dada* (1924)",
+    source: ["sujet officiel du bac 2011", "https://www.sujetdebac.fr/annales-pdf/2011/s-es-francais-premiere-2011-polynesie-remplacement-sujet-officiel.pdf"],
+    strophes: [[
+      "Pour faire un poème dadaïste.", "Prenez un journal.", "Prenez des ciseaux.", "Choisissez dans ce journal un article ayant la longueur que vous comptez donner à votre poème.", "Découpez l'article.", "Découpez ensuite avec soin chacun des mots qui forment cet article et mettez-les dans un sac.", "Agitez doucement.", "Sortez ensuite chaque coupure l'une après l'autre dans l'ordre où elles ont quitté le sac.", "Copiez consciencieusement.", "Le poème vous ressemblera.", "Et vous voilà un écrivain infiniment original et d'une sensibilité charmante, encore qu'incomprise du vulgaire."
+    ]],
+    analyse: [
+      { t: "Une parodie de recette", v: [2, 3, 5, 7], d: "Phrases courtes, verbes à l'impératif : la création poétique, réputée noble et mystérieuse, devient une manipulation aussi banale qu'une recette de cuisine." },
+      { t: "Un poème qui n'en est pas un", v: [1], d: "Ni vers, ni rimes, ni images : le « poème » est un **protocole** que chacun peut appliquer. Tzara désacralise la poésie." },
+      { t: "Le choix du journal", v: [2, 4], d: "La matière première est le langage de l'**actualité**, banal et utilitaire. En 1920, c'est aussi le langage qui a vendu la guerre aux peuples : le découper, c'est le détruire." },
+      { t: "Le hasard remplace l'inspiration", v: [7, 8], d: "Ni muse ni génie, seulement un sac qu'on agite. Mallarmé cherchait à maîtriser le hasard (*Un coup de dés jamais n'abolira le hasard*) ; Tzara s'y abandonne." },
+      { t: "« Copiez consciencieusement »", v: [9], d: "C'est la seule tâche qui reste au « poète ». L'adverbe sérieux renforce l'ironie : l'écrivain devient un copiste appliqué." },
+      { t: "« Le poème vous ressemblera »", v: [10], d: "Ironique, puisqu'un tirage au sort ne ressemble à personne. Mais si le hasard révélait quelque chose de nous ? C'est l'idée que reprendra l'**écriture automatique**." },
+      { t: "La chute satirique", v: [11], d: "Les clichés de la critique littéraire et le mythe du **poète incompris** sont tournés en dérision." }
+    ]
+  }]
+},
+{
+  id: "surrealisme", name: "Le surréalisme", short: "Surréalisme", period: "1919 – 1966", span: [1919, 1966],
+  retenir: [
+    "Breton, **Manifeste du surréalisme** (1924) ; influence de **Freud** et de l'inconscient.",
+    "**L'écriture automatique** et l'image surprenante pour libérer le langage.",
+    "*Les Champs magnétiques* (1920), avec Soupault : la première œuvre surréaliste."
+  ],
+  intro: [
+    "Le surréalisme naît juste après la **Première Guerre mondiale**, à Paris. Il prolonge **Dada**, qui voulait tout détruire, mais avec une ambition positive : explorer l'**inconscient** et changer la vie. Breton en écrit le **Manifeste du surréalisme** en 1924. Le mot lui-même vient d'Apollinaire, qui l'invente en 1917."
+  ],
+  principes: [
+    ["L'écriture automatique", "écrire très vite, sans contrôle de la raison ni souci esthétique ou moral, pour laisser parler l'inconscient. C'est l'influence de **Freud**, découvert par Breton comme infirmier en psychiatrie pendant la guerre."],
+    ["L'image surprenante", "rapprocher deux réalités très éloignées pour créer un choc poétique."],
+    ["Le rêve, le hasard, le merveilleux", "et l'amour fou."],
+    ["La révolte", "contre la logique bourgeoise, la morale, l'art établi et la guerre."]
+  ],
+  outro: "",
+  auteursTitre: "Les auteurs et artistes emblématiques",
+  auteurs: [
+    ["Lautréamont", 1846, 1870, "Précurseur revendiqué : *Les Chants de Maldoror*"],
+    ["Guillaume Apollinaire", 1880, 1918, "Précurseur, invente le mot « surréaliste » (1917)"],
+    ["Max Ernst", 1891, 1976, "Peintre, collages et frottages"],
+    ["Joan Miró", 1893, 1983, "Peintre catalan"],
+    ["Paul Éluard", 1895, 1952, "*Capitale de la douleur* (1926)"],
+    ["André Breton", 1896, 1966, "Théoricien et chef de file : *Manifeste* (1924), *Nadja* (1928)"],
+    ["Antonin Artaud", 1896, 1948, "*Le Théâtre et son double*"],
+    ["Philippe Soupault", 1897, 1990, "Coauteur des *Champs magnétiques*"],
+    ["Louis Aragon", 1897, 1982, "*Le Paysan de Paris* (1926), puis poète engagé"],
+    ["René Magritte", 1898, 1967, "*La Trahison des images* (« Ceci n'est pas une pipe »)"],
+    ["Benjamin Péret", 1899, 1959, "Poète de l'humour et de la révolte"],
+    ["Robert Desnos", 1900, 1945, "Les « sommeils » hypnotiques ; mort en déportation"],
+    ["Salvador Dalí", 1904, 1989, "*La Persistance de la mémoire* (1931)"],
+    ["René Char", 1907, 1988, "Proche du groupe au début des années 1930"]
+  ],
+  bio: { nom: "André Breton (1896-1966) et Philippe Soupault (1897-1990)", texte: [
+    "Breton est le théoricien et le « pape » du mouvement ; Soupault est poète, romancier et journaliste. Avec Aragon, ils fondent en 1919 la revue *Littérature*.",
+    "Ils écrivent *Les Champs magnétiques* au printemps 1919, à quatre mains et en quelques semaines. Le livre paraît en 1920. Breton le présentera dans le *Manifeste* comme la première œuvre surréaliste."
+  ]},
+  textes: [{
+    titre: "« La Glace sans tain » (début)", ref: "*Les Champs magnétiques*, 1920. Texte vérifié sur ton édition.", prose: true,
+    source: null,
+    strophes: [[
+      "Prisonniers des gouttes d'eau, nous ne sommes que des animaux perpétuels. Nous courons dans les villes sans bruits et les affiches enchantées ne nous touchent plus. À quoi bon ces grands enthousiasmes fragiles, ces sauts de joie desséchés ? Nous ne savons plus rien que les astres morts ; nous regardons les visages ; et nous soupirons de plaisir. Notre bouche est plus sèche que les plages perdues ; nos yeux tournent sans but, sans espoir. Il n'y a plus que ces cafés où nous nous réunissons pour boire ces boissons fraîches, ces alcools délayés et les tables sont plus poisseuses que ces trottoirs où sont tombées nos ombres mortes de la veille.",
+      "Quelquefois, le vent nous entoure de ses grandes mains froides et nous attache aux arbres découpés par le soleil. Tous, nous rions, nous chantons, mais personne ne sent plus son cœur battre. La fièvre nous abandonne.",
+      "Les gares merveilleuses ne nous abritent plus jamais : les longs couloirs nous effraient. Il faut donc étouffer encore pour vivre ces minutes plates, ces siècles en lambeaux. Nous aimions autrefois les soleils de fin d'année, les plaines étroites où nos regards coulaient comme ces fleuves impétueux de notre enfance. Il n'y a plus que des reflets dans ces bois repeuplés d'animaux absurdes, de plantes connues.",
+      "Les villes que nous ne voulons plus aimer sont mortes. Regardez autour de vous : il n'y a plus que le ciel et ces grands terrains vagues que nous finirons bien par détester. Nous touchons du doigt ces étoiles tendres qui peuplaient nos rêves. Là-bas, on nous a dit qu'il y avait des vallées prodigieuses : chevauchées perdues pour toujours dans ce Far West aussi ennuyeux qu'un musée."
+    ]],
+    analyse: [
+      { t: "Les titres", v: [], d: "Les « champs magnétiques » évoquent l'attraction entre les mots et les images. Une « glace sans tain » est un miroir sans couche réfléchissante, une simple vitre : on ne s'y voit plus, on voit au-delà. Écrire en automatique, c'est regarder à travers soi." },
+      { t: "Un « nous » générationnel", v: [1, 2], d: "Celui des jeunes gens revenus de la guerre, vidés et désenchantés : « personne ne sent plus son cœur battre », « nos ombres mortes »." },
+      { t: "Des images déroutantes", v: [1, 2], d: "« Prisonniers des gouttes d'eau », « le vent nous entoure de ses grandes mains froides » : ces images agissent par le choc. Le réseau **sécheresse / eau** court tout le texte." },
+      { t: "La modernité urbaine", v: [1, 3, 4], d: "Affiches, cafés, gares, trottoirs, terrains vagues : la ville moderne a perdu son « enchantement »." },
+      { t: "Passé et présent", v: [3], d: "« Nous aimions autrefois… / Il n'y a plus que… » : l'élan de l'enfance (« fleuves impétueux ») contre les « minutes plates » d'aujourd'hui." },
+      { t: "La chute ironique", v: [4], d: "« Ce Far West aussi ennuyeux qu'un musée » : même l'aventure est morte, et le musée, symbole de l'art figé, devient l'image de l'ennui." },
+      { t: "Pour l'entretien", v: [], d: "C'est de la **prose poétique**, ni vers ni rimes : la poésie se définit par l'image, pas par la forme." }
+    ]
+  }]
+}
+];
+
+const EVENTS = [
+  [1820, "Méditations poétiques"], [1830, "Bataille d'Hernani"], [1856, "Les Contemplations"], [1857, "Les Fleurs du mal"],
+  [1866, "Le Parnasse contemporain"], [1870, "Cahier de Douai"], [1873, "Le Coffret de santal"], [1884, "Les Poètes maudits"],
+  [1886, "Manifeste du symbolisme"], [1897, "Un coup de dés"], [1916, "Cabaret Voltaire"], [1920, "Les Champs magnétiques"],
+  [1924, "Manifeste du surréalisme"]
+];
+
+const NOTIONS = [
+  { g: "Versification", items: [
+    ["Alexandrin", "Vers de 12 syllabes, le vers noble de la poésie française.", "Tout « Demain, dès l'aube… », « L'Albatros », « Les Conquérants »."],
+    ["Vers impair, ennéasyllabe", "Vers d'un nombre impair de syllabes ; l'ennéasyllabe en compte 9.", "« Art poétique » : « De la musique avant toute chose »."],
+    ["Sonnet", "Poème de 14 vers : deux quatrains puis deux tercets.", "« Les Conquérants », « Correspondances », « Le vierge, le vivace… »."],
+    ["Rimes plates, croisées, embrassées", "AABB, ABAB, ABBA.", "Plates : « Apparition ». Croisées : « L'Albatros ». Embrassées : les quatrains des « Conquérants »."],
+    ["Enjambement et rejet", "La phrase déborde sur le vers suivant ; un rejet est un mot court mis en valeur au début du vers suivant.", "« routiers et capitaines / Partaient » (« Les Conquérants »)."],
+    ["Prose poétique", "Poésie sans vers ni rimes, qui repose sur les images et le rythme.", "*Les Champs magnétiques*."]
+  ]},
+  { g: "Figures de style", items: [
+    ["Comparaison", "Rapprochement de deux éléments avec un outil (comme, tel…).", "« Comme un vol de gerfauts hors du charnier natal »."],
+    ["Métaphore", "Rapprochement sans outil de comparaison.", "« La Nature est un temple »."],
+    ["Allégorie", "Une idée abstraite représentée par une image développée.", "L'albatros, puis le cygne, figurent le poète."],
+    ["Oxymore", "Deux termes contradictoires accolés.", "« misères hautaines »."],
+    ["Antithèse", "Opposition forte entre deux idées.", "« rois de l'azur » / « maladroits et honteux »."],
+    ["Synesthésie", "Mélange de sensations différentes.", "« De blancs sanglots » ; des parfums « verts comme les prairies »."],
+    ["Anaphore", "Reprise d'un mot en début de vers ou de phrase.", "« C'est… C'est… C'est… » (« Art poétique ») ; « Prenez… Prenez… » (Tzara)."],
+    ["Onomatopée", "Mot qui imite un bruit.", "« toc, toc, toc » (« Le Hareng saur »)."],
+    ["Chute", "Fin qui surprend et éclaire tout le texte.", "Le mot « tombe » chez Hugo ; « Et tout le reste est littérature »."]
+  ]},
+  { g: "Notions littéraires", items: [
+    ["Lyrisme", "Expression des sentiments personnels du « je ».", "« Demain, dès l'aube… », adressé à Léopoldine."],
+    ["L'art pour l'art", "La poésie ne doit servir à rien d'autre qu'au Beau.", "Le Parnasse, de Gautier à Heredia."],
+    ["Spleen et idéal", "L'ennui et l'angoisse d'un côté, l'élan vers la beauté absolue de l'autre.", "*Les Fleurs du mal* ; « La chair est triste, hélas ! »."],
+    ["Correspondances", "Le monde visible renvoie à un monde spirituel, et les sens se répondent.", "« Correspondances » de Baudelaire."],
+    ["Poète maudit", "Génie incompris, rejeté par la société.", "« L'Albatros » ; l'essai de Verlaine (1884)."],
+    ["Hermétisme", "Poésie volontairement difficile, au sens à reconstruire.", "« Le vierge, le vivace et le bel aujourd'hui »."],
+    ["Manifeste", "Texte qui proclame les principes d'un mouvement.", "Moréas (1886), Tzara (1918), Breton (1924), « Art poétique »."],
+    ["Écriture automatique", "Écrire très vite, sans contrôle de la raison, pour laisser parler l'inconscient.", "*Les Champs magnétiques*."],
+    ["Ready-made", "Objet ordinaire exposé tel quel comme œuvre d'art.", "*Fontaine* de Duchamp (1917)."],
+    ["Humour noir", "Humour qui rit de ce qui inquiète : la mort, l'absurde.", "Le hareng qui se balance comme un pendu."]
+  ]}
+];
+
+const LIENS_DOUAI = [
+  ["Baudelaire, « Correspondances »", "« Sensation »", "La nature vécue par les sens. Chez Baudelaire, c'est un temple à déchiffrer ; chez Rimbaud, une expérience physique et joyeuse (« Par la Nature, — heureux comme avec une femme »)."],
+  ["Baudelaire, « L'Albatros »", "« Ma Bohème (Fantaisie) »", "La figure du poète. L'albatros est exilé et raillé ; le bohème de Rimbaud est pauvre mais libre, et son « auberge était à la Grande-Ourse ». Rimbaud en rit : il tire comme des lyres les élastiques de ses souliers blessés."],
+  ["Baudelaire, « Une charogne » (à citer)", "« Vénus Anadyomène »", "La beauté du laid. Baudelaire fait un poème d'amour sur un cadavre ; Rimbaud transforme la déesse de la beauté en femme laide sortant d'une baignoire."],
+  ["Hugo, « Demain, dès l'aube… »", "« Sensation »", "Le même futur de la marche (« j'irai »). Hugo marche vers une tombe ; Rimbaud part « loin, bien loin, comme un bohémien » vers l'amour et la nature."],
+  ["Hugo et le romantisme engagé", "« Le Forgeron », « Morts de Quatre-vingt-douze… », « Le Dormeur du val »", "L'héritage républicain de Hugo et la colère contre la guerre de 1870."]
+];
+
+const RAPPROCHEMENTS = [
+  ["L'ailleurs", "Le « Fuir ! là-bas fuir ! » de Mallarmé répond au « Là-bas, on nous a dit qu'il y avait des vallées prodigieuses » de Breton et Soupault. Chez Mallarmé, l'ailleurs fait encore rêver ; en 1919, il est devenu « aussi ennuyeux qu'un musée »."],
+  ["Le hasard", "Mallarmé croit que l'art peut en triompher ; Tzara le met dans un sac et le secoue ; Breton et Soupault en font une voie d'accès à l'inconscient."],
+  ["La forme", "Heredia cisèle un sonnet parfait ; Verlaine garde la rime tout en s'en moquant ; Tzara abandonne le vers ; *Les Champs magnétiques* passent à la prose poétique."],
+  ["Les étoiles", "Les « étoiles nouvelles » de Heredia, le « bleu fouillis des claires étoiles » de Verlaine, la constellation du Cygne de Mallarmé, les « étoiles tendres » de Breton et Soupault : un même motif, quatre façons de rêver l'idéal."],
+  ["La figure du poète", "Le père en deuil de Hugo, l'albatros exilé de Baudelaire, le cygne prisonnier de Mallarmé, le bohème libre de Rimbaud, puis l'écrivain moqué par Tzara (« infiniment original »)."],
+  ["Le refus du sérieux", "Du « Hareng saur » de Cros (« pour mettre en fureur les gens — graves ») à la recette absurde de Tzara, en passant par les parodies de l'*Album zutique*."]
+];
+
+const FIL = [
+  ["romantisme", "place au centre le **« moi » lyrique** et la nature comme miroir de l'âme."],
+  ["baudelaire", "hérite du romantisme mais invente la **modernité** : spleen, ville, beauté du laid, correspondances."],
+  ["parnasse", "réagit contre le lyrisme : une poésie **parfaite et impersonnelle**, sculptée comme un objet."],
+  ["symbolisme", "préfère la **musique et la suggestion** à la description."],
+  ["mallarme", "vise une **poésie pure**, centrée sur le langage et hantée par la page blanche ; il cherche à vaincre le hasard."],
+  ["cros", "en marge des écoles, joue avec l'**absurde et l'humour** contre l'esprit de sérieux."],
+  ["dada", "fait **table rase** : la poésie devient un jeu de hasard et une provocation contre l'art lui-même."],
+  ["surrealisme", "garde le hasard de Dada mais lui donne un sens : il **libère le langage** pour explorer l'inconscient."]
+];
+
+/* Quiz : la première réponse est la bonne (les options sont mélangées à l'affichage). */
+const QUIZ = [
+  // Mouvements
+  { c: "Mouvements", s: "romantisme", q: "Quel recueil de Lamartine marque en 1820 le début du romantisme en poésie ?", a: ["*Méditations poétiques*", "*Les Contemplations*", "*Les Fleurs du mal*", "*Les Trophées*"], e: "Les *Méditations poétiques* (1820) ouvrent le romantisme ; « Le Lac » en est le poème le plus célèbre." },
+  { c: "Mouvements", s: "romantisme", q: "En quelle année a lieu la « bataille d'*Hernani* » ?", a: ["1830", "1820", "1857", "1848"], e: "En 1830, la pièce de Hugo oppose jeunes romantiques et partisans du classicisme." },
+  { c: "Mouvements", s: "parnasse", q: "D'où vient le nom du Parnasse ?", a: ["Du recueil collectif *Le Parnasse contemporain* (1866)", "D'un café parisien où se réunissaient les poètes", "D'une revue fondée par Mallarmé", "D'un poème de Hugo"], e: "Le recueil de 1866 tire son nom du mont Parnasse, séjour d'Apollon et des Muses." },
+  { c: "Mouvements", s: "parnasse", q: "Quelle formule résume l'idéal du Parnasse ?", a: ["L'art pour l'art", "De la musique avant toute chose", "L'écriture automatique", "Le poète guide du peuple"], e: "Pour les parnassiens, la poésie ne sert à rien d'autre qu'au Beau." },
+  { c: "Mouvements", s: "parnasse", q: "Contre quoi le Parnasse réagit-il d'abord ?", a: ["Le lyrisme romantique", "Le surréalisme", "Le symbolisme", "Dada"], e: "Le Parnasse refuse l'épanchement du « moi » et préfère l'impersonnalité." },
+  { c: "Mouvements", s: "symbolisme", q: "Qui publie le *Manifeste du symbolisme* dans *Le Figaro* en 1886 ?", a: ["Jean Moréas", "Paul Verlaine", "Stéphane Mallarmé", "André Breton"], e: "Jean Moréas publie le manifeste le 18 septembre 1886." },
+  { c: "Mouvements", s: "symbolisme", q: "Quel est le grand principe du symbolisme ?", a: ["Suggérer plutôt que décrire", "Décrire avec une précision scientifique", "Écrire sans contrôle de la raison", "Faire table rase de l'art"], e: "Le symbolisme évoque une impression ou une Idée par des images, des symboles et la musique des mots." },
+  { c: "Mouvements", s: "dada", q: "Où et quand naît Dada ?", a: ["À Zurich, en 1916", "À Paris, en 1924", "À Berlin, en 1918", "À New York, en 1913"], e: "Dada naît au Cabaret Voltaire, à Zurich, en février 1916, en Suisse neutre." },
+  { c: "Mouvements", s: "dada", q: "Pourquoi Dada est-il une révolte totale ?", a: ["La civilisation qui a produit la guerre de 1914-1918 ne mérite plus aucun respect", "Les poètes refusent la photographie", "Le symbolisme était jugé trop politique", "Les artistes veulent revenir au classicisme"], e: "Pour les dadaïstes, la raison, la morale et la culture européennes ont conduit au massacre." },
+  { c: "Mouvements", s: "surrealisme", q: "Qui rédige le *Manifeste du surréalisme* en 1924 ?", a: ["André Breton", "Tristan Tzara", "Louis Aragon", "Guillaume Apollinaire"], e: "Breton, théoricien et chef de file du mouvement, publie le manifeste en 1924." },
+  { c: "Mouvements", s: "surrealisme", q: "Quel savant inspire l'écriture automatique des surréalistes ?", a: ["Sigmund Freud", "Charles Darwin", "Louis Pasteur", "Auguste Comte"], e: "Breton découvre Freud et l'inconscient comme infirmier en psychiatrie pendant la guerre." },
+  { c: "Mouvements", s: "surrealisme", q: "Qui invente le mot « surréaliste », en 1917 ?", a: ["Guillaume Apollinaire", "André Breton", "Philippe Soupault", "Tristan Tzara"], e: "Apollinaire emploie le mot en 1917 ; Breton le reprend pour nommer le mouvement." },
+  { c: "Mouvements", s: "romantisme", q: "Quel est l'ordre chronologique correct ?", a: ["Romantisme → Parnasse → Symbolisme → Dada → Surréalisme", "Parnasse → Romantisme → Symbolisme → Surréalisme → Dada", "Romantisme → Symbolisme → Parnasse → Dada → Surréalisme", "Symbolisme → Romantisme → Parnasse → Dada → Surréalisme"], e: "1820, 1866, 1886, 1916, 1924 : chaque mouvement se construit contre le précédent." },
+  { c: "Mouvements", s: "cros", q: "Quel groupe de poètes écrit des parodies dans un album, avec Verlaine, Rimbaud et Cros ?", a: ["Les Zutistes", "Les Hydropathes", "Les Parnassiens", "Les Décadents"], e: "Les Zutistes (1871-1872) écrivent l'*Album zutique*. Les Hydropathes viennent plus tard, en 1878." },
+  // Auteurs et œuvres
+  { c: "Auteurs et œuvres", s: "parnasse", q: "Qui a écrit *Les Trophées* (1893) ?", a: ["José-Maria de Heredia", "Leconte de Lisle", "Théodore de Banville", "Théophile Gautier"], e: "Heredia, né à Cuba, a ciselé ses 118 sonnets pendant trente ans." },
+  { c: "Auteurs et œuvres", s: "parnasse", q: "Quel poète parnassien reçoit le premier prix Nobel de littérature, en 1901 ?", a: ["Sully Prudhomme", "Victor Hugo", "François Coppée", "Leconte de Lisle"], e: "Sully Prudhomme (1839-1907) est le premier lauréat du prix Nobel de littérature." },
+  { c: "Auteurs et œuvres", s: "romantisme", q: "Dans quelle situation Hugo publie-t-il *Les Contemplations* en 1856 ?", a: ["En exil, à Jersey puis Guernesey", "En prison, en Belgique", "Pendant la Commune de Paris", "Juste après son élection à l'Académie"], e: "Hugo s'oppose au coup d'État de 1851 et vit presque vingt ans en exil." },
+  { c: "Auteurs et œuvres", s: "romantisme", q: "Où meurt Léopoldine, la fille de Hugo, en 1843 ?", a: ["À Villequier, noyée dans la Seine", "À Harfleur, en mer", "À Jersey, de maladie", "À Paris, dans un incendie"], e: "Léopoldine se noie avec son mari à Villequier le 4 septembre 1843." },
+  { c: "Auteurs et œuvres", s: "baudelaire", q: "Pourquoi *Les Fleurs du mal* sont-elles condamnées en 1857 ?", a: ["Pour « outrage à la morale publique »", "Pour plagiat", "Pour insulte à l'empereur", "Pour propagande révolutionnaire"], e: "Six poèmes sont censurés ; une deuxième édition, augmentée, paraît en 1861." },
+  { c: "Auteurs et œuvres", s: "baudelaire", q: "À qui Baudelaire dédie-t-il *Les Fleurs du mal* ?", a: ["À Théophile Gautier, « poète impeccable »", "À Victor Hugo, « maître de l'exil »", "À Edgar Poe, son modèle", "À sa mère"], e: "La dédicace à Gautier montre le lien entre Baudelaire et le culte parnassien de la forme." },
+  { c: "Auteurs et œuvres", s: "symbolisme", q: "Où Verlaine écrit-il « Art poétique », en 1874 ?", a: ["En prison, en Belgique", "En exil à Guernesey", "Au cabaret du Chat Noir", "Chez Mallarmé, rue de Rome"], e: "Après le coup de revolver sur Rimbaud (1873), Verlaine passe deux ans en prison." },
+  { c: "Auteurs et œuvres", s: "symbolisme", q: "Quels poètes Verlaine appelle-t-il les « poètes maudits » en 1884 ?", a: ["Corbière, Rimbaud et Mallarmé", "Hugo, Lamartine et Musset", "Heredia, Banville et Coppée", "Breton, Aragon et Soupault"], e: "L'essai *Les Poètes maudits* (1884) fait connaître ces trois poètes." },
+  { c: "Auteurs et œuvres", s: "mallarme", q: "Quel est le métier de Mallarmé ?", a: ["Professeur d'anglais", "Médecin", "Journaliste", "Diplomate"], e: "Mallarmé enseigne l'anglais au lycée et mène une vie extérieure très modeste." },
+  { c: "Auteurs et œuvres", s: "mallarme", q: "Que sont les « mardis » de Mallarmé ?", a: ["Des réunions chez lui, rue de Rome, avec la jeune génération", "Des conférences à la Sorbonne", "Une revue hebdomadaire", "Des lectures au cabaret du Chat Noir"], e: "Valéry, Gide, Claudel ou Debussy fréquentent ces réunions." },
+  { c: "Auteurs et œuvres", s: "mallarme", q: "Quel compositeur met en musique *L'Après-midi d'un faune* ?", a: ["Claude Debussy", "Maurice Ravel", "Erik Satie", "Hector Berlioz"], e: "Debussy compose le *Prélude à l'après-midi d'un faune* en 1894." },
+  { c: "Auteurs et œuvres", s: "cros", q: "Quelle invention Charles Cros décrit-il en 1877 ?", a: ["Le paléophone, pour enregistrer et reproduire les sons", "Le cinématographe", "Le téléphone", "L'ampoule électrique"], e: "Il en décrit le principe quelques mois avant le phonographe d'Edison." },
+  { c: "Auteurs et œuvres", s: "dada", q: "Quel est le vrai nom de Tristan Tzara ?", a: ["Samuel Rosenstock", "Marcel Janco", "Hugo Ball", "Richard Huelsenbeck"], e: "Tzara est né en Roumanie sous le nom de Samuel Rosenstock." },
+  { c: "Auteurs et œuvres", s: "dada", q: "Quel objet Marcel Duchamp expose-t-il en 1917 sous le titre *Fontaine* ?", a: ["Un urinoir signé", "Une roue de bicyclette", "Un porte-bouteilles", "Une pelle à neige"], e: "C'est le ready-made le plus célèbre : le geste de l'artiste suffit à faire l'œuvre." },
+  { c: "Auteurs et œuvres", s: "surrealisme", q: "Avec qui Breton écrit-il *Les Champs magnétiques* ?", a: ["Philippe Soupault", "Louis Aragon", "Paul Éluard", "Robert Desnos"], e: "Breton et Soupault l'écrivent à quatre mains au printemps 1919." },
+  // Qui a écrit ?
+  { c: "Qui a écrit ?", s: "baudelaire", quote: "Ses ailes de géant l'empêchent de marcher.", q: "Qui a écrit ce vers ?", a: ["Baudelaire, « L'Albatros »", "Mallarmé, « Le vierge, le vivace… »", "Hugo, « Demain, dès l'aube… »", "Heredia, « Les Conquérants »"], e: "Le dernier vers de « L'Albatros » : le génie du poète le rend inadapté au monde." },
+  { c: "Qui a écrit ?", s: "mallarme", quote: "La chair est triste, hélas ! et j'ai lu tous les livres.", q: "Qui a écrit ce vers ?", a: ["Mallarmé, « Brise marine »", "Baudelaire, « Correspondances »", "Verlaine, « Art poétique »", "Hugo, « Demain, dès l'aube… »"], e: "Premier vers de « Brise marine » (1865) : l'Ennui baudelairien." },
+  { c: "Qui a écrit ?", s: "symbolisme", quote: "De la musique avant toute chose,", q: "Qui a écrit ce vers ?", a: ["Verlaine, « Art poétique »", "Mallarmé, « Apparition »", "Baudelaire, « Correspondances »", "Cros, « Le Hareng saur »"], e: "Premier vers d'« Art poétique », devise des symbolistes." },
+  { c: "Qui a écrit ?", s: "parnasse", quote: "Du fond de l'Océan des étoiles nouvelles.", q: "Qui a écrit ce vers ?", a: ["Heredia, « Les Conquérants »", "Baudelaire, « L'Albatros »", "Mallarmé, « Brise marine »", "Hugo, « Demain, dès l'aube… »"], e: "La chute des « Conquérants » : l'or rêvé devient lumière." },
+  { c: "Qui a écrit ?", s: "surrealisme", quote: "Prisonniers des gouttes d'eau, nous ne sommes que des animaux perpétuels.", q: "Qui a écrit cette phrase ?", a: ["Breton et Soupault, *Les Champs magnétiques*", "Tzara, *Sept manifestes Dada*", "Mallarmé, *Poésies*", "Cros, *Le Coffret de santal*"], e: "Première phrase de « La Glace sans tain », premier texte écrit en écriture automatique." },
+  { c: "Qui a écrit ?", s: "dada", quote: "Le poème vous ressemblera.", q: "Qui a écrit cette phrase ?", a: ["Tzara, « Pour faire un poème dadaïste »", "Breton, *Manifeste du surréalisme*", "Verlaine, « Art poétique »", "Cros, « Le Hareng saur »"], e: "Phrase ironique de la recette de Tzara (1920)." },
+  { c: "Qui a écrit ?", s: "cros", quote: "Pour mettre en fureur les gens — graves, graves, graves,", q: "Qui a écrit ce vers ?", a: ["Charles Cros, « Le Hareng saur »", "Tristan Tzara", "Paul Verlaine", "Arthur Rimbaud"], e: "La dernière strophe du « Hareng saur » révèle l'intention du poète." },
+  { c: "Qui a écrit ?", s: "romantisme", quote: "Un bouquet de houx vert et de bruyère en fleur.", q: "Qui a écrit ce vers ?", a: ["Hugo, « Demain, dès l'aube… »", "Lamartine, « Le Lac »", "Mallarmé, « Apparition »", "Baudelaire, « Correspondances »"], e: "Le dernier vers de « Demain, dès l'aube… », offert à Léopoldine." },
+  { c: "Qui a écrit ?", s: "baudelaire", quote: "Les parfums, les couleurs et les sons se répondent.", q: "Qui a écrit ce vers ?", a: ["Baudelaire, « Correspondances »", "Verlaine, « Art poétique »", "Rimbaud, « Sensation »", "Mallarmé, « Apparition »"], e: "Le vers qui définit les correspondances « horizontales » : la synesthésie." },
+  { c: "Qui a écrit ?", s: "mallarme", quote: "Que vêt parmi l'exil inutile le Cygne.", q: "Qui a écrit ce vers ?", a: ["Mallarmé, « Le vierge, le vivace… »", "Baudelaire, « L'Albatros »", "Heredia, « Les Conquérants »", "Verlaine, « Art poétique »"], e: "Le sujet « le Cygne » arrive au tout dernier mot : le Mallarmé hermétique." },
+  // Notions
+  { c: "Notions", s: "symbolisme", q: "De combien de syllabes sont les vers d'« Art poétique » ?", a: ["9 (ennéasyllabes)", "12 (alexandrins)", "8 (octosyllabes)", "10 (décasyllabes)"], e: "Verlaine conseille l'Impair et l'applique : le poème fait ce qu'il dit." },
+  { c: "Notions", s: "parnasse", q: "Qu'est-ce qu'un sonnet ?", a: ["Deux quatrains puis deux tercets", "Trois quatrains et un distique", "Quatre quatrains", "Un poème en vers libres de 14 lignes"], e: "14 vers : « Les Conquérants », « Correspondances » et « Le vierge, le vivace… » sont des sonnets." },
+  { c: "Notions", s: "baudelaire", q: "Qu'est-ce qu'une synesthésie ?", a: ["Un mélange de sensations différentes", "Une répétition en début de vers", "Une opposition de deux idées", "Un mot qui imite un bruit"], e: "Ex. : des parfums « doux comme les hautbois, verts comme les prairies »." },
+  { c: "Notions", s: "baudelaire", q: "Dans « L'Albatros », l'oiseau qui représente le poète est…", a: ["une allégorie", "un oxymore", "une onomatopée", "une anaphore"], e: "Une idée abstraite (le poète) est représentée par une image développée (l'albatros)." },
+  { c: "Notions", s: "parnasse", q: "« misères hautaines » est…", a: ["un oxymore", "une comparaison", "une synesthésie", "une anaphore"], e: "Deux termes contradictoires accolés : la misère et la hauteur." },
+  { c: "Notions", s: "mallarme", q: "Pourquoi parle-t-on de « sonnet en *i* » ?", a: ["Toutes les rimes contiennent le son [i]", "Tous les vers commencent par « Il »", "Le poème compte un *i* par vers", "Le titre se termine par un *i*"], e: "Aujourd'hui, ivre, fui, ennui, agonie, pris, Cygne… : un son aigu qui évoque le froid." },
+  { c: "Notions", s: "mallarme", q: "Quel jeu de mots se cache derrière le Cygne de Mallarmé ?", a: ["*Cygne / signe* : l'oiseau est aussi le mot poétique", "*Cygne / cigogne*", "*Cygne / cime*", "*Cygne / sinistre*"], e: "Le cygne prisonnier figure le poète et le signe, le mot." },
+  { c: "Notions", s: "surrealisme", q: "Qu'est-ce qu'une « glace sans tain » ?", a: ["Un miroir sans couche réfléchissante : une simple vitre", "Un miroir déformant", "Un lac gelé", "Un miroir brisé"], e: "On ne s'y voit plus soi-même, on voit au-delà : une image de l'écriture automatique." },
+  { c: "Notions", s: "romantisme", q: "Quel mot révèle que le « tu » de « Demain, dès l'aube… » est une morte ?", a: ["« tombe »", "« Harfleur »", "« bruyère »", "« nuit »"], e: "Le mot « tombe », à la rime du vers 11, oblige à relire tout le poème." },
+  { c: "Notions", s: "surrealisme", q: "Qu'est-ce que l'écriture automatique ?", a: ["Écrire très vite, sans contrôle de la raison, pour laisser parler l'inconscient", "Découper des mots dans un journal", "Écrire uniquement en alexandrins", "Recopier des textes célèbres"], e: "La définition du *Manifeste* de 1924. Le découpage de journal, c'est la recette de Tzara." },
+  { c: "Notions", s: "symbolisme", q: "Dans « Et tout le reste est littérature », que veut dire « littérature » ?", a: ["L'artifice, le travail visible, sens péjoratif", "La meilleure poésie", "Les romans de l'époque", "La critique littéraire"], e: "Pour Verlaine, la vraie poésie est une sensation fugitive, pas un artifice." },
+  { c: "Notions", s: "parnasse", q: "Quelle est la forme reine du Parnasse ?", a: ["Le sonnet", "La prose poétique", "Le vers libre", "La chanson"], e: "Le sonnet incarne le travail de la forme : Heredia en écrit 118." },
+  // Liens
+  { c: "Liens", s: "baudelaire", q: "Quel poème du *Cahier de Douai* rapprocher de « Correspondances » ?", a: ["« Sensation »", "« Le Buffet »", "« Le Forgeron »", "« La Maline »"], e: "Deux poèmes de la nature vécue par les sens ; chez Rimbaud, l'expérience est physique et joyeuse." },
+  { c: "Liens", s: "baudelaire", q: "Quel poème du *Cahier de Douai* rapprocher de « L'Albatros » ?", a: ["« Ma Bohème »", "« Le Dormeur du val »", "« Vénus Anadyomène »", "« Roman »"], e: "La figure du poète : exilé et raillé chez Baudelaire, pauvre mais libre chez Rimbaud." },
+  { c: "Liens", s: "baudelaire", q: "Quel poème du *Cahier de Douai* rapprocher d'« Une charogne » ?", a: ["« Vénus Anadyomène »", "« Sensation »", "« Ma Bohème »", "« Au Cabaret-Vert »"], e: "La beauté du laid : Rimbaud fait de la déesse de la beauté une femme laide sortant d'une baignoire." },
+  { c: "Liens", s: "baudelaire", q: "Comment Rimbaud appelle-t-il Baudelaire dans la « lettre du Voyant » (1871) ?", a: ["« le premier voyant, roi des poètes, un vrai Dieu »", "« le dernier des romantiques »", "« un poète impeccable »", "« un maître de l'ironie »"], e: "Lettre à Paul Demeny du 15 mai 1871." },
+  { c: "Liens", s: "baudelaire", q: "À qui Rimbaud confie-t-il, à Douai, les poèmes du *Cahier de Douai* en 1870 ?", a: ["Au poète Paul Demeny", "À Paul Verlaine", "À Charles Cros", "À Victor Hugo"], e: "Rimbaud, 16 ans, recopie 22 poèmes chez Demeny dans l'espoir d'être publié." },
+  { c: "Liens", s: "dada", q: "Face au hasard, Mallarmé veut le vaincre. Et Tzara ?", a: ["Il s'y abandonne complètement", "Il le refuse aussi", "Il le confie à la raison", "Il l'ignore"], e: "Tzara met les mots dans un sac et le secoue ; les surréalistes en feront une voie vers l'inconscient." },
+  { c: "Liens", s: "cros", q: "Quel point commun entre « Le Hareng saur » et la recette de Tzara ?", a: ["Le refus de l'esprit de sérieux, par l'absurde", "Le culte de la forme parfaite", "L'expression du deuil", "La description de la nature"], e: "Cros veut « mettre en fureur les gens — graves » ; Tzara se moque de l'« écrivain infiniment original »." },
+  { c: "Liens", s: "surrealisme", q: "Quel motif relie Heredia, Verlaine, Mallarmé et Breton dans le corpus ?", a: ["Les étoiles", "La mer", "La ville", "Le miroir"], e: "« étoiles nouvelles », « claires étoiles », constellation du Cygne, « étoiles tendres » : quatre façons de rêver l'idéal." }
+];
+
+/* ====================== APPLICATION ====================== */
+const { useState, useEffect, useMemo, useRef } = React;
+const html = htm.bind(React.createElement);
+const SEC = Object.fromEntries(SECTIONS.map((s, i) => [s.id, { ...s, n: i + 1 }]));
+const mc = id => ({ "--mc": `var(--c-${id})` });
+
+function rich(str) {
+  if (!str) return null;
+  return str.split(/(\*\*[^*]+\*\*|\*[^*]+\*)/g).map((p, i) => {
+    if (p.length > 4 && p.startsWith("**") && p.endsWith("**")) return html`<strong key=${i}>${p.slice(2, -2)}</strong>`;
+    if (p.length > 2 && p.startsWith("*") && p.endsWith("*")) return html`<em key=${i}>${p.slice(1, -1)}</em>`;
+    return p;
+  });
+}
+const store = {
+  get(k, d) { try { const v = localStorage.getItem(k); return v ? JSON.parse(v) : d; } catch (e) { return d; } },
+  set(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) {} }
+};
+function shuffle(a) { const b = a.slice(); for (let i = b.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [b[i], b[j]] = [b[j], b[i]]; } return b; }
+
+const VIEWS = [["accueil", "Accueil", ""], ["notions", "Notions clés", "1"], ["frise", "Frise", "2"], ["parcours", "Parcours des textes", "3"], ["liens", "Liens", "4"], ["quiz", "Quiz", "5"]];
+
+function parseHash() {
+  const h = (location.hash || "").replace("#", "");
+  if (h.startsWith("parcours-") && SEC[h.slice(9)]) return { view: "parcours", sec: h.slice(9) };
+  if (VIEWS.some(v => v[0] === h)) return { view: h, sec: null };
+  return { view: "accueil", sec: null };
+}
+
+function App() {
+  const init = parseHash();
+  const [view, setView] = useState(init.view);
+  const [sec, setSec] = useState(init.sec || "romantisme");
+  useEffect(() => {
+    const on = () => { const p = parseHash(); setView(p.view); if (p.sec) setSec(p.sec); };
+    window.addEventListener("hashchange", on);
+    return () => window.removeEventListener("hashchange", on);
+  }, []);
+  const go = (v, s) => {
+    const target = v === "parcours" ? `parcours-${s || sec}` : v;
+    if (s) setSec(s);
+    setView(v);
+    try { if (location.hash.slice(1) !== target) location.hash = target; } catch (e) {}
+    window.scrollTo(0, 0);
+  };
+  return html`
+    <header className="top"><div className="top-in">
+      <button className="brand" onClick=${() => go("accueil")}>De Hugo <i>à</i> Breton</button>
+      <nav className="tabs" aria-label="Sections">
+        ${VIEWS.slice(1).map(([id, label, n]) => html`<button key=${id} className="tab" aria-current=${view === id ? "page" : undefined} onClick=${() => go(id)}><span className="step">${n}</span>${label}</button>`)}
+      </nav>
+    </div></header>
+    <main>
+      ${view === "accueil" && html`<${Accueil} go=${go} />`}
+      ${view === "notions" && html`<${Notions} go=${go} />`}
+      ${view === "frise" && html`<${Frise} go=${go} />`}
+      ${view === "parcours" && html`<${Parcours} sec=${sec} go=${go} />`}
+      ${view === "liens" && html`<${Liens} go=${go} />`}
+      ${view === "quiz" && html`<${Quiz} go=${go} />`}
+    </main>
+    <footer>Corpus pour l'oral du bac de français · textes vérifiés le 7 novembre 2026 · les dates des auteurs sont données à titre de repère.</footer>`;
+}
+
+function Ribbon({ go }) {
+  return html`<div className="ribbon" role="list">
+    ${SECTIONS.map(s => html`<button key=${s.id} role="listitem" style=${mc(s.id)} onClick=${() => go("parcours", s.id)}>
+      <span className="n">${s.short}</span><span className="d num">${s.period}</span></button>`)}
+  </div>`;
+}
+
+function Accueil({ go }) {
+  const steps = [
+    ["notions", "1", "Les notions clés", "Les mots du métier (sonnet, allégorie, synesthésie…) avant de lire les textes. 10 minutes."],
+    ["frise", "2", "La frise", "Situer les mouvements et les auteurs dans le temps, un mouvement à la fois."],
+    ["parcours", "3", "Le parcours des textes", "Huit étapes. Pour chacune : le mouvement, les auteurs, puis le texte avec son analyse vers par vers."],
+    ["quiz", "5", "Le quiz", "S'entraîner à retrouver les notions de mémoire. Les erreurs reviennent jusqu'à être sues."]
+  ];
+  return html`
+    <section className="hero">
+      <p className="eyebrow">Oral du bac de français · la poésie du XIXᵉ au XXᵉ siècle</p>
+      <h1>De Hugo <em>à</em> Breton</h1>
+      <p className="dates num">1820 — 1924 · onze textes, huit étapes</p>
+      <p className="lead">Chaque mouvement se construit contre le précédent. Le romantisme dit le « moi », le Parnasse le refuse, le symbolisme préfère la musique à la description, Dada fait table rase et le surréalisme libère l'inconscient. Clique sur une étape pour l'ouvrir.</p>
+      <${Ribbon} go=${go} />
+    </section>
+    <section style=${{ display: "grid", gap: "14px" }}>
+      <h2 style=${{ fontSize: "28px" }}>Comment travailler</h2>
+      <div className="path">
+        ${steps.map(([v, k, t, d]) => html`<button key=${v} onClick=${() => go(v, v === "parcours" ? "romantisme" : null)}>
+          <span className="k">Étape ${k}</span><h3>${t}</h3><p>${d}</p></button>`)}
+      </div>
+    </section>
+    <details className="design">
+      <summary>Comment cette application est conçue (théorie de la charge cognitive et apprentissage multimédia)</summary>
+      <ul>
+        <li><strong>Pré-entraînement</strong> : les notions clés sont apprises avant les textes, pour que la lecture des analyses ne sature pas la mémoire de travail.</li>
+        <li><strong>Segmentation</strong> : une étape, puis une sous-étape à la fois (mouvement, auteurs, texte), au rythme de l'élève.</li>
+        <li><strong>Signalement</strong> : un code couleur par mouvement, identique dans la frise, le parcours et le quiz ; trois points « À retenir » par étape.</li>
+        <li><strong>Contiguïté spatiale</strong> : l'analyse est placée à côté du poème, et les vers concernés s'éclairent quand on choisit une remarque.</li>
+        <li><strong>Cohérence</strong> : pas d'images décoratives ni de son, seulement ce qui sert à comprendre.</li>
+        <li><strong>Charge extrinsèque réduite</strong> : la frise n'affiche les auteurs que du mouvement choisi.</li>
+        <li><strong>Personnalisation</strong> : un ton direct, au tutoiement, proche de l'oral.</li>
+        <li><strong>Effet de test</strong> : le quiz fait retrouver les notions de mémoire, mélange les mouvements (entrelacement), explique chaque réponse et fait revenir les erreurs.</li>
+      </ul>
+    </details>`;
+}
+
+function Notions({ go }) {
+  const [test, setTest] = useState(false);
+  const [shown, setShown] = useState({});
+  return html`
+    <section style=${{ display: "grid", gap: "10px" }}>
+      <p className="eyebrow">Étape 1 · Pré-entraînement</p>
+      <h2 style=${{ fontSize: "clamp(30px,4.5vw,46px)" }}>Les notions clés</h2>
+      <p className="lead">Ces mots reviennent dans toutes les analyses. Lis-les une fois, puis active le mode « Me tester » : la définition est masquée, essaie de la retrouver avant de la révéler.</p>
+      <div className="row">
+        <button className="btn ${test ? "primary" : ""}" aria-pressed=${test} onClick=${() => { setTest(!test); setShown({}); }}>${test ? "Afficher toutes les définitions" : "Me tester : masquer les définitions"}</button>
+        <button className="btn" onClick=${() => go("frise")}>Passer à la frise →</button>
+      </div>
+    </section>
+    <div className="notion-groups">
+      ${NOTIONS.map(grp => html`<section key=${grp.g}>
+        <h3 style=${{ fontSize: "24px" }}>${grp.g}</h3>
+        <div className="ngrid">
+          ${grp.items.map(([t, d, ex]) => {
+            const hid = test && !shown[t];
+            return html`<article key=${t} className="ncard ${hid ? "hidden" : ""}">
+              <h3>${t}</h3>
+              <p className="def" aria-hidden=${hid}>${rich(d)}</p>
+              <p className="ex" aria-hidden=${hid}>Dans le corpus : ${rich(ex)}</p>
+              ${test && html`<button className="btn reveal" onClick=${() => setShown({ ...shown, [t]: !shown[t] })}>${shown[t] ? "Masquer" : "Révéler"}</button>`}
+            </article>`;
+          })}
+        </div>
+      </section>`)}
+    </div>`;
+}
+
+const Y0 = 1760, Y1 = 1995, K = 5.4, PAD = 30;
+const X = y => PAD + (y - Y0) * K;
+const FW = X(Y1) + PAD;
+
+function Frise({ go }) {
+  const [focus, setFocus] = useState(null);
+  const [all, setAll] = useState(false);
+  const [pick, setPick] = useState(null);
+  const scroller = useRef(null);
+  useEffect(() => { if (scroller.current) scroller.current.scrollLeft = X(1795); }, []);
+
+  const evRows = useMemo(() => {
+    const ends = []; return EVENTS.map(([y, l]) => {
+      const x = X(y), w = (String(y).length + l.length + 1) * 6.6 + 14;
+      let r = ends.findIndex(e => e < x); if (r < 0) { r = ends.length; ends.push(0); }
+      ends[r] = x + w; return { y, l, x, r };
+    });
+  }, []);
+  const nEvRows = Math.max(...evRows.map(e => e.r)) + 1;
+  const axisH = 26, evTop = axisH + 8, lanesTop = evTop + nEvRows * 20 + 14;
+
+  let yy = lanesTop;
+  const lanes = SECTIONS.map(s => {
+    const open = all || focus === s.id;
+    const authors = [...s.auteurs].sort((a, b) => a[1] - b[1]);
+    const top = yy; yy += 32 + (open ? authors.length * 24 + 8 : 0);
+    return { s, open, authors, top };
+  });
+  const H = yy + 10;
+  const ticks = []; for (let y = 1760; y <= 1980; y += 20) ticks.push(y);
+  const toggle = id => { setFocus(focus === id ? null : id); setPick(null); };
+  const fs = focus && SEC[focus];
+
+  return html`
+    <section style=${{ display: "grid", gap: "10px" }}>
+      <p className="eyebrow">Étape 2 · Se repérer</p>
+      <h2 style=${{ fontSize: "clamp(30px,4.5vw,46px)" }}>La frise chronologique</h2>
+      <p className="lead">Chaque bande colorée montre la période active d'un mouvement. Choisis un mouvement pour afficher la vie de ses auteurs ; clique sur un auteur pour voir ses repères. La zone hachurée est la Première Guerre mondiale.</p>
+    </section>
+    <div className="frise-wrap">
+      <div className="frise-tools">
+        ${SECTIONS.map(s => html`<button key=${s.id} className="chip" style=${mc(s.id)} aria-pressed=${focus === s.id} onClick=${() => toggle(s.id)}>${s.short}</button>`)}
+        <button className="chip" aria-pressed=${all} onClick=${() => { setAll(!all); setPick(null); }}>${all ? "Masquer les auteurs" : "Tous les auteurs"}</button>
+      </div>
+      <div className="frise-scroll" ref=${scroller}>
+        <div className="frise" style=${{ width: FW + "px", height: H + "px" }}>
+          ${ticks.map(y => html`<div key=${"g" + y} className="gridline" style=${{ left: X(y) + "px" }}></div>`)}
+          <div className="war" style=${{ left: X(1914) + "px", width: (X(1918) - X(1914)) + "px" }} title="Première Guerre mondiale, 1914-1918"></div>
+          ${fs && html`<div className="focusband" style=${{ ...mc(fs.id), left: X(fs.span[0]) + "px", width: (X(fs.span[1]) - X(fs.span[0])) + "px" }}></div>`}
+          ${ticks.map(y => html`<span key=${"t" + y} className="axis-t num" style=${{ left: X(y) + "px", top: "6px" }}>${y}</span>`)}
+          ${evRows.map(e => html`<span key=${"e" + e.y} className="ev" style=${{ left: e.x + "px", top: (evTop + e.r * 20) + "px" }}><b>${e.y}</b> ${e.l}</span>`)}
+          ${lanes.map(({ s, open, authors, top }) => html`<div key=${s.id} style=${mc(s.id)}>
+            <button className="band" style=${{ left: X(s.span[0]) + "px", width: Math.max(8, X(s.span[1]) - X(s.span[0])) + "px", top: (top + 4) + "px" }} aria-label=${`${s.short}, ${s.period}`} onClick=${() => toggle(s.id)}></button>
+            <button className="band-l" style=${{ left: (X(s.span[1]) + 4) + "px", top: (top + 4) + "px" }} aria-expanded=${open} onClick=${() => toggle(s.id)}>${s.short} <small className="num">${s.period} · ${authors.length} auteurs</small></button>
+            ${open && authors.map(([n, b, d, r], i) => html`<button key=${n} className="life num ${pick && pick.n === n && pick.s === s.id ? "sel" : ""}"
+                style=${{ left: X(b) + "px", width: (X(d) - X(b)) + "px", top: (top + 34 + i * 24) + "px" }}
+                onClick=${() => setPick({ n, b, d, r, s: s.id })}>${n} ${b}–${d}</button>`)}
+          </div>`)}
+        </div>
+      </div>
+      <div className="detail" aria-live="polite">
+        ${pick ? html`<div style=${mc(pick.s)}>
+            <p className="eyebrow" style=${{ color: "var(--mc)" }}>${SEC[pick.s].short}</p>
+            <p className="who">${pick.n} <span className="num" style=${{ fontFamily: "var(--body)", fontSize: "16px", color: "var(--muted)" }}>${pick.b} – ${pick.d} · mort à ${pick.d - pick.b} ans</span></p>
+            <p>${rich(pick.r)}</p>
+          </div>`
+          : fs ? html`<p><strong>${fs.short}</strong> <span className="num">(${fs.period})</span> : ${rich(fs.retenir[0])} <button className="btn" style=${{ marginLeft: "8px", padding: "4px 10px", fontSize: "14px" }} onClick=${() => go("parcours", fs.id)}>Ouvrir l'étape →</button></p>`
+          : html`<p className="hint">Choisis un mouvement ci-dessus ou sur la frise pour afficher ses auteurs.</p>`}
+      </div>
+    </div>`;
+}
+
+function Parcours({ sec, go }) {
+  const s = SEC[sec];
+  const [step, setStep] = useState(0);
+  const [ti, setTi] = useState(0);
+  const [pt, setPt] = useState(null);
+  useEffect(() => { setStep(0); setTi(0); setPt(null); }, [sec]);
+  useEffect(() => { setPt(null); }, [ti]);
+  const idx = SECTIONS.findIndex(x => x.id === sec);
+  const prev = SECTIONS[idx - 1], next = SECTIONS[idx + 1];
+  const stepNames = ["Le mouvement", "Les auteurs", s.textes.length > 1 ? "Les textes et l'analyse" : "Le texte et l'analyse"];
+
+  return html`<div className="parcours">
+    <nav className="rail" aria-label="Étapes du parcours">
+      ${SECTIONS.map((x, i) => html`<button key=${x.id} style=${mc(x.id)} aria-current=${x.id === sec} onClick=${() => go("parcours", x.id)}><span className="nn">${i + 1}</span>${x.short}</button>`)}
+    </nav>
+    <article style=${{ ...mc(sec), display: "grid", gap: "20px", minWidth: 0 }}>
+      <header className="sec-head">
+        <p className="eyebrow">Étape ${s.n} sur ${SECTIONS.length}</p>
+        <h2>${s.name}</h2>
+        <p className="per">${s.period}</p>
+      </header>
+      <section className="retenir" aria-label="À retenir">
+        <h3>À retenir</h3>
+        <ol>${s.retenir.map((r, i) => html`<li key=${i}>${rich(r)}</li>`)}</ol>
+      </section>
+      <div className="steps" role="tablist">
+        ${stepNames.map((n, i) => html`<button key=${i} role="tab" className="stepbtn" aria-selected=${step === i} aria-current=${step === i ? "step" : undefined} onClick=${() => setStep(i)}><span className="num">${i + 1}</span> · ${n}</button>`)}
+      </div>
+      ${step === 0 && html`<div className="prose">
+        ${s.intro.map((p, i) => html`<p key=${i}>${rich(p)}</p>`)}
+        ${s.principes.length > 0 && html`<ul>${s.principes.map(([b, t], i) => html`<li key=${i}><strong>${b}</strong> : ${rich(t)}</li>`)}</ul>`}
+        ${s.outro && html`<p>${rich(s.outro)}</p>`}
+      </div>`}
+      ${step === 1 && html`<div style=${{ display: "grid", gap: "18px" }}>
+        <h3 style=${{ fontSize: "24px" }}>${s.auteursTitre}</h3>
+        <div className="tscroll"><table className="t">
+          <thead><tr><th>Auteur</th><th>Naissance – mort</th><th>Repère</th></tr></thead>
+          <tbody>${s.auteurs.map(([n, b, d, r]) => html`<tr key=${n}><td><strong>${n}</strong></td><td className="d">${b} – ${d}</td><td>${rich(r)}</td></tr>`)}</tbody>
+        </table></div>
+        <section className="bio">
+          <p className="eyebrow">L'auteur du texte</p>
+          <h3>${s.bio.nom}</h3>
+          ${s.bio.texte.map((p, i) => html`<p key=${i}>${rich(p)}</p>`)}
+        </section>
+      </div>`}
+      ${step === 2 && html`<div style=${{ display: "grid", gap: "16px" }}>
+        ${s.textes.length > 1 && html`<div className="textsel">${s.textes.map((t, i) => html`<button key=${i} className="stepbtn" aria-current=${ti === i ? "step" : undefined} onClick=${() => setTi(i)}>${t.titre}</button>`)}</div>`}
+        <${Reading} t=${s.textes[ti] || s.textes[0]} pt=${pt} setPt=${setPt} />
+      </div>`}
+      <div className="pager">
+        ${step > 0 ? html`<button className="btn" onClick=${() => setStep(step - 1)}>← ${stepNames[step - 1]}</button>`
+          : prev ? html`<button className="btn" onClick=${() => go("parcours", prev.id)}>← ${prev.short}</button>` : html`<span></span>`}
+        ${step < 2 ? html`<button className="btn primary" onClick=${() => setStep(step + 1)}>${stepNames[step + 1]} →</button>`
+          : next ? html`<button className="btn primary" onClick=${() => go("parcours", next.id)}>Étape suivante : ${next.short} →</button>`
+          : html`<button className="btn primary" onClick=${() => go("liens")}>Faire les liens →</button>`}
+      </div>
+    </article>
+  </div>`;
+}
+
+function Reading({ t, pt, setPt }) {
+  const lines = []; t.strophes.forEach((st, si) => st.forEach(l => lines.push({ l, si })));
+  const active = pt !== null && t.analyse[pt] ? new Set(t.analyse[pt].v) : new Set();
+  const unit = t.prose ? "§" : "v.";
+  let k = 0;
+  return html`<div className="reading">
+    <section className="poem" aria-label="Texte">
+      <h3>${t.titre}</h3>
+      <p className="ref">${rich(t.ref)}</p>
+      ${t.source && html`<p className="src">Texte vérifié sur <a href=${t.source[1]} target="_blank" rel="noopener">${t.source[0]}</a></p>`}
+      ${t.dedicace && html`<p className="dedic">${t.dedicace}</p>`}
+      ${t.strophes.map((st, si) => html`<div key=${si} className="stanza">
+        ${st.map((l) => { k++; const n = k; return html`<div key=${n} className="vl ${t.prose ? "prose-p" : ""} ${active.has(n) ? "hi" : ""}"><span className="vn">${t.prose ? "§" + n : (n % 5 === 0 || n === 1 ? n : "")}</span><span>${l}</span></div>`; })}
+      </div>`)}
+    </section>
+    <section className="points" aria-label="Analyse">
+      <p className="hint">Choisis une remarque : les ${t.prose ? "passages" : "vers"} concernés s'éclairent dans le texte.</p>
+      ${t.analyse.map((a, i) => {
+        const on = pt === i;
+        return html`<button key=${i} className="point" aria-pressed=${on} onClick=${() => setPt(on ? null : i)}>
+          <h4>${a.t}</h4>
+          ${a.v.length > 0 && html`<span className="vrefs num">${unit} ${a.v.join(", ")}</span>`}
+          <span>${rich(a.d)}</span>
+          ${on && a.v.length > 0 && !t.prose && html`<blockquote>${a.v.map(n => html`<div key=${n}>${lines[n - 1] ? lines[n - 1].l : ""}</div>`)}</blockquote>`}
+        </button>`;
+      })}
+    </section>
+  </div>`;
+}
+
+function Liens({ go }) {
+  return html`
+    <section style=${{ display: "grid", gap: "10px" }}>
+      <p className="eyebrow">Étape 4 · Relier</p>
+      <h2 style=${{ fontSize: "clamp(30px,4.5vw,46px)" }}>Faire les liens</h2>
+      <p className="lead">À l'entretien, on attend des rapprochements. Voici les plus utiles, d'abord avec le <em>Cahier de Douai</em> de Rimbaud, puis entre les textes du corpus.</p>
+    </section>
+    <section className="panel" style=${{ display: "grid", gap: "12px" }}>
+      <h3 style=${{ fontSize: "24px" }}>Avec Rimbaud et le <em>Cahier de Douai</em></h3>
+      <p className="lead">En septembre-octobre 1870, Rimbaud, 16 ans, recopie 22 poèmes chez le poète Paul Demeny, à Douai. En 1871, dans la « lettre du Voyant », il écrit : « Baudelaire est le premier voyant, roi des poètes, un vrai Dieu. »</p>
+      <div className="tscroll"><table className="t">
+        <thead><tr><th>Texte du corpus</th><th>Poème du <em>Cahier de Douai</em></th><th>Le lien à faire</th></tr></thead>
+        <tbody>${LIENS_DOUAI.map(([a, b, c], i) => html`<tr key=${i}><td><strong>${a}</strong></td><td>${b}</td><td>${rich(c)}</td></tr>`)}</tbody>
+      </table></div>
+    </section>
+    <section style=${{ display: "grid", gap: "12px" }}>
+      <h3 style=${{ fontSize: "24px" }}>Six rapprochements entre les textes</h3>
+      <div className="ngrid">${RAPPROCHEMENTS.map(([t, d]) => html`<article key=${t} className="ncard"><h3>${t}</h3><p className="def">${rich(d)}</p></article>`)}</div>
+    </section>
+    <section className="panel" style=${{ display: "grid", gap: "12px" }}>
+      <h3 style=${{ fontSize: "24px" }}>Le fil conducteur en une minute</h3>
+      <div className="chain">${SECTIONS.map((s, i) => html`<${React.Fragment} key=${s.id}>${i > 0 && html`<span className="arr">→</span>`}<span className="m" style=${mc(s.id)}>${s.short}</span><//>`)}</div>
+      <ul style=${{ margin: 0, paddingLeft: "20px", display: "grid", gap: "6px" }}>
+        ${FIL.map(([id, t]) => html`<li key=${id}><strong style=${{ color: `var(--c-${id})` }}>${SEC[id].short}</strong> ${rich(t)}</li>`)}
+      </ul>
+      <div className="row"><button className="btn primary" onClick=${() => go("quiz")}>Me tester avec le quiz →</button></div>
+    </section>`;
+}
+
+const CATS = ["Tout", "Mouvements", "Auteurs et œuvres", "Qui a écrit ?", "Notions", "Liens"];
+function Quiz({ go }) {
+  const [phase, setPhase] = useState("setup");
+  const [cat, setCat] = useState("Tout");
+  const [len, setLen] = useState(10);
+  const [items, setItems] = useState([]);
+  const [i, setI] = useState(0);
+  const [picked, setPicked] = useState(null);
+  const [res, setRes] = useState([]);
+  const [errs, setErrs] = useState(() => store.get("hugo-breton-erreurs", []));
+
+  const start = (mode) => {
+    let pool = QUIZ.map((q, id) => ({ ...q, id }));
+    if (mode === "errs") pool = pool.filter(q => errs.includes(q.id));
+    else if (cat !== "Tout") pool = pool.filter(q => q.c === cat);
+    pool = shuffle(pool).slice(0, mode === "errs" ? pool.length : (len === 0 ? pool.length : len));
+    setItems(pool.map(q => ({ ...q, opts: shuffle(q.a.map((t, k) => ({ t, ok: k === 0 }))) })));
+    setI(0); setPicked(null); setRes([]); setPhase("play");
+  };
+  const answer = (k) => {
+    if (picked !== null) return;
+    const q = items[i], ok = q.opts[k].ok;
+    setPicked(k); setRes([...res, { q, ok, k }]);
+    const ne = ok ? errs.filter(e => e !== q.id) : (errs.includes(q.id) ? errs : [...errs, q.id]);
+    setErrs(ne); store.set("hugo-breton-erreurs", ne);
+  };
+  const nextQ = () => { if (i + 1 >= items.length) setPhase("end"); else { setI(i + 1); setPicked(null); } };
+
+  if (phase === "setup") {
+    const n = cat === "Tout" ? QUIZ.length : QUIZ.filter(q => q.c === cat).length;
+    return html`<section className="quiz">
+      <p className="eyebrow">Étape 5 · S'entraîner</p>
+      <h2 style=${{ fontSize: "clamp(30px,4.5vw,46px)" }}>Le quiz</h2>
+      <p className="lead">${QUIZ.length} questions sur les mouvements, les auteurs, les vers à reconnaître, les notions et les liens. Les questions sont mélangées : c'est plus difficile, mais on retient mieux. Chaque réponse est expliquée.</p>
+      <div className="setup panel">
+        <div style=${{ display: "grid", gap: "8px" }}><strong>Thème</strong>
+          <div className="choice">${CATS.map(c => html`<button key=${c} className="chip" aria-pressed=${cat === c} onClick=${() => setCat(c)}>${c}</button>`)}</div></div>
+        <div style=${{ display: "grid", gap: "8px" }}><strong>Nombre de questions</strong>
+          <div className="choice">${[[10, "10"], [20, "20"], [0, `Toutes (${n})`]].map(([v, l]) => html`<button key=${v} className="chip" aria-pressed=${len === v} onClick=${() => setLen(v)}>${l}</button>`)}</div></div>
+        <div className="row">
+          <button className="btn primary" onClick=${() => start("all")}>Commencer</button>
+          ${errs.length > 0 && html`<button className="btn" onClick=${() => start("errs")}>Revoir mes erreurs (${errs.length})</button>`}
+        </div>
+      </div>
+    </section>`;
+  }
+  if (phase === "end") {
+    const score = res.filter(r => r.ok).length, wrong = res.filter(r => !r.ok);
+    const msg = score === res.length ? "Parfait. Tu peux passer au thème suivant." : score / res.length >= .7 ? "Bien. Revois les erreurs ci-dessous, elles reviendront dans « Revoir mes erreurs »." : "Reprends le parcours des étapes concernées, puis refais le quiz.";
+    return html`<section className="quiz">
+      <p className="eyebrow">Résultat</p>
+      <p className="score num">${score} / ${res.length}</p>
+      <p className="lead">${msg}</p>
+      ${wrong.length > 0 && html`<div className="errlist">${wrong.map(({ q }, j) => html`<div key=${j} className="e">
+        <p><strong>${rich(q.q)}</strong>${q.quote ? html` <em>« ${q.quote} »</em>` : ""}</p>
+        <p>Bonne réponse : ${rich(q.a[0])}</p>
+        <p className="hint">${rich(q.e)} <button className="btn" style=${{ padding: "2px 10px", fontSize: "13px" }} onClick=${() => go("parcours", q.s)}>Revoir : ${SEC[q.s].short}</button></p>
+      </div>`)}</div>`}
+      <div className="row">
+        <button className="btn primary" onClick=${() => start("all")}>Nouvelle série</button>
+        ${errs.length > 0 && html`<button className="btn" onClick=${() => start("errs")}>Revoir mes erreurs (${errs.length})</button>`}
+        <button className="btn" onClick=${() => setPhase("setup")}>Changer de thème</button>
+      </div>
+    </section>`;
+  }
+  const q = items[i];
+  const ok = picked !== null && q.opts[picked].ok;
+  return html`<section className="quiz" style=${mc(q.s)}>
+    <div className="qmeta"><span>${q.c} · <span style=${{ color: "var(--mc)", fontWeight: 700 }}>${SEC[q.s].short}</span></span><span className="num">Question ${i + 1} / ${items.length}</span></div>
+    <div className="bar"><i style=${{ width: `${(i / items.length) * 100}%` }}></i></div>
+    ${q.quote && html`<p className="qquote">« ${q.quote} »</p>`}
+    <p className="qtext">${rich(q.q)}</p>
+    <div className="opts">${q.opts.map((o, k) => {
+      const cls = picked === null ? "" : o.ok ? "ok" : (k === picked ? "ko" : "");
+      return html`<button key=${k} className="opt ${cls}" disabled=${picked !== null} onClick=${() => answer(k)}><span className="l">${"ABCD"[k]}</span><span>${rich(o.t)}</span></button>`;
+    })}</div>
+    ${picked !== null && html`<div className="fb ${ok ? "ok" : "ko"}" aria-live="polite">
+      <strong className="v">${ok ? "Bonne réponse." : "Pas tout à fait."}</strong>
+      ${!ok && html`<p>La bonne réponse : ${rich(q.a[0])}</p>`}
+      <p>${rich(q.e)}</p>
+      <div className="row"><button className="btn primary" onClick=${nextQ}>${i + 1 >= items.length ? "Voir mon résultat" : "Question suivante →"}</button></div>
+    </div>`}
+  </section>`;
+}
+
+ReactDOM.createRoot(document.getElementById("root")).render(html`<${App} />`);
+</script>
+</body>
+</html>
