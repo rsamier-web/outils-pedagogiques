@@ -1,0 +1,960 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Eldorado de Laurent Gaudé — comprendre le roman et écrire sa rencontre culturelle</title>
+<style>
+:root{
+  --bg:#eff0f1; --surface:#fcfcfc; --text:#232629; --muted:#55595d;
+  --border:#bdc3c7; --line:#dfe2e4;
+  --accent:#1d99f3; --accent-text:#1272b8; --accent-soft:#e3f2fd;
+  /* code couleur constant des parties du récit */
+  --p1:#1d99f3; --p1s:#e6f3fd;   /* informative */
+  --p2:#27ae60; --p2s:#e7f6ec;   /* contexte + narration */
+  --p3:#f67400; --p3s:#fef0e3;   /* argumentative */
+  --p4:#8e44ad; --p4s:#f3eaf7;   /* conclusion */
+  /* code couleur des deux trajectoires */
+  --pir:#34495e; --pirs:#eaedf0;  /* Piracci */
+  --sol:#16a085; --sols:#e3f4f1;  /* Soleiman */
+  --ok:#27ae60; --oks:#e7f6ec; --ko:#da4453; --kos:#fbe9eb;
+  --radius:6px;
+}
+*{box-sizing:border-box}
+html{font-size:17px}
+body{margin:0;background:var(--bg);color:var(--text);
+  font-family:"Noto Sans","Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;line-height:1.6}
+a{color:var(--accent-text)}
+header.top{background:var(--surface);border-bottom:1px solid var(--border);padding:.7rem 1.2rem;
+  display:flex;align-items:center;gap:.8rem;position:sticky;top:0;z-index:5}
+header.top h1{font-size:1.05rem;margin:0;font-weight:600}
+header.top .sub{color:var(--muted);font-size:.85rem}
+.progress{margin-left:auto;font-size:.85rem;color:var(--muted);white-space:nowrap}
+.layout{display:grid;grid-template-columns:260px 1fr;max-width:1180px;margin:0 auto;gap:1.2rem;padding:1.2rem}
+nav.steps{position:sticky;top:4.2rem;align-self:start;background:var(--surface);border:1px solid var(--border);
+  border-radius:var(--radius);padding:.4rem}
+nav.steps button{display:flex;gap:.6rem;align-items:flex-start;width:100%;text-align:left;background:none;border:0;
+  padding:.55rem .6rem;border-radius:4px;font:inherit;font-size:.92rem;color:var(--text);cursor:pointer;line-height:1.35}
+nav.steps button:hover{background:var(--bg)}
+nav.steps button[aria-current="true"]{background:var(--accent-soft);color:var(--accent-text);font-weight:600}
+nav.steps .n{flex:0 0 1.6rem;height:1.6rem;border-radius:50%;border:1px solid var(--border);display:grid;place-items:center;
+  font-size:.8rem;background:var(--surface)}
+nav.steps button[aria-current="true"] .n{border-color:var(--accent);background:var(--accent);color:#fff}
+nav.steps .sep{border-top:1px solid var(--line);margin:.4rem .3rem}
+main{min-width:0}
+section.step{display:none;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);
+  padding:1.6rem 2rem 2rem}
+section.step.active{display:block}
+section.step > h2{margin:0 0 .3rem;font-size:1.5rem}
+.kicker{color:var(--muted);margin:0 0 1.2rem;max-width:70ch}
+h3{font-size:1.15rem;margin:2rem 0 .6rem;padding-bottom:.25rem;border-bottom:1px solid var(--line)}
+h4{font-size:1rem;margin:1.2rem 0 .4rem}
+p,li{max-width:72ch}
+ul,ol{padding-left:1.3rem}
+li{margin:.2rem 0}
+.box{border:1px solid var(--border);border-radius:var(--radius);padding:1rem 1.2rem;margin:1rem 0;background:var(--surface)}
+.box.key{border-left:4px solid var(--accent);background:var(--accent-soft)}
+.box.warn{border-left:4px solid var(--p3);background:var(--p3s)}
+.box h4:first-child{margin-top:0}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:.8rem}
+table{border-collapse:collapse;width:100%;margin:.8rem 0;font-size:.95rem}
+th,td{border:1px solid var(--line);padding:.5rem .65rem;text-align:left;vertical-align:top}
+th{background:var(--bg);font-weight:600}
+.tag{display:inline-block;font-size:.78rem;font-weight:600;padding:.05rem .5rem;border-radius:999px;color:#fff;
+  vertical-align:middle;white-space:nowrap}
+.t1{background:var(--p1)} .t2{background:var(--p2)} .t3{background:var(--p3)} .t4{background:var(--p4)}
+.tpir{background:var(--pir)} .tsol{background:var(--sol)}
+.chip{display:inline-grid;place-items:center;min-width:1.6rem;height:1.6rem;border-radius:50%;background:var(--accent);
+  color:#fff;font-size:.82rem;font-weight:700;margin-right:.4rem;flex:0 0 auto}
+/* carte d'identité */
+.idcard{display:grid;grid-template-columns:max-content 1fr;gap:.25rem 1rem;margin:0}
+.idcard dt{font-weight:600;color:var(--muted)}
+.idcard dd{margin:0}
+/* schéma des trajectoires */
+.mapwrap{border:1px solid var(--line);border-radius:var(--radius);background:#fff;padding:.6rem;margin:1rem 0}
+.mapwrap svg{width:100%;height:auto;display:block}
+.legend{display:flex;flex-wrap:wrap;gap:1rem;font-size:.85rem;color:var(--muted);margin:.3rem .3rem 0}
+.legend span{display:inline-flex;align-items:center;gap:.4rem}
+.legend i{display:inline-block;width:26px;height:0;border-top:3px solid}
+/* trajectoires */
+.track{border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;background:#fff}
+.track h4{margin:0;padding:.6rem .9rem;color:#fff;font-size:.98rem}
+.track.pir h4{background:var(--pir)} .track.sol h4{background:var(--sol)}
+.track ol{margin:0;padding:.7rem .9rem .8rem 2.1rem;font-size:.93rem}
+.track ol li{margin:.35rem 0}
+.track .voice{font-size:.82rem;color:var(--muted);padding:.4rem .9rem 0}
+.perso{border:1px solid var(--line);border-radius:var(--radius);padding:.75rem .9rem;background:#fff;font-size:.92rem}
+.perso h5{margin:0 0 .3rem;font-size:.98rem}
+.perso.pir{border-top:4px solid var(--pir)} .perso.sol{border-top:4px solid var(--sol)} .perso.neu{border-top:4px solid var(--border)}
+/* parties du récit */
+.part{border:1px solid var(--line);border-left:6px solid;border-radius:var(--radius);padding:.9rem 1.1rem;margin:.8rem 0}
+.part.p1{border-left-color:var(--p1);background:var(--p1s)} .part.p2{border-left-color:var(--p2);background:var(--p2s)}
+.part.p3{border-left-color:var(--p3);background:var(--p3s)} .part.p4{border-left-color:var(--p4);background:var(--p4s)}
+.part h4{margin:0 0 .4rem}
+/* exemple annoté */
+.annot{display:grid;grid-template-columns:1fr 240px;gap:0;border:1px solid var(--line);border-radius:var(--radius);
+  overflow:hidden;margin:1rem 0}
+.annot .row{display:contents}
+.annot .txt{padding:.7rem 1rem;border-bottom:1px solid var(--line);background:#fff}
+.annot .note{padding:.7rem .8rem;border-bottom:1px solid var(--line);font-size:.86rem;line-height:1.45}
+.annot .row:last-child .txt,.annot .row:last-child .note{border-bottom:0}
+.annot .r1 .txt{border-left:6px solid var(--p1)} .annot .r1 .note{background:var(--p1s)}
+.annot .r2 .txt{border-left:6px solid var(--p2)} .annot .r2 .note{background:var(--p2s)}
+.annot .r3 .txt{border-left:6px solid var(--p3)} .annot .r3 .note{background:var(--p3s)}
+.annot .r4 .txt{border-left:6px solid var(--p4)} .annot .r4 .note{background:var(--p4s)}
+mark.arg{background:#ffe2c4;padding:0 .1rem}
+/* cartes dépliables */
+details{border:1px solid var(--border);border-radius:var(--radius);margin:.6rem 0;background:#fff}
+details > summary{cursor:pointer;padding:.65rem .9rem;font-weight:600;list-style:none;display:flex;gap:.5rem;align-items:center}
+details > summary::before{content:"▸";color:var(--muted);transition:transform .15s}
+details[open] > summary::before{transform:rotate(90deg)}
+details > summary::-webkit-details-marker{display:none}
+details .inner{padding:0 1rem .9rem 1.9rem}
+details.spoiler{border-color:var(--ko)}
+details.spoiler > summary{color:var(--ko)}
+/* scènes */
+.scene{display:flex;gap:.7rem;padding:.5rem 0;border-bottom:1px dashed var(--line);font-size:.93rem}
+.scene:last-child{border-bottom:0}
+.scene .who{flex:0 0 auto}
+/* quiz */
+.quiz{border:1px solid var(--border);border-radius:var(--radius);padding:1rem 1.2rem;margin:1.2rem 0;background:var(--bg)}
+.quiz > h4{margin:0 0 .3rem}
+.quiz .consigne{color:var(--muted);font-size:.92rem;margin:0 0 .6rem}
+.qitem{background:#fff;border:1px solid var(--line);border-radius:var(--radius);padding:.7rem .9rem;margin:.55rem 0}
+.qitem .q{margin:0 0 .5rem}
+.qitem .opts{display:flex;flex-wrap:wrap;gap:.4rem}
+.qitem button{font:inherit;font-size:.86rem;padding:.3rem .7rem;border:1px solid var(--border);border-radius:4px;
+  background:var(--surface);cursor:pointer;color:var(--text)}
+.qitem button:hover{border-color:var(--accent)}
+.qitem button:disabled{cursor:default;opacity:.65}
+.qitem button.good{background:var(--oks);border-color:var(--ok);opacity:1;font-weight:600}
+.qitem button.bad{background:var(--kos);border-color:var(--ko);opacity:1}
+.fb{margin-top:.5rem;font-size:.9rem;padding:.45rem .7rem;border-radius:4px;display:none}
+.fb.show{display:block}
+.fb.ok{background:var(--oks);border-left:4px solid var(--ok)}
+.fb.ko{background:var(--kos);border-left:4px solid var(--ko)}
+.score{font-size:.9rem;color:var(--muted);margin-top:.4rem}
+.btn{font:inherit;font-size:.9rem;padding:.45rem .9rem;border:1px solid var(--border);border-radius:4px;background:var(--surface);
+  cursor:pointer;color:var(--text)}
+.btn:hover{border-color:var(--accent)}
+.btn.primary{background:var(--accent);border-color:var(--accent);color:#fff}
+.btn.primary:hover{background:#1287db}
+.btn:disabled{opacity:.5;cursor:default}
+/* checklists */
+.check{list-style:none;padding:0}
+.check li{display:flex;gap:.6rem;align-items:flex-start;padding:.35rem 0;border-bottom:1px dashed var(--line)}
+.check input{margin-top:.35rem;width:1.05rem;height:1.05rem;accent-color:var(--accent);flex:0 0 auto}
+/* fiche d'archivage */
+.arch{display:grid;grid-template-columns:150px 1fr;gap:.45rem .8rem;align-items:start}
+.arch label{font-weight:600;font-size:.92rem;padding-top:.35rem}
+.arch input,.arch textarea{width:100%;font:inherit;font-size:.93rem;padding:.4rem .6rem;border:1px solid var(--border);border-radius:4px;color:var(--text)}
+.arch textarea{min-height:3rem}
+/* brouillon */
+.draft{border:1px solid var(--border);border-left:6px solid var(--border);border-radius:var(--radius);padding:1rem 1.1rem;margin:.8rem 0;background:#fff}
+.draft.p1{border-left-color:var(--p1)} .draft.p2{border-left-color:var(--p2)} .draft.p3{border-left-color:var(--p3)} .draft.p4{border-left-color:var(--p4)}
+.draft label{font-weight:600;display:flex;align-items:center;gap:.4rem;flex-wrap:wrap}
+.draft .help{font-size:.88rem;color:var(--muted);margin:.25rem 0 .5rem}
+.starters{display:flex;flex-wrap:wrap;gap:.35rem;margin:.3rem 0 .5rem}
+.starters button,.emobank button{font:inherit;font-size:.8rem;padding:.2rem .55rem;border:1px dashed var(--accent);border-radius:999px;
+  background:var(--accent-soft);color:var(--accent-text);cursor:pointer}
+.emobank{position:sticky;top:4.7rem;z-index:3;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);
+  padding:.6rem .8rem;margin:.8rem 0}
+.emobank p{margin:0 0 .35rem;font-size:.85rem;color:var(--muted)}
+.emobank .row{display:flex;flex-wrap:wrap;gap:.3rem}
+textarea{width:100%;min-height:6.5rem;font:inherit;font-size:.95rem;padding:.6rem .7rem;border:1px solid var(--border);
+  border-radius:4px;resize:vertical;line-height:1.5;color:var(--text)}
+textarea:focus,input:focus,button:focus-visible,select:focus{outline:2px solid var(--accent);outline-offset:1px}
+select{font:inherit;font-size:.92rem;padding:.35rem .5rem;border:1px solid var(--border);border-radius:4px;background:#fff;color:var(--text)}
+#assembled{white-space:pre-wrap;background:#fff;border:1px solid var(--border);border-radius:var(--radius);padding:1rem 1.2rem;
+  min-height:3rem}
+.confirm{display:none;gap:.5rem;align-items:center;flex-wrap:wrap;background:var(--kos);border-left:4px solid var(--ko);
+  padding:.5rem .8rem;border-radius:4px;font-size:.9rem;margin:.4rem 0}
+.confirm.show{display:flex}
+.pager{display:flex;justify-content:space-between;margin-top:2.2rem;padding-top:1rem;border-top:1px solid var(--line);gap:.6rem}
+.muted{color:var(--muted)}
+.small{font-size:.88rem}
+footer{max-width:1180px;margin:0 auto;padding:0 1.2rem 2rem;color:var(--muted);font-size:.8rem}
+@media (max-width:860px){
+  header.top{position:static;flex-wrap:wrap;padding:.6rem .8rem}
+  header.top .sub{display:none}
+  .progress{margin-left:0}
+  .layout{grid-template-columns:1fr;padding:.6rem}
+  nav.steps{position:static;display:flex;overflow-x:auto;gap:.2rem}
+  nav.steps button{flex:0 0 auto;width:auto}
+  nav.steps .t,nav.steps .sep{display:none}
+  section.step{padding:1.1rem 1rem 1.4rem}
+  .grid2,.grid3{grid-template-columns:1fr}
+  .annot{grid-template-columns:1fr}
+  .annot .note{border-bottom:1px solid var(--line)}
+  .arch{grid-template-columns:1fr}
+  .emobank{top:0}
+}
+@media print{
+  header.top,nav.steps,.pager,.quiz,.draft,.btn,.emobank,#assembled,.confirm{display:none!important}
+  body{background:#fff} .layout{display:block;padding:0}
+  section.step{display:block!important;border:0;page-break-after:always;padding:0}
+  details{border:0} details > summary::before{content:""}
+  details .inner{display:block!important;padding-left:0}
+}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div>
+    <h1>Eldorado, de Laurent Gaudé</h1>
+    <div class="sub">Comprendre le roman, puis écrire le récit de ta rencontre culturelle</div>
+  </div>
+  <div class="progress" id="progress"></div>
+</header>
+
+<div class="layout">
+  <nav class="steps" id="nav" aria-label="Étapes"></nav>
+  <main id="main">
+
+<!-- ============ 1 ============ -->
+<section class="step" id="s1" data-title="Le roman en un coup d'œil">
+  <h2>1. Le roman en un coup d'œil</h2>
+  <p class="kicker">Avant d'entrer dans l'histoire, repère l'essentiel : qui a écrit ce livre, quand, et comment il est construit. Tout le reste de la page s'appuie sur ces repères.</p>
+
+  <div class="box key">
+    <h4>La carte d'identité de l'œuvre</h4>
+    <dl class="idcard">
+      <dt>Titre</dt><dd><em>Eldorado</em></dd>
+      <dt>Auteur</dt><dd>Laurent Gaudé (né en 1972), romancier et dramaturge français</dd>
+      <dt>Genre</dt><dd>Roman</dd>
+      <dt>Publication</dt><dd>2006, Actes Sud (Arles) et Leméac (Montréal), environ 240 pages ; rééditions en poche (Babel, J'ai lu)</dd>
+      <dt>Domaine</dt><dd>Littérature (5ᵉ art)</dd>
+      <dt>Sujet</dt><dd>L'immigration clandestine de l'Afrique vers l'Europe</dd>
+    </dl>
+  </div>
+
+  <h3>Une construction en deux trajectoires</h3>
+  <p>Le roman suit <strong>deux personnages qui voyagent en sens inverse</strong>. Les chapitres alternent entre l'un et l'autre. Leurs routes ne se croisent qu'une fois, peu avant la fin.</p>
+
+  <div class="mapwrap">
+    <svg viewBox="0 0 720 380" role="img" aria-labelledby="mapT mapD">
+      <title id="mapT">Schéma des deux trajectoires du roman</title>
+      <desc id="mapD">Piracci part de Catane en Sicile, passe par Lampedusa et Al-Zuwarah en Libye, puis arrive à Ghardaïa en Algérie. Soleiman part du Soudan, passe par Al-Zuwarah, Ghardaïa et Oujda au Maroc, puis arrive à Ceuta, ville espagnole sur la côte marocaine. Les deux personnages se croisent à Ghardaïa.</desc>
+      <defs>
+        <marker id="aPir" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#34495e"/></marker>
+        <marker id="aSol" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#16a085"/></marker>
+      </defs>
+      <!-- bandes -->
+      <rect x="0" y="0" width="720" height="70" fill="#f4f6f7"/>
+      <text x="14" y="24" font-size="13" fill="#55595d" font-weight="600">EUROPE</text>
+      <rect x="0" y="70" width="720" height="70" fill="#e3f2fd"/>
+      <text x="200" y="100" font-size="13" fill="#1272b8" font-style="italic">Mer Méditerranée</text>
+      <rect x="0" y="140" width="720" height="240" fill="#fbf6ee"/>
+      <text x="14" y="364" font-size="13" fill="#55595d" font-weight="600">AFRIQUE</text>
+      <!-- trajet Piracci -->
+      <path d="M470,44 C458,68 446,88 433,104" fill="none" stroke="#34495e" stroke-width="3" marker-end="url(#aPir)"/>
+      <path d="M429,120 C426,130 424,140 422,150" fill="none" stroke="#34495e" stroke-width="3" marker-end="url(#aPir)"/>
+      <path d="M412,162 C370,175 320,200 272,228" fill="none" stroke="#34495e" stroke-width="3" marker-end="url(#aPir)"/>
+      <!-- trajet Soleiman -->
+      <path d="M644,328 C600,270 510,200 432,168" fill="none" stroke="#16a085" stroke-width="3" stroke-dasharray="8 5" marker-end="url(#aSol)"/>
+      <path d="M418,170 C390,225 330,250 274,246" fill="none" stroke="#16a085" stroke-width="3" stroke-dasharray="8 5" marker-end="url(#aSol)"/>
+      <path d="M248,234 C215,215 185,198 160,186" fill="none" stroke="#16a085" stroke-width="3" stroke-dasharray="8 5" marker-end="url(#aSol)"/>
+      <path d="M142,176 C120,168 100,160 80,154" fill="none" stroke="#16a085" stroke-width="3" stroke-dasharray="8 5" marker-end="url(#aSol)"/>
+      <!-- lieux -->
+      <g font-size="13" fill="#232629">
+        <circle cx="472" cy="38" r="6" fill="#34495e"/><text x="484" y="42">Catane (Sicile, Italie)</text>
+        <circle cx="430" cy="112" r="5" fill="#fff" stroke="#34495e" stroke-width="2"/><text x="442" y="116">Lampedusa (Italie)</text>
+        <circle cx="422" cy="160" r="6" fill="#fff" stroke="#34495e" stroke-width="2"/><text x="438" y="156">Al-Zuwarah (Libye)</text>
+        <circle cx="650" cy="335" r="6" fill="#16a085"/><text x="596" y="364">Soudan</text>
+        <circle cx="150" cy="181" r="5" fill="#fff" stroke="#16a085" stroke-width="2"/><text x="40" y="206">Oujda (Maroc)</text>
+        <circle cx="72" cy="151" r="6" fill="#16a085"/><text x="24" y="132">Ceuta (Espagne)</text>
+        <circle cx="262" cy="240" r="11" fill="#f67400" stroke="#fff" stroke-width="2"/>
+        <text x="214" y="280" font-weight="600">Ghardaïa (Algérie)</text>
+        <text x="214" y="297" font-size="12" fill="#55595d">les routes se croisent</text>
+      </g>
+    </svg>
+    <div class="legend">
+      <span><i style="border-color:var(--pir)"></i>Piracci : de l'Europe vers l'Afrique</span>
+      <span><i style="border-color:var(--sol);border-top-style:dashed"></i>Soleiman : de l'Afrique vers l'Europe</span>
+      <span>Schéma simplifié, pas à l'échelle</span>
+    </div>
+  </div>
+
+  <div class="grid2">
+    <div class="track pir">
+      <h4>Salvatore Piracci</h4>
+      <p class="voice">Commandant d'un navire italien qui surveille la mer. Il <strong>quitte</strong> l'Europe.</p>
+      <ol><li>Il garde la frontière.</li><li>Il doute de sa mission.</li><li>Il part vers le Sud.</li></ol>
+    </div>
+    <div class="track sol">
+      <h4>Soleiman</h4>
+      <p class="voice">Jeune Soudanais. Il veut <strong>entrer</strong> en Europe.</p>
+      <ol><li>Il quitte son pays.</li><li>Il traverse le désert.</li><li>Il marche vers le Nord.</li></ol>
+    </div>
+  </div>
+
+  <h3>Ce que tu vas faire dans cette page</h3>
+  <table>
+    <thead><tr><th style="width:2.5rem">#</th><th>Étape</th><th>Ce que tu fais concrètement</th></tr></thead>
+    <tbody>
+      <tr><td>1</td><td>Repérer</td><td>La carte d'identité et la construction du roman (cette étape).</td></tr>
+      <tr><td>2</td><td>Situer</td><td>L'auteur, le mythe de l'Eldorado et la réalité des migrations.</td></tr>
+      <tr><td>3</td><td>Comprendre</td><td>L'histoire, étape par étape, et les personnages.</td></tr>
+      <tr><td>4</td><td>Analyser</td><td>La narration, les thèmes, le style : de quoi nourrir tes arguments.</td></tr>
+      <tr><td>5</td><td>Observer un modèle</td><td>Un récit de rencontre culturelle sur <em>Eldorado</em>, commenté.</td></tr>
+      <tr><td>6</td><td>Écrire</td><td>Ton propre récit, partie par partie, avec des aides que tu peux ignorer.</td></tr>
+    </tbody>
+  </table>
+
+  <div class="quiz" data-quiz="q0"></div>
+</section>
+
+<!-- ============ 2 ============ -->
+<section class="step" id="s2" data-title="Le contexte">
+  <h2>2. Le contexte</h2>
+  <p class="kicker">Un roman ne sort pas de nulle part. Connaître l'auteur, le sens du titre et les faits réels qui l'ont inspiré t'aidera à comprendre l'œuvre et à enrichir ton récit. Ouvre une carte à la fois.</p>
+
+  <details open>
+    <summary>L'auteur : Laurent Gaudé</summary>
+    <div class="inner">
+      <p>Laurent Gaudé est un écrivain français né en 1972 à Paris. Il écrit à la fois des <strong>romans</strong> et des <strong>pièces de théâtre</strong>.</p>
+      <ul>
+        <li>En 2004, il reçoit le <strong>prix Goncourt</strong>, le plus célèbre prix littéraire français, pour <em>Le Soleil des Scorta</em>, un roman qui se passe dans le sud de l'Italie.</li>
+        <li>Il écrit <em>Eldorado</em> juste après ce prix. On y retrouve son intérêt pour le sud de l'Italie.</li>
+        <li>Ses livres racontent souvent des destins tragiques, avec un souffle proche de l'épopée.</li>
+      </ul>
+    </div>
+  </details>
+
+  <details>
+    <summary>Le titre : le mythe de l'Eldorado</summary>
+    <div class="inner">
+      <p><strong>El Dorado</strong> signifie « le doré » en espagnol. Au XVIᵉ siècle, les conquistadors espagnols cherchaient en Amérique du Sud une contrée légendaire, pleine d'or. Beaucoup y ont perdu la vie : cet Eldorado n'a jamais existé.</p>
+      <p>Depuis, le mot désigne un <strong>lieu rêvé où l'on espère une vie meilleure</strong>. Voltaire l'utilise déjà dans <em>Candide</em> (1759) : l'Eldorado y est un pays idéal… que le héros finit par quitter.</p>
+      <p class="small"><strong>Dans le roman :</strong> pour Soleiman, l'Eldorado, c'est l'Europe. Pour Piracci, c'est plutôt une vie qui aurait enfin un sens. Le titre pose donc une question : l'Eldorado existe-t-il vraiment, ou est-ce le rêve lui-même qui fait avancer les hommes ?</p>
+    </div>
+  </details>
+
+  <details>
+    <summary>La réalité : les migrations vers l'Europe au début des années 2000</summary>
+    <div class="inner">
+      <p>Le roman s'inspire de faits réels de son époque :</p>
+      <ul>
+        <li><strong>Lampedusa</strong> est une petite île italienne, plus proche de l'Afrique que de la Sicile. Au début des années 2000, des milliers de migrants y débarquent chaque année, sur des embarcations souvent surchargées.</li>
+        <li>En 2004, l'Italie et la Libye concluent un <strong>accord</strong> pour freiner les départs depuis les côtes libyennes. Entre octobre 2004 et mars 2005, des migrants arrivés à Lampedusa sont même renvoyés collectivement vers la Libye. Dans le roman, cette fermeture pousse les migrants vers une autre route, plus à l'ouest, par le Maroc.</li>
+        <li><strong>Ceuta</strong> et <strong>Melilla</strong> sont deux villes espagnoles situées sur la côte nord du Maroc : ce sont les seules frontières terrestres entre l'Union européenne et l'Afrique. Elles sont entourées de hautes clôtures de grillage et de barbelés. Fin septembre et début octobre 2005, des centaines de migrants tentent de les franchir en même temps, parfois avec des échelles de fortune. Entre août et octobre 2005, au moins 13 personnes y perdent la vie.</li>
+        <li>Les <strong>passeurs</strong> font payer très cher des traversées dangereuses, dans le désert comme en mer.</li>
+      </ul>
+    </div>
+  </details>
+
+  <details>
+    <summary>Et après le roman ?</summary>
+    <div class="inner">
+      <p>Le sujet n'a pas vieilli. Le 3 octobre 2013, un naufrage au large de Lampedusa fait plus de 360 morts. Depuis, la Méditerranée reste l'une des routes migratoires les plus meurtrières au monde.</p>
+      <p>Laurent Gaudé a continué à s'exprimer sur ce sujet et défend une Europe ouverte aux réfugiés. <em>Eldorado</em> a aussi été adapté au théâtre (mise en scène de Patrick Mohr, Genève, 2015).</p>
+      <p class="small"><strong>Pour ton récit :</strong> le contexte historique peut fournir un argument (« ce roman de 2006 parle encore d'aujourd'hui »), à condition de rester centré sur l'œuvre.</p>
+    </div>
+  </details>
+
+  <h3>Les lieux du roman</h3>
+  <table>
+    <thead><tr><th>Lieu</th><th>Où ?</th><th>Ce qui s'y passe</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Catane</strong></td><td>Sicile (Italie)</td><td>Port d'attache de Piracci et de sa frégate.</td></tr>
+      <tr><td><strong>Lampedusa</strong></td><td>Île italienne, au sud de la Sicile</td><td>Zone de patrouille : on y intercepte les embarcations de migrants.</td></tr>
+      <tr><td><strong>Le Soudan</strong></td><td>Afrique de l'Est</td><td>Pays d'où partent Soleiman et son frère Jamal.</td></tr>
+      <tr><td><strong>Al-Zuwarah</strong></td><td>Côte ouest de la Libye</td><td>Ville où règne la « reine » des passeurs. Piracci y débarque ; Soleiman y passe aussi.</td></tr>
+      <tr><td><strong>Ghardaïa</strong></td><td>Algérie, dans le nord du Sahara</td><td>Ville-étape sur la route du Nord ; c'est là que les deux trajectoires se croisent.</td></tr>
+      <tr><td><strong>Oujda</strong></td><td>Maroc, près de la frontière algérienne</td><td>Étape de Soleiman et Boubakar avant Ceuta.</td></tr>
+      <tr><td><strong>Ceuta</strong></td><td>Ville espagnole sur la côte nord du Maroc</td><td>La frontière à franchir : grillages et barbelés.</td></tr>
+    </tbody>
+  </table>
+
+  <div class="quiz" data-quiz="q1"></div>
+</section>
+
+<!-- ============ 3 ============ -->
+<section class="step" id="s3" data-title="L'histoire et les personnages">
+  <h2>3. L'histoire et les personnages</h2>
+  <p class="kicker">Lis les deux trajectoires côte à côte. La fin du roman est cachée dans une carte rouge : ouvre-la seulement si tu as fini le livre, ou si ton professeur te le demande.</p>
+
+  <div class="grid2">
+    <div class="track pir">
+      <h4>Le parcours de Piracci</h4>
+      <p class="voice">Raconté à la 3ᵉ personne (« il »)</p>
+      <ol>
+        <li>À Catane, le commandant Salvatore Piracci dirige la frégate <em>Zeffiro</em>. Il intercepte les embarcations de migrants au large de Lampedusa. Il se voit comme le « gardien de la citadelle Europe ».</li>
+        <li>Une femme qu'il avait sauvée en mer, rescapée du bateau <em>Vittoria</em>, vient le trouver. Pendant la traversée, son bébé est mort de soif. Elle veut se venger du passeur, Hussein Marouk, et demande à Piracci de l'aider à obtenir une arme.</li>
+        <li>Une nuit de tempête, Piracci part à la recherche de cinq embarcations et n'en retrouve que deux. Quelque chose se brise en lui.</li>
+        <li>Il abandonne son poste et traverse la Méditerranée vers l'Afrique, sur une barque de pêcheurs : il fait le chemin inverse des migrants.</li>
+        <li>En Libye, à Al-Zuwarah, la police le conduit auprès de la « reine » des passeurs, qui lui propose de travailler pour elle. Écœuré, il refuse et quitte la ville. Il erre, désespéré, jusqu'à Ghardaïa, en Algérie.</li>
+      </ol>
+    </div>
+    <div class="track sol">
+      <h4>Le parcours de Soleiman</h4>
+      <p class="voice">Raconté à la 1ʳᵉ personne (« je »)</p>
+      <ol>
+        <li>Au Soudan, Soleiman et son frère Jamal préparent leur départ pour l'Europe. La veille, ils se demandent de quoi ils se souviendront de leur pays.</li>
+        <li>Jamal est gravement malade. Il renonce au voyage et pousse son frère à continuer seul.</li>
+        <li>Pendant le voyage, Soleiman est dépouillé par des passeurs et blessé.</li>
+        <li>Il rencontre Boubakar, un Malien boiteux qui marche vers le nord depuis sept ans. Ils deviennent compagnons de route.</li>
+        <li>La Libye bloque désormais les départs vers l'Italie : d'Al-Zuwarah, les deux hommes repartent vers l'ouest, par Ghardaïa (Algérie) puis Oujda (Maroc).</li>
+      </ol>
+    </div>
+  </div>
+
+  <details class="spoiler">
+    <summary>Attention : le dénouement (fin du roman)</summary>
+    <div class="inner">
+      <p><span class="tag tpir">Piracci</span> À Ghardaïa, épuisé et désespéré, Piracci croise Soleiman, qui le prend pour une « ombre » de <strong>Massambalo</strong>, le dieu des émigrés. Piracci accepte ce rôle et Soleiman lui offre son collier de perles vertes. Piracci comprend que l'Eldorado n'est pas pour lui, mais qu'il peut encore donner de l'espoir aux autres. Il meurt, apaisé, renversé par un camion.</p>
+      <p><span class="tag tsol">Soleiman</span> Devant Ceuta, des centaines de migrants donnent l'assaut aux barrières avec des échelles de fortune. Soleiman et Boubakar, en s'entraidant, font partie des rares à passer.</p>
+      <p class="small"><strong>Dans ton récit, ne révèle pas cette fin :</strong> ton résumé doit donner envie de lire, pas tout raconter.</p>
+    </div>
+  </details>
+
+  <h3>Les personnages</h3>
+  <div class="grid3">
+    <div class="perso pir"><h5>Salvatore Piracci</h5>Officier de marine italien, commandant du <em>Zeffiro</em>. Fatigué, rongé par le doute : il sauve des vies, mais pour renvoyer les migrants chez eux. Son voyage vers le Sud est une quête de sens.</div>
+    <div class="perso sol"><h5>Soleiman</h5>Jeune Soudanais. C'est lui qui raconte son voyage. Il perd peu à peu ce qu'il était (son frère, son argent, ses repères), mais garde l'espoir.</div>
+    <div class="perso sol"><h5>Jamal</h5>Le frère de Soleiman. Malade, il renonce au voyage mais permet à son frère de partir : il incarne le sacrifice et la fraternité.</div>
+    <div class="perso sol"><h5>Boubakar</h5>Migrant malien, boiteux, qui marche depuis sept ans. Compagnon de route de Soleiman : la solidarité entre exilés.</div>
+    <div class="perso pir"><h5>La femme du <em>Vittoria</em></h5>Rescapée sans nom. Son deuil et sa soif de vengeance déclenchent la crise de Piracci.</div>
+    <div class="perso neu"><h5>La « reine » d'Al-Zuwarah</h5>Chef des passeurs. Elle montre l'autre visage de la migration : un commerce de la misère.</div>
+  </div>
+
+  <div class="quiz" data-quiz="q2"></div>
+</section>
+
+<!-- ============ 4 ============ -->
+<section class="step" id="s4" data-title="Lire en profondeur">
+  <h2>4. Lire en profondeur</h2>
+  <p class="kicker">Pour argumenter, tu as besoin de matière : comment le roman est raconté, de quoi il parle vraiment, comment il est écrit. Chaque carte peut devenir un argument.</p>
+
+  <h3>Qui raconte ? Deux voix différentes</h3>
+  <table>
+    <thead><tr><th></th><th>Chapitres de Piracci</th><th>Chapitres de Soleiman</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Personne</strong></td><td>3ᵉ personne : « il »</td><td>1ʳᵉ personne : « je »</td></tr>
+      <tr><td><strong>Narrateur</strong></td><td><strong>hétérodiégétique</strong> : il est absent de l'histoire qu'il raconte</td><td><strong>autodiégétique</strong> : il raconte sa propre histoire</td></tr>
+      <tr><td><strong>Effet sur le lecteur</strong></td><td>On observe Piracci avec un peu de recul, comme on suit un personnage de tragédie.</td><td>On vit le voyage de l'intérieur : la peur, la fatigue, l'espoir.</td></tr>
+    </tbody>
+  </table>
+  <div class="box warn small"><strong>Piège à éviter :</strong> l'auteur (Laurent Gaudé) n'est pas le narrateur. Gaudé n'a pas fait ce voyage : il a <em>imaginé</em> la voix de Soleiman.</div>
+
+  <h3>Les grands thèmes</h3>
+  <details open>
+    <summary>La frontière</summary>
+    <div class="inner"><p>Elle est partout : la mer surveillée, les barbelés de Ceuta, mais aussi la frontière intérieure de Piracci, qui passe de l'autre côté. Le roman montre que la frontière sépare les hommes, mais qu'elle ne les empêche pas de rêver.</p></div>
+  </details>
+  <details>
+    <summary>Le rêve et la désillusion</summary>
+    <div class="inner"><p>L'Eldorado attire, mais coûte très cher : l'argent, la santé, la famille, parfois la vie. Le roman ne dit pas si le rêve vaut ce prix ; il montre la force de ceux qui le poursuivent.</p></div>
+  </details>
+  <details>
+    <summary>L'exil et la perte d'identité</summary>
+    <div class="inner"><p>Partir, c'est perdre une part de soi : sa langue, ses souvenirs, son nom parfois. La conversation de Soleiman et Jamal la veille du départ, autour des souvenirs du pays, en est le meilleur exemple.</p></div>
+  </details>
+  <details>
+    <summary>La fraternité et la solidarité</summary>
+    <div class="inner"><p>Jamal se sacrifie pour son frère ; Boubakar et Soleiman s'entraident. Face à la violence des passeurs et des frontières, la seule richesse, ce sont les autres.</p></div>
+  </details>
+  <details>
+    <summary>Le renversement des rôles</summary>
+    <div class="inner"><p>Le gardien devient voyageur, l'Européen part vers le Sud. En inversant les trajectoires, Gaudé invite le lecteur à se mettre à la place de l'autre.</p></div>
+  </details>
+  <details>
+    <summary>Un symbole : Massambalo</summary>
+    <div class="inner"><p>Dans le roman, une légende raconte que Massambalo, le dieu des émigrés, envoie des « ombres » sous forme humaine pour veiller sur les voyageurs. Celui qui en reconnaît une lui fait une offrande. Cette légende donne au roman une dimension de conte, presque de mythe.</p></div>
+  </details>
+
+  <h3>Le style</h3>
+  <p>L'écriture de Gaudé est <strong>poétique</strong> et <strong>tragique</strong> : longues phrases rythmées, images fortes, scènes qui ressemblent à des épreuves d'épopée (la tempête, le désert, l'assaut de la frontière). Les critiques ont salué son <strong>« souffle épique »</strong>. Le roman ne fait pas un discours politique : il fait <strong>ressentir</strong> ce que vivent les personnages.</p>
+
+  <h3>Observer, ressentir, interpréter</h3>
+  <div class="grid2">
+    <div class="box">
+      <h4>Observer (objectif)</h4>
+      <p class="small">Ce que tout lecteur peut constater dans le livre.</p>
+      <ul class="small">
+        <li>Les chapitres alternent entre deux personnages.</li>
+        <li>Soleiman dit « je » ; Piracci est désigné par « il ».</li>
+        <li>Piracci part vers le Sud, Soleiman vers le Nord.</li>
+      </ul>
+    </div>
+    <div class="box">
+      <h4>Interpréter (subjectif)</h4>
+      <p class="small">Le sens que tu donnes à ce que tu as observé.</p>
+      <ul class="small">
+        <li>L'alternance nous fait comparer deux façons de voir la frontière.</li>
+        <li>Le « je » rend la souffrance du migrant plus proche.</li>
+        <li>Les trajectoires inversées nous disent que personne n'est à l'abri de l'exil.</li>
+      </ul>
+    </div>
+  </div>
+
+  <h3>La boîte à arguments pour un roman</h3>
+  <table>
+    <thead><tr><th>Aspect</th><th>La question à te poser</th><th>Exemple possible dans <em>Eldorado</em></th></tr></thead>
+    <tbody>
+      <tr><td>Construction (narratologie)</td><td>Comment l'histoire est-elle organisée ?</td><td>L'alternance des chapitres, les deux voix, la rencontre tardive.</td></tr>
+      <tr><td>Personnages</td><td>Sont-ils crédibles ? Évoluent-ils ?</td><td>Piracci, garde-frontière qui doute ; la fraternité de Soleiman et Jamal.</td></tr>
+      <tr><td>Style (esthétique)</td><td>Comment l'auteur écrit-il ?</td><td>Les images de la mer et du désert, le ton tragique.</td></tr>
+      <tr><td>Message (sémiologie)</td><td>Que veut dire l'œuvre ? Quels symboles ?</td><td>Le mythe de l'Eldorado, Massambalo, la frontière.</td></tr>
+      <tr><td>Contexte (histoire)</td><td>Que dit l'œuvre de son époque ? Et de la nôtre ?</td><td>Lampedusa, Ceuta, les naufrages qui continuent.</td></tr>
+      <tr><td>Auteur (auteurisme)</td><td>Que révèle l'œuvre de son auteur ?</td><td>Le goût de Gaudé pour les destins tragiques et le sud de l'Italie.</td></tr>
+    </tbody>
+  </table>
+
+  <h3>Des scènes à citer comme exemples</h3>
+  <p class="small muted">Un argument doit toujours être illustré par un passage précis. Voici des scènes faciles à retrouver (celles marquées « fin » ne doivent pas être racontées en détail).</p>
+  <div class="box">
+    <div class="scene"><span class="who"><span class="tag tpir">Piracci</span></span><span>La rescapée du <em>Vittoria</em> vient demander une arme à Piracci : le deuil d'une mère.</span></div>
+    <div class="scene"><span class="who"><span class="tag tpir">Piracci</span></span><span>La nuit de tempête : deux embarcations retrouvées sur cinq.</span></div>
+    <div class="scene"><span class="who"><span class="tag tsol">Soleiman</span></span><span>La veille du départ : Soleiman et Jamal se demandent de quoi ils se souviendront.</span></div>
+    <div class="scene"><span class="who"><span class="tag tsol">Soleiman</span></span><span>La séparation des deux frères.</span></div>
+    <div class="scene"><span class="who"><span class="tag tsol">Soleiman</span></span><span>Le vol par les passeurs, puis la rencontre avec Boubakar.</span></div>
+    <div class="scene"><span class="who"><span class="tag tpir">Piracci</span></span><span>La proposition de la « reine » d'Al-Zuwarah.</span></div>
+    <div class="scene"><span class="who"><span class="tag t4">fin</span></span><span>La rencontre à Ghardaïa ; l'assaut des barrières de Ceuta.</span></div>
+  </div>
+
+  <div class="quiz" data-quiz="q3"></div>
+</section>
+
+<!-- ============ 5 ============ -->
+<section class="step" id="s5" data-title="Le récit de rencontre : modèle">
+  <h2>5. Le récit de rencontre : un modèle</h2>
+  <p class="kicker">Un récit d'expérience culturelle est un <strong>texte personnel</strong> qui raconte ta rencontre avec une œuvre. Son but : <strong>donner envie au lecteur de la découvrir</strong>.</p>
+
+  <h3>La structure : 3 parties + une conclusion</h3>
+  <p class="small muted">Le même code couleur est utilisé dans le brouillon de l'étape 6.</p>
+  <div class="part p1">
+    <h4><span class="tag t1">1</span> Partie informative : la carte d'identité</h4>
+    <p style="margin:.2rem 0">Titre, auteur, date, genre, éditeur. Tu as déjà tout à l'étape 1.</p>
+  </div>
+  <div class="part p2">
+    <h4><span class="tag t2">2</span> Contexte + narration</h4>
+    <p style="margin:.2rem 0"><strong>Le contexte</strong> : où, quand, avec qui, pourquoi as-tu lu ce livre ? Qu'en attendais-tu ? Quels étaient tes a priori (sur le titre, sur le sujet, sur la lecture) ?</p>
+    <p style="margin:.4rem 0 .2rem"><strong>Le résumé apéritif</strong> : la situation de départ et l'enjeu, <strong>sans la fin</strong>. Tu peux finir par une question.</p>
+  </div>
+  <div class="part p3">
+    <h4><span class="tag t3">3</span> Partie argumentative : ton avis motivé</h4>
+    <ul style="margin:.2rem 0">
+      <li><strong>Au moins 3 arguments</strong>, chacun sur un aspect différent (construction, personnages, style, message…).</li>
+      <li>Chaque argument est <strong>illustré par une scène précise</strong> du roman.</li>
+      <li>Une <strong>nuance</strong> (un point négatif) rend ton avis plus crédible.</li>
+    </ul>
+  </div>
+  <div class="part p4">
+    <h4><span class="tag t4">4</span> Conclusion</h4>
+    <p style="margin:.2rem 0">Une émotion précise, un bilan, et une <strong>recommandation</strong> : à qui conseillerais-tu ce livre, et pourquoi ?</p>
+  </div>
+
+  <h3>Exemple résolu et commenté</h3>
+  <p>Lis le texte à gauche, puis le commentaire à droite. <span class="small muted">Texte écrit pour un élève imaginaire : c'est un modèle de structure, pas un texte à recopier.</span></p>
+  <div class="annot">
+    <div class="row r1">
+      <div class="txt">« Eldorado » est un roman de Laurent Gaudé, écrivain français qui avait reçu le prix Goncourt en 2004. Il a été publié en 2006 chez Actes Sud.</div>
+      <div class="note"><span class="tag t1">Informative</span><br>Titre, genre, auteur, date, éditeur : la carte d'identité est complète, en phrases.</div>
+    </div>
+    <div class="row r2">
+      <div class="txt">Je l'ai lu en classe de français, au retour des vacances d'automne. Le titre me faisait penser à une aventure de chercheurs d'or. Quand le professeur a annoncé que le livre parlait de migrants, j'ai soupiré : j'avais l'impression d'entendre déjà le journal télévisé.</div>
+      <div class="note"><span class="tag t2">Contexte</span><br>Où, quand, pourquoi + deux a priori (le titre, le sujet). Le lecteur sait d'où part l'élève.</div>
+    </div>
+    <div class="row r2">
+      <div class="txt">Le commandant Salvatore Piracci patrouille au large de Lampedusa pour arrêter les bateaux de clandestins. Un jour, une rescapée qu'il avait sauvée vient lui faire une demande qui va bouleverser sa vie. Au même moment, au Soudan, Soleiman et son frère Jamal se préparent à partir pour l'Europe. L'un s'apprête à quitter l'Europe, l'autre rêve d'y entrer : leurs routes finiront-elles par se croiser ?</div>
+      <div class="note"><span class="tag t2">Narration</span><br>Résumé apéritif au présent : les deux situations de départ, un mystère (« une demande »), aucune fin révélée. La question finale donne envie.</div>
+    </div>
+    <div class="row r3">
+      <div class="txt">Trois choses m'ont fait changer d'avis. D'abord, <mark class="arg">la construction</mark> : les chapitres alternent entre Piracci, raconté à la troisième personne, et Soleiman, qui dit « je ». On passe donc du gardien de la frontière à celui qui veut la franchir, et on finit par comprendre les deux. Ensuite, <mark class="arg">le personnage de Piracci</mark> m'a surpris : ce militaire sûr de lui se fissure peu à peu, notamment après la nuit de tempête où il ne retrouve que deux embarcations sur cinq. Enfin, <mark class="arg">l'écriture</mark> est très émouvante : la veille du départ, Soleiman se demande ce dont il se souviendra de son pays. J'ai compris que partir, ce n'est pas seulement voyager, c'est perdre une partie de soi. Seul bémol : certains passages descriptifs sont longs et ralentissent l'action.</div>
+      <div class="note"><span class="tag t3">Argumentative</span><br>3 arguments d'aspects différents (surlignés), chacun illustré par une scène précise. Connecteurs : d'abord, ensuite, enfin. La nuance finale rend l'avis crédible.</div>
+    </div>
+    <div class="row r4">
+      <div class="txt">Bref, ce roman m'a bouleversé. Je le conseille à ceux qui pensent, comme moi avant, que tout est déjà dit dans les reportages : un roman fait ressentir ce qu'un chiffre ne dira jamais.</div>
+      <div class="note"><span class="tag t4">Conclusion</span><br>Émotion précise (« bouleversé »), recommandation ciblée qui renvoie à l'a priori du début.</div>
+    </div>
+  </div>
+
+  <h3>Les erreurs fréquentes avec ce roman</h3>
+  <table>
+    <thead><tr><th>Erreur</th><th>Exemple</th><th>Correction</th></tr></thead>
+    <tbody>
+      <tr><td>Confondre auteur et narrateur</td><td>« Laurent Gaudé raconte sa traversée du désert. »</td><td>« Soleiman, le narrateur, raconte… »</td></tr>
+      <tr><td>Divulguer la fin</td><td>Raconter ce qui arrive à Piracci à Ghardaïa.</td><td>S'arrêter à l'enjeu : « leurs routes se croiseront-elles ? »</td></tr>
+      <tr><td>Avis vague</td><td>« C'est triste. »</td><td>« J'ai été révolté par la violence des passeurs, par exemple quand… »</td></tr>
+      <tr><td>Argument hors sujet</td><td>Un paragraphe entier sur la politique migratoire.</td><td>Partir du roman : « Ce livre m'a fait comprendre que… »</td></tr>
+      <tr><td>Arguments non illustrés</td><td>« Le style est beau. »</td><td>Citer une scène précise (la tempête, la veille du départ…).</td></tr>
+      <tr><td>Contexte absent</td><td>Le texte commence par le résumé.</td><td>Où, quand, avec qui, pourquoi, quels a priori.</td></tr>
+    </tbody>
+  </table>
+
+  <div class="quiz" data-quiz="q4"></div>
+  <div class="quiz" data-quiz="q5"></div>
+</section>
+
+<!-- ============ 6 ============ -->
+<section class="step" id="s6" data-title="À toi d'écrire">
+  <h2>6. À toi d'écrire</h2>
+  <p class="kicker">D'abord, note tes souvenirs « à chaud ». Ensuite, écris ton récit partie par partie. Les amorces sont facultatives : clique pour les insérer, puis complète. Tout est enregistré dans ce navigateur.</p>
+
+  <h3>Ma fiche d'archivage</h3>
+  <div class="arch" id="arch">
+    <label for="a-objet">Objet</label><input id="a-objet" value="Eldorado, Laurent Gaudé, roman, 2006 (littérature)">
+    <label for="a-rencontre">Rencontre</label><input id="a-rencontre" placeholder="Quand ? Où ? Avec qui ? Dans quel cadre (cours, lecture personnelle…) ?">
+    <label for="a-chaud">À chaud</label><input id="a-chaud" placeholder="2 ou 3 mots d'émotion précis + un détail qui t'a marqué">
+    <label for="a-raisons">Raisons</label><textarea id="a-raisons" placeholder="Pourquoi cette lecture mérite-t-elle d'entrer dans ton recueil ?"></textarea>
+    <label for="a-traces">Traces</label><input id="a-traces" placeholder="Photo de la couverture, passage recopié, fiche du cours…">
+  </div>
+
+  <h3>Mon brouillon guidé</h3>
+  <div class="emobank" aria-label="Banque de mots d'émotion">
+    <p>Mots d'émotion : clique pour insérer dans le champ où tu écris.</p>
+    <div class="row" id="emobank"></div>
+  </div>
+  <p class="small">Forme choisie pour ton récit :
+    <select id="forme" aria-label="Forme du récit">
+      <option>Avis argumenté</option><option>Lettre à un ami</option><option>Article de presse</option>
+      <option>Conversation de messagerie</option><option>Interview</option>
+    </select>
+    <span class="muted">La forme change la présentation, jamais les 4 parties.</span>
+  </p>
+  <div id="drafts"></div>
+  <div style="display:flex;gap:.5rem;flex-wrap:wrap;margin:.8rem 0">
+    <button class="btn primary" id="assemble">Assembler mon récit</button>
+    <button class="btn" id="copy">Copier le texte</button>
+    <button class="btn" id="clear">Tout effacer</button>
+  </div>
+  <div class="confirm" id="confirm" role="alert">
+    <span>Effacer tout le brouillon et la fiche d'archivage ?</span>
+    <button class="btn" id="clearYes">Oui, tout effacer</button>
+    <button class="btn" id="clearNo">Annuler</button>
+  </div>
+  <div id="assembled" aria-live="polite"><span class="muted small">Ton récit assemblé apparaîtra ici.</span></div>
+  <p class="small muted" id="wc"></p>
+
+  <h3>Les outils de langue</h3>
+  <table>
+    <thead><tr><th>Partie</th><th>Temps verbal</th><th>Connecteurs et tournures</th></tr></thead>
+    <tbody>
+      <tr><td><span class="tag t2">Contexte</span></td><td>Passé composé + imparfait</td><td>J'ai découvert ce roman… ; à l'époque, je pensais que… ; avant de l'ouvrir…</td></tr>
+      <tr><td><span class="tag t2">Résumé</span></td><td>Présent de narration</td><td>Au début du roman… ; pendant ce temps… ; mais… ; parviendront-ils à… ?</td></tr>
+      <tr><td><span class="tag t3">Arguments</span></td><td>Présent (+ passé composé pour ton ressenti)</td><td>D'abord, ensuite, enfin ; par exemple ; comme dans la scène où ; en revanche ; seul bémol</td></tr>
+      <tr><td><span class="tag t4">Conclusion</span></td><td>Présent, conditionnel</td><td>Bref ; en définitive ; je conseillerais ce livre à… ; si tu aimes…, alors…</td></tr>
+    </tbody>
+  </table>
+
+  <h3>Ma checklist pour ce récit</h3>
+  <ul class="check" data-check="recit">
+    <li><input type="checkbox" id="cr1"><label for="cr1">La carte d'identité est complète (titre, auteur, date, genre, éditeur).</label></li>
+    <li><input type="checkbox" id="cr2"><label for="cr2">Le contexte dit où, quand, avec qui, pourquoi, et avec quels a priori j'ai lu ce livre.</label></li>
+    <li><input type="checkbox" id="cr3"><label for="cr3">Mon résumé présente les deux personnages et l'enjeu, sans révéler la fin.</label></li>
+    <li><input type="checkbox" id="cr4"><label for="cr4">Je ne confonds pas l'auteur (Gaudé) et le narrateur (Soleiman).</label></li>
+    <li><input type="checkbox" id="cr5"><label for="cr5">J'ai au moins 3 arguments d'aspects différents, chacun illustré par une scène précise.</label></li>
+    <li><input type="checkbox" id="cr6"><label for="cr6">J'ai nommé mes émotions avec des mots précis et dit ce qui les a causées.</label></li>
+    <li><input type="checkbox" id="cr7"><label for="cr7">J'ai utilisé le vocabulaire de la littérature (narrateur, chapitre, personnage, style…).</label></li>
+    <li><input type="checkbox" id="cr8"><label for="cr8">Ma conclusion fait le bilan et recommande (ou non) le livre à un public précis.</label></li>
+    <li><input type="checkbox" id="cr9"><label for="cr9">J'ai joint des traces et relu l'orthographe.</label></li>
+  </ul>
+</section>
+
+<!-- ============ 7 ============ -->
+<section class="step" id="s7" data-title="Note pédagogique">
+  <h2>Note pédagogique (pour l'adulte accompagnant)</h2>
+  <p class="kicker">Comment cette page applique la théorie de la charge cognitive (Sweller) et la théorie cognitive de l'apprentissage multimédia (Mayer).</p>
+  <table>
+    <thead><tr><th>Principe</th><th>Ce qu'il dit</th><th>Application dans cette page</th></tr></thead>
+    <tbody>
+      <tr><td>Pré-entraînement</td><td>Connaître les concepts et les faits clés avant la tâche complexe réduit la charge pendant l'écriture.</td><td>Étapes 1 à 4 (identité, contexte, intrigue, analyse) avant le modèle (5) et l'écriture (6).</td></tr>
+      <tr><td>Segmentation</td><td>Découper en unités dont l'élève contrôle le rythme.</td><td>Une étape par écran, cartes ouvertes une à une, brouillon découpé en 7 blocs.</td></tr>
+      <tr><td>Signalisation</td><td>Rendre l'organisation visible.</td><td>Deux codes couleur constants et distincts : personnages (gris-bleu / sarcelle) et parties du récit (bleu, vert, orange, violet).</td></tr>
+      <tr><td>Multimédia / double codage</td><td>Texte + représentation visuelle valent mieux que texte seul.</td><td>Schéma des trajectoires croisées ; résumés en deux colonnes parallèles.</td></tr>
+      <tr><td>Contiguïté spatiale</td><td>Placer l'explication au plus près de ce qu'elle commente.</td><td>Exemple annoté ligne à ligne ; amorces et aides collées aux champs d'écriture.</td></tr>
+      <tr><td>Cohérence</td><td>Retirer l'inutile.</td><td>Pas d'images décoratives ; contexte et thèmes dans des cartes repliables ; dénouement isolé.</td></tr>
+      <tr><td>Exemples résolus et estompage</td><td>Exemple résolu → tâche guidée → tâche autonome.</td><td>Récit modèle commenté → amorces facultatives → checklist. L'élève avancé peut ignorer les amorces (effet d'inversion de l'expertise).</td></tr>
+      <tr><td>Pratique de récupération</td><td>Se tester consolide plus que relire.</td><td>Un quiz par étape, rétroaction immédiate et expliquée.</td></tr>
+      <tr><td>Effet de génération</td><td>Produire soi-même renforce la mémorisation.</td><td>Fiche d'archivage et brouillon guidé.</td></tr>
+      <tr><td>Personnalisation</td><td>Le style conversationnel favorise l'engagement.</td><td>Tutoiement, adresse directe.</td></tr>
+      <tr><td>Modalité</td><td>Image + narration orale mieux qu'image + texte écrit.</td><td>Pour un élève lecteur lent : l'adulte lit à voix haute les résumés et l'exemple commenté pendant que l'élève suit le schéma et les annotations.</td></tr>
+    </tbody>
+  </table>
+  <h3>Pistes d'accompagnement</h3>
+  <ul>
+    <li><strong>Avant la lecture :</strong> étapes 1 et 2 seulement, pour installer des attentes (le titre, le mythe, la carte).</li>
+    <li><strong>Pendant la lecture :</strong> étape 3 sans ouvrir le dénouement ; demander à l'élève de compléter la fiche d'archivage au fil des chapitres.</li>
+    <li><strong>Après la lecture :</strong> étapes 4 à 6. Pour un élève avec un trouble du langage écrit, on peut faire produire le récit à l'oral d'abord, puis le transcrire bloc par bloc.</li>
+    <li><strong>Sensibilité du sujet :</strong> le roman évoque la mort (dont celle d'un bébé) et la violence. Avec un élève concerné de près par la migration, laisser le choix du degré d'implication personnelle dans le contexte.</li>
+  </ul>
+  <h3>Sources des informations</h3>
+  <ul class="small">
+    <li>Laurent Gaudé, <em>Eldorado</em>, Actes Sud / Leméac, 2006 ; notices BnF et Larousse (auteur).</li>
+    <li>Article « Eldorado (roman) », Wikipédia ; fiches de lecture et résumés publiés (quatrième de couverture Actes Sud, Café pédagogique).</li>
+    <li>Contexte : Parlement européen (renvois de Lampedusa vers la Libye, 2004-2005) ; Amnesty International (Ceuta et Melilla, 2005 ; naufrage de Lampedusa, 2013).</li>
+    <li>Adaptation théâtrale : <em>Le Temps</em> (Patrick Mohr, Théâtre Spirale, Genève, 2015).</li>
+  </ul>
+  <p class="small muted">Accessibilité : police sans empattement, interligne 1,6, lignes d'environ 70 caractères, texte non justifié, contrastes suffisants. La page s'imprime proprement depuis le navigateur (les quiz et le brouillon sont masqués à l'impression).</p>
+</section>
+
+    <div class="pager" id="pager">
+      <button class="btn" id="prev">← Étape précédente</button>
+      <button class="btn primary" id="next">Étape suivante →</button>
+    </div>
+  </main>
+</div>
+
+<footer>Outil inspiré de « Le recueil d'expériences culturelles — la méthode pas à pas ». Œuvre étudiée : Laurent Gaudé, <em>Eldorado</em>, Actes Sud, 2006.</footer>
+
+<script>
+(function(){
+  "use strict";
+  var NS="eldorado:";
+  var store={
+    get:function(k,d){try{var v=localStorage.getItem(NS+k);return v===null?d:JSON.parse(v);}catch(e){return d;}},
+    set:function(k,v){try{localStorage.setItem(NS+k,JSON.stringify(v));}catch(e){}}
+  };
+
+  /* ---------- navigation ---------- */
+  var sections=Array.prototype.slice.call(document.querySelectorAll("section.step"));
+  var nav=document.getElementById("nav");
+  var seen=store.get("seen",{});
+  sections.forEach(function(s,i){
+    if(i===sections.length-1){var sep=document.createElement("div");sep.className="sep";nav.appendChild(sep);}
+    var b=document.createElement("button");
+    b.type="button";
+    b.innerHTML='<span class="n">'+(i===sections.length-1?"i":(i+1))+'</span><span class="t">'+s.dataset.title+'</span>';
+    b.addEventListener("click",function(){go(i);});
+    nav.appendChild(b);
+  });
+  var navBtns=nav.querySelectorAll("button");
+  var current=0;
+  function go(i){
+    current=Math.max(0,Math.min(sections.length-1,i));
+    sections.forEach(function(s,j){s.classList.toggle("active",j===current);});
+    navBtns.forEach(function(b,j){b.setAttribute("aria-current",j===current?"true":"false");});
+    seen[current]=true; store.set("seen",seen); store.set("current",current);
+    document.getElementById("prev").disabled=current===0;
+    var nx=document.getElementById("next");
+    nx.disabled=current===sections.length-1;
+    nx.textContent=current===sections.length-2?"Note pédagogique →":"Étape suivante →";
+    var n=Object.keys(seen).filter(function(k){return +k<sections.length-1;}).length;
+    document.getElementById("progress").textContent="Étapes vues : "+Math.min(n,sections.length-1)+" / "+(sections.length-1);
+    window.scrollTo(0,0);
+  }
+  document.getElementById("prev").addEventListener("click",function(){go(current-1);});
+  document.getElementById("next").addEventListener("click",function(){go(current+1);});
+
+  /* ---------- quiz ---------- */
+  var QUIZ={
+    q0:{title:"Vérifie : le roman en un coup d'œil",consigne:"Une seule réponse juste par question.",items:[
+      {q:"Qui a écrit Eldorado ?",opts:["Voltaire","Laurent Gaudé","Gaël Faye"],a:1,
+       why:"Laurent Gaudé l'a publié en 2006. Voltaire parle bien d'un Eldorado, mais dans Candide (1759), un autre livre."},
+      {q:"Comment le roman est-il construit ?",opts:["Il suit un seul héros du début à la fin","Il alterne deux personnages qui voyagent en sens inverse","C'est un recueil de nouvelles indépendantes"],a:1,
+       why:"Les chapitres alternent entre Piracci, qui part vers le Sud, et Soleiman, qui va vers le Nord."},
+      {q:"Dans ton recueil, dans quel domaine classes-tu ce récit ?",opts:["Cinéma","Arts de la scène","Littérature"],a:2,
+       why:"C'est un roman : il relève de la littérature, même s'il a aussi été adapté au théâtre."}
+    ]},
+    q1:{title:"Vérifie : le contexte",consigne:"Une seule réponse juste par question.",items:[
+      {q:"D'où vient le mot « Eldorado » ?",opts:["D'une ville d'Europe célèbre pour sa richesse","D'une légende de conquistadors espagnols cherchant une contrée pleine d'or","D'un dieu inventé par Laurent Gaudé"],a:1,
+       why:"El Dorado (« le doré ») est un mythe du XVIᵉ siècle. Le dieu inventé par Gaudé, c'est Massambalo."},
+      {q:"Qu'est-ce que Lampedusa ?",opts:["Une petite île italienne proche de l'Afrique","Une ville du Soudan","Le nom de la frégate de Piracci"],a:0,
+       why:"C'est une île italienne au sud de la Sicile, porte d'entrée de nombreux migrants. La frégate s'appelle le Zeffiro."},
+      {q:"Pourquoi Soleiman et Boubakar passent-ils par l'Algérie et le Maroc ?",opts:["Parce que c'est le chemin le plus court","Parce que la Libye bloque désormais les départs vers l'Italie","Parce que Piracci les y emmène"],a:1,
+       why:"Le roman fait écho à la coopération entre l'Italie et la Libye contre les départs, engagée en 2004 : la route se déplace vers Ceuta."}
+    ]},
+    q2:{type:"sort",title:"Vérifie : qui est-ce ?",consigne:"Associe chaque description au bon personnage.",cats:["Piracci","Soleiman","Jamal","Boubakar","La femme du Vittoria"],items:[
+      {q:"Il commande une frégate basée à Catane.",a:0,why:"Piracci est officier de marine, commandant du Zeffiro."},
+      {q:"Malade, il renonce au voyage et pousse son frère à partir.",a:2,why:"C'est le sacrifice de Jamal."},
+      {q:"Il marche vers le nord depuis sept ans.",a:3,why:"Boubakar, le Malien, devient le compagnon de route de Soleiman."},
+      {q:"Elle veut se venger du passeur responsable de la mort de son bébé.",a:4,why:"Sa demande déclenche la crise de Piracci."},
+      {q:"Il raconte son propre voyage, à la première personne.",a:1,why:"Soleiman est le narrateur de ses chapitres."},
+      {q:"Il traverse la Méditerranée dans le sens inverse des migrants.",a:0,why:"Piracci abandonne son poste et part vers l'Afrique."}
+    ]},
+    q3:{type:"sort",title:"Vérifie : observer ou interpréter ?",consigne:"Pour chaque phrase, choisis la bonne catégorie.",cats:["Observation","Interprétation"],items:[
+      {q:"Les chapitres alternent entre Piracci et Soleiman.",a:0,why:"Tout lecteur peut le constater."},
+      {q:"Les chapitres de Soleiman sont écrits à la première personne.",a:0,why:"C'est un fait de narration, vérifiable."},
+      {q:"Ce « je » nous fait vivre la peur du migrant de l'intérieur.",a:1,why:"Tu donnes un effet, un sens : c'est une interprétation."},
+      {q:"Le titre reprend le nom d'une contrée légendaire couverte d'or.",a:0,why:"C'est une information vérifiable."},
+      {q:"Le voyage de Piracci ressemble à une quête pour retrouver un sens à sa vie.",a:1,why:"« Ressemble à » : tu proposes une lecture personnelle."},
+      {q:"Pour Gaudé, c'est le rêve lui-même qui fait avancer les hommes.",a:1,why:"Tu formules un message : interprétation."}
+    ]},
+    q4:{type:"sort",title:"Vérifie : dans quelle partie du récit ?",consigne:"Classe chaque phrase dans la partie où elle a sa place.",cats:["Informative","Contexte / narration","Argumentative","Conclusion"],items:[
+      {q:"Eldorado est un roman de Laurent Gaudé publié en 2006 chez Actes Sud.",a:0,why:"Titre, genre, auteur, date, éditeur : carte d'identité."},
+      {q:"Mon professeur nous l'a fait lire en 3ᵉ ; le sujet ne m'attirait pas du tout.",a:1,why:"Circonstances de la lecture + a priori : contexte."},
+      {q:"Au Soudan, Soleiman et son frère Jamal se préparent à un long voyage…",a:1,why:"Début de résumé apéritif : narration."},
+      {q:"Le personnage de Piracci est crédible, car il doute, comme après la nuit de tempête…",a:2,why:"Argument sur les personnages, illustré par une scène."},
+      {q:"Je recommande ce livre à tous ceux qui croient tout savoir sur les migrants.",a:3,why:"Recommandation au lecteur : conclusion."}
+    ]},
+    q5:{title:"Vérifie : le meilleur résumé apéritif",consigne:"Lequel de ces résumés donne envie sans trop en dire ?",items:[
+      {q:"Choisis le meilleur résumé.",opts:[
+        "« C'est l'histoire de migrants. C'est triste. »",
+        "« Piracci part en Afrique et meurt à Ghardaïa, pendant que Soleiman réussit à franchir la frontière de Ceuta. »",
+        "« Un garde-côte italien et un jeune Soudanais voyagent en sens inverse. L'un fuit l'Europe, l'autre rêve d'y entrer. Que trouveront-ils au bout de la route ? »"],a:2,
+       why:"Le 3ᵉ présente les personnages et l'enjeu, puis s'arrête sur une question. Le 1ᵉʳ est trop vague ; le 2ᵉ divulgue la fin."}
+    ]}
+  };
+
+  function renderQuiz(el){
+    var Q=QUIZ[el.dataset.quiz]; if(!Q) return;
+    var isSort=Q.type==="sort", total=Q.items.length, done=0, good=0;
+    el.innerHTML='<h4>'+Q.title+'</h4><p class="consigne">'+Q.consigne+'</p>';
+    var scoreEl=document.createElement("div"); scoreEl.className="score";
+    var retry=document.createElement("button"); retry.className="btn"; retry.textContent="Recommencer"; retry.style.display="none";
+    retry.style.marginTop=".5rem";
+    retry.addEventListener("click",function(){renderQuiz(el);});
+    Q.items.forEach(function(it){
+      var box=document.createElement("div"); box.className="qitem";
+      var p=document.createElement("p"); p.className="q"; p.textContent=it.q; box.appendChild(p);
+      var opts=document.createElement("div"); opts.className="opts";
+      var labels=isSort?Q.cats:it.opts;
+      if(!isSort){opts.style.flexDirection="column";opts.style.alignItems="flex-start";}
+      var fb=document.createElement("div"); fb.className="fb";
+      labels.forEach(function(lab,k){
+        var b=document.createElement("button"); b.type="button"; b.textContent=lab;
+        if(!isSort) b.style.textAlign="left";
+        b.addEventListener("click",function(){
+          var ok=k===it.a;
+          opts.querySelectorAll("button").forEach(function(x,j){x.disabled=true;if(j===it.a)x.classList.add("good");});
+          if(!ok) b.classList.add("bad");
+          fb.className="fb show "+(ok?"ok":"ko");
+          fb.textContent=(ok?"Exact. ":"Pas tout à fait : la bonne réponse est « "+labels[it.a]+" ». ")+it.why;
+          done++; if(ok) good++;
+          scoreEl.textContent=done===total?("Score : "+good+" / "+total+(good===total?" — parfait !":" — relis les explications, puis recommence si besoin.")):"";
+          if(done===total) retry.style.display="inline-block";
+        });
+        opts.appendChild(b);
+      });
+      box.appendChild(opts); box.appendChild(fb); el.appendChild(box);
+    });
+    el.appendChild(scoreEl);
+    el.appendChild(retry);
+  }
+  document.querySelectorAll(".quiz").forEach(renderQuiz);
+
+  /* ---------- checklists ---------- */
+  document.querySelectorAll("[data-check] input[type=checkbox]").forEach(function(cb){
+    cb.checked=!!store.get("cb:"+cb.id,false);
+    cb.addEventListener("change",function(){store.set("cb:"+cb.id,cb.checked);});
+  });
+
+  /* ---------- fiche d'archivage ---------- */
+  var ARCH=["a-objet","a-rencontre","a-chaud","a-raisons","a-traces"];
+  ARCH.forEach(function(id){
+    var f=document.getElementById(id);
+    var v=store.get("arch:"+id,null); if(v!==null) f.value=v;
+    f.addEventListener("input",function(){store.set("arch:"+id,f.value);});
+  });
+
+  /* ---------- forme ---------- */
+  var forme=document.getElementById("forme");
+  forme.value=store.get("forme","Avis argumenté");
+  forme.addEventListener("change",function(){store.set("forme",forme.value);});
+
+  /* ---------- brouillon guidé ---------- */
+  var lastField=null;
+  function insertAt(ta,s,key){
+    var pos=(typeof ta.selectionStart==="number")?ta.selectionStart:ta.value.length;
+    var before=ta.value.slice(0,pos), after=ta.value.slice(pos);
+    var sep=(before && !/\s$/.test(before))?" ":"";
+    ta.value=before+sep+s+after; ta.focus();
+    var np=(before+sep+s).length; ta.setSelectionRange(np,np);
+    store.set("d:"+key,ta.value);
+  }
+  var DRAFT=[
+    {k:"identite",p:"p1",tag:"Informative",t:"Carte d'identité",join:"para",
+     help:"Titre, auteur, genre, date, éditeur. En une ou deux phrases, pas en liste.",
+     s:["« Eldorado » est un roman de Laurent Gaudé, ","publié en 2006 chez Actes Sud. ","Cet écrivain français a reçu le prix Goncourt en 2004. "]},
+    {k:"contexte",p:"p2",tag:"Contexte",t:"Ma rencontre avec le livre",join:"para",
+     help:"Où, quand, avec qui, pourquoi ? Tes attentes et tes a priori (sur le titre, le sujet, la lecture). Passé composé et imparfait.",
+     s:["J'ai découvert ce roman ","Avant de l'ouvrir, je pensais que ","Le titre m'évoquait ","Le sujet me semblait ","Je l'ai lu "]},
+    {k:"resume",p:"p2",tag:"Narration",t:"Le résumé apéritif",join:"para",
+     help:"Les deux personnages, leur situation de départ, l'enjeu. Pas la fin ! Présent de narration. Termine par une question.",
+     s:["Le commandant Salvatore Piracci ","Pendant ce temps, au Soudan, ","L'un veut quitter l'Europe, l'autre ","Leurs routes finiront-elles par se croiser ?"]},
+    {k:"arg1",p:"p3",tag:"Argument 1",t:"Premier argument",join:"args",
+     help:"Un aspect (construction, personnage, style, message, contexte) + une scène précise qui l'illustre.",
+     s:["D'abord, ","la construction du roman ","Par exemple, ","comme dans la scène où ","Cela m'a "]},
+    {k:"arg2",p:"p3",tag:"Argument 2",t:"Deuxième argument",join:"args",
+     help:"Un aspect différent du premier, illustré lui aussi.",
+     s:["Ensuite, ","le personnage de ","On le voit bien quand ","J'ai été "]},
+    {k:"arg3",p:"p3",tag:"Argument 3",t:"Troisième argument (+ nuance)",join:"args",
+     help:"Encore un autre aspect. Tu peux ajouter une nuance négative pour rendre ton avis crédible.",
+     s:["Enfin, ","l'écriture de Laurent Gaudé ","le message du roman ","Seul bémol : ","En revanche, "]},
+    {k:"conclusion",p:"p4",tag:"Conclusion",t:"Conclusion",join:"para",
+     help:"Une émotion précise, un bilan, une recommandation ciblée (à qui ? pourquoi ?). Tu peux faire écho à ton a priori du début.",
+     s:["Bref, ","ce roman m'a ","Je le conseille à ceux qui ","comme moi avant, ","Si tu aimes "]}
+  ];
+  var dWrap=document.getElementById("drafts");
+  DRAFT.forEach(function(d){
+    var box=document.createElement("div"); box.className="draft "+d.p;
+    var tnum=d.p==="p1"?"t1":d.p==="p2"?"t2":d.p==="p3"?"t3":"t4";
+    box.innerHTML='<label for="d-'+d.k+'"><span class="tag '+tnum+'">'+d.tag+'</span>'+d.t+'</label><p class="help">'+d.help+'</p>';
+    var st=document.createElement("div"); st.className="starters";
+    var ta=document.createElement("textarea"); ta.id="d-"+d.k; ta.value=store.get("d:"+d.k,"");
+    ta.addEventListener("input",function(){store.set("d:"+d.k,ta.value);});
+    ta.addEventListener("focus",function(){lastField={ta:ta,k:d.k};});
+    d.s.forEach(function(s){
+      var b=document.createElement("button"); b.type="button"; b.textContent=s.trim()+"…";
+      b.addEventListener("click",function(){insertAt(ta,s,d.k);});
+      st.appendChild(b);
+    });
+    box.appendChild(st); box.appendChild(ta); dWrap.appendChild(box);
+  });
+
+  /* ---------- banque d'émotions ---------- */
+  var EMO=["bouleversé(e)","ému(e)","touché(e)","révolté(e)","indigné(e)","angoissé(e)","oppressé(e)","mal à l'aise",
+           "impuissant(e)","admiratif(-ive)","fasciné(e)","troublé(e)","plein(e) d'espoir","surpris(e)"];
+  var eb=document.getElementById("emobank");
+  EMO.forEach(function(w){
+    var b=document.createElement("button"); b.type="button"; b.textContent=w;
+    b.addEventListener("mousedown",function(e){e.preventDefault();});
+    b.addEventListener("click",function(){
+      var f=lastField||{ta:document.getElementById("d-contexte"),k:"contexte"};
+      insertAt(f.ta,w+" ",f.k);
+    });
+    eb.appendChild(b);
+  });
+
+  /* ---------- assemblage ---------- */
+  var out=document.getElementById("assembled"), wc=document.getElementById("wc");
+  function val(k){return document.getElementById("d-"+k).value.trim();}
+  function assemble(){
+    var paras=[];
+    var p1=[val("identite"),val("contexte")].filter(Boolean).join(" ");
+    if(p1) paras.push(p1);
+    if(val("resume")) paras.push(val("resume"));
+    var args=[val("arg1"),val("arg2"),val("arg3")].filter(Boolean).join(" ");
+    if(args) paras.push(args);
+    if(val("conclusion")) paras.push(val("conclusion"));
+    if(!paras.length){out.innerHTML='<span class="muted small">Écris au moins une partie pour l\'assembler.</span>';wc.textContent="";return "";}
+    var txt=paras.join("\n\n");
+    out.textContent="["+forme.value+"]\n\n"+txt;
+    var words=txt.split(/\s+/).filter(Boolean).length;
+    var missing=DRAFT.filter(function(d){return !val(d.k);}).map(function(d){return d.t;});
+    var warn="";
+    if(/\bGhardaïa\b|\bCeuta\b|\bmeurt\b|renvers/i.test(val("resume"))) warn=" · Attention : ton résumé semble révéler la fin du roman.";
+    if(/Gaudé\s+(raconte\s+sa|a\s+traversé|traverse)/i.test(txt)) warn+=" · Attention : Gaudé est l'auteur, pas le narrateur.";
+    wc.textContent=words+" mots · "+paras.length+" paragraphe(s)"+(missing.length?" · Il manque : "+missing.join(", "):" · Toutes les parties sont présentes.")+warn;
+    return out.textContent;
+  }
+  document.getElementById("assemble").addEventListener("click",assemble);
+  document.getElementById("copy").addEventListener("click",function(){
+    var t=assemble(); if(!t) return;
+    var btn=this;
+    function done(){btn.textContent="Copié ✓";setTimeout(function(){btn.textContent="Copier le texte";},1500);}
+    function fallback(){var a=document.createElement("textarea");a.value=t;document.body.appendChild(a);a.select();
+      try{document.execCommand("copy");}catch(e){} document.body.removeChild(a);done();}
+    try{
+      if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(t).then(done,fallback);}
+      else fallback();
+    }catch(e){fallback();}
+  });
+  var confirmBox=document.getElementById("confirm");
+  document.getElementById("clear").addEventListener("click",function(){confirmBox.classList.add("show");});
+  document.getElementById("clearNo").addEventListener("click",function(){confirmBox.classList.remove("show");});
+  document.getElementById("clearYes").addEventListener("click",function(){
+    DRAFT.forEach(function(d){document.getElementById("d-"+d.k).value="";store.set("d:"+d.k,"");});
+    ARCH.forEach(function(id){var f=document.getElementById(id);f.value=(id==="a-objet")?f.defaultValue:"";store.set("arch:"+id,f.value);});
+    out.innerHTML='<span class="muted small">Ton récit assemblé apparaîtra ici.</span>'; wc.textContent="";
+    confirmBox.classList.remove("show");
+  });
+
+  go(store.get("current",0));
+})();
+</script>
+</body>
+</html>
