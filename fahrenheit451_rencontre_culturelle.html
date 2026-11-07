@@ -1,0 +1,955 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Fahrenheit 451 de Ray Bradbury — comprendre le roman et écrire sa rencontre culturelle</title>
+<style>
+:root{
+  --bg:#eff0f1; --surface:#fcfcfc; --text:#232629; --muted:#55595d;
+  --border:#bdc3c7; --line:#dfe2e4;
+  --accent:#1d99f3; --accent-text:#1272b8; --accent-soft:#e3f2fd;
+  /* code couleur constant des parties du récit */
+  --p1:#1d99f3; --p1s:#e6f3fd;   /* informative */
+  --p2:#27ae60; --p2s:#e7f6ec;   /* contexte + narration */
+  --p3:#f67400; --p3s:#fef0e3;   /* argumentative */
+  --p4:#8e44ad; --p4s:#f3eaf7;   /* conclusion */
+  /* code couleur des deux trajectoires */
+  --pir:#34495e; --pirs:#eaedf0;  /* Piracci */
+  --sol:#16a085; --sols:#e3f4f1;  /* Soleiman */
+  --ok:#27ae60; --oks:#e7f6ec; --ko:#da4453; --kos:#fbe9eb;
+  --radius:6px;
+}
+*{box-sizing:border-box}
+html{font-size:17px}
+body{margin:0;background:var(--bg);color:var(--text);
+  font-family:"Noto Sans","Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;line-height:1.6}
+a{color:var(--accent-text)}
+header.top{background:var(--surface);border-bottom:1px solid var(--border);padding:.7rem 1.2rem;
+  display:flex;align-items:center;gap:.8rem;position:sticky;top:0;z-index:5}
+header.top h1{font-size:1.05rem;margin:0;font-weight:600}
+header.top .sub{color:var(--muted);font-size:.85rem}
+.progress{margin-left:auto;font-size:.85rem;color:var(--muted);white-space:nowrap}
+.layout{display:grid;grid-template-columns:260px 1fr;max-width:1180px;margin:0 auto;gap:1.2rem;padding:1.2rem}
+nav.steps{position:sticky;top:4.2rem;align-self:start;background:var(--surface);border:1px solid var(--border);
+  border-radius:var(--radius);padding:.4rem}
+nav.steps button{display:flex;gap:.6rem;align-items:flex-start;width:100%;text-align:left;background:none;border:0;
+  padding:.55rem .6rem;border-radius:4px;font:inherit;font-size:.92rem;color:var(--text);cursor:pointer;line-height:1.35}
+nav.steps button:hover{background:var(--bg)}
+nav.steps button[aria-current="true"]{background:var(--accent-soft);color:var(--accent-text);font-weight:600}
+nav.steps .n{flex:0 0 1.6rem;height:1.6rem;border-radius:50%;border:1px solid var(--border);display:grid;place-items:center;
+  font-size:.8rem;background:var(--surface)}
+nav.steps button[aria-current="true"] .n{border-color:var(--accent);background:var(--accent);color:#fff}
+nav.steps .sep{border-top:1px solid var(--line);margin:.4rem .3rem}
+main{min-width:0}
+section.step{display:none;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);
+  padding:1.6rem 2rem 2rem}
+section.step.active{display:block}
+section.step > h2{margin:0 0 .3rem;font-size:1.5rem}
+.kicker{color:var(--muted);margin:0 0 1.2rem;max-width:70ch}
+h3{font-size:1.15rem;margin:2rem 0 .6rem;padding-bottom:.25rem;border-bottom:1px solid var(--line)}
+h4{font-size:1rem;margin:1.2rem 0 .4rem}
+p,li{max-width:72ch}
+ul,ol{padding-left:1.3rem}
+li{margin:.2rem 0}
+.box{border:1px solid var(--border);border-radius:var(--radius);padding:1rem 1.2rem;margin:1rem 0;background:var(--surface)}
+.box.key{border-left:4px solid var(--accent);background:var(--accent-soft)}
+.box.warn{border-left:4px solid var(--p3);background:var(--p3s)}
+.box h4:first-child{margin-top:0}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:.8rem}
+table{border-collapse:collapse;width:100%;margin:.8rem 0;font-size:.95rem}
+th,td{border:1px solid var(--line);padding:.5rem .65rem;text-align:left;vertical-align:top}
+th{background:var(--bg);font-weight:600}
+.tag{display:inline-block;font-size:.78rem;font-weight:600;padding:.05rem .5rem;border-radius:999px;color:#fff;
+  vertical-align:middle;white-space:nowrap}
+.t1{background:var(--p1)} .t2{background:var(--p2)} .t3{background:var(--p3)} .t4{background:var(--p4)}
+.tpir{background:var(--pir)} .tsol{background:var(--sol)}
+.chip{display:inline-grid;place-items:center;min-width:1.6rem;height:1.6rem;border-radius:50%;background:var(--accent);
+  color:#fff;font-size:.82rem;font-weight:700;margin-right:.4rem;flex:0 0 auto}
+/* carte d'identité */
+.idcard{display:grid;grid-template-columns:max-content 1fr;gap:.25rem 1rem;margin:0}
+.idcard dt{font-weight:600;color:var(--muted)}
+.idcard dd{margin:0}
+/* schéma des trajectoires */
+.mapwrap{border:1px solid var(--line);border-radius:var(--radius);background:#fff;padding:.6rem;margin:1rem 0}
+.mapwrap svg{width:100%;height:auto;display:block}
+.legend{display:flex;flex-wrap:wrap;gap:1rem;font-size:.85rem;color:var(--muted);margin:.3rem .3rem 0}
+.legend span{display:inline-flex;align-items:center;gap:.4rem}
+.legend i{display:inline-block;width:26px;height:0;border-top:3px solid}
+/* trajectoires */
+.track{border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;background:#fff}
+.track h4{margin:0;padding:.6rem .9rem;color:#fff;font-size:.98rem}
+.track.pir h4{background:var(--pir)} .track.sol h4{background:var(--sol)}
+.track ol{margin:0;padding:.7rem .9rem .8rem 2.1rem;font-size:.93rem}
+.track ol li{margin:.35rem 0}
+.track .voice{font-size:.82rem;color:var(--muted);padding:.4rem .9rem 0}
+.perso{border:1px solid var(--line);border-radius:var(--radius);padding:.75rem .9rem;background:#fff;font-size:.92rem}
+.perso h5{margin:0 0 .3rem;font-size:.98rem}
+.perso.pir{border-top:4px solid var(--pir)} .perso.sol{border-top:4px solid var(--sol)} .perso.neu{border-top:4px solid var(--border)}
+/* parties du récit */
+.part{border:1px solid var(--line);border-left:6px solid;border-radius:var(--radius);padding:.9rem 1.1rem;margin:.8rem 0}
+.part.p1{border-left-color:var(--p1);background:var(--p1s)} .part.p2{border-left-color:var(--p2);background:var(--p2s)}
+.part.p3{border-left-color:var(--p3);background:var(--p3s)} .part.p4{border-left-color:var(--p4);background:var(--p4s)}
+.part h4{margin:0 0 .4rem}
+/* exemple annoté */
+.annot{display:grid;grid-template-columns:1fr 240px;gap:0;border:1px solid var(--line);border-radius:var(--radius);
+  overflow:hidden;margin:1rem 0}
+.annot .row{display:contents}
+.annot .txt{padding:.7rem 1rem;border-bottom:1px solid var(--line);background:#fff}
+.annot .note{padding:.7rem .8rem;border-bottom:1px solid var(--line);font-size:.86rem;line-height:1.45}
+.annot .row:last-child .txt,.annot .row:last-child .note{border-bottom:0}
+.annot .r1 .txt{border-left:6px solid var(--p1)} .annot .r1 .note{background:var(--p1s)}
+.annot .r2 .txt{border-left:6px solid var(--p2)} .annot .r2 .note{background:var(--p2s)}
+.annot .r3 .txt{border-left:6px solid var(--p3)} .annot .r3 .note{background:var(--p3s)}
+.annot .r4 .txt{border-left:6px solid var(--p4)} .annot .r4 .note{background:var(--p4s)}
+mark.arg{background:#ffe2c4;padding:0 .1rem}
+/* cartes dépliables */
+details{border:1px solid var(--border);border-radius:var(--radius);margin:.6rem 0;background:#fff}
+details > summary{cursor:pointer;padding:.65rem .9rem;font-weight:600;list-style:none;display:flex;gap:.5rem;align-items:center}
+details > summary::before{content:"▸";color:var(--muted);transition:transform .15s}
+details[open] > summary::before{transform:rotate(90deg)}
+details > summary::-webkit-details-marker{display:none}
+details .inner{padding:0 1rem .9rem 1.9rem}
+details.spoiler{border-color:var(--ko)}
+details.spoiler > summary{color:var(--ko)}
+/* scènes */
+.scene{display:flex;gap:.7rem;padding:.5rem 0;border-bottom:1px dashed var(--line);font-size:.93rem}
+.scene:last-child{border-bottom:0}
+.scene .who{flex:0 0 auto}
+/* quiz */
+.quiz{border:1px solid var(--border);border-radius:var(--radius);padding:1rem 1.2rem;margin:1.2rem 0;background:var(--bg)}
+.quiz > h4{margin:0 0 .3rem}
+.quiz .consigne{color:var(--muted);font-size:.92rem;margin:0 0 .6rem}
+.qitem{background:#fff;border:1px solid var(--line);border-radius:var(--radius);padding:.7rem .9rem;margin:.55rem 0}
+.qitem .q{margin:0 0 .5rem}
+.qitem .opts{display:flex;flex-wrap:wrap;gap:.4rem}
+.qitem button{font:inherit;font-size:.86rem;padding:.3rem .7rem;border:1px solid var(--border);border-radius:4px;
+  background:var(--surface);cursor:pointer;color:var(--text)}
+.qitem button:hover{border-color:var(--accent)}
+.qitem button:disabled{cursor:default;opacity:.65}
+.qitem button.good{background:var(--oks);border-color:var(--ok);opacity:1;font-weight:600}
+.qitem button.bad{background:var(--kos);border-color:var(--ko);opacity:1}
+.fb{margin-top:.5rem;font-size:.9rem;padding:.45rem .7rem;border-radius:4px;display:none}
+.fb.show{display:block}
+.fb.ok{background:var(--oks);border-left:4px solid var(--ok)}
+.fb.ko{background:var(--kos);border-left:4px solid var(--ko)}
+.score{font-size:.9rem;color:var(--muted);margin-top:.4rem}
+.btn{font:inherit;font-size:.9rem;padding:.45rem .9rem;border:1px solid var(--border);border-radius:4px;background:var(--surface);
+  cursor:pointer;color:var(--text)}
+.btn:hover{border-color:var(--accent)}
+.btn.primary{background:var(--accent);border-color:var(--accent);color:#fff}
+.btn.primary:hover{background:#1287db}
+.btn:disabled{opacity:.5;cursor:default}
+/* checklists */
+.check{list-style:none;padding:0}
+.check li{display:flex;gap:.6rem;align-items:flex-start;padding:.35rem 0;border-bottom:1px dashed var(--line)}
+.check input{margin-top:.35rem;width:1.05rem;height:1.05rem;accent-color:var(--accent);flex:0 0 auto}
+/* fiche d'archivage */
+.arch{display:grid;grid-template-columns:150px 1fr;gap:.45rem .8rem;align-items:start}
+.arch label{font-weight:600;font-size:.92rem;padding-top:.35rem}
+.arch input,.arch textarea{width:100%;font:inherit;font-size:.93rem;padding:.4rem .6rem;border:1px solid var(--border);border-radius:4px;color:var(--text)}
+.arch textarea{min-height:3rem}
+/* brouillon */
+.draft{border:1px solid var(--border);border-left:6px solid var(--border);border-radius:var(--radius);padding:1rem 1.1rem;margin:.8rem 0;background:#fff}
+.draft.p1{border-left-color:var(--p1)} .draft.p2{border-left-color:var(--p2)} .draft.p3{border-left-color:var(--p3)} .draft.p4{border-left-color:var(--p4)}
+.draft label{font-weight:600;display:flex;align-items:center;gap:.4rem;flex-wrap:wrap}
+.draft .help{font-size:.88rem;color:var(--muted);margin:.25rem 0 .5rem}
+.starters{display:flex;flex-wrap:wrap;gap:.35rem;margin:.3rem 0 .5rem}
+.starters button,.emobank button{font:inherit;font-size:.8rem;padding:.2rem .55rem;border:1px dashed var(--accent);border-radius:999px;
+  background:var(--accent-soft);color:var(--accent-text);cursor:pointer}
+.emobank{position:sticky;top:4.7rem;z-index:3;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);
+  padding:.6rem .8rem;margin:.8rem 0}
+.emobank p{margin:0 0 .35rem;font-size:.85rem;color:var(--muted)}
+.emobank .row{display:flex;flex-wrap:wrap;gap:.3rem}
+textarea{width:100%;min-height:6.5rem;font:inherit;font-size:.95rem;padding:.6rem .7rem;border:1px solid var(--border);
+  border-radius:4px;resize:vertical;line-height:1.5;color:var(--text)}
+textarea:focus,input:focus,button:focus-visible,select:focus{outline:2px solid var(--accent);outline-offset:1px}
+select{font:inherit;font-size:.92rem;padding:.35rem .5rem;border:1px solid var(--border);border-radius:4px;background:#fff;color:var(--text)}
+#assembled{white-space:pre-wrap;background:#fff;border:1px solid var(--border);border-radius:var(--radius);padding:1rem 1.2rem;
+  min-height:3rem}
+.confirm{display:none;gap:.5rem;align-items:center;flex-wrap:wrap;background:var(--kos);border-left:4px solid var(--ko);
+  padding:.5rem .8rem;border-radius:4px;font-size:.9rem;margin:.4rem 0}
+.confirm.show{display:flex}
+.pager{display:flex;justify-content:space-between;margin-top:2.2rem;padding-top:1rem;border-top:1px solid var(--line);gap:.6rem}
+.muted{color:var(--muted)}
+.small{font-size:.88rem}
+footer{max-width:1180px;margin:0 auto;padding:0 1.2rem 2rem;color:var(--muted);font-size:.8rem}
+@media (max-width:860px){
+  header.top{position:static;flex-wrap:wrap;padding:.6rem .8rem}
+  header.top .sub{display:none}
+  .progress{margin-left:0}
+  .layout{grid-template-columns:1fr;padding:.6rem}
+  nav.steps{position:static;display:flex;overflow-x:auto;gap:.2rem}
+  nav.steps button{flex:0 0 auto;width:auto}
+  nav.steps .t,nav.steps .sep{display:none}
+  section.step{padding:1.1rem 1rem 1.4rem}
+  .grid2,.grid3{grid-template-columns:1fr}
+  .annot{grid-template-columns:1fr}
+  .annot .note{border-bottom:1px solid var(--line)}
+  .arch{grid-template-columns:1fr}
+  .emobank{top:0}
+}
+@media print{
+  header.top,nav.steps,.pager,.quiz,.draft,.btn,.emobank,#assembled,.confirm{display:none!important}
+  body{background:#fff} .layout{display:block;padding:0}
+  section.step{display:block!important;border:0;page-break-after:always;padding:0}
+  details{border:0} details > summary::before{content:""}
+  details .inner{display:block!important;padding-left:0}
+}
+/* code couleur des trois parties du roman */
+:root{ --pa:#b03a2e; --pas:#f9e9e7; --pb:#9a7400; --pbs:#f7f0dc; --pc:#2c5f8a; --pcs:#e4edf5; }
+.track.pa h4{background:var(--pa)} .track.pb h4{background:var(--pb)} .track.pc h4{background:var(--pc)}
+.tpa{background:var(--pa)} .tpb{background:var(--pb)} .tpc{background:var(--pc)}
+.perso.sys{border-top:4px solid var(--pir)} .perso.lib{border-top:4px solid var(--sol)} .perso.mon{border-top:4px solid var(--accent)}
+.tsys{background:var(--pir)} .tlib{background:var(--sol)}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div>
+    <h1>Fahrenheit 451, de Ray Bradbury</h1>
+    <div class="sub">Comprendre le roman, puis écrire le récit de ta rencontre culturelle</div>
+  </div>
+  <div class="progress" id="progress"></div>
+</header>
+
+<div class="layout">
+  <nav class="steps" id="nav" aria-label="Étapes"></nav>
+  <main id="main">
+
+<!-- ============ 1 ============ -->
+<section class="step" id="s1" data-title="Le roman en un coup d'œil">
+  <h2>1. Le roman en un coup d'œil</h2>
+  <p class="kicker">Avant d'entrer dans l'histoire, repère l'essentiel : qui a écrit ce livre, quand, et comment il est construit. Tout le reste de la page s'appuie sur ces repères.</p>
+
+  <div class="box key">
+    <h4>La carte d'identité de l'œuvre</h4>
+    <dl class="idcard">
+      <dt>Titre</dt><dd><em>Fahrenheit 451</em></dd>
+      <dt>Auteur</dt><dd>Ray Bradbury (1920-2012), écrivain américain</dd>
+      <dt>Genre</dt><dd>Roman d'anticipation (science-fiction), plus précisément une dystopie</dd>
+      <dt>Publication</dt><dd>1953 aux États-Unis (Ballantine Books) ; 1955 en France (Denoël, traduction d'Henri Robillot). Édition courante : traduction de Jacques Chambon et Henri Robillot, Gallimard, « Folio SF »</dd>
+      <dt>Domaine</dt><dd>Littérature (5ᵉ art)</dd>
+      <dt>Sujet</dt><dd>Une société future où les livres sont interdits et brûlés par les pompiers</dd>
+    </dl>
+  </div>
+
+  <div class="box small"><strong>Que veut dire le titre ?</strong> 451 degrés Fahrenheit (environ 233 °C), c'est, selon le roman, la température à laquelle le papier d'un livre s'enflamme et brûle. Ce n'est ni une date, ni une adresse.</div>
+
+  <h3>Une construction en trois parties</h3>
+  <p>Le roman suit un seul personnage, <strong>Guy Montag</strong>, pompier chargé de brûler les livres. Ses trois parties racontent sa <strong>transformation</strong> : celui qui brûlait les livres finit par en devenir un gardien.</p>
+
+  <div class="mapwrap">
+    <svg viewBox="0 0 720 230" role="img" aria-labelledby="arcT arcD">
+      <title id="arcT">Schéma de la transformation de Montag</title>
+      <desc id="arcD">Partie 1, Le foyer et la salamandre : Montag est un pompier fier de brûler les livres, puis il commence à douter. Partie 2, Le tamis et le sable : il essaie de lire et de comprendre, avec l'aide de Faber. Partie 3, L'éclat de la flamme : il devient un fugitif, puis un gardien des livres.</desc>
+      <rect x="10" y="10" width="226" height="40" rx="5" fill="#b03a2e"/>
+      <text x="123" y="35" font-size="14" fill="#fff" text-anchor="middle" font-weight="600">1. Le foyer et la salamandre</text>
+      <rect x="247" y="10" width="226" height="40" rx="5" fill="#9a7400"/>
+      <text x="360" y="35" font-size="14" fill="#fff" text-anchor="middle" font-weight="600">2. Le tamis et le sable</text>
+      <rect x="484" y="10" width="226" height="40" rx="5" fill="#2c5f8a"/>
+      <text x="597" y="35" font-size="14" fill="#fff" text-anchor="middle" font-weight="600">3. L'éclat de la flamme</text>
+      <path d="M40,175 C140,170 200,150 300,125 C400,100 520,85 680,70" fill="none" stroke="#bdc3c7" stroke-width="3"/>
+      <g font-size="13" fill="#232629" text-anchor="middle">
+        <circle cx="60" cy="174" r="9" fill="#b03a2e"/><text x="60" y="203">pompier fier</text>
+        <circle cx="185" cy="157" r="9" fill="#b03a2e"/><text x="185" y="186">il doute</text>
+        <circle cx="330" cy="118" r="9" fill="#9a7400"/><text x="330" y="147">il lit</text>
+        <circle cx="470" cy="94" r="9" fill="#9a7400"/><text x="470" y="123">il agit</text>
+        <circle cx="580" cy="82" r="9" fill="#2c5f8a"/><text x="580" y="111">il fuit</text>
+        <circle cx="680" cy="70" r="9" fill="#2c5f8a"/><text x="662" y="99">il transmet</text>
+      </g>
+    </svg>
+    <div class="legend">
+      <span>Chaque couleur correspond à une partie du roman. Ce code est repris à l'étape 3.</span>
+    </div>
+  </div>
+
+  <h3>Ce que tu vas faire dans cette page</h3>
+  <table>
+    <thead><tr><th style="width:2.5rem">#</th><th>Étape</th><th>Ce que tu fais concrètement</th></tr></thead>
+    <tbody>
+      <tr><td>1</td><td>Repérer</td><td>La carte d'identité et la construction du roman (cette étape).</td></tr>
+      <tr><td>2</td><td>Situer</td><td>L'auteur, l'Amérique des années 1950 et ce que le roman dit encore de nous.</td></tr>
+      <tr><td>3</td><td>Comprendre</td><td>L'histoire, partie par partie, et les personnages.</td></tr>
+      <tr><td>4</td><td>Analyser</td><td>La narration, les thèmes, les symboles, le style : de quoi nourrir tes arguments.</td></tr>
+      <tr><td>5</td><td>Observer un modèle</td><td>Un récit de rencontre culturelle sur <em>Fahrenheit 451</em>, commenté.</td></tr>
+      <tr><td>6</td><td>Écrire</td><td>Ton propre récit, partie par partie, avec des aides que tu peux ignorer.</td></tr>
+    </tbody>
+  </table>
+
+  <div class="quiz" data-quiz="q0"></div>
+</section>
+
+<!-- ============ 2 ============ -->
+<section class="step" id="s2" data-title="Le contexte">
+  <h2>2. Le contexte</h2>
+  <p class="kicker">Bradbury a écrit ce roman dans l'Amérique du début des années 1950. Connaître cette époque aide à comprendre pourquoi il imagine un monde où l'on brûle les livres. Ouvre une carte à la fois.</p>
+
+  <details open>
+    <summary>L'auteur : Ray Bradbury</summary>
+    <div class="inner">
+      <p>Ray Bradbury est né le 22 août 1920 à Waukegan, dans l'Illinois, et mort le 5 juin 2012 à Los Angeles. Il n'a pas fait d'études universitaires : il s'est formé en lisant dans les bibliothèques publiques.</p>
+      <ul>
+        <li>Il est surtout connu pour <em>Chroniques martiennes</em> (1950) et <em>Fahrenheit 451</em> (1953).</li>
+        <li>Le roman développe une nouvelle plus courte, <em>The Fireman</em> (« Le Pompier »), parue en 1951 dans la revue <em>Galaxy</em>.</li>
+        <li>Il a tapé ce texte dans le sous-sol d'une bibliothèque universitaire, sur une machine à écrire de location qui coûtait 10 cents la demi-heure.</li>
+      </ul>
+    </div>
+  </details>
+
+  <details>
+    <summary>Le genre : anticipation et dystopie</summary>
+    <div class="inner">
+      <p>Un récit d'<strong>anticipation</strong> imagine l'avenir à partir des tendances du présent. Une <strong>dystopie</strong> (ou contre-utopie) décrit une société future cauchemardesque, où les individus ont perdu leur liberté, souvent sans s'en rendre compte. C'est le contraire d'une utopie, une société idéale.</p>
+      <p>Bradbury part de la télévision des années 1950 et imagine des murs entiers d'écrans. Son but n'est pas de <strong>prédire</strong> l'avenir, mais de <strong>prévenir</strong> : voilà où l'on risque d'aller si l'on continue ainsi.</p>
+      <p class="small">On compare souvent le roman à deux autres dystopies célèbres : <em>Le Meilleur des mondes</em> d'Aldous Huxley (1932) et <em>1984</em> de George Orwell (1949).</p>
+    </div>
+  </details>
+
+  <details>
+    <summary>L'Amérique des années 1950</summary>
+    <div class="inner">
+      <ul>
+        <li><strong>Les autodafés nazis :</strong> le 10 mai 1933, à Berlin, les nazis brûlent publiquement des milliers de livres d'auteurs juifs ou opposants. Bradbury a grandi avec ces images.</li>
+        <li><strong>La guerre froide :</strong> les États-Unis et l'URSS s'affrontent sans guerre directe, mais avec la menace nucléaire. Les États-Unis testent la première bombe H en 1952, l'URSS en 1953.</li>
+        <li><strong>Le maccarthysme :</strong> à partir de 1950, le sénateur Joseph McCarthy lance une « chasse aux sorcières » contre les communistes, réels ou supposés. On soupçonne, on dénonce, on met des artistes sur liste noire.</li>
+        <li><strong>L'arrivée de la télévision :</strong> en 1950, moins d'un foyer américain sur dix a la télévision ; quelques années plus tard, c'est la majorité. Bradbury s'inquiète d'un divertissement permanent qui remplacerait la lecture et la réflexion.</li>
+      </ul>
+      <p class="small"><strong>Dans le roman :</strong> on retrouve les livres brûlés, la délation (Mildred dénonce son mari), les bombardiers qui survolent la ville et les « murs-écrans » du salon.</p>
+    </div>
+  </details>
+
+  <details>
+    <summary>Et après le roman ?</summary>
+    <div class="inner">
+      <ul>
+        <li><strong>Cinéma :</strong> François Truffaut adapte le roman en 1966, avec Oskar Werner et Julie Christie, qui joue à la fois Clarisse et la femme de Montag (appelée Linda dans le film). En 2018, Ramin Bahrani en tire un téléfilm pour HBO, avec Michael B. Jordan et Michael Shannon.</li>
+        <li><strong>Bande dessinée :</strong> Tim Hamilton en a fait un roman graphique (2009), traduit chez Casterman.</li>
+        <li><strong>Une ironie de l'histoire :</strong> pendant plusieurs années, une édition scolaire américaine du roman a été expurgée (jurons et passages jugés choquants supprimés). Bradbury l'a appris et a dénoncé cette censure dans une postface, en 1979.</li>
+        <li><strong>Aujourd'hui :</strong> aux États-Unis, l'association PEN America recense chaque année des milliers de retraits de livres dans les bibliothèques scolaires. Et nos écrans, nos écouteurs, nos fils d'actualité infinis font penser aux murs-écrans et aux « coquillages » du roman.</li>
+      </ul>
+      <p class="small"><strong>Pour ton récit :</strong> ces liens avec aujourd'hui peuvent fournir un argument (« ce roman de 1953 parle de nous »), à condition de rester centré sur l'œuvre. Pour aller plus loin : <a href="https://rsamier-web.github.io/outils-pedagogiques/dossier_Fahrenheit_451.html">le dossier Fahrenheit 451</a>.</p>
+    </div>
+  </details>
+
+  <h3>Les lieux et objets du roman</h3>
+  <table>
+    <thead><tr><th>Lieu ou objet</th><th>Ce que c'est</th><th>Ce qu'il représente</th></tr></thead>
+    <tbody>
+      <tr><td><strong>La caserne</strong></td><td>Le lieu de travail des pompiers, avec leur emblème : la salamandre.</td><td>Le pouvoir qui détruit les livres.</td></tr>
+      <tr><td><strong>Le salon de Montag</strong></td><td>Une pièce couverte de « murs-écrans » où Mildred regarde sa « famille ».</td><td>Le divertissement qui remplace la vraie vie.</td></tr>
+      <tr><td><strong>Les « coquillages »</strong></td><td>De minuscules écouteurs-radio gardés dans les oreilles jour et nuit.</td><td>Le bruit permanent : on ne pense plus.</td></tr>
+      <tr><td><strong>Le Limier mécanique</strong></td><td>Un robot à huit pattes qui traque les suspects à l'odeur.</td><td>La surveillance et la peur.</td></tr>
+      <tr><td><strong>Le métro</strong></td><td>Où Montag essaie de lire, couvert par une publicité qui tourne en boucle.</td><td>La difficulté de penser dans le bruit.</td></tr>
+      <tr><td><strong>Le fleuve et la forêt</strong></td><td>Hors de la ville, là où vivent les « hommes-livres ».</td><td>La nature, la mémoire et la liberté.</td></tr>
+    </tbody>
+  </table>
+
+  <div class="quiz" data-quiz="q1"></div>
+</section>
+
+<!-- ============ 3 ============ -->
+<section class="step" id="s3" data-title="L'histoire et les personnages">
+  <h2>3. L'histoire et les personnages</h2>
+  <p class="kicker">Lis les deux premières parties côte à côte. La troisième partie, qui contient le dénouement, est cachée dans une carte rouge : ouvre-la seulement si tu as fini le livre, ou si ton professeur te le demande.</p>
+
+  <div class="grid2">
+    <div class="track pa">
+      <h4>1. Le foyer et la salamandre</h4>
+      <p class="voice">Le « foyer », c'est la maison et l'endroit où brûle le feu ; la salamandre est l'emblème des pompiers.</p>
+      <ol>
+        <li>Guy Montag, 30 ans, pompier depuis dix ans, rentre du travail, fier d'avoir brûlé des livres.</li>
+        <li>Sur le trottoir, il rencontre Clarisse, une voisine de 17 ans, qui lui demande : « Est-ce que vous êtes heureux ? »</li>
+        <li>Chez lui, il découvre que sa femme Mildred a avalé tout un flacon de somnifères. Deux techniciens la « réparent » avec des machines ; le lendemain, elle ne se souvient de rien.</li>
+        <li>Une vieille dame refuse de quitter sa maison pleine de livres et y met elle-même le feu. Montag, bouleversé, a volé un livre.</li>
+        <li>Clarisse disparaît ; Mildred dit qu'elle a sans doute été tuée par une voiture.</li>
+        <li>Montag, malade, reste au lit. Le capitaine Beatty vient lui expliquer comment la société en est arrivée à brûler les livres.</li>
+        <li>Après son départ, Montag montre à Mildred la vingtaine de livres qu'il cache derrière la grille du climatiseur.</li>
+      </ol>
+    </div>
+    <div class="track pb">
+      <h4>2. Le tamis et le sable</h4>
+      <p class="voice">Enfant, Montag a essayé de remplir un tamis de sable : plus il en versait, plus le sable s'écoulait.</p>
+      <ol>
+        <li>Montag et Mildred essaient de lire. Mildred ne comprend pas et retourne à ses murs-écrans.</li>
+        <li>Dans le métro, Montag lit la Bible, mais les mots lui échappent, couverts par une publicité qui tourne en boucle.</li>
+        <li>Il rend visite à Faber, un ancien professeur d'anglais, qui lui explique ce qui manque à la société : la qualité de l'information, le loisir de la penser et la liberté d'agir.</li>
+        <li>Faber lui donne un minuscule écouteur pour le guider à distance. Ils imaginent un plan pour faire réimprimer des livres.</li>
+        <li>Chez lui, Montag lit un poème aux amies de Mildred, <em>La Plage de Douvres</em> de Matthew Arnold. L'une pleure, l'autre est furieuse.</li>
+        <li>À la caserne, Beatty le provoque à coups de citations. Une alarme retentit : le camion s'arrête… devant la maison de Montag.</li>
+      </ol>
+    </div>
+  </div>
+
+  <details class="spoiler">
+    <summary>Attention : 3. L'éclat de la flamme (dénouement)</summary>
+    <div class="inner">
+      <p><span class="tag tpc">3</span> Mildred a dénoncé son mari et part en taxi. Beatty oblige Montag à brûler sa propre maison. Quand Beatty découvre l'écouteur de Faber, Montag retourne son lance-flammes contre lui et le tue. Il détruit aussi le Limier, qui a eu le temps de le blesser à la jambe.</p>
+      <p><span class="tag tpc">3</span> Montag fuit. Faber part pour Saint Louis retrouver un ancien imprimeur. Un nouveau Limier est lancé et la poursuite est diffusée en direct à la télévision. Montag se jette dans le fleuve, qui l'emporte hors de la ville.</p>
+      <p><span class="tag tpc">3</span> Il rejoint Granger et les « hommes-livres », d'anciens intellectuels qui ont chacun appris un livre par cœur. À la télévision, ils voient la police « arrêter » un faux Montag pour terminer le spectacle. Puis la guerre éclate : en quelques secondes, des bombes détruisent la ville. À l'aube, Granger parle du phénix, l'oiseau qui renaît de ses cendres. Le groupe repart vers la ville en ruines pour aider à la reconstruire ; Montag porte en mémoire un livre de la Bible, l'Ecclésiaste.</p>
+      <p class="small"><strong>Dans ton récit, ne révèle pas cette fin :</strong> ton résumé doit donner envie de lire, pas tout raconter.</p>
+    </div>
+  </details>
+
+  <h3>Les personnages</h3>
+  <p class="small muted">Code couleur : bleu pour Montag, gris-bleu pour le camp du feu et des écrans, sarcelle pour le camp des livres.</p>
+  <div class="grid3">
+    <div class="perso mon"><h5>Guy Montag</h5>Pompier, 30 ans. Au début, il aime brûler. Les questions de Clarisse réveillent sa curiosité : il doute, vole des livres, veut apprendre à les comprendre. Impulsif, parfois naïf, il change complètement au fil du roman.</div>
+    <div class="perso lib"><h5>Clarisse McClellan</h5>Voisine de 17 ans, jugée « insociable » parce qu'elle marche, observe la pluie et la lune, et pose des questions. Elle n'apparaît que dans la première partie, mais elle déclenche tout.</div>
+    <div class="perso sys"><h5>Mildred</h5>La femme de Montag. Elle passe ses journées devant les murs-écrans, avec ses « coquillages » dans les oreilles, et réclame un quatrième mur. Sa tentative de suicide, qu'elle oublie aussitôt, montre que le « bonheur » de cette société cache un grand malheur.</div>
+    <div class="perso sys"><h5>Le capitaine Beatty</h5>Chef des pompiers, l'adversaire de Montag. Très cultivé, il cite les livres qu'il fait brûler. Il prouve que la culture seule ne suffit pas à rendre libre.</div>
+    <div class="perso lib"><h5>Faber</h5>Ancien professeur d'anglais, à la retraite. Il a vu venir la catastrophe mais s'est tu par peur. Il devient le guide de Montag.</div>
+    <div class="perso lib"><h5>Granger</h5>Chef des « hommes-livres », qui vivent hors de la ville. Patient et sage, il pense au temps long et à la reconstruction.</div>
+    <div class="perso lib"><h5>La vieille dame</h5>Elle préfère mourir avec ses livres plutôt que de les abandonner. Son sacrifice bouleverse Montag.</div>
+    <div class="perso sys"><h5>Le Limier mécanique</h5>Robot à huit pattes de la caserne, qui traque les suspects à l'odeur. Il gronde dès que Montag s'approche, comme s'il le soupçonnait.</div>
+  </div>
+
+  <div class="quiz" data-quiz="q2"></div>
+</section>
+
+<!-- ============ 4 ============ -->
+<section class="step" id="s4" data-title="Lire en profondeur">
+  <h2>4. Lire en profondeur</h2>
+  <p class="kicker">Pour argumenter, tu as besoin de matière : comment le roman est raconté, de quoi il parle vraiment, comment il est écrit. Chaque carte peut devenir un argument.</p>
+
+  <h3>Qui raconte ?</h3>
+  <table>
+    <tbody>
+      <tr><td><strong>Personne</strong></td><td>3ᵉ personne : Montag est désigné par « il ».</td></tr>
+      <tr><td><strong>Narrateur</strong></td><td><strong>Hétérodiégétique</strong> : il est absent de l'histoire qu'il raconte.</td></tr>
+      <tr><td><strong>Point de vue</strong></td><td>Le narrateur suit Montag de très près : on voit le monde par ses yeux, on entend ses pensées, ses doutes, ses peurs. C'est une <strong>focalisation interne</strong>.</td></tr>
+      <tr><td><strong>Effet sur le lecteur</strong></td><td>On découvre la société en même temps que Montag ouvre les yeux. On partage son malaise, puis son éveil.</td></tr>
+    </tbody>
+  </table>
+  <div class="box warn small"><strong>Piège à éviter :</strong> l'auteur (Ray Bradbury) n'est pas le narrateur, ni Montag. Bradbury n'a jamais été pompier : il a imaginé ce personnage pour nous mettre en garde.</div>
+
+  <h3>Les grands thèmes</h3>
+  <details open>
+    <summary>La censure et l'autodafé</summary>
+    <div class="inner"><p>Brûler les livres, c'est effacer la mémoire et empêcher de penser autrement. Mais Beatty explique que tout n'est pas venu d'un dictateur : les gens ont d'abord cessé de lire, et l'État a interdit ce que plus personne ne défendait.</p></div>
+  </details>
+  <details>
+    <summary>Les écrans et le divertissement permanent</summary>
+    <div class="inner"><p>Murs-écrans, « famille » de télévision, coquillages dans les oreilles : on n'est jamais seul avec soi-même, donc on ne réfléchit plus. Le roman pose une question très actuelle : qui décide de ce que nous regardons, et pourquoi ?</p></div>
+  </details>
+  <details>
+    <summary>Le bonheur imposé et le conformisme</summary>
+    <div class="inner"><p>Tout le monde doit être « heureux » et pareil. Clarisse, qui se promène et pose des questions, est jugée anormale. Mais Mildred, qui a tout ce qu'elle désire, avale des somnifères : ce bonheur est une façade.</p></div>
+  </details>
+  <details>
+    <summary>La mémoire et la transmission</summary>
+    <div class="inner"><p>Les hommes-livres apprennent les textes par cœur pour les transmettre. La culture survit tant que des humains la portent en eux.</p></div>
+  </details>
+  <details>
+    <summary>Le feu, destructeur ou lumineux</summary>
+    <div class="inner"><p>Au début, le feu détruit. À la fin, il réchauffe et éclaire, comme le feu de camp des hommes-livres. Le titre de la 3ᵉ partie, <em>L'éclat de la flamme</em>, montre ce changement de sens.</p></div>
+  </details>
+  <details>
+    <summary>Des symboles à repérer</summary>
+    <div class="inner">
+      <ul>
+        <li><strong>La salamandre :</strong> dans les légendes, un animal qui vit dans le feu sans brûler. C'est l'emblème des pompiers.</li>
+        <li><strong>Le phénix :</strong> l'oiseau qui meurt dans les flammes et renaît de ses cendres. Il annonce la renaissance de l'humanité.</li>
+        <li><strong>Le tamis et le sable :</strong> l'image de ce qu'on n'arrive pas à retenir quand on lit dans le bruit.</li>
+        <li><strong>Le fleuve :</strong> il emporte Montag hors de la ville, comme une seconde naissance.</li>
+      </ul>
+    </div>
+  </details>
+
+  <h3>Le style</h3>
+  <p>L'écriture de Bradbury est très <strong>imagée</strong> : beaucoup de comparaisons et de métaphores (le lance-flammes devient un énorme serpent qui crache du pétrole, par exemple). Dès la première phrase, brûler est présenté comme un <strong>plaisir</strong>, ce qui choque le lecteur. Le roman cite aussi d'autres textes (la Bible, des poèmes) : ces citations rappellent ce que la société a perdu.</p>
+
+  <h3>Observer, ressentir, interpréter</h3>
+  <div class="grid2">
+    <div class="box">
+      <h4>Observer (objectif)</h4>
+      <p class="small">Ce que tout lecteur peut constater dans le livre.</p>
+      <ul class="small">
+        <li>Les pompiers brûlent les livres au lieu d'éteindre les incendies.</li>
+        <li>Le roman a trois parties, qui portent chacune un titre.</li>
+        <li>Mildred passe ses journées devant les murs-écrans.</li>
+      </ul>
+    </div>
+    <div class="box">
+      <h4>Interpréter (subjectif)</h4>
+      <p class="small">Le sens que tu donnes à ce que tu as observé.</p>
+      <ul class="small">
+        <li>Les pompiers incendiaires montrent un monde à l'envers.</li>
+        <li>Les titres des parties racontent l'éveil de Montag.</li>
+        <li>Mildred ressemble à quelqu'un d'accro à son téléphone.</li>
+      </ul>
+    </div>
+  </div>
+
+  <h3>La boîte à arguments pour un roman</h3>
+  <table>
+    <thead><tr><th>Aspect</th><th>La question à te poser</th><th>Exemple possible dans <em>Fahrenheit 451</em></th></tr></thead>
+    <tbody>
+      <tr><td>Univers (anticipation)</td><td>Le monde imaginé est-il crédible ? Ressemble-t-il au nôtre ?</td><td>Les murs-écrans, les coquillages, le Limier mécanique.</td></tr>
+      <tr><td>Construction (narratologie)</td><td>Comment l'histoire est-elle organisée ?</td><td>Les trois parties et leurs titres, qui suivent l'éveil de Montag.</td></tr>
+      <tr><td>Personnages</td><td>Sont-ils crédibles ? Évoluent-ils ?</td><td>Montag qui change ; Beatty, cultivé mais destructeur ; Clarisse.</td></tr>
+      <tr><td>Style (esthétique)</td><td>Comment l'auteur écrit-il ?</td><td>Les métaphores du feu, la première phrase.</td></tr>
+      <tr><td>Message (sémiologie)</td><td>Que veut dire l'œuvre ? Quels symboles ?</td><td>Le phénix, la salamandre, le tamis et le sable.</td></tr>
+      <tr><td>Contexte (histoire)</td><td>Que dit l'œuvre de son époque ? Et de la nôtre ?</td><td>Le maccarthysme, la télévision ; nos écrans et les livres retirés des bibliothèques.</td></tr>
+    </tbody>
+  </table>
+
+  <h3>Des scènes à citer comme exemples</h3>
+  <p class="small muted">Un argument doit toujours être illustré par un passage précis. Voici des scènes faciles à retrouver (celles marquées « fin » ne doivent pas être racontées en détail).</p>
+  <div class="box">
+    <div class="scene"><span class="who"><span class="tag tpa">1</span></span><span>La rencontre avec Clarisse et sa question : « Est-ce que vous êtes heureux ? »</span></div>
+    <div class="scene"><span class="who"><span class="tag tpa">1</span></span><span>Mildred et le flacon de somnifères, « réparée » par deux techniciens.</span></div>
+    <div class="scene"><span class="who"><span class="tag tpa">1</span></span><span>La vieille dame qui refuse de quitter ses livres.</span></div>
+    <div class="scene"><span class="who"><span class="tag tpa">1</span></span><span>Le long discours de Beatty sur l'histoire de la censure.</span></div>
+    <div class="scene"><span class="who"><span class="tag tpb">2</span></span><span>Montag qui lit la Bible dans le métro, couvert par la publicité.</span></div>
+    <div class="scene"><span class="who"><span class="tag tpb">2</span></span><span>La lecture de <em>La Plage de Douvres</em> aux amies de Mildred.</span></div>
+    <div class="scene"><span class="who"><span class="tag t4">fin</span></span><span>La maison qui brûle ; la fuite par le fleuve ; les hommes-livres.</span></div>
+  </div>
+
+  <div class="quiz" data-quiz="q3"></div>
+</section>
+
+<!-- ============ 5 ============ -->
+<section class="step" id="s5" data-title="Le récit de rencontre : modèle">
+  <h2>5. Le récit de rencontre : un modèle</h2>
+  <p class="kicker">Un récit d'expérience culturelle est un <strong>texte personnel</strong> qui raconte ta rencontre avec une œuvre. Son but : <strong>donner envie au lecteur de la découvrir</strong>.</p>
+
+  <h3>La structure : 3 parties + une conclusion</h3>
+  <p class="small muted">Le même code couleur est utilisé dans le brouillon de l'étape 6.</p>
+  <div class="part p1">
+    <h4><span class="tag t1">1</span> Partie informative : la carte d'identité</h4>
+    <p style="margin:.2rem 0">Titre, auteur, date, genre, éditeur, traducteur. Tu as déjà tout à l'étape 1.</p>
+  </div>
+  <div class="part p2">
+    <h4><span class="tag t2">2</span> Contexte + narration</h4>
+    <p style="margin:.2rem 0"><strong>Le contexte</strong> : où, quand, avec qui, pourquoi as-tu lu ce livre ? Qu'en attendais-tu ? Quels étaient tes a priori (sur la science-fiction, sur un livre des années 1950, sur la lecture) ?</p>
+    <p style="margin:.4rem 0 .2rem"><strong>Le résumé apéritif</strong> : la situation de départ et l'enjeu, <strong>sans la fin</strong>. Tu peux finir par une question.</p>
+  </div>
+  <div class="part p3">
+    <h4><span class="tag t3">3</span> Partie argumentative : ton avis motivé</h4>
+    <ul style="margin:.2rem 0">
+      <li><strong>Au moins 3 arguments</strong>, chacun sur un aspect différent (univers, personnages, style, message…).</li>
+      <li>Chaque argument est <strong>illustré par une scène précise</strong> du roman.</li>
+      <li>Une <strong>nuance</strong> (un point négatif) rend ton avis plus crédible.</li>
+    </ul>
+  </div>
+  <div class="part p4">
+    <h4><span class="tag t4">4</span> Conclusion</h4>
+    <p style="margin:.2rem 0">Une émotion précise, un bilan, et une <strong>recommandation</strong> : à qui conseillerais-tu ce livre, et pourquoi ?</p>
+  </div>
+
+  <h3>Exemple résolu et commenté</h3>
+  <p>Lis le texte à gauche, puis le commentaire à droite. <span class="small muted">Texte écrit pour un élève imaginaire : c'est un modèle de structure, pas un texte à recopier.</span></p>
+  <div class="annot">
+    <div class="row r1">
+      <div class="txt">« Fahrenheit 451 » est un roman d'anticipation de l'écrivain américain Ray Bradbury, publié en 1953 et traduit en français en 1955. Je l'ai lu dans la traduction de Jacques Chambon et Henri Robillot, en Folio SF. Le titre désigne la température à laquelle le papier s'enflamme.</div>
+      <div class="note"><span class="tag t1">Informative</span><br>Titre, genre, auteur, dates, traducteurs, édition + le sens du titre : la carte d'identité est complète, en phrases.</div>
+    </div>
+    <div class="row r2">
+      <div class="txt">Je l'ai découvert pour le cours de français, pendant les vacances d'hiver. Un roman de science-fiction écrit dans les années 1950 ? Je m'attendais à des robots ridicules et à des soucoupes volantes. J'avoue que j'avais d'abord cherché un résumé sur mon téléphone…</div>
+      <div class="note"><span class="tag t2">Contexte</span><br>Quand, pourquoi + deux a priori (le genre, l'époque) et un aveu sincère. Le lecteur sait d'où part l'élève.</div>
+    </div>
+    <div class="row r2">
+      <div class="txt">Dans une ville américaine du futur, les pompiers n'éteignent plus les incendies : ils brûlent les livres, interdits par la loi. Guy Montag aime son métier, jusqu'au soir où une jeune voisine, Clarisse, lui pose une question toute simple : est-il heureux ? Peu à peu, Montag commence à douter, et il cache des livres chez lui. Jusqu'où ira-t-il ?</div>
+      <div class="note"><span class="tag t2">Narration</span><br>Résumé apéritif au présent : le monde, le héros, l'élément déclencheur, l'enjeu. Aucune fin révélée ; la question finale donne envie.</div>
+    </div>
+    <div class="row r3">
+      <div class="txt">Trois choses m'ont fait changer d'avis. D'abord, <mark class="arg">l'univers</mark> ressemble beaucoup au nôtre : Mildred, la femme de Montag, passe ses journées devant des murs-écrans et appelle « la famille » les personnages de ses émissions. J'ai pensé à mes propres heures sur les réseaux sociaux. Ensuite, <mark class="arg">le personnage de Montag</mark> évolue de façon saisissante : fier de brûler au début, il est bouleversé quand une vieille dame préfère mourir avec ses livres plutôt que de les abandonner. Enfin, <mark class="arg">les symboles</mark> donnent du sens à l'histoire : les titres des trois parties montrent que le feu, d'abord destructeur, finit par éclairer. Seul bémol : le long discours du capitaine Beatty, plein de références, est difficile à suivre.</div>
+      <div class="note"><span class="tag t3">Argumentative</span><br>3 arguments d'aspects différents (surlignés), chacun illustré par une scène précise. Connecteurs : d'abord, ensuite, enfin. Le lien avec l'élève reste ancré dans le roman. La nuance finale rend l'avis crédible.</div>
+    </div>
+    <div class="row r4">
+      <div class="txt">Bref, ce roman m'a troublé, et c'est la première fois qu'un livre m'a donné envie d'éteindre mon téléphone. Je le conseille à ceux qui pensent, comme moi avant, que la science-fiction ne parle que de robots : celle-ci parle de nous.</div>
+      <div class="note"><span class="tag t4">Conclusion</span><br>Émotion précise (« troublé »), bilan, recommandation ciblée qui renvoie à l'a priori du début.</div>
+    </div>
+  </div>
+
+  <h3>Les erreurs fréquentes avec ce roman</h3>
+  <table>
+    <thead><tr><th>Erreur</th><th>Exemple</th><th>Correction</th></tr></thead>
+    <tbody>
+      <tr><td>Se tromper sur le titre</td><td>« Le roman se passe en 451. »</td><td>451 degrés Fahrenheit : la température où le papier brûle.</td></tr>
+      <tr><td>Confondre auteur et personnage</td><td>« Bradbury raconte son métier de pompier. »</td><td>« Le roman suit Montag, un pompier imaginaire… »</td></tr>
+      <tr><td>Divulguer la fin</td><td>Raconter ce qui arrive à Beatty ou à la ville.</td><td>S'arrêter à l'enjeu : « Jusqu'où ira-t-il ? »</td></tr>
+      <tr><td>Confondre le film et le livre</td><td>Appeler la femme de Montag « Linda ».</td><td>Linda, c'est dans le film de Truffaut ; dans le roman, c'est Mildred.</td></tr>
+      <tr><td>Argument hors sujet</td><td>Un paragraphe entier sur les dangers des réseaux sociaux.</td><td>Partir du roman : « Mildred et ses murs-écrans m'ont fait penser à… »</td></tr>
+      <tr><td>Avis vague</td><td>« C'est un bon livre. »</td><td>« J'ai été mal à l'aise quand… parce que… »</td></tr>
+    </tbody>
+  </table>
+
+  <div class="quiz" data-quiz="q4"></div>
+  <div class="quiz" data-quiz="q5"></div>
+</section>
+
+<!-- ============ 6 ============ -->
+<section class="step" id="s6" data-title="À toi d'écrire">
+  <h2>6. À toi d'écrire</h2>
+  <p class="kicker">D'abord, note tes souvenirs « à chaud ». Ensuite, écris ton récit partie par partie. Les amorces sont facultatives : clique pour les insérer, puis complète. Tout est enregistré dans ce navigateur.</p>
+
+  <h3>Ma fiche d'archivage</h3>
+  <div class="arch" id="arch">
+    <label for="a-objet">Objet</label><input id="a-objet" value="Fahrenheit 451, Ray Bradbury, roman d'anticipation, 1953 (littérature)">
+    <label for="a-rencontre">Rencontre</label><input id="a-rencontre" placeholder="Quand ? Où ? Avec qui ? Dans quel cadre (cours, lecture personnelle…) ?">
+    <label for="a-chaud">À chaud</label><input id="a-chaud" placeholder="2 ou 3 mots d'émotion précis + un détail qui t'a marqué">
+    <label for="a-raisons">Raisons</label><textarea id="a-raisons" placeholder="Pourquoi cette lecture mérite-t-elle d'entrer dans ton recueil ?"></textarea>
+    <label for="a-traces">Traces</label><input id="a-traces" placeholder="Photo de la couverture, passage recopié, extrait du film de Truffaut…">
+  </div>
+
+  <h3>Mon brouillon guidé</h3>
+  <div class="emobank" aria-label="Banque de mots d'émotion">
+    <p>Mots d'émotion : clique pour insérer dans le champ où tu écris.</p>
+    <div class="row" id="emobank"></div>
+  </div>
+  <p class="small">Forme choisie pour ton récit :
+    <select id="forme" aria-label="Forme du récit">
+      <option>Avis argumenté</option><option>Lettre à un ami</option><option>Article de presse</option>
+      <option>Conversation de messagerie</option><option>Interview</option>
+    </select>
+    <span class="muted">La forme change la présentation, jamais les 4 parties.</span>
+  </p>
+  <div id="drafts"></div>
+  <div style="display:flex;gap:.5rem;flex-wrap:wrap;margin:.8rem 0">
+    <button class="btn primary" id="assemble">Assembler mon récit</button>
+    <button class="btn" id="copy">Copier le texte</button>
+    <button class="btn" id="clear">Tout effacer</button>
+  </div>
+  <div class="confirm" id="confirm" role="alert">
+    <span>Effacer tout le brouillon et la fiche d'archivage ?</span>
+    <button class="btn" id="clearYes">Oui, tout effacer</button>
+    <button class="btn" id="clearNo">Annuler</button>
+  </div>
+  <div id="assembled" aria-live="polite"><span class="muted small">Ton récit assemblé apparaîtra ici.</span></div>
+  <p class="small muted" id="wc"></p>
+
+  <h3>Les outils de langue</h3>
+  <table>
+    <thead><tr><th>Partie</th><th>Temps verbal</th><th>Connecteurs et tournures</th></tr></thead>
+    <tbody>
+      <tr><td><span class="tag t2">Contexte</span></td><td>Passé composé + imparfait</td><td>J'ai découvert ce roman… ; à l'époque, je pensais que… ; avant de l'ouvrir…</td></tr>
+      <tr><td><span class="tag t2">Résumé</span></td><td>Présent de narration</td><td>Dans une ville du futur… ; jusqu'au jour où… ; peu à peu… ; jusqu'où ira-t-il ?</td></tr>
+      <tr><td><span class="tag t3">Arguments</span></td><td>Présent (+ passé composé pour ton ressenti)</td><td>D'abord, ensuite, enfin ; par exemple ; comme dans la scène où ; en revanche ; seul bémol</td></tr>
+      <tr><td><span class="tag t4">Conclusion</span></td><td>Présent, conditionnel</td><td>Bref ; en définitive ; je conseillerais ce livre à… ; si tu aimes…, alors…</td></tr>
+    </tbody>
+  </table>
+
+  <h3>Ma checklist pour ce récit</h3>
+  <ul class="check" data-check="recit">
+    <li><input type="checkbox" id="cr1"><label for="cr1">La carte d'identité est complète (titre, auteur, date, genre, éditeur ou traducteur).</label></li>
+    <li><input type="checkbox" id="cr2"><label for="cr2">Le contexte dit où, quand, avec qui, pourquoi, et avec quels a priori j'ai lu ce livre.</label></li>
+    <li><input type="checkbox" id="cr3"><label for="cr3">Mon résumé présente le monde, Montag et l'enjeu, sans révéler la fin.</label></li>
+    <li><input type="checkbox" id="cr4"><label for="cr4">Je ne confonds pas l'auteur (Bradbury) et le personnage (Montag), ni le livre et le film.</label></li>
+    <li><input type="checkbox" id="cr5"><label for="cr5">J'ai au moins 3 arguments d'aspects différents, chacun illustré par une scène précise.</label></li>
+    <li><input type="checkbox" id="cr6"><label for="cr6">J'ai nommé mes émotions avec des mots précis et dit ce qui les a causées.</label></li>
+    <li><input type="checkbox" id="cr7"><label for="cr7">J'ai utilisé le vocabulaire de la littérature (dystopie, narrateur, personnage, symbole…).</label></li>
+    <li><input type="checkbox" id="cr8"><label for="cr8">Ma conclusion fait le bilan et recommande (ou non) le livre à un public précis.</label></li>
+    <li><input type="checkbox" id="cr9"><label for="cr9">J'ai joint des traces et relu l'orthographe.</label></li>
+  </ul>
+</section>
+
+<!-- ============ 7 ============ -->
+<section class="step" id="s7" data-title="Note pédagogique">
+  <h2>Note pédagogique (pour l'adulte accompagnant)</h2>
+  <p class="kicker">Comment cette page applique la théorie de la charge cognitive (Sweller) et la théorie cognitive de l'apprentissage multimédia (Mayer).</p>
+  <table>
+    <thead><tr><th>Principe</th><th>Ce qu'il dit</th><th>Application dans cette page</th></tr></thead>
+    <tbody>
+      <tr><td>Pré-entraînement</td><td>Connaître les concepts et les faits clés avant la tâche complexe réduit la charge pendant l'écriture.</td><td>Étapes 1 à 4 (identité, contexte, intrigue, analyse) avant le modèle (5) et l'écriture (6).</td></tr>
+      <tr><td>Segmentation</td><td>Découper en unités dont l'élève contrôle le rythme.</td><td>Une étape par écran, cartes ouvertes une à une, brouillon découpé en 7 blocs.</td></tr>
+      <tr><td>Signalisation</td><td>Rendre l'organisation visible.</td><td>Deux codes couleur constants et distincts : les trois parties du roman (rouge, ocre, bleu nuit) et les parties du récit (bleu, vert, orange, violet).</td></tr>
+      <tr><td>Multimédia / double codage</td><td>Texte + représentation visuelle valent mieux que texte seul.</td><td>Schéma de la transformation de Montag ; résumés en colonnes parallèles.</td></tr>
+      <tr><td>Contiguïté spatiale</td><td>Placer l'explication au plus près de ce qu'elle commente.</td><td>Exemple annoté ligne à ligne ; amorces et aides collées aux champs d'écriture.</td></tr>
+      <tr><td>Cohérence</td><td>Retirer l'inutile.</td><td>Pas d'images décoratives ; contexte et thèmes dans des cartes repliables ; dénouement isolé.</td></tr>
+      <tr><td>Exemples résolus et estompage</td><td>Exemple résolu → tâche guidée → tâche autonome.</td><td>Récit modèle commenté → amorces facultatives → checklist. L'élève avancé peut ignorer les amorces (effet d'inversion de l'expertise).</td></tr>
+      <tr><td>Pratique de récupération</td><td>Se tester consolide plus que relire.</td><td>Un quiz par étape, rétroaction immédiate et expliquée.</td></tr>
+      <tr><td>Effet de génération</td><td>Produire soi-même renforce la mémorisation.</td><td>Fiche d'archivage et brouillon guidé.</td></tr>
+      <tr><td>Personnalisation</td><td>Le style conversationnel favorise l'engagement.</td><td>Tutoiement, adresse directe.</td></tr>
+      <tr><td>Modalité</td><td>Image + narration orale mieux qu'image + texte écrit.</td><td>Pour un élève lecteur lent : l'adulte lit à voix haute les résumés et l'exemple commenté pendant que l'élève suit le schéma et les annotations.</td></tr>
+    </tbody>
+  </table>
+  <h3>Pistes d'accompagnement</h3>
+  <ul>
+    <li><strong>Avant la lecture :</strong> étapes 1 et 2 seulement, pour installer des attentes (le titre, le genre, l'époque).</li>
+    <li><strong>Pendant la lecture :</strong> étape 3 partie par partie, sans ouvrir le dénouement ; faire compléter la fiche d'archivage à la fin de chaque partie.</li>
+    <li><strong>Après la lecture :</strong> étapes 4 à 6. Pour un élève avec un trouble du langage écrit, on peut faire produire le récit à l'oral d'abord, puis le transcrire bloc par bloc. La version audio du roman (collection « Écoutez lire », Gallimard) peut soutenir la lecture.</li>
+    <li><strong>Prolongement :</strong> le <a href="https://rsamier-web.github.io/outils-pedagogiques/dossier_Fahrenheit_451.html">dossier Fahrenheit 451</a> (lexique, chronologie, liens avec l'actualité) nourrit l'argument « ce roman parle de nous ».</li>
+    <li><strong>Sensibilité du sujet :</strong> le roman évoque une tentative de suicide (Mildred), la mort de la vieille dame dans l'incendie et des morts violentes. À aborder avec tact si l'élève est concerné.</li>
+  </ul>
+  <h3>Sources des informations</h3>
+  <ul class="small">
+    <li>Ray Bradbury, <em>Fahrenheit 451</em>, trad. J. Chambon et H. Robillot, Gallimard, « Folio SF » ; notices de bibliothèques (Enssib, BnF).</li>
+    <li>Biographie de Bradbury : encyclopédies et notices d'archives (Online Archive of California).</li>
+    <li>Adaptations : presse spécialisée (Truffaut, 1966 ; Ramin Bahrani pour HBO, 2018).</li>
+    <li>Contexte et résumé détaillé : le dossier Fahrenheit 451 du même dépôt.</li>
+  </ul>
+  <p class="small muted">Accessibilité : police sans empattement, interligne 1,6, lignes d'environ 70 caractères, texte non justifié, contrastes suffisants. La page s'imprime proprement depuis le navigateur (les quiz et le brouillon sont masqués à l'impression).</p>
+</section>
+
+    <div class="pager" id="pager">
+      <button class="btn" id="prev">← Étape précédente</button>
+      <button class="btn primary" id="next">Étape suivante →</button>
+    </div>
+  </main>
+</div>
+
+<footer>Outil inspiré de « Le recueil d'expériences culturelles — la méthode pas à pas ». Œuvre étudiée : Ray Bradbury, <em>Fahrenheit 451</em>, 1953.</footer>
+
+<script>
+(function(){
+  "use strict";
+  var NS="f451:";
+  var store={
+    get:function(k,d){try{var v=localStorage.getItem(NS+k);return v===null?d:JSON.parse(v);}catch(e){return d;}},
+    set:function(k,v){try{localStorage.setItem(NS+k,JSON.stringify(v));}catch(e){}}
+  };
+
+  /* ---------- navigation ---------- */
+  var sections=Array.prototype.slice.call(document.querySelectorAll("section.step"));
+  var nav=document.getElementById("nav");
+  var seen=store.get("seen",{});
+  sections.forEach(function(s,i){
+    if(i===sections.length-1){var sep=document.createElement("div");sep.className="sep";nav.appendChild(sep);}
+    var b=document.createElement("button");
+    b.type="button";
+    b.innerHTML='<span class="n">'+(i===sections.length-1?"i":(i+1))+'</span><span class="t">'+s.dataset.title+'</span>';
+    b.addEventListener("click",function(){go(i);});
+    nav.appendChild(b);
+  });
+  var navBtns=nav.querySelectorAll("button");
+  var current=0;
+  function go(i){
+    current=Math.max(0,Math.min(sections.length-1,i));
+    sections.forEach(function(s,j){s.classList.toggle("active",j===current);});
+    navBtns.forEach(function(b,j){b.setAttribute("aria-current",j===current?"true":"false");});
+    seen[current]=true; store.set("seen",seen); store.set("current",current);
+    document.getElementById("prev").disabled=current===0;
+    var nx=document.getElementById("next");
+    nx.disabled=current===sections.length-1;
+    nx.textContent=current===sections.length-2?"Note pédagogique →":"Étape suivante →";
+    var n=Object.keys(seen).filter(function(k){return +k<sections.length-1;}).length;
+    document.getElementById("progress").textContent="Étapes vues : "+Math.min(n,sections.length-1)+" / "+(sections.length-1);
+    window.scrollTo(0,0);
+  }
+  document.getElementById("prev").addEventListener("click",function(){go(current-1);});
+  document.getElementById("next").addEventListener("click",function(){go(current+1);});
+
+  /* ---------- quiz ---------- */
+  var QUIZ={
+    q0:{title:"Vérifie : le roman en un coup d'œil",consigne:"Une seule réponse juste par question.",items:[
+      {q:"Qui a écrit Fahrenheit 451 ?",opts:["George Orwell","Ray Bradbury","François Truffaut"],a:1,
+       why:"Ray Bradbury l'a publié en 1953. Orwell a écrit une autre dystopie, 1984 ; Truffaut a réalisé le film de 1966."},
+      {q:"Que signifie le titre ?",opts:["L'année où se passe l'histoire","La température à laquelle le papier s'enflamme","Le numéro de la caserne de Montag"],a:1,
+       why:"451 degrés Fahrenheit, environ 233 °C : selon le roman, le papier des livres s'enflamme et brûle à cette température."},
+      {q:"À quel genre appartient ce roman ?",opts:["Roman policier","Dystopie (roman d'anticipation)","Autobiographie"],a:1,
+       why:"Il imagine une société future cauchemardesque pour mettre en garde le lecteur."}
+    ]},
+    q1:{title:"Vérifie : le contexte",consigne:"Une seule réponse juste par question.",items:[
+      {q:"Qu'est-ce qu'un autodafé ?",opts:["Une destruction publique de livres par le feu","Une voiture sans conducteur","Un pompier volontaire"],a:0,
+       why:"Le 10 mai 1933, les nazis organisent un grand autodafé à Berlin. Chaque intervention des pompiers du roman en est un."},
+      {q:"Qu'est-ce que le maccarthysme ?",opts:["Une mode littéraire","Une chasse aux communistes, réels ou supposés, aux États-Unis","Une marque de télévision"],a:1,
+       why:"À partir de 1950, le sénateur McCarthy encourage soupçons et dénonciations : le roman reflète ce climat."},
+      {q:"Quelle nouveauté inquiète Bradbury dans les années 1950 ?",opts:["L'arrivée de la télévision dans les foyers","L'invention de l'imprimerie","La fin de la radio"],a:0,
+       why:"Les « murs-écrans » du roman prolongent la télévision, qui se répand alors très vite."}
+    ]},
+    q2:{type:"sort",title:"Vérifie : qui est-ce ?",consigne:"Associe chaque description au bon personnage.",cats:["Montag","Clarisse","Mildred","Beatty","Faber"],items:[
+      {q:"Pompier depuis dix ans, il vole un livre chez la vieille dame.",a:0,why:"C'est le premier pas de Montag vers la lecture."},
+      {q:"Elle demande : « Est-ce que vous êtes heureux ? »",a:1,why:"La question de Clarisse réveille Montag."},
+      {q:"Elle réclame un quatrième mur-écran.",a:2,why:"Mildred vit pour sa « famille » de l'écran."},
+      {q:"Il connaît par cœur les livres qu'il fait brûler.",a:3,why:"Beatty est très cultivé : c'est tout le paradoxe du personnage."},
+      {q:"Ancien professeur, il guide Montag grâce à un écouteur.",a:4,why:"Faber devient le maître de Montag."},
+      {q:"Il cache une vingtaine de livres derrière la grille du climatiseur.",a:0,why:"Montag les montre à Mildred à la fin de la première partie."}
+    ]},
+    q3:{type:"sort",title:"Vérifie : observer ou interpréter ?",consigne:"Pour chaque phrase, choisis la bonne catégorie.",cats:["Observation","Interprétation"],items:[
+      {q:"Les pompiers brûlent les livres au lieu d'éteindre les incendies.",a:0,why:"C'est un fait du roman, vérifiable."},
+      {q:"Le roman est divisé en trois parties.",a:0,why:"Tout lecteur peut le constater."},
+      {q:"Le monde de Montag ressemble au nôtre, rempli d'écrans.",a:1,why:"Tu fais un rapprochement personnel : c'est une interprétation."},
+      {q:"Mildred avale tout un flacon de somnifères.",a:0,why:"C'est un événement raconté dans le livre."},
+      {q:"Le phénix représente l'espoir d'un nouveau départ pour l'humanité.",a:1,why:"Tu donnes un sens à un symbole."},
+      {q:"Bradbury veut nous avertir plutôt que prédire l'avenir.",a:1,why:"Tu formules l'intention de l'auteur : interprétation."}
+    ]},
+    q4:{type:"sort",title:"Vérifie : dans quelle partie du récit ?",consigne:"Classe chaque phrase dans la partie où elle a sa place.",cats:["Informative","Contexte / narration","Argumentative","Conclusion"],items:[
+      {q:"Fahrenheit 451 est une dystopie de Ray Bradbury, publiée en 1953.",a:0,why:"Titre, genre, auteur, date : carte d'identité."},
+      {q:"Je l'ai lu cet hiver ; la science-fiction ne m'attirait pas du tout.",a:1,why:"Circonstances de la lecture + a priori : contexte."},
+      {q:"Guy Montag, pompier, brûle les livres interdits, jusqu'au jour où…",a:1,why:"Début de résumé apéritif : narration."},
+      {q:"Le personnage de Beatty est fascinant, car il cite les livres qu'il brûle, comme lors de sa visite chez Montag…",a:2,why:"Argument sur un personnage, illustré par une scène."},
+      {q:"Je recommande ce livre à tous ceux qui ne lâchent jamais leur téléphone.",a:3,why:"Recommandation au lecteur : conclusion."}
+    ]},
+    q5:{title:"Vérifie : le meilleur résumé apéritif",consigne:"Lequel de ces résumés donne envie sans trop en dire ?",items:[
+      {q:"Choisis le meilleur résumé.",opts:[
+        "« C'est un livre sur les livres. Il est bien. »",
+        "« Montag finit par tuer son capitaine, s'enfuit par le fleuve et assiste à la destruction de la ville. »",
+        "« Dans un futur où les pompiers brûlent les livres, l'un d'eux commence à se poser des questions. Que risque-t-il s'il ose lire ? »"],a:2,
+       why:"Le 3ᵉ présente le monde, le héros et l'enjeu, puis s'arrête sur une question. Le 1ᵉʳ est trop vague ; le 2ᵉ divulgue la fin."}
+    ]}
+  };
+
+  function renderQuiz(el){
+    var Q=QUIZ[el.dataset.quiz]; if(!Q) return;
+    var isSort=Q.type==="sort", total=Q.items.length, done=0, good=0;
+    el.innerHTML='<h4>'+Q.title+'</h4><p class="consigne">'+Q.consigne+'</p>';
+    var scoreEl=document.createElement("div"); scoreEl.className="score";
+    var retry=document.createElement("button"); retry.className="btn"; retry.textContent="Recommencer"; retry.style.display="none";
+    retry.style.marginTop=".5rem";
+    retry.addEventListener("click",function(){renderQuiz(el);});
+    Q.items.forEach(function(it){
+      var box=document.createElement("div"); box.className="qitem";
+      var p=document.createElement("p"); p.className="q"; p.textContent=it.q; box.appendChild(p);
+      var opts=document.createElement("div"); opts.className="opts";
+      var labels=isSort?Q.cats:it.opts;
+      if(!isSort){opts.style.flexDirection="column";opts.style.alignItems="flex-start";}
+      var fb=document.createElement("div"); fb.className="fb";
+      labels.forEach(function(lab,k){
+        var b=document.createElement("button"); b.type="button"; b.textContent=lab;
+        if(!isSort) b.style.textAlign="left";
+        b.addEventListener("click",function(){
+          var ok=k===it.a;
+          opts.querySelectorAll("button").forEach(function(x,j){x.disabled=true;if(j===it.a)x.classList.add("good");});
+          if(!ok) b.classList.add("bad");
+          fb.className="fb show "+(ok?"ok":"ko");
+          fb.textContent=(ok?"Exact. ":"Pas tout à fait : la bonne réponse est « "+labels[it.a]+" ». ")+it.why;
+          done++; if(ok) good++;
+          scoreEl.textContent=done===total?("Score : "+good+" / "+total+(good===total?" — parfait !":" — relis les explications, puis recommence si besoin.")):"";
+          if(done===total) retry.style.display="inline-block";
+        });
+        opts.appendChild(b);
+      });
+      box.appendChild(opts); box.appendChild(fb); el.appendChild(box);
+    });
+    el.appendChild(scoreEl);
+    el.appendChild(retry);
+  }
+  document.querySelectorAll(".quiz").forEach(renderQuiz);
+
+  /* ---------- checklists ---------- */
+  document.querySelectorAll("[data-check] input[type=checkbox]").forEach(function(cb){
+    cb.checked=!!store.get("cb:"+cb.id,false);
+    cb.addEventListener("change",function(){store.set("cb:"+cb.id,cb.checked);});
+  });
+
+  /* ---------- fiche d'archivage ---------- */
+  var ARCH=["a-objet","a-rencontre","a-chaud","a-raisons","a-traces"];
+  ARCH.forEach(function(id){
+    var f=document.getElementById(id);
+    var v=store.get("arch:"+id,null); if(v!==null) f.value=v;
+    f.addEventListener("input",function(){store.set("arch:"+id,f.value);});
+  });
+
+  /* ---------- forme ---------- */
+  var forme=document.getElementById("forme");
+  forme.value=store.get("forme","Avis argumenté");
+  forme.addEventListener("change",function(){store.set("forme",forme.value);});
+
+  /* ---------- brouillon guidé ---------- */
+  var lastField=null;
+  function insertAt(ta,s,key){
+    var pos=(typeof ta.selectionStart==="number")?ta.selectionStart:ta.value.length;
+    var before=ta.value.slice(0,pos), after=ta.value.slice(pos);
+    var sep=(before && !/\s$/.test(before))?" ":"";
+    ta.value=before+sep+s+after; ta.focus();
+    var np=(before+sep+s).length; ta.setSelectionRange(np,np);
+    store.set("d:"+key,ta.value);
+  }
+  var DRAFT=[
+    {k:"identite",p:"p1",tag:"Informative",t:"Carte d'identité",
+     help:"Titre, auteur, genre, date, éditeur ou traducteur, sens du titre. En une ou deux phrases, pas en liste.",
+     s:["« Fahrenheit 451 » est un roman d'anticipation de Ray Bradbury, ","publié en 1953 et traduit en français en 1955. ","Le titre désigne la température à laquelle le papier s'enflamme. "]},
+    {k:"contexte",p:"p2",tag:"Contexte",t:"Ma rencontre avec le livre",
+     help:"Où, quand, avec qui, pourquoi ? Tes attentes et tes a priori (sur la science-fiction, sur un livre ancien, sur la lecture). Passé composé et imparfait.",
+     s:["J'ai découvert ce roman ","Avant de l'ouvrir, je pensais que ","Un roman de science-fiction des années 1950 ? ","Je l'ai lu "]},
+    {k:"resume",p:"p2",tag:"Narration",t:"Le résumé apéritif",
+     help:"Le monde, Montag, l'élément déclencheur, l'enjeu. Pas la fin ! Présent de narration. Termine par une question.",
+     s:["Dans une ville américaine du futur, ","les pompiers ne font plus ","Guy Montag aime son métier, jusqu'au jour où ","Jusqu'où ira-t-il ?"]},
+    {k:"arg1",p:"p3",tag:"Argument 1",t:"Premier argument",
+     help:"Un aspect (univers, construction, personnage, style, message, contexte) + une scène précise qui l'illustre.",
+     s:["D'abord, ","l'univers du roman ","Par exemple, ","comme dans la scène où ","Cela m'a "]},
+    {k:"arg2",p:"p3",tag:"Argument 2",t:"Deuxième argument",
+     help:"Un aspect différent du premier, illustré lui aussi.",
+     s:["Ensuite, ","le personnage de ","On le voit bien quand ","J'ai été "]},
+    {k:"arg3",p:"p3",tag:"Argument 3",t:"Troisième argument (+ nuance)",
+     help:"Encore un autre aspect. Tu peux ajouter une nuance négative pour rendre ton avis crédible.",
+     s:["Enfin, ","les symboles ","le message du roman ","Seul bémol : ","En revanche, "]},
+    {k:"conclusion",p:"p4",tag:"Conclusion",t:"Conclusion",
+     help:"Une émotion précise, un bilan, une recommandation ciblée (à qui ? pourquoi ?). Tu peux faire écho à ton a priori du début.",
+     s:["Bref, ","ce roman m'a ","Je le conseille à ceux qui ","comme moi avant, ","Si tu aimes "]}
+  ];
+  var dWrap=document.getElementById("drafts");
+  DRAFT.forEach(function(d){
+    var box=document.createElement("div"); box.className="draft "+d.p;
+    var tnum=d.p==="p1"?"t1":d.p==="p2"?"t2":d.p==="p3"?"t3":"t4";
+    box.innerHTML='<label for="d-'+d.k+'"><span class="tag '+tnum+'">'+d.tag+'</span>'+d.t+'</label><p class="help">'+d.help+'</p>';
+    var st=document.createElement("div"); st.className="starters";
+    var ta=document.createElement("textarea"); ta.id="d-"+d.k; ta.value=store.get("d:"+d.k,"");
+    ta.addEventListener("input",function(){store.set("d:"+d.k,ta.value);});
+    ta.addEventListener("focus",function(){lastField={ta:ta,k:d.k};});
+    d.s.forEach(function(s){
+      var b=document.createElement("button"); b.type="button"; b.textContent=s.trim()+"…";
+      b.addEventListener("click",function(){insertAt(ta,s,d.k);});
+      st.appendChild(b);
+    });
+    box.appendChild(st); box.appendChild(ta); dWrap.appendChild(box);
+  });
+
+  /* ---------- banque d'émotions ---------- */
+  var EMO=["troublé(e)","mal à l'aise","angoissé(e)","oppressé(e)","révolté(e)","indigné(e)","inquiet (inquiète)","bouleversé(e)",
+           "ému(e)","fasciné(e)","intrigué(e)","admiratif(-ive)","plein(e) d'espoir","surpris(e)"];
+  var eb=document.getElementById("emobank");
+  EMO.forEach(function(w){
+    var b=document.createElement("button"); b.type="button"; b.textContent=w;
+    b.addEventListener("mousedown",function(e){e.preventDefault();});
+    b.addEventListener("click",function(){
+      var f=lastField||{ta:document.getElementById("d-contexte"),k:"contexte"};
+      insertAt(f.ta,w+" ",f.k);
+    });
+    eb.appendChild(b);
+  });
+
+  /* ---------- assemblage ---------- */
+  var out=document.getElementById("assembled"), wc=document.getElementById("wc");
+  function val(k){return document.getElementById("d-"+k).value.trim();}
+  function assemble(){
+    var paras=[];
+    var p1=[val("identite"),val("contexte")].filter(Boolean).join(" ");
+    if(p1) paras.push(p1);
+    if(val("resume")) paras.push(val("resume"));
+    var args=[val("arg1"),val("arg2"),val("arg3")].filter(Boolean).join(" ");
+    if(args) paras.push(args);
+    if(val("conclusion")) paras.push(val("conclusion"));
+    if(!paras.length){out.innerHTML='<span class="muted small">Écris au moins une partie pour l\'assembler.</span>';wc.textContent="";return "";}
+    var txt=paras.join("\n\n");
+    out.textContent="["+forme.value+"]\n\n"+txt;
+    var words=txt.split(/\s+/).filter(Boolean).length;
+    var missing=DRAFT.filter(function(d){return !val(d.k);}).map(function(d){return d.t;});
+    var warn="";
+    if(/hommes?-livres|fleuve|bombe|guerre éclate|ville (est )?détruite|tue (le capitaine|Beatty)|Beatty (meurt|est tué)/i.test(val("resume"))) warn=" · Attention : ton résumé semble révéler la fin du roman.";
+    if(/Bradbury\s+(raconte\s+son|est\s+(un\s+)?pompier|brûle)/i.test(txt)) warn+=" · Attention : Bradbury est l'auteur, pas le personnage.";
+    if(/\bLinda\b/.test(txt)) warn+=" · Attention : « Linda » est le nom de la femme de Montag dans le film ; dans le roman, elle s'appelle Mildred.";
+    wc.textContent=words+" mots · "+paras.length+" paragraphe(s)"+(missing.length?" · Il manque : "+missing.join(", "):" · Toutes les parties sont présentes.")+warn;
+    return out.textContent;
+  }
+  document.getElementById("assemble").addEventListener("click",assemble);
+  document.getElementById("copy").addEventListener("click",function(){
+    var t=assemble(); if(!t) return;
+    var btn=this;
+    function done(){btn.textContent="Copié ✓";setTimeout(function(){btn.textContent="Copier le texte";},1500);}
+    function fallback(){var a=document.createElement("textarea");a.value=t;document.body.appendChild(a);a.select();
+      try{document.execCommand("copy");}catch(e){} document.body.removeChild(a);done();}
+    try{
+      if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(t).then(done,fallback);}
+      else fallback();
+    }catch(e){fallback();}
+  });
+  var confirmBox=document.getElementById("confirm");
+  document.getElementById("clear").addEventListener("click",function(){confirmBox.classList.add("show");});
+  document.getElementById("clearNo").addEventListener("click",function(){confirmBox.classList.remove("show");});
+  document.getElementById("clearYes").addEventListener("click",function(){
+    DRAFT.forEach(function(d){document.getElementById("d-"+d.k).value="";store.set("d:"+d.k,"");});
+    ARCH.forEach(function(id){var f=document.getElementById(id);f.value=(id==="a-objet")?f.defaultValue:"";store.set("arch:"+id,f.value);});
+    out.innerHTML='<span class="muted small">Ton récit assemblé apparaîtra ici.</span>'; wc.textContent="";
+    confirmBox.classList.remove("show");
+  });
+
+  go(store.get("current",0));
+})();
+</script>
+</body>
+</html>
