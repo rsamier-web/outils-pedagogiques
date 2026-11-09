@@ -1,0 +1,1614 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Réponse immunitaire adaptative</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap">
+<style>
+/* Style KDE Breeze — barre d'outils, barre latérale, vue centrale encadrée.
+   Codes couleur constants (signalisation, théorie de l'apprentissage multimédia) :
+   vert = lymphocytes B / anticorps · violet = LT4 auxiliaires · rouge = LT8 cytotoxiques
+   orange = antigène / microbe · sarcelle = cellules de l'immunité innée (CPA, macrophage)
+   bleu = cellule du soi · contour pointillé = cellule mémoire · jaune = interleukine */
+:root{
+  --win:#eff0f1; --view:#fcfcfc; --alt:#f4f5f6; --fg:#232629; --fg2:#5f6a74; --line:#d5d9dc; --line2:#b8bfc5;
+  --accent:#3daee9; --accent-strong:#1d87bf; --accent-bg:#e2f2fb;
+  --pos:#27ae60; --pos-fg:#1c7d45; --pos-bg:#e3f4ea;
+  --neg:#da4453; --neg-fg:#b22a39; --neg-bg:#fae5e7;
+  --neu:#f67400; --neu-fg:#a94f00; --neu-bg:#fdeedd;
+  --lb:#27ae60; --lb-bg:#dcf1e4;
+  --lt4:#8e44ad; --lt4-bg:#efe3f5;
+  --lt8:#da4453; --lt8-bg:#fae3e5;
+  --ag:#f67400; --ag-bg:#fdecd9;
+  --cpa:#16a085; --cpa-bg:#d9f1ec;
+  --soi:#2980b9; --soi-bg:#e0edf8;
+  --il:#d4a000;
+  --gang:#f3f6f8; --tissu:#f7f1ea;
+  --font:"Noto Sans","Segoe UI",system-ui,-apple-system,sans-serif;
+  --r:4px;
+  color-scheme:light;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --win:#202326; --view:#141618; --alt:#1b1d20; --fg:#fcfcfc; --fg2:#a7b0b8; --line:#363b41; --line2:#4c535a;
+    --accent:#3daee9; --accent-strong:#6cc4f0; --accent-bg:#163647;
+    --pos:#27ae60; --pos-fg:#62d394; --pos-bg:#14301e;
+    --neg:#da4453; --neg-fg:#f2808c; --neg-bg:#3a1a1f;
+    --neu:#f67400; --neu-fg:#ffa451; --neu-bg:#382410;
+    --lb:#3cc174; --lb-bg:#15301f; --lt4:#bb8fd6; --lt4-bg:#2c1d36; --lt8:#ee6a77; --lt8-bg:#3a1a1f;
+    --ag:#ff9a40; --ag-bg:#3a2612; --cpa:#48c9b0; --cpa-bg:#123029; --soi:#5dade2; --soi-bg:#15293a;
+    --il:#ffd04d; --gang:#1a1e22; --tissu:#231f1b;
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --win:#202326; --view:#141618; --alt:#1b1d20; --fg:#fcfcfc; --fg2:#a7b0b8; --line:#363b41; --line2:#4c535a;
+  --accent:#3daee9; --accent-strong:#6cc4f0; --accent-bg:#163647;
+  --pos:#27ae60; --pos-fg:#62d394; --pos-bg:#14301e;
+  --neg:#da4453; --neg-fg:#f2808c; --neg-bg:#3a1a1f;
+  --neu:#f67400; --neu-fg:#ffa451; --neu-bg:#382410;
+  --lb:#3cc174; --lb-bg:#15301f; --lt4:#bb8fd6; --lt4-bg:#2c1d36; --lt8:#ee6a77; --lt8-bg:#3a1a1f;
+  --ag:#ff9a40; --ag-bg:#3a2612; --cpa:#48c9b0; --cpa-bg:#123029; --soi:#5dade2; --soi-bg:#15293a;
+  --il:#ffd04d; --gang:#1a1e22; --tissu:#231f1b;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+html{scroll-padding-top:calc(60px + env(safe-area-inset-top,0px))}
+body{margin:0;background:var(--win);color:var(--fg);font-family:var(--font);font-size:15.5px;line-height:1.55;
+  padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+body.big{font-size:18px}
+button,select,textarea,input{font:inherit;color:inherit}
+h1,h2,h3{margin:0;line-height:1.3}
+h1{font-size:1.35rem;font-weight:600}
+h2{font-size:1.12rem;font-weight:600}
+h3{font-size:1rem;font-weight:600}
+p{margin:0}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+@media (prefers-reduced-motion: reduce){*{transition:none!important;animation:none!important}}
+
+.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:10;background:var(--view);border-bottom:1px solid var(--line);display:flex;align-items:center;gap:12px;padding:8px 16px;min-height:54px}
+.top .ttl{display:flex;flex-direction:column;min-width:0;flex:1}
+.top .ttl b{font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.top .ttl span{font-size:.8rem;color:var(--fg2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.meter{display:flex;align-items:center;gap:8px;font-size:.8rem;color:var(--fg2)}
+.meter .bar{width:90px;height:6px;border-radius:3px;background:var(--line);overflow:hidden}
+.meter .bar i{display:block;height:100%;background:var(--accent);transition:width .3s}
+@media(max-width:620px){.meter .bar{width:46px}.top .ttl span{display:none}}
+
+.shell{display:grid;grid-template-columns:270px minmax(0,1fr);max-width:1260px;margin:0 auto}
+.side{position:sticky;top:54px;align-self:start;max-height:calc(100vh - 54px);overflow:auto;padding:12px 10px 30px;border-right:1px solid var(--line)}
+.side .grp{font-size:.75rem;color:var(--fg2);padding:12px 10px 4px;letter-spacing:.03em;text-transform:uppercase}
+.navi{display:flex;align-items:center;gap:8px;width:100%;text-align:left;border:1px solid transparent;background:none;border-radius:3px;padding:6px 10px;cursor:pointer;font-size:.93rem;line-height:1.35}
+.navi:hover{background:color-mix(in srgb,var(--accent) 12%,transparent)}
+.navi[aria-current="page"]{background:color-mix(in srgb,var(--accent) 22%,transparent);border-color:var(--accent)}
+.navi .n{width:20px;height:20px;flex:none;border-radius:50%;border:1px solid var(--line2);font-size:.7rem;display:grid;place-items:center;color:var(--fg2)}
+.navi .n.done{background:var(--pos);border-color:var(--pos);color:#fff}
+.navi .lab{flex:1;min-width:0}
+.navi .cnt{font-size:.74rem;color:var(--fg2)}
+main{min-width:0;padding:24px 28px 80px}
+.wrap{max-width:900px;margin:0 auto;display:flex;flex-direction:column;gap:18px}
+@media(max-width:860px){
+  .shell{grid-template-columns:1fr}
+  .side{position:sticky;top:54px;z-index:9;max-height:none;border-right:0;border-bottom:1px solid var(--line);background:var(--win);display:flex;gap:4px;overflow-x:auto;padding:8px 12px}
+  .side .grp{display:none}
+  .navi{width:auto;white-space:nowrap;flex:none}
+  .navi .cnt{display:none}
+  main{padding:16px 12px 64px}
+}
+
+.frame{background:var(--view);border:1px solid var(--line);border-radius:var(--r);padding:20px 24px;display:flex;flex-direction:column;gap:14px}
+@media(max-width:620px){.frame{padding:16px 14px}}
+.eyebrow{font-size:.8rem;color:var(--fg2)}
+.goal{color:var(--fg2)}
+.prose{max-width:68ch;display:flex;flex-direction:column;gap:10px}
+.muted{color:var(--fg2)}
+.small{font-size:.86rem}
+.sep{height:1px;background:var(--line)}
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px}
+.card{border:1px solid var(--line);border-radius:var(--r);background:var(--view);padding:12px 14px;display:flex;flex-direction:column;gap:6px}
+.card.alt{background:var(--alt)}
+.card h3{display:flex;align-items:center;gap:8px}
+.sw{display:inline-block;width:12px;height:12px;border-radius:50%;flex:none;border:2px solid currentColor}
+
+.msg{border:1px solid var(--accent);background:var(--accent-bg);border-radius:var(--r);padding:10px 14px;display:flex;flex-direction:column;gap:4px}
+.msg b.h{font-weight:600}
+.msg.pos{border-color:var(--pos);background:var(--pos-bg)}
+.msg.neg{border-color:var(--neg);background:var(--neg-bg)}
+.msg.neu{border-color:var(--neu);background:var(--neu-bg)}
+.msg ul,.msg ol{margin:0;padding-left:1.2em}
+
+.row{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.btn{font-size:.92rem;min-height:34px;padding:4px 14px;border:1px solid var(--line2);border-radius:3px;background:var(--view);cursor:pointer;line-height:1.3}
+.btn:hover:not(:disabled){border-color:var(--accent)}
+.btn.primary{border-color:var(--accent);background:var(--accent-bg)}
+.btn.primary:hover:not(:disabled){background:color-mix(in srgb,var(--accent) 30%,var(--view))}
+.btn.flat{border-color:transparent;background:transparent}
+.btn.flat:hover:not(:disabled){background:var(--alt);border-color:var(--line)}
+.btn:disabled{opacity:.5;cursor:default}
+.btn[aria-pressed="true"]{border-color:var(--accent);background:var(--accent-bg)}
+.btn.sm{min-height:28px;padding:2px 10px;font-size:.85rem}
+
+.tabs{display:flex;border-bottom:1px solid var(--line);overflow-x:auto;gap:2px}
+.tab{border:0;background:none;padding:8px 14px;border-bottom:2px solid transparent;color:var(--fg2);cursor:pointer;white-space:nowrap}
+.tab:hover{color:var(--fg)}
+.tab[aria-selected="true"]{color:var(--fg);border-bottom-color:var(--accent)}
+
+.pill{display:inline-block;font-size:.76rem;line-height:1.55;padding:0 8px;border-radius:10px;border:1px solid var(--line2);color:var(--fg2);white-space:nowrap}
+.pill.ok{border-color:var(--pos);color:var(--pos-fg);background:var(--pos-bg)}
+.pill.acc{border-color:var(--accent);color:var(--accent-strong);background:var(--accent-bg)}
+.k{font-weight:600}
+.c-lb{color:var(--lb)}.c-lt4{color:var(--lt4)}.c-lt8{color:var(--lt8)}.c-ag{color:var(--ag)}.c-cpa{color:var(--cpa)}.c-soi{color:var(--soi)}.c-il{color:var(--il)}
+
+.tblwrap{overflow-x:auto;border:1px solid var(--line);border-radius:var(--r)}
+table{border-collapse:collapse;width:100%;font-size:.92rem}
+th,td{text-align:left;padding:8px 12px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-weight:600;background:var(--alt)}
+tr:last-child td{border-bottom:0}
+
+.fig{border:1px solid var(--line);border-radius:var(--r);background:var(--view);overflow-x:auto}
+.fig svg{display:block;width:100%;height:auto}
+.fig.scroll svg{min-width:660px}
+svg text{font-family:var(--font);fill:var(--fg)}
+.cap{font-size:.84rem;color:var(--fg2)}
+.g-step{transition:opacity .35s}
+.g-off{opacity:.1}
+.hot{cursor:pointer}
+.hot:hover .hl{stroke:var(--accent)}
+
+.stepper{display:flex;flex-direction:column;gap:10px}
+.dots{display:flex;gap:6px;flex-wrap:wrap;align-items:center}
+.dot{width:30px;height:30px;border-radius:50%;border:1px solid var(--line2);background:var(--view);cursor:pointer;font-size:.82rem}
+.dot[aria-current="step"]{border-color:var(--accent);background:var(--accent-bg);font-weight:600}
+.dot.seen{border-color:var(--accent)}
+.steptext{min-height:5.6em;border:1px solid var(--line);border-left:3px solid var(--accent);border-radius:var(--r);padding:10px 14px;background:var(--alt)}
+.steptext b.h{display:block;margin-bottom:2px}
+
+.ex{border:1px solid var(--line);border-radius:var(--r);background:var(--view);padding:16px 18px;display:flex;flex-direction:column;gap:12px}
+.ex.solved{border-left:3px solid var(--accent)}
+.ex-head{display:flex;align-items:center;gap:10px;flex-wrap:wrap;font-size:.82rem;color:var(--fg2)}
+.lvl{display:inline-flex;gap:3px;align-items:center}
+.lvl i{width:9px;height:9px;border-radius:50%;border:1px solid var(--accent)}
+.lvl i.on{background:var(--accent)}
+.ex-head .st{margin-left:auto}
+.prompt{max-width:72ch}
+.opts{display:flex;flex-direction:column;gap:6px}
+.opt{display:flex;gap:10px;align-items:flex-start;width:100%;text-align:left;padding:8px 12px;border:1px solid var(--line);border-radius:3px;background:var(--view);cursor:pointer;line-height:1.45}
+.opt:hover:not(:disabled){border-color:var(--accent)}
+.opt .mk{width:16px;height:16px;flex:none;border:1px solid var(--line2);border-radius:50%;margin-top:3px;background:var(--view)}
+.opt.multi .mk{border-radius:3px}
+.opt[aria-pressed="true"]{border-color:var(--accent);background:var(--accent-bg)}
+.opt[aria-pressed="true"] .mk{background:var(--accent);border-color:var(--accent);box-shadow:inset 0 0 0 3px var(--view)}
+.opt.good{border-color:var(--pos);background:var(--pos-bg)}
+.opt.bad{border-color:var(--neg);background:var(--neg-bg)}
+.opt:disabled{cursor:default}
+.opt .why{display:block;font-size:.85rem;color:var(--fg2);margin-top:2px}
+
+.mrow{display:grid;grid-template-columns:minmax(0,1fr) minmax(170px,1fr) 22px;gap:10px;align-items:center;padding:6px 8px;border:1px solid var(--line);border-radius:3px}
+.mrow.good{border-color:var(--pos);background:var(--pos-bg)}
+.mrow.bad{border-color:var(--neg);background:var(--neg-bg)}
+@media(max-width:560px){.mrow{grid-template-columns:1fr 22px}.mrow select{grid-column:1}}
+select{min-height:34px;border:1px solid var(--line2);border-radius:3px;background:var(--view);padding:2px 8px;max-width:100%}
+select:hover{border-color:var(--accent)}
+.mark{font-weight:700;text-align:center}
+.mark.good{color:var(--pos-fg)}.mark.bad{color:var(--neg-fg)}
+
+.ord{display:flex;flex-direction:column;gap:6px}
+.orow{display:flex;align-items:center;gap:8px;padding:6px 8px;border:1px solid var(--line);border-radius:3px;background:var(--view)}
+.orow .num{width:24px;height:24px;flex:none;border-radius:50%;background:var(--alt);border:1px solid var(--line2);display:grid;place-items:center;font-size:.8rem}
+.orow .t{flex:1;min-width:0}
+.orow.good{border-color:var(--pos);background:var(--pos-bg)}
+.orow.bad{border-color:var(--neg);background:var(--neg-bg)}
+.orow.out{opacity:.55;border-style:dashed}
+.orow.out .t{text-decoration:line-through}
+.ibtn{width:30px;height:30px;border:1px solid var(--line2);border-radius:3px;background:var(--view);cursor:pointer;display:grid;place-items:center;padding:0}
+.ibtn:hover:not(:disabled){border-color:var(--accent)}
+.ibtn:disabled{opacity:.35;cursor:default}
+
+.cloze{line-height:2.3;max-width:72ch}
+.cloze select{margin:0 3px;min-height:30px}
+.cloze select.good{border-color:var(--pos);background:var(--pos-bg)}
+.cloze select.bad{border-color:var(--neg);background:var(--neg-bg)}
+
+textarea{width:100%;min-height:120px;border:1px solid var(--line2);border-radius:3px;background:var(--view);padding:8px 10px;line-height:1.5;resize:vertical}
+textarea:focus{border-color:var(--accent);outline:none}
+.check{display:flex;gap:8px;align-items:flex-start;cursor:pointer}
+.check input{margin-top:5px;accent-color:var(--accent)}
+
+.corr{border:1px solid var(--line);border-radius:var(--r);background:var(--alt);padding:12px 14px;display:flex;flex-direction:column;gap:8px}
+.corr ol,.corr ul{margin:0;padding-left:1.3em;display:flex;flex-direction:column;gap:4px}
+.wsteps{display:flex;flex-direction:column;gap:8px}
+.wstep{display:flex;gap:10px;align-items:flex-start;padding:8px 12px;border:1px solid var(--line);border-radius:3px;background:var(--alt)}
+.wstep .num{width:24px;height:24px;flex:none;border-radius:50%;background:var(--accent);color:#fff;display:grid;place-items:center;font-size:.8rem;font-weight:600}
+.wstep b.h{display:block}
+
+.flash{min-height:210px;border:1px solid var(--line2);border-radius:6px;background:var(--view);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:24px;gap:10px;cursor:pointer;width:100%}
+.flash:hover{border-color:var(--accent)}
+.flash .face{font-size:.78rem;color:var(--fg2);text-transform:uppercase;letter-spacing:.04em}
+.flash .term{font-size:1.35rem;font-weight:600}
+.flash .def{max-width:56ch;font-size:1.02rem}
+
+.gloss{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:8px}
+.gl{border:1px solid var(--line);border-radius:3px;padding:8px 12px;background:var(--view);text-align:left;cursor:pointer;display:flex;flex-direction:column;gap:2px}
+.gl:hover{border-color:var(--accent)}
+.gl .d{font-size:.88rem;color:var(--fg2)}
+input[type=range]{width:100%;accent-color:var(--accent)}
+.kbd{font-size:.8rem;border:1px solid var(--line2);border-radius:3px;padding:0 5px;background:var(--alt)}
+</style>
+</head>
+<body>
+<div id="root"></div>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <marker id="aFg" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="var(--fg2)"/></marker>
+    <marker id="aLb" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="var(--lb)"/></marker>
+    <marker id="aLt4" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="var(--lt4)"/></marker>
+    <marker id="aLt8" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="var(--lt8)"/></marker>
+    <marker id="aCpa" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="var(--cpa)"/></marker>
+    <marker id="aIl" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="var(--il)"/></marker>
+  </defs>
+</svg>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.3.1/umd/react.production.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.3.1/umd/react-dom.production.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/htm@3.1.1/dist/htm.umd.js"></script>
+<script>
+"use strict";
+/* ================= CONTENU ================= */
+
+const GLOSS = [
+  {t:"Antigène", d:"Molécule reconnue comme étrangère (non-soi) qui déclenche une réponse adaptative : toxine, molécule à la surface d'un microbe, fragment viral…", c:"ag"},
+  {t:"Anticorps (immunoglobuline)", d:"Protéine en forme de Y, produite par la lignée des LB, qui se lie spécifiquement à un seul type d'antigène.", c:"lb"},
+  {t:"Spécificité", d:"Un anticorps ou un récepteur T ne reconnaît qu'un seul type d'antigène, grâce à une forme complémentaire.", c:"lb"},
+  {t:"Lymphocyte B (LB)", d:"Lymphocyte porteur d'anticorps membranaires ; acteur principal de la réponse humorale.", c:"lb"},
+  {t:"Plasmocyte", d:"LB différencié qui sécrète des milliers d'anticorps solubles par seconde.", c:"lb"},
+  {t:"LB mémoire", d:"LB à longue durée de vie qui permet une réponse rapide et intense lors d'un 2e contact avec le même antigène.", c:"lb"},
+  {t:"Amplification clonale", d:"Multiplication par mitoses successives d'un lymphocyte activé : on obtient un clone de cellules identiques, qui reconnaissent toutes le même antigène.", c:"lb"},
+  {t:"Complexe immun", d:"Ensemble formé par des anticorps fixés sur des antigènes. Les antigènes sont neutralisés, puis le complexe est phagocyté par les macrophages.", c:"lb"},
+  {t:"LT4 auxiliaire", d:"Lymphocyte T qui sécrète l'interleukine ; « chef d'orchestre » qui stimule les LB et les LT8.", c:"lt4"},
+  {t:"Interleukine (cytokine)", d:"Messager chimique sécrété par les LT4 auxiliaires ; stimule la multiplication et la différenciation des LB et des LT8.", c:"il"},
+  {t:"LT8 cytotoxique", d:"Lymphocyte T à courte durée de vie qui tue les cellules du soi infectées par un virus ou cancéreuses.", c:"lt8"},
+  {t:"CMH", d:"Molécules de la membrane de nos cellules (marqueurs du soi) ; elles présentent des fragments d'antigène aux LT.", c:"soi"},
+  {t:"CPA", d:"Cellule présentatrice de l'antigène : cellule (ex. dendritique) qui expose des fragments d'antigène associés au CMH.", c:"cpa"},
+  {t:"Récepteur T", d:"Récepteur membranaire d'un LT. Chaque LT n'en possède qu'un seul type, capable de reconnaître un seul antigène présenté par le CMH.", c:"lt4"},
+  {t:"Baiser de la mort", d:"Contact entre un LT8 cytotoxique et une cellule infectée, qui entraîne la mort de cette cellule en quelques heures.", c:"lt8"},
+  {t:"Cytolyse", d:"Mort de la cellule cible : sa membrane est perforée par des perforines libérées par le LT8 cytotoxique.", c:"lt8"},
+  {t:"Apoptose", d:"Autodestruction de la cellule cible, déclenchée par des signaux libérés par le LT8 cytotoxique.", c:"lt8"},
+  {t:"Ganglion lymphatique", d:"Organe lymphatique où les CPA rencontrent les lymphocytes et où ceux-ci se multiplient.", c:"cpa"},
+  {t:"Thymus", d:"Organe où mûrissent les lymphocytes T, nés dans la moelle osseuse.", c:"lt4"},
+  {t:"Temps de latence", d:"Délai (≈ 5 jours lors d'une 1re infection) nécessaire à la sélection, la multiplication et la différenciation des lymphocytes.", c:"ag"},
+  {t:"Mémoire immunitaire", d:"Persistance de LB et LT mémoire après une 1re rencontre : la réponse suivante est plus rapide, plus intense et toujours spécifique.", c:"lb"},
+  {t:"Infection opportuniste", d:"Infection qui se déclare quand le système immunitaire est défaillant (ex. SIDA), alors que d'ordinaire il s'en défend.", c:"lt8"},
+];
+
+const HUM_STEPS = [
+  {h:"Reconnaissance de l'antigène", t:"Un antigène circulant (ici, une bactérie) rencontre, dans le sang, la lymphe ou le liquide interstitiel, **le LB dont les anticorps membranaires sont complémentaires**. L'antigène s'y fixe : ce LB est **activé**."},
+  {h:"Amplification clonale", t:"Le LB activé se divise par **mitoses successives** : on obtient un **clone** de LB identiques, tous porteurs des mêmes anticorps. Cette multiplication est stimulée par l'**interleukine 2**, sécrétée par les **LT4 auxiliaires**."},
+  {h:"Différenciation", t:"Les LB du clone se spécialisent : la plupart deviennent des **plasmocytes** (cellules productrices d'anticorps) ; certains deviennent des **LB mémoire** (contour pointillé), qui restent dans l'organisme."},
+  {h:"Sécrétion d'anticorps", t:"Chaque plasmocyte libère **des milliers d'anticorps par seconde**. Ce sont les mêmes que les anticorps membranaires du LB de départ : ils sont **spécifiques** de l'antigène. Ils sont solubles dans le sang et la lymphe."},
+  {h:"Neutralisation : le complexe immun", t:"Les anticorps se fixent sur les antigènes circulants et les relient entre eux : c'est le **complexe immun**. Les antigènes sont **neutralisés**… mais pas encore détruits."},
+  {h:"Élimination par phagocytose", t:"Les **macrophages** reconnaissent le complexe immun, le **phagocytent** et le détruisent. L'immunité adaptative (anticorps) et l'immunité innée (macrophage) **coopèrent**."},
+];
+
+const CEL_STEPS = [
+  {h:"Capture du microbe", t:"La réponse innée ne suffit pas à éliminer le microbe. Dans le tissu infecté, une **cellule dendritique** (un phagocyte) capture et digère le microbe."},
+  {h:"Migration et présentation", t:"La cellule dendritique **migre par les vaisseaux lymphatiques** vers le ganglion le plus proche. En chemin, des fragments du microbe (**antigènes**) s'associent à des molécules du **CMH** et sont exposés à sa surface : elle devient une **cellule présentatrice de l'antigène (CPA)**."},
+  {h:"Reconnaissance par les LT", t:"Dans le ganglion, parmi des millions de LT différents, **seuls les LT4 et les LT8 dont le récepteur T est complémentaire** du couple CMH + antigène le reconnaissent. Cette reconnaissance les **active**."},
+  {h:"Les LT4 : multiplication et différenciation", t:"Les LT4 activés se multiplient par **mitoses** et deviennent soit des **LT4 mémoire**, soit des **LT4 auxiliaires** qui sécrètent des cytokines, notamment l'**interleukine**."},
+  {h:"Les LT8 : multiplication et différenciation", t:"Stimulés par l'**interleukine** (et activés par le même antigène), les LT8 se multiplient puis deviennent soit des **LT8 mémoire**, soit des **LT8 cytotoxiques** à courte durée de vie. L'interleukine stimule aussi les **LB** : les deux réponses coopèrent."},
+  {h:"Destruction des cellules infectées", t:"Les LT8 cytotoxiques rejoignent le tissu. Ils reconnaissent les cellules infectées (fragments viraux + CMH), **s'y accolent** et les tuent en quelques heures : c'est le **« baiser de la mort »**, par **cytolyse** (des perforines trouent la membrane) ou par **apoptose** (signal d'autodestruction)."},
+];
+
+/* Familles d'exercices : méthode → exercice résolu → exercices gradués */
+const FAMILIES = [
+{
+  id:"f-acteurs", letter:"A", title:"Qui fait quoi ?", short:"Acteurs et rôles",
+  goal:"Identifier chaque cellule ou molécule et décrire son rôle.",
+  method:["Pour décrire le rôle d'une cellule, réponds à trois questions :", "**1. D'où vient-elle ?** — **2. Que fait-elle ?** — **3. Sur quoi agit-elle ?**"],
+  worked:{
+    prompt:"Quel est le rôle du **plasmocyte** dans la réponse immunitaire ?",
+    steps:[
+      {h:"D'où vient-il ?", t:"Le plasmocyte provient d'un **lymphocyte B activé** qui s'est multiplié (amplification clonale) puis **différencié**."},
+      {h:"Que fait-il ?", t:"Il **sécrète des anticorps solubles** (des milliers par seconde), identiques aux anticorps membranaires du LB de départ."},
+      {h:"Sur quoi agit-il ?", t:"Ses anticorps se fixent **spécifiquement** sur l'antigène et forment des **complexes immuns**, ensuite phagocytés par les macrophages."},
+    ],
+    answer:"Le plasmocyte est un LB différencié qui sécrète en grande quantité des anticorps spécifiques de l'antigène ; ces anticorps neutralisent les antigènes circulants en formant des complexes immuns.",
+    retenir:"Origine → action → cible : cette grille fonctionne pour toutes les cellules du chapitre."
+  },
+  exs:[
+    {id:"a1", type:"qcm", lvl:1, prompt:"Quelles cellules sécrètent les anticorps solubles ?",
+      opts:[
+        {t:"Les plasmocytes", ok:true, why:"Ce sont des LB différenciés, spécialisés dans la sécrétion d'anticorps."},
+        {t:"Les LT8 cytotoxiques", why:"Ils tuent les cellules infectées par contact, sans anticorps."},
+        {t:"Les macrophages", why:"Ils phagocytent le complexe immun, ils ne fabriquent pas d'anticorps."},
+        {t:"Les LT4 auxiliaires", why:"Ils sécrètent l'interleukine, un messager chimique, pas des anticorps."}],
+      simple:"Les plasmocytes.",
+      detail:["Les anticorps sont produits par la lignée des **lymphocytes B**.","Un LB activé se multiplie, puis se différencie en **plasmocyte**, une cellule spécialisée qui **sécrète** des milliers d'anticorps par seconde.","Piège fréquent : les LT4 sécrètent aussi une substance, mais c'est l'**interleukine** (un messager chimique), pas des anticorps."]},
+    {id:"a2", type:"match", lvl:1, prompt:"Associe chaque cellule à son rôle principal.",
+      items:[
+        {t:"Plasmocyte", a:"Sécrète des anticorps"},
+        {t:"LB mémoire", a:"Permet une réponse rapide lors d'un 2e contact"},
+        {t:"LT4 auxiliaire", a:"Sécrète l'interleukine qui stimule LB et LT8"},
+        {t:"LT8 cytotoxique", a:"Tue les cellules infectées du soi"},
+        {t:"Macrophage", a:"Phagocyte le complexe immun"},
+        {t:"Cellule dendritique (CPA)", a:"Présente l'antigène aux LT dans le ganglion"}],
+      simple:"Plasmocyte → anticorps · LB mémoire → 2e contact · LT4 → interleukine · LT8 → tue les cellules infectées · macrophage → complexe immun · dendritique → présentation.",
+      detail:["**Plasmocyte** : LB différencié, il sécrète les anticorps (réponse humorale).","**LB mémoire** : il persiste après la 1re infection et réagit vite lors d'un 2e contact.","**LT4 auxiliaire** : il sécrète l'interleukine, qui stimule la multiplication des LB et des LT8 (chef d'orchestre).","**LT8 cytotoxique** : il détruit les cellules du soi infectées (baiser de la mort).","**Macrophage** : cellule de l'immunité innée, il phagocyte le complexe immun.","**Cellule dendritique** : devenue CPA, elle présente l'antigène associé au CMH aux LT dans le ganglion."]},
+    {id:"a3", type:"cloze", lvl:2, prompt:"Complète le texte sur les anticorps.",
+      text:"Les anticorps sont des {0} en forme de Y, formées de quatre chaînes : deux chaînes {1} (longues) et deux chaînes {2} (courtes). Les extrémités des bras portent les parties {3}, qui forment les sites de liaison à l'antigène. Sur un même LB, les anticorps sont tous {4} ; ils diffèrent d'un LB à l'autre.",
+      blanks:[
+        {a:"protéines", o:["protéines","lipides","cellules","glucides"]},
+        {a:"lourdes", o:["lourdes","légères","constantes","variables"]},
+        {a:"légères", o:["lourdes","légères","constantes","variables"]},
+        {a:"variables", o:["constantes","variables"]},
+        {a:"identiques", o:["identiques","différents"]}],
+      simple:"protéines – lourdes – légères – variables – identiques.",
+      detail:["Un anticorps est une **protéine** (on dit aussi immunoglobuline).","Il comporte **2 chaînes lourdes** (les plus longues, qui forment le pied et l'intérieur des bras) et **2 chaînes légères** (à l'extérieur des bras), reliées par des ponts disulfures.","Les **parties variables**, au bout des bras, forment les **sites de liaison** à l'antigène : leur forme change d'un anticorps à l'autre, d'où la spécificité.","Un LB ne porte qu'un seul type d'anticorps : ils sont tous **identiques** sur ce LB, mais différents d'un LB à l'autre."]},
+    {id:"a4", type:"qcm", multi:true, lvl:2, prompt:"Coche **toutes** les affirmations exactes.",
+      opts:[
+        {t:"Un LB ne porte qu'un seul type d'anticorps membranaire.", ok:true, why:"Tous ses anticorps sont identiques et reconnaissent un seul antigène."},
+        {t:"Un anticorps peut reconnaître n'importe quel antigène.", why:"Il est spécifique : sa partie variable est complémentaire d'un seul antigène."},
+        {t:"Les anticorps détruisent eux-mêmes les bactéries.", why:"Ils les neutralisent (complexe immun) ; la destruction est réalisée par les macrophages."},
+        {t:"Les LT8 cytotoxiques ont une courte durée de vie.", ok:true, why:"Contrairement aux LT8 mémoire, qui persistent."},
+        {t:"Les LT4 activés peuvent devenir des LT4 mémoire.", ok:true, why:"Ils deviennent LT4 mémoire ou LT4 auxiliaires."}],
+      simple:"Exactes : la 1re, la 4e et la 5e.",
+      detail:["**Vrai** — Sur un LB, tous les anticorps sont identiques.","**Faux** — Un anticorps est **spécifique** d'un seul antigène ; c'est la diversité des LB qui permet de reconnaître une immense variété d'antigènes.","**Faux** — Les anticorps **neutralisent** ; ce sont les **macrophages** qui détruisent le complexe immun par phagocytose.","**Vrai** — Les LT8 cytotoxiques vivent peu de temps ; les LT8 mémoire, eux, persistent.","**Vrai** — Un LT4 activé donne des LT4 auxiliaires et des LT4 mémoire."]},
+    {id:"a5", type:"qcm", lvl:3, prompt:"**Trouve l'erreur.** Un élève écrit : « Les LT8 cytotoxiques sécrètent des anticorps qui percent la membrane des cellules infectées. » Quelle correction est juste ?",
+      opts:[
+        {t:"Les LT8 cytotoxiques libèrent des perforines (et non des anticorps) qui percent la membrane de la cellule infectée.", ok:true, why:"C'est la cytolyse, l'un des deux mécanismes du baiser de la mort."},
+        {t:"Les LT4 sécrètent des anticorps qui percent la membrane des cellules infectées.", why:"Les LT4 ne sécrètent pas d'anticorps et ne tuent pas de cellules."},
+        {t:"Les plasmocytes libèrent des perforines qui percent la membrane des bactéries.", why:"Les plasmocytes sécrètent des anticorps ; les perforines viennent des LT8."},
+        {t:"La phrase est correcte.", why:"Les LT8 ne produisent jamais d'anticorps."}],
+      simple:"Les LT8 cytotoxiques libèrent des perforines, pas des anticorps.",
+      detail:["La phrase mélange les deux réponses adaptatives.","**Anticorps** → sécrétés par les **plasmocytes** (réponse humorale) ; ils neutralisent les antigènes circulants.","**Perforines** → libérées par les **LT8 cytotoxiques** (réponse cellulaire) ; elles perforent la membrane de la cellule infectée : c'est la **cytolyse**.","Le LT8 peut aussi déclencher l'**apoptose** (autodestruction) de la cellule cible."]},
+  ]
+},
+{
+  id:"f-reponse", letter:"B", title:"Humorale ou cellulaire ?", short:"Choisir la réponse",
+  goal:"Déterminer, selon la situation, quelle réponse adaptative est mise en place et par quels lymphocytes.",
+  method:["**Clé de décision : où se trouve l'antigène ?**","• **Libre** (toxine) ou **à la surface d'un microbe qui circule** (bactérie, virus libre, champignon) → **réponse humorale** : LB, plasmocytes, anticorps.","• **Porté par une cellule du soi, avec le CMH** (cellule infectée par un virus, cellule cancéreuse) → **réponse cellulaire** : LT8 cytotoxiques.","• Dans les deux cas, les **LT4 auxiliaires** interviennent."],
+  worked:{
+    prompt:"La toxine tétanique, produite par une bactérie, circule dans le sang. Quelle réponse adaptative est mise en place ? Quels lymphocytes interviennent ?",
+    steps:[
+      {h:"Je localise l'antigène", t:"La toxine est une **molécule libre** qui circule dans le **sang**."},
+      {h:"J'applique la clé", t:"Antigène libre, non porté par une cellule du soi (pas de CMH) → **réponse humorale**."},
+      {h:"Je nomme les acteurs", t:"Les **LB** spécifiques de la toxine sont activés, se multiplient et deviennent des **plasmocytes** qui sécrètent des anticorps anti-toxine, grâce à l'interleukine des **LT4 auxiliaires**."},
+      {h:"Je décris le résultat", t:"Les anticorps neutralisent la toxine (**complexe immun**), qui est ensuite phagocytée par les **macrophages**."},
+    ],
+    answer:"Réponse humorale : LB → plasmocytes → anticorps anti-toxine, stimulée par les LT4 auxiliaires ; le complexe immun est phagocyté par les macrophages.",
+    retenir:"Commence toujours par localiser l'antigène : c'est lui qui détermine la réponse."
+  },
+  exs:[
+    {id:"b1", type:"match", lvl:1, prompt:"Pour chaque situation, choisis la réponse adaptative principale.",
+      choices:["Réponse humorale","Réponse cellulaire"],
+      items:[
+        {t:"Une bactérie se multiplie dans la lymphe.", a:"Réponse humorale"},
+        {t:"Une cellule du foie est infectée par le virus de l'hépatite.", a:"Réponse cellulaire"},
+        {t:"Du venin de serpent (toxine) circule dans le sang.", a:"Réponse humorale"},
+        {t:"Une cellule de la peau est devenue cancéreuse.", a:"Réponse cellulaire"},
+        {t:"Des virus de la grippe circulent librement dans le sang.", a:"Réponse humorale"},
+        {t:"Une cellule pulmonaire expose des fragments viraux associés au CMH.", a:"Réponse cellulaire"},
+        {t:"Un champignon microscopique circule dans le sang.", a:"Réponse humorale"}],
+      simple:"Humorale : bactérie, venin, virus libres, champignon. Cellulaire : cellule du foie infectée, cellule cancéreuse, cellule pulmonaire infectée.",
+      detail:["**Bactérie dans la lymphe** : microbe qui circule, portant des antigènes à sa surface → humorale.","**Cellule du foie infectée** : cellule du soi qui expose des fragments viraux avec le CMH → cellulaire.","**Venin** : toxine = molécule libre → humorale.","**Cellule cancéreuse** : cellule du soi anormale → cellulaire (LT8 cytotoxiques).","**Virus libres dans le sang** : tant qu'ils ne sont pas entrés dans une cellule, ce sont des antigènes circulants → humorale.","**Fragments viraux + CMH** : c'est exactement ce que reconnaissent les LT8 → cellulaire.","**Champignon** : microorganisme circulant → humorale."]},
+    {id:"b2", type:"qcm", lvl:1, prompt:"Quels lymphocytes interviennent dans **les deux** types de réponses adaptatives ?",
+      opts:[
+        {t:"Les LT4 auxiliaires", ok:true, why:"Leur interleukine stimule à la fois les LB et les LT8."},
+        {t:"Les LB", why:"Ils interviennent dans la réponse humorale seulement."},
+        {t:"Les LT8 cytotoxiques", why:"Ils interviennent dans la réponse cellulaire seulement."},
+        {t:"Les plasmocytes", why:"Ils interviennent dans la réponse humorale seulement."}],
+      simple:"Les LT4 auxiliaires.",
+      detail:["Les **LT4 auxiliaires** sont les « chefs d'orchestre » de la réponse adaptative.","Ils sécrètent l'**interleukine**, qui stimule la multiplication et la différenciation des **LB** (réponse humorale) **et** des **LT8** (réponse cellulaire).","Il y a donc toujours une **coopération** entre plusieurs catégories de lymphocytes."]},
+    {id:"b3", type:"match", lvl:2, prompt:"Complète le tableau comparatif des deux réponses.",
+      items:[
+        {t:"Cible — réponse humorale", a:"Antigènes circulants (libres ou sur un microbe)"},
+        {t:"Cible — réponse cellulaire", a:"Cellules du soi infectées ou cancéreuses"},
+        {t:"Cellule effectrice — humorale", a:"Plasmocyte"},
+        {t:"Cellule effectrice — cellulaire", a:"LT8 cytotoxique"},
+        {t:"Mode d'action — humorale", a:"Anticorps → complexe immun → phagocytose"},
+        {t:"Mode d'action — cellulaire", a:"Contact (baiser de la mort) → cytolyse ou apoptose"}],
+      simple:"Humorale : antigènes circulants · plasmocyte · anticorps → complexe immun → phagocytose. Cellulaire : cellules du soi infectées/cancéreuses · LT8 cytotoxique · baiser de la mort → cytolyse ou apoptose.",
+      detail:["La **réponse humorale** agit à distance, grâce à des molécules (les anticorps) qui circulent dans le sang et la lymphe.","La **réponse cellulaire** agit par **contact direct** entre le LT8 cytotoxique et la cellule cible.","Dans les deux cas, l'action est **spécifique** d'un antigène et stimulée par les **LT4 auxiliaires**."]},
+    {id:"b4", type:"qcm", lvl:2, prompt:"Pourquoi les anticorps sont-ils inefficaces contre un virus qui se trouve **déjà à l'intérieur** d'une cellule ?",
+      opts:[
+        {t:"Les anticorps circulent dans le sang et la lymphe : ils neutralisent les antigènes circulants mais n'atteignent pas le virus caché dans la cellule.", ok:true, why:"D'où la nécessité de la réponse cellulaire."},
+        {t:"Les virus n'ont pas d'antigènes.", why:"Un virus porte des antigènes ; la cellule infectée en expose d'ailleurs des fragments."},
+        {t:"Les anticorps ne sont produits que lors d'une 2e infection.", why:"Ils sont produits dès la 1re infection, après un temps de latence."},
+        {t:"Les LT4 détruisent les anticorps.", why:"Les LT4 stimulent la production d'anticorps, ils ne les détruisent pas."}],
+      simple:"Les anticorps ne pénètrent pas dans les cellules : ils n'agissent que sur les antigènes circulants.",
+      detail:["Les anticorps sont **solubles dans le sang et la lymphe** : ils neutralisent les antigènes **circulants**.","Un virus entré dans une cellule est **hors de leur portée**.","C'est pourquoi la **réponse cellulaire** est nécessaire : les LT8 cytotoxiques reconnaissent la cellule infectée (fragments viraux + CMH) et la détruisent, avec les virus qu'elle contient."]},
+    {id:"b5", type:"qcm", multi:true, lvl:3, prompt:"Le virus de la grippe circule d'abord dans le sang, puis infecte des cellules de l'appareil respiratoire. Coche les affirmations exactes.",
+      opts:[
+        {t:"Des anticorps anti-grippe neutralisent les virus encore libres.", ok:true, why:"Virus libres = antigènes circulants → réponse humorale."},
+        {t:"Des LT8 cytotoxiques détruisent les cellules infectées.", ok:true, why:"Cellules du soi infectées → réponse cellulaire."},
+        {t:"Les LT4 auxiliaires stimulent à la fois les LB et les LT8.", ok:true, why:"Grâce à l'interleukine."},
+        {t:"Seule la réponse cellulaire intervient, car c'est un virus.", why:"Un virus libre est un antigène circulant : il déclenche aussi une réponse humorale."},
+        {t:"Les LT8 cytotoxiques reconnaissent directement les virus libres dans le sang.", why:"Les LT reconnaissent un antigène présenté par le CMH d'une cellule, pas un virus libre."}],
+      simple:"Exactes : les trois premières.",
+      detail:["Un même microbe peut déclencher **les deux réponses**, selon l'endroit où il se trouve.","Tant qu'il est **libre**, le virus est neutralisé par les **anticorps** (humorale).","Une fois **dans une cellule**, seule la **réponse cellulaire** (LT8 cytotoxiques) peut l'éliminer.","Les **LT4 auxiliaires** coordonnent les deux réponses grâce à l'interleukine.","Piège : un LT ne reconnaît jamais un antigène « seul » ; il lui faut le couple **CMH + antigène**."]},
+    {id:"b6", type:"open", lvl:3, prompt:"Des cellules cancéreuses apparaissent dans un organe. Explique quelle réponse adaptative peut les éliminer et décris ses étapes, de la présentation de l'antigène à la destruction des cellules.",
+      crit:["J'identifie la réponse cellulaire (l'antigène est porté par une cellule du soi, avec le CMH).","Je mentionne la présentation de l'antigène par une CPA dans un ganglion lymphatique.","Je cite l'activation des LT4 et des LT8 par reconnaissance spécifique (récepteur T).","Je cite le rôle de l'interleukine sécrétée par les LT4 auxiliaires.","Je décris la multiplication puis la différenciation en LT8 cytotoxiques (et LT8 mémoire).","Je décris la destruction : baiser de la mort, par cytolyse (perforines) ou apoptose."],
+      model:["Les cellules cancéreuses sont des **cellules du soi** anormales qui exposent des antigènes associés au **CMH** : c'est la **réponse adaptative cellulaire** qui les élimine.","Une **cellule dendritique** capture des fragments de ces cellules, migre vers un **ganglion lymphatique** et devient une **CPA** (antigène + CMH). Les **LT4** et **LT8** dont le **récepteur T** est complémentaire reconnaissent ce couple et sont **activés**.","Les LT4 se multiplient et deviennent des **LT4 auxiliaires** qui sécrètent l'**interleukine**. Stimulés par elle, les LT8 se **multiplient** et se **différencient** en **LT8 cytotoxiques** (et en LT8 mémoire).","Les LT8 cytotoxiques reconnaissent les cellules cancéreuses, s'y accolent et les tuent : c'est le **baiser de la mort**, par **cytolyse** (perforines) ou par **apoptose**."]},
+  ]
+},
+{
+  id:"f-ordre", letter:"C", title:"Remettre dans l'ordre", short:"Séquences",
+  goal:"Ordonner les étapes d'une réponse adaptative en justifiant l'enchaînement.",
+  method:["Repère les mots-déclencheurs, toujours dans cet ordre :","**reconnaissance / activation → multiplication (mitoses) → différenciation → action → élimination**.","Chaque étape a besoin du résultat de la précédente : demande-toi « peut-on faire ceci **avant** cela ? »."],
+  worked:{
+    prompt:"Remets dans l'ordre les étapes de la **réponse humorale** :",
+    list:["Sécrétion d'anticorps","Fixation de l'antigène sur les anticorps membranaires d'un LB","Phagocytose du complexe immun","Différenciation en plasmocytes","Formation du complexe immun","Mitoses successives (amplification clonale)"],
+    steps:[
+      {h:"Je cherche l'événement déclencheur", t:"Rien ne se passe tant que le LB n'a pas rencontré son antigène → **1. Fixation de l'antigène** sur les anticorps membranaires (activation)."},
+      {h:"Ce qui suit l'activation", t:"Le LB activé se multiplie → **2. Mitoses successives** (amplification clonale)."},
+      {h:"Les cellules se spécialisent", t:"Les LB du clone se différencient → **3. Différenciation en plasmocytes**."},
+      {h:"La cellule spécialisée agit", t:"On ne peut sécréter des anticorps qu'une fois plasmocyte → **4. Sécrétion d'anticorps**."},
+      {h:"L'effet sur l'antigène", t:"Les anticorps se fixent sur les antigènes → **5. Complexe immun**, puis les macrophages l'éliminent → **6. Phagocytose**."},
+    ],
+    answer:"1. Fixation de l'antigène sur un LB · 2. Mitoses (amplification clonale) · 3. Différenciation en plasmocytes · 4. Sécrétion d'anticorps · 5. Complexe immun · 6. Phagocytose.",
+    retenir:"Activation → multiplication → différenciation → action : le même squelette vaut pour les LB, les LT4 et les LT8."
+  },
+  exs:[
+    {id:"c1", type:"order", lvl:1, prompt:"Remets dans l'ordre les étapes de la **réponse cellulaire** (du début à la fin).",
+      items:[
+        {t:"Une cellule dendritique phagocyte le microbe dans le tissu."},
+        {t:"Elle migre vers un ganglion lymphatique et devient une CPA (antigène + CMH)."},
+        {t:"Des LT4 et des LT8 spécifiques reconnaissent l'antigène présenté : ils sont activés."},
+        {t:"Les LT4 se multiplient et deviennent des LT4 auxiliaires qui sécrètent l'interleukine."},
+        {t:"Stimulés par l'interleukine, les LT8 se multiplient et se différencient en LT8 cytotoxiques."},
+        {t:"Les LT8 cytotoxiques détruisent les cellules infectées (« baiser de la mort »)."}],
+      simple:"Capture → migration/CPA → reconnaissance par LT4 et LT8 → LT4 auxiliaires et interleukine → LT8 cytotoxiques → destruction.",
+      detail:["La **capture** du microbe par la cellule dendritique est le point de départ.","Elle doit ensuite **migrer** jusqu'au ganglion et **présenter** l'antigène avec le CMH (CPA).","Les LT ne peuvent être **activés** qu'après cette rencontre.","Les **LT4 auxiliaires** produisent l'interleukine…","… qui est nécessaire à la **multiplication des LT8** et à leur différenciation en LT8 cytotoxiques.","Seuls des LT8 **cytotoxiques** peuvent tuer les cellules infectées."]},
+    {id:"c2", type:"order", lvl:2, prompt:"Remets dans l'ordre le devenir d'un LT8, puis **écarte l'étape intruse** (bouton ✕) : elle n'appartient pas à ce trajet.",
+      items:[
+        {t:"Le LT8 reconnaît, grâce à son récepteur T, l'antigène associé au CMH d'une CPA."},
+        {t:"Stimulé par l'interleukine, il se multiplie par mitoses."},
+        {t:"Les cellules filles se différencient en LT8 mémoire ou en LT8 cytotoxiques."},
+        {t:"Un LT8 cytotoxique s'accole à une cellule infectée qui expose l'antigène."},
+        {t:"Il libère des perforines : la cellule infectée meurt par cytolyse."},
+        {t:"Il sécrète des anticorps qui forment un complexe immun.", intrus:true}],
+      simple:"Reconnaissance → mitoses → différenciation → accolement → perforines/cytolyse. Intrus : « il sécrète des anticorps ».",
+      detail:["Intrus : les **anticorps** sont sécrétés par les **plasmocytes** (lignée B), jamais par les LT8.","Ordre : le LT8 est d'abord **activé** par la reconnaissance du couple CMH + antigène sur la CPA.","Il se **multiplie** sous l'effet de l'interleukine des LT4 auxiliaires.","Ses cellules filles se **différencient** (cytotoxiques à courte durée de vie, ou mémoire).","Le LT8 cytotoxique **s'accole** à la cellule infectée…","… et la tue en libérant des **perforines** (cytolyse)."]},
+    {id:"c3", type:"order", lvl:3, prompt:"Infection virale : ordonne les **8 étapes** de la réponse adaptative complète (les deux réponses coopèrent).",
+      items:[
+        {t:"Une cellule dendritique capture le virus dans le tissu infecté."},
+        {t:"Devenue CPA, elle présente l'antigène dans un ganglion lymphatique."},
+        {t:"Les LT4 spécifiques sont activés et deviennent des LT4 auxiliaires."},
+        {t:"Les LT4 auxiliaires sécrètent de l'interleukine."},
+        {t:"L'interleukine stimule la multiplication des LB et des LT8 activés par le virus."},
+        {t:"Les LB se différencient en plasmocytes, les LT8 en LT8 cytotoxiques."},
+        {t:"Les anticorps neutralisent les virus libres ; les LT8 cytotoxiques tuent les cellules infectées."},
+        {t:"Des LB et des LT mémoire persistent et protégeront lors d'une nouvelle infection."}],
+      simple:"Capture → présentation → LT4 auxiliaires → interleukine → multiplication LB et LT8 → plasmocytes et LT8 cytotoxiques → neutralisation et destruction → mémoire.",
+      detail:["**1–2.** Tout commence par la capture puis la **présentation** de l'antigène (CPA) dans le ganglion.","**3–4.** Les **LT4** sont activés en premier, deviennent auxiliaires et sécrètent l'**interleukine**.","**5.** L'interleukine est le signal commun : elle stimule la **multiplication** des LB **et** des LT8.","**6.** Après la multiplication vient la **différenciation** (plasmocytes / LT8 cytotoxiques).","**7.** Les cellules effectrices **agissent** : anticorps sur les virus libres, LT8 sur les cellules infectées.","**8.** Les **cellules mémoire** issues de la différenciation persistent : c'est la mémoire immunitaire."]},
+  ]
+},
+{
+  id:"f-docs", letter:"D", title:"Interpréter un document", short:"Graphiques et expériences",
+  goal:"Décrire puis interpréter un graphique ou une expérience à l'aide du cours.",
+  method:["**1. Je décris** : je lis le titre et les axes, je relève des valeurs chiffrées.","**2. J'interprète** : j'explique les observations avec les notions du cours.","**3. Je conclus** : je réponds à la question posée."],
+  worked:{
+    prompt:"On injecte à une souris un antigène A au jour 0, puis **le même antigène A** au jour 30. Le graphique montre la concentration d'anticorps anti-A dans son sang. Compare les deux réponses et explique la différence.",
+    fig:"memAnnot",
+    steps:[
+      {h:"Je décris la 1re réponse", t:"Après l'injection du jour 0, aucun anticorps n'apparaît pendant **environ 5 jours** (temps de latence). La concentration atteint au maximum **≈ 10 u.a.** vers le jour 14, puis diminue."},
+      {h:"Je décris la 2e réponse", t:"Après le jour 30, les anticorps apparaissent **après 1 à 2 jours** seulement et atteignent **≈ 100 u.a.** : la réponse est **environ 10 fois plus intense** et elle dure plus longtemps."},
+      {h:"J'interprète", t:"Lors de la 1re rencontre, il faut du temps pour sélectionner, multiplier et différencier les rares LB spécifiques. Cette réponse a laissé des **LB mémoire**, nombreux et déjà spécifiques de A : au 2e contact, ils produisent très vite beaucoup d'anticorps."},
+      {h:"Je conclus", t:"La 2e réponse est **plus rapide et plus intense** grâce à la **mémoire immunitaire**."},
+    ],
+    answer:"1re réponse : latence ≈ 5 jours, maximum ≈ 10 u.a. — 2e réponse : latence 1 à 2 jours, maximum ≈ 100 u.a. La différence s'explique par les LB mémoire formés lors de la 1re réponse (mémoire immunitaire).",
+    retenir:"Décris avec des valeurs, puis interprète avec le cours : ne mélange pas les deux."
+  },
+  exs:[
+    {id:"d1", type:"qcm", lvl:1, fig:"memPlain", prompt:"D'après ce graphique, quelle est la durée du **temps de latence** de la 1re réponse ?",
+      opts:[
+        {t:"Environ 5 jours", ok:true, why:"La courbe reste à 0 entre le jour 0 et le jour 5."},
+        {t:"Environ 14 jours", why:"Le jour 14 correspond au maximum de la 1re réponse, pas à la fin de la latence."},
+        {t:"Environ 1 jour", why:"C'est l'ordre de grandeur de la latence de la 2e réponse."},
+        {t:"Environ 30 jours", why:"Le jour 30 est la date de la 2e injection."}],
+      simple:"Environ 5 jours.",
+      detail:["Le **temps de latence** est la durée entre l'injection et l'apparition des premiers anticorps.","Sur le graphique, la courbe reste à zéro du jour 0 au **jour 5**.","Ce délai correspond à la sélection des LB spécifiques, à leur **amplification clonale** et à leur **différenciation** en plasmocytes."]},
+    {id:"d2", type:"qcm", lvl:1, fig:"memPlain", prompt:"Combien de fois la concentration maximale d'anticorps de la 2e réponse est-elle plus élevée que celle de la 1re ?",
+      opts:[
+        {t:"Environ 10 fois", ok:true, why:"≈ 100 u.a. contre ≈ 10 u.a."},
+        {t:"Environ 2 fois", why:"Relis les deux maximums sur l'axe vertical."},
+        {t:"Environ 100 fois", why:"100 est la valeur du maximum, pas le rapport."},
+        {t:"Elles sont identiques", why:"Les deux pics sont très différents."}],
+      simple:"Environ 10 fois (100 ÷ 10).",
+      detail:["Maximum de la 1re réponse : **≈ 10 u.a.** (vers le jour 14).","Maximum de la 2e réponse : **≈ 100 u.a.** (vers le jour 38).","Rapport : 100 ÷ 10 = **10**. La 2e réponse est beaucoup plus **intense**, grâce aux LB mémoire."]},
+    {id:"d3", type:"qcm", lvl:2, fig:"memAB", prompt:"Au jour 30, on injecte à la souris l'antigène A (déjà rencontré) **et un nouvel antigène B**. Pourquoi la courbe des anticorps anti-B ressemble-t-elle à la 1re réponse anti-A ?",
+      opts:[
+        {t:"Il n'existe pas encore de LB mémoire spécifiques de B : la réponse anti-B est une 1re réponse, avec temps de latence.", ok:true, why:"La mémoire immunitaire est spécifique."},
+        {t:"Les LB mémoire anti-A produisent aussi des anticorps anti-B, mais en moins grande quantité.", why:"Un LB ne produit qu'un seul type d'anticorps : les LB anti-A ne reconnaissent pas B."},
+        {t:"L'antigène B est moins dangereux que l'antigène A.", why:"Le document ne donne aucune information sur la dangerosité."},
+        {t:"La mémoire immunitaire ne fonctionne qu'une seule fois.", why:"La réponse anti-A, elle, est bien une réponse secondaire."}],
+      simple:"Pas de LB mémoire anti-B : la réponse anti-B est une réponse primaire.",
+      detail:["**Je décris** : anti-A → réponse rapide et intense (≈ 100 u.a.) ; anti-B → latence d'environ 5 jours et maximum ≈ 10 u.a.","**J'interprète** : l'organisme a déjà rencontré A, il possède des **LB mémoire anti-A** ; il n'a jamais rencontré B.","La mémoire immunitaire est **spécifique** : les LB mémoire anti-A ne servent à rien contre B.","**Je conclus** : l'injection simultanée montre que la rapidité de la réponse ne dépend pas d'un « état d'alerte » général, mais de cellules mémoire spécifiques."]},
+    {id:"d4", type:"qcm", lvl:3, fig:"thymus", prompt:"Lis les résultats de l'expérience. Quelle est la meilleure explication de l'absence d'anticorps chez les souris du lot 2 ?",
+      opts:[
+        {t:"Sans LT, il n'y a pas de LT4 auxiliaires : sans interleukine, les LB ne se multiplient pas et ne se différencient pas en plasmocytes.", ok:true, why:"La réponse humorale dépend des LT4."},
+        {t:"Les anticorps sont fabriqués dans le thymus.", why:"Les anticorps sont sécrétés par les plasmocytes, issus des LB."},
+        {t:"Sans thymus, il n'y a plus de LB.", why:"Le thymus est le lieu de maturation des LT, pas des LB."},
+        {t:"Ce sont normalement les LT8 qui sécrètent les anticorps.", why:"Les LT8 ne sécrètent jamais d'anticorps."}],
+      simple:"Sans LT4 auxiliaires, pas d'interleukine, donc pas de multiplication ni de différenciation des LB en plasmocytes.",
+      detail:["**Je décris** : les souris sans thymus (lot 2) ne produisent presque pas d'anticorps et ne détruisent pas les cellules infectées.","**J'interprète (1)** : sans thymus, il n'y a pas de **LT** matures, donc ni LT4 ni LT8.","**J'interprète (2)** : pas de LT8 → pas de LT8 cytotoxiques → les cellules infectées ne sont pas détruites.","**J'interprète (3)** : les LB existent, mais sans **interleukine des LT4 auxiliaires**, leur amplification clonale et leur différenciation en plasmocytes ne sont pas stimulées → presque pas d'anticorps.","**Je conclus** : les LT4 sont indispensables aux deux réponses : c'est la **coopération** entre lymphocytes."]},
+    {id:"d5", type:"qcm", multi:true, lvl:3, fig:"vih", prompt:"Le graphique montre l'évolution du nombre de LT4 chez une personne infectée par le VIH et non traitée. Coche les interprétations correctes.",
+      opts:[
+        {t:"Le nombre de LT4 diminue progressivement pendant plusieurs années.", ok:true, why:"De ≈ 1 000 à moins de 200 par mm³ en une dizaine d'années."},
+        {t:"En dessous d'environ 200 LT4 par mm³, des maladies opportunistes apparaissent.", ok:true, why:"C'est la zone colorée du graphique (stade SIDA)."},
+        {t:"Avec moins de LT4, il y a moins d'interleukine : les LB et les LT8 sont peu stimulés.", ok:true, why:"La réponse adaptative devient inefficace."},
+        {t:"Le VIH détruit surtout les plasmocytes.", why:"Le VIH détruit préférentiellement les LT4."},
+        {t:"Les maladies opportunistes sont causées par des microbes rares et très dangereux pour tout le monde.", why:"Ce sont souvent des microbes banals, que le système immunitaire maîtrise d'ordinaire."}],
+      simple:"Exactes : les trois premières.",
+      detail:["**Je décris** : le nombre de LT4 passe d'environ 1 000/mm³ à moins de 200/mm³ en une dizaine d'années.","**J'interprète** : le VIH détruit préférentiellement les **LT4**. Or les LT4 auxiliaires sécrètent l'**interleukine**, indispensable à la stimulation des LB et des LT8.","La réponse adaptative (humorale **et** cellulaire) devient donc **inefficace**.","**Je conclus** : des microbes habituellement maîtrisés provoquent des **infections opportunistes**, qui peuvent entraîner la mort."]},
+  ]
+},
+{
+  id:"f-schemas", letter:"E", title:"Légender un schéma", short:"Schémas",
+  goal:"Reconnaître les cellules et molécules sur un schéma et les nommer avec précision.",
+  method:["**1.** J'identifie le type de schéma : une molécule ? une rencontre entre cellules ? une suite d'étapes ?","**2.** Je repère les indices de forme : Y = anticorps, contour à prolongements = cellule dendritique, contour irrégulier qui englobe = macrophage, contour pointillé = cellule mémoire.","**3.** Je vérifie la cohérence avec les flèches (qui devient quoi ?)."],
+  worked:{
+    prompt:"Légende le schéma de la rencontre entre deux cellules dans un ganglion lymphatique.",
+    fig:"contact",
+    steps:[
+      {h:"J'identifie le type de schéma", t:"Il montre un **contact entre deux cellules** : à gauche, une cellule à prolongements ; à droite, une cellule ronde au gros noyau (un lymphocyte)."},
+      {h:"Je repère la cellule de gauche", t:"Elle porte une molécule en forme de coupe (**1 : molécule du CMH**) qui tient un fragment étranger (**2 : antigène**). Une cellule qui expose un antigène avec le CMH est une **5 : cellule présentatrice de l'antigène (CPA)**, ici une cellule dendritique."},
+      {h:"Je repère la cellule de droite", t:"Elle reconnaît le couple CMH + antigène grâce à son **3 : récepteur T** : c'est donc un **4 : lymphocyte T** (LT4 ou LT8)."},
+    ],
+    answer:"1 : molécule du CMH · 2 : antigène · 3 : récepteur T · 4 : lymphocyte T (LT4 ou LT8) · 5 : cellule présentatrice de l'antigène (cellule dendritique).",
+    retenir:"Un LT ne reconnaît jamais l'antigène seul : il reconnaît le couple CMH + antigène présenté par une cellule."
+  },
+  exs:[
+    {id:"e1", type:"match", lvl:1, fig:"abLabel", prompt:"Légende le schéma de l'anticorps : associe chaque repère à son nom.",
+      items:[
+        {t:"Repère 1", a:"Site de liaison à l'antigène"},
+        {t:"Repère 2", a:"Chaîne légère"},
+        {t:"Repère 3", a:"Pont disulfure"},
+        {t:"Repère 4", a:"Partie variable"},
+        {t:"Repère 5", a:"Partie constante"},
+        {t:"Repère 6", a:"Chaîne lourde"}],
+      simple:"1 site de liaison · 2 chaîne légère · 3 pont disulfure · 4 partie variable · 5 partie constante · 6 chaîne lourde.",
+      detail:["**1** : au bout de chaque bras se trouve le **site de liaison à l'antigène** (il y en a deux, identiques).","**2** : la chaîne courte, à l'extérieur du bras, est une **chaîne légère**.","**3** : les traits qui relient les chaînes entre elles sont des **ponts disulfures**.","**4** : la zone foncée au bout des bras est la **partie variable** (elle diffère d'un anticorps à l'autre).","**5** : la zone claire est la **partie constante** (identique d'un anticorps à l'autre).","**6** : la longue chaîne qui forme le pied et l'intérieur du bras est une **chaîne lourde**."]},
+    {id:"e2", type:"match", lvl:2, fig:"humLabel", prompt:"Ce schéma représente la réponse humorale. Associe chaque repère à son nom (une proposition ne sert pas).",
+      choices:["Lymphocyte B activé","LT4 auxiliaire","Plasmocyte","LB mémoire","Anticorps","Complexe immun","Macrophage","LT8 cytotoxique"],
+      items:[
+        {t:"Repère 1", a:"Lymphocyte B activé"},
+        {t:"Repère 2", a:"LT4 auxiliaire"},
+        {t:"Repère 3", a:"Plasmocyte"},
+        {t:"Repère 4", a:"LB mémoire"},
+        {t:"Repère 5", a:"Anticorps"},
+        {t:"Repère 6", a:"Complexe immun"},
+        {t:"Repère 7", a:"Macrophage"}],
+      simple:"1 LB activé · 2 LT4 auxiliaire · 3 plasmocyte · 4 LB mémoire · 5 anticorps · 6 complexe immun · 7 macrophage. Le LT8 cytotoxique ne sert pas.",
+      detail:["**1** : le lymphocyte qui fixe la bactérie sur ses anticorps membranaires est un **LB activé**.","**2** : la cellule qui envoie des messagers chimiques (points jaunes) vers le clone est un **LT4 auxiliaire** (interleukine 2).","**3** : la grosse cellule au réticulum développé, d'où partent les anticorps, est un **plasmocyte**.","**4** : la cellule au contour pointillé est un **LB mémoire**.","**5** : les molécules en Y sont des **anticorps** solubles.","**6** : le réseau anticorps + antigènes est un **complexe immun**.","**7** : la cellule qui englobe le complexe est un **macrophage**.","Le **LT8 cytotoxique** n'intervient pas dans la réponse humorale."]},
+    {id:"e3", type:"match", lvl:3, fig:"celLabel", prompt:"Ce schéma représente la réponse cellulaire. Associe chaque repère à son nom (une proposition ne sert pas). Aide : suis les flèches.",
+      choices:["Cellule dendritique","CPA dans le ganglion","LT4 auxiliaire","Interleukine","LT8 mémoire","LT8 cytotoxique","Cellule infectée","Plasmocyte"],
+      items:[
+        {t:"Repère 1", a:"Cellule dendritique"},
+        {t:"Repère 2", a:"CPA dans le ganglion"},
+        {t:"Repère 3", a:"LT4 auxiliaire"},
+        {t:"Repère 4", a:"Interleukine"},
+        {t:"Repère 5", a:"LT8 mémoire"},
+        {t:"Repère 6", a:"LT8 cytotoxique"},
+        {t:"Repère 7", a:"Cellule infectée"}],
+      simple:"1 cellule dendritique · 2 CPA · 3 LT4 auxiliaire · 4 interleukine · 5 LT8 mémoire · 6 LT8 cytotoxique · 7 cellule infectée. Le plasmocyte ne sert pas.",
+      detail:["**1** : dans le tissu, la cellule à prolongements qui capture le microbe est une **cellule dendritique**.","**2** : arrivée dans le ganglion par le vaisseau lymphatique, elle expose l'antigène avec le CMH : c'est une **CPA**.","**3** : en haut, les cellules issues du LT activé qui émettent des messagers sont des **LT4 auxiliaires**.","**4** : les points jaunes représentent l'**interleukine**, qui stimule les LT8.","**5** : dans la lignée du bas, la cellule au contour pointillé est un **LT8 mémoire**.","**6** : la cellule qui quitte le ganglion et s'accole à la cellule infectée est un **LT8 cytotoxique**.","**7** : la cellule du soi qui contient des virus et expose des fragments viraux avec le CMH est une **cellule infectée**.","Le **plasmocyte** appartient à la réponse humorale."]},
+  ]
+},
+{
+  id:"f-ecrire", letter:"F", title:"Expliquer par écrit", short:"Textes explicatifs",
+  goal:"Rédiger une explication structurée avec le vocabulaire précis.",
+  method:["**1.** Je pose le contexte (quel antigène ? quelle rencontre ?).","**2.** J'enchaîne les étapes avec des connecteurs de cause : *car, donc, grâce à, ce qui entraîne*.","**3.** J'utilise le vocabulaire précis du cours.","**4.** Je conclus en répondant à la question."],
+  worked:{
+    prompt:"Explique pourquoi, en général, on n'attrape la varicelle qu'une seule fois.",
+    steps:[
+      {h:"Contexte", t:"Lors du **1er contact** avec le virus de la varicelle, la réponse adaptative met environ 5 jours à se mettre en place (**temps de latence**) : pendant ce temps, le virus se multiplie et on tombe malade."},
+      {h:"Mécanisme", t:"Pendant cette réponse, des LB et des LT spécifiques du virus se multiplient ; certains deviennent des **cellules mémoire** (LB mémoire, LT mémoire) qui persistent longtemps."},
+      {h:"Conséquence", t:"Lors d'un **2e contact**, ces cellules mémoire, nombreuses et déjà spécifiques, réagissent **très vite** et **très fortement**, même face à une faible quantité de virus."},
+      {h:"Conclusion", t:"Le virus est éliminé **avant** de provoquer les symptômes : on est **immunisé**. C'est la **mémoire immunitaire**."},
+    ],
+    answer:"Lors du 1er contact, la réponse adaptative est lente (latence) : on est malade, mais des LB et LT mémoire spécifiques sont produits. Au 2e contact, ces cellules mémoire déclenchent une réponse rapide et intense qui élimine le virus avant l'apparition des symptômes : c'est la mémoire immunitaire.",
+    retenir:"Contexte → mécanisme → conséquence → conclusion, reliés par des connecteurs de cause."
+  },
+  exs:[
+    {id:"f1", type:"open", lvl:2, prompt:"Explique pourquoi on dit que les LT4 auxiliaires sont les « chefs d'orchestre » de la réponse adaptative.",
+      crit:["Je précise que les LT4 sont activés par la reconnaissance de l'antigène présenté par une CPA.","Je cite la sécrétion d'interleukine (cytokine = messager chimique).","J'explique l'effet sur les LB : multiplication et différenciation en plasmocytes.","J'explique l'effet sur les LT8 : multiplication et différenciation en LT8 cytotoxiques.","Je conclus : ils coordonnent les deux réponses (coopération)."],
+      model:["Les LT4 sont **activés** lorsqu'ils reconnaissent, grâce à leur récepteur T, l'antigène présenté avec le CMH par une **CPA**.","Ils se multiplient et deviennent des **LT4 auxiliaires** qui sécrètent l'**interleukine**, un messager chimique.","L'interleukine **stimule la multiplication des LB** et leur **différenciation en plasmocytes** (réponse humorale), **et** stimule les **LT8** activés, qui se multiplient et deviennent **cytotoxiques** (réponse cellulaire).","Comme un chef d'orchestre, les LT4 ne « jouent » pas eux-mêmes (ils ne produisent ni anticorps ni perforines) mais **coordonnent les deux réponses** : sans eux, ni l'une ni l'autre n'est efficace."]},
+    {id:"f2", type:"open", lvl:3, prompt:"Un vaccin contient un microbe tué (ou un de ses antigènes), incapable de rendre malade. Explique comment la vaccination protège contre une infection ultérieure par ce microbe.",
+      crit:["Le vaccin apporte l'antigène sans provoquer la maladie.","Il déclenche une 1re réponse adaptative (avec temps de latence).","Cette réponse produit des cellules mémoire spécifiques (LB et LT mémoire).","Lors de l'infection réelle, la réponse est rapide, intense et spécifique.","Conclusion : le microbe est éliminé avant l'apparition des symptômes."],
+      model:["Le vaccin contient l'**antigène** du microbe, mais sous une forme qui ne rend pas malade.","L'organisme réagit comme lors d'une 1re infection : après un **temps de latence**, une réponse adaptative se met en place et produit des **LB et LT mémoire spécifiques** de cet antigène.","Si le vrai microbe infecte plus tard l'organisme, ces cellules mémoire déclenchent une **réponse secondaire** : **plus rapide, plus intense**, même pour une faible quantité d'antigène.","Le microbe est donc éliminé **avant** d'avoir pu provoquer la maladie : la vaccination exploite la **mémoire immunitaire**."]},
+    {id:"f3", type:"open", lvl:3, prompt:"Explique pourquoi une personne atteinte du SIDA peut mourir d'une infection qu'une personne en bonne santé surmonte facilement.",
+      crit:["Le VIH détruit préférentiellement les LT4.","Moins de LT4 → moins d'interleukine → LB et LT8 peu stimulés.","Les réponses humorale et cellulaire deviennent inefficaces.","Des infections opportunistes se déclarent.","Ces infections peuvent entraîner la mort."],
+      model:["Le **VIH** attaque et détruit préférentiellement les **LT4**.","Or les LT4 auxiliaires sécrètent l'**interleukine**, indispensable à la multiplication et à la différenciation des **LB** (en plasmocytes) et des **LT8** (en LT8 cytotoxiques).","Sans eux, ni la **réponse humorale** ni la **réponse cellulaire** ne sont efficaces.","Des microbes que le système immunitaire maîtrise d'ordinaire provoquent alors des **maladies opportunistes**, qui peuvent **entraîner la mort**."]},
+  ]
+},
+];
+
+const QUIZ = [
+  {q:"Quelles cellules sont les principaux acteurs de l'immunité adaptative ?", o:["Les lymphocytes","Les granulocytes","Les globules rouges","Les plaquettes"], why:"Les lymphocytes (LB, LT4, LT8) sont les acteurs de la réponse adaptative ; les granulocytes appartiennent à la réponse innée.", sec:"accueil"},
+  {q:"Un anticorps est formé de…", o:["4 chaînes : 2 lourdes et 2 légères","2 chaînes identiques","4 chaînes toutes identiques","1 seule chaîne repliée en Y"], why:"Deux chaînes lourdes et deux chaînes légères, reliées par des ponts disulfures.", sec:"anticorps"},
+  {q:"Où se situent les sites de liaison à l'antigène d'un anticorps ?", o:["Aux extrémités des bras (parties variables)","Dans le pied du Y (partie constante)","Au niveau des ponts disulfures","Au centre de la molécule"], why:"Les parties variables, au bout des bras, sont complémentaires de l'antigène.", sec:"anticorps"},
+  {q:"L'amplification clonale, c'est…", o:["la multiplication par mitoses d'un lymphocyte activé","la fusion de plusieurs LB","la destruction d'un clone de bactéries","la production d'anticorps par un macrophage"], why:"Un lymphocyte activé se divise et donne un clone de cellules identiques.", sec:"humorale"},
+  {q:"Que forment les anticorps en se fixant sur les antigènes circulants ?", o:["Un complexe immun","Une CPA","Un plasmocyte","Une perforine"], why:"Le complexe immun neutralise les antigènes.", sec:"humorale"},
+  {q:"Qui élimine le complexe immun ?", o:["Les macrophages, par phagocytose","Les LT8 cytotoxiques","Les plasmocytes","Les LT4 auxiliaires"], why:"Les macrophages reconnaissent le complexe immun et le phagocytent.", sec:"humorale"},
+  {q:"Où la cellule dendritique rencontre-t-elle les lymphocytes T ?", o:["Dans un ganglion lymphatique","Dans le thymus","Dans la moelle osseuse","Dans le cœur"], why:"Elle migre par les vaisseaux lymphatiques vers le ganglion le plus proche.", sec:"cellulaire"},
+  {q:"Une CPA expose à sa surface…", o:["des fragments d'antigène associés au CMH","des anticorps solubles","des perforines","de l'interleukine"], why:"C'est le couple CMH + antigène que reconnaissent les LT.", sec:"cellulaire"},
+  {q:"Le « baiser de la mort » est réalisé par…", o:["les LT8 cytotoxiques","les LT4 auxiliaires","les LB mémoire","les plasmocytes"], why:"Le LT8 cytotoxique s'accole à la cellule infectée et entraîne sa mort.", sec:"cellulaire"},
+  {q:"L'interleukine est sécrétée par…", o:["les LT4 auxiliaires, et elle stimule les LB et les LT8","les LT8, et elle stimule les macrophages","les plasmocytes, et elle stimule les anticorps","les LB, et elle stimule les LT4"], why:"C'est le messager du « chef d'orchestre ».", sec:"cellulaire"},
+  {q:"Quel est le principal inconvénient de l'immunité adaptative ?", o:["Son temps de latence (≈ 5 jours lors d'une 1re infection)","Son manque de spécificité","Son absence de mémoire","Elle ne reconnaît que les bactéries"], why:"Il faut du temps pour multiplier et différencier les lymphocytes spécifiques.", sec:"synthese"},
+  {q:"Pourquoi le VIH rend-il la réponse adaptative inefficace ?", o:["Il détruit les LT4, indispensables à la stimulation des LB et des LT8","Il détruit les globules rouges","Il détruit les anticorps","Il bloque uniquement les macrophages"], why:"Sans LT4 auxiliaires, pas d'interleukine.", sec:"synthese"},
+  {q:"Lors d'un 2e contact avec le même antigène, la réponse est…", o:["plus rapide et plus intense","identique à la 1re","plus lente mais plus longue","absente"], why:"Grâce aux cellules mémoire : c'est la mémoire immunitaire.", sec:"synthese"},
+  {q:"Une cellule cancéreuse est éliminée principalement par…", o:["la réponse cellulaire (LT8 cytotoxiques)","la réponse humorale (anticorps)","les plaquettes","les globules rouges"], why:"C'est une cellule du soi anormale qui expose des antigènes avec le CMH.", sec:"cellulaire"},
+];
+/* ================= SCHÉMAS (SVG) ================= */
+const {useState,useEffect,useMemo,useRef,Fragment}=React;
+const _h=htm.bind(React.createElement);
+const html=(...a)=>{const r=_h(...a);return Array.isArray(r)?React.createElement(Fragment,null,...r):r};
+const V=n=>`var(--${n})`;
+
+/* Texte multi-ligne */
+function T({x,y,t,a="middle",s=12,w,c,it}){
+  const L=Array.isArray(t)?t:[t];
+  const st={}; if(c) st.fill=c; if(it) st.fontStyle="italic";
+  return html`<text x=${x} y=${y} textAnchor=${a} fontSize=${s} fontWeight=${w||null} style=${st}>${L.map((l,i)=>html`<tspan key=${i} x=${x} dy=${i?s+3:0}>${l}</tspan>`)}</text>`;
+}
+/* Flèche : c = Fg | Lb | Lt4 | Lt8 | Cpa | Il */
+const ARC={Fg:"fg2",Lb:"lb",Lt4:"lt4",Lt8:"lt8",Cpa:"cpa",Il:"il"};
+function Ar({d,c="Fg",w=1.7,dash}){
+  return html`<path d=${d} fill="none" stroke=${V(ARC[c])} strokeWidth=${w} strokeDasharray=${dash||null} markerEnd=${`url(#a${c})`}/>`;
+}
+function Ab({x,y,s=1,rot=0,c="lb"}){
+  return html`<g transform=${`translate(${x.toFixed(1)} ${y.toFixed(1)}) rotate(${rot}) scale(${s})`}><path d="M0 9V0M0 0L-6 -7M0 0L6 -7" fill="none" stroke=${V(c)} strokeWidth="2.2" strokeLinecap="round"/></g>`;
+}
+const pol=(x,y,r,a)=>{const t=a*Math.PI/180;return [x+r*Math.cos(t),y+r*Math.sin(t)]};
+function SurfAb({x,y,r,angles,c="lb"}){
+  return angles.map(a=>{const [px,py]=pol(x,y,r+9,a);return html`<${Ab} key=${a} x=${px} y=${py} rot=${a+90} c=${c}/>`});
+}
+function Rt({x,y,rot=0,c,s=1}){
+  return html`<g transform=${`translate(${x.toFixed(1)} ${y.toFixed(1)}) rotate(${rot}) scale(${s})`}><path d="M0 7V1M-3.5 -4V1H3.5V-4" fill="none" stroke=${V(c)} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></g>`;
+}
+function SurfRt({x,y,r,angles,c}){
+  return angles.map(a=>{const [px,py]=pol(x,y,r+7,a);return html`<${Rt} key=${a} x=${px} y=${py} rot=${a+90} c=${c}/>`});
+}
+/* Molécule du CMH (bleu = soi) tenant un fragment d'antigène (orange) */
+function Cmh({x,y,rot=0,s=1}){
+  return html`<g transform=${`translate(${x.toFixed(1)} ${y.toFixed(1)}) rotate(${rot}) scale(${s})`}>
+    <path d="M0 5V0M-4 -6.5V0H4V-6.5" fill="none" stroke=${V("soi")} strokeWidth="2" strokeLinejoin="round" strokeLinecap="round"/>
+    <path d="M-2.6 -1.6L0 -6.4L2.6 -1.6Z" fill=${V("ag")}/></g>`;
+}
+function SurfCmh({x,y,r,angles,s=1}){
+  return angles.map(a=>{const [px,py]=pol(x,y,r+5*s,a);return html`<${Cmh} key=${a} x=${px} y=${py} rot=${a+90} s=${s}/>`});
+}
+function lblPos(x,y,r,pos){
+  if(pos==="t") return {x,y:y-r-9,a:"middle"};
+  if(pos==="r") return {x:x+r+9,y:y+4,a:"start"};
+  if(pos==="l") return {x:x-r-9,y:y+4,a:"end"};
+  return {x,y:y+r+17,a:"middle"};
+}
+function Cell({x,y,r=20,c="lb",mem,hl,label,lp="b",ab,rt,sub,bare}){
+  const P=lblPos(x,y,r,lp);
+  return html`<g>
+    ${ab&&html`<${SurfAb} x=${x} y=${y} r=${r} angles=${ab} c=${c}/>`}
+    ${rt&&html`<${SurfRt} x=${x} y=${y} r=${r} angles=${rt} c=${c}/>`}
+    <circle cx=${x} cy=${y} r=${r} fill=${V(c+"-bg")} stroke=${V(c)} strokeWidth=${hl?3:1.8} strokeDasharray=${mem?"5 3":null}/>
+    <circle cx=${x-r*.08} cy=${y+r*.05} r=${r*.52} fill=${V(c)} opacity=".42"/>
+    ${sub&&!bare&&html`<text x=${x-r*.08} y=${y+r*.05+4} textAnchor="middle" fontSize=${Math.max(9,Math.round(r*.48))} fontWeight="700">${sub}</text>`}
+    ${label&&!bare&&html`<${T} x=${P.x} y=${P.y} a=${P.a} t=${label}/>`}
+  </g>`;
+}
+function blobPath(x,y,r,f,n=72){
+  let d="";for(let i=0;i<=n;i++){const t=i/n*2*Math.PI;const rr=r*f(t);d+=(i?"L":"M")+(x+rr*Math.cos(t)).toFixed(1)+" "+(y+rr*Math.sin(t)).toFixed(1)}
+  return d+"Z";
+}
+const fMac=t=>1+.12*Math.sin(5*t)+.07*Math.sin(3*t+1);
+const fDen=t=>1+.55*Math.pow(Math.max(0,Math.sin(4*t+.3)),3)+.04*Math.sin(9*t);
+function Phago({x,y,r=26,kind="mac",label,lp="b",bare,children}){
+  const f=kind==="mac"?fMac:fDen; const R=kind==="mac"?r*1.15:r*1.55;
+  const P=lblPos(x,y,R,lp);
+  return html`<g>
+    <path d=${blobPath(x,y,r,f)} fill=${V("cpa-bg")} stroke=${V("cpa")} strokeWidth="1.8"/>
+    <ellipse cx=${x-r*.25} cy=${y+r*.15} rx=${r*.32} ry=${r*.26} fill=${V("cpa")} opacity=".42"/>
+    ${children}
+    ${label&&!bare&&html`<${T} x=${P.x} y=${P.y} a=${P.a} t=${label}/>`}
+  </g>`;
+}
+function Plasmo({x,y,label,bare}){
+  return html`<g>
+    <ellipse cx=${x} cy=${y} rx="30" ry="23" fill=${V("lb-bg")} stroke=${V("lb")} strokeWidth="1.8"/>
+    <circle cx=${x-13} cy=${y+2} r="10" fill=${V("lb")} opacity=".42"/>
+    <path d=${`M${x+1} ${y-12}q6 -4 12 0t12 0M${x+1} ${y-3}q6 -4 12 0t12 0M${x+1} ${y+6}q6 -4 12 0t12 0`} fill="none" stroke=${V("lb")} strokeWidth="1.3"/>
+    ${label&&!bare&&html`<${T} x=${x} y=${y+40} t=${label}/>`}
+  </g>`;
+}
+function Ag({x,y,s=1,rot=0}){
+  return html`<path transform=${`translate(${x} ${y}) rotate(${rot}) scale(${s})`} d="M-3.5 2L0 -4L3.5 2Z" fill=${V("ag")}/>`;
+}
+function Bact({x,y,s=1,rot=0}){
+  return html`<g transform=${`translate(${x} ${y}) rotate(${rot}) scale(${s})`}>
+    <rect x="-22" y="-11" width="44" height="22" rx="11" fill=${V("ag-bg")} stroke=${V("ag")} strokeWidth="1.6"/>
+    ${[-12,0,12].map(dx=>html`<path key=${"t"+dx} d=${`M${dx-3.5} -11L${dx} -17L${dx+3.5} -11Z`} fill=${V("ag")}/>`)}
+    ${[-6,8].map(dx=>html`<path key=${"b"+dx} d=${`M${dx-3.5} 11L${dx} 17L${dx+3.5} 11Z`} fill=${V("ag")}/>`)}
+  </g>`;
+}
+function Virus({x,y,r=6}){
+  const sp=[0,60,120,180,240,300].map(a=>{const [x1,y1]=pol(x,y,r,a),[x2,y2]=pol(x,y,r+3.5,a);return `M${x1.toFixed(1)} ${y1.toFixed(1)}L${x2.toFixed(1)} ${y2.toFixed(1)}`}).join("");
+  return html`<g><path d=${sp} stroke=${V("ag")} strokeWidth="1.6"/><circle cx=${x} cy=${y} r=${r} fill=${V("ag-bg")} stroke=${V("ag")} strokeWidth="1.5"/></g>`;
+}
+function IL({pts}){return pts.map((p,i)=>html`<circle key=${i} cx=${p[0]} cy=${p[1]} r="3.2" fill=${V("il")}/>`)}
+function Complex({x,y,n=3,g=24,mini}){
+  const els=[];const x0=x-(n-1)*g/2,y0=y-(n-1)*g/2;
+  for(let i=0;i<n;i++)for(let j=0;j<n;j++){
+    const ax=x0+i*g,ay=y0+j*g;
+    if(i<n-1) els.push(html`<${Ab} key=${"h"+i+j} x=${ax+g/2} y=${ay} rot=${90} s=${mini?.7:1}/>`);
+    if(j<n-1) els.push(html`<${Ab} key=${"v"+i+j} x=${ax} y=${ay+g/2} rot=${0} s=${mini?.7:1}/>`);
+  }
+  for(let i=0;i<n;i++)for(let j=0;j<n;j++) els.push(html`<circle key=${"a"+i+j} cx=${x0+i*g} cy=${y0+j*g} r=${mini?3:4.2} fill=${V("ag")}/>`);
+  return html`<g>${els}</g>`;
+}
+function Infected({x,y,r=30,label,lp="t",bare}){
+  const P=lblPos(x,y,r+10,lp);
+  return html`<g>
+    <${SurfCmh} x=${x} y=${y} r=${r} angles=${[135,-30,-100,50]}/>
+    <circle cx=${x} cy=${y} r=${r} fill=${V("soi-bg")} stroke=${V("soi")} strokeWidth="1.8"/>
+    <circle cx=${x-6} cy=${y+4} r=${r*.42} fill=${V("soi")} opacity=".4"/>
+    <${Virus} x=${x+12} y=${y-12} r=${4}/><${Virus} x=${x+14} y=${y+12} r=${4}/>
+    ${label&&!bare&&html`<${T} x=${P.x} y=${P.y} a=${P.a} t=${label}/>`}
+  </g>`;
+}
+/* Repère numéroté avec trait de rappel */
+function Mark({n,pt,at}){
+  return html`<g>
+    <line x1=${pt[0]} y1=${pt[1]} x2=${at[0]} y2=${at[1]} stroke=${V("fg")} strokeWidth="1" />
+    <circle cx=${pt[0]} cy=${pt[1]} r="2.5" fill=${V("fg")}/>
+    <circle cx=${at[0]} cy=${at[1]} r="11" fill=${V("view")} stroke=${V("fg")} strokeWidth="1.4"/>
+    <text x=${at[0]} y=${at[1]+4.5} textAnchor="middle" fontSize="12.5" fontWeight="700">${n}</text>
+  </g>`;
+}
+function Bx({x,y,w=250,h=44,c="line2",bg="view",t,dim,s=12.5,b}){
+  const L=Array.isArray(t)?t:[t];
+  return html`<g opacity=${dim?.35:1}>
+    <rect x=${x-w/2} y=${y-h/2} width=${w} height=${h} rx="4" fill=${V(bg)} stroke=${V(c)} strokeWidth=${b?2:1.4}/>
+    <${T} x=${x} y=${y-(L.length-1)*(s+3)/2+4} t=${L} s=${s} w=${b?600:null}/>
+  </g>`;
+}
+const gs=(i,step)=>"g-step"+(i>step?" g-off":"");
+
+/* ---------- Réponse humorale (pas à pas) ---------- */
+function HumoralFig({step=6,bare,marks}){
+  const nums=[95,253,430,540,700,862];
+  return html`<svg viewBox="0 0 960 330" role="img" aria-label="Schéma de la réponse adaptative humorale">
+    <g className=${gs(1,step)}>
+      <${Bact} x=${95} y=${118}/>
+      ${!bare&&html`<${T} x=${95} y=${88} t="antigène (bactérie)" c=${V("ag")}/>`}
+      <${Cell} x=${95} y=${175} r=${24} c="lb" ab=${[-90,-30,-150,30,150]} sub="B" label="LB activé" bare=${bare}/>
+    </g>
+    <g className=${gs(2,step)}>
+      <${Ar} d="M124 178 L196 180" c="Lb"/>
+      ${!bare&&html`<${T} x=${160} y=${170} t="mitoses" s=${11}/>`}
+      <${Cell} x=${253} y=${52} r=${18} c="lt4" rt=${[90,45,135]} sub="T4" bare=${bare}/>
+      ${!bare&&html`<${T} x=${228} y=${50} a="end" t=${["LT4","auxiliaire"]} s=${11.5}/>`}
+      <${IL} pts=${[[253,86],[249,96],[256,105]]}/>
+      <${Ar} d="M253 110 L253 128" c="Il"/>
+      ${!bare&&html`<${T} x=${264} y=${100} a="start" t="interleukine 2" s=${11} c=${V("il")}/>`}
+      ${[[222,150],[284,150],[222,208],[284,208]].map((p,i)=>html`<${Cell} key=${i} x=${p[0]} y=${p[1]} r=${15} c="lb" ab=${[135,45]} sub="B" bare=${bare}/>`)}
+      ${!bare&&html`<${T} x=${253} y=${258} t="amplification clonale" s=${11.5}/>`}
+    </g>
+    <g className=${gs(3,step)}>
+      <${Ar} d="M302 150 L392 124" c="Lb"/>
+      <${Ar} d="M302 210 L405 232" c="Lb"/>
+      <${Plasmo} x=${430} y=${120} label="plasmocyte" bare=${bare}/>
+      <${Cell} x=${430} y=${238} r=${18} c="lb" mem=${true} sub="B" label="LB mémoire" bare=${bare}/>
+    </g>
+    <g className=${gs(4,step)}>
+      <${Ar} d="M463 112 L488 104" c="Lb"/>
+      ${[[505,95,20],[532,128,-15],[562,92,40],[515,165,-40],[577,140,10],[553,178,25]].map((a,i)=>html`<${Ab} key=${i} x=${a[0]} y=${a[1]} rot=${a[2]} s=${1.35}/>`)}
+      ${!bare&&html`<${T} x=${540} y=${212} t=${["anticorps libres","(sang, lymphe)"]} s=${11.5}/>`}
+    </g>
+    <g className=${gs(5,step)}>
+      <${Complex} x=${700} y=${125}/>
+      ${!bare&&html`<${T} x=${700} y=${175} t=${["complexe immun","(neutralisation)"]} s=${11.5}/>`}
+    </g>
+    <g className=${gs(6,step)}>
+      <${Ar} d="M738 125 L806 125"/>
+      <${Phago} x=${865} y=${125} r=${42} kind="mac" bare=${bare}>
+        <circle cx=${878} cy=${116} r="17" fill=${V("view")} stroke=${V("cpa")} strokeDasharray="3 2"/>
+        <${Complex} x=${878} y=${116} n=${2} g=${14} mini=${true}/>
+      <//>
+      ${!bare&&html`<${T} x=${865} y=${190} t=${["macrophage","(phagocytose)"]} s=${11.5}/>`}
+    </g>
+    ${!bare&&nums.map((x,i)=>html`<g key=${"n"+i} opacity=${i+1>step?.25:1}>
+      <circle cx=${x} cy=${302} r="12" fill=${i+1===step?V("accent-bg"):V("view")} stroke=${i+1===step?V("accent"):V("line2")} strokeWidth="1.4"/>
+      <text x=${x} y=${306.5} textAnchor="middle" fontSize="12" fontWeight=${i+1===step?700:400}>${i+1}</text></g>`)}
+    ${marks&&marks.map(m=>html`<${Mark} key=${m.n} ...${m}/>`)}
+  </svg>`;
+}
+
+/* ---------- Réponse cellulaire (pas à pas) ---------- */
+function CellularFig({step=6,bare,marks}){
+  return html`<svg viewBox="0 0 960 380" role="img" aria-label="Schéma de la réponse adaptative cellulaire">
+    <rect x="10" y="30" width="200" height="335" rx="6" fill=${V("tissu")} stroke=${V("line")}/>
+    <${T} x=${110} y=${52} t="Tissu infecté" s=${12} w=${600}/>
+    <rect x="290" y="30" width="420" height="335" rx="40" fill=${V("gang")} stroke=${V("line2")}/>
+    <${T} x=${500} y=${352} t="Ganglion lymphatique" s=${12} w=${600}/>
+    <rect x="740" y="30" width="210" height="335" rx="6" fill=${V("tissu")} stroke=${V("line")}/>
+    <${T} x=${845} y=${52} t="Tissu infecté" s=${12} w=${600}/>
+    <path d="M210 183 H290 M210 217 H290" stroke=${V("line2")} strokeWidth="1.5"/>
+    <${T} x=${250} y=${236} t=${["vaisseau","lymphatique"]} s=${10.5} c=${V("fg2")}/>
+    <g className=${gs(1,step)}>
+      <${Virus} x=${55} y=${95}/><${Virus} x=${98} y=${78}/><${Virus} x=${150} y=${108}/><${Virus} x=${45} y=${145}/>
+      <${Phago} x=${110} y=${200} r=${20} kind="den" label=${["cellule","dendritique"]} bare=${bare}>
+        <${Virus} x=${118} y=${196} r=${4}/>
+      <//>
+    </g>
+    <g className=${gs(2,step)}>
+      <${Ar} d="M146 200 L338 200" c="Cpa" w=${2}/>
+      ${!bare&&html`<${T} x=${250} y=${176} t="migration" s=${11}/>`}
+      <${Phago} x=${375} y=${200} r=${20} kind="den">
+        <${SurfCmh} x=${375} y=${200} r=${21} angles=${[-40,40]}/>
+      <//>
+      ${!bare&&html`<${T} x=${375} y=${250} t=${["CPA","(antigène + CMH)"]} s=${11.5}/>`}
+    </g>
+    <g className=${gs(3,step)}>
+      <path d="M396 183 L450 133 M396 217 L450 267" stroke=${V("fg2")} strokeWidth="1.2" strokeDasharray="3 3"/>
+      ${!bare&&html`<${T} x=${404} y=${204} a="start" t="reconnaissance" s=${10.5} c=${V("fg2")}/>`}
+      <${Cell} x=${470} y=${115} r=${18} c="lt4" rt=${[138]} sub="T4" label="LT4" lp="t" bare=${bare}/>
+      <${Cell} x=${470} y=${285} r=${18} c="lt8" rt=${[-138]} sub="T8" label="LT8" lp="b" bare=${bare}/>
+    </g>
+    <g className=${gs(4,step)}>
+      <${Ar} d="M490 108 L548 88" c="Lt4"/>
+      <${Cell} x=${572} y=${80} r=${14} c="lt4" sub="T4" bare=${bare}/>
+      <${Cell} x=${608} y=${80} r=${14} c="lt4" sub="T4" bare=${bare}/>
+      ${!bare&&html`<${T} x=${590} y=${56} t="LT4 auxiliaires" s=${11.5}/>`}
+      <${Cell} x=${660} y=${80} r=${14} c="lt4" mem=${true} sub="T4" label="mémoire" bare=${bare}/>
+    </g>
+    <g className=${gs(5,step)}>
+      <${IL} pts=${[[590,104],[587,122],[593,140],[588,158],[592,176],[589,194],[591,212]]}/>
+      <${Ar} d="M590 218 L590 240" c="Il"/>
+      ${!bare&&html`<${T} x=${600} y=${160} a="start" t="interleukine" s=${11} c=${V("il")}/>`}
+      <${Ar} d="M490 288 L548 270" c="Lt8"/>
+      <${Cell} x=${572} y=${266} r=${14} c="lt8" sub="T8" bare=${bare}/>
+      <${Cell} x=${608} y=${266} r=${14} c="lt8" sub="T8" bare=${bare}/>
+      ${!bare&&html`<${T} x=${590} y=${298} t=${["LT8","cytotoxiques"]} s=${11.5}/>`}
+      <${Cell} x=${660} y=${266} r=${14} c="lt8" mem=${true} sub="T8" label="mémoire" lp="t" bare=${bare}/>
+    </g>
+    <g className=${gs(6,step)}>
+      <${Ar} d="M624 256 Q712 212 802 244" c="Lt8" w=${2}/>
+      <${Infected} x=${870} y=${195} label="cellule infectée" bare=${bare}/>
+      <${Cell} x=${836} y=${232} r=${16} c="lt8" sub="T8" bare=${bare}/>
+      <${IL} pts=${[]}/>
+      ${[[851,215],[855,209],[846,221]].map((p,i)=>html`<circle key=${i} cx=${p[0]} cy=${p[1]} r="2" fill=${V("lt8")}/>`)}
+      ${!bare&&html`<${T} x=${850} y=${292} t=${["« baiser de la mort »","cytolyse ou apoptose"]} s=${11.5}/>`}
+    </g>
+    ${marks&&marks.map(m=>html`<${Mark} key=${m.n} ...${m}/>`)}
+  </svg>`;
+}
+
+/* ---------- Anticorps ---------- */
+const AB_PARTS={
+  heavyC:["M234 372 L234 205 L190.6 138.5","M246 372 L246 205 L289.4 138.5"],
+  heavyV:["M190.6 138.5 L172 110","M289.4 138.5 L308 110"],
+  lightC:["M211.3 199.5 L177.2 147.2","M268.7 199.5 L302.8 147.2"],
+  lightV:["M177.2 147.2 L158.6 118.7","M302.8 147.2 L321.4 118.7"],
+  bridges:["M234 222 L246 222","M234 236 L246 236","M221.6 186 L208.2 194.7","M258.4 186 L271.8 194.7"],
+};
+const AB_SEL={
+  lourde:["heavyC","heavyV"], legere:["lightC","lightV"], variable:["heavyV","lightV"], constante:["heavyC","lightC"], ponts:["bridges"], site:[]
+};
+const AB_CALL={
+  site:{pt:[160,104],at:[120,58],txt:"site de liaison à l'antigène",a:"middle",dy:-16},
+  legere:{pt:[192,172],at:[110,200],txt:"chaîne légère",a:"end",dx:-16},
+  ponts:{pt:[238,229],at:[160,262],txt:"pont disulfure",a:"end",dx:-16},
+  variable:{pt:[312,128],at:[372,105],txt:"partie variable",a:"start",dx:16},
+  constante:{pt:[287,174],at:[372,185],txt:"partie constante",a:"start",dx:16},
+  lourde:{pt:[246,318],at:[316,318],txt:"chaîne lourde",a:"start",dx:16},
+};
+function AbFig({sel,labels,marks}){
+  const hl=sel?AB_SEL[sel]:[];
+  const seg=(k,col,w)=>AB_PARTS[k].map((d,i)=>html`<path key=${k+i} d=${d} fill="none" stroke=${col} strokeWidth=${w} strokeLinecap="round"/>`);
+  return html`<svg viewBox="0 0 480 390" role="img" aria-label="Structure d'un anticorps">
+    ${hl.map(k=>seg(k,V("accent"),22))}
+    ${seg("heavyC",V("line2"),12)}${seg("lightC",V("line2"),12)}
+    ${seg("heavyV",V("lb"),12)}${seg("lightV",V("lb"),12)}
+    ${seg("bridges",V("fg"),2.2)}
+    ${[[164,108],[316,108]].map((p,i)=>html`<circle key=${"s"+i} cx=${p[0]} cy=${p[1]} r="20" fill="none" stroke=${sel==="site"?V("accent"):V("fg2")} strokeWidth=${sel==="site"?3:1.2} strokeDasharray="4 3"/>`)}
+    ${sel==="site"&&html`<g><path d="M156 92 L164 80 L172 92Z" fill=${V("ag")}/><path d="M308 92 L316 80 L324 92Z" fill=${V("ag")}/></g>`}
+    ${labels&&Object.entries(AB_CALL).map(([k,c])=>html`<g key=${k} opacity=${sel&&sel!==k?.35:1}>
+        <line x1=${c.pt[0]} y1=${c.pt[1]} x2=${c.at[0]} y2=${c.at[1]} stroke=${V("fg2")} strokeWidth="1"/>
+        <circle cx=${c.pt[0]} cy=${c.pt[1]} r="2.5" fill=${V("fg2")}/>
+        <${T} x=${c.at[0]+(c.dx||0)*.4} y=${c.at[1]+(c.dy||0)+4} a=${c.a} t=${c.txt} s=${12.5} w=${sel===k?600:null}/>
+      </g>`)}
+    ${marks&&marks.map(m=>html`<${Mark} key=${m.n} ...${m}/>`)}
+  </svg>`;
+}
+
+/* ---------- Contact CPA – LT ---------- */
+function ContactFig({labels}){
+  const m=[{n:1,pt:[183,124],at:[160,205]},{n:2,pt:[195,113],at:[200,30]},{n:3,pt:[204,107],at:[248,30]},{n:4,pt:[285,100],at:[350,45]},{n:5,pt:[100,95],at:[55,40]}];
+  const L=["molécule du CMH","antigène","récepteur T","lymphocyte T","CPA (cellule dendritique)"];
+  return html`<svg viewBox="0 0 480 230" role="img" aria-label="Rencontre entre une CPA et un lymphocyte T">
+    <${Phago} x=${130} y=${115} r=${42} kind="den"/>
+    <${Cmh} x=${183} y=${115} rot=${90} s=${2}/>
+    <${Cell} x=${262} y=${115} r=${42} c="lt4"/>
+    <${Rt} x=${206} y=${115} rot=${-90} c="lt4" s=${2}/>
+    ${m.map((k,i)=>labels?html`<g key=${i}><line x1=${k.pt[0]} y1=${k.pt[1]} x2=${k.at[0]} y2=${k.at[1]} stroke=${V("fg2")}/><${T} x=${k.at[0]} y=${k.at[1]-4} t=${L[i]} s=${12}/></g>`:html`<${Mark} key=${i} ...${k}/>`)}
+  </svg>`;
+}
+
+/* ---------- Courbes de mémoire immunitaire ---------- */
+const prim=(t,t0)=>{const d=t-t0;if(d<5)return 0;if(d<14)return 10*Math.pow((d-5)/9,1.5);return Math.max(1,10-9*(d-14)/30)};
+const secd=(t,t0)=>{const d=t-t0;if(d<1.5)return 0;if(d<8)return 100*Math.pow((d-1.5)/6.5,1.3);return 100-35*(d-8)/22};
+const respA=t=>prim(t,0)+(t>=30?secd(t,30):0);
+const respB=t=>t>=30?prim(t,30):0;
+function MemGraph({day,showB,annot}){
+  const X=d=>62+d*(548/60), Y=c=>252-c*(212/110);
+  const path=f=>{let s="";for(let t=0;t<=60.001;t+=.25)s+=(t?"L":"M")+X(t).toFixed(1)+" "+Y(f(t)).toFixed(1);return s};
+  return html`<svg viewBox="0 0 640 310" role="img" aria-label="Concentration d'anticorps en fonction du temps">
+    ${[0,20,40,60,80,100].map(v=>html`<g key=${"y"+v}><line x1=${62} x2=${610} y1=${Y(v)} y2=${Y(v)} stroke=${V("line")} strokeWidth=${v?0.8:1.4}/><text x=${54} y=${Y(v)+4} textAnchor="end" fontSize="11">${v}</text></g>`)}
+    ${[0,10,20,30,40,50,60].map(d=>html`<text key=${"x"+d} x=${X(d)} y=${270} textAnchor="middle" fontSize="11">${d}</text>`)}
+    <line x1=${62} x2=${62} y1=${30} y2=${252} stroke=${V("fg2")} strokeWidth="1.2"/>
+    <${T} x=${336} y=${292} t="temps (jours)" s=${11.5}/>
+    <text transform="translate(16 141) rotate(-90)" textAnchor="middle" fontSize="11.5">anticorps dans le sang (u.a.)</text>
+    ${[0,30].map(d=>html`<g key=${"i"+d}><path d=${`M${X(d)} 238 L${X(d)-5} 228 M${X(d)} 238 L${X(d)+5} 228 M${X(d)} 238 V214`} stroke=${V("ag")} strokeWidth="1.8" fill="none"/>
+      <${T} x=${X(d)+8} y=${212} a="start" t=${d===0?"injection de A":showB?"injection de A + B":"injection de A"} s=${10.5} c=${V("ag")}/></g>`)}
+    ${showB&&html`<path d=${path(respB)} fill="none" stroke=${V("ag")} strokeWidth="2.4" strokeDasharray="6 4"/>`}
+    <path d=${path(respA)} fill="none" stroke=${V("lb")} strokeWidth="2.6"/>
+    ${showB&&html`<g><line x1=${430} x2=${456} y1=${44} y2=${44} stroke=${V("lb")} strokeWidth="2.6"/><text x=${462} y=${48} fontSize="11.5">anticorps anti-A</text>
+      <line x1=${430} x2=${456} y1=${62} y2=${62} stroke=${V("ag")} strokeWidth="2.4" strokeDasharray="6 4"/><text x=${462} y=${66} fontSize="11.5">anticorps anti-B</text></g>`}
+    ${annot&&html`<g>
+      <path d=${`M${X(0)} 196 V190 H${X(5)} V196`} fill="none" stroke=${V("accent-strong")} strokeWidth="1.4"/>
+      <${T} x=${X(2.5)} y=${183} t="≈ 5 j" s=${11} c=${V("accent-strong")}/>
+      <path d=${`M${X(30)} 196 V190 H${X(31.5)} V196`} fill="none" stroke=${V("accent-strong")} strokeWidth="1.4"/>
+      <${T} x=${X(30.8)} y=${183} t="1–2 j" s=${11} c=${V("accent-strong")}/>
+      <line x1=${X(14)} x2=${X(22)} y1=${Y(10)} y2=${Y(30)} stroke=${V("accent-strong")}/><${T} x=${X(22)+3} y=${Y(30)-4} a="start" t="max ≈ 10" s=${11} c=${V("accent-strong")}/>
+      <line x1=${X(38)} x2=${X(46)} y1=${Y(100)} y2=${Y(104)} stroke=${V("accent-strong")}/><${T} x=${X(46)+3} y=${Y(104)} a="start" t="max ≈ 100" s=${11} c=${V("accent-strong")}/>
+      <${T} x=${X(14)} y=${Y(10)-34} t="1re réponse" s=${11.5} w=${600}/>
+      <${T} x=${X(38)} y=${Y(100)-10} t="2e réponse" s=${11.5} w=${600}/>
+    </g>`}
+    ${day!=null&&html`<g><line x1=${X(day)} x2=${X(day)} y1=${30} y2=${252} stroke=${V("accent")} strokeWidth="1.4" strokeDasharray="4 3"/>
+      <circle cx=${X(day)} cy=${Y(respA(day))} r="5" fill=${V("accent")} stroke=${V("view")} strokeWidth="1.5"/></g>`}
+  </svg>`;
+}
+
+/* ---------- Évolution des LT4 (VIH) ---------- */
+function VihGraph(){
+  const X=y=>70+y*(540/12), Y=v=>240-v*(200/1200);
+  const pts=[[0,1000],[.3,560],[.8,820],[2,720],[9,200],[12,40]];
+  const d=pts.map((p,i)=>(i?"L":"M")+X(p[0]).toFixed(1)+" "+Y(p[1]).toFixed(1)).join("");
+  return html`<svg viewBox="0 0 640 290" role="img" aria-label="Évolution du nombre de LT4 au cours d'une infection par le VIH">
+    <rect x=${70} y=${Y(1200)} width=${540} height=${Y(500)-Y(1200)} fill=${V("pos-bg")}/>
+    <${T} x=${604} y=${Y(1200)+16} a="end" t="valeurs habituelles (500 à 1 500 / mm³)" s=${10.5} c=${V("pos-fg")}/>
+    <rect x=${70} y=${Y(200)} width=${540} height=${Y(0)-Y(200)} fill=${V("neg-bg")}/>
+    <${T} x=${80} y=${Y(100)+4} a="start" t="< 200 / mm³ : maladies opportunistes (stade SIDA)" s=${10.5} c=${V("neg-fg")}/>
+    ${[0,200,400,600,800,1000,1200].map(v=>html`<g key=${v}><line x1=${70} x2=${610} y1=${Y(v)} y2=${Y(v)} stroke=${V("line")} strokeWidth=${v?0.7:1.4}/><text x=${62} y=${Y(v)+4} textAnchor="end" fontSize="11">${v}</text></g>`)}
+    ${[0,2,4,6,8,10,12].map(y=>html`<text key=${"x"+y} x=${X(y)} y=${258} textAnchor="middle" fontSize="11">${y}</text>`)}
+    <line x1=${70} x2=${70} y1=${40} y2=${240} stroke=${V("fg2")} strokeWidth="1.2"/>
+    <path d=${d} fill="none" stroke=${V("lt4")} strokeWidth="2.6"/>
+    <${T} x=${340} y=${282} t="temps depuis l'infection (années)" s=${11.5}/>
+    <text transform="translate(16 140) rotate(-90)" textAnchor="middle" fontSize="11.5">LT4 par mm³ de sang</text>
+  </svg>`;
+}
+
+/* ---------- Carte d'ensemble ---------- */
+function OverviewMap(){
+  return html`<svg viewBox="0 0 900 380" role="img" aria-label="Carte d'ensemble des deux réponses adaptatives">
+    <${Bx} x=${450} y=${30} w=${190} h=${36} c="ag" bg="ag-bg" t="Un antigène" b=${true}/>
+    <${Ar} d="M380 42 L230 76"/><${Ar} d="M520 42 L670 76"/>
+    <${Bx} x=${200} y=${104} w=${300} h=${50} t=${["libre ou à la surface d'un microbe","qui circule (toxine, bactérie, virus libre…)"]}/>
+    <${Bx} x=${700} y=${104} w=${300} h=${50} t=${["porté par une cellule du soi avec le CMH","(cellule infectée, cellule cancéreuse)"]}/>
+    <${Ar} d="M200 130 V150"/><${Ar} d="M700 130 V150"/>
+    <${Bx} x=${200} y=${174} w=${240} h=${38} c="lb" bg="lb-bg" t="Réponse humorale" b=${true} s=${13.5}/>
+    <${Bx} x=${700} y=${174} w=${240} h=${38} c="lt8" bg="lt8-bg" t="Réponse cellulaire" b=${true} s=${13.5}/>
+    <${Ar} d="M200 194 V216" c="Lb"/><${Ar} d="M700 194 V216" c="Lt8"/>
+    <${Bx} x=${200} y=${244} w=${270} h=${46} c="lb" t=${["LB → amplification clonale →","plasmocytes qui sécrètent des anticorps"]}/>
+    <${Bx} x=${700} y=${244} w=${270} h=${46} c="lt8" t=${["LT8 → amplification clonale →","LT8 cytotoxiques"]}/>
+    <${Ar} d="M200 268 V290" c="Lb"/><${Ar} d="M700 268 V290" c="Lt8"/>
+    <${Bx} x=${200} y=${318} w=${270} h=${46} c="lb" t=${["complexe immun (neutralisation)","→ phagocytose par les macrophages"]}/>
+    <${Bx} x=${700} y=${318} w=${270} h=${46} c="lt8" t=${["baiser de la mort : destruction","de la cellule infectée"]}/>
+    <${Bx} x=${450} y=${244} w=${150} h=${62} c="lt4" bg="lt4-bg" t=${["LT4 auxiliaires","« chefs d'orchestre »"]} b=${true}/>
+    <${Ar} d="M374 244 L340 244" c="Il" w=${2.2} dash="5 3"/><${Ar} d="M526 244 L560 244" c="Il" w=${2.2} dash="5 3"/>
+    <${T} x=${450} y=${294} t="interleukine" s=${11.5} c=${V("il")} w=${600}/>
+  </svg>`;
+}
+
+/* ---------- Coopération et VIH ---------- */
+function CoopFig({vih}){
+  return html`<svg viewBox="0 0 640 250" role="img" aria-label="Rôle central des LT4 et effet du VIH">
+    <${Bx} x=${320} y=${40} w=${200} h=${46} c="lt4" bg="lt4-bg" t=${vih?["LT4 auxiliaires","détruits par le VIH"]:["LT4 auxiliaires","(interleukine)"]} b=${true} dim=${vih}/>
+    ${vih&&html`<path d="M228 22 L412 58 M228 58 L412 22" stroke=${V("neg")} strokeWidth="3"/>`}
+    <path d="M250 64 L150 118" stroke=${vih?V("line2"):V("il")} strokeWidth="2.2" strokeDasharray="5 3" markerEnd=${vih?null:"url(#aIl)"}/>
+    <path d="M390 64 L490 118" stroke=${vih?V("line2"):V("il")} strokeWidth="2.2" strokeDasharray="5 3" markerEnd=${vih?null:"url(#aIl)"}/>
+    <${Bx} x=${130} y=${142} w=${210} h=${46} c="lb" bg="lb-bg" t=${vih?["LB peu stimulés","peu de plasmocytes"]:["LB : multiplication","→ plasmocytes"]} dim=${vih}/>
+    <${Bx} x=${510} y=${142} w=${210} h=${46} c="lt8" bg="lt8-bg" t=${vih?["LT8 peu stimulés","peu de LT8 cytotoxiques"]:["LT8 : multiplication","→ LT8 cytotoxiques"]} dim=${vih}/>
+    <${Bx} x=${130} y=${215} w=${210} h=${40} t=${vih?"peu d'anticorps":"anticorps → complexe immun"} dim=${vih}/>
+    <${Bx} x=${510} y=${215} w=${210} h=${40} t=${vih?"cellules infectées épargnées":"cellules infectées détruites"} dim=${vih}/>
+    ${vih&&html`<${Bx} x=${320} y=${215} w=${170} h=${54} c="neg" bg="neg-bg" t=${["infections","opportunistes"]} b=${true}/>`}
+  </svg>`;
+}
+
+/* Figures utilisées dans les exercices */
+const HUM_MARKS=[{n:1,pt:[80,192],at:[36,252]},{n:2,pt:[253,36],at:[300,22]},{n:3,pt:[430,98],at:[470,62]},{n:4,pt:[444,250],at:[490,280]},{n:5,pt:[553,174],at:[575,232]},{n:6,pt:[712,137],at:[735,195]},{n:7,pt:[885,155],at:[910,212]}];
+const CEL_MARKS=[{n:1,pt:[92,214],at:[50,280]},{n:2,pt:[372,216],at:[372,272]},{n:3,pt:[572,68],at:[540,36]},{n:4,pt:[593,140],at:[640,130]},{n:5,pt:[668,276],at:[686,318]},{n:6,pt:[830,245],at:[800,310]},{n:7,pt:[888,178],at:[920,110]}];
+const AB_MARKS=[{n:1,pt:[160,104],at:[118,60]},{n:2,pt:[192,172],at:[128,205]},{n:3,pt:[238,229],at:[176,262]},{n:4,pt:[312,128],at:[372,105]},{n:5,pt:[287,174],at:[372,185]},{n:6,pt:[246,318],at:[316,318]}];
+
+function ThymusTable(){
+  return html`<div className="tblwrap"><table>
+    <thead><tr><th></th><th>Lot 1 : souris normales</th><th>Lot 2 : souris sans thymus dès la naissance</th></tr></thead>
+    <tbody>
+      <tr><td><b>Lymphocytes T matures</b></td><td>présents</td><td>absents</td></tr>
+      <tr><td><b>Lymphocytes B</b></td><td>présents</td><td>présents</td></tr>
+      <tr><td><b>Anticorps anti-virus (après 10 jours)</b></td><td>abondants</td><td>presque absents</td></tr>
+      <tr><td><b>Cellules infectées</b></td><td>détruites</td><td>non détruites</td></tr>
+    </tbody></table></div>
+    <p className="cap">Expérience : on injecte un même virus aux deux lots de souris. Le thymus est l'organe où mûrissent les lymphocytes T.</p>`;
+}
+const FIGS={
+  memPlain:()=>html`<div className="fig"><${MemGraph}/></div>`,
+  memAnnot:()=>html`<div className="fig"><${MemGraph} annot=${true}/></div>`,
+  memAB:()=>html`<div className="fig"><${MemGraph} showB=${true}/></div>`,
+  vih:()=>html`<div className="fig"><${VihGraph}/></div>`,
+  thymus:()=>html`<${ThymusTable}/>`,
+  contact:()=>html`<div className="fig"><${ContactFig}/></div>`,
+  abLabel:()=>html`<div className="fig" style=${{maxWidth:"460px"}}><${AbFig} marks=${AB_MARKS}/></div>`,
+  humLabel:()=>html`<div className="fig scroll"><${HumoralFig} step=${6} bare=${true} marks=${HUM_MARKS}/></div>`,
+  celLabel:()=>html`<div className="fig scroll"><${CellularFig} step=${6} bare=${true} marks=${CEL_MARKS}/></div>`,
+};
+/* ================= INTERFACE ================= */
+const KEY="immunite04-v1";
+function loadP(){try{return JSON.parse(localStorage.getItem(KEY))||{}}catch(e){return {}}}
+function saveP(p){try{localStorage.setItem(KEY,JSON.stringify(p))}catch(e){}}
+
+/* Texte enrichi : **gras**, *italique* */
+function R({t}){
+  if(t==null) return null;
+  const parts=String(t).split(/(\*\*[^*]+\*\*|\*[^*]+\*)/g);
+  return parts.map((p,i)=>p.startsWith("**")?html`<b key=${i}>${p.slice(2,-2)}</b>`:p.startsWith("*")&&p.length>2?html`<i key=${i}>${p.slice(1,-1)}</i>`:p);
+}
+function hashStr(s){let h=2166136261;for(const c of s){h^=c.charCodeAt(0);h=Math.imul(h,16777619)}return h>>>0}
+function shuffle(arr,seed){
+  const a=arr.slice();let s=seed||1;
+  const rnd=()=>{s=Math.imul(s^(s>>>15),2246822507);s=Math.imul(s^(s>>>13),3266489909);s^=s>>>16;return (s>>>0)/4294967296};
+  for(let i=a.length-1;i>0;i--){const j=Math.floor(rnd()*(i+1));[a[i],a[j]]=[a[j],a[i]]}
+  return a;
+}
+function Lvl({n}){return html`<span className="lvl" title=${"Niveau "+n+" sur 3"} aria-label=${"Niveau "+n+" sur 3"}>${[1,2,3].map(i=>html`<i key=${i} className=${i<=n?"on":""}></i>`)}</span>`}
+const LVL_TXT={1:"je retrouve",2:"j'applique",3:"je raisonne"};
+
+/* ---------- Pas à pas ---------- */
+function Stepper({steps,Fig,label}){
+  const [s,setS]=useState(1);
+  const [seen,setSeen]=useState(()=>new Set([1]));
+  const go=n=>{const v=Math.max(1,Math.min(steps.length,n));setS(v);setSeen(p=>new Set(p).add(v))};
+  const st=steps[s-1];
+  return html`<div className="stepper">
+    <div className="fig scroll"><${Fig} step=${s}/></div>
+    <div className="steptext" aria-live="polite"><b className="h">Étape ${s} / ${steps.length} — ${st.h}</b><span><${R} t=${st.t}/></span></div>
+    <div className="row">
+      <button className="btn" onClick=${()=>go(s-1)} disabled=${s===1}>← Précédent</button>
+      <div className="dots" role="group" aria-label=${label}>
+        ${steps.map((x,i)=>html`<button key=${i} className=${"dot"+(seen.has(i+1)?" seen":"")} aria-current=${s===i+1?"step":null} title=${x.h} onClick=${()=>go(i+1)}>${i+1}</button>`)}
+      </div>
+      <button className="btn primary" onClick=${()=>go(s+1)} disabled=${s===steps.length}>Suivant →</button>
+    </div>
+  </div>`;
+}
+
+/* ---------- Exercice résolu ---------- */
+function Worked({w}){
+  const [n,setN]=useState(0);
+  const all=n>=w.steps.length;
+  const F=w.fig&&FIGS[w.fig];
+  return html`<section className="ex solved" aria-label="Exercice résolu">
+    <div className="ex-head"><span className="pill acc">Exercice résolu</span><span>Lis chaque étape avant de passer à la suivante.</span></div>
+    <div className="prompt"><${R} t=${w.prompt}/></div>
+    ${w.list&&html`<ul className="small" style=${{margin:0}}>${w.list.map((l,i)=>html`<li key=${i}>${l}</li>`)}</ul>`}
+    ${F&&html`<${F}/>`}
+    <div className="wsteps">
+      ${w.steps.slice(0,n).map((s,i)=>html`<div key=${i} className="wstep"><span className="num">${i+1}</span><div><b className="h">${s.h}</b><${R} t=${s.t}/></div></div>`)}
+    </div>
+    ${!all&&html`<div className="row">
+      <button className="btn primary" onClick=${()=>setN(n+1)}>${n===0?"Voir la 1re étape":"Étape suivante"}</button>
+      <button className="btn flat" onClick=${()=>setN(w.steps.length)}>Tout afficher</button></div>`}
+    ${all&&html`<div className="msg pos"><b className="h">Réponse</b><span><${R} t=${w.answer}/></span></div>
+      <div className="msg"><b className="h">À retenir pour la suite</b><span><${R} t=${w.retenir}/></span></div>
+      <div className="row"><button className="btn flat sm" onClick=${()=>setN(0)}>Revoir pas à pas</button></div>`}
+  </section>`;
+}
+
+/* ---------- Moteur d'exercices ---------- */
+function initState(ex,seed){
+  if(ex.type==="qcm") return {sel:[]};
+  if(ex.type==="match"||ex.type==="cloze") return {v:(ex.items||ex.blanks).map(()=>"")};
+  if(ex.type==="order"){
+    const idx=ex.items.map((_,i)=>i);let o=shuffle(idx,seed);
+    if(o.every((v,i)=>v===i)) o=o.slice().reverse();
+    return {o,out:[]};
+  }
+  if(ex.type==="open") return {text:"",revealed:false,crit:[]};
+}
+function evaluate(ex,st){
+  if(ex.type==="qcm"){
+    const good=ex.opts.map((o,i)=>!!o.ok);
+    const marks=ex.opts.map((o,i)=>st.sel.includes(i)?(o.ok?"good":"bad"):(o.ok&&ex.multi?"miss":null));
+    const ok=good.every((g,i)=>g===st.sel.includes(i));
+    const nOk=good.filter((g,i)=>g===st.sel.includes(i)).length;
+    return {ok,marks,score:nOk,total:ex.opts.length};
+  }
+  if(ex.type==="match"||ex.type==="cloze"){
+    const L=ex.items||ex.blanks;
+    const marks=L.map((it,i)=>st.v[i]===it.a?"good":"bad");
+    const score=marks.filter(m=>m==="good").length;
+    return {ok:score===L.length,marks,score,total:L.length};
+  }
+  if(ex.type==="order"){
+    const inc=st.o.filter(i=>!st.out.includes(i));
+    const correct=ex.items.map((it,i)=>i).filter(i=>!ex.items[i].intrus);
+    const marks={};
+    let pos=0;
+    st.o.forEach(i=>{
+      if(st.out.includes(i)) marks[i]=ex.items[i].intrus?"good":"bad";
+      else {marks[i]=(!ex.items[i].intrus&&correct[pos]===i)?"good":"bad";pos++;}
+    });
+    const score=Object.values(marks).filter(m=>m==="good").length;
+    return {ok:score===ex.items.length&&inc.length===correct.length,marks,score,total:ex.items.length};
+  }
+}
+function Corrections({ex,open,setOpen}){
+  return html`<div className="corr-wrap" style=${{display:"flex",flexDirection:"column",gap:"8px"}}>
+    <div className="row">
+      <button className="btn sm" aria-pressed=${open==="simple"} onClick=${()=>setOpen(open==="simple"?null:"simple")}>Correction simple</button>
+      <button className="btn sm" aria-pressed=${open==="detail"} onClick=${()=>setOpen(open==="detail"?null:"detail")}>Correction détaillée</button>
+    </div>
+    ${open==="simple"&&html`<div className="corr"><b>Réponse attendue</b><span><${R} t=${ex.simple}/></span></div>`}
+    ${open==="detail"&&html`<div className="corr"><b>Correction détaillée</b><ol>${ex.detail.map((d,i)=>html`<li key=${i}><${R} t=${d}/></li>`)}</ol></div>`}
+  </div>`;
+}
+function Exercise({ex,n,done,onDone}){
+  const [tries,setTries]=useState(0);
+  const seed=hashStr(ex.id)+tries*0;
+  const [st,setSt]=useState(()=>initState(ex,seed));
+  const [res,setRes]=useState(null);
+  const [corr,setCorr]=useState(null);
+  const F=ex.fig&&FIGS[ex.fig];
+  const locked=!!res;
+  const choices=useMemo(()=>{
+    if(ex.type!=="match") return null;
+    const base=ex.choices||ex.items.map(i=>i.a);
+    return shuffle(base,hashStr(ex.id+"c"));
+  },[ex]);
+  const check=()=>{const r=evaluate(ex,st);setRes(r);setTries(t=>t+1);if(r.ok)onDone(ex.id)};
+  const retry=()=>setRes(null);
+  const reset=()=>{setSt(initState(ex,seed));setRes(null);setCorr(null)};
+  const filled=(()=>{
+    if(ex.type==="qcm") return st.sel.length>0;
+    if(ex.type==="match"||ex.type==="cloze") return st.v.every(v=>v);
+    return true;
+  })();
+
+  let body=null;
+  if(ex.type==="qcm"){
+    body=html`<div className="opts" role="group">
+      ${ex.opts.map((o,i)=>{
+        const on=st.sel.includes(i); const m=res&&res.marks[i];
+        const cls="opt"+(ex.multi?" multi":"")+(m==="good"?" good":m==="bad"?" bad":m==="miss"?" bad":"");
+        return html`<button key=${i} className=${cls} aria-pressed=${on} disabled=${locked}
+          onClick=${()=>setSt(s=>({sel:ex.multi?(on?s.sel.filter(x=>x!==i):[...s.sel,i]):[i]}))}>
+          <span className="mk"></span><span><${R} t=${o.t}/>
+          ${res&&(on||m==="miss")&&o.why&&html`<span className="why">${m==="miss"?"Oubliée — ":""}<${R} t=${o.why}/></span>`}</span></button>`})}
+    </div>`;
+  } else if(ex.type==="match"){
+    body=html`<div className="opts">
+      ${ex.items.map((it,i)=>{const m=res&&res.marks[i];return html`<label key=${i} className=${"mrow"+(m?" "+m:"")}>
+        <span><${R} t=${it.t}/></span>
+        <select value=${st.v[i]} disabled=${locked} onChange=${e=>{const v=e.target.value;setSt(s=>{const a=s.v.slice();a[i]=v;return {v:a}})}}>
+          <option value="">— choisir —</option>
+          ${choices.map(c=>html`<option key=${c} value=${c}>${c}</option>`)}
+        </select>
+        <span className=${"mark "+(m||"")} aria-hidden="true">${m==="good"?"✓":m==="bad"?"✗":""}</span></label>`})}
+    </div>`;
+  } else if(ex.type==="cloze"){
+    const parts=ex.text.split(/\{(\d+)\}/g);
+    body=html`<p className="cloze">${parts.map((p,k)=>{
+      if(k%2===0) return html`<${Fragment} key=${k}>${p}<//>`;
+      const i=+p;const b=ex.blanks[i];const m=res&&res.marks[i];
+      return html`<select key=${k} aria-label=${"Trou "+(i+1)} className=${m||""} value=${st.v[i]} disabled=${locked}
+        onChange=${e=>{const v=e.target.value;setSt(s=>{const a=s.v.slice();a[i]=v;return {v:a}})}}>
+        <option value="">……</option>${b.o.map(o=>html`<option key=${o} value=${o}>${o}</option>`)}</select>`;
+    })}</p>`;
+  } else if(ex.type==="order"){
+    const move=(k,d)=>setSt(s=>{const o=s.o.slice();const j=k+d;if(j<0||j>=o.length)return s;[o[k],o[j]]=[o[j],o[k]];return {...s,o}});
+    const hasIntrus=ex.items.some(i=>i.intrus);
+    let num=0;
+    body=html`<div className="ord">
+      ${st.o.map((i,k)=>{const out=st.out.includes(i);const m=res&&res.marks[i];if(!out)num++;
+        return html`<div key=${i} className=${"orow"+(out?" out":"")+(m?" "+m:"")}>
+          <span className="num">${out?"✕":num}</span><span className="t">${ex.items[i].t}</span>
+          <button className="ibtn" aria-label="Monter" disabled=${locked||k===0} onClick=${()=>move(k,-1)}>↑</button>
+          <button className="ibtn" aria-label="Descendre" disabled=${locked||k===st.o.length-1} onClick=${()=>move(k,1)}>↓</button>
+          ${hasIntrus&&html`<button className="ibtn" aria-pressed=${out} title=${out?"Réintégrer":"Écarter (intrus)"} aria-label=${out?"Réintégrer":"Écarter comme intrus"} disabled=${locked}
+            onClick=${()=>setSt(s=>({...s,out:out?s.out.filter(x=>x!==i):[...s.out,i]}))}>${out?"↺":"✕"}</button>`}
+        </div>`})}
+    </div>`;
+  } else if(ex.type==="open"){
+    body=html`<div style=${{display:"flex",flexDirection:"column",gap:"10px"}}>
+      <textarea aria-label="Ta réponse" placeholder="Rédige ta réponse ici (quelques phrases)…" value=${st.text} onInput=${e=>{const v=e.target.value;setSt(s=>({...s,text:v}))}}></textarea>
+      ${!st.revealed&&html`<div className="row"><button className="btn primary" disabled=${st.text.trim().length<20} onClick=${()=>setSt(s=>({...s,revealed:true}))}>Comparer avec la correction</button>
+        <span className="small muted">${st.text.trim().length<20?"Écris d'abord ta réponse.":""}</span></div>`}
+      ${st.revealed&&html`<div className="corr"><b>Auto-évaluation : coche ce qui est présent dans ta réponse</b>
+        ${ex.crit.map((c,i)=>html`<label key=${i} className="check"><input type="checkbox" checked=${st.crit.includes(i)} onChange=${()=>setSt(s=>({...s,crit:s.crit.includes(i)?s.crit.filter(x=>x!==i):[...s.crit,i]}))}/><span><${R} t=${c}/></span></label>`)}
+        <div className="row"><span className="pill">${st.crit.length} / ${ex.crit.length} critères</span>
+          <button className="btn sm primary" onClick=${()=>onDone(ex.id)}>${done?"Terminé ✓":"J'ai terminé l'auto-évaluation"}</button></div></div>
+        <div className="row">
+          <button className="btn sm" aria-pressed=${corr==="simple"} onClick=${()=>setCorr(corr==="simple"?null:"simple")}>Correction simple</button>
+          <button className="btn sm" aria-pressed=${corr==="detail"} onClick=${()=>setCorr(corr==="detail"?null:"detail")}>Correction détaillée</button></div>
+        ${corr==="simple"&&html`<div className="corr"><b>Les idées indispensables</b><ul>${ex.crit.map((c,i)=>html`<li key=${i}><${R} t=${c}/></li>`)}</ul></div>`}
+        ${corr==="detail"&&html`<div className="corr"><b>Exemple de réponse rédigée</b>${ex.model.map((p,i)=>html`<p key=${i}><${R} t=${p}/></p>`)}</div>`}`}
+    </div>`;
+  }
+
+  return html`<article className="ex" aria-label=${"Exercice "+n}>
+    <div className="ex-head"><b style=${{color:"var(--fg)"}}>Exercice ${n}</b><${Lvl} n=${ex.lvl}/><span>${LVL_TXT[ex.lvl]}</span>
+      <span className="st">${done?html`<span className="pill ok">réussi ✓</span>`:tries?html`<span className="pill">${tries} essai${tries>1?"s":""}</span>`:null}</span></div>
+    <div className="prompt"><${R} t=${ex.prompt}/></div>
+    ${F&&html`<${F}/>`}
+    ${body}
+    ${ex.type!=="open"&&html`<${Fragment}>
+      ${res&&html`<div className=${"msg "+(res.ok?"pos":"neg")} role="status">
+        <b className="h">${res.ok?"Bravo, c'est juste !":`${res.score} / ${res.total} élément${res.total>1?"s":""} correct${res.score>1?"s":""}`}</b>
+        <span>${res.ok?"Lis la correction détaillée pour vérifier ton raisonnement.":"Les éléments en rouge sont à revoir. Corrige-les, ou consulte la correction."}</span></div>`}
+      <div className="row">
+        ${!res&&html`<button className="btn primary" disabled=${!filled} onClick=${check}>Vérifier</button>`}
+        ${res&&!res.ok&&html`<button className="btn primary" onClick=${retry}>Corriger mes réponses</button>`}
+        ${(res||tries>0)&&html`<button className="btn flat" onClick=${reset}>Recommencer</button>`}
+        ${!res&&!filled&&html`<span className="small muted">${ex.type==="qcm"?(ex.multi?"Plusieurs réponses possibles.":"Une seule réponse."):"Complète tout avant de vérifier."}</span>`}
+      </div>
+      ${tries>0&&html`<${Corrections} ex=${ex} open=${corr} setOpen=${setCorr}/>`}
+    <//>`}
+  </article>`;
+}
+
+/* ---------- Pages « Comprendre » ---------- */
+function Frame({eyebrow,title,goal,children}){
+  return html`<section className="frame">
+    ${eyebrow&&html`<div className="eyebrow">${eyebrow}</div>`}
+    ${title&&html`<h2>${title}</h2>`}
+    ${goal&&html`<p className="goal"><${R} t=${goal}/></p>`}
+    ${children}
+  </section>`;
+}
+function Legend(){
+  const it=[["lb","LB, plasmocytes, anticorps"],["lt4","LT4 auxiliaires"],["lt8","LT8 cytotoxiques"],["ag","antigène, microbe"],["cpa","phagocytes (innée) : CPA, macrophage"],["soi","cellule du soi, CMH"],["il","interleukine"]];
+  return html`<div className="row small" aria-label="Code couleur">
+    ${it.map(([c,t])=>html`<span key=${c} className="row" style=${{gap:"5px"}}><span className=${"sw c-"+c}></span>${t}</span>`)}
+    <span className="row" style=${{gap:"5px"}}><span className="sw" style=${{borderStyle:"dashed",color:"var(--fg2)"}}></span>cellule mémoire</span>
+  </div>`;
+}
+function Gloss(){
+  const [open,setOpen]=useState(()=>new Set());
+  const all=open.size===GLOSS.length;
+  return html`<div style=${{display:"flex",flexDirection:"column",gap:"8px"}}>
+    <div className="row"><span className="small muted">Clique sur un mot pour afficher sa définition. Essaie d'abord de la dire toi-même.</span>
+      <button className="btn sm flat" onClick=${()=>setOpen(all?new Set():new Set(GLOSS.map((_,i)=>i)))}>${all?"Tout masquer":"Tout afficher"}</button></div>
+    <div className="gloss">
+      ${GLOSS.map((g,i)=>html`<button key=${i} className="gl" aria-expanded=${open.has(i)} onClick=${()=>setOpen(p=>{const s=new Set(p);s.has(i)?s.delete(i):s.add(i);return s})}>
+        <span className="k row" style=${{gap:"6px"}}><span className=${"sw c-"+g.c}></span>${g.t}</span>
+        ${open.has(i)&&html`<span className="d">${g.d}</span>`}</button>`)}
+    </div></div>`;
+}
+function PageAccueil({go}){
+  return html`<${Fragment}>
+    <${Frame} eyebrow="UAA5 · L'organisme humain se protège · Chapitre 5" title="La réponse immunitaire acquise (adaptative)"
+      goal="Quand l'immunité innée ne suffit pas, les **lymphocytes** prennent le relais : leur réponse est **spécifique**, **adaptative** et dotée de **mémoire**.">
+      <div className="msg"><b className="h">Ce que tu sauras faire à la fin</b><ul>
+        <li>décrire la structure d'un anticorps et expliquer sa spécificité ;</li>
+        <li>raconter, étape par étape, la réponse humorale et la réponse cellulaire ;</li>
+        <li>expliquer le rôle central des LT4 auxiliaires (et l'effet du VIH) ;</li>
+        <li>interpréter des courbes de réponse primaire et secondaire (mémoire immunitaire).</li></ul></div>
+      <div className="tblwrap"><table>
+        <thead><tr><th></th><th>Immunité innée</th><th>Immunité adaptative</th></tr></thead>
+        <tbody>
+          <tr><td><b>Acteurs</b></td><td>phagocytes : granulocytes, monocytes/macrophages, cellules dendritiques</td><td><b>lymphocytes</b> : LB, LT4, LT8</td></tr>
+          <tr><td><b>Reconnaissance</b></td><td>peu spécifique (motifs communs aux microbes)</td><td><b>très spécifique</b> : un lymphocyte reconnaît un seul antigène</td></tr>
+          <tr><td><b>Rapidité</b></td><td>immédiate</td><td>temps de latence (≈ 5 jours la 1re fois)</td></tr>
+          <tr><td><b>Mémoire</b></td><td>non</td><td><b>oui</b> : réponse plus rapide et plus intense la fois suivante</td></tr>
+          <tr><td><b>Histoire évolutive</b></td><td>ancienne</td><td>propre aux vertébrés</td></tr>
+        </tbody></table></div>
+    <//>
+    <${Frame} title="Deux réponses, un chef d'orchestre" goal="La réponse dépend de **l'endroit où se trouve l'antigène**. Les **LT4 auxiliaires** interviennent dans les deux.">
+      <div className="fig scroll"><${OverviewMap}/></div>
+      <${Legend}/>
+    <//>
+    <${Frame} title="Les mots-clés du chapitre" goal="Avant d'entrer dans les détails, familiarise-toi avec le vocabulaire : il sera réutilisé partout.">
+      <${Gloss}/>
+    <//>
+    <${Frame} title="Comment travailler avec cet outil">
+      <ol style=${{margin:0,paddingLeft:"1.3em",display:"flex",flexDirection:"column",gap:"4px"}}>
+        <li><b>Comprendre</b> : suis les schémas étape par étape (une idée à la fois).</li>
+        <li><b>Mémoriser</b> : teste-toi avec les cartes mémoire, en essayant de répondre <i>avant</i> de retourner la carte.</li>
+        <li><b>S'entraîner</b> : dans chaque famille, lis d'abord l'exercice résolu, puis fais les exercices du plus simple (●○○) au plus complexe (●●●).</li>
+        <li><b>Évaluer</b> : termine par le quiz final.</li></ol>
+      <div className="row"><button className="btn primary" onClick=${()=>go("anticorps")}>Commencer : les anticorps →</button></div>
+    <//>
+  <//>`;
+}
+const AB_INFO={
+  lourde:"**Chaînes lourdes** (×2) : les plus longues. Elles forment le pied du Y et l'intérieur des bras.",
+  legere:"**Chaînes légères** (×2) : plus courtes, elles longent l'extérieur des bras.",
+  variable:"**Parties variables** : au bout des bras, sur chaque chaîne. Leur forme change d'un anticorps à l'autre : c'est la source de la **spécificité**.",
+  constante:"**Parties constantes** : identiques d'un anticorps à l'autre (dans une même classe).",
+  site:"**Sites de liaison à l'antigène** (×2, identiques) : formés par les parties variables d'une chaîne lourde et d'une chaîne légère. L'antigène s'y emboîte comme une clé dans une serrure.",
+  ponts:"**Ponts disulfures** : liaisons qui relient les quatre chaînes entre elles.",
+};
+const AB_NAMES={lourde:"Chaîne lourde",legere:"Chaîne légère",variable:"Partie variable",constante:"Partie constante",site:"Site de liaison",ponts:"Ponts disulfures"};
+function SpecDemo(){
+  const [ag,setAg]=useState(null);
+  const fits=ag==="tri";
+  const shapes={tri:"M-9 6L0 -10L9 6Z",rond:null,carre:"M-8 -8H8V8H-8Z"};
+  const AgShape=({k,x,y})=>k==="rond"?html`<circle cx=${x} cy=${y} r="9" fill=${V("ag")}/>`:html`<path transform=${`translate(${x} ${y})`} d=${shapes[k]} fill=${V("ag")}/>`;
+  return html`<div className="grid2" style=${{alignItems:"center"}}>
+    <div className="fig"><svg viewBox="0 0 300 200" role="img" aria-label="Test de spécificité">
+      <path d="M150 190V120L110 70M150 120L190 70" fill="none" stroke=${V("lb")} strokeWidth="12" strokeLinecap="round"/>
+      ${[[110,70],[190,70]].map((p,i)=>html`<path key=${i} d=${`M${p[0]-14} ${p[1]-14}L${p[0]-9} ${p[1]-2}H${p[0]+9}L${p[0]+14} ${p[1]-14}`} fill="none" stroke=${V("lb")} strokeWidth="5" strokeLinejoin="round"/>`)}
+      ${ag&&[[110,70],[190,70]].map((p,i)=>html`<${AgShape} key=${i} k=${ag} x=${p[0]} y=${fits?p[1]-10:p[1]-34}/>`)}
+      ${ag&&html`<text x="150" y="26" textAnchor="middle" fontSize="15" fontWeight="700" style=${{fill:fits?V("pos-fg"):V("neg-fg")}}>${fits?"✓ liaison spécifique":"✗ pas de liaison"}</text>`}
+    </svg></div>
+    <div style=${{display:"flex",flexDirection:"column",gap:"8px"}}>
+      <p>Cet anticorps (« anti-triangle ») possède des sites de liaison creusés en V. Présente-lui un antigène :</p>
+      <div className="row">${[["tri","▲ antigène 1"],["rond","● antigène 2"],["carre","■ antigène 3"]].map(([k,t])=>html`<button key=${k} className="btn" aria-pressed=${ag===k} onClick=${()=>setAg(k)}>${t}</button>`)}</div>
+      ${ag&&html`<div className=${"msg "+(fits?"pos":"neg")}><span>${fits?"Les formes sont complémentaires : l'antigène 1 se fixe. C'est la spécificité.":"Les formes ne sont pas complémentaires : aucune liaison. Il faudrait un autre anticorps, porté par un autre LB."}</span></div>`}
+    </div></div>`;
+}
+function PageAnticorps({go}){
+  const [sel,setSel]=useState(null);
+  const [lab,setLab]=useState(true);
+  return html`<${Fragment}>
+    <${Frame} eyebrow="Comprendre · 2" title="Les anticorps (immunoglobulines)" goal="Les anticorps sont des **protéines en forme de Y**, présentes à la surface des LB (anticorps membranaires) ou libres dans le sang (anticorps sécrétés).">
+      <div className="grid2" style=${{alignItems:"start"}}>
+        <div className="fig"><${AbFig} sel=${sel} labels=${lab}/></div>
+        <div style=${{display:"flex",flexDirection:"column",gap:"10px"}}>
+          <p className="small muted">Clique sur une partie pour la mettre en évidence.</p>
+          <div className="row">${Object.keys(AB_NAMES).map(k=>html`<button key=${k} className="btn sm" aria-pressed=${sel===k} onClick=${()=>setSel(sel===k?null:k)}>${AB_NAMES[k]}</button>`)}</div>
+          <div className="steptext">${sel?html`<${R} t=${AB_INFO[sel]}/>`:html`<span className="muted">4 chaînes polypeptidiques : 2 lourdes + 2 légères. Chaque chaîne a une partie constante (gris) et une partie variable (vert).</span>`}</div>
+          <label className="check"><input type="checkbox" checked=${lab} onChange=${()=>setLab(!lab)}/><span>Afficher les légendes sur le schéma</span></label>
+          <p className="small muted">Astuce : masque les légendes et essaie de les retrouver de mémoire.</p>
+        </div>
+      </div>
+    <//>
+    <${Frame} title="La spécificité" goal="Les deux parties variables (identiques) forment des sites capables de se lier à **un seul antigène**.">
+      <${SpecDemo}/>
+      <div className="grid2">
+        <div className="card alt"><h3>Sur un même LB</h3><p>tous les anticorps sont <b>identiques</b> : ils reconnaissent <b>un seul type</b> d'antigène.</p></div>
+        <div className="card alt"><h3>D'un LB à l'autre</h3><p>les anticorps <b>diffèrent</b>. Un vertébré possède des <b>millions de LB différents</b> : ensemble, ils peuvent reconnaître une immense variété d'antigènes.</p></div>
+      </div>
+    <//>
+    <div className="row"><button className="btn" onClick=${()=>go("accueil")}>← Vue d'ensemble</button><button className="btn primary" onClick=${()=>go("humorale")}>Réponse humorale →</button></div>
+  <//>`;
+}
+function PageHumorale({go}){
+  return html`<${Fragment}>
+    <${Frame} eyebrow="Comprendre · 3" title="La réponse adaptative humorale" goal="Elle fait intervenir principalement les **lymphocytes B**. Elle cible les **antigènes circulants** : molécules libres (toxines) ou microbes qui circulent dans le sang, la lymphe ou le liquide interstitiel.">
+      <${Stepper} steps=${HUM_STEPS} Fig=${HumoralFig} label="Étapes de la réponse humorale"/>
+      <${Legend}/>
+    <//>
+    <${Frame} title="À retenir">
+      <div className="grid2">
+        <div className="card"><h3><span className="sw c-lb"></span>Le scénario en 4 mots</h3><p><b>Activation</b> (fixation de l'antigène) → <b>amplification clonale</b> (mitoses) → <b>différenciation</b> (plasmocytes, LB mémoire) → <b>action</b> (anticorps → complexe immun → phagocytose).</p></div>
+        <div className="card"><h3><span className="sw c-lt4"></span>Une coopération</h3><p>L'amplification clonale et la différenciation en plasmocytes sont <b>stimulées par l'interleukine 2</b> des <b>LT4 auxiliaires</b>.</p></div>
+        <div className="card"><h3><span className="sw" style=${{color:"var(--fg2)",borderStyle:"dashed"}}></span>Les LB mémoire</h3><p>Lors d'une 2e infection par le même antigène, ils sécrètent <b>presque sans latence</b> des anticorps spécifiques, en <b>plus grande quantité</b>, même pour une faible dose d'antigène.</p></div>
+      </div>
+    <//>
+    <div className="row"><button className="btn" onClick=${()=>go("anticorps")}>← Les anticorps</button><button className="btn primary" onClick=${()=>go("cellulaire")}>Réponse cellulaire →</button></div>
+  <//>`;
+}
+function PageCellulaire({go}){
+  const [lab,setLab]=useState(false);
+  return html`<${Fragment}>
+    <${Frame} eyebrow="Comprendre · 4" title="La réponse adaptative cellulaire" goal="Elle cible les **cellules du soi qui portent un antigène** avec le CMH : cellules infectées par un virus, cellules cancéreuses. Ses effecteurs sont les **LT8 cytotoxiques**.">
+      <${Stepper} steps=${CEL_STEPS} Fig=${CellularFig} label="Étapes de la réponse cellulaire"/>
+      <${Legend}/>
+    <//>
+    <${Frame} title="Zoom : la reconnaissance CPA – lymphocyte T" goal="Chaque LT ne possède qu'**un seul type de récepteur T**, capable de reconnaître un seul antigène… à condition qu'il soit **présenté par une molécule du CMH**.">
+      <div className="fig" style=${{maxWidth:"560px"}}><${ContactFig} labels=${lab}/></div>
+      <div className="row"><button className="btn sm" aria-pressed=${lab} onClick=${()=>setLab(!lab)}>${lab?"Masquer les légendes":"Afficher les légendes"}</button>
+        <span className="small muted">Essaie d'abord de nommer les éléments 1 à 5.</span></div>
+    <//>
+    <${Frame} title="Le « baiser de la mort » : deux mécanismes" goal="Une cellule infectée expose des fragments viraux associés au CMH : elle devient la cible des LT8 cytotoxiques qui possèdent le récepteur complémentaire. Le LT8 s'accole à elle et la tue en quelques heures.">
+      <div className="grid2">
+        <div className="card"><h3><span className="sw c-lt8"></span>Cytolyse</h3><p>Le LT8 libère des <b>perforines</b>, des protéines qui <b>perforent la membrane</b> de la cellule cible.</p></div>
+        <div className="card"><h3><span className="sw c-lt8"></span>Apoptose</h3><p>Le LT8 libère des <b>signaux</b> qui déclenchent l'<b>autodestruction</b> de la cellule cible.</p></div>
+      </div>
+      <div className="msg neu"><b className="h">Indispensable</b><span>La stimulation des LT8 par les LT4 (interleukine) est <b>indispensable</b> à une réponse efficace.</span></div>
+    <//>
+    <div className="row"><button className="btn" onClick=${()=>go("humorale")}>← Réponse humorale</button><button className="btn primary" onClick=${()=>go("synthese")}>Synthèse →</button></div>
+  <//>`;
+}
+function phaseText(d){
+  if(d<5) return ["Temps de latence","Les rares LB spécifiques sont sélectionnés, se multiplient et se différencient. Pas encore d'anticorps."];
+  if(d<14) return ["1re réponse : montée","Les plasmocytes sécrètent des anticorps : la concentration augmente lentement."];
+  if(d<30) return ["1re réponse : déclin","L'antigène est éliminé ; les anticorps diminuent. Des LB mémoire persistent."];
+  if(d<31.5) return ["2e contact avec le même antigène","Les LB mémoire, nombreux et déjà spécifiques, réagissent presque sans latence."];
+  if(d<38) return ["2e réponse : montée rapide","Réponse plus rapide et plus intense (≈ 10 fois plus d'anticorps), déclenchée même par une faible dose d'antigène."];
+  return ["2e réponse : maintien","La concentration reste élevée longtemps : la protection est durable."];
+}
+function PageSynthese({go}){
+  const [tab,setTab]=useState("memoire");
+  const [day,setDay]=useState(8);
+  const [vih,setVih]=useState(false);
+  const ph=phaseText(day);
+  const tabs=[["origine","Origine des lymphocytes"],["memoire","Mémoire immunitaire"],["bilan","Avantages / inconvénients"],["vih","Coopération et VIH"]];
+  return html`<${Fragment}>
+    <${Frame} eyebrow="Comprendre · 5" title="Synthèse de l'immunité adaptative">
+      <div className="tabs" role="tablist">${tabs.map(([k,t])=>html`<button key=${k} role="tab" className="tab" aria-selected=${tab===k} onClick=${()=>setTab(k)}>${t}</button>`)}</div>
+      ${tab==="origine"&&html`<div style=${{display:"flex",flexDirection:"column",gap:"10px"}}>
+        <div className="grid2">
+          <div className="card"><h3>1. Moelle osseuse</h3><p>Tous les lymphocytes y naissent. Les <b>LB</b> y acquièrent leurs anticorps membranaires.</p></div>
+          <div className="card"><h3>2. Thymus</h3><p>Les futurs <b>LT</b> y migrent et y deviennent des lymphocytes T matures (LT4, LT8).</p></div>
+          <div className="card"><h3>3. Organes lymphatiques secondaires</h3><p>Dans les <b>ganglions lymphatiques</b>, les lymphocytes rencontrent l'antigène : <b>multiplication clonale</b>, puis différenciation.</p></div>
+        </div>
+        <p className="small muted">Ensuite : plasmocytes sécrétant des anticorps, LB mémoire, LT8 cytotoxiques (« baiser de la mort »), et macrophages qui éliminent les complexes immuns.</p></div>`}
+      ${tab==="memoire"&&html`<div style=${{display:"flex",flexDirection:"column",gap:"10px"}}>
+        <p>On injecte un antigène A au jour 0, puis à nouveau au jour 30. Déplace le curseur pour suivre la concentration d'anticorps anti-A.</p>
+        <div className="fig"><${MemGraph} day=${day}/></div>
+        <label className="small" htmlFor="jour">Jour <b>${Math.round(day)}</b> — environ <b>${Math.round(respA(day))}</b> u.a. d'anticorps</label>
+        <input id="jour" type="range" min="0" max="60" step="0.5" value=${day} onInput=${e=>setDay(+e.target.value)}/>
+        <div className="steptext" aria-live="polite"><b className="h">${ph[0]}</b><span>${ph[1]}</span></div></div>`}
+      ${tab==="bilan"&&html`<div className="grid2">
+        <div className="card"><h3 style=${{color:"var(--neg-fg)"}}>Inconvénient</h3><p>Le <b>temps de latence</b> : il faut environ <b>cinq jours</b>, lors d'une première infection, pour la multiplication clonale des LB ou des LT, leur différenciation et leur attaque spécifique.</p></div>
+        <div className="card"><h3 style=${{color:"var(--pos-fg)"}}>Avantage 1 : l'adaptation</h3><p>La <b>grande diversité</b> des LB et des LT permet de reconnaître pratiquement n'importe quel antigène circulant et de détruire les microbes envahisseurs.</p></div>
+        <div className="card"><h3 style=${{color:"var(--pos-fg)"}}>Avantage 2 : la mémoire</h3><p>La <b>mémoire immunitaire</b> permet une réponse <b>rapide</b> lors d'une seconde agression par le même microbe, toujours de manière <b>spécifique</b>.</p></div>
+      </div>`}
+      ${tab==="vih"&&html`<div style=${{display:"flex",flexDirection:"column",gap:"10px"}}>
+        <p>Les LT4 auxiliaires stimulent les deux réponses. Que se passe-t-il si on les supprime ?</p>
+        <div className="row"><button className="btn" aria-pressed=${!vih} onClick=${()=>setVih(false)}>Organisme sain</button><button className="btn" aria-pressed=${vih} onClick=${()=>setVih(true)}>Infection par le VIH (stade SIDA)</button></div>
+        <div className="fig"><${CoopFig} vih=${vih}/></div>
+        <div className=${"msg "+(vih?"neg":"pos")}><span>${vih?"Le VIH attaque et détruit préférentiellement les LT4. Sans interleukine, la réponse adaptative n'est plus efficace : des maladies opportunistes apparaissent, qui peuvent entraîner la mort alors que d'ordinaire le système immunitaire s'en défend.":"L'interleukine des LT4 auxiliaires stimule la multiplication et la différenciation des LB et des LT8 : les deux réponses sont efficaces."}</span></div></div>`}
+    <//>
+    <div className="row"><button className="btn" onClick=${()=>go("cellulaire")}>← Réponse cellulaire</button><button className="btn primary" onClick=${()=>go("cartes")}>Mémoriser →</button></div>
+  <//>`;
+}
+
+/* ---------- Cartes mémoire ---------- */
+function PageCartes({go}){
+  const [rev,setRev]=useState(false);
+  const [queue,setQueue]=useState(()=>shuffle(GLOSS.map((_,i)=>i),Date.now()%100000+1));
+  const [flip,setFlip]=useState(false);
+  const [known,setKnown]=useState(0);
+  const cur=queue[0];
+  const next=ok=>{setFlip(false);setQueue(q=>ok?q.slice(1):[...q.slice(1),q[0]]);if(ok)setKnown(k=>k+1)};
+  const restart=()=>{setQueue(shuffle(GLOSS.map((_,i)=>i),Date.now()%100000+1));setKnown(0);setFlip(false)};
+  const g=cur!=null?GLOSS[cur]:null;
+  return html`<${Fragment}>
+    <${Frame} eyebrow="Mémoriser" title="Cartes mémoire" goal="Se tester est la meilleure façon de mémoriser (effet test). **Réponds dans ta tête avant de retourner la carte.** Les cartes « à revoir » reviennent en fin de paquet.">
+      <div className="row"><button className="btn sm" aria-pressed=${!rev} onClick=${()=>{setRev(false);setFlip(false)}}>Mot → définition</button>
+        <button className="btn sm" aria-pressed=${rev} onClick=${()=>{setRev(true);setFlip(false)}}>Définition → mot</button>
+        <span className="pill ok">${known} / ${GLOSS.length} sues</span><span className="pill">${queue.length} restante${queue.length>1?"s":""}</span></div>
+      ${g?html`<${Fragment}>
+        <button className="flash" onClick=${()=>setFlip(!flip)} aria-label="Retourner la carte">
+          <span className="face">${flip?"verso":"recto"} · clique pour retourner</span>
+          ${(!flip&&!rev)||(flip&&rev)?html`<span className="term"><span className=${"sw c-"+g.c} style=${{marginRight:"8px"}}></span>${g.t}</span>`:html`<span className="def">${g.d}</span>`}
+        </button>
+        <div className="row" style=${{justifyContent:"center"}}>
+          <button className="btn" disabled=${!flip} onClick=${()=>next(false)}>À revoir</button>
+          <button className="btn primary" disabled=${!flip} onClick=${()=>next(true)}>Je savais ✓</button></div>`
+      :html`<div className="msg pos"><b className="h">Paquet terminé !</b><span>Tu as revu les ${GLOSS.length} notions. Refais le paquet demain : espacer les révisions renforce la mémoire.</span></div>
+        <div className="row"><button className="btn" onClick=${restart}>Recommencer</button><button className="btn primary" onClick=${()=>go("f-acteurs")}>Passer aux exercices →</button></div>`}
+    <//>
+  <//>`;
+}
+
+/* ---------- Famille d'exercices ---------- */
+function PageFamille({fam,prog,markDone,go}){
+  const i=FAMILIES.indexOf(fam);
+  const nDone=fam.exs.filter(e=>prog.done[e.id]).length;
+  return html`<${Fragment}>
+    <${Frame} eyebrow=${`S'entraîner · Famille ${fam.letter}`} title=${fam.title} goal=${fam.goal}>
+      <div className="msg"><b className="h">Méthode</b>${fam.method.map((m,k)=>html`<span key=${k}><${R} t=${m}/></span>`)}</div>
+    <//>
+    <${Worked} w=${fam.worked} key=${fam.id+"w"}/>
+    <div className="row" style=${{justifyContent:"space-between"}}><h2>À toi de jouer</h2><span className=${"pill"+(nDone===fam.exs.length?" ok":"")}>${nDone} / ${fam.exs.length} réussis</span></div>
+    ${fam.exs.map((e,k)=>html`<${Exercise} key=${e.id} ex=${e} n=${k+1} done=${!!prog.done[e.id]} onDone=${markDone}/>`)}
+    <div className="row">
+      ${i>0?html`<button className="btn" onClick=${()=>go(FAMILIES[i-1].id)}>← Famille ${FAMILIES[i-1].letter}</button>`:html`<button className="btn" onClick=${()=>go("cartes")}>← Cartes mémoire</button>`}
+      ${i<FAMILIES.length-1?html`<button className="btn primary" onClick=${()=>go(FAMILIES[i+1].id)}>Famille ${FAMILIES[i+1].letter} : ${FAMILIES[i+1].title} →</button>`:html`<button className="btn primary" onClick=${()=>go("quiz")}>Quiz final →</button>`}
+    </div>
+  <//>`;
+}
+
+/* ---------- Quiz final ---------- */
+const PAGE_NAMES={accueil:"Vue d'ensemble",anticorps:"Les anticorps",humorale:"Réponse humorale",cellulaire:"Réponse cellulaire",synthese:"Synthèse et mémoire"};
+function PageQuiz({prog,setBest,go}){
+  const mk=()=>shuffle(QUIZ.map((_,i)=>i),(Date.now()%99991)+7).slice(0,10).map(i=>({i,ord:shuffle(QUIZ[i].o.map((_,k)=>k),(Date.now()%7919)+i*31)}));
+  const [qs,setQs]=useState(mk);
+  const [k,setK]=useState(0);
+  const [ans,setAns]=useState([]);
+  const cur=qs[k];
+  const finished=k>=qs.length;
+  const score=ans.filter(a=>a===0).length;
+  useEffect(()=>{if(finished) setBest(score)},[finished]);
+  const restart=()=>{setQs(mk());setK(0);setAns([])};
+  if(finished){
+    const missed=qs.filter((q,j)=>ans[j]!==0);
+    const secs=[...new Set(missed.map(q=>QUIZ[q.i].sec))];
+    return html`<${Frame} eyebrow="Évaluer" title="Résultat du quiz">
+      <div className=${"msg "+(score>=8?"pos":score>=5?"neu":"neg")}><b className="h">${score} / ${qs.length}</b>
+        <span>${score>=8?"Très bien : les notions sont solides.":score>=5?"C'est en bonne voie. Revois les points ci-dessous.":"Reprends les schémas pas à pas, puis réessaie."}</span></div>
+      ${missed.length>0&&html`<div className="corr"><b>Questions manquées</b><ul>${missed.map(q=>html`<li key=${q.i}>${QUIZ[q.i].q} → <b>${QUIZ[q.i].o[0]}</b></li>`)}</ul></div>`}
+      ${secs.length>0&&html`<div className="row"><span className="small muted">À revoir :</span>${secs.map(s=>html`<button key=${s} className="btn sm" onClick=${()=>go(s)}>${PAGE_NAMES[s]}</button>`)}</div>`}
+      <div className="row"><button className="btn primary" onClick=${restart}>Nouveau quiz</button>${prog.quiz!=null&&html`<span className="pill">meilleur score : ${prog.quiz} / 10</span>`}</div>
+    <//>`;
+  }
+  const Q=QUIZ[cur.i]; const a=ans[k];
+  return html`<${Frame} eyebrow="Évaluer" title="Quiz final" goal="10 questions tirées au hasard, avec correction immédiate.">
+    <div className="row"><span className="pill acc">Question ${k+1} / ${qs.length}</span><span className="pill">${score} bonne${score>1?"s":""} réponse${score>1?"s":""}</span></div>
+    <p className="prompt"><b>${Q.q}</b></p>
+    <div className="opts">${cur.ord.map(o=>{const cls="opt"+(a!=null?(o===0?" good":o===a?" bad":""):"");
+      return html`<button key=${o} className=${cls} disabled=${a!=null} onClick=${()=>setAns(p=>{const n=p.slice();n[k]=o;return n})}><span className="mk"></span><span>${Q.o[o]}</span></button>`})}</div>
+    ${a!=null&&html`<div className=${"msg "+(a===0?"pos":"neg")}><b className="h">${a===0?"Juste !":"Pas tout à fait."}</b><span>${Q.why}</span></div>
+      <div className="row"><button className="btn primary" onClick=${()=>setK(k+1)}>${k===qs.length-1?"Voir le résultat":"Question suivante →"}</button></div>`}
+  <//>`;
+}
+
+/* ---------- Application ---------- */
+const NAV=[
+  {grp:"Comprendre",items:[["accueil","1","Vue d'ensemble"],["anticorps","2","Les anticorps"],["humorale","3","Réponse humorale"],["cellulaire","4","Réponse cellulaire"],["synthese","5","Synthèse et mémoire"]]},
+  {grp:"Mémoriser",items:[["cartes","★","Cartes mémoire"]]},
+  {grp:"S'entraîner",items:FAMILIES.map(f=>[f.id,f.letter,f.title])},
+  {grp:"Évaluer",items:[["quiz","?","Quiz final"]]},
+];
+const ALL_IDS=NAV.flatMap(g=>g.items.map(i=>i[0]));
+const TOTAL_EX=FAMILIES.reduce((s,f)=>s+f.exs.length,0);
+function readHash(){const h=(location.hash||"").slice(1);return ALL_IDS.includes(h)?h:"accueil"}
+
+function App(){
+  const [page,setPage]=useState(readHash);
+  const [prog,setProg]=useState(()=>{const p=loadP();return {done:p.done||{},seen:p.seen||{},quiz:p.quiz??null}});
+  const [theme,setTheme]=useState(()=>{try{return localStorage.getItem(KEY+"-theme")||""}catch(e){return ""}});
+  const [big,setBig]=useState(()=>{try{return localStorage.getItem(KEY+"-big")==="1"}catch(e){return false}});
+  useEffect(()=>{const f=()=>setPage(readHash());window.addEventListener("hashchange",f);return ()=>window.removeEventListener("hashchange",f)},[]);
+  useEffect(()=>{saveP(prog)},[prog]);
+  useEffect(()=>{setProg(p=>p.seen[page]?p:{...p,seen:{...p.seen,[page]:true}});window.scrollTo(0,0)},[page]);
+  useEffect(()=>{if(theme)document.documentElement.setAttribute("data-theme",theme);else document.documentElement.removeAttribute("data-theme");try{localStorage.setItem(KEY+"-theme",theme)}catch(e){}},[theme]);
+  useEffect(()=>{document.body.classList.toggle("big",big);try{localStorage.setItem(KEY+"-big",big?"1":"0")}catch(e){}},[big]);
+  const go=id=>{if(location.hash.slice(1)!==id){try{location.hash=id}catch(e){}}setPage(id)};
+  const markDone=id=>setProg(p=>p.done[id]?p:{...p,done:{...p.done,[id]:true}});
+  const setBest=s=>setProg(p=>({...p,quiz:Math.max(p.quiz??0,s)}));
+  const nDone=Object.keys(prog.done).filter(k=>FAMILIES.some(f=>f.exs.some(e=>e.id===k))).length;
+  const isDark=theme==="dark"||(!theme&&window.matchMedia&&matchMedia("(prefers-color-scheme: dark)").matches);
+  const fam=FAMILIES.find(f=>f.id===page);
+  const navState=id=>{
+    const f=FAMILIES.find(x=>x.id===id);
+    if(f){const d=f.exs.filter(e=>prog.done[e.id]).length;return {done:d===f.exs.length,cnt:`${d}/${f.exs.length}`}}
+    if(id==="quiz") return {done:prog.quiz!=null&&prog.quiz>=8,cnt:prog.quiz!=null?`${prog.quiz}/10`:""};
+    return {done:!!prog.seen[id],cnt:""};
+  };
+  return html`<${Fragment}>
+    <header className="top">
+      <div className="ttl"><b>Réponse immunitaire adaptative</b><span>UAA5 · L'organisme humain se protège · 5e année sciences générales</span></div>
+      <div className="meter" title="Exercices réussis"><span>${nDone}/${TOTAL_EX}</span><span className="bar"><i style=${{width:(100*nDone/TOTAL_EX)+"%"}}></i></span></div>
+      <button className="btn sm flat" aria-pressed=${big} onClick=${()=>setBig(!big)} title="Agrandir le texte">A+</button>
+      <button className="btn sm flat" onClick=${()=>setTheme(isDark?"light":"dark")} title="Changer de thème">${isDark?"☀":"☾"}</button>
+    </header>
+    <div className="shell">
+      <nav className="side" aria-label="Sommaire">
+        ${NAV.map(g=>html`<${Fragment} key=${g.grp}><div className="grp">${g.grp}</div>
+          ${g.items.map(([id,n,lab])=>{const s=navState(id);return html`<button key=${id} className="navi" aria-current=${page===id?"page":null} onClick=${()=>go(id)}>
+            <span className=${"n"+(s.done?" done":"")}>${s.done?"✓":n}</span><span className="lab">${lab}</span>${s.cnt&&html`<span className="cnt">${s.cnt}</span>`}</button>`})}<//>`)}
+      </nav>
+      <main><div className="wrap">
+        ${page==="accueil"&&html`<${PageAccueil} go=${go}/>`}
+        ${page==="anticorps"&&html`<${PageAnticorps} go=${go}/>`}
+        ${page==="humorale"&&html`<${PageHumorale} go=${go}/>`}
+        ${page==="cellulaire"&&html`<${PageCellulaire} go=${go}/>`}
+        ${page==="synthese"&&html`<${PageSynthese} go=${go}/>`}
+        ${page==="cartes"&&html`<${PageCartes} go=${go}/>`}
+        ${fam&&html`<${PageFamille} key=${fam.id} fam=${fam} prog=${prog} markDone=${markDone} go=${go}/>`}
+        ${page==="quiz"&&html`<${PageQuiz} prog=${prog} setBest=${setBest} go=${go}/>`}
+        <p className="cap" style=${{textAlign:"center",marginTop:"12px"}}>D'après le cours de M. Haye (UAA5, chapitre 5) · Outil pédagogique de Rémi Samier</p>
+      </div></main>
+    </div>
+  <//>`;
+}
+ReactDOM.createRoot(document.getElementById("root")).render(html`<${App}/>`);
+
+</script>
+</body>
+</html>
