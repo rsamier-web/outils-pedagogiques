@@ -1,0 +1,1337 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Un jihad de l'amour — Fiche de lecture et analyse (S5)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Lexend:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box}
+:root{
+  --bg:#eff0f1;--view:#fcfcfc;--alt:#f4f5f6;--text:#232629;--muted:#5d6266;
+  --border:#cfd2d5;--border-strong:#b0b5b9;--hl:#3daee9;--hl-strong:#1d99d8;--hl-soft:rgba(61,174,233,.13);
+  --link:#2980b9;--pos:#27ae60;--pos-soft:rgba(39,174,96,.12);--neg:#da4453;--neg-soft:rgba(218,68,83,.10);
+  --warn:#f67400;--warn-soft:rgba(246,116,0,.10);--violet:#8e44ad;--violet-soft:rgba(142,68,173,.10);
+  --header:#e3e5e7;--shadow:0 4px 18px rgba(0,0,0,.16);
+  --fs:16px;--lh:1.65;--font:"Noto Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+}
+[data-theme="dark"]{
+  --bg:#202326;--view:#141618;--alt:#1b1e20;--text:#f2f3f4;--muted:#a3abb2;
+  --border:#363b40;--border-strong:#4b5156;--hl-soft:rgba(61,174,233,.20);--link:#3daee9;
+  --pos-soft:rgba(39,174,96,.20);--neg-soft:rgba(218,68,83,.20);--warn-soft:rgba(246,116,0,.18);--violet-soft:rgba(142,68,173,.22);
+  --header:#292c30;--shadow:0 4px 18px rgba(0,0,0,.55);
+}
+html,body{margin:0;height:100%}
+body{background:var(--bg);color:var(--text);font-family:var(--font);font-size:var(--fs);line-height:var(--lh);-webkit-font-smoothing:antialiased}
+button,input,select,textarea{font:inherit;color:inherit}
+a{color:var(--link)}
+.app{display:flex;flex-direction:column;height:100vh}
+.topbar{height:48px;flex:none;display:flex;align-items:center;gap:6px;padding:0 10px;background:var(--header);border-bottom:1px solid var(--border)}
+.topbar .title{font-weight:600;font-size:15px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.topbar .title span{font-weight:400;color:var(--muted)}
+.spacer{flex:1}
+.tb-btn{display:inline-flex;align-items:center;gap:6px;height:32px;padding:0 9px;border:1px solid transparent;border-radius:4px;background:none;cursor:pointer;font-size:14px}
+.tb-btn:hover{background:var(--hl-soft);border-color:var(--hl)}
+.tb-btn:focus-visible,.btn:focus-visible,.nav-item:focus-visible,.term:focus-visible,.q-opt:focus-visible,select:focus-visible,textarea:focus-visible,input:focus-visible,.tab:focus-visible{outline:2px solid var(--hl);outline-offset:1px}
+.menu-btn{display:none}
+.body{flex:1;display:flex;min-height:0}
+.sidebar{width:270px;flex:none;background:var(--view);border-right:1px solid var(--border);overflow-y:auto;padding:10px 8px 30px}
+.nav-group{font-size:11.5px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);padding:14px 10px 4px}
+.nav-item{display:flex;align-items:center;gap:10px;width:100%;text-align:left;padding:6px 10px;border:none;border-radius:4px;background:none;cursor:pointer;font-size:14.5px;line-height:1.35}
+.nav-item:hover{background:var(--hl-soft)}
+.nav-item.active{background:var(--hl);color:#fff}
+.nav-item .ico{flex:none;opacity:.85}
+.nav-item .done{margin-left:auto;color:var(--pos);font-size:13px}
+.nav-item.active .done{color:#fff}
+.main{flex:1;overflow-y:auto;scroll-behavior:smooth}
+.content{max-width:820px;margin:0 auto;padding:26px 28px 90px}
+.crumb{font-size:13px;color:var(--muted);margin-bottom:2px}
+h1{font-size:1.7em;font-weight:600;line-height:1.25;margin:0 0 6px}
+h2{font-size:1.25em;font-weight:600;margin:34px 0 10px;padding-bottom:6px;border-bottom:1px solid var(--border)}
+h3{font-size:1.05em;font-weight:600;margin:20px 0 6px}
+p{margin:.55em 0}
+ul,ol{padding-left:1.4em;margin:.5em 0}
+li{margin:.25em 0}
+.objective{display:flex;gap:10px;align-items:flex-start;font-size:.95em;color:var(--muted);margin:6px 0 18px;padding:8px 12px;border:1px solid var(--border);border-radius:5px;background:var(--view)}
+.objective b{color:var(--text)}
+.card{background:var(--view);border:1px solid var(--border);border-radius:6px;padding:16px 18px;margin:14px 0}
+.card h3:first-child{margin-top:0}
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px}
+.grid2 .card{margin:0}
+.msg{display:flex;gap:10px;border:1px solid;border-radius:6px;padding:10px 14px;margin:14px 0}
+.msg .ico{flex:none;margin-top:3px}
+.msg>div{flex:1;min-width:0}
+.msg p:first-child{margin-top:0}.msg p:last-child{margin-bottom:0}
+.msg.info{border-color:var(--hl);background:var(--hl-soft)}.msg.info .ico{color:var(--hl-strong)}
+.msg.pos{border-color:var(--pos);background:var(--pos-soft)}.msg.pos .ico{color:var(--pos)}
+.msg.warn{border-color:var(--warn);background:var(--warn-soft)}.msg.warn .ico{color:var(--warn)}
+.msg.neg{border-color:var(--neg);background:var(--neg-soft)}.msg.neg .ico{color:var(--neg)}
+.msg-title{font-weight:600;margin-bottom:2px}
+.keep{border:1px solid var(--pos);border-radius:6px;margin:24px 0 10px;background:var(--view);overflow:hidden}
+.keep-h{background:var(--pos-soft);padding:7px 14px;font-weight:600;display:flex;gap:8px;align-items:center}
+.keep ul{margin:10px 14px 12px}
+.btn{display:inline-flex;align-items:center;gap:6px;padding:5px 14px;border:1px solid var(--border-strong);border-radius:4px;background:var(--view);cursor:pointer;font-size:.92em;line-height:1.5}
+.btn:hover{border-color:var(--hl);background:var(--hl-soft)}
+.btn.primary{background:var(--hl);border-color:var(--hl-strong);color:#fff}
+.btn.primary:hover{background:var(--hl-strong)}
+.btn:disabled{opacity:.5;cursor:default}
+.btn-row{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+.term{background:none;border:none;padding:0 1px;cursor:help;border-bottom:1.5px dotted var(--hl);border-radius:2px;line-height:inherit;text-align:inherit}
+.term:hover,.term[aria-expanded="true"]{background:var(--hl-soft)}
+.pop{position:fixed;z-index:200;background:var(--view);border:1px solid var(--border-strong);border-radius:6px;box-shadow:var(--shadow);padding:12px 14px;font-size:.92em;line-height:1.5}
+.pop-head{display:flex;align-items:center;gap:8px;justify-content:space-between;margin-bottom:4px}
+.pop-head strong{font-size:1.05em}
+.pop p{margin:.35em 0}
+.pop .ex{color:var(--muted)}
+.pop-close{border:none;background:none;cursor:pointer;color:var(--muted);font-size:18px;line-height:1;padding:0 2px}
+.badge{display:inline-block;font-size:11px;font-weight:600;padding:1px 7px;border-radius:10px;white-space:nowrap}
+.badge.oeuvre{background:var(--hl-soft);color:var(--hl-strong)}
+.badge.contexte{background:var(--warn-soft);color:var(--warn)}
+.badge.analyse{background:var(--violet-soft);color:var(--violet)}
+.badge.methode{background:var(--pos-soft);color:var(--pos)}
+[data-theme="dark"] .badge.analyse{color:#c18bdb}
+table.id{width:100%;border-collapse:collapse;font-size:.95em}
+table.id th,table.id td{text-align:left;vertical-align:top;padding:7px 10px;border-bottom:1px solid var(--border)}
+table.id th{width:34%;color:var(--muted);font-weight:500}
+table.id tr:last-child th,table.id tr:last-child td{border-bottom:none}
+.timeline{list-style:none;padding:0;margin:14px 0;position:relative}
+.timeline:before{content:"";position:absolute;left:96px;top:6px;bottom:6px;width:2px;background:var(--border)}
+.timeline li{display:flex;gap:22px;margin:0 0 14px;position:relative}
+.timeline .date{width:84px;flex:none;text-align:right;font-weight:600;font-size:.9em;color:var(--muted);padding-top:1px}
+.timeline .dot{position:absolute;left:91px;top:7px;width:12px;height:12px;border-radius:50%;background:var(--view);border:2px solid var(--hl)}
+.timeline li.key .dot{background:var(--neg);border-color:var(--neg)}
+.timeline li.key .date{color:var(--neg)}
+.timeline .ev{flex:1;padding-left:4px}
+svg.diag{width:100%;height:auto;display:block;margin:10px 0}
+.d-box{fill:var(--view);stroke:var(--border-strong);stroke-width:1.2}
+.d-hl{fill:var(--hl-soft);stroke:var(--hl);stroke-width:1.5}
+.d-pos{fill:var(--pos-soft);stroke:var(--pos);stroke-width:1.5}
+.d-neg{fill:var(--neg-soft);stroke:var(--neg);stroke-width:1.5}
+.d-warn{fill:var(--warn-soft);stroke:var(--warn);stroke-width:1.5}
+.d-vio{fill:var(--violet-soft);stroke:var(--violet);stroke-width:1.5}
+.d-line{stroke:var(--border-strong);stroke-width:1.5;fill:none}
+.d-arrow{stroke:var(--muted);stroke-width:1.6;fill:none}
+.d-dash{stroke:var(--muted);stroke-width:1.3;fill:none;stroke-dasharray:5 4}
+.d-t{fill:var(--text);font-family:var(--font);font-size:13px}
+.d-tb{fill:var(--text);font-family:var(--font);font-size:14px;font-weight:600}
+.d-ts{fill:var(--muted);font-family:var(--font);font-size:11.5px}
+.caption{font-size:.87em;color:var(--muted);text-align:center;margin-top:-4px}
+details.acc{background:var(--view);border:1px solid var(--border);border-radius:6px;margin:8px 0}
+details.acc summary{cursor:pointer;padding:10px 14px;font-weight:600;list-style:none;display:flex;align-items:center;gap:10px}
+details.acc summary::-webkit-details-marker{display:none}
+details.acc summary:before{content:"";width:7px;height:7px;border-right:2px solid var(--muted);border-bottom:2px solid var(--muted);transform:rotate(-45deg);transition:transform .15s;flex:none}
+details.acc[open] summary:before{transform:rotate(45deg)}
+details.acc .acc-body{padding:0 16px 12px 31px}
+.step-num{display:inline-flex;align-items:center;justify-content:center;width:24px;height:24px;border-radius:50%;background:var(--hl);color:#fff;font-size:12.5px;font-weight:600;flex:none}
+.perso-h{display:flex;align-items:center;gap:12px;margin-bottom:6px}
+.avatar{width:42px;height:42px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:600;color:#fff;flex:none}
+.perso-h small{display:block;color:var(--muted);font-weight:400;font-size:.85em}
+.kv{display:grid;grid-template-columns:140px 1fr;gap:4px 14px;font-size:.95em}
+.kv dt{color:var(--muted)}
+.kv dd{margin:0}
+.tabs{display:flex;flex-wrap:wrap;gap:2px;border-bottom:1px solid var(--border);margin:16px 0 0}
+.tab{border:1px solid transparent;border-bottom:none;background:none;padding:7px 13px;cursor:pointer;border-radius:5px 5px 0 0;font-size:.92em;margin-bottom:-1px;color:var(--muted);display:inline-flex;gap:6px;align-items:center}
+.tab:hover{color:var(--text);background:var(--hl-soft)}
+.tab.active{background:var(--view);border-color:var(--border);color:var(--text);font-weight:600;box-shadow:inset 0 2px 0 var(--hl)}
+.tab-panel{background:var(--view);border:1px solid var(--border);border-top:none;border-radius:0 0 6px 6px;padding:18px}
+.quiz{background:var(--view);border:1px solid var(--border);border-radius:6px;padding:16px 18px;margin:16px 0}
+.tab-panel .quiz,.tab-panel .exo{border:none;padding:0;margin:0}
+.quiz-h{display:flex;align-items:center;gap:10px;justify-content:space-between;margin-bottom:8px;flex-wrap:wrap}
+.quiz-h .t{font-weight:600;display:flex;align-items:center;gap:8px}
+.quiz-h .n{font-size:.85em;color:var(--muted)}
+.bar{height:5px;background:var(--alt);border:1px solid var(--border);border-radius:3px;overflow:hidden;margin-bottom:12px}
+.bar>div{height:100%;background:var(--hl);transition:width .25s}
+.q-text{font-weight:500;margin:4px 0 10px}
+.q-opt{display:flex;gap:10px;align-items:flex-start;width:100%;text-align:left;padding:8px 12px;margin:6px 0;border:1px solid var(--border-strong);border-radius:5px;background:var(--view);cursor:pointer;line-height:1.45}
+.q-opt:hover:not(:disabled){border-color:var(--hl);background:var(--hl-soft)}
+.q-opt:disabled{cursor:default}
+.q-opt .k{flex:none;width:22px;height:22px;border-radius:50%;border:1px solid var(--border-strong);display:inline-flex;align-items:center;justify-content:center;font-size:12px;font-weight:600;color:var(--muted)}
+.q-opt.correct{border-color:var(--pos);background:var(--pos-soft)}
+.q-opt.correct .k{background:var(--pos);border-color:var(--pos);color:#fff}
+.q-opt.wrong{border-color:var(--neg);background:var(--neg-soft)}
+.q-opt.wrong .k{background:var(--neg);border-color:var(--neg);color:#fff}
+.q-opt.dim{opacity:.6}
+.score{font-size:1.15em;font-weight:600}
+.exo{background:var(--view);border:1px solid var(--border);border-radius:6px;padding:16px 18px;margin:16px 0}
+.exo-consigne{color:var(--muted);font-size:.95em;margin:0 0 10px}
+.sel-row{display:flex;gap:12px;align-items:center;justify-content:space-between;padding:9px 0;border-bottom:1px solid var(--border);flex-wrap:wrap}
+.sel-row:last-of-type{border-bottom:none}
+.sel-row .p{flex:1;min-width:220px}
+.sel-row .mark{width:20px;text-align:center;font-weight:700}
+select{padding:4px 8px;border:1px solid var(--border-strong);border-radius:4px;background:var(--view);max-width:100%;font-size:.93em}
+select.ok{border-color:var(--pos);background:var(--pos-soft)}
+select.ko{border-color:var(--neg);background:var(--neg-soft)}
+.mark.ok{color:var(--pos)}.mark.ko{color:var(--neg)}
+.cloze{line-height:2.3}
+.cloze select{margin:0 2px}
+.order-item{display:flex;align-items:center;gap:10px;padding:7px 10px;border:1px solid var(--border-strong);border-radius:5px;margin:6px 0;background:var(--view)}
+.order-item.ok{border-color:var(--pos);background:var(--pos-soft)}
+.order-item.ko{border-color:var(--neg);background:var(--neg-soft)}
+.order-item .txt{flex:1}
+.mini{border:1px solid var(--border-strong);background:var(--view);border-radius:4px;width:28px;height:26px;cursor:pointer;display:inline-flex;align-items:center;justify-content:center}
+.mini:hover:not(:disabled){border-color:var(--hl);background:var(--hl-soft)}
+.mini:disabled{opacity:.35;cursor:default}
+textarea{width:100%;min-height:96px;padding:8px 10px;border:1px solid var(--border-strong);border-radius:5px;background:var(--view);line-height:1.5;resize:vertical}
+input[type=search],input[type=text]{width:100%;padding:7px 10px;border:1px solid var(--border-strong);border-radius:5px;background:var(--view)}
+.model{border-left:3px solid var(--pos);padding:6px 12px;margin:8px 0;background:var(--pos-soft);border-radius:0 5px 5px 0;font-size:.95em}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin:10px 0}
+.chip{border:1px solid var(--border-strong);background:var(--view);border-radius:14px;padding:3px 12px;cursor:pointer;font-size:.88em}
+.chip.on{background:var(--hl);border-color:var(--hl-strong);color:#fff}
+.gl-card{background:var(--view);border:1px solid var(--border);border-radius:6px;padding:12px 16px;margin:8px 0}
+.gl-card h3{margin:0;display:flex;align-items:center;gap:10px;justify-content:space-between}
+.gl-card p{margin:.3em 0}
+.gl-card .ex{color:var(--muted);font-size:.95em}
+.letter{font-weight:700;color:var(--hl-strong);margin:18px 0 4px;font-size:1.1em}
+.example-text{background:var(--view);border:1px solid var(--border);border-radius:6px;padding:6px 18px 12px}
+.seg{margin:12px 0;padding-left:12px;border-left:4px solid}
+.seg-label{display:inline-block;font-size:11.5px;font-weight:600;text-transform:uppercase;letter-spacing:.04em;padding:1px 8px;border-radius:3px;color:#fff;margin-bottom:3px}
+.check{display:flex;gap:10px;align-items:flex-start;padding:6px 0;cursor:pointer}
+.check input{margin-top:5px;width:16px;height:16px;accent-color:var(--hl)}
+.progress-row{display:flex;align-items:center;gap:10px;font-size:.92em;padding:5px 0}
+.progress-row .lbl{flex:1}
+.progress-row .bar{flex:0 0 140px;margin:0}
+.settings{position:absolute;top:50px;right:10px;z-index:150;width:290px;background:var(--view);border:1px solid var(--border-strong);border-radius:6px;box-shadow:var(--shadow);padding:14px 16px}
+.settings h4{margin:0 0 8px;font-size:14px}
+.set-row{margin:10px 0}
+.set-row label{display:block;font-size:13px;color:var(--muted);margin-bottom:4px}
+.seg-ctl{display:flex;border:1px solid var(--border-strong);border-radius:4px;overflow:hidden}
+.seg-ctl button{flex:1;border:none;background:var(--view);padding:5px 6px;cursor:pointer;font-size:13px;border-right:1px solid var(--border-strong)}
+.seg-ctl button:last-child{border-right:none}
+.seg-ctl button.on{background:var(--hl);color:#fff}
+.cover{display:flex;gap:18px;align-items:flex-start;flex-wrap:wrap}
+.cover-mock{width:150px;flex:none;aspect-ratio:2/3.1;background:#fff;border:1px solid #c8c8c8;border-radius:2px;box-shadow:0 2px 8px rgba(0,0,0,.15);padding:12px 9px;font-family:Georgia,serif;color:#222;position:relative;overflow:hidden}
+.cover-mock .a{font-size:9.5px;letter-spacing:.04em;text-align:center}
+.cover-mock .r{font-size:6.5px;text-align:center;margin-top:3px}
+.cover-mock .t{color:#c0392b;font-size:17px;line-height:1.1;text-align:center;margin-top:14px}
+.cover-mock .ph{position:absolute;left:0;bottom:0;width:55%;height:46%;background:linear-gradient(160deg,#9aa4ad,#5d6670);border-top-right-radius:40% 30%}
+.cover-mock .s{position:absolute;right:8px;bottom:30px;font-size:6.5px;width:50%;text-align:right;line-height:1.3}
+.cover-mock .e{position:absolute;right:8px;bottom:9px;font-size:8px;font-weight:700}
+.overlay{display:none}
+@media (max-width:880px){
+  .menu-btn{display:inline-flex}
+  .sidebar{position:fixed;top:48px;bottom:0;left:0;z-index:120;transform:translateX(-102%);transition:transform .2s;box-shadow:var(--shadow)}
+  .sidebar.open{transform:none}
+  .overlay.on{display:block;position:fixed;inset:48px 0 0 0;background:rgba(0,0,0,.25);z-index:110}
+  .content{padding:20px 16px 80px}
+  .kv{grid-template-columns:1fr}
+  .kv dt{margin-top:6px}
+  .timeline:before{left:72px}.timeline .date{width:60px;font-size:.8em}.timeline .dot{left:67px}
+  .topbar .title span{display:none}
+}
+@media print{.topbar,.sidebar{display:none}.main{overflow:visible}}
+</style>
+</head>
+<body>
+<div id="root"></div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.5/babel.min.js"></script>
+<script type="text/babel" data-presets="react">
+const {useState,useEffect,useRef,useContext,createContext,Fragment} = React;
+
+/* ---------- Stockage local (facultatif) ---------- */
+const store = {
+  get(k,d){ try{ const v = localStorage.getItem("jda_"+k); return v ? JSON.parse(v) : d; }catch(e){ return d; } },
+  set(k,v){ try{ localStorage.setItem("jda_"+k, JSON.stringify(v)); }catch(e){} }
+};
+const Progress = createContext({results:{},record:()=>{}});
+
+/* ---------- Icônes (traits fins, style Breeze) ---------- */
+const P = {
+  home:[["path","M3 10l9-7 9 7v10a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"]],
+  book:[["path","M4 19.5A2.5 2.5 0 0 1 6.5 17H20"],["path","M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"]],
+  clock:[["circle",{cx:12,cy:12,r:9}],["path","M12 7v5l3 2"]],
+  user:[["path","M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"],["circle",{cx:12,cy:7,r:4}]],
+  users:[["path","M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"],["circle",{cx:9,cy:7,r:4}],["path","M23 21v-2a4 4 0 0 0-3-3.87"],["path","M16 3.13a4 4 0 0 1 0 7.75"]],
+  list:[["path","M8 6h13M8 12h13M8 18h13"],["path","M3 6h.01M3 12h.01M3 18h.01"]],
+  tag:[["path","M20.6 13.4l-7.2 7.2a2 2 0 0 1-2.8 0L2 12V2h10l8.6 8.6a2 2 0 0 1 0 2.8z"],["path","M7 7h.01"]],
+  layers:[["path","M12 2L2 7l10 5 10-5-10-5z"],["path","M2 17l10 5 10-5"],["path","M2 12l10 5 10-5"]],
+  globe:[["circle",{cx:12,cy:12,r:10}],["path","M2 12h20"],["path","M12 2a15 15 0 0 1 4 10 15 15 0 0 1-4 10 15 15 0 0 1-4-10 15 15 0 0 1 4-10z"]],
+  link:[["path","M10 13a5 5 0 0 0 7.5.5l3-3a5 5 0 0 0-7-7l-1.7 1.7"],["path","M14 11a5 5 0 0 0-7.5-.5l-3 3a5 5 0 0 0 7 7l1.7-1.7"]],
+  pen:[["path","M12 20h9"],["path","M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"]],
+  check:[["path","M9 11l3 3L22 4"],["path","M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"]],
+  search:[["circle",{cx:11,cy:11,r:7}],["path","M21 21l-4.3-4.3"]],
+  info:[["circle",{cx:12,cy:12,r:10}],["path","M12 16v-4M12 8h.01"]],
+  alert:[["path","M10.3 3.9L1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"],["path","M12 9v4M12 17h.01"]],
+  star:[["path","M12 2l3.1 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.8 21l1.2-6.8-5-4.9 6.9-1z"]],
+  bulb:[["path","M9 18h6M10 22h4"],["path","M12 2a7 7 0 0 0-4 12.7V17h8v-2.3A7 7 0 0 0 12 2z"]],
+  target:[["circle",{cx:12,cy:12,r:9}],["circle",{cx:12,cy:12,r:5}],["circle",{cx:12,cy:12,r:1}]],
+  menu:[["path","M3 6h18M3 12h18M3 18h18"]],
+  moon:[["path","M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"]],
+  sun:[["circle",{cx:12,cy:12,r:4}],["path","M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"]],
+  type:[["path","M4 7V4h16v3"],["path","M9 20h6M12 4v16"]],
+  up:[["path","M18 15l-6-6-6 6"]],
+  down:[["path","M6 9l6 6 6-6"]],
+  refresh:[["path","M23 4v6h-6"],["path","M20.5 15a9 9 0 1 1-2.1-9.4L23 10"]],
+  copy:[["rect",{x:9,y:9,width:13,height:13,rx:2}],["path","M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"]],
+  arrowR:[["path","M5 12h14M13 5l7 7-7 7"]],
+  arrowL:[["path","M19 12H5M11 19l-7-7 7-7"]],
+  heart:[["path","M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8L12 21.2l8.8-8.8a5.5 5.5 0 0 0 0-7.8z"]],
+  teacher:[["path","M2 7l10-4 10 4-10 4z"],["path","M6 9v5c0 1.7 2.7 3 6 3s6-1.3 6-3V9"]]
+};
+function Icon({n,s=18,c}){
+  const parts = P[n] || [];
+  return <svg className={"ico "+(c||"")} width={s} height={s} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+    {parts.map((p,i)=> p[0]==="path" ? <path key={i} d={p[1]}/> : React.createElement(p[0],{key:i,...p[1]}))}
+  </svg>;
+}
+
+/* ---------- Glossaire ---------- */
+const CATS = {oeuvre:"Vocabulaire de l'œuvre", contexte:"Société & contexte", analyse:"Analyse littéraire", methode:"Méthode (UAA 6)"};
+const GL = [
+ // Vocabulaire de l'œuvre
+ ["jihad","jihad (ou djihad)","oeuvre","Mot arabe qui signifie d'abord « effort », « lutte ». Il désigne au départ l'effort du croyant pour devenir meilleur. Des groupes extrémistes l'ont détourné pour parler de guerre armée.","« Faire un jihad contre sa colère », c'est faire un effort sur soi pour ne pas exploser."],
+ ["djihadisme","djihadisme / djihadiste","contexte","Idéologie extrémiste qui prétend justifier la violence armée et le terrorisme au nom de l'islam. Le djihadiste est la personne qui adhère à cette idéologie.","Les auteurs des attentats de Bruxelles se réclamaient du djihadisme de l'organisation État islamique."],
+ ["islam","islam / musulman","oeuvre","L'islam est une religion monothéiste (un seul Dieu). Un musulman est une personne qui pratique cette religion. Il existe de très nombreuses façons de vivre l'islam.","Mohamed se présente comme musulman pratiquant et ouvert aux autres religions."],
+ ["coran","Coran","oeuvre","Livre sacré de l'islam. Pour les musulmans, il contient la parole de Dieu transmise au prophète Mahomet au VIIe siècle.","Mohamed explique comment il lit le Coran : en distinguant le lien à Dieu et les règles de la vie en société."],
+ ["litteralisme","lecture littérale / contextualisée","oeuvre","Lire un texte de façon littérale, c'est le prendre mot à mot, sans tenir compte de l'époque où il a été écrit. Le lire de façon contextualisée, c'est tenir compte de son contexte historique.","Pour Mohamed, des règles pensées pour le VIIe siècle ne peuvent pas s'appliquer telles quelles aujourd'hui : c'est une lecture contextualisée."],
+ ["belgomarocain","belgo-marocain","oeuvre","Qui appartient à la fois à la Belgique et au Maroc : par la nationalité, l'origine familiale, la culture ou la langue.","Mohamed est né et a grandi à Bruxelles ; sa famille est originaire du Maroc."],
+ ["generation","deuxième génération","contexte","Expression qui désigne les enfants nés dans un pays où leurs parents sont venus s'installer (immigration).","Mohamed, né en Belgique de parents marocains, est un Belge « de la deuxième génération »."],
+ ["molenbeek","Molenbeek-Saint-Jean","contexte","Commune populaire et multiculturelle de la Région de Bruxelles-Capitale. Elle a été très médiatisée parce que plusieurs auteurs des attentats de Paris (2015) et de Bruxelles (2016) y avaient vécu.","Certains journaux étrangers ont parlé de Molenbeek comme d'un « nid de terroristes », ce qui a blessé beaucoup d'habitants."],
+ ["maelbeek","Maelbeek","contexte","Station de métro bruxelloise, dans le quartier européen. Le 22 mars 2016, une bombe y a explosé dans une rame.","Loubna se trouvait dans la rame de métro qui a explosé à Maelbeek."],
+ ["attentat","attentat","contexte","Attaque violente et préparée contre des personnes ou des lieux, souvent pour semer la peur ou faire passer un message politique.","Le 22 mars 2016, trois attentats ont frappé Bruxelles : deux à l'aéroport et un dans le métro."],
+ ["terrorisme","terrorisme","contexte","Utilisation de la violence pour créer la peur (la « terreur ») dans une population, afin d'imposer une idée ou d'obtenir quelque chose.","Le terrorisme cherche à diviser la société ; Mohamed répond en appelant à l'unité."],
+ ["kamikaze","kamikaze / attentat-suicide","contexte","Un kamikaze est une personne qui se tue en commettant une attaque. On parle alors d'attentat-suicide.","À Maelbeek, l'auteur de l'attentat s'est fait exploser dans la rame."],
+ ["radicalisation","radicalisation","contexte","Processus par lequel une personne adopte peu à peu des idées extrêmes, jusqu'à accepter ou utiliser la violence.","Le film Le Jeune Ahmed montre la radicalisation d'un adolescent belge."],
+ ["victimeindirecte","victime indirecte","contexte","Personne qui n'était pas sur les lieux d'une attaque mais qui en subit les conséquences, par exemple parce qu'elle a perdu un proche.","Les trois fils de Mohamed et Loubna sont des victimes indirectes des attentats."],
+ ["deuil","deuil","oeuvre","Douleur ressentie après la mort d'une personne aimée, et long chemin pour apprendre à vivre avec cette absence.","Le livre montre le deuil de Mohamed : la douleur, la solitude, mais aussi l'amour qui continue."],
+ ["traumatisme","traumatisme","oeuvre","Choc psychologique très violent qui laisse des traces durables (peurs, cauchemars, tristesse, colère…).","Après l'attentat, Mohamed ne peut plus prendre le métro : c'est une trace du traumatisme."],
+ ["resilience","résilience","oeuvre","Capacité à se reconstruire et à continuer à vivre après un grand malheur, sans nier la souffrance.","Malgré la mort de sa femme, Mohamed élève ses fils et transforme sa douleur en message : on parle de résilience."],
+ ["fraternite","fraternité","oeuvre","Lien de solidarité et d'affection entre tous les êtres humains, considérés comme des frères et des sœurs.","Mohamed répète à ses enfants que tous les humains sont frères."],
+ ["humanisme","humanisme","oeuvre","Façon de penser qui place la dignité et la valeur de chaque être humain au centre de tout.","Mohamed se dit « humaniste musulman » : sa foi le pousse à respecter tous les humains."],
+ ["tolerance","tolérance","oeuvre","Attitude qui consiste à accepter que d'autres personnes pensent, croient ou vivent autrement que soi.","Mohamed se sent bien dans une église ou une synagogue dès qu'on y parle de paix."],
+ ["reconciliation","réconciliation","oeuvre","Fait de rétablir des relations de paix entre des personnes ou des groupes qui étaient opposés ou séparés.","Le sous-titre du livre parle d'un appel « à la réconciliation » entre croyants et non-croyants."],
+ ["vengeance","vengeance","oeuvre","Fait de faire du mal à quelqu'un pour le punir du mal qu'il a fait.","Mohamed refuse la vengeance : selon lui, elle mettrait les victimes au niveau des assassins."],
+ // Société & contexte
+ ["stereotype","stéréotype","contexte","Idée toute faite, simplifiée et généralisée, qu'on applique à tout un groupe de personnes.","« Tous les habitants de Molenbeek sont dangereux » est un stéréotype."],
+ ["prejuge","préjugé","contexte","Jugement (souvent négatif) que l'on porte sur quelqu'un avant de le connaître.","Juger quelqu'un sur son prénom avant de lui parler, c'est avoir un préjugé."],
+ ["stigmatisation","stigmatisation","contexte","Fait de désigner une personne ou un groupe comme « mauvais », de lui coller une étiquette négative.","Les Molenbeekois se sont sentis stigmatisés après 2016."],
+ ["amalgame","amalgame","contexte","Confusion injuste entre des personnes ou des choses différentes.","Confondre tous les musulmans avec les terroristes est un amalgame."],
+ ["islamophobie","islamophobie","contexte","Peur, rejet ou discrimination dirigés contre l'islam ou contre les musulmans.","Après des attentats, les actes islamophobes augmentent parfois."],
+ ["identiteplurielle","identité plurielle","contexte","Fait d'avoir plusieurs appartenances (origine, religion, langue, quartier, passions…) qui ne s'opposent pas mais se combinent.","Mohamed est à la fois belge, marocain, musulman et molenbeekois : son identité est plurielle."],
+ ["vivreensemble","vivre-ensemble","contexte","Capacité de personnes différentes (par leur origine, leur religion, leurs idées) à vivre en paix dans une même société.","Le livre est un plaidoyer pour le vivre-ensemble à Bruxelles."],
+ ["viralite","viralité","contexte","Fait qu'un contenu (vidéo, message) se diffuse très vite et très largement sur internet, partagé d'une personne à l'autre.","La vidéo où Mohamed appelle au « jihad de l'amour » est devenue virale."],
+ ["injonction","injonction","contexte","Ordre ou pression, parfois implicite, qui pousse quelqu'un à agir ou à penser d'une certaine façon.","Attendre de toutes les victimes qu'elles pardonnent peut devenir une injonction au pardon."],
+ ["memoire","devoir de mémoire / lieu de mémoire","contexte","Le devoir de mémoire, c'est l'obligation morale de se souvenir d'un événement tragique et de ses victimes. Un lieu de mémoire rappelle cet événement (plaque, monument, place).","La place Loubna Lafquiri à Molenbeek est un lieu de mémoire."],
+ // Analyse littéraire
+ ["temoignage","témoignage","analyse","Récit, à la première personne, d'événements que l'on a réellement vécus ou vus, pour faire connaître la vérité.","Un jihad de l'amour est un témoignage : tout y est réel."],
+ ["autobiographie","récit autobiographique","analyse","Récit qu'une personne réelle fait de sa propre vie. L'auteur, le narrateur et le personnage principal sont la même personne.","Mohamed (auteur) raconte sa vie à Molenbeek en disant « je » (narrateur) et il est le héros du récit (personnage)."],
+ ["pacte","pacte autobiographique","analyse","Engagement implicite de l'auteur envers le lecteur : « je vous raconte la vérité sur ma vie, et c'est bien moi qui parle ».","Le nom de Mohamed sur la couverture et le « je » du texte établissent ce pacte."],
+ ["recueillis","propos recueillis","analyse","Paroles prononcées par une personne, puis notées et mises en forme par quelqu'un d'autre (journaliste, écrivain).","Le livre porte la mention « Propos recueillis par David Van Reybrouck »."],
+ ["plaidoyer","plaidoyer","analyse","Texte ou discours qui défend une cause, une idée ou une personne.","Le livre est un plaidoyer pour la paix et contre la haine."],
+ ["hommage","hommage / tombeau littéraire","analyse","Un hommage est une marque de respect envers quelqu'un. Un « tombeau littéraire » est une œuvre écrite pour honorer une personne morte.","Le livre est un tombeau littéraire pour Loubna."],
+ ["paratexte","paratexte","analyse","Tout ce qui entoure le texte et oriente la lecture : titre, sous-titre, nom de l'auteur, image de couverture, quatrième de couverture, éditeur…","La photo de Mohamed et le titre en rouge font partie du paratexte."],
+ ["horizon","horizon d'attente","analyse","Ce que le lecteur imagine ou attend d'une œuvre avant de la lire, à partir du titre, de la couverture, de ce qu'il a entendu…","Le mot « jihad » dans le titre crée un horizon d'attente inquiétant que le livre va renverser."],
+ ["enonciation","énonciation","analyse","Situation dans laquelle un texte est produit : qui parle (énonciateur), à qui (destinataire), où, quand, dans quel but.","Quand Mohamed s'adresse à Loubna en disant « tu », il change la situation d'énonciation."],
+ ["narrateur","narrateur","analyse","Celui qui raconte l'histoire dans le texte. Dans une autobiographie, il se confond avec l'auteur.","Le narrateur du livre est Mohamed lui-même."],
+ ["destinataire","destinataire","analyse","Personne (ou groupe) à qui un message est adressé.","Selon les passages, les destinataires sont Loubna, ses fils, les jeunes de Molenbeek ou tous les lecteurs."],
+ ["registre","registre","analyse","Tonalité d'un texte, liée à l'effet qu'il veut produire sur le lecteur (émouvoir, convaincre, faire rire, faire peur…).","Le livre mêle surtout les registres lyrique et argumentatif."],
+ ["lyrique","registre lyrique","analyse","Registre de l'expression des sentiments personnels (amour, tristesse, joie), souvent avec le « je », des exclamations, des images.","Quand Mohamed parle de son amour pour Loubna, le texte est lyrique."],
+ ["elegiaque","registre élégiaque","analyse","Forme du lyrique qui exprime la plainte, la douleur après une perte ou un deuil.","Les passages sur l'absence de Loubna relèvent du registre élégiaque."],
+ ["argumentatif","visée argumentative","analyse","Un texte a une visée argumentative quand il cherche à convaincre (par la raison) ou à persuader (par les émotions).","Quand Mohamed explique pourquoi il refuse la haine, il argumente."],
+ ["convaincre","convaincre / persuader","analyse","Convaincre, c'est faire adhérer par des arguments et la raison. Persuader, c'est faire adhérer en touchant les émotions.","Raconter la mort de Loubna persuade ; expliquer le sens du mot jihad convainc."],
+ ["oxymore","oxymore","analyse","Figure de style qui associe dans une même expression deux mots de sens opposés.","« Une obscure clarté » ; pour beaucoup de lecteurs, « jihad de l'amour » sonne comme un oxymore."],
+ ["antithese","antithèse","analyse","Figure de style qui oppose fortement deux idées ou deux mots dans une phrase ou un texte.","« La haine divise, l'amour rassemble. »"],
+ ["anaphore","anaphore","analyse","Répétition d'un même mot ou groupe de mots en début de phrases ou de vers, pour insister ou créer un rythme.","« Il faut aimer. Il faut écouter. Il faut sourire. »"],
+ ["metaphore","métaphore","analyse","Figure de style qui compare deux éléments sans outil de comparaison (comme, tel…).","« Loubna était la lumière de sa vie. »"],
+ ["apostrophe","apostrophe","analyse","Figure de style qui consiste à s'adresser directement à quelqu'un (présent, absent ou mort) en le nommant.","« Loubna, mon amour… » : Mohamed s'adresse à sa femme disparue."],
+ ["apposition","apposition / énumération","analyse","Une apposition est un groupe de mots placé à côté d'un nom, séparé par une virgule, pour le caractériser. Une énumération est une liste d'éléments.","« Mohamed, belgo-marocain, musulman et molenbeekois » : trois appositions énumérées."],
+ ["polysemie","polysémie","analyse","Un mot polysémique a plusieurs sens.","« Jihad » est polysémique ; « glace » aussi (miroir, eau gelée, dessert)."],
+ ["reappropriation","réappropriation (d'un mot)","analyse","Reprendre un mot qui a été détourné ou rendu négatif pour lui redonner un sens positif ou son sens d'origine.","Mohamed se réapproprie le mot « jihad » en le liant à l'amour."],
+ ["fragment","écriture fragmentaire","analyse","Écriture faite de textes courts, séparés, qui ne forment pas un récit continu.","Le livre est composé de textes courts, chacun avec son titre."],
+ ["adaptation","adaptation","analyse","Transformation d'une œuvre pour un autre art ou un autre support (théâtre, cinéma, BD…).","Le livre a été adapté au théâtre en Flandre et aux Pays-Bas."],
+ // Méthode
+ ["uaa","UAA","methode","« Unité d'acquis d'apprentissage » : dans les programmes de la Fédération Wallonie-Bruxelles, ensemble de compétences visées par une tâche.","L'UAA 6 vise à « relater des expériences culturelles »."],
+ ["recitexp","récit d'expérience culturelle","methode","Texte (ou exposé oral) dans lequel on raconte sa rencontre avec une œuvre (lecture, spectacle, film, expo) et ce qu'elle nous a fait vivre, en formulant une appréciation argumentée.","« Quand j'ai ouvert ce livre, je m'attendais à… Puis ce passage m'a bouleversé parce que… »"],
+ ["appreciation","appréciation","methode","Jugement personnel argumenté sur une œuvre, appuyé sur des critères et des exemples précis.","« J'ai trouvé ce livre fort, car il transforme une tragédie en message de paix. »"],
+ ["criteres","critères d'appréciation","methode","Points de vue à partir desquels on juge une œuvre : cognitif (ce que j'apprends), éthique (les valeurs), esthétique (la forme, le style) et référentiel (les liens avec d'autres œuvres ou la réalité).","Juger le style simple du livre relève du critère esthétique."],
+ ["perspective","mise en perspective","methode","Relier l'œuvre à autre chose pour mieux la comprendre : d'autres œuvres, l'actualité, l'histoire, sa propre vie.","Comparer avec Vous n'aurez pas ma haine d'Antoine Leiris."],
+ ["connecteur","connecteur logique","methode","Mot qui relie deux idées en montrant leur rapport (cause, opposition, conséquence…) : car, mais, donc, pourtant, cependant…","« J'ai aimé ce livre, pourtant certaines idées se répètent. »"]
+];
+const GLOSS = {}; GL.forEach(([id,term,cat,def,ex])=>{ GLOSS[id] = {id,term,cat,def,ex}; });
+
+function G({t,children}){
+  const g = GLOSS[t];
+  const [pos,setPos] = useState(null);
+  const ref = useRef(null);
+  const toggle = (e)=>{
+    e.stopPropagation();
+    if(pos){ setPos(null); return; }
+    const r = ref.current.getBoundingClientRect();
+    const w = Math.min(330, window.innerWidth-24);
+    const left = Math.min(Math.max(12, r.left - 10), window.innerWidth - w - 12);
+    const below = window.innerHeight - r.bottom;
+    setPos(below < 240 ? {left,w,bottom: window.innerHeight - r.top + 6} : {left,w,top: r.bottom + 6});
+  };
+  useEffect(()=>{
+    if(!pos) return;
+    const close = ()=>setPos(null);
+    const key = (e)=>{ if(e.key==="Escape") close(); };
+    const m = document.querySelector(".main");
+    document.addEventListener("click", close);
+    document.addEventListener("keydown", key);
+    window.addEventListener("resize", close);
+    if(m) m.addEventListener("scroll", close);
+    return ()=>{ document.removeEventListener("click", close); document.removeEventListener("keydown", key); window.removeEventListener("resize", close); if(m) m.removeEventListener("scroll", close); };
+  },[pos]);
+  if(!g) return <>{children}</>;
+  return <>
+    <button ref={ref} type="button" className="term" onClick={toggle} aria-expanded={!!pos}>{children || g.term}</button>
+    {pos && ReactDOM.createPortal(
+      <div className="pop" role="dialog" aria-label={"Définition : "+g.term} style={{left:pos.left,width:pos.w,top:pos.top ?? "auto",bottom:pos.bottom ?? "auto"}} onClick={e=>e.stopPropagation()}>
+        <div className="pop-head"><strong>{g.term}</strong><span style={{display:"flex",gap:6,alignItems:"center"}}><span className={"badge "+g.cat}>{CATS[g.cat]}</span><button className="pop-close" aria-label="Fermer" onClick={()=>setPos(null)}>×</button></span></div>
+        <p>{g.def}</p>
+        <p className="ex"><em>Exemple :</em> {g.ex}</p>
+      </div>, document.body)}
+  </>;
+}
+
+/* ---------- Composants de mise en forme ---------- */
+function Msg({type="info",title,children}){
+  const ic = {info:"info",pos:"bulb",warn:"alert",neg:"alert"}[type];
+  return <div className={"msg "+type}><Icon n={ic}/><div>{title && <div className="msg-title">{title}</div>}{children}</div></div>;
+}
+function Keep({items}){
+  return <div className="keep"><div className="keep-h"><Icon n="star" s={16}/> À retenir</div><ul>{items.map((x,i)=><li key={i}>{x}</li>)}</ul></div>;
+}
+function Head({crumb,title,obj}){
+  return <><div className="crumb">{crumb}</div><h1>{title}</h1>
+    {obj && <div className="objective"><Icon n="target"/><div><b>Objectif :</b> {obj}</div></div>}</>;
+}
+function Tabs({tabs}){
+  const [a,setA] = useState(0);
+  return <div>
+    <div className="tabs" role="tablist">{tabs.map((t,i)=><button key={i} role="tab" aria-selected={a===i} className={"tab"+(a===i?" active":"")} onClick={()=>setA(i)}>{t.label}</button>)}</div>
+    <div className="tab-panel" role="tabpanel">{tabs[a].content}</div>
+  </div>;
+}
+
+/* ---------- Quiz (une question à la fois, rétroaction immédiate) ---------- */
+function Quiz({id,title="Vérifie ta compréhension",questions}){
+  const {record,results} = useContext(Progress);
+  const [i,setI] = useState(0);
+  const [sel,setSel] = useState(null);
+  const [score,setScore] = useState(0);
+  const [done,setDone] = useState(false);
+  const q = questions[i];
+  const letters = "ABCDE";
+  const choose = (k)=>{ if(sel!==null) return; setSel(k); if(k===q.a) setScore(s=>s+1); };
+  const next = ()=>{
+    if(i+1 < questions.length){ setI(i+1); setSel(null); }
+    else { setDone(true); record(id, score, questions.length); }
+  };
+  const restart = ()=>{ setI(0); setSel(null); setScore(0); setDone(false); };
+  const best = results[id];
+  if(done){
+    const ratio = score/questions.length;
+    return <div className="quiz">
+      <div className="quiz-h"><div className="t"><Icon n="check"/>{title}</div></div>
+      <p className="score">Score : {score} / {questions.length}</p>
+      <Msg type={ratio>=.8?"pos":ratio>=.5?"info":"warn"}>
+        {ratio>=.8 ? "Très bien ! Tu maîtrises cette partie." : ratio>=.5 ? "C'est un bon début. Relis les explications des questions ratées, puis recommence." : "Relis la section (et clique sur les mots soulignés), puis recommence le quiz."}
+      </Msg>
+      <div className="btn-row"><button className="btn" onClick={restart}><Icon n="refresh" s={15}/> Recommencer</button></div>
+    </div>;
+  }
+  return <div className="quiz">
+    <div className="quiz-h"><div className="t"><Icon n="check"/>{title}</div><div className="n">Question {i+1} / {questions.length}{best ? ` · meilleur score : ${best.score}/${best.total}` : ""}</div></div>
+    <div className="bar"><div style={{width: ((i+(sel!==null?1:0))/questions.length*100)+"%"}}/></div>
+    <div className="q-text">{q.q}</div>
+    {q.o.map((o,k)=>{
+      let cls = "q-opt";
+      if(sel!==null){ if(k===q.a) cls+=" correct"; else if(k===sel) cls+=" wrong"; else cls+=" dim"; }
+      return <button key={k} className={cls} disabled={sel!==null} onClick={()=>choose(k)}><span className="k">{letters[k]}</span><span>{o}</span></button>;
+    })}
+    {sel!==null && <>
+      <Msg type={sel===q.a?"pos":"neg"} title={sel===q.a?"Exact !":"Pas tout à fait."}><p>{q.e}</p></Msg>
+      <div className="btn-row"><button className="btn primary" onClick={next}>{i+1<questions.length ? <>Question suivante <Icon n="arrowR" s={15}/></> : "Voir mon score"}</button></div>
+    </>}
+  </div>;
+}
+
+/* ---------- Exercice à listes déroulantes (association, classement, procédés) ---------- */
+function shuffleFixed(arr, seed){ const a = arr.slice(); let s = seed||7; for(let i=a.length-1;i>0;i--){ s=(s*9301+49297)%233280; const j=Math.floor(s/233280*(i+1)); [a[i],a[j]]=[a[j],a[i]]; } return a; }
+function SelectExo({id,title,consigne,items,options}){
+  const {record} = useContext(Progress);
+  const [ans,setAns] = useState({});
+  const [checked,setChecked] = useState(false);
+  const [showSol,setShowSol] = useState(false);
+  const optsFor = (it)=> it.options || options;
+  const score = items.filter((it,k)=>ans[k]===it.a).length;
+  const check = ()=>{ setChecked(true); record(id, score, items.length); };
+  const reset = ()=>{ setAns({}); setChecked(false); setShowSol(false); };
+  return <div className="exo">
+    {title && <h3 style={{marginTop:0}}>{title}</h3>}
+    <p className="exo-consigne">{consigne}</p>
+    {items.map((it,k)=>{
+      const ok = ans[k]===it.a;
+      return <div className="sel-row" key={k}>
+        <div className="p">{it.p}</div>
+        <div style={{display:"flex",gap:8,alignItems:"center"}}>
+          <select aria-label={"Réponse "+(k+1)} value={showSol ? it.a : (ans[k]||"")} disabled={showSol} className={checked ? (ok||showSol?"ok":"ko") : ""} onChange={e=>{ setAns({...ans,[k]:e.target.value}); setChecked(false); }}>
+            <option value="">— choisir —</option>
+            {optsFor(it).map(o=><option key={o} value={o}>{o}</option>)}
+          </select>
+          <span className={"mark "+(checked?(ok?"ok":"ko"):"")}>{checked ? (ok?"✓":"✗") : ""}</span>
+        </div>
+        {checked && !ok && it.e && <div style={{flexBasis:"100%",fontSize:".9em",color:"var(--muted)"}}>{showSol ? it.e : "Indice : " + (it.h || "relis la définition dans le glossaire.")}</div>}
+      </div>;
+    })}
+    {checked && <p className="score" style={{marginTop:12}}>Score : {score} / {items.length}</p>}
+    <div className="btn-row">
+      <button className="btn primary" onClick={check} disabled={Object.keys(ans).length<items.length}>Vérifier</button>
+      {checked && score<items.length && <button className="btn" onClick={()=>setShowSol(true)}>Afficher la correction</button>}
+      <button className="btn" onClick={reset}><Icon n="refresh" s={15}/> Recommencer</button>
+    </div>
+  </div>;
+}
+
+/* ---------- Texte à trous ---------- */
+function Cloze({id,title,consigne,parts}){
+  const {record} = useContext(Progress);
+  const blanks = parts.filter(p=>typeof p!=="string");
+  const [ans,setAns] = useState({});
+  const [checked,setChecked] = useState(false);
+  let bi = -1;
+  const score = blanks.filter((b,k)=>ans[k]===b.a).length;
+  return <div className="exo">
+    {title && <h3 style={{marginTop:0}}>{title}</h3>}
+    <p className="exo-consigne">{consigne}</p>
+    <p className="cloze">{parts.map((p,k)=>{
+      if(typeof p==="string") return <Fragment key={k}>{p}</Fragment>;
+      bi++; const idx = bi; const ok = ans[idx]===p.a;
+      return <select key={k} aria-label={"Trou "+(idx+1)} value={ans[idx]||""} className={checked?(ok?"ok":"ko"):""} onChange={e=>{setAns({...ans,[idx]:e.target.value}); setChecked(false);}}>
+        <option value="">……</option>{p.o.map(o=><option key={o} value={o}>{o}</option>)}
+      </select>;
+    })}</p>
+    {checked && <p className="score">Score : {score} / {blanks.length}</p>}
+    <div className="btn-row">
+      <button className="btn primary" disabled={Object.keys(ans).length<blanks.length} onClick={()=>{setChecked(true); record(id,score,blanks.length);}}>Vérifier</button>
+      <button className="btn" onClick={()=>{setAns({}); setChecked(false);}}><Icon n="refresh" s={15}/> Recommencer</button>
+    </div>
+  </div>;
+}
+
+/* ---------- Remise en ordre ---------- */
+function Order({id,title,consigne,items,seed}){
+  const {record} = useContext(Progress);
+  const init = ()=>{ let s = shuffleFixed(items.map((_,k)=>k), seed); return s; };
+  const [ord,setOrd] = useState(init);
+  const [checked,setChecked] = useState(false);
+  const move = (k,d)=>{ const o = ord.slice(); const j=k+d; if(j<0||j>=o.length) return; [o[k],o[j]]=[o[j],o[k]]; setOrd(o); setChecked(false); };
+  const score = ord.filter((v,k)=>v===k).length;
+  return <div className="exo">
+    {title && <h3 style={{marginTop:0}}>{title}</h3>}
+    <p className="exo-consigne">{consigne}</p>
+    {ord.map((v,k)=><div key={v} className={"order-item"+(checked?(v===k?" ok":" ko"):"")}>
+      <span className="step-num">{k+1}</span><span className="txt">{items[v]}</span>
+      <button className="mini" aria-label="Monter" disabled={k===0} onClick={()=>move(k,-1)}><Icon n="up" s={15}/></button>
+      <button className="mini" aria-label="Descendre" disabled={k===ord.length-1} onClick={()=>move(k,1)}><Icon n="down" s={15}/></button>
+    </div>)}
+    {checked && <p className="score">Éléments bien placés : {score} / {items.length}</p>}
+    <div className="btn-row">
+      <button className="btn primary" onClick={()=>{setChecked(true); record(id,score,items.length);}}>Vérifier</button>
+      {checked && score<items.length && <button className="btn" onClick={()=>{setOrd(items.map((_,k)=>k)); setChecked(true);}}>Afficher la correction</button>}
+      <button className="btn" onClick={()=>{setOrd(init()); setChecked(false);}}><Icon n="refresh" s={15}/> Recommencer</button>
+    </div>
+  </div>;
+}
+
+/* ---------- Questions ouvertes avec réponse modèle ---------- */
+function OpenQ({id,items}){
+  const [txt,setTxt] = useState(()=>store.get("open_"+id,{}));
+  const [show,setShow] = useState({});
+  const upd = (k,v)=>{ const n={...txt,[k]:v}; setTxt(n); store.set("open_"+id,n); };
+  return <div>{items.map((it,k)=><div className="exo" key={k}>
+    <h3 style={{marginTop:0}}>{k+1}. {it.q}</h3>
+    {it.h && <p className="exo-consigne"><Icon n="bulb" s={15}/> Piste : {it.h}</p>}
+    <textarea aria-label={"Ta réponse à la question "+(k+1)} placeholder="Écris ta réponse ici avant de regarder la proposition…" value={txt[k]||""} onChange={e=>upd(k,e.target.value)}/>
+    <div className="btn-row"><button className="btn" disabled={!(txt[k]||"").trim()} onClick={()=>setShow({...show,[k]:!show[k]})}>{show[k]?"Masquer":"Comparer avec une réponse possible"}</button></div>
+    {show[k] && <div className="model"><strong>Réponse possible :</strong> {it.m}</div>}
+  </div>)}</div>;
+}
+
+/* ---------- Liste de vérification ---------- */
+function Checklist({id,items}){
+  const [c,setC] = useState(()=>store.get("chk_"+id,{}));
+  const t = (k)=>{ const n={...c,[k]:!c[k]}; setC(n); store.set("chk_"+id,n); };
+  const n = items.filter((_,k)=>c[k]).length;
+  return <div className="card">
+    <div className="bar"><div style={{width:(n/items.length*100)+"%"}}/></div>
+    {items.map((it,k)=><label className="check" key={k}><input type="checkbox" checked={!!c[k]} onChange={()=>t(k)}/><span>{it}</span></label>)}
+    <p style={{color:"var(--muted)",fontSize:".9em",marginBottom:0}}>{n} / {items.length} critères vérifiés</p>
+  </div>;
+}
+
+/* =========================================================
+   DIAGRAMMES
+   ========================================================= */
+function DiagIdentity(){
+  return <figure style={{margin:"10px 0"}}>
+    <svg className="diag" viewBox="0 0 560 300" role="img" aria-label="Trois cercles qui se recouvrent : belgo-marocain, musulman, molenbeekois ; au centre, Mohamed.">
+      <circle cx="230" cy="125" r="88" className="d-hl" style={{fillOpacity:.9}}/>
+      <circle cx="330" cy="125" r="88" className="d-pos" style={{fillOpacity:.9}}/>
+      <circle cx="280" cy="205" r="88" className="d-warn" style={{fillOpacity:.9}}/>
+      <text x="180" y="100" textAnchor="middle" className="d-tb">belgo-</text>
+      <text x="180" y="118" textAnchor="middle" className="d-tb">marocain</text>
+      <text x="382" y="108" textAnchor="middle" className="d-tb">musulman</text>
+      <text x="280" y="262" textAnchor="middle" className="d-tb">molenbeekois</text>
+      <text x="280" y="160" textAnchor="middle" className="d-tb">Mohamed</text>
+      <text x="280" y="177" textAnchor="middle" className="d-ts">une seule personne</text>
+      <text x="40" y="40" className="d-ts">origine, nationalité,</text><text x="40" y="54" className="d-ts">langues, culture</text>
+      <text x="430" y="40" className="d-ts">foi, pratique,</text><text x="430" y="54" className="d-ts">valeurs</text>
+      <text x="400" y="280" className="d-ts">quartier, enfance,</text><text x="400" y="294" className="d-ts">ancrage local</text>
+    </svg>
+    <figcaption className="caption">Une identité plurielle : les appartenances se recouvrent, elles ne s'excluent pas.</figcaption>
+  </figure>;
+}
+function DiagJihad(){
+  return <figure style={{margin:"10px 0"}}>
+    <svg className="diag" viewBox="0 0 620 250" role="img" aria-label="Le mot jihad : sens premier effort ; sens détourné violence armée ; sens réapproprié par El Bachiri, effort d'amour.">
+      <defs><marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="var(--muted)"/></marker></defs>
+      <rect x="200" y="12" width="220" height="64" rx="6" className="d-hl"/>
+      <text x="310" y="38" textAnchor="middle" className="d-tb">JIHAD = « effort »</text>
+      <text x="310" y="58" textAnchor="middle" className="d-ts">sens premier, en arabe</text>
+      <path d="M260 76 L150 150" className="d-arrow" markerEnd="url(#ar)"/>
+      <path d="M360 76 L470 150" className="d-arrow" markerEnd="url(#ar)"/>
+      <rect x="20" y="152" width="260" height="84" rx="6" className="d-neg"/>
+      <text x="150" y="176" textAnchor="middle" className="d-tb">Sens détourné</text>
+      <text x="150" y="198" textAnchor="middle" className="d-t">violence armée, terrorisme</text>
+      <text x="150" y="218" textAnchor="middle" className="d-ts">(djihadisme)</text>
+      <rect x="340" y="152" width="260" height="84" rx="6" className="d-pos"/>
+      <text x="470" y="176" textAnchor="middle" className="d-tb">Sens réapproprié</text>
+      <text x="470" y="198" textAnchor="middle" className="d-t">effort d'amour, aller vers l'autre</text>
+      <text x="470" y="218" textAnchor="middle" className="d-ts">(Mohamed El Bachiri)</text>
+    </svg>
+    <figcaption className="caption">Un mot polysémique, et une bataille pour son sens.</figcaption>
+  </figure>;
+}
+function DiagEnonciation(){
+  return <figure style={{margin:"10px 0"}}>
+    <svg className="diag" viewBox="0 0 640 290" role="img" aria-label="Schéma de l'énonciation : je, Mohamed, s'adresse à tu Loubna, à vous les jeunes et lecteurs, et parle au nom d'un nous ; David Van Reybrouck met en forme.">
+      <defs><marker id="ar2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" fill="var(--muted)"/></marker></defs>
+      <rect x="225" y="110" width="190" height="70" rx="6" className="d-hl"/>
+      <text x="320" y="138" textAnchor="middle" className="d-tb">« je » : Mohamed</text>
+      <text x="320" y="158" textAnchor="middle" className="d-ts">auteur = narrateur = personnage</text>
+      <rect x="20" y="20" width="185" height="62" rx="6" className="d-vio"/>
+      <text x="112" y="46" textAnchor="middle" className="d-tb">« tu » : Loubna</text>
+      <text x="112" y="66" textAnchor="middle" className="d-ts">hommage, apostrophe</text>
+      <rect x="435" y="20" width="185" height="62" rx="6" className="d-warn"/>
+      <text x="527" y="46" textAnchor="middle" className="d-tb">« vous » : jeunes, lecteurs</text>
+      <text x="527" y="66" textAnchor="middle" className="d-ts">appel, conseil</text>
+      <rect x="435" y="208" width="185" height="62" rx="6" className="d-pos"/>
+      <text x="527" y="234" textAnchor="middle" className="d-tb">« nous » : l'humanité</text>
+      <text x="527" y="254" textAnchor="middle" className="d-ts">fraternité, vivre-ensemble</text>
+      <rect x="20" y="208" width="185" height="62" rx="6" className="d-box" style={{strokeDasharray:"5 4"}}/>
+      <text x="112" y="234" textAnchor="middle" className="d-tb">D. Van Reybrouck</text>
+      <text x="112" y="254" textAnchor="middle" className="d-ts">recueille et met en forme</text>
+      <path d="M250 110 L190 84" className="d-arrow" markerEnd="url(#ar2)"/>
+      <path d="M390 110 L450 84" className="d-arrow" markerEnd="url(#ar2)"/>
+      <path d="M390 180 L450 206" className="d-arrow" markerEnd="url(#ar2)"/>
+      <path d="M205 238 L250 182" className="d-dash"/>
+    </svg>
+    <figcaption className="caption">Qui parle ? À qui ? La voix de Mohamed change de destinataire selon les textes.</figcaption>
+  </figure>;
+}
+function DiagThemes(){
+  const cx=320, cy=180, R=135;
+  const th = [["Deuil &","résilience"],["Amour","conjugal"],["Identité","plurielle"],["Stéréotypes &","stigmatisation"],["Sens du mot","« jihad »"],["Islam","humaniste"],["Fraternité","universelle"],["Transmission","aux enfants"],["Écriture &","mémoire"]];
+  const cls = ["d-vio","d-vio","d-warn","d-warn","d-hl","d-hl","d-pos","d-pos","d-box"];
+  return <figure style={{margin:"10px 0"}}>
+    <svg className="diag" viewBox="0 0 640 370" role="img" aria-label="Carte des thèmes autour du thème central : le refus de la haine.">
+      {th.map((t,k)=>{ const a = -Math.PI/2 + k*2*Math.PI/th.length; const x = cx+R*1.55*Math.cos(a)*0.95, y = cy+R*Math.sin(a)*1.05; return <line key={"l"+k} x1={cx} y1={cy} x2={x} y2={y} className="d-line"/>; })}
+      <circle cx={cx} cy={cy} r="58" className="d-neg"/>
+      <text x={cx} y={cy-4} textAnchor="middle" className="d-tb">Refus de</text>
+      <text x={cx} y={cy+15} textAnchor="middle" className="d-tb">la haine</text>
+      {th.map((t,k)=>{ const a = -Math.PI/2 + k*2*Math.PI/th.length; const x = cx+R*1.55*Math.cos(a)*0.95, y = cy+R*Math.sin(a)*1.05;
+        return <g key={k}><rect x={x-62} y={y-22} width="124" height="44" rx="6" className={cls[k]}/>
+          <text x={x} y={y-3} textAnchor="middle" className="d-t" style={{fontWeight:600}}>{t[0]}</text>
+          <text x={x} y={y+14} textAnchor="middle" className="d-t">{t[1]}</text></g>; })}
+    </svg>
+    <figcaption className="caption">Tous les thèmes convergent vers l'idée centrale du livre.</figcaption>
+  </figure>;
+}
+
+/* =========================================================
+   SECTIONS
+   ========================================================= */
+function Accueil({go}){
+  const {results} = useContext(Progress);
+  const nDone = Object.keys(results).length;
+  const KEY = ["jihad","temoignage","resilience","stereotype","identiteplurielle","plaidoyer","paratexte","recitexp"];
+  return <>
+    <Head crumb="Démarrer" title="Un jihad de l'amour" obj="Comprendre l'œuvre, l'analyser dans le contexte d'aujourd'hui et préparer ton récit d'expérience culturelle (UAA 6)."/>
+    <p style={{fontSize:"1.05em"}}>Mohamed El Bachiri, <em>Un jihad de l'amour</em>, propos recueillis par David Van Reybrouck, JC Lattès, 2017. Fiche de lecture et d'analyse pour la <strong>5e secondaire</strong> (enseignement belge francophone).</p>
+
+    <h2>Comment utiliser cette fiche</h2>
+    <div className="grid2">
+      <div className="card"><h3><span className="step-num">1</span> Les mots-clés d'abord</h3><p>Lis les 8 mots ci-dessous <strong>avant</strong> de commencer. Ils reviennent partout.</p></div>
+      <div className="card"><h3><span className="step-num">2</span> Une section à la fois</h3><p>Suis le menu dans l'ordre. Chaque section a <strong>un objectif</strong> et se termine par un encadré « À retenir ».</p></div>
+      <div className="card"><h3><span className="step-num">3</span> Clique les mots soulignés</h3><p>Un mot souligné en pointillé, comme <G t="resilience">résilience</G>, ouvre sa définition et un exemple.</p></div>
+      <div className="card"><h3><span className="step-num">4</span> Teste-toi</h3><p>Fais le mini-quiz de chaque section, puis les <strong>exercices</strong> finaux. Se tester aide à mémoriser.</p></div>
+    </div>
+
+    <h2>Les 8 mots-clés à connaître avant de lire</h2>
+    <div className="grid2">{KEY.map(k=>{const g=GLOSS[k]; return <div className="card" key={k}><h3 style={{display:"flex",justifyContent:"space-between",gap:8,alignItems:"center"}}>{g.term}<span className={"badge "+g.cat}>{CATS[g.cat]}</span></h3><p style={{fontSize:".95em"}}>{g.def}</p><p style={{fontSize:".9em",color:"var(--muted)"}}><em>Ex. :</em> {g.ex}</p></div>;})}</div>
+
+    <Quiz id="q-accueil" title="Échauffement : les mots-clés" questions={[
+      {q:"Quel est le sens premier du mot « jihad » ?",o:["La guerre sainte","L'effort, la lutte","La prière du vendredi","Le pèlerinage à La Mecque"],a:1,e:"En arabe, « jihad » signifie d'abord « effort ». Le sens guerrier est un détournement, que Mohamed El Bachiri conteste."},
+      {q:"Un témoignage, c'est…",o:["un récit inventé pour distraire","un récit à la 1re personne d'événements réellement vécus","un article de journal écrit par un témoin","une pièce de théâtre"],a:1,e:"Le témoignage raconte des faits réels vécus par celui qui parle, pour faire connaître une vérité."},
+      {q:"« Tous les jeunes de ce quartier sont des délinquants. » Cette phrase est…",o:["un stéréotype","une métaphore","un plaidoyer","une apposition"],a:0,e:"C'est une idée toute faite, généralisée à tout un groupe : un stéréotype."}
+    ]}/>
+
+    <h2>Ta progression</h2>
+    <div className="card">
+      <p style={{marginTop:0}}>{nDone===0 ? "Tu n'as encore terminé aucun quiz ou exercice." : `Quiz et exercices terminés : ${nDone}.`} {nDone>0 && <>Retrouve tes scores dans <button className="term" onClick={()=>go("exercices")}>Exercices</button>.</>}</p>
+      <p style={{marginBottom:0,fontSize:".9em",color:"var(--muted)"}}>La progression est enregistrée dans ce navigateur seulement.</p>
+    </div>
+
+    <details className="acc" style={{marginTop:24}}>
+      <summary><Icon n="teacher"/> Note pour l'enseignant : principes de conception</summary>
+      <div className="acc-body">
+        <p>La fiche applique la <strong>théorie de la charge cognitive</strong> (Sweller) et les principes de l'<strong>apprentissage multimédia</strong> (Mayer) :</p>
+        <ul>
+          <li><strong>Pré-entraînement</strong> : les mots-clés sont présentés avant le contenu, et tout le vocabulaire est défini dans le glossaire.</li>
+          <li><strong>Segmentation</strong> : une notion par section, une question à la fois dans les quiz, des onglets pour les exercices.</li>
+          <li><strong>Contiguïté spatiale</strong> : les définitions s'ouvrent à côté du mot, sans quitter le texte.</li>
+          <li><strong>Signalisation</strong> : objectif en tête de section, encadrés colorés selon leur fonction, synthèse « À retenir ».</li>
+          <li><strong>Cohérence</strong> : pas d'images décoratives ; les schémas portent du sens.</li>
+          <li><strong>Double codage</strong> : les notions abstraites (identité, sens d'un mot, énonciation, thèmes) sont aussi schématisées.</li>
+          <li><strong>Exemple résolu puis estompage</strong> : un récit d'expérience annoté, puis des amorces de phrases, puis une rédaction autonome.</li>
+          <li><strong>Effet test</strong> : récupération en mémoire avec rétroaction immédiate et expliquée.</li>
+        </ul>
+        <p>Les réglages de lecture (<Icon n="type" s={14}/> en haut à droite) proposent une taille de texte et un interligne plus grands, ainsi que la police Lexend, plus lisible. C'est utile pour les élèves avec un trouble de la lecture.</p>
+        <p><strong>Limite :</strong> les contenus s'appuient sur la presse, les critiques et les déclarations publiques de l'auteur. Les citations exactes et les pages sont à relever dans l'exemplaire de la classe.</p>
+      </div>
+    </details>
+  </>;
+}
+
+function Fiche(){
+  return <>
+    <Head crumb="L'œuvre" title="Fiche d'identité" obj="Situer l'œuvre : auteur, édition, genre, paratexte."/>
+    <div className="card">
+      <table className="id"><tbody>
+        <tr><th>Titre</th><td><em>Un jihad de l'amour</em></td></tr>
+        <tr><th>Sous-titre (couverture)</th><td>« L'appel bouleversant d'un musulman à la réconciliation »</td></tr>
+        <tr><th>Auteur</th><td>Mohamed El Bachiri</td></tr>
+        <tr><th>Mise en forme</th><td><G t="recueillis">Propos recueillis</G> par David Van Reybrouck, écrivain belge</td></tr>
+        <tr><th>Édition française</th><td>JC Lattès, septembre 2017, environ 100 pages</td></tr>
+        <tr><th>Édition originale</th><td><em>Een jihad van liefde</em>, en néerlandais, 2017 (De Bezige Bij)</td></tr>
+        <tr><th>Traductions</th><td>Français, néerlandais, anglais, allemand. Plus de 100 000 exemplaires vendus aux Pays-Bas.</td></tr>
+        <tr><th>Genre</th><td><G t="temoignage">Témoignage</G> <G t="autobiographie">autobiographique</G> et <G t="plaidoyer">plaidoyer</G> humaniste</td></tr>
+        <tr><th>Forme</th><td><G t="fragment">Écriture fragmentaire</G> : des textes courts, chacun avec son titre. On y trouve des souvenirs, des réflexions et des passages poétiques.</td></tr>
+        <tr><th>Lieu et époque</th><td>Bruxelles (surtout Molenbeek), de l'enfance de l'auteur aux mois qui suivent le 22 mars 2016</td></tr>
+      </tbody></table>
+    </div>
+
+    <h2>Lire la couverture : le paratexte</h2>
+    <p>Avant même de lire, le <G t="paratexte">paratexte</G> crée un <G t="horizon">horizon d'attente</G>. Observe chaque élément.</p>
+    <div className="cover">
+      <div className="cover-mock" aria-hidden="true">
+        <div className="a">MOHAMED EL BACHIRI</div><div className="r">Propos recueillis par David Van Reybrouck</div>
+        <div className="t">Un jihad<br/>de l'amour</div><div className="ph"/>
+        <div className="s">L'appel bouleversant d'un musulman à la réconciliation</div><div className="e">JC Lattès</div>
+      </div>
+      <div style={{flex:1,minWidth:240}}>
+        <ul>
+          <li><strong>Le nom en capitales</strong> : c'est Mohamed qui signe. Le prénom, très répandu, renvoie à sa culture et à sa foi.</li>
+          <li><strong>« Propos recueillis par »</strong> : la parole est orale à l'origine et mise en forme par un écrivain connu, ce qui lui donne du crédit.</li>
+          <li><strong>Le titre en rouge</strong> : il associe un mot qui fait peur et un mot qui rassure, ce qui sonne comme un <G t="oxymore">oxymore</G>. Le rouge évoque à la fois le sang et l'amour.</li>
+          <li><strong>La photo</strong> : un homme seul, le regard de côté, grave, méfiant ou blessé. Il n'est pas souriant : on sent le deuil.</li>
+          <li><strong>Le sous-titre</strong> : il annonce le genre (un appel) et l'émotion attendue (« bouleversant »). C'est aussi un argument de vente de l'éditeur.</li>
+        </ul>
+      </div>
+    </div>
+    <Msg type="info" title="Activité">Avant de lire, note en trois lignes ce que tu imagines du livre à partir de la couverture. Tu réutiliseras ces notes dans ton récit d'expérience (partie « mes attentes »).</Msg>
+
+    <Keep items={["Témoignage autobiographique réel, pas un roman.","La parole de Mohamed est mise en forme par David Van Reybrouck.","Le titre provoque volontairement : il choque, puis il oblige à réfléchir au sens des mots."]}/>
+    <Quiz id="q-fiche" questions={[
+      {q:"Que signifie la mention « propos recueillis par David Van Reybrouck » ?",o:["Van Reybrouck a inventé l'histoire","Van Reybrouck a noté et mis en forme les paroles de Mohamed","Van Reybrouck est le traducteur anglais","Van Reybrouck a illustré la couverture"],a:1,e:"Les propos sont ceux de Mohamed. L'écrivain les a recueillis et mis en forme."},
+      {q:"Dans quelle langue le livre est-il d'abord paru ?",o:["Français","Arabe","Néerlandais","Anglais"],a:2,e:"Il est d'abord paru en néerlandais en 2017 (Een jihad van liefde), puis en français en septembre 2017."},
+      {q:"Pourquoi le titre peut-il ressembler à un oxymore ?",o:["Il contient une rime","Il associe deux mots que beaucoup de lecteurs perçoivent comme opposés","Il répète le même mot","Il compare deux choses avec « comme »"],a:1,e:"Pour beaucoup, « jihad » évoque la violence et « amour » la paix : l'association surprend."}
+    ]}/>
+  </>;
+}
+
+function Contexte(){
+  const ev = [
+    ["13 nov. 2015","Attentats de Paris (Bataclan, terrasses, Stade de France) : 130 morts. Plusieurs auteurs ont des liens avec Molenbeek.",false],
+    ["22 mars 2016","Attentats de Bruxelles : deux explosions à l'aéroport de Zaventem, une dans une rame de métro à Maelbeek. 32 morts et plus de 300 blessés. Loubna Lafquiri est tuée à Maelbeek.",true],
+    ["Août 2016","Premier entretien télévisé de Mohamed El Bachiri (télévision publique néerlandaise NOS) : un message de tolérance.",false],
+    ["22 déc. 2016","Dans l'émission flamande De afspraak, il appelle à un « jihad de l'amour » dans un monologue d'environ six minutes. La vidéo devient virale.",false],
+    ["Mars 2017","Parution du livre en néerlandais (Een jihad van liefde).",false],
+    ["Sept. 2017","Parution en français chez JC Lattès.",false],
+    ["21 mars 2018","Molenbeek inaugure la place Loubna Lafquiri, avec une stèle qui reprend un passage du livre.",false],
+    ["Avril 2019","Création de la pièce Een jihad van liefde au Rataplan (Borgerhout, Anvers).",false],
+    ["Nov. 2019","Prix du conseil de Constance (Allemagne) pour son engagement en faveur de la tolérance. Parution de L'Odyssée de Mohamed.",false],
+    ["2022 – 2023","Procès des attentats du 22 mars devant la cour d'assises de Bruxelles. Des proches de victimes y témoignent.",false],
+    ["22 mars 2026","Dix ans après : Mohamed dénonce le manque d'accompagnement de ses fils, victimes indirectes.",true]
+  ];
+  return <>
+    <Head crumb="L'œuvre" title="Contexte et genèse" obj="Replacer le livre dans les événements qui l'ont fait naître."/>
+    <p>Le livre naît d'un <G t="attentat">attentat</G> et d'une parole publique devenue <G t="viralite">virale</G>. Suis la chronologie.</p>
+    <ul className="timeline">{ev.map((e,k)=><li key={k} className={e[2]?"key":""}><span className="date">{e[0]}</span><span className="dot"/><span className="ev">{e[1]}</span></li>)}</ul>
+
+    <h2>Molenbeek, une commune sous les projecteurs</h2>
+    <p>Après les attentats de Paris puis de Bruxelles, <G t="molenbeek">Molenbeek</G> est présentée dans de nombreux médias comme un foyer du <G t="djihadisme">djihadisme</G>. Les habitants, en grande majorité étrangers à toute violence, se sentent victimes d'<G t="amalgame">amalgames</G> et de <G t="stigmatisation">stigmatisation</G>.</p>
+    <Msg type="warn" title="Le paradoxe de Mohamed">Il est <strong>victime</strong> de l'attentat, puisqu'il a perdu sa femme. Pourtant, il explique qu'aux yeux d'une partie du monde, s'appeler Mohamed et venir de Molenbeek fait de lui un <strong>suspect</strong>, un « terroriste potentiel ». Tout le livre répond à ce paradoxe.</Msg>
+
+    <h2>Pourquoi écrire ?</h2>
+    <p>Mohamed explique qu'écrire a été pour lui une <strong>thérapie</strong> et un exutoire. C'était aussi un moyen de faire survivre le nom et la mémoire de Loubna. Le livre réunit des textes écrits après le drame et des propos recueillis environ un an plus tard par David Van Reybrouck.</p>
+
+    <Keep items={["Le 22 mars 2016 : 32 morts à Bruxelles, dont Loubna Lafquiri, à Maelbeek.","Le livre prolonge un appel télévisé devenu viral (décembre 2016).","Écrire = soigner sa douleur + garder vivante la mémoire de Loubna + répondre aux préjugés."]}/>
+    <Quiz id="q-contexte" questions={[
+      {q:"Où l'attentat qui a tué Loubna a-t-il eu lieu ?",o:["À l'aéroport de Zaventem","À la station de métro Maelbeek","Sur la place de Molenbeek","À la gare du Midi"],a:1,e:"Loubna se trouvait dans la rame de métro qui a explosé à Maelbeek, dans le quartier européen."},
+      {q:"Pourquoi Molenbeek a-t-elle été stigmatisée ?",o:["Parce que les attentats y ont eu lieu","Parce que plusieurs auteurs des attentats de Paris et de Bruxelles y avaient vécu","Parce que c'est la commune la plus riche de Bruxelles","Parce que Mohamed y est né"],a:1,e:"Des auteurs des attentats y avaient vécu. Beaucoup de médias ont alors généralisé à tous les habitants : c'est un amalgame."},
+      {q:"Quel événement est à l'origine directe du livre ?",o:["Un concours littéraire","Un appel télévisé au « jihad de l'amour », devenu viral","Une commande de l'école","Le procès de 2022"],a:1,e:"Le monologue de décembre 2016 a touché des millions de personnes. Le livre a suivi en 2017."}
+    ]}/>
+  </>;
+}
+
+function Auteurs(){
+  return <>
+    <Head crumb="L'œuvre" title="Les auteurs" obj="Connaître celui qui témoigne et celui qui met en forme."/>
+    <div className="card">
+      <div className="perso-h"><div className="avatar" style={{background:"var(--hl)"}}>ME</div><div><strong>Mohamed El Bachiri</strong><small>né vers 1980, Bruxelles</small></div></div>
+      <dl className="kv">
+        <dt>Origines</dt><dd><G t="belgomarocain">Belgo-marocain</G>, fils d'immigrés, Belge de la <G t="generation">deuxième génération</G>. Il a grandi à Molenbeek.</dd>
+        <dt>Parcours</dt><dd>Il quitte l'école sans diplôme mais se forme seul : il lit beaucoup d'histoire, de philosophie et d'ouvrages sur les religions.</dd>
+        <dt>Métier</dt><dd>Conducteur de métro à Bruxelles. Le 22 mars 2016, il est en congé. Depuis l'attentat, il n'a plus pris le métro et n'a pas repris ce travail.</dd>
+        <dt>Engagement</dt><dd>Il donne des conférences sur la paix et le dialogue entre les religions (notamment à l'ONU en 2018). Il a été candidat aux élections communales de Molenbeek en 2018 et a reçu le prix du conseil de Constance en 2019.</dd>
+        <dt>Autre livre</dt><dd><em>L'Odyssée de Mohamed</em> (2019), toujours avec David Van Reybrouck.</dd>
+        <dt>Sa formule</dt><dd>Il se dit à la fois « Lion de l'Atlas » (le Maroc) et « Lion de Waterloo » (la Belgique). C'est une image de son <G t="identiteplurielle">identité plurielle</G>.</dd>
+      </dl>
+    </div>
+    <div className="card">
+      <div className="perso-h"><div className="avatar" style={{background:"var(--violet)"}}>DVR</div><div><strong>David Van Reybrouck</strong><small>né en 1971 à Bruges</small></div></div>
+      <dl className="kv">
+        <dt>Profil</dt><dd>Écrivain flamand, historien de la culture, archéologue et philosophe de formation.</dd>
+        <dt>Œuvres connues</dt><dd><em>Congo. Une histoire</em> ; <em>Contre les élections</em> ; <em>Revolusi</em> (sur l'Indonésie).</dd>
+        <dt>Son rôle ici</dt><dd>Après plusieurs entretiens avec Mohamed, il a condensé ses paroles en un livre court et dense. C'est la parole de Mohamed, mais mise en forme par un écrivain : une écriture « à deux voix », discrète.</dd>
+      </dl>
+    </div>
+    <Msg type="info" title="Pour réfléchir">Qui est l'auteur d'un livre de <G t="recueillis">propos recueillis</G> : celui qui parle ou celui qui écrit ? Cette question est intéressante pour ton analyse de l'<G t="enonciation">énonciation</G>.</Msg>
+    <Keep items={["Mohamed : ancien conducteur de métro, autodidacte, musulman pratiquant, molenbeekois.","Van Reybrouck : écrivain reconnu qui recueille et condense la parole de Mohamed."]}/>
+    <Quiz id="q-auteurs" questions={[
+      {q:"Quel métier exerçait Mohamed El Bachiri en 2016 ?",o:["Professeur de sport","Conducteur de métro","Imam","Journaliste"],a:1,e:"Il était conducteur de métro. Il était en congé le jour de l'attentat."},
+      {q:"Que signifie l'image « Lion de l'Atlas et Lion de Waterloo » ?",o:["Il aime les animaux","Il se sent à la fois marocain et belge","Il est militaire","Il a vécu en Afrique et en France"],a:1,e:"L'Atlas renvoie au Maroc, Waterloo à la Belgique : deux appartenances qui ne s'opposent pas."}
+    ]}/>
+  </>;
+}
+
+function Resume(){
+  const M = [
+    ["Le basculement","Le matin du 22 mars 2016, Mohamed est en congé. Il comprend le drame quand il voit que la connexion du téléphone de Loubna, partie en métro, s'est arrêtée à 9 h 10, l'heure de l'explosion.","Comment le récit rend-il le choc ? Relève un détail concret."],
+    ["Une enfance à Molenbeek","Né et élevé à Molenbeek, Mohamed y a été heureux, malgré la mauvaise réputation de la commune. Il se sent marocain par ses origines et belge par attachement. Enfant, il était choqué à l'idée que ses institutrices, pourtant si gentilles, seraient exclues du paradis parce qu'elles n'étaient pas musulmanes.","Que révèle cette anecdote sur sa vision de la religion ?"],
+    ["Loubna","Il raconte la rencontre avec Loubna, qui « illumine » sa vie, puis leur vie de couple et la naissance de leurs trois fils. Loubna était professeure d'éducation physique, joyeuse et engagée.","Relève les mots et images qui décrivent Loubna."],
+    ["Le deuil","Il évoque la douleur, l'absence, la solitude du père qui doit élever seul trois enfants et continuer à vivre.","Quels passages relèvent du registre élégiaque ?"],
+    ["Une foi ouverte","Il explique sa lecture de l'islam : un axe vertical (le lien à Dieu, qui passe par l'amour de tous) et un axe horizontal (les règles de la vie en société). Selon lui, les règles pensées au VIIe siècle ne peuvent pas s'appliquer telles quelles aujourd'hui.","Explique avec tes mots la différence entre les deux axes."],
+    ["Ce qu'il transmet à ses fils","Il répète à ses enfants que tous les humains sont frères. Quand ils demandent si l'auteur de l'attentat est aussi leur frère, il répond que oui : un frère en humanité, qui a choisi une mauvaise voie. Aux proches tentés par la vengeance, il répond que la violence les mettrait au niveau des assassins.","Es-tu d'accord avec sa réponse ? Pourquoi ?"],
+    ["L'appel","Il appelle à un « jihad de l'amour » : un effort pour aller vers l'autre, sourire, dialoguer, refuser la haine. C'est un message adressé aux jeunes, notamment ceux de Molenbeek, et à tous les lecteurs.","À qui ce message s'adresse-t-il en priorité ?"]
+  ];
+  return <>
+    <Head crumb="L'œuvre" title="Résumé" obj="Connaître le contenu du livre, mouvement par mouvement."/>
+    <Msg type="info">Le livre n'est pas un récit continu : c'est une <G t="fragment">écriture fragmentaire</G>. Le résumé est donc organisé en <strong>grands mouvements</strong>. L'ordre est indicatif : vérifie-le dans ton exemplaire et note les pages.</Msg>
+    <h2>Le livre en une phrase</h2>
+    <div className="card" style={{fontSize:"1.05em"}}>Après la mort de sa femme dans l'attentat de Maelbeek, un Bruxellois musulman de Molenbeek raconte sa vie, son amour et son <G t="deuil">deuil</G>. Il transforme sa douleur en appel à la <G t="fraternite">fraternité</G> et au refus de la haine.</div>
+    <h2>Les sept mouvements</h2>
+    <p>Ouvre chaque mouvement l'un après l'autre.</p>
+    {M.map((m,k)=><details className="acc" key={k}><summary><span className="step-num">{k+1}</span>{m[0]}</summary><div className="acc-body"><p>{m[1]}</p><p style={{color:"var(--muted)",fontSize:".93em"}}><Icon n="pen" s={14}/> <em>Dans ton livre :</em> {m[2]}</p></div></details>)}
+    <Keep items={["Du choc (22 mars) à l'appel (jihad de l'amour).","Trois fils conducteurs : l'amour pour Loubna, la foi ouverte, le refus de la haine.","Le livre mêle récit, réflexion et adresse aux lecteurs."]}/>
+    <Quiz id="q-resume" questions={[
+      {q:"Que répond Mohamed quand ses fils demandent si le terroriste est aussi leur frère ?",o:["Non, c'est un ennemi","Oui, un frère en humanité, même s'il a choisi le mal","Il refuse de répondre","Il dit qu'il faut l'oublier"],a:1,e:"Sa fraternité est universelle : elle n'excuse pas l'acte, mais elle refuse de déshumaniser l'auteur."},
+      {q:"Selon Mohamed, que se passerait-il si ses proches se vengeaient ?",o:["Ils obtiendraient justice","Ils se mettraient au niveau des assassins","Ils seraient pardonnés","Ils protégeraient la famille"],a:1,e:"Pour lui, répondre à la violence par la violence, c'est commettre les mêmes fautes."},
+      {q:"Quelle anecdote d'enfance montre déjà son ouverture aux autres ?",o:["Il voulait devenir conducteur de métro","Il était choqué que ses gentilles institutrices soient exclues du paradis","Il a déménagé au Maroc","Il a appris le néerlandais"],a:1,e:"Enfant, il ne pouvait pas accepter qu'on exclue des personnes bonnes parce qu'elles avaient une autre religion."}
+    ]}/>
+  </>;
+}
+
+function Personnages(){
+  const C = [
+    {i:"M",bg:"var(--hl)",n:"Mohamed",s:"narrateur, auteur, personnage principal",rows:[
+      ["Identité","« belgo-marocain, musulman et molenbeekois », comme il se présente lui-même. Ancien conducteur de métro, père de trois garçons."],
+      ["Traits","Croyant ouvert, autodidacte curieux, sensible, pudique, combatif. Il refuse la haine, qu'il juge « indigne »."],
+      ["Évolution","De l'anéantissement à l'engagement public : il devient un porte-parole de la paix. Mais derrière la figure publique, le deuil reste vif."],
+      ["Rôle","Témoin, endeuillé, père, porte-parole. C'est la voix unique du livre."]]},
+    {i:"L",bg:"var(--violet)",n:"Loubna Lafquiri",s:"l'absente au centre du livre",rows:[
+      ["Identité","34 ans, professeure d'éducation physique dans des écoles bruxelloises. Molenbeekoise d'origine marocaine, mère de trois enfants."],
+      ["Traits","Décrite comme joyeuse, sportive, chaleureuse, un lien entre les communautés."],
+      ["Rôle","C'est la destinataire de l'hommage (le livre est un tombeau littéraire), la muse et la boussole morale de Mohamed. Elle est absente physiquement mais présente partout."]]},
+    {i:"3",bg:"var(--pos)",n:"Les trois fils",s:"âgés d'environ 10 ans, 7 ans et presque 2 ans en 2016",rows:[
+      ["Rôle","Ce sont les destinataires de la transmission (« on est tous frères »). Leurs questions naïves et terribles obligent Mohamed à formuler sa pensée."],
+      ["Réalité","Ce sont des victimes indirectes. Dix ans après, Mohamed décrit des réactions différentes chez chacun : repli, colère, sentiment d'abandon."]]},
+    {i:"E",bg:"var(--warn)",n:"L'entourage",s:"famille, belle-famille, amis",rows:[
+      ["Rôle","Un soutien (sa mère, ses sœurs, la mère de Loubna), mais aussi la tentation de la vengeance chez certains proches. Mohamed y répond en refusant la violence."]]},
+    {i:"?",bg:"var(--neg)",n:"Les terroristes",s:"des figures « en creux »",rows:[
+      ["Rôle","Ils sont à peine décrits, mais ils sont au cœur de la réflexion : faut-il les haïr ? Restent-ils des « frères en humanité » ? Mohamed refuse de leur laisser le dernier mot."]]}
+  ];
+  return <>
+    <Head crumb="L'œuvre" title="Les personnes du récit" obj="Caractériser chaque figure et comprendre son rôle."/>
+    <Msg type="warn" title="Attention : ce sont des personnes réelles">On parle plutôt de « personnes » ou de « figures » que de « personnages ». Dans ton analyse, reste respectueux : tu analyses la <em>manière dont elles sont présentées</em> dans le livre.</Msg>
+    {C.map((c,k)=><div className="card" key={k}>
+      <div className="perso-h"><div className="avatar" style={{background:c.bg}}>{c.i}</div><div><strong>{c.n}</strong><small>{c.s}</small></div></div>
+      <dl className="kv">{c.rows.map((r,j)=><Fragment key={j}><dt>{r[0]}</dt><dd>{r[1]}</dd></Fragment>)}</dl>
+    </div>)}
+    <Msg type="pos" title="Activité">Pour Mohamed et Loubna, relève dans le livre <strong>deux passages</strong> qui illustrent un trait de caractère. Note la page et une courte citation.</Msg>
+    <Keep items={["Mohamed : une voix unique, à la fois intime et publique.","Loubna : l'absente qui donne sens à tout le livre.","Les fils : la transmission et la question de la fraternité.","Les terroristes : présents en creux, jamais haïs."]}/>
+    <Quiz id="q-perso" questions={[
+      {q:"Quel métier exerçait Loubna ?",o:["Infirmière","Professeure d'éducation physique","Avocate","Conductrice de tram"],a:1,e:"Elle enseignait le sport dans des écoles bruxelloises."},
+      {q:"Pourquoi dit-on que Loubna est « l'absente au centre du livre » ?",o:["Elle n'apparaît jamais","Elle est morte, mais tout le livre lui est dédié et parle d'elle","Elle a écrit la préface","Elle vit à l'étranger"],a:1,e:"Le livre est un hommage : son absence est le point de départ de tout."}
+    ]}/>
+  </>;
+}
+
+function Themes(){
+  const T = [
+    ["Deuil et résilience","Comment continuer à vivre, élever ses enfants, et même agir, après une perte brutale ?","Peut-on être résilient et souffrir encore ?",["deuil","resilience","traumatisme"]],
+    ["L'amour conjugal","Le livre est d'abord une déclaration d'amour à Loubna : l'écriture la rend immortelle.","En quoi écrire peut-il « faire vivre » quelqu'un ?",["hommage"]],
+    ["L'identité plurielle","Belge, marocain, musulman, molenbeekois : Mohamed refuse de choisir entre ses appartenances.","Quelles sont tes propres appartenances ?",["identiteplurielle","belgomarocain"]],
+    ["Stéréotypes et stigmatisation","Il est à la fois victime et suspect. Son prénom et sa commune fonctionnent comme des étiquettes.","As-tu déjà été jugé sur une étiquette ?",["stereotype","prejuge","stigmatisation","amalgame"]],
+    ["La bataille des mots","Reprendre le mot « jihad » aux terroristes, c'est refuser qu'ils imposent leur sens.","Connais-tu d'autres mots détournés ?",["polysemie","reappropriation","jihad"]],
+    ["Un islam humaniste","Une foi vécue comme ouverture : il se sent chez lui dans tout lieu de culte où l'on prône la paix.","Foi et ouverture aux autres sont-elles compatibles ?",["humanisme","tolerance","litteralisme"]],
+    ["Fraternité et refus de la vengeance","Tous les humains sont frères, même celui qui a fait le mal. Se venger, ce serait ressembler aux assassins.","Pardonner, est-ce excuser ?",["fraternite","vengeance"]],
+    ["La transmission","Que dire à des enfants après un attentat ? Le livre est aussi un héritage pour ses fils.","Que transmettrais-tu à ta place ?",[]],
+    ["Écriture et mémoire","Écrire soigne et préserve le souvenir, mais c'est aussi un acte public de mémoire.","Pourquoi garder la mémoire des victimes ?",["memoire"]]
+  ];
+  return <>
+    <Head crumb="L'œuvre" title="Les thèmes" obj="Identifier les grands thèmes et leurs liens."/>
+    <DiagThemes/>
+    <h2>Le mot au cœur du livre</h2>
+    <p>Le titre repose sur la <G t="polysemie">polysémie</G> du mot <G t="jihad">jihad</G> et sur sa <G t="reappropriation">réappropriation</G> par l'auteur.</p>
+    <DiagJihad/>
+    <h2>Les thèmes un par un</h2>
+    {T.map((t,k)=><details className="acc" key={k}><summary><span className="step-num">{k+1}</span>{t[0]}</summary><div className="acc-body">
+      <p>{t[1]}</p>
+      {t[3].length>0 && <p style={{fontSize:".92em"}}>Mots utiles : {t[3].map((g,j)=><Fragment key={g}>{j>0 && ", "}<G t={g}/></Fragment>)}</p>}
+      <p style={{color:"var(--muted)",fontSize:".93em"}}><Icon n="bulb" s={14}/> <em>Question :</em> {t[2]}</p>
+    </div></details>)}
+    <h2>L'identité plurielle en schéma</h2>
+    <DiagIdentity/>
+    <Keep items={["Thème central : le refus de la haine.","Le mot « jihad » est repris à ceux qui l'ont détourné.","L'identité de Mohamed est plurielle ; les stéréotypes la réduisent à une seule étiquette."]}/>
+    <Quiz id="q-themes" questions={[
+      {q:"Que fait Mohamed avec le mot « jihad » ?",o:["Il l'évite complètement","Il se le réapproprie en lui redonnant son sens d'effort","Il le traduit en néerlandais","Il l'utilise pour menacer"],a:1,e:"Il reprend le mot pour lui rendre son sens premier d'effort, ici un effort d'amour."},
+      {q:"Quel thème est central, et relié à tous les autres ?",o:["Le métro","Le refus de la haine","Le sport","La politique communale"],a:1,e:"Le refus de la haine relie le deuil, la foi, la fraternité, l'identité et la transmission."},
+      {q:"« Être à la fois belge, marocain, musulman et molenbeekois sans avoir à choisir. » Cela illustre…",o:["la stigmatisation","l'identité plurielle","la vengeance","le littéralisme"],a:1,e:"Des appartenances multiples qui se combinent : c'est l'identité plurielle."}
+    ]}/>
+  </>;
+}
+
+function Ecriture(){
+  return <>
+    <Head crumb="Analyser" title="Analyse de l'écriture" obj="Mobiliser les outils d'analyse : genre, énonciation, registres, procédés, structure."/>
+    <Tabs tabs={[
+      {label:"1. Genre", content:<>
+        <p>Le livre est un <G t="temoignage">témoignage</G> et un <G t="autobiographie">récit autobiographique</G> : l'auteur, le narrateur et le personnage principal sont la même personne. Le nom sur la couverture et le « je » du texte établissent le <G t="pacte">pacte autobiographique</G>.</p>
+        <p>C'est aussi un <G t="plaidoyer">plaidoyer</G>, puisqu'il défend une cause, et un <G t="hommage">tombeau littéraire</G> pour Loubna.</p>
+        <Msg type="info" title="Particularité">Ce sont des <G t="recueillis">propos recueillis</G> : une parole d'abord orale, mise en forme par un écrivain. Le style simple et presque oral vient de là.</Msg>
+      </>},
+      {label:"2. Énonciation", content:<>
+        <p>Analyser l'<G t="enonciation">énonciation</G>, c'est se demander qui parle, à qui, et dans quel but. Le <G t="narrateur">narrateur</G> change de <G t="destinataire">destinataire</G> selon les textes.</p>
+        <DiagEnonciation/>
+      </>},
+      {label:"3. Registres", content:<>
+        <div className="grid2">
+          <div className="card"><h3><G t="lyrique">Lyrique</G> et <G t="elegiaque">élégiaque</G></h3><p>L'amour pour Loubna, la douleur de l'absence : le « je » exprime ses émotions.</p></div>
+          <div className="card"><h3><G t="argumentatif">Argumentatif</G></h3><p>Il explique pourquoi refuser la haine et ce que signifie « jihad ». Il cherche à <G t="convaincre">convaincre et à persuader</G>.</p></div>
+          <div className="card"><h3>Narratif</h3><p>Le matin du 22 mars, l'enfance à Molenbeek, la rencontre avec Loubna : des faits racontés.</p></div>
+          <div className="card"><h3>Spirituel</h3><p>Sa réflexion sur Dieu, le Coran et les autres religions.</p></div>
+        </div>
+      </>},
+      {label:"4. Procédés", content:<>
+        <ul>
+          <li><strong>Le titre</strong> : il est perçu comme un <G t="oxymore">oxymore</G> ; c'est en fait une <G t="reappropriation">réappropriation</G>. Effet : surprendre, puis faire réfléchir.</li>
+          <li><strong>La phrase d'identité</strong> : « Je suis Mohamed El Bachiri, belgo-marocain, musulman et molenbeekois ». Trois <G t="apposition">appositions énumérées</G> : chacune correspond à un préjugé que le texte va défaire.</li>
+          <li><strong>L'<G t="apostrophe">apostrophe</G> à Loubna</strong> : il s'adresse à elle comme si elle était là. Effet : intimité, émotion.</li>
+          <li><strong>L'<G t="antithese">antithèse</G> amour / haine</strong> : elle structure tout le livre.</li>
+          <li><strong>Des images</strong> (<G t="metaphore">métaphores</G>) du feu et de l'étreinte. Dans son appel télévisé, il parlait d'un jihad qui cherche l'étreinte pour éteindre les flammes de la rancœur.</li>
+          <li><strong>Des répétitions</strong> (<G t="anaphore">anaphores</G>) qui donnent un rythme de discours, comme dans un appel prononcé à voix haute.</li>
+        </ul>
+        <Msg type="pos" title="Activité">Trouve dans le livre un exemple de chaque procédé. Pour chacun, rédige la phrase : « L'auteur utilise [procédé] dans [citation] (p. …) pour [effet]. »</Msg>
+      </>},
+      {label:"5. Structure", content:<>
+        <p>Le livre est fait de textes courts, chacun avec son titre : c'est une <G t="fragment">écriture fragmentaire</G>.</p>
+        <div className="grid2">
+          <div className="card"><h3 style={{color:"var(--pos)"}}>Effets positifs</h3><ul><li>Une lecture accessible, que l'on peut picorer</li><li>Une impression de confidence</li><li>Chaque texte comme une petite pensée à méditer</li></ul></div>
+          <div className="card"><h3 style={{color:"var(--neg)"}}>Limites possibles</h3><ul><li>Pas de récit continu</li><li>Des idées qui reviennent ; certains lecteurs trouvent le livre répétitif</li></ul></div>
+        </div>
+      </>}
+    ]}/>
+    <Keep items={["Genre : témoignage autobiographique + plaidoyer + hommage.","Énonciation : un « je » qui s'adresse tour à tour à Loubna, aux jeunes, à tous.","Registres dominants : lyrique/élégiaque et argumentatif.","Procédés clés : titre-provocation, appositions, apostrophe, antithèse amour/haine."]}/>
+    <Quiz id="q-ecriture" questions={[
+      {q:"« Je suis Mohamed El Bachiri, belgo-marocain, musulman et molenbeekois. » Quel procédé reconnais-tu ?",o:["Une métaphore","Une énumération d'appositions","Une antithèse","Une anaphore"],a:1,e:"Trois groupes de mots, séparés par des virgules, caractérisent le nom : ce sont des appositions énumérées."},
+      {q:"Quand Mohamed s'adresse directement à Loubna disparue, il utilise…",o:["une apostrophe","une hyperbole","un oxymore","une périphrase"],a:0,e:"S'adresser directement à quelqu'un, présent ou absent, en le nommant : c'est une apostrophe."},
+      {q:"Quels registres dominent dans le livre ?",o:["Comique et satirique","Fantastique et merveilleux","Lyrique (élégiaque) et argumentatif","Épique et tragique"],a:2,e:"Il exprime ses émotions (lyrique, élégiaque) et cherche à convaincre (argumentatif)."},
+      {q:"Qu'est-ce que le pacte autobiographique ?",o:["Un contrat d'édition","L'engagement que l'auteur, le narrateur et le personnage sont la même personne, et que le récit est vrai","Une promesse faite à Loubna","Un accord entre deux auteurs"],a:1,e:"Le lecteur sait qu'il lit un récit réel, raconté par la personne qui l'a vécu."}
+    ]}/>
+  </>;
+}
+
+function Aujourdhui(){
+  return <>
+    <Head crumb="Analyser" title="L'œuvre dans le contexte contemporain" obj="Relier le livre aux grands débats d'aujourd'hui et exercer ton esprit critique."/>
+    <p>Pourquoi lire ce livre aujourd'hui, en Belgique ? Voici six angles d'analyse. Chacun propose une question à débattre.</p>
+
+    <h2>1. La parole des victimes</h2>
+    <p>Après les attentats de 2015-2016, des victimes et des proches prennent la parole publiquement. En France, Antoine Leiris publie <em>Vous n'aurez pas ma haine</em> ; en Belgique, Mohamed El Bachiri publie <em>Un jihad de l'amour</em>. Ces voix proposent une autre réponse que la peur : refuser de donner aux terroristes la division qu'ils cherchent. Lors du procès de 2022-2023, la parole des victimes et de leurs proches a de nouveau eu une place centrale.</p>
+    <Msg type="info" title="À débattre">Une victime a-t-elle une responsabilité particulière quand elle parle en public ?</Msg>
+
+    <h2>2. Stéréotypes, amalgames, islamophobie</h2>
+    <p>Après des attentats, les <G t="amalgame">amalgames</G> entre islam et terrorisme se multiplient et l'<G t="islamophobie">islamophobie</G> peut augmenter. Le livre montre que des musulmans sont <strong>aussi</strong> victimes du terrorisme. Il défait l'opposition simpliste entre « eux » et « nous ».</p>
+    <Msg type="info" title="À débattre">Est-il juste qu'une victime doive prouver qu'elle n'est « pas un terroriste » ?</Msg>
+
+    <h2>3. Molenbeek et l'image des quartiers</h2>
+    <p>Le livre donne un visage humain à une commune souvent réduite à une étiquette médiatique. Il parle depuis Molenbeek et s'adresse aux jeunes de Molenbeek. C'est une manière de reprendre le récit de son propre quartier.</p>
+    <Msg type="info" title="À débattre">Comment les médias construisent-ils la réputation d'un lieu ?</Msg>
+
+    <h2>4. Réseaux sociaux et viralité</h2>
+    <p>Le message est d'abord une vidéo devenue <G t="viralite">virale</G>, vue par des millions de personnes. Les réseaux sociaux peuvent amplifier la haine, mais aussi des messages de paix. Une question se pose cependant : l'émotion d'une vidéo suffit-elle à changer durablement les mentalités ?</p>
+
+    <h2>5. Regards critiques sur le message</h2>
+    <div className="grid2">
+      <div className="card"><h3 style={{color:"var(--pos)"}}>Forces</h3><ul><li>Un message universel, accessible, porté par une expérience réelle</li><li>Une réponse non violente qui prive les terroristes de leur but : diviser</li><li>Une vision de la foi compatible avec l'<G t="humanisme">humanisme</G></li></ul></div>
+      <div className="card"><h3 style={{color:"var(--neg)"}}>Questions possibles</h3><ul><li>Risque d'<G t="injonction">injonction</G> au pardon : la colère des victimes est aussi légitime</li><li>Le « bon musulman » qui rassure peut renforcer l'idée que les musulmans doivent se justifier</li><li>Un message parfois répétitif ou idéaliste, selon certains lecteurs</li></ul></div>
+    </div>
+    <Msg type="warn">Formuler une critique, ce n'est pas rejeter le livre. C'est montrer que tu as réfléchi. Une bonne <G t="appreciation">appréciation</G> est nuancée.</Msg>
+
+    <h2>6. Dix ans après : la réalité derrière le message</h2>
+    <p>En mars 2026, dix ans après l'attentat, Mohamed témoigne d'une détresse toujours présente. Il a élevé seul ses trois fils, aujourd'hui âgés de 19, 17 et 12 ans. Il dénonce un service d'aide qui a refusé d'accompagner ses enfants, au motif qu'ils n'étaient pas des <G t="victimeindirecte">victimes directes</G>. L'adaptation théâtrale montrait déjà l'homme blessé derrière le héros public.</p>
+    <Msg type="info" title="À débattre">Ces informations rendent-elles le message du livre plus faible ou plus fort ? Comment la société doit-elle accompagner les victimes indirectes ?</Msg>
+
+    <Keep items={["Le livre s'inscrit dans la parole des victimes après 2015-2016.","Il combat les amalgames et l'image stigmatisée de Molenbeek.","Une lecture critique peut interroger l'injonction au pardon et la place du « bon musulman ».","En 2026, la réalité du deuil et l'abandon des victimes indirectes nuancent le message, sans l'annuler."]}/>
+    <Quiz id="q-aujourdhui" questions={[
+      {q:"Qu'est-ce qu'un amalgame ?",o:["Un mélange de métaux","Une confusion injuste entre des personnes ou des choses différentes","Une figure de style","Une forme de prière"],a:1,e:"Confondre tous les musulmans avec les terroristes, par exemple."},
+      {q:"Que dénonce Mohamed El Bachiri en 2026 ?",o:["La fermeture du métro","Le refus d'aider ses fils, jugés « victimes indirectes »","L'interdiction de son livre","La démolition de la place Loubna Lafquiri"],a:1,e:"Un service d'aide a refusé d'accompagner ses fils au motif qu'ils n'étaient pas des victimes directes."},
+      {q:"Que désigne l'« injonction au pardon » ?",o:["Une décision de justice","La pression qui pousse toutes les victimes à pardonner, alors que leur colère peut être légitime","Une prière musulmane","Un article de loi belge"],a:1,e:"Admirer le choix de Mohamed ne doit pas conduire à l'imposer à toutes les victimes."}
+    ]}/>
+  </>;
+}
+
+function Echos(){
+  const W = [
+    ["Vous n'aurez pas ma haine","Antoine Leiris, 2016 (récit)","Un mari qui a perdu sa femme au Bataclan, et qui refuse lui aussi la haine.","Comparer deux réponses non violentes. Différence : Mohamed doit en plus se défendre d'être suspect."],
+    ["Djihad","Ismaël Saïdi, 2014 (théâtre belge)","Trois jeunes Bruxellois partent en Syrie : une comédie grinçante sur la radicalisation, beaucoup jouée devant des classes.","L'autre face du mot « jihad » : le départ et la manipulation."],
+    ["Le Jeune Ahmed","Jean-Pierre et Luc Dardenne, 2019 (film belge)","Un adolescent belge se radicalise et projette de tuer son enseignante.","Comprendre la radicalisation, à laquelle Mohamed oppose l'amour."],
+    ["Les Identités meurtrières","Amin Maalouf, 1998 (essai)","Réduire quelqu'un à une seule appartenance peut mener à la violence.","Le cadre théorique de l'identité plurielle."],
+    ["Lettre à un otage","Antoine de Saint-Exupéry, 1943","Contient l'idée que celui qui diffère de nous, loin de nous léser, nous enrichit.","Une source humaniste du refus de la peur de l'autre."],
+    ["Een jihad van liefde (théâtre)","Rataplan, Anvers, 2019","Mohamed et Loubna sur scène ; Loubna apparaît comme une présence-fantôme. L'attentat est suggéré très sobrement.","Comparer le livre et son adaptation : que montre le théâtre que le livre ne dit pas ?"]
+  ];
+  return <>
+    <Head crumb="Analyser" title="Œuvres en écho" obj="Préparer la mise en perspective de ton récit d'expérience (critère référentiel)."/>
+    <p>Une <G t="perspective">mise en perspective</G> consiste à relier l'œuvre à d'autres œuvres. Choisis-en <strong>une</strong> que tu connais ou que tu peux découvrir.</p>
+    {W.map((w,k)=><div className="card" key={k}><h3 style={{marginTop:0}}><em>{w[0]}</em> <span style={{fontWeight:400,color:"var(--muted)",fontSize:".9em"}}>— {w[1]}</span></h3><p>{w[2]}</p><p style={{fontSize:".93em"}}><Icon n="link" s={14}/> <strong>Lien possible :</strong> {w[3]}</p></div>)}
+    <Keep items={["Une seule comparaison bien développée vaut mieux que cinq titres cités.","Compare : le thème, la forme, l'effet produit sur toi."]}/>
+    <Quiz id="q-echos" questions={[
+      {q:"Quelle œuvre est la plus proche d'Un jihad de l'amour par sa situation de départ ?",o:["Le Jeune Ahmed","Vous n'aurez pas ma haine","Les Identités meurtrières","Djihad"],a:1,e:"Dans les deux cas, un mari endeuillé par un attentat refuse la haine."},
+      {q:"Quelle œuvre aide à penser l'identité plurielle ?",o:["Les Identités meurtrières d'Amin Maalouf","Lettre à un otage","Djihad","Le Jeune Ahmed"],a:0,e:"Maalouf montre le danger de réduire une personne à une seule appartenance."}
+    ]}/>
+  </>;
+}
+
+function Recit(){
+  const SEG = [
+    ["Circonstances","var(--muted)","J'ai lu Un jihad de l'amour en octobre, pour le cours de français. Je l'ai lu en trois soirs, dans ma chambre, en relisant parfois certaines pages à voix basse."],
+    ["Attentes","var(--violet)","Quand j'ai vu le titre, j'ai été mal à l'aise : pour moi, le mot « jihad » était lié aux attentats. La photo de cet homme qui regarde de côté me semblait presque méfiante. Je m'attendais à un livre dur sur le terrorisme."],
+    ["Moments marquants","var(--hl-strong)","Ce qui m'a frappée d'abord, c'est un détail : Mohamed comprend que sa femme est morte parce que son téléphone ne se connecte plus depuis 9 h 10. Ce détail banal m'a serré la gorge. Plus loin, quand ses fils lui demandent si le terroriste est aussi leur frère et qu'il répond que oui, un frère en humanité, j'ai dû poser le livre."],
+    ["Appréciation (éthique)","var(--pos)","Je trouve son refus de la haine admirable. Pourtant, il m'a aussi dérangée : peut-on demander à toutes les victimes de pardonner ? Je pense que la colère est légitime elle aussi."],
+    ["Appréciation (esthétique)","var(--pos)","Les textes sont courts et écrits simplement, comme si Mohamed me parlait. La lecture est donc facile, mais certaines idées reviennent souvent, ce qui m'a parfois lassée."],
+    ["Appréciation (cognitive)","var(--pos)","J'ai appris que « jihad » signifie d'abord « effort ». Je ne regarderai plus ce mot de la même façon."],
+    ["Mise en perspective","var(--warn)","Ce livre m'a fait penser à Vous n'aurez pas ma haine d'Antoine Leiris. Les deux hommes refusent la haine, mais Mohamed doit en plus se défendre d'être suspect parce qu'il s'appelle Mohamed et vit à Molenbeek. Un article de 2026 m'a appris que, dix ans après, il se sent abandonné : cela rend son message encore plus fort, mais aussi plus fragile."],
+    ["Bilan","var(--neg)","Cette lecture a changé mon regard sur un mot et sur une commune. Je la conseillerais aux élèves de mon âge, surtout à ceux qui croient connaître Molenbeek sans y être jamais allés."]
+  ];
+  const FIELDS = [
+    ["Les circonstances","Où, quand, comment as-tu lu ? En combien de temps ?","J'ai lu ce livre…"],
+    ["Tes attentes avant la lecture","Qu'imaginais-tu à partir du titre et de la couverture ? (Reprends tes notes de la fiche d'identité.)","Avant de lire, je pensais que… / Le titre m'a…"],
+    ["Deux moments marquants","Quel passage ? Quelle émotion précise ? Pourquoi ?","J'ai été (bouleversé·e, surpris·e…) par le passage où… parce que…"],
+    ["Ton appréciation argumentée","Utilise au moins deux critères : cognitif, éthique, esthétique.","D'un point de vue éthique, … / Le style… / J'ai appris que…"],
+    ["La mise en perspective","Une autre œuvre, l'actualité, ta propre vie.","Ce livre fait écho à… car… / Contrairement à…"],
+    ["Ton bilan","Qu'est-ce que cette lecture a changé chez toi ? À qui la conseillerais-tu ?","Aujourd'hui, je… / Je conseillerais ce livre à…"]
+  ];
+  const [plan,setPlan] = useState(()=>store.get("plan",{}));
+  const [copied,setCopied] = useState("");
+  const upd=(k,v)=>{ const n={...plan,[k]:v}; setPlan(n); store.set("plan",n); };
+  const copy = ()=>{
+    const t = FIELDS.map((f,k)=>`${k+1}. ${f[0]}\n${plan[k]||""}`).join("\n\n");
+    if(navigator.clipboard && navigator.clipboard.writeText){ navigator.clipboard.writeText(t).then(()=>setCopied("Plan copié : tu peux le coller dans ton traitement de texte.")).catch(()=>setCopied("La copie a été refusée par le navigateur : sélectionne le texte à la main.")); }
+    else setCopied("La copie n'est pas disponible ici : sélectionne le texte à la main.");
+  };
+  return <>
+    <Head crumb="Produire" title="Le récit d'expérience culturelle (UAA 6)" obj="Raconter ta rencontre avec le livre et formuler une appréciation argumentée."/>
+    <Msg type="info" title="De quoi s'agit-il ?">Le <G t="recitexp">récit d'expérience culturelle</G> correspond à l'<G t="uaa">UAA</G> 6, « relater des expériences culturelles ». Tu ne résumes pas le livre : tu racontes <strong>ce que toi, tu as vécu</strong> en le lisant, et tu formules une <G t="appreciation">appréciation</G> argumentée. Vérifie la consigne exacte et la grille de ton professeur : elles peuvent varier selon le réseau.</Msg>
+
+    <h2>Étape 1 : la méthode en 6 parties</h2>
+    <div className="grid2">
+      {FIELDS.map((f,k)=><div className="card" key={k}><h3><span className="step-num">{k+1}</span> {f[0]}</h3><p style={{fontSize:".93em"}}>{f[1]}</p></div>)}
+    </div>
+    <h3>Les quatre critères d'appréciation</h3>
+    <div className="grid2">
+      <div className="card"><h3 style={{color:"var(--hl-strong)"}}>Cognitif</h3><p>Ce que j'ai appris ou compris.</p></div>
+      <div className="card"><h3 style={{color:"var(--pos)"}}>Éthique</h3><p>Les valeurs, la morale : suis-je d'accord ?</p></div>
+      <div className="card"><h3 style={{color:"var(--violet)"}}>Esthétique</h3><p>La forme, le style, la structure : est-ce beau, efficace ?</p></div>
+      <div className="card"><h3 style={{color:"var(--warn)"}}>Référentiel</h3><p>Les liens avec d'autres œuvres ou avec la réalité.</p></div>
+    </div>
+    <h3>Des mots précis pour dire tes émotions</h3>
+    <div className="chips">{["bouleversé·e","ébranlé·e","ému·e","mal à l'aise","admiratif·ve","sceptique","perplexe","révolté·e","apaisé·e","dérangé·e","touché·e","agacé·e","surpris·e","reconnaissant·e"].map(w=><span key={w} className="chip" style={{cursor:"default"}}>{w}</span>)}</div>
+    <p style={{fontSize:".93em"}}>Relie tes idées avec des <G t="connecteur">connecteurs logiques</G> : car, en effet, pourtant, cependant, c'est pourquoi, contrairement à…</p>
+
+    <h2>Étape 2 : un exemple annoté</h2>
+    <p>Voici un récit d'expérience rédigé pour l'exemple, avec la fonction de chaque partie indiquée en couleur.</p>
+    <div className="example-text">{SEG.map((s,k)=><div className="seg" key={k} style={{borderColor:s[1]}}><span className="seg-label" style={{background:s[1]}}>{s[0]}</span><div>{s[2]}</div></div>)}</div>
+    <Msg type="pos" title="Ce qui fonctionne dans cet exemple">Le « je » est présent partout. Les émotions sont précises. L'avis est nuancé (« pourtant »). Trois critères sont utilisés, il y a un lien avec une autre œuvre et un fait d'actualité, et un bilan personnel.</Msg>
+
+    <h2>Étape 3 : prépare ton plan</h2>
+    <p>Complète chaque partie avec tes propres idées. Les amorces de phrases t'aident à démarrer.</p>
+    {FIELDS.map((f,k)=><div className="exo" key={k}>
+      <h3 style={{marginTop:0}}><span className="step-num">{k+1}</span> {f[0]}</h3>
+      <p className="exo-consigne">{f[1]}</p>
+      <textarea aria-label={f[0]} placeholder={f[2]} value={plan[k]||""} onChange={e=>upd(k,e.target.value)}/>
+    </div>)}
+    <div className="btn-row"><button className="btn primary" onClick={copy}><Icon n="copy" s={15}/> Copier mon plan</button></div>
+    {copied && <Msg type="info">{copied}</Msg>}
+    <p style={{fontSize:".88em",color:"var(--muted)"}}>Ton plan est gardé dans ce navigateur seulement. Pense à le copier.</p>
+
+    <h2>Étape 4 : vérifie ton texte</h2>
+    <Checklist id="uaa6" items={[
+      "J'écris au « je » et je raconte MA lecture, pas seulement l'histoire.",
+      "Je décris mes attentes avant la lecture.",
+      "Je nomme au moins deux émotions précises et j'explique pourquoi.",
+      "Je m'appuie sur au moins un passage précis du livre (avec la page).",
+      "J'utilise au moins deux critères d'appréciation.",
+      "Mon avis est nuancé (j'utilise « mais », « pourtant », « cependant »).",
+      "Je fais au moins un lien avec une autre œuvre ou avec l'actualité.",
+      "Je parle des personnes réelles avec respect.",
+      "Je termine par un bilan personnel.",
+      "J'ai relu : orthographe, accords, ponctuation, connecteurs."
+    ]}/>
+    <Msg type="warn" title="Pièges fréquents"><ul style={{margin:0}}><li>Résumer le livre au lieu de raconter ton expérience.</li><li>« C'est triste », « c'est bien » : sans justification, ce n'est pas une appréciation.</li><li>Faire des généralités sur une religion ou une population : reste sur le texte et sur ce que tu as vécu.</li></ul></Msg>
+
+    <Quiz id="q-uaa6" questions={[
+      {q:"Quelle phrase relève vraiment du récit d'expérience ?",o:["Mohamed est né à Molenbeek.","Le livre a été publié en 2017.","En lisant le passage sur ses fils, j'ai dû poser le livre tant j'étais ému.","Loubna était professeure de sport."],a:2,e:"Elle raconte ce que le lecteur a vécu (le « je » et une émotion précise). Les autres phrases donnent des informations sur le livre."},
+      {q:"« Le style simple donne l'impression d'une confidence. » Quel critère est utilisé ?",o:["Cognitif","Éthique","Esthétique","Référentiel"],a:2,e:"On juge la forme, le style : c'est le critère esthétique."},
+      {q:"Qu'est-ce qu'une bonne appréciation ?",o:["Un avis tranché, sans nuance","Un jugement personnel, argumenté et appuyé sur des exemples","Un résumé détaillé","La copie de l'avis d'un critique"],a:1,e:"Elle exprime ton avis, le justifie par des critères et des passages, et sait nuancer."}
+    ]}/>
+  </>;
+}
+
+/* ---------- Page d'exercices ---------- */
+const EXO_META = [
+  ["x-comp","Compréhension de l'œuvre",12],["x-vf","Vrai ou faux",8],["x-ordre","Chronologie",9],
+  ["x-vocab","Vocabulaire",10],["x-trous","Texte à trous",8],["x-proc","Procédés",6],["x-reg","Registres",4],["x-crit","Critères d'appréciation",8]
+];
+function Exercices(){
+  const {results} = useContext(Progress);
+  const vocabItems = [
+    {p:"Capacité à se reconstruire après un grand malheur",a:"résilience"},
+    {p:"Confusion injuste entre des personnes ou des choses différentes",a:"amalgame"},
+    {p:"Idée toute faite généralisée à tout un groupe",a:"stéréotype"},
+    {p:"Fait qu'un mot ait plusieurs sens",a:"polysémie"},
+    {p:"Tout ce qui entoure le texte : titre, couverture, sous-titre…",a:"paratexte"},
+    {p:"Texte qui défend une cause",a:"plaidoyer"},
+    {p:"Ce que le lecteur imagine avant de lire",a:"horizon d'attente"},
+    {p:"Fait de s'adresser directement à quelqu'un en le nommant",a:"apostrophe"},
+    {p:"Proche d'une victime, touché par les conséquences sans avoir été présent",a:"victime indirecte"},
+    {p:"Fait d'avoir plusieurs appartenances qui se combinent",a:"identité plurielle"}
+  ];
+  const vocabOpts = shuffleFixed(vocabItems.map(v=>v.a),3);
+  return <>
+    <Head crumb="S'entraîner" title="Exercices" obj="Vérifier ta compréhension de l'œuvre, du vocabulaire et des outils d'analyse."/>
+    <div className="card">
+      <h3 style={{marginTop:0}}>Tes résultats</h3>
+      {EXO_META.map(([id,l])=>{ const r = results[id]; return <div className="progress-row" key={id}><span className="lbl">{l}</span><div className="bar"><div style={{width: r ? (r.score/r.total*100)+"%" : "0%"}}/></div><span style={{width:52,textAlign:"right",color:"var(--muted)"}}>{r ? `${r.score}/${r.total}` : "—"}</span></div>; })}
+    </div>
+    <Tabs tabs={[
+      {label:"Compréhension", content:<Quiz id="x-comp" title="Compréhension de l'œuvre" questions={[
+        {q:"Où Loubna a-t-elle perdu la vie ?",o:["À l'aéroport de Zaventem","À la station Maelbeek","À Molenbeek","Gare du Nord"],a:1,e:"Dans la rame de métro qui a explosé à Maelbeek, le 22 mars 2016."},
+        {q:"Que faisait Mohamed le matin du 22 mars 2016 ?",o:["Il conduisait le métro","Il était en congé","Il était au Maroc","Il était à l'aéroport"],a:1,e:"Il était en congé. Une amie de Loubna l'a réveillé pour lui demander s'il avait des nouvelles."},
+        {q:"Quel détail lui fait comprendre le drame ?",o:["Un appel de la police","La connexion du téléphone de Loubna arrêtée à 9 h 10","Un message de Loubna","Un reportage télévisé"],a:1,e:"Le téléphone s'était arrêté à l'heure de l'explosion."},
+        {q:"Comment Mohamed se présente-t-il ?",o:["Belge, chrétien et anversois","Belgo-marocain, musulman et molenbeekois","Marocain, athée et bruxellois","Français, musulman et parisien"],a:1,e:"Cette formule ouvre son appel et résume son identité plurielle."},
+        {q:"Pourquoi Mohamed a-t-il écrit ?",o:["Pour gagner de l'argent","Pour se soigner (thérapie) et faire vivre la mémoire de Loubna","Pour répondre à une commande","Pour devenir célèbre"],a:1,e:"Écrire a été un exutoire et un moyen de rendre Loubna immortelle."},
+        {q:"Selon Mohamed, le Coran a…",o:["un seul axe : les règles","deux axes : vertical (lien à Dieu) et horizontal (vie en société)","trois axes : passé, présent, futur","aucune règle sociale"],a:1,e:"Il distingue le lien à Dieu des règles sociales, liées à une époque."},
+        {q:"Que pense-t-il des règles du VIIe siècle ?",o:["Elles doivent s'appliquer telles quelles","Elles ne peuvent pas s'appliquer telles quelles au XXIe siècle","Elles sont toutes fausses","Il n'en parle pas"],a:1,e:"C'est une lecture contextualisée, opposée au littéralisme."},
+        {q:"Quel métier exerçait Loubna ?",o:["Professeure d'éducation physique","Médecin","Conductrice de métro","Commerçante"],a:0,e:"Elle enseignait le sport dans des écoles bruxelloises."},
+        {q:"Combien d'enfants avaient Mohamed et Loubna ?",o:["Un","Deux","Trois","Quatre"],a:2,e:"Trois fils, âgés d'environ 10 ans, 7 ans et presque 2 ans en 2016."},
+        {q:"Où Mohamed dit-il se sentir chez lui ?",o:["Seulement à la mosquée","Dans tout lieu de culte où l'on prône la paix et l'amour","Nulle part","Seulement au Maroc"],a:1,e:"Église, synagogue, temple : ce qui compte pour lui, c'est le message de paix."},
+        {q:"Quel est le sens du « jihad de l'amour » ?",o:["Une guerre contre les terroristes","Un effort pour aller vers l'autre, sourire, dialoguer, refuser la haine","Un voyage religieux","Une manifestation politique"],a:1,e:"Le mot retrouve son sens d'effort, au service de l'amour."},
+        {q:"Pourquoi Mohamed se sent-il « suspect » ?",o:["Il a été arrêté","À cause de son prénom et de sa commune, il est vu par certains comme un terroriste potentiel","Il a critiqué la police","Il a refusé de témoigner"],a:1,e:"C'est le paradoxe central : victime et pourtant soupçonné."}
+      ]}/>},
+      {label:"Vrai ou faux", content:<Quiz id="x-vf" title="Vrai ou faux ?" questions={[
+        {q:"Le livre est un roman : les personnages sont inventés.",o:["Vrai","Faux"],a:1,e:"Faux : c'est un témoignage réel."},
+        {q:"Mohamed était dans le métro avec Loubna au moment de l'explosion.",o:["Vrai","Faux"],a:1,e:"Faux : il était en congé, chez lui."},
+        {q:"Mohamed a quitté l'école sans diplôme, mais il a beaucoup lu seul.",o:["Vrai","Faux"],a:0,e:"Vrai : il s'est formé en autodidacte (histoire, religions, philosophie)."},
+        {q:"Le livre appelle à venger les victimes.",o:["Vrai","Faux"],a:1,e:"Faux : il refuse explicitement la vengeance."},
+        {q:"Une place de Molenbeek porte le nom de Loubna Lafquiri.",o:["Vrai","Faux"],a:0,e:"Vrai : elle a été inaugurée en mars 2018, avec une stèle qui reprend un passage du livre."},
+        {q:"Le livre a été adapté au théâtre.",o:["Vrai","Faux"],a:0,e:"Vrai : en Flandre (Rataplan, 2019) et aux Pays-Bas (Meervaart)."},
+        {q:"Mohamed rejette toute forme de religion.",o:["Vrai","Faux"],a:1,e:"Faux : il est croyant et défend un islam humaniste."},
+        {q:"En 2026, Mohamed estime que ses fils ont été bien accompagnés par les services d'aide.",o:["Vrai","Faux"],a:1,e:"Faux : il dénonce un refus d'aide au motif qu'ils n'étaient pas des victimes directes."}
+      ]}/>},
+      {label:"Chronologie", content:<Order id="x-ordre" seed={11} title="Remets les événements dans l'ordre chronologique" consigne="Utilise les flèches pour placer les événements du plus ancien au plus récent." items={[
+        "Enfance de Mohamed à Molenbeek",
+        "Rencontre avec Loubna",
+        "Attentats de Bruxelles (22 mars 2016)",
+        "Appel au « jihad de l'amour » à la télévision (décembre 2016)",
+        "Parution du livre en français (2017)",
+        "Inauguration de la place Loubna Lafquiri (2018)",
+        "Création de la pièce au Rataplan (2019)",
+        "Procès des attentats (2022-2023)",
+        "Dix ans après : Mohamed dénonce l'abandon des victimes indirectes (2026)"
+      ]}/>},
+      {label:"Vocabulaire", content:<SelectExo id="x-vocab" title="Associe chaque définition au bon mot" consigne="Choisis le mot qui correspond à chaque définition." items={vocabItems} options={vocabOpts}/>},
+      {label:"Texte à trous", content:<Cloze id="x-trous" title="Complète le texte" consigne="Choisis le bon mot dans chaque liste." parts={[
+        "Le mot « jihad » est ",{o:["polysémique","synonyme","inventé"],a:"polysémique"},
+        " : son sens premier est l'",{o:["effort","guerre","prière"],a:"effort"},
+        ". Des groupes extrémistes l'ont ",{o:["détourné","traduit","oublié"],a:"détourné"},
+        " pour justifier la violence. Mohamed El Bachiri en fait une ",{o:["réappropriation","traduction","caricature"],a:"réappropriation"},
+        " : il parle d'un jihad de l'amour. En se présentant comme belgo-marocain, musulman et molenbeekois, il revendique une identité ",{o:["plurielle","unique","secrète"],a:"plurielle"},
+        " et combat les ",{o:["stéréotypes","métaphores","religions"],a:"stéréotypes"},
+        ". Son livre est à la fois un ",{o:["hommage","roman","conte"],a:"hommage"},
+        " à Loubna et un ",{o:["plaidoyer","réquisitoire","dialogue"],a:"plaidoyer"},
+        " pour la paix."
+      ]}/>},
+      {label:"Procédés", content:<SelectExo id="x-proc" title="Identifie le procédé" consigne="Pour chaque phrase, choisis la figure de style. Les phrases marquées (entraînement) ont été inventées pour l'exercice." options={["oxymore","apposition / énumération","antithèse","métaphore","anaphore","apostrophe"]} items={[
+        {p:<>« Je suis Mohamed El Bachiri, belgo-marocain, musulman et molenbeekois. »</>,a:"apposition / énumération",h:"Regarde ce qui suit le nom, entre virgules.",e:"Trois groupes de mots caractérisent le nom : ce sont des appositions énumérées."},
+        {p:<>« Un jihad de l'amour » (perçu par beaucoup de lecteurs)</>,a:"oxymore",h:"Deux mots perçus comme opposés.",e:"Deux termes perçus comme contradictoires : un oxymore apparent."},
+        {p:<>« La haine divise, l'amour rassemble. » <em>(entraînement)</em></>,a:"antithèse",h:"Deux idées opposées dans une phrase.",e:"Opposition terme à terme : antithèse."},
+        {p:<>« Loubna était la lumière de sa vie. » <em>(entraînement)</em></>,a:"métaphore",h:"Une comparaison sans « comme ».",e:"Comparaison sans outil de comparaison : métaphore."},
+        {p:<>« Il faut aimer. Il faut écouter. Il faut sourire. » <em>(entraînement)</em></>,a:"anaphore",h:"Observe le début des phrases.",e:"« Il faut » est répété en début de phrase : anaphore."},
+        {p:<>« Loubna, mon amour, mon amie, ma vie » (hommage public, avril 2016)</>,a:"apostrophe",h:"À qui parle-t-il ?",e:"Il s'adresse directement à Loubna en la nommant : apostrophe."}
+      ]}/>},
+      {label:"Registres", content:<SelectExo id="x-reg" title="Identifie le registre ou le type de texte" consigne="Phrases d'entraînement inspirées du livre. Choisis la tonalité dominante." options={["narratif","explicatif","argumentatif","lyrique / élégiaque"]} items={[
+        {p:"Ce matin-là, je ne travaillais pas. Une amie de Loubna m'a réveillé vers dix heures.",a:"narratif",h:"Des faits racontés dans l'ordre.",e:"Récit de faits situés dans le temps : narratif."},
+        {p:"Le mot jihad signifie d'abord « effort ».",a:"explicatif",h:"Le texte informe, définit.",e:"On fait comprendre une notion : explicatif."},
+        {p:"Répondre à la violence par la violence, c'est ressembler aux assassins : refusons la haine.",a:"argumentatif",h:"Un argument et une conclusion.",e:"Un argument, puis une incitation : argumentatif."},
+        {p:"Ton absence me brûle chaque jour un peu plus.",a:"lyrique / élégiaque",h:"Le « je » exprime une douleur.",e:"Expression intime de la douleur de la perte : élégiaque."}
+      ]}/>},
+      {label:"Critères", content:<SelectExo id="x-crit" title="Classe chaque phrase selon le critère d'appréciation" consigne="Cognitif (j'apprends), éthique (valeurs), esthétique (forme, style), référentiel (liens avec d'autres œuvres ou la réalité)." options={["cognitif","éthique","esthétique","référentiel"]} items={[
+        {p:"J'ai découvert que le mot « jihad » signifie d'abord « effort ».",a:"cognitif",h:"Qu'a-t-on appris ?",e:"Un savoir nouveau : critère cognitif."},
+        {p:"Je trouve admirable qu'il refuse la vengeance, mais peut-on l'exiger de toutes les victimes ?",a:"éthique",h:"On parle de valeurs.",e:"Jugement moral : critère éthique."},
+        {p:"Les chapitres très courts rendent la lecture fluide, mais certaines idées se répètent.",a:"esthétique",h:"On parle de la forme.",e:"Jugement sur la forme : critère esthétique."},
+        {p:"Ce livre m'a fait penser à Vous n'aurez pas ma haine d'Antoine Leiris.",a:"référentiel",h:"Un lien avec une autre œuvre.",e:"Mise en relation avec une autre œuvre : critère référentiel."},
+        {p:"J'ai compris pourquoi Molenbeek avait une telle réputation dans les médias.",a:"cognitif",h:"Compréhension nouvelle.",e:"Compréhension d'un fait : critère cognitif."},
+        {p:"Le style simple, presque oral, donne l'impression qu'il me parle directement.",a:"esthétique",h:"Style.",e:"Effet du style : critère esthétique."},
+        {p:"Le film Le Jeune Ahmed montre l'autre face : comment un adolescent se radicalise.",a:"référentiel",h:"Autre œuvre.",e:"Lien avec un film : critère référentiel."},
+        {p:"Est-il juste qu'une victime doive prouver qu'elle n'est pas un terroriste ?",a:"éthique",h:"Question de justice.",e:"Question morale : critère éthique."}
+      ]}/>},
+      {label:"Questions ouvertes", content:<OpenQ id="open" items={[
+        {q:"Pourquoi le titre peut-il choquer, et pourquoi est-ce une stratégie efficace ?",h:"oxymore apparent, horizon d'attente, réappropriation",m:"Le titre associe « jihad », que beaucoup relient au terrorisme, et « amour ». Cela crée un choc qui ressemble à un oxymore. Ce choc attire l'attention et oblige le lecteur à revoir ses idées reçues : le livre lui apprend que « jihad » signifie d'abord « effort ». Le titre réalise ainsi le message du livre, qui est de reprendre le mot aux terroristes."},
+        {q:"Montre que Mohamed est à la fois victime et suspect aux yeux d'une partie de la société.",h:"Molenbeek, prénom, stéréotypes, amalgame",m:"Il est victime, puisque sa femme a été tuée à Maelbeek. Mais il s'appelle Mohamed, il est musulman et il vit à Molenbeek, une commune stigmatisée après les attentats. À cause de ces amalgames, il explique qu'une partie de la population le voit comme un « terroriste potentiel ». Le livre répond à ce paradoxe en déconstruisant les stéréotypes."},
+        {q:"En quoi le livre est-il à la fois un hommage et un plaidoyer ?",h:"Loubna ; la cause défendue",m:"C'est un hommage, un tombeau littéraire pour Loubna : Mohamed écrit pour la faire vivre et garder sa mémoire. C'est aussi un plaidoyer, puisqu'il défend une cause, le refus de la haine et la fraternité entre croyants et non-croyants. L'intime (l'amour) nourrit le public (l'appel)."},
+        {q:"Le message du livre te semble-t-il réaliste ? Appuie-toi sur les informations de 2026.",h:"résilience, dix ans après, victimes indirectes",m:"Le message est exigeant et peut sembler idéaliste. Les informations de 2026 montrent que, dix ans après, Mohamed souffre encore et se sent abandonné. Cela ne contredit pas son message : refuser la haine n'empêche pas la douleur. Au contraire, cela rend son choix plus admirable. Cela montre aussi que la société doit mieux accompagner les victimes."},
+        {q:"Compare ce livre avec une autre œuvre de ton choix.",h:"thème, forme, effet",m:"Exemple avec Vous n'aurez pas ma haine d'Antoine Leiris : les deux hommes ont perdu leur femme dans un attentat et refusent la haine (même thème). Les deux textes sont courts et intimes (forme proche). Mais Mohamed doit en plus se défendre d'être soupçonné, parce qu'il est musulman et molenbeekois : son texte lutte aussi contre les stéréotypes."}
+      ]}/>}
+    ]}/>
+  </>;
+}
+
+function Glossaire(){
+  const [q,setQ] = useState("");
+  const [cat,setCat] = useState("all");
+  const norm = s=>s.toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g,"");
+  const list = GL.map(g=>GLOSS[g[0]]).filter(g=>(cat==="all"||g.cat===cat) && (!q || norm(g.term+" "+g.def).includes(norm(q)))).sort((a,b)=>norm(a.term).localeCompare(norm(b.term)));
+  let last = "";
+  return <>
+    <Head crumb="Outils" title="Glossaire" obj="Retrouver la définition simple et un exemple pour chaque mot ou notion."/>
+    <input type="search" placeholder="Rechercher un mot…" value={q} onChange={e=>setQ(e.target.value)} aria-label="Rechercher dans le glossaire"/>
+    <div className="chips">
+      <button className={"chip"+(cat==="all"?" on":"")} onClick={()=>setCat("all")}>Tout ({GL.length})</button>
+      {Object.entries(CATS).map(([k,v])=><button key={k} className={"chip"+(cat===k?" on":"")} onClick={()=>setCat(k)}>{v} ({GL.filter(g=>g[2]===k).length})</button>)}
+    </div>
+    {list.length===0 && <p style={{color:"var(--muted)"}}>Aucun résultat.</p>}
+    {list.map(g=>{ const L = norm(g.term)[0].toUpperCase(); const show = L!==last; last = L;
+      return <Fragment key={g.id}>{show && <div className="letter">{L}</div>}
+        <div className="gl-card"><h3>{g.term}<span className={"badge "+g.cat}>{CATS[g.cat]}</span></h3><p>{g.def}</p><p className="ex"><em>Exemple :</em> {g.ex}</p></div>
+      </Fragment>; })}
+  </>;
+}
+
+/* =========================================================
+   APPLICATION
+   ========================================================= */
+const SECTIONS = [
+  {id:"accueil",label:"Accueil",group:"Démarrer",icon:"home",C:Accueil,q:"q-accueil"},
+  {id:"fiche",label:"Fiche d'identité",group:"L'œuvre",icon:"book",C:Fiche,q:"q-fiche"},
+  {id:"contexte",label:"Contexte et genèse",group:"L'œuvre",icon:"clock",C:Contexte,q:"q-contexte"},
+  {id:"auteurs",label:"Les auteurs",group:"L'œuvre",icon:"user",C:Auteurs,q:"q-auteurs"},
+  {id:"resume",label:"Résumé",group:"L'œuvre",icon:"list",C:Resume,q:"q-resume"},
+  {id:"personnages",label:"Personnes du récit",group:"L'œuvre",icon:"users",C:Personnages,q:"q-perso"},
+  {id:"themes",label:"Thèmes",group:"L'œuvre",icon:"tag",C:Themes,q:"q-themes"},
+  {id:"ecriture",label:"Analyse de l'écriture",group:"Analyser",icon:"layers",C:Ecriture,q:"q-ecriture"},
+  {id:"aujourdhui",label:"Contexte contemporain",group:"Analyser",icon:"globe",C:Aujourdhui,q:"q-aujourdhui"},
+  {id:"echos",label:"Œuvres en écho",group:"Analyser",icon:"link",C:Echos,q:"q-echos"},
+  {id:"recit",label:"Récit d'expérience (UAA 6)",group:"Produire",icon:"pen",C:Recit,q:"q-uaa6"},
+  {id:"exercices",label:"Exercices",group:"S'entraîner",icon:"check",C:Exercices},
+  {id:"glossaire",label:"Glossaire",group:"Outils",icon:"search",C:Glossaire}
+];
+
+function App(){
+  const getHash = ()=>{ const h = (location.hash||"").replace("#",""); return SECTIONS.find(s=>s.id===h) ? h : "accueil"; };
+  const [cur,setCur] = useState(getHash);
+  const [nav,setNav] = useState(false);
+  const [showSet,setShowSet] = useState(false);
+  const [set,setSet] = useState(()=>store.get("settings",{theme:"light",fs:16,lh:1.65,font:"noto"}));
+  const [results,setResults] = useState(()=>store.get("results",{}));
+  const mainRef = useRef(null);
+
+  useEffect(()=>{ const f=()=>setCur(getHash()); window.addEventListener("hashchange",f); return ()=>window.removeEventListener("hashchange",f); },[]);
+  useEffect(()=>{ if(mainRef.current) mainRef.current.scrollTop = 0; },[cur]);
+  useEffect(()=>{
+    const r = document.documentElement;
+    r.setAttribute("data-theme", set.theme);
+    r.style.setProperty("--fs", set.fs+"px");
+    r.style.setProperty("--lh", set.lh);
+    r.style.setProperty("--font", set.font==="lexend" ? "Lexend, 'Noto Sans', sans-serif" : "'Noto Sans', system-ui, sans-serif");
+    store.set("settings", set);
+  },[set]);
+
+  const go = (id)=>{ setCur(id); setNav(false); try{ history.replaceState(null,"","#"+id); }catch(e){ location.hash = id; } };
+  const record = (id,score,total)=>{ setResults(prev=>{ const p = prev[id]; const n = {...prev,[id]: (!p || score>=p.score) ? {score,total} : p}; store.set("results",n); return n; }); };
+  const S = SECTIONS.find(s=>s.id===cur);
+  const idx = SECTIONS.indexOf(S);
+  let lastGroup = "";
+
+  return <Progress.Provider value={{results,record}}>
+    <div className="app">
+      <header className="topbar">
+        <button className="tb-btn menu-btn" aria-label="Menu" onClick={()=>setNav(!nav)}><Icon n="menu"/></button>
+        <Icon n="book" s={20}/>
+        <div className="title">Un jihad de l'amour <span>— fiche de lecture et analyse · 5e secondaire</span></div>
+        <div className="spacer"/>
+        <button className="tb-btn" aria-label="Glossaire" title="Glossaire" onClick={()=>go("glossaire")}><Icon n="search"/></button>
+        <button className="tb-btn" aria-label="Réglages de lecture" title="Réglages de lecture" onClick={()=>setShowSet(!showSet)}><Icon n="type"/></button>
+        <button className="tb-btn" aria-label="Changer de thème" title="Thème clair / sombre" onClick={()=>setSet({...set,theme:set.theme==="dark"?"light":"dark"})}><Icon n={set.theme==="dark"?"sun":"moon"}/></button>
+      </header>
+      {showSet && <div className="settings" role="dialog" aria-label="Réglages de lecture">
+        <h4>Confort de lecture</h4>
+        <div className="set-row"><label>Taille du texte</label><div className="seg-ctl">{[15,16,18,20].map(v=><button key={v} className={set.fs===v?"on":""} onClick={()=>setSet({...set,fs:v})}>{v===15?"A-":v===16?"A":v===18?"A+":"A++"}</button>)}</div></div>
+        <div className="set-row"><label>Interligne</label><div className="seg-ctl">{[[1.5,"Serré"],[1.65,"Normal"],[1.9,"Aéré"]].map(([v,l])=><button key={v} className={set.lh===v?"on":""} onClick={()=>setSet({...set,lh:v})}>{l}</button>)}</div></div>
+        <div className="set-row"><label>Police</label><div className="seg-ctl"><button className={set.font==="noto"?"on":""} onClick={()=>setSet({...set,font:"noto"})}>Noto Sans</button><button className={set.font==="lexend"?"on":""} onClick={()=>setSet({...set,font:"lexend"})} style={{fontFamily:"Lexend"}}>Lexend</button></div></div>
+        <div className="btn-row"><button className="btn" onClick={()=>setShowSet(false)}>Fermer</button></div>
+      </div>}
+      <div className="body">
+        <div className={"overlay"+(nav?" on":"")} onClick={()=>setNav(false)}/>
+        <nav className={"sidebar"+(nav?" open":"")} aria-label="Sections">
+          {SECTIONS.map(s=>{ const head = s.group!==lastGroup; lastGroup = s.group;
+            return <Fragment key={s.id}>{head && <div className="nav-group">{s.group}</div>}
+              <button className={"nav-item"+(cur===s.id?" active":"")} aria-current={cur===s.id?"page":undefined} onClick={()=>go(s.id)}>
+                <Icon n={s.icon}/>{s.label}{s.q && results[s.q] && <span className="done" title="Quiz terminé">✓</span>}
+              </button></Fragment>; })}
+        </nav>
+        <main className="main" ref={mainRef}>
+          <div className="content">
+            <S.C go={go}/>
+            <div className="btn-row" style={{justifyContent:"space-between",marginTop:40,paddingTop:16,borderTop:"1px solid var(--border)"}}>
+              {idx>0 ? <button className="btn" onClick={()=>go(SECTIONS[idx-1].id)}><Icon n="arrowL" s={15}/> {SECTIONS[idx-1].label}</button> : <span/>}
+              {idx<SECTIONS.length-1 && <button className="btn primary" onClick={()=>go(SECTIONS[idx+1].id)}>{SECTIONS[idx+1].label} <Icon n="arrowR" s={15}/></button>}
+            </div>
+          </div>
+        </main>
+      </div>
+    </div>
+  </Progress.Provider>;
+}
+
+ReactDOM.createRoot(document.getElementById("root")).render(<App/>);
+</script>
+</body>
+</html>
