@@ -1,0 +1,1507 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Critères de divisibilité</title>
+<meta name="description" content="Comprendre, mémoriser, manipuler et utiliser les critères de divisibilité (4e) : leçon, exercices corrigés et quiz.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Noto+Sans+Mono:wght@500;700;800&family=Noto+Sans:wght@400;600;700;800&display=swap">
+<style>
+:root {
+  /* Inspiré de KDE Plasma, thème Breeze : fenêtre gris clair, vue blanche, accent bleu Breeze.
+     Mise en page d'application KDE : barre d'outils en haut, panneau « Parcours » à gauche, vue de contenu à droite. */
+  --window: #eff0f1;
+  --view: #ffffff;
+  --alt: #f6f7f8;
+  --header: #e3e5e7;
+  --button: #fcfcfc;
+  --text: #232629;
+  --muted: #5b6670;
+  --line: #d1d5d9;
+  --line-strong: #b0b7bd;
+  --accent: #3daee9;
+  --accent-ink: #1b6a9a;
+  --accent-soft: #e0f2fc;
+  --accent-hover: #eff8fd;
+  --sum: #9b59b6;
+  --sum-ink: #7b3c96;
+  --sum-soft: #f3e8f7;
+  --rest: #f67400;
+  --rest-ink: #a84f00;
+  --rest-soft: #fff0e0;
+  --pos: #27ae60;
+  --pos-ink: #1c7a44;
+  --pos-soft: #e1f5e9;
+  --neg: #da4453;
+  --neg-ink: #b02a38;
+  --neg-soft: #fce6e8;
+  --font: "Noto Sans", "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+  --font-airy: "Atkinson Hyperlegible", "Noto Sans", Verdana, sans-serif;
+  --mono: "Noto Sans Mono", "DejaVu Sans Mono", Menlo, Consolas, monospace;
+  --radius: 5px;
+  --tb-h: 56px;
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --window: #202326; --view: #141618; --alt: #1b1e21; --header: #2a2e32; --button: #292c30;
+    --text: #fcfcfc; --muted: #a1a9b1; --line: #383d42; --line-strong: #4e555b;
+    --accent: #3daee9; --accent-ink: #7ccbf2; --accent-soft: #163a4e; --accent-hover: #1a2c36;
+    --sum: #b47ccc; --sum-ink: #d3a6e6; --sum-soft: #3a2547;
+    --rest: #f67400; --rest-ink: #ffab66; --rest-soft: #47290c;
+    --pos: #27ae60; --pos-ink: #6fd89c; --pos-soft: #133522;
+    --neg: #da4453; --neg-ink: #f28b95; --neg-soft: #48191f;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --window: #202326; --view: #141618; --alt: #1b1e21; --header: #2a2e32; --button: #292c30;
+  --text: #fcfcfc; --muted: #a1a9b1; --line: #383d42; --line-strong: #4e555b;
+  --accent: #3daee9; --accent-ink: #7ccbf2; --accent-soft: #163a4e; --accent-hover: #1a2c36;
+  --sum: #b47ccc; --sum-ink: #d3a6e6; --sum-soft: #3a2547;
+  --rest: #f67400; --rest-ink: #ffab66; --rest-soft: #47290c;
+  --pos: #27ae60; --pos-ink: #6fd89c; --pos-soft: #133522;
+  --neg: #da4453; --neg-ink: #f28b95; --neg-soft: #48191f;
+  color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+html, body { height: 100%; }
+html { -webkit-text-size-adjust: 100%; }
+body { margin: 0; background: var(--window); color: var(--text); font-family: var(--font); font-size: 1rem; line-height: 1.55; }
+html.airy body { font-family: var(--font-airy); letter-spacing: .02em; word-spacing: .14em; line-height: 1.85; }
+#root { min-height: 100%; }
+h1, h2, h3 { line-height: 1.25; text-wrap: balance; margin: 0; }
+h1 { font-size: 1.6rem; font-weight: 700; }
+h2 { font-size: 1.2rem; font-weight: 700; }
+h3 { font-size: 1.05rem; font-weight: 700; }
+p { margin: 0; max-width: 70ch; }
+ul, ol { margin: 0; }
+b, strong { font-weight: 700; }
+button, input { font: inherit; color: inherit; letter-spacing: inherit; word-spacing: inherit; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
+.mono { font-family: var(--mono); font-variant-numeric: tabular-nums; letter-spacing: 0; word-spacing: 0; }
+.muted { color: var(--muted); }
+.small { font-size: .9rem; }
+.lead { font-size: 1.06rem; }
+.stack { display: flex; flex-direction: column; gap: 14px; }
+.stack-s { display: flex; flex-direction: column; gap: 8px; }
+.row { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.row.center, .center { justify-content: center; }
+.gap16 { gap: 16px; }
+.grow { flex: 1; min-width: 120px; }
+.ml-auto { margin-left: auto; }
+.pos-ink { color: var(--pos-ink); font-weight: 600; }
+.neg-ink { color: var(--neg-ink); font-weight: 600; }
+.rest-ink { color: var(--rest-ink); }
+.ic { flex: none; display: block; }
+.ic-knob { fill: var(--view); }
+
+/* ---------- Barre d'outils ---------- */
+.toolbar { position: sticky; top: 0; z-index: 10; height: var(--tb-h); display: flex; align-items: center; gap: 12px; padding: 0 16px; background: var(--header); border-bottom: 1px solid var(--line); }
+.appicon { width: 34px; height: 34px; border-radius: 8px; background: var(--accent); color: #fff; display: grid; place-items: center; font-size: 1.45rem; font-weight: 700; line-height: 1; flex: none; box-shadow: inset 0 -2px 0 rgba(0,0,0,.12); }
+.apptitle { display: flex; flex-direction: column; line-height: 1.2; min-width: 0; }
+.apptitle strong { font-size: 1rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.apptitle span { font-size: .8rem; color: var(--muted); }
+.tb-actions { margin-left: auto; display: flex; align-items: center; gap: 4px; }
+.tb-sep { width: 1px; height: 22px; background: var(--line-strong); margin: 0 6px; opacity: .6; }
+.btn.tb { min-height: 32px; padding: 4px 10px; font-weight: 600; }
+.btn.tb small { font-size: .8em; margin-left: 1px; }
+
+/* ---------- Coque ---------- */
+.shell { display: grid; grid-template-columns: 250px minmax(0, 1fr); min-height: calc(100% - var(--tb-h)); }
+.sidebar { position: sticky; top: var(--tb-h); align-self: start; padding: 12px 8px; display: flex; flex-direction: column; gap: 2px; }
+.side-label { font-size: .78rem; font-weight: 700; color: var(--muted); padding: 4px 10px 6px; }
+.nav-item { display: flex; align-items: center; gap: 10px; width: 100%; padding: 7px 10px; border: 1px solid transparent; border-radius: 4px; background: transparent; text-align: left; cursor: pointer; }
+.nav-item:hover { background: var(--accent-hover); }
+.nav-item[aria-current="page"] { background: var(--accent-soft); border-color: var(--accent); }
+.nav-item .ic { color: var(--muted); }
+.nav-item[aria-current="page"] .ic { color: var(--accent-ink); }
+.nav-txt { display: flex; flex-direction: column; line-height: 1.25; min-width: 0; }
+.nav-txt small { font-size: .78rem; color: var(--muted); }
+.nav-num { margin-left: auto; font-size: .75rem; font-variant-numeric: tabular-nums; padding: 1px 7px; border-radius: 999px; background: var(--header); color: var(--muted); white-space: nowrap; }
+.main { background: var(--view); border-left: 1px solid var(--line); padding: 28px clamp(16px, 4vw, 44px) 72px; min-width: 0; }
+.page { max-width: 900px; margin: 0 auto; display: flex; flex-direction: column; gap: 22px; }
+.page-h { display: flex; flex-direction: column; gap: 6px; padding-bottom: 14px; border-bottom: 1px solid var(--line); }
+.page-h p { color: var(--muted); }
+
+/* ---------- Cadres ---------- */
+.card { background: var(--view); border: 1px solid var(--line); border-radius: var(--radius); overflow: hidden; }
+.card-h { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; padding: 10px 16px; background: var(--alt); border-bottom: 1px solid var(--line); }
+.card-h .ic { color: var(--accent-ink); }
+.card-b { padding: 16px; }
+.tag { font-size: .75rem; font-weight: 700; padding: 2px 8px; border-radius: 3px; background: var(--header); color: var(--muted); }
+.tag.accent { background: var(--accent-soft); color: var(--accent-ink); }
+
+/* ---------- Boutons (style Breeze) ---------- */
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: 6px; padding: 6px 14px; min-height: 36px; border: 1px solid var(--line-strong); border-radius: 4px; background: var(--button); color: var(--text); cursor: pointer; box-shadow: 0 1px 1px rgba(0,0,0,.05); text-align: center; }
+.btn:hover:not(:disabled) { border-color: var(--accent); background: var(--accent-hover); }
+.btn:active:not(:disabled), .btn[aria-pressed="true"] { background: var(--accent-soft); border-color: var(--accent); }
+.btn.primary { border-color: var(--accent); box-shadow: inset 0 0 0 1px var(--accent); font-weight: 600; }
+.btn.flat { border-color: transparent; background: transparent; box-shadow: none; }
+.btn.flat:hover:not(:disabled) { border-color: var(--accent); background: var(--accent-hover); }
+.btn.flat[aria-pressed="true"] { background: var(--accent-soft); border-color: var(--accent); }
+.btn:disabled { opacity: .45; cursor: default; }
+.btn.small { min-height: 30px; padding: 3px 10px; font-size: .88rem; }
+.seg { display: inline-flex; gap: 2px; }
+
+/* ---------- Pastilles et messages ---------- */
+.pill { display: inline-flex; align-items: center; gap: 4px; font-size: .8rem; font-weight: 700; padding: 2px 9px 2px 7px; border-radius: 999px; white-space: nowrap; }
+.pill.yes { background: var(--pos-soft); color: var(--pos-ink); }
+.pill.no { background: var(--neg-soft); color: var(--neg-ink); }
+.pills { display: inline-flex; gap: 6px; flex-wrap: wrap; }
+.msg { display: flex; gap: 10px; align-items: flex-start; padding: 10px 14px; border: 1px solid; border-radius: var(--radius); }
+.msg .ic { margin-top: 2px; }
+.msg-c { display: flex; flex-direction: column; gap: 3px; min-width: 0; }
+.msg-t { font-weight: 700; }
+.msg-info { background: var(--accent-soft); border-color: var(--accent); }
+.msg-info .ic, .msg-tip .ic { color: var(--accent-ink); }
+.msg-tip { background: var(--alt); border-color: var(--line-strong); }
+.msg-pos { background: var(--pos-soft); border-color: var(--pos); }
+.msg-pos .ic { color: var(--pos-ink); }
+.msg-neg { background: var(--neg-soft); border-color: var(--neg); }
+.msg-neg .ic { color: var(--neg-ink); }
+.msg-warn { background: var(--rest-soft); border-color: var(--rest); }
+.msg-warn .ic { color: var(--rest-ink); }
+
+/* ---------- Chiffres en tuiles ---------- */
+.num { display: inline-flex; align-items: center; gap: 2px; vertical-align: middle; font-family: var(--mono); font-variant-numeric: tabular-nums; line-height: 1; letter-spacing: 0; word-spacing: 0; }
+.dg { display: inline-grid; place-items: center; min-width: 1.2em; height: 1.55em; padding: 0 .1em; border: 1px solid var(--line-strong); border-radius: 3px; background: var(--button); color: var(--text); font-weight: 600; }
+.dg.gap { margin-left: .32em; }
+.dg.on-end { background: var(--accent-soft); border-color: var(--accent); box-shadow: inset 0 0 0 1px var(--accent); color: var(--accent-ink); font-weight: 800; }
+.dg.on-sum { background: var(--sum-soft); border-color: var(--sum); box-shadow: inset 0 0 0 1px var(--sum); color: var(--sum-ink); font-weight: 800; }
+.dg.star { border-style: dashed; border-color: var(--rest); color: var(--rest-ink); background: var(--rest-soft); }
+.num-sm { font-size: .95rem; }
+.num-md { font-size: 1.25rem; }
+.num-lg { font-size: 2.2rem; }
+.key { display: inline-block; width: 12px; height: 12px; border-radius: 3px; vertical-align: -1px; margin-right: 6px; border: 2px solid; }
+.key-end { background: var(--accent-soft); border-color: var(--accent); }
+.key-sum { background: var(--sum-soft); border-color: var(--sum); }
+.key-rest { background: var(--rest-soft); border-color: var(--rest); }
+.key-comb { background: var(--alt); border-color: var(--line-strong); }
+.legend { display: flex; flex-wrap: wrap; gap: 6px 18px; max-width: none; }
+
+/* ---------- Tableaux ---------- */
+.tbl-wrap { overflow-x: auto; }
+.tbl { border-collapse: collapse; min-width: 100%; font-size: .95rem; }
+.tbl th, .tbl td { border: 1px solid var(--line); padding: 7px 10px; text-align: center; vertical-align: middle; }
+.tbl thead th { background: var(--alt); font-weight: 700; white-space: nowrap; }
+.tbl tbody th { font-weight: 600; }
+.tbl .left { text-align: left; }
+.combos td.mono { white-space: nowrap; }
+
+/* ---------- Leçon ---------- */
+.stepper { list-style: none; padding: 0; display: flex; gap: 6px; flex-wrap: wrap; }
+.step-pill { display: inline-flex; align-items: center; gap: 8px; padding: 5px 12px 5px 6px; border: 1px solid var(--line-strong); border-radius: 999px; background: var(--button); cursor: pointer; }
+.step-pill:hover { border-color: var(--accent); }
+.step-pill[aria-current="step"] { background: var(--accent-soft); border-color: var(--accent); font-weight: 700; }
+.sp-n { display: inline-grid; place-items: center; width: 22px; height: 22px; border-radius: 50%; background: var(--header); font-size: .8rem; font-weight: 700; font-variant-numeric: tabular-nums; }
+.step-pill[aria-current="step"] .sp-n { background: var(--accent); color: #fff; }
+.step-pill.done .sp-n { background: var(--pos-soft); color: var(--pos-ink); }
+.sp-t { font-size: .9rem; }
+.lesson .card-h h2 { flex-basis: 100%; }
+.rules { list-style: none; padding: 0; display: flex; flex-direction: column; gap: 6px; }
+.rules li { display: flex; gap: 10px; align-items: baseline; }
+.rule-d { flex: none; min-width: 64px; font-weight: 700; color: var(--accent-ink); }
+.rule-d.sum { color: var(--sum-ink); }
+.why { border-top: 1px solid var(--line); }
+.why summary { display: flex; align-items: center; gap: 8px; padding: 12px 16px; cursor: pointer; font-weight: 600; list-style: none; }
+.why summary::-webkit-details-marker { display: none; }
+.why summary::after { content: "▸"; margin-left: auto; color: var(--muted); }
+.why[open] summary::after { content: "▾"; }
+.why summary .ic { color: var(--accent-ink); }
+.why summary:hover { background: var(--accent-hover); }
+.why-b { padding: 4px 16px 16px; }
+.pager { display: flex; justify-content: space-between; gap: 10px; flex-wrap: wrap; padding-top: 6px; }
+.derive { list-style: none; padding: 0; display: flex; flex-direction: column; gap: 10px; }
+.derive-m { font-size: 1.02rem; line-height: 1.9; }
+.box { padding: 2px 6px; border-radius: 3px; border: 1px solid; }
+.box-mult { background: var(--header); border-color: var(--line-strong); }
+.box-sum { background: var(--sum-soft); border-color: var(--sum); color: var(--sum-ink); font-weight: 700; }
+
+/* Paquets */
+.packets-box { display: flex; flex-direction: column; gap: 14px; padding: 14px; border: 1px solid var(--line); border-radius: var(--radius); background: var(--alt); }
+.packets-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 16px; align-items: start; }
+.packets { display: flex; flex-wrap: wrap; gap: 8px; align-content: flex-start; min-height: 60px; }
+.packet { display: grid; gap: 4px; padding: 6px; border: 1px solid var(--accent); border-radius: 4px; background: var(--accent-soft); }
+.packet.rest { border: 1.5px dashed var(--rest); background: var(--rest-soft); }
+.dot { width: 12px; height: 12px; border-radius: 50%; background: var(--accent); }
+.packet.rest .dot { background: var(--rest); }
+.eq { font-size: 1.3rem; font-weight: 700; }
+.phrases { padding-left: 18px; display: flex; flex-direction: column; gap: 2px; }
+.spin-f { display: flex; flex-direction: column; gap: 4px; font-size: .9rem; }
+.spin-f label { color: var(--muted); }
+.spin { display: inline-flex; align-items: stretch; border: 1px solid var(--line-strong); border-radius: 4px; overflow: hidden; background: var(--button); width: max-content; }
+.spin button { border: 0; background: transparent; width: 36px; cursor: pointer; display: grid; place-items: center; }
+.spin button:hover:not(:disabled) { background: var(--accent-hover); }
+.spin button:disabled { opacity: .4; cursor: default; }
+.spin input { width: 4.2ch; border: 0; border-left: 1px solid var(--line); border-right: 1px solid var(--line); background: var(--view); text-align: center; font-weight: 700; font-variant-numeric: tabular-nums; padding: 6px 2px; -moz-appearance: textfield; }
+.spin input::-webkit-outer-spin-button, .spin input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+
+/* Multiples de 4 */
+.m4 { display: flex; flex-direction: column; gap: 8px; }
+.m4-row { display: grid; grid-template-columns: 190px 1fr; gap: 12px; align-items: center; padding: 8px 10px; border: 1px solid var(--line); border-radius: var(--radius); }
+.m4-l { display: flex; flex-direction: column; line-height: 1.3; }
+.m4-v { display: flex; flex-wrap: wrap; gap: 4px; }
+.m4-c { padding: 2px 6px; border-radius: 3px; background: var(--accent-soft); color: var(--accent-ink); font-weight: 700; }
+
+/* Bande des multiples */
+.strip { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: 4px; }
+.cell { position: relative; display: grid; place-items: center; height: 38px; border: 1px solid var(--line); border-radius: 4px; font-family: var(--mono); font-size: .9rem; color: var(--muted); background: var(--view); }
+.cell.ma::before { content: ""; position: absolute; top: 3px; left: 50%; width: 14px; height: 3px; margin-left: -7px; border-radius: 2px; background: var(--accent); }
+.cell.mb::after { content: ""; position: absolute; bottom: 4px; left: 50%; width: 6px; height: 6px; margin-left: -3px; border-radius: 50%; background: var(--sum); }
+.cell.ma, .cell.mb { color: var(--text); }
+.cell.both { background: var(--pos-soft); border-color: var(--pos); color: var(--pos-ink); font-weight: 800; }
+.strip-legend { display: flex; flex-wrap: wrap; gap: 6px 16px; }
+.mk { display: inline-block; vertical-align: middle; margin-right: 4px; }
+.mk-a { width: 14px; height: 3px; border-radius: 2px; background: var(--accent); }
+.mk-b { width: 7px; height: 7px; border-radius: 50%; background: var(--sum); }
+.mk-both { width: 12px; height: 12px; border-radius: 3px; background: var(--pos-soft); border: 1px solid var(--pos); }
+
+/* Pièges */
+.traps { display: flex; flex-direction: column; gap: 10px; }
+.trap { border: 1px solid var(--line); border-left: 4px solid var(--neg); border-radius: var(--radius); padding: 10px 14px; display: flex; flex-direction: column; gap: 6px; }
+.trap-w, .trap-r { display: flex; gap: 8px; align-items: flex-start; }
+.trap-w { font-weight: 700; }
+.trap-w .ic { color: var(--neg-ink); margin-top: 3px; }
+.trap-r .ic { color: var(--pos-ink); margin-top: 3px; }
+.trap-r { color: var(--pos-ink); font-weight: 600; }
+.trap-e { padding-left: 24px; }
+.trap-k { display: inline-block; font-size: .75rem; font-weight: 700; color: var(--muted); margin-right: 8px; padding: 1px 6px; border: 1px solid var(--line); border-radius: 3px; }
+
+/* ---------- Choix (QCM) ---------- */
+.q { font-weight: 600; font-size: 1.04rem; }
+.opts { display: flex; flex-direction: column; gap: 6px; }
+.opt { display: flex; align-items: center; gap: 10px; width: 100%; text-align: left; padding: 8px 12px; border: 1px solid var(--line-strong); border-radius: 4px; background: var(--button); cursor: pointer; }
+.opt:hover:not(:disabled) { border-color: var(--accent); background: var(--accent-hover); }
+.opt[aria-pressed="true"] { border-color: var(--accent); background: var(--accent-soft); }
+.opt-l { flex: none; display: grid; place-items: center; width: 24px; height: 24px; border-radius: 3px; background: var(--header); font-size: .8rem; font-weight: 700; }
+.opt-t { flex: 1; }
+.opt.good { border-color: var(--pos); background: var(--pos-soft); }
+.opt.good .ic { color: var(--pos-ink); }
+.opt.bad { border-color: var(--neg); background: var(--neg-soft); }
+.opt.bad .ic { color: var(--neg-ink); }
+.opt.dim { opacity: .6; }
+.opt:disabled { cursor: default; }
+
+/* Puces à cocher */
+.chips { display: flex; flex-wrap: wrap; gap: 8px; }
+.chip { min-width: 52px; min-height: 40px; padding: 6px 12px; border: 1px solid var(--line-strong); border-radius: 4px; background: var(--button); cursor: pointer; font-weight: 600; font-variant-numeric: tabular-nums; position: relative; }
+.chip:hover:not(:disabled) { border-color: var(--accent); background: var(--accent-hover); }
+.chip[aria-pressed="true"] { background: var(--accent-soft); border-color: var(--accent); box-shadow: inset 0 0 0 1px var(--accent); }
+.chip:disabled { opacity: .45; cursor: default; }
+.chip.good { background: var(--pos-soft); border-color: var(--pos); box-shadow: inset 0 0 0 1px var(--pos); color: var(--pos-ink); opacity: 1; }
+.chip.bad { background: var(--neg-soft); border-color: var(--neg); box-shadow: inset 0 0 0 1px var(--neg); color: var(--neg-ink); opacity: 1; text-decoration: line-through; }
+.chip.miss { border: 2px dashed var(--pos); color: var(--pos-ink); opacity: 1; }
+.legend-res { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+.lg { display: inline-block; width: 14px; height: 14px; border-radius: 3px; vertical-align: -2px; }
+.lg-bad { background: var(--neg-soft); border: 2px solid var(--neg); }
+.lg-miss { border: 2px dashed var(--pos); }
+
+/* Vrai / faux */
+.tf { display: flex; flex-direction: column; gap: 6px; }
+.tf-row { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; padding: 6px 10px; border: 1px solid var(--line); border-radius: 4px; }
+.tf-t { flex: 1; min-width: 200px; }
+.tf-row.good { border-color: var(--pos); background: var(--pos-soft); }
+.tf-row.bad { border-color: var(--neg); background: var(--neg-soft); }
+.tf-mark .ic { width: 18px; }
+.tf-row.good .tf-mark { color: var(--pos-ink); }
+.tf-row.bad .tf-mark { color: var(--neg-ink); }
+.seg-b { min-width: 64px; min-height: 32px; padding: 3px 10px; }
+
+/* Grille */
+.gridex td { padding: 4px; }
+.cellbtn { width: 40px; height: 34px; border: 1px solid var(--line-strong); border-radius: 4px; background: var(--button); cursor: pointer; display: inline-grid; place-items: center; }
+.cellbtn:hover { border-color: var(--accent); }
+.cellbtn[aria-pressed="true"] { background: var(--accent-soft); border-color: var(--accent); color: var(--accent-ink); }
+.cellbtn.good { background: var(--pos-soft); border-color: var(--pos); color: var(--pos-ink); }
+.cellbtn.bad { background: var(--neg-soft); border: 2px solid var(--neg); color: var(--neg-ink); }
+.cellbtn.miss { border: 2px dashed var(--pos); }
+
+/* Champ */
+.field { min-height: 38px; padding: 6px 10px; border: 1px solid var(--line-strong); border-radius: 4px; background: var(--view); font-size: 1.05rem; width: 12ch; }
+.field:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 1px var(--accent); }
+.field.good { border-color: var(--pos); background: var(--pos-soft); }
+.field.bad { border-color: var(--neg); background: var(--neg-soft); }
+
+/* ---------- Exercices ---------- */
+.tabs { display: flex; gap: 2px; border-bottom: 1px solid var(--line); overflow-x: auto; }
+.tab { display: inline-flex; align-items: center; gap: 8px; padding: 9px 14px; border: 0; border-bottom: 3px solid transparent; background: transparent; cursor: pointer; color: var(--muted); white-space: nowrap; }
+.tab:hover { color: var(--text); background: var(--accent-hover); }
+.tab[aria-selected="true"] { color: var(--text); border-bottom-color: var(--accent); font-weight: 700; }
+.tab-l { display: inline-grid; place-items: center; width: 22px; height: 22px; border-radius: 4px; background: var(--header); font-size: .8rem; font-weight: 700; color: var(--text); }
+.tab[aria-selected="true"] .tab-l { background: var(--accent); color: #fff; }
+.tab-c { font-size: .75rem; font-variant-numeric: tabular-nums; color: var(--muted); }
+.fam-head { display: flex; flex-direction: column; gap: 8px; }
+.goal { display: flex; gap: 8px; align-items: center; color: var(--muted); }
+.goal .ic { color: var(--accent-ink); }
+.progress { height: 6px; border-radius: 999px; background: var(--header); overflow: hidden; }
+.progress span { display: block; height: 100%; background: var(--accent); border-radius: 999px; }
+.sec-t { margin-top: 6px; }
+.lvl { display: inline-flex; align-items: center; gap: 6px; font-size: .82rem; color: var(--muted); }
+.lvl-dots { display: inline-flex; gap: 3px; }
+.lvl-dots i { width: 9px; height: 9px; border-radius: 50%; border: 1.5px solid var(--accent); }
+.lvl-dots i.on { background: var(--accent); }
+.ex-num { font-weight: 700; }
+.ex.ex-ok { border-color: var(--pos); }
+.prompt { font-size: 1.03rem; }
+.ex-actions { display: flex; gap: 8px; flex-wrap: wrap; padding-top: 4px; border-top: 1px solid var(--line); padding-top: 12px; }
+.corr { border: 1px solid var(--line); border-left: 4px solid var(--accent); border-radius: var(--radius); padding: 10px 14px; background: var(--alt); display: flex; flex-direction: column; gap: 8px; }
+.corr-h { font-size: .8rem; font-weight: 700; color: var(--accent-ink); }
+.corr-steps { padding-left: 22px; display: flex; flex-direction: column; gap: 6px; }
+.plain { list-style: none; padding: 0; display: flex; flex-direction: column; gap: 3px; }
+.ana { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; padding: 6px 0; border-bottom: 1px dashed var(--line); }
+.ana:last-child { border-bottom: 0; }
+.ana-t { flex: 1; min-width: 180px; }
+.fam-lines { display: flex; flex-direction: column; padding: 4px 10px; border: 1px solid var(--line); border-radius: var(--radius); background: var(--view); }
+.worked { border-color: var(--accent); }
+.worked .card-h { background: var(--accent-soft); }
+.statement { font-size: 1.04rem; padding: 10px 14px; border-radius: var(--radius); background: var(--alt); border: 1px solid var(--line); }
+.wsteps { list-style: none; padding: 0; counter-reset: ws; display: flex; flex-direction: column; gap: 10px; }
+.wsteps li { counter-increment: ws; position: relative; padding-left: 40px; }
+.wsteps li::before { content: counter(ws); position: absolute; left: 0; top: 0; width: 28px; height: 28px; border-radius: 50%; background: var(--accent); color: #fff; display: grid; place-items: center; font-weight: 700; font-size: .9rem; }
+.wstep-t { font-weight: 700; }
+.wstep-c { margin-top: 2px; }
+.reset-zone { border-top: 1px solid var(--line); padding-top: 12px; }
+
+/* ---------- Mémoriser ---------- */
+.fiche, .fam3 { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+.fam { border: 1px solid var(--line); border-top: 4px solid; border-radius: var(--radius); padding: 12px; display: flex; flex-direction: column; gap: 10px; background: var(--view); }
+.fam-end { border-top-color: var(--accent); }
+.fam-sum { border-top-color: var(--sum); }
+.fam-comb { border-top-color: var(--line-strong); }
+.fam-h { font-weight: 700; display: flex; align-items: center; }
+.fam-dl { display: grid; grid-template-columns: auto 1fr; gap: 8px 10px; margin: 0; align-items: start; }
+.fam-dl dt { font-weight: 700; white-space: nowrap; }
+.fam-end dt { color: var(--accent-ink); }
+.fam-sum dt { color: var(--sum-ink); }
+.fam-dl dd { margin: 0; display: flex; flex-direction: column; gap: 4px; }
+.fam-ex { display: flex; align-items: center; gap: 6px; }
+.fam-note { margin-top: auto; }
+.flash { width: 100%; min-height: 210px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 12px; padding: 24px; border: 1px solid var(--line-strong); border-radius: 8px; background: var(--alt); cursor: pointer; text-align: center; }
+.flash:hover { border-color: var(--accent); }
+.flash.flipped { background: var(--accent-soft); border-color: var(--accent); }
+.flash-k { font-size: .75rem; font-weight: 700; color: var(--muted); letter-spacing: .04em; }
+.flash-c { font-size: 1.2rem; font-weight: 600; max-width: 46ch; display: flex; flex-direction: column; align-items: center; gap: 10px; }
+.flash-ex { display: flex; align-items: center; gap: 8px; font-size: .95rem; font-weight: 400; }
+.flash-hint { font-size: .85rem; color: var(--muted); }
+
+/* ---------- Accueil ---------- */
+.route { list-style: none; padding: 0; display: flex; flex-direction: column; gap: 8px; }
+.route li { display: flex; align-items: center; gap: 14px; padding: 12px 14px; border: 1px solid var(--line); border-radius: var(--radius); background: var(--view); }
+.route-n { flex: none; width: 32px; height: 32px; border-radius: 50%; display: grid; place-items: center; background: var(--accent-soft); color: var(--accent-ink); font-weight: 700; border: 1px solid var(--accent); }
+.route-c { flex: 1; min-width: 0; }
+.teacher summary { display: flex; align-items: center; gap: 8px; padding: 12px 16px; cursor: pointer; font-weight: 600; background: var(--alt); list-style: none; }
+.teacher summary::-webkit-details-marker { display: none; }
+.teacher summary::after { content: "▸"; margin-left: auto; color: var(--muted); }
+.teacher[open] summary::after { content: "▾"; }
+.teacher[open] summary { border-bottom: 1px solid var(--line); }
+.teacher summary .ic { color: var(--accent-ink); }
+.notes { padding-left: 18px; display: flex; flex-direction: column; gap: 6px; font-size: .95rem; }
+
+/* ---------- Laboratoire ---------- */
+.lab-number { display: flex; justify-content: center; flex-wrap: wrap; gap: 4px; padding: 14px 8px; border: 1px solid var(--line); border-radius: var(--radius); background: var(--alt); }
+.dial { display: flex; flex-direction: column; align-items: center; gap: 4px; }
+.dial.gap { margin-left: 14px; }
+.tbtn { width: 44px; height: 30px; display: grid; place-items: center; border: 1px solid transparent; border-radius: 4px; background: transparent; cursor: pointer; color: var(--muted); }
+.tbtn:hover { border-color: var(--accent); background: var(--accent-hover); color: var(--text); }
+.dg.big { font-family: var(--mono); font-size: 2.2rem; min-width: 1.25em; height: 1.5em; }
+.lab-grid { display: grid; grid-template-columns: 230px minmax(0, 1fr); gap: 16px; align-items: start; }
+.lab-list { display: flex; flex-direction: column; gap: 10px; }
+.lab-group { display: flex; flex-direction: column; gap: 3px; padding-left: 8px; border-left: 3px solid var(--line-strong); }
+.lg-end { border-left-color: var(--accent); }
+.lg-sum { border-left-color: var(--sum); }
+.lab-gl { font-size: .78rem; font-weight: 700; color: var(--muted); padding: 2px 0 2px 2px; }
+.lab-row { display: flex; align-items: center; justify-content: space-between; gap: 8px; padding: 5px 10px; border: 1px solid transparent; border-radius: 4px; background: transparent; cursor: pointer; }
+.lab-row:hover { background: var(--accent-hover); }
+.lab-row[aria-pressed="true"] { background: var(--accent-soft); border-color: var(--accent); font-weight: 700; }
+.lab-explain { padding: 14px; border: 1px solid var(--line); border-radius: var(--radius); }
+.conds { list-style: none; padding: 0; display: flex; flex-direction: column; gap: 4px; }
+.conds li { display: flex; align-items: center; gap: 8px; }
+.conds li.ok { color: var(--pos-ink); }
+.conds li.ko { color: var(--neg-ink); font-weight: 600; }
+
+/* ---------- Quiz ---------- */
+.score { display: flex; align-items: baseline; gap: 6px; }
+.score-n { font-size: 3rem; font-weight: 800; color: var(--accent-ink); font-variant-numeric: tabular-nums; line-height: 1; }
+.score-d { font-size: 1.3rem; color: var(--muted); }
+.review { padding: 10px 12px; border: 1px solid var(--line); border-left: 4px solid var(--neg); border-radius: var(--radius); display: flex; flex-direction: column; gap: 3px; }
+.tri-num { display: flex; justify-content: center; padding: 10px 0; }
+
+/* ---------- Petits écrans ---------- */
+@media (max-width: 860px) {
+  .packets-grid, .lab-grid { grid-template-columns: 1fr; }
+  .fiche, .fam3 { grid-template-columns: 1fr; }
+}
+@media (max-width: 780px) {
+  .shell { grid-template-columns: 1fr; }
+  .sidebar { position: sticky; top: var(--tb-h); z-index: 9; flex-direction: row; overflow-x: auto; padding: 6px 8px; background: var(--window); border-bottom: 1px solid var(--line); gap: 4px; }
+  .side-label, .nav-txt small { display: none; }
+  .nav-item { width: auto; flex: none; padding: 6px 10px; }
+  .main { border-left: 0; padding-top: 20px; }
+  .tb-label, .apptitle span { display: none; }
+  .m4-row { grid-template-columns: 1fr; }
+  .strip { grid-template-columns: repeat(6, minmax(0, 1fr)); }
+  .dg.big { font-size: 1.7rem; }
+  .tbtn { width: 36px; }
+  .dial.gap { margin-left: 8px; }
+}
+@media (max-width: 420px) {
+  .route li { flex-wrap: wrap; }
+  .num-lg { font-size: 1.7rem; }
+}
+@media (prefers-reduced-motion: reduce) {
+  * { scroll-behavior: auto !important; transition: none !important; animation: none !important; }
+}
+
+</style>
+</head>
+<body>
+<div id="root"></div>
+<noscript><p style="padding:24px">Cette page a besoin de JavaScript pour fonctionner.</p></noscript>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.3.1/umd/react.production.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.3.1/umd/react-dom.production.min.js"></script>
+<script>
+const R = React;
+const { useState, useEffect, useMemo, useCallback } = R;
+const Fragment = R.Fragment;
+function fr(s) {
+  let t = s.replace(/ ([?!;:»])/g, " $1").replace(/« /g, "« ");
+  let prev;
+  do {
+    prev = t;
+    t = t.replace(/(\d) (\d{3})(?!\d)/g, "$1 $2");
+  } while (t !== prev);
+  return t;
+}
+function h(type, props, ...children) {
+  return R.createElement(type, props, ...children.map((c) => typeof c === "string" ? fr(c) : c));
+}
+const store = {
+  get(k, def) {
+    try {
+      const v = localStorage.getItem("divis4e:" + k);
+      return v == null ? def : JSON.parse(v);
+    } catch (e) {
+      return def;
+    }
+  },
+  set(k, v) {
+    try {
+      localStorage.setItem("divis4e:" + k, JSON.stringify(v));
+    } catch (e) {
+    }
+  }
+};
+function usePersist(key, def) {
+  const [v, setV] = useState(() => store.get(key, def));
+  useEffect(() => {
+    store.set(key, v);
+  }, [key, v]);
+  return [v, setV];
+}
+const NB = " ";
+const clean = (x) => String(x).replace(/[^0-9]/g, "");
+const strip0 = (s) => s.replace(/^0+(?=\d)/, "");
+const fmt = (x) => strip0(clean(x)).replace(/\B(?=(\d{3})+(?!\d))/g, NB);
+const digitsOf = (x) => strip0(clean(x)).split("").map(Number);
+const sumOf = (x) => digitsOf(x).reduce((a, b) => a + b, 0);
+const mod = (x, d) => Number(BigInt(clean(x) || "0") % BigInt(d));
+const isDiv = (x, d) => mod(x, d) === 0;
+const quo = (x, d) => (BigInt(clean(x) || "0") / BigInt(d)).toString();
+const rnd = (a, b) => a + Math.floor(Math.random() * (b - a + 1));
+const shuffle = (arr) => {
+  const a = arr.slice();
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+};
+const sameSet = (a, b) => a.length === b.length && a.every((x) => b.includes(x));
+const COMBOS = { 6: [2, 3], 12: [3, 4], 15: [3, 5], 18: [2, 9], 45: [5, 9] };
+function genNumber() {
+  const f = [1, 1, 2, 3, 4, 5, 6, 9, 10, 12, 15, 18, 36, 45, 90][rnd(0, 14)];
+  const len2 = rnd(3, 5);
+  const lo = 10 ** (len2 - 1), hi = 10 ** len2 - 1;
+  return String(f * rnd(Math.ceil(lo / f), Math.floor(hi / f)));
+}
+function shortWhy(s, d) {
+  const ds = digitsOf(s), u = ds[ds.length - 1], S = sumOf(s), ok = isDiv(s, d) ? "oui" : "non";
+  if (d === 2 || d === 5 || d === 10) return `chiffre des unités ${u}, ${ok}`;
+  if (d === 4) return `deux derniers chiffres ${s.length >= 2 ? s.slice(-2) : s}, ${ok}`;
+  if (d === 3 || d === 9) return `somme des chiffres ${S}, ${ok}`;
+  return ok;
+}
+function analyse(x, d) {
+  const s = strip0(clean(x));
+  const ds = digitsOf(s);
+  const u = ds[ds.length - 1];
+  const ok = isDiv(s, d);
+  const verdict = `${fmt(s)} ${ok ? "est" : "n'est pas"} divisible par ${d}.`;
+  if (d === 2) return { ok, look: "units", why: `Chiffre des unités : ${u}. ${ok ? `${u} est pair.` : `${u} est impair.`}`, verdict };
+  if (d === 5) return { ok, look: "units", why: `Chiffre des unités : ${u}. ${ok ? `C'est ${u}.` : "Ce n'est ni 0 ni 5."}`, verdict };
+  if (d === 10) return { ok, look: "units", why: `Chiffre des unités : ${u}. ${ok ? "C'est 0." : "Ce n'est pas 0."}`, verdict };
+  if (d === 4) {
+    const t = s.length >= 2 ? s.slice(-2) : s;
+    const v = Number(t);
+    return { ok, look: "last2", why: `Deux derniers chiffres : ${t}. ${v % 4 === 0 ? `${v} = 4 × ${v / 4}.` : `${v} = 4 × ${Math.floor(v / 4)} + ${v % 4}, il reste ${v % 4}.`}`, verdict };
+  }
+  if (d === 3 || d === 9) {
+    const S = ds.reduce((a, b) => a + b, 0);
+    const sumTxt = ds.length > 1 ? `${ds.join(" + ")} = ${S}` : `${S}`;
+    return { ok, look: "all", why: `Somme des chiffres : ${sumTxt}. ${S % d === 0 ? `${S} = ${d} × ${S / d}.` : `${S} n'est pas un multiple de ${d}.`}`, verdict };
+  }
+  if (COMBOS[d]) {
+    const [a, b] = COMBOS[d];
+    return { ok, look: null, parts: [a, b], why: `${d} = ${a} × ${b}. Par ${a} : ${shortWhy(s, a)}. Par ${b} : ${shortWhy(s, b)}.${ok ? "" : " Il faut les deux."}`, verdict };
+  }
+  return { ok, look: null, why: "", verdict };
+}
+const ICONS = {
+  home: /* @__PURE__ */ h(Fragment, null, /* @__PURE__ */ h("path", { d: "M3.5 11 12 4l8.5 7" }), /* @__PURE__ */ h("path", { d: "M5.5 9.5V20h5v-6h3v6h5V9.5" })),
+  book: /* @__PURE__ */ h(Fragment, null, /* @__PURE__ */ h("path", { d: "M3.5 5.5h6A2.5 2.5 0 0 1 12 8v12a2 2 0 0 0-2-2H3.5z" }), /* @__PURE__ */ h("path", { d: "M20.5 5.5h-6A2.5 2.5 0 0 0 12 8v12a2 2 0 0 1 2-2h6.5z" })),
+  cards: /* @__PURE__ */ h(Fragment, null, /* @__PURE__ */ h("rect", { x: "7.5", y: "3.5", width: "12", height: "14", rx: "1.5" }), /* @__PURE__ */ h("path", { d: "M4.5 7v11.5a2 2 0 0 0 2 2H16" })),
+  sliders: /* @__PURE__ */ h(Fragment, null, /* @__PURE__ */ h("path", { d: "M4 6h16M4 12h16M4 18h16" }), /* @__PURE__ */ h("circle", { cx: "15", cy: "6", r: "2.2", className: "ic-knob" }), /* @__PURE__ */ h("circle", { cx: "8", cy: "12", r: "2.2", className: "ic-knob" }), /* @__PURE__ */ h("circle", { cx: "17", cy: "18", r: "2.2", className: "ic-knob" })),
+  pencil: /* @__PURE__ */ h(Fragment, null, /* @__PURE__ */ h("path", { d: "M4 20l1-4.5L16 4.5l3.5 3.5-11 11z" }), /* @__PURE__ */ h("path", { d: "M14 6.5l3.5 3.5" })),
+  quiz: /* @__PURE__ */ h(Fragment, null, /* @__PURE__ */ h("path", { d: "M10.5 6.5H20M10.5 12H20M10.5 17.5H20" }), /* @__PURE__ */ h("path", { d: "M3.5 6.5l1.6 1.6 2.6-3M3.5 12l1.6 1.6 2.6-3M3.5 17.5l1.6 1.6 2.6-3" })),
+  info: /* @__PURE__ */ h(Fragment, null, /* @__PURE__ */ h("circle", { cx: "12", cy: "12", r: "8.5" }), /* @__PURE__ */ h("path", { d: "M12 11v5.5M12 7.6v.2" })),
+  check: /* @__PURE__ */ h("path", { d: "M5 12.5l4.5 4.5L19 7.5" }),
+  cross: /* @__PURE__ */ h("path", { d: "M6.5 6.5l11 11M17.5 6.5l-11 11" }),
+  left: /* @__PURE__ */ h("path", { d: "M14.5 6l-6 6 6 6" }),
+  right: /* @__PURE__ */ h("path", { d: "M9.5 6l6 6-6 6" }),
+  up: /* @__PURE__ */ h("path", { d: "M6 14.5l6-6 6 6" }),
+  down: /* @__PURE__ */ h("path", { d: "M6 9.5l6 6 6-6" }),
+  refresh: /* @__PURE__ */ h(Fragment, null, /* @__PURE__ */ h("path", { d: "M19.5 12a7.5 7.5 0 1 1-2.2-5.3" }), /* @__PURE__ */ h("path", { d: "M19.5 4.5v4h-4" })),
+  bulb: /* @__PURE__ */ h(Fragment, null, /* @__PURE__ */ h("path", { d: "M9.5 17.5h5M10.5 20.5h3" }), /* @__PURE__ */ h("path", { d: "M12 3.5a5.5 5.5 0 0 0-3.2 10c.6.5.9 1.2.9 2h4.6c0-.8.3-1.5.9-2A5.5 5.5 0 0 0 12 3.5z" })),
+  warn: /* @__PURE__ */ h(Fragment, null, /* @__PURE__ */ h("path", { d: "M12 4 2.8 19.5h18.4z" }), /* @__PURE__ */ h("path", { d: "M12 10v4.5M12 17v.2" })),
+  shuffle: /* @__PURE__ */ h(Fragment, null, /* @__PURE__ */ h("path", { d: "M4 7h3.5c4.5 0 4.5 10 9 10H20M4 17h3.5c1.6 0 2.6-1.3 3.4-3M13.1 10c.8-1.7 1.8-3 3.4-3H20" }), /* @__PURE__ */ h("path", { d: "M17.5 4.5 20 7l-2.5 2.5M17.5 14.5 20 17l-2.5 2.5" })),
+  eye: /* @__PURE__ */ h(Fragment, null, /* @__PURE__ */ h("path", { d: "M2.5 12S6 5.5 12 5.5 21.5 12 21.5 12 18 18.5 12 18.5 2.5 12 2.5 12z" }), /* @__PURE__ */ h("circle", { cx: "12", cy: "12", r: "2.8" })),
+  plus: /* @__PURE__ */ h("path", { d: "M12 5v14M5 12h14" }),
+  minus: /* @__PURE__ */ h("path", { d: "M5 12h14" }),
+  flag: /* @__PURE__ */ h(Fragment, null, /* @__PURE__ */ h("path", { d: "M5.5 20.5v-16" }), /* @__PURE__ */ h("path", { d: "M5.5 4.5h11l-2 4 2 4h-11" }))
+};
+function Icon({ name, size = 18 }) {
+  return /* @__PURE__ */ h("svg", { className: "ic", width: size, height: size, viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "1.6", strokeLinecap: "round", strokeLinejoin: "round", "aria-hidden": "true" }, ICONS[name]);
+}
+function Num({ v, hl = null, size = "md", raw = false, tone }) {
+  const s = raw ? String(v) : strip0(clean(v));
+  const n = s.length;
+  const on = (i) => hl === "units" ? i === n - 1 : hl === "last2" ? i >= n - 2 : hl === "all" ? true : Array.isArray(hl) ? hl.includes(i) : false;
+  const t = tone || (hl === "all" ? "sum" : "end");
+  return /* @__PURE__ */ h("span", { className: "num num-" + size, role: "img", "aria-label": raw ? s : fmt(s) }, s.split("").map((c, i) => /* @__PURE__ */ h("span", { key: i, className: "dg" + (on(i) ? " on-" + t : "") + (c === "★" || c === "▲" ? " star" : "") + ((n - i) % 3 === 0 && i > 0 ? " gap" : "") }, c)));
+}
+function Pill({ ok, children }) {
+  return /* @__PURE__ */ h("span", { className: "pill " + (ok ? "yes" : "no") }, /* @__PURE__ */ h(Icon, { name: ok ? "check" : "cross", size: 13 }), children || (ok ? "Oui" : "Non"));
+}
+function Msg({ type = "info", title, children, icon }) {
+  const ic = icon || { info: "info", pos: "check", neg: "cross", warn: "warn", tip: "bulb" }[type];
+  return /* @__PURE__ */ h("div", { className: "msg msg-" + type, role: type === "pos" || type === "neg" ? "status" : void 0 }, /* @__PURE__ */ h(Icon, { name: ic, size: 20 }), /* @__PURE__ */ h("div", { className: "msg-c" }, title && /* @__PURE__ */ h("strong", { className: "msg-t" }, title), children && /* @__PURE__ */ h("div", null, children)));
+}
+function PageHead({ title, sub }) {
+  return /* @__PURE__ */ h("header", { className: "page-h" }, /* @__PURE__ */ h("h1", null, title), sub && /* @__PURE__ */ h("p", null, sub));
+}
+function Level({ n }) {
+  const names = ["", "Je m'entraîne", "Je consolide", "Je relève le défi"];
+  return /* @__PURE__ */ h("span", { className: "lvl" }, /* @__PURE__ */ h("span", { className: "lvl-dots", "aria-hidden": "true" }, [1, 2, 3].map((k) => /* @__PURE__ */ h("i", { key: k, className: k <= n ? "on" : "" }))), "Niveau ", n, " · ", names[n]);
+}
+function Spin({ id, label, value, min, max, onChange }) {
+  return /* @__PURE__ */ h("div", { className: "spin-f" }, /* @__PURE__ */ h("label", { htmlFor: id }, label), /* @__PURE__ */ h("div", { className: "spin" }, /* @__PURE__ */ h("button", { type: "button", "aria-label": "Diminuer : " + label, onClick: () => onChange(Math.max(min, value - 1)), disabled: value <= min }, /* @__PURE__ */ h(Icon, { name: "minus", size: 16 })), /* @__PURE__ */ h(
+    "input",
+    {
+      id,
+      type: "number",
+      inputMode: "numeric",
+      min,
+      max,
+      value,
+      onChange: (e) => {
+        const v = parseInt(e.target.value, 10);
+        if (!isNaN(v)) onChange(Math.min(max, Math.max(min, v)));
+      }
+    }
+  ), /* @__PURE__ */ h("button", { type: "button", "aria-label": "Augmenter : " + label, onClick: () => onChange(Math.min(max, value + 1)), disabled: value >= max }, /* @__PURE__ */ h(Icon, { name: "plus", size: 16 }))));
+}
+function AnaLine({ n, d }) {
+  const a = analyse(n, d);
+  return /* @__PURE__ */ h("div", { className: "ana" }, /* @__PURE__ */ h(Num, { v: n, hl: a.look, size: "sm" }), /* @__PURE__ */ h("span", { className: "ana-t" }, a.why), /* @__PURE__ */ h(Pill, { ok: a.ok }));
+}
+function FamilyLines({ n, ds }) {
+  const s = strip0(clean(n));
+  const dg = digitsOf(s);
+  const u = dg[dg.length - 1];
+  const S = sumOf(s);
+  const lines = [];
+  const end = ds.filter((d) => d === 2 || d === 5 || d === 10);
+  if (end.length) lines.push({ hl: "units", t: `Chiffre des unités : ${u}.`, res: end });
+  if (ds.includes(4)) {
+    const t = s.length >= 2 ? s.slice(-2) : s;
+    const v = Number(t);
+    lines.push({ hl: "last2", t: `Deux derniers chiffres : ${t}, et ${v % 4 === 0 ? `${v} = 4 × ${v / 4}` : `${v} = 4 × ${Math.floor(v / 4)} + ${v % 4}`}.`, res: [4] });
+  }
+  const sm = ds.filter((d) => d === 3 || d === 9);
+  if (sm.length) lines.push({ hl: "all", t: `Somme des chiffres : ${dg.join(" + ")} = ${S}.`, res: sm });
+  return /* @__PURE__ */ h("div", { className: "fam-lines" }, lines.map((l, i) => /* @__PURE__ */ h("div", { key: i, className: "ana" }, /* @__PURE__ */ h(Num, { v: s, hl: l.hl, size: "sm" }), /* @__PURE__ */ h("span", { className: "ana-t" }, l.t), /* @__PURE__ */ h("span", { className: "pills" }, l.res.map((d) => /* @__PURE__ */ h(Pill, { key: d, ok: isDiv(s, d) }, "par ", d))))));
+}
+function CritTable({ nums, ds, hl, explain }) {
+  return /* @__PURE__ */ h("div", { className: "tbl-wrap" }, /* @__PURE__ */ h("table", { className: "tbl" }, /* @__PURE__ */ h("thead", null, /* @__PURE__ */ h("tr", null, /* @__PURE__ */ h("th", { scope: "col", className: "left" }, "Nombre"), ds.map((d) => /* @__PURE__ */ h("th", { key: d, scope: "col" }, "par ", d)), explain && /* @__PURE__ */ h("th", { scope: "col", className: "left" }, "Ce qu'on regarde"))), /* @__PURE__ */ h("tbody", null, nums.map((n) => /* @__PURE__ */ h("tr", { key: n }, /* @__PURE__ */ h("th", { scope: "row", className: "left" }, /* @__PURE__ */ h(Num, { v: n, hl, size: "sm" })), ds.map((d) => /* @__PURE__ */ h("td", { key: d }, /* @__PURE__ */ h(Pill, { ok: isDiv(n, d) }))), explain && /* @__PURE__ */ h("td", { className: "left small" }, explain(n)))))));
+}
+function Packets({ n0 = 24, d0 = 4 }) {
+  const [n, setN] = useState(n0);
+  const [d, setD] = useState(d0);
+  const q = Math.floor(n / d), r = n % d;
+  const cols = d <= 5 ? d : Math.ceil(d / 2);
+  const dots = (k) => Array.from({ length: k }, (_, i) => /* @__PURE__ */ h("span", { key: i, className: "dot" }));
+  return /* @__PURE__ */ h("div", { className: "packets-box" }, /* @__PURE__ */ h("div", { className: "row gap16" }, /* @__PURE__ */ h(Spin, { id: "pk-n", label: "Nombre d'objets", value: n, min: 1, max: 60, onChange: setN }), /* @__PURE__ */ h(Spin, { id: "pk-d", label: "Objets par paquet", value: d, min: 2, max: 10, onChange: setD })), /* @__PURE__ */ h("div", { className: "packets-grid" }, /* @__PURE__ */ h("div", { className: "packets", role: "img", "aria-label": `${q} paquets de ${d}` + (r ? `, et ${r} objets restants` : ", sans reste") }, Array.from({ length: q }, (_, i) => /* @__PURE__ */ h("div", { key: i, className: "packet", style: { gridTemplateColumns: `repeat(${cols}, 12px)` } }, dots(d))), r > 0 && /* @__PURE__ */ h("div", { className: "packet rest", style: { gridTemplateColumns: `repeat(${Math.min(r, cols)}, 12px)` } }, dots(r))), /* @__PURE__ */ h("div", { className: "packets-side stack" }, /* @__PURE__ */ h("div", { className: "eq mono" }, n, " = ", d, " × ", q, r > 0 && /* @__PURE__ */ h(Fragment, null, " + ", /* @__PURE__ */ h("b", { className: "rest-ink" }, r))), r === 0 ? /* @__PURE__ */ h(Msg, { type: "pos", title: `Il ne reste rien : ${n} est divisible par ${d}.` }, /* @__PURE__ */ h("ul", { className: "phrases" }, /* @__PURE__ */ h("li", null, n, " est ", /* @__PURE__ */ h("b", null, "divisible par"), " ", d, "."), /* @__PURE__ */ h("li", null, d, " est un ", /* @__PURE__ */ h("b", null, "diviseur"), " de ", n, ". On dit aussi : ", d, " ", /* @__PURE__ */ h("b", null, "divise"), " ", n, "."), /* @__PURE__ */ h("li", null, n, " est un ", /* @__PURE__ */ h("b", null, "multiple"), " de ", d, "."))) : /* @__PURE__ */ h(Msg, { type: "warn", title: `Il reste ${r} : ${n} n'est pas divisible par ${d}.` }, d, " n'est pas un diviseur de ", n, ", et ", n, " n'est pas un multiple de ", d, "."))));
+}
+function Mult4() {
+  const even = [0, 2, 4, 6, 8].flatMap((t) => [0, 4, 8].map((u) => `${t}${u}`));
+  const odd = [1, 3, 5, 7, 9].flatMap((t) => [2, 6].map((u) => `${t}${u}`));
+  return /* @__PURE__ */ h("div", { className: "m4" }, /* @__PURE__ */ h("div", { className: "m4-row" }, /* @__PURE__ */ h("div", { className: "m4-l" }, /* @__PURE__ */ h("b", null, "Chiffre des dizaines pair"), /* @__PURE__ */ h("span", { className: "muted small" }, "unités 0, 4 ou 8")), /* @__PURE__ */ h("div", { className: "m4-v" }, even.map((x) => /* @__PURE__ */ h("span", { key: x, className: "m4-c mono" }, x)))), /* @__PURE__ */ h("div", { className: "m4-row" }, /* @__PURE__ */ h("div", { className: "m4-l" }, /* @__PURE__ */ h("b", null, "Chiffre des dizaines impair"), /* @__PURE__ */ h("span", { className: "muted small" }, "unités 2 ou 6")), /* @__PURE__ */ h("div", { className: "m4-v" }, odd.map((x) => /* @__PURE__ */ h("span", { key: x, className: "m4-c mono" }, x)))));
+}
+function MultiplesStrip() {
+  const pairs = [[2, 3], [3, 5], [2, 4]];
+  const [k, setK] = useState(0);
+  const [a, b] = pairs[k];
+  const N = 36;
+  const nums = Array.from({ length: N }, (_, i) => i + 1);
+  const both = nums.filter((x) => x % a === 0 && x % b === 0);
+  const ce = both.find((x) => x % (a * b) !== 0);
+  return /* @__PURE__ */ h("div", { className: "stack" }, /* @__PURE__ */ h("div", { className: "row", role: "group", "aria-label": "Choisir deux nombres" }, pairs.map(([x, y], j) => /* @__PURE__ */ h("button", { key: j, className: "btn", "aria-pressed": j === k, onClick: () => setK(j) }, x, " et ", y))), /* @__PURE__ */ h("div", { className: "strip-legend small" }, /* @__PURE__ */ h("span", null, /* @__PURE__ */ h("i", { className: "mk mk-a" }), " multiple de ", a), /* @__PURE__ */ h("span", null, /* @__PURE__ */ h("i", { className: "mk mk-b" }), " multiple de ", b), /* @__PURE__ */ h("span", null, /* @__PURE__ */ h("i", { className: "mk mk-both" }), " multiple des deux")), /* @__PURE__ */ h("div", { className: "strip", role: "img", "aria-label": `Nombres de 1 à 36. Multiples de ${a} et de ${b} : ${both.join(", ")}` }, nums.map((x) => /* @__PURE__ */ h("span", { key: x, className: "cell" + (x % a === 0 ? " ma" : "") + (x % b === 0 ? " mb" : "") + (x % a === 0 && x % b === 0 ? " both" : "") }, x))), ce == null ? /* @__PURE__ */ h(Msg, { type: "pos", title: `Les multiples communs de ${a} et de ${b} sont ${both.join(", ")}.` }, "Ce sont exactement les multiples de ", a, " × ", b, " = ", a * b, ". Ici on peut combiner les deux critères.") : /* @__PURE__ */ h(Msg, { type: "warn", title: `Les multiples communs de ${a} et de ${b} sont ${both.slice(0, 5).join(", ")}…` }, "Ce ne sont pas les multiples de ", a, " × ", b, " = ", a * b, " : ", ce, " est divisible par ", a, " et par ", b, ", mais pas par ", a * b, ". Les nombres ", a, " et ", b, " ont un diviseur commun (", b % a === 0 ? a : "autre que 1", ")."));
+}
+function WhyNine() {
+  const [k, setK] = useState(1);
+  const lines = [
+    { m: /* @__PURE__ */ h(Fragment, null, "4 527 = 4 × 1 000 + 5 × 100 + 2 × 10 + 7"), n: "On décompose le nombre chiffre par chiffre." },
+    { m: /* @__PURE__ */ h(Fragment, null, "= 4 × (999 + 1) + 5 × (99 + 1) + 2 × (9 + 1) + 7"), n: "On remplace 1 000 par 999 + 1, 100 par 99 + 1 et 10 par 9 + 1." },
+    { m: /* @__PURE__ */ h(Fragment, null, "= ", /* @__PURE__ */ h("span", { className: "box box-mult" }, "4 × 999 + 5 × 99 + 2 × 9"), " + ", /* @__PURE__ */ h("span", { className: "box box-sum" }, "4 + 5 + 2 + 7")), n: "" }
+  ];
+  return /* @__PURE__ */ h("div", { className: "stack" }, /* @__PURE__ */ h("ol", { className: "derive" }, lines.slice(0, k).map((l, i) => /* @__PURE__ */ h("li", { key: i }, /* @__PURE__ */ h("div", { className: "mono derive-m" }, l.m), l.n && /* @__PURE__ */ h("div", { className: "muted small" }, l.n)))), k === 3 && /* @__PURE__ */ h("p", null, /* @__PURE__ */ h("span", { className: "box box-mult" }, "La partie grise"), " est toujours un multiple de 9 (et donc de 3), car 9, 99 et 999 sont dans la table de 9. Tout se joue donc sur ", /* @__PURE__ */ h("span", { className: "box box-sum" }, "la somme des chiffres"), " : ici 18, qui est un multiple de 9."), /* @__PURE__ */ h("div", { className: "row" }, k < 3 ? /* @__PURE__ */ h("button", { className: "btn", onClick: () => setK(k + 1) }, "Ligne suivante ", /* @__PURE__ */ h(Icon, { name: "right", size: 16 })) : /* @__PURE__ */ h("button", { className: "btn flat", onClick: () => setK(1) }, /* @__PURE__ */ h(Icon, { name: "refresh", size: 16 }), " Revoir depuis le début")));
+}
+const TRAPS = [
+  { wrong: "« 23 se termine par 3, donc il est divisible par 3. »", ex: "2 + 3 = 5, et 5 n'est pas un multiple de 3 : 23 n'est pas divisible par 3.", right: "Pour 3 et 9, on additionne les chiffres." },
+  { wrong: "« 1 234 se termine par 4, donc il est divisible par 4. »", ex: "Les deux derniers chiffres forment 34, et 34 = 4 × 8 + 2 : 1 234 n'est pas divisible par 4.", right: "Pour 4, on regarde les deux derniers chiffres." },
+  { wrong: "« 1 + 9 = 10 est pair, donc 19 est divisible par 2. »", ex: "19 se termine par 9 : il est impair.", right: "Pour 2, on regarde le chiffre des unités, jamais la somme." },
+  { wrong: "« 12 est divisible par 3, donc il est divisible par 9. »", ex: "1 + 2 = 3, et 3 n'est pas un multiple de 9 : 12 n'est pas divisible par 9.", right: "C'est l'inverse qui est vrai : un nombre divisible par 9 est divisible par 3." },
+  { wrong: "« 12 est divisible par 2 et par 4, donc par 2 × 4 = 8. »", ex: "12 = 8 × 1 + 4 : 12 n'est pas divisible par 8.", right: "On ne combine que deux nombres sans diviseur commun (à part 1), comme 2 et 3 ou 3 et 4." }
+];
+function Traps() {
+  return /* @__PURE__ */ h("div", { className: "traps" }, TRAPS.map((t, i) => /* @__PURE__ */ h("div", { key: i, className: "trap" }, /* @__PURE__ */ h("div", { className: "trap-w" }, /* @__PURE__ */ h(Icon, { name: "cross", size: 16 }), /* @__PURE__ */ h("span", null, t.wrong)), /* @__PURE__ */ h("div", { className: "trap-e" }, /* @__PURE__ */ h("span", { className: "trap-k" }, "Contre-exemple"), t.ex), /* @__PURE__ */ h("div", { className: "trap-r" }, /* @__PURE__ */ h(Icon, { name: "check", size: 16 }), /* @__PURE__ */ h("span", null, t.right)))));
+}
+const sumText = (n) => {
+  const d = digitsOf(n);
+  return `${d.join(" + ")} = ${sumOf(n)}`;
+};
+const LESSON = [
+  {
+    short: "Vocabulaire",
+    title: "Diviseur, multiple, divisible",
+    body: /* @__PURE__ */ h(Fragment, null, /* @__PURE__ */ h("p", { className: "lead" }, "Diviser 24 par 4, c'est faire des paquets de 4. S'il ne reste ", /* @__PURE__ */ h("b", null, "aucun"), " objet, on dit que 24 est ", /* @__PURE__ */ h("b", null, "divisible"), " par 4."), /* @__PURE__ */ h(Packets, { n0: 24, d0: 4 }), /* @__PURE__ */ h("p", null, "Essaie avec 26 objets : il en reste 2. Le reste n'est pas nul, donc 26 n'est pas divisible par 4."), /* @__PURE__ */ h(Msg, { type: "info", title: "La suite : répondre sans faire les paquets" }, "Pour un grand nombre comme 4 572, faire des paquets ou poser la division prend du temps. Les ", /* @__PURE__ */ h("b", null, "critères de divisibilité"), " permettent de répondre en regardant seulement les chiffres du nombre.")),
+    check: {
+      q: "On sait que 35 = 5 × 7. Quelle phrase est fausse ?",
+      options: ["35 est un multiple de 7.", "5 est un diviseur de 35.", "35 est un diviseur de 5.", "35 est divisible par 7."],
+      answer: 2,
+      expl: "Le diviseur est le petit nombre (5 ou 7) et le multiple est le grand nombre (35). « 35 est un diviseur de 5 » inverse les rôles."
+    }
+  },
+  {
+    short: "2, 5 et 10",
+    title: "Par 2, 5 et 10 : le chiffre des unités",
+    body: /* @__PURE__ */ h(Fragment, null, /* @__PURE__ */ h("p", { className: "lead" }, "Pour 2, 5 et 10, on regarde ", /* @__PURE__ */ h("b", null, "seulement le chiffre des unités"), ", c'est-à-dire le dernier chiffre."), /* @__PURE__ */ h("ul", { className: "rules" }, /* @__PURE__ */ h("li", null, /* @__PURE__ */ h("span", { className: "rule-d" }, "par 2"), /* @__PURE__ */ h("span", null, "le chiffre des unités est 0, 2, 4, 6 ou 8 (le nombre est pair) ;")), /* @__PURE__ */ h("li", null, /* @__PURE__ */ h("span", { className: "rule-d" }, "par 5"), /* @__PURE__ */ h("span", null, "le chiffre des unités est 0 ou 5 ;")), /* @__PURE__ */ h("li", null, /* @__PURE__ */ h("span", { className: "rule-d" }, "par 10"), /* @__PURE__ */ h("span", null, "le chiffre des unités est 0."))), /* @__PURE__ */ h(CritTable, { nums: ["3478", "2035", "7160"], ds: [2, 5, 10], hl: "units" })),
+    why: /* @__PURE__ */ h(Fragment, null, /* @__PURE__ */ h("p", null, "Découpe le nombre : ", /* @__PURE__ */ h(Num, { v: "3478", hl: "units", size: "sm" }), " = 3 470 + 8."), /* @__PURE__ */ h("p", null, "3 470 = 347 × 10. C'est un multiple de 10, donc aussi de 2 et de 5, car 10 = 2 × 5."), /* @__PURE__ */ h("p", null, "Il ne reste qu'à regarder 8, le chiffre des unités.")),
+    check: {
+      q: "Lequel de ces nombres est divisible par 5 ?",
+      options: ["552", "3 105", "5 053", "1 556"],
+      answer: 1,
+      expl: "Seul le chiffre des unités compte : 3 105 se termine par 5. Les autres contiennent un 5, mais se terminent par 2, 3 ou 6."
+    }
+  },
+  {
+    short: "Par 4",
+    tag: "Complément",
+    title: "Par 4 : les deux derniers chiffres",
+    body: /* @__PURE__ */ h(Fragment, null, /* @__PURE__ */ h("p", { className: "lead" }, "Un nombre est divisible par 4 quand le nombre formé par ses ", /* @__PURE__ */ h("b", null, "deux derniers chiffres"), " (dizaines et unités) est divisible par 4."), /* @__PURE__ */ h(CritTable, { nums: ["7316", "5234", "9100"], ds: [4], hl: "last2", explain: (n) => analyse(n, 4).why }), /* @__PURE__ */ h(Msg, { type: "tip", title: "Astuce : les multiples de 4 de 00 à 96" }, "Ils suivent un motif régulier, selon le chiffre des dizaines."), /* @__PURE__ */ h(Mult4, null)),
+    why: /* @__PURE__ */ h(Fragment, null, /* @__PURE__ */ h("p", null, "Découpe le nombre : ", /* @__PURE__ */ h(Num, { v: "7316", hl: "last2", size: "sm" }), " = 7 300 + 16."), /* @__PURE__ */ h("p", null, "7 300 = 73 × 100, et 100 = 4 × 25. Donc 7 300 est un multiple de 4."), /* @__PURE__ */ h("p", null, "Il ne reste qu'à regarder 16, le nombre formé par les deux derniers chiffres : 16 = 4 × 4.")),
+    check: {
+      q: "Lequel de ces nombres est divisible par 4 ?",
+      options: ["1 234", "2 924", "5 618", "7 030"],
+      answer: 1,
+      expl: "On regarde les deux derniers chiffres : 34, 24, 18 et 30. Seul 24 = 4 × 6. Attention : 1 234 se termine par 4, mais 34 n'est pas divisible par 4."
+    }
+  },
+  {
+    short: "3 et 9",
+    title: "Par 3 et 9 : la somme des chiffres",
+    body: /* @__PURE__ */ h(Fragment, null, /* @__PURE__ */ h("p", { className: "lead" }, "Pour 3 et 9, on ", /* @__PURE__ */ h("b", null, "additionne tous les chiffres"), " du nombre."), /* @__PURE__ */ h("ul", { className: "rules" }, /* @__PURE__ */ h("li", null, /* @__PURE__ */ h("span", { className: "rule-d sum" }, "par 3"), /* @__PURE__ */ h("span", null, "la somme des chiffres est un multiple de 3 ;")), /* @__PURE__ */ h("li", null, /* @__PURE__ */ h("span", { className: "rule-d sum" }, "par 9"), /* @__PURE__ */ h("span", null, "la somme des chiffres est un multiple de 9."))), /* @__PURE__ */ h(CritTable, { nums: ["4527", "1302", "2813"], ds: [3, 9], hl: "all", explain: (n) => "Somme : " + sumText(n) }), /* @__PURE__ */ h(Msg, { type: "tip", title: "Si la somme est grande, on recommence" }, "98 769 → 9 + 8 + 7 + 6 + 9 = 39 → 3 + 9 = 12. 12 est un multiple de 3 mais pas de 9 : 98 769 est divisible par 3, pas par 9."), /* @__PURE__ */ h(Msg, { type: "info", title: "9 = 3 × 3" }, "Un nombre divisible par 9 est toujours divisible par 3. L'inverse est faux : 12 est divisible par 3, mais pas par 9.")),
+    why: /* @__PURE__ */ h(WhyNine, null),
+    check: {
+      q: "7 452 est-il divisible par 9 ?",
+      options: ["Oui, car 7 + 4 + 5 + 2 = 18.", "Non, car il se termine par 2.", "Oui, car 7 452 est pair.", "Non, car 18 n'est pas un multiple de 9."],
+      answer: 0,
+      expl: "7 + 4 + 5 + 2 = 18 et 18 = 9 × 2. Donc 7 452 est divisible par 9 (7 452 = 9 × 828). Le chiffre des unités ne compte pas pour 9."
+    }
+  },
+  {
+    short: "Combiner",
+    title: "Combiner deux critères",
+    body: /* @__PURE__ */ h(Fragment, null, /* @__PURE__ */ h("p", { className: "lead" }, "Pour certains diviseurs, on vérifie ", /* @__PURE__ */ h("b", null, "deux critères"), " à la fois. Il faut que les ", /* @__PURE__ */ h("b", null, "deux"), " soient vérifiés."), /* @__PURE__ */ h("div", { className: "tbl-wrap" }, /* @__PURE__ */ h("table", { className: "tbl combos" }, /* @__PURE__ */ h("thead", null, /* @__PURE__ */ h("tr", null, /* @__PURE__ */ h("th", { scope: "col" }, "Divisible par…"), /* @__PURE__ */ h("th", { scope: "col" }, "car…"), /* @__PURE__ */ h("th", { scope: "col", className: "left" }, "il faut qu'il soit divisible"))), /* @__PURE__ */ h("tbody", null, Object.entries(COMBOS).map(([d, [a, b]]) => /* @__PURE__ */ h("tr", { key: d }, /* @__PURE__ */ h("th", { scope: "row" }, d), /* @__PURE__ */ h("td", { className: "mono" }, d, " = ", a, " × ", b), /* @__PURE__ */ h("td", { className: "left" }, "par ", a, " ", /* @__PURE__ */ h("b", null, "et"), " par ", b)))))), /* @__PURE__ */ h("p", null, "Exemple avec ", /* @__PURE__ */ h(Num, { v: "2790", size: "sm" }), " :"), /* @__PURE__ */ h("div", { className: "stack-s" }, /* @__PURE__ */ h(AnaLine, { n: "2790", d: 2 }), /* @__PURE__ */ h(AnaLine, { n: "2790", d: 9 }), /* @__PURE__ */ h(Msg, { type: "pos", title: "2 790 est divisible par 2 et par 9, donc par 18." }, "Vérification : 2 790 = 18 × 155.")), /* @__PURE__ */ h(Msg, { type: "warn", title: "Les deux nombres ne doivent avoir aucun diviseur commun (à part 1)" }, "12 = 3 × 4 convient. 12 = 2 × 6 ne convient pas : 18 est divisible par 2 et par 6, mais pas par 12.")),
+    whyLabel: "Pourquoi faut-il deux nombres sans diviseur commun ?",
+    why: /* @__PURE__ */ h(MultiplesStrip, null),
+    check: {
+      q: "Pour savoir si un nombre est divisible par 15, je vérifie qu'il est divisible…",
+      options: ["par 3 et par 5", "par 3 ou par 5", "par 5 et par 10", "par 2 et par 5"],
+      answer: 0,
+      expl: "15 = 3 × 5, et 3 et 5 n'ont aucun diviseur commun à part 1. Il faut les deux : 10 est divisible par 5 mais pas par 3, donc pas par 15."
+    }
+  },
+  {
+    short: "Pièges",
+    title: "Les pièges à éviter",
+    body: /* @__PURE__ */ h(Fragment, null, /* @__PURE__ */ h("p", { className: "lead" }, "Voici les cinq erreurs les plus fréquentes. Pour chacune, un seul contre-exemple suffit à montrer qu'elle est fausse."), /* @__PURE__ */ h(Traps, null)),
+    check: {
+      q: "Quel raisonnement est correct ?",
+      options: ["2 178 : 2 + 1 + 7 + 8 = 18, donc 2 178 est divisible par 9.", "5 787 se termine par 7, donc il n'est pas divisible par 3.", "514 se termine par 4, donc il est divisible par 4.", "1 005 : 1 + 0 + 0 + 5 = 6 est pair, donc 1 005 est divisible par 2."],
+      answer: 0,
+      expl: "2 178 = 9 × 242. Les autres raisonnements sont faux : 5 + 7 + 8 + 7 = 27, donc 5 787 est divisible par 3 ; 14 n'est pas un multiple de 4 ; 1 005 se termine par 5, il est impair."
+    }
+  }
+];
+const CARDS = [
+  { q: "Comment savoir si un nombre est divisible par 2 ?", a: /* @__PURE__ */ h(Fragment, null, "Son chiffre des unités est 0, 2, 4, 6 ou 8 : il est pair.", /* @__PURE__ */ h("span", { className: "flash-ex" }, /* @__PURE__ */ h(Num, { v: "3478", hl: "units", size: "sm" }), " se termine par 8 : oui.")) },
+  { q: "Comment savoir si un nombre est divisible par 5 ?", a: /* @__PURE__ */ h(Fragment, null, "Son chiffre des unités est 0 ou 5.", /* @__PURE__ */ h("span", { className: "flash-ex" }, /* @__PURE__ */ h(Num, { v: "2035", hl: "units", size: "sm" }), " se termine par 5 : oui.")) },
+  { q: "Comment savoir si un nombre est divisible par 10 ?", a: /* @__PURE__ */ h(Fragment, null, "Son chiffre des unités est 0.", /* @__PURE__ */ h("span", { className: "flash-ex" }, /* @__PURE__ */ h(Num, { v: "7160", hl: "units", size: "sm" }), " se termine par 0 : oui.")) },
+  { q: "Comment savoir si un nombre est divisible par 4 ?", a: /* @__PURE__ */ h(Fragment, null, "Le nombre formé par ses deux derniers chiffres est divisible par 4.", /* @__PURE__ */ h("span", { className: "flash-ex" }, /* @__PURE__ */ h(Num, { v: "7316", hl: "last2", size: "sm" }), " 16 = 4 × 4 : oui.")) },
+  { q: "Comment savoir si un nombre est divisible par 3 ?", a: /* @__PURE__ */ h(Fragment, null, "La somme de ses chiffres est un multiple de 3.", /* @__PURE__ */ h("span", { className: "flash-ex" }, /* @__PURE__ */ h(Num, { v: "1302", hl: "all", size: "sm" }), " 1 + 3 + 0 + 2 = 6 : oui.")) },
+  { q: "Comment savoir si un nombre est divisible par 9 ?", a: /* @__PURE__ */ h(Fragment, null, "La somme de ses chiffres est un multiple de 9.", /* @__PURE__ */ h("span", { className: "flash-ex" }, /* @__PURE__ */ h(Num, { v: "4527", hl: "all", size: "sm" }), " 4 + 5 + 2 + 7 = 18 : oui.")) },
+  { q: "Divisible par 6, c'est divisible par…", a: /* @__PURE__ */ h(Fragment, null, "par 2 ", /* @__PURE__ */ h("b", null, "et"), " par 3 (6 = 2 × 3).") },
+  { q: "Divisible par 15, c'est divisible par…", a: /* @__PURE__ */ h(Fragment, null, "par 3 ", /* @__PURE__ */ h("b", null, "et"), " par 5 (15 = 3 × 5).") },
+  { q: "Divisible par 18, c'est divisible par…", a: /* @__PURE__ */ h(Fragment, null, "par 2 ", /* @__PURE__ */ h("b", null, "et"), " par 9 (18 = 2 × 9).") },
+  { q: "Divisible par 45, c'est divisible par…", a: /* @__PURE__ */ h(Fragment, null, "par 5 ", /* @__PURE__ */ h("b", null, "et"), " par 9 (45 = 5 × 9).") },
+  { q: "Divisible par 12, c'est divisible par…", a: /* @__PURE__ */ h(Fragment, null, "par 3 ", /* @__PURE__ */ h("b", null, "et"), " par 4. Pas par 2 et par 6 : 18 est divisible par 2 et par 6, mais pas par 12.") },
+  { q: "Que veut dire « 7 est un diviseur de 63 » ?", a: /* @__PURE__ */ h(Fragment, null, "63 = 7 × 9 : la division de 63 par 7 tombe juste (reste 0). On dit aussi : 63 est un multiple de 7, 63 est divisible par 7.") },
+  { q: "Un nombre divisible par 9 est-il divisible par 3 ?", a: /* @__PURE__ */ h(Fragment, null, "Oui, toujours, car 9 = 3 × 3. L'inverse est faux : 12 est divisible par 3, mais pas par 9.") },
+  { q: "Pour 2, 5 et 10, pourquoi le chiffre des unités suffit-il ?", a: /* @__PURE__ */ h(Fragment, null, "Le reste du nombre forme des dizaines, donc un multiple de 10, de 2 et de 5. Exemple : 3 478 = 3 470 + 8.") }
+];
+function Fiche() {
+  return /* @__PURE__ */ h("section", { className: "card" }, /* @__PURE__ */ h("header", { className: "card-h" }, /* @__PURE__ */ h(Icon, { name: "book" }), /* @__PURE__ */ h("h2", null, "Fiche mémo"), /* @__PURE__ */ h("span", { className: "muted small" }, "Trois familles de critères")), /* @__PURE__ */ h("div", { className: "card-b" }, /* @__PURE__ */ h("div", { className: "fiche" }, /* @__PURE__ */ h("div", { className: "fam fam-end" }, /* @__PURE__ */ h("div", { className: "fam-h" }, /* @__PURE__ */ h("span", { className: "key key-end", "aria-hidden": "true" }), "Je regarde la fin du nombre"), /* @__PURE__ */ h("dl", { className: "fam-dl" }, /* @__PURE__ */ h("dt", null, "par 2"), /* @__PURE__ */ h("dd", null, "unités 0, 2, 4, 6, 8", /* @__PURE__ */ h("span", { className: "fam-ex" }, /* @__PURE__ */ h(Num, { v: "3478", hl: "units", size: "sm" }))), /* @__PURE__ */ h("dt", null, "par 5"), /* @__PURE__ */ h("dd", null, "unités 0 ou 5", /* @__PURE__ */ h("span", { className: "fam-ex" }, /* @__PURE__ */ h(Num, { v: "2035", hl: "units", size: "sm" }))), /* @__PURE__ */ h("dt", null, "par 10"), /* @__PURE__ */ h("dd", null, "unités 0", /* @__PURE__ */ h("span", { className: "fam-ex" }, /* @__PURE__ */ h(Num, { v: "7160", hl: "units", size: "sm" }))), /* @__PURE__ */ h("dt", null, "par 4"), /* @__PURE__ */ h("dd", null, "deux derniers chiffres multiples de 4", /* @__PURE__ */ h("span", { className: "fam-ex" }, /* @__PURE__ */ h(Num, { v: "7316", hl: "last2", size: "sm" }))))), /* @__PURE__ */ h("div", { className: "fam fam-sum" }, /* @__PURE__ */ h("div", { className: "fam-h" }, /* @__PURE__ */ h("span", { className: "key key-sum", "aria-hidden": "true" }), "J'additionne les chiffres"), /* @__PURE__ */ h("dl", { className: "fam-dl" }, /* @__PURE__ */ h("dt", null, "par 3"), /* @__PURE__ */ h("dd", null, "somme multiple de 3", /* @__PURE__ */ h("span", { className: "fam-ex" }, /* @__PURE__ */ h(Num, { v: "1302", hl: "all", size: "sm" }), " → 6")), /* @__PURE__ */ h("dt", null, "par 9"), /* @__PURE__ */ h("dd", null, "somme multiple de 9", /* @__PURE__ */ h("span", { className: "fam-ex" }, /* @__PURE__ */ h(Num, { v: "4527", hl: "all", size: "sm" }), " → 18"))), /* @__PURE__ */ h("p", { className: "small muted fam-note" }, "Divisible par 9 ⇒ divisible par 3. L'inverse est faux (12).")), /* @__PURE__ */ h("div", { className: "fam fam-comb" }, /* @__PURE__ */ h("div", { className: "fam-h" }, /* @__PURE__ */ h("span", { className: "key key-comb", "aria-hidden": "true" }), "Je combine deux critères"), /* @__PURE__ */ h("dl", { className: "fam-dl" }, Object.entries(COMBOS).map(([d, [a, b]]) => /* @__PURE__ */ h(Fragment, { key: d }, /* @__PURE__ */ h("dt", null, "par ", d), /* @__PURE__ */ h("dd", null, "par ", a, " ", /* @__PURE__ */ h("b", null, "et"), " par ", b)))), /* @__PURE__ */ h("p", { className: "small muted fam-note" }, "Les deux nombres n'ont aucun diviseur commun à part 1.")))));
+}
+function Flashcards() {
+  const all = () => CARDS.map((_, i) => i);
+  const [queue, setQueue] = useState(all);
+  const [flip, setFlip] = useState(false);
+  const [again, setAgain] = useState(0);
+  const cur = queue[0];
+  const known = CARDS.length - queue.length;
+  const answer = (ok) => {
+    setFlip(false);
+    setQueue((q) => ok ? q.slice(1) : [...q.slice(1), q[0]]);
+    if (!ok) setAgain((a) => a + 1);
+  };
+  const restart = (mix) => {
+    setQueue(mix ? shuffle(all()) : all());
+    setFlip(false);
+    setAgain(0);
+  };
+  return /* @__PURE__ */ h("section", { className: "card" }, /* @__PURE__ */ h("header", { className: "card-h" }, /* @__PURE__ */ h(Icon, { name: "cards" }), /* @__PURE__ */ h("h2", null, "Cartes mémo"), /* @__PURE__ */ h("span", { className: "muted small" }, "Essaie de répondre de tête avant de retourner la carte.")), /* @__PURE__ */ h("div", { className: "card-b stack" }, /* @__PURE__ */ h("div", { className: "progress", "aria-hidden": "true" }, /* @__PURE__ */ h("span", { style: { width: 100 * known / CARDS.length + "%" } })), /* @__PURE__ */ h("div", { className: "small muted", "aria-live": "polite" }, known, " carte", known > 1 ? "s" : "", " sue", known > 1 ? "s" : "", " sur ", CARDS.length, again > 0 ? ` · ${again} remise${again > 1 ? "s" : ""} en fin de paquet` : ""), queue.length === 0 ? /* @__PURE__ */ h(Msg, { type: "pos", title: "Toutes les cartes sont sues." }, "Reviens demain pour les revoir : réciter à quelques jours d'intervalle aide à retenir longtemps.") : /* @__PURE__ */ h(Fragment, null, /* @__PURE__ */ h("button", { className: "flash" + (flip ? " flipped" : ""), onClick: () => setFlip(!flip), "aria-label": flip ? "Réponse affichée. Cliquer pour revoir la question." : "Question affichée. Cliquer pour voir la réponse." }, /* @__PURE__ */ h("span", { className: "flash-k" }, flip ? "Réponse" : "Question"), /* @__PURE__ */ h("span", { className: "flash-c" }, flip ? CARDS[cur].a : CARDS[cur].q), !flip && /* @__PURE__ */ h("span", { className: "flash-hint" }, "Clique pour retourner la carte")), flip ? /* @__PURE__ */ h("div", { className: "row center" }, /* @__PURE__ */ h("button", { className: "btn", onClick: () => answer(false) }, /* @__PURE__ */ h(Icon, { name: "refresh", size: 16 }), " À revoir"), /* @__PURE__ */ h("button", { className: "btn primary", onClick: () => answer(true) }, /* @__PURE__ */ h(Icon, { name: "check", size: 16 }), " Je savais")) : /* @__PURE__ */ h("div", { className: "row center" }, /* @__PURE__ */ h("button", { className: "btn primary", onClick: () => setFlip(true) }, "Retourner la carte"))), /* @__PURE__ */ h("div", { className: "row" }, /* @__PURE__ */ h("button", { className: "btn flat", onClick: () => restart(false) }, /* @__PURE__ */ h(Icon, { name: "refresh", size: 16 }), " Recommencer"), /* @__PURE__ */ h("button", { className: "btn flat", onClick: () => restart(true) }, /* @__PURE__ */ h(Icon, { name: "shuffle", size: 16 }), " Mélanger"))));
+}
+const LAB_DIVS = [
+  { group: "La fin du nombre", tone: "end", items: [2, 5, 10, 4] },
+  { group: "La somme des chiffres", tone: "sum", items: [3, 9] },
+  { group: "Deux critères", tone: "comb", items: [6, 12, 15, 18, 45] }
+];
+const len = (k) => [`${k} chiffres`, (s) => s.length === k];
+const by = (d) => [`divisible par ${d}`, (s) => isDiv(s, d)];
+const notBy = (d) => [`pas divisible par ${d}`, (s) => !isDiv(s, d)];
+const endsWith = (c) => [`se termine par ${c}`, (s) => s.endsWith(String(c))];
+const CHALLENGES = [
+  { t: "un nombre de 3 chiffres divisible par 5, mais pas par 10", conds: [len(3), by(5), notBy(10)] },
+  { t: "un nombre de 3 chiffres divisible par 3, mais pas par 9", conds: [len(3), by(3), notBy(9)] },
+  { t: "un nombre de 4 chiffres divisible par 4 qui se termine par 6", conds: [len(4), endsWith(6), by(4)] },
+  { t: "un nombre de 4 chiffres divisible par 3 qui se termine par 1", conds: [len(4), endsWith(1), by(3)] },
+  { t: "un nombre de 4 chiffres divisible par 2 et par 9", conds: [len(4), by(2), by(9)] },
+  { t: "un nombre de 4 chiffres divisible par 6, mais pas par 4", conds: [len(4), by(6), notBy(4)] },
+  { t: "un nombre de 5 chiffres divisible par 2, 3, 4, 5, 9 et 10", conds: [len(5), by(10), by(4), by(9)] }
+];
+function Lab() {
+  const [s, setS] = useState("4572");
+  const [txt, setTxt] = useState("4572");
+  const [sel, setSel] = useState(3);
+  const [ci, setCi] = useState(0);
+  const [cres, setCres] = useState(null);
+  const set = (v) => {
+    const c = strip0(clean(v)).slice(0, 12) || "0";
+    setS(c);
+    setTxt(c);
+    setCres(null);
+  };
+  const ds = s.split("");
+  const n = ds.length;
+  const bump = (i, delta) => {
+    const a2 = ds.slice();
+    let v = (Number(a2[i]) + delta + 10) % 10;
+    if (i === 0 && a2.length > 1 && v === 0) v = delta > 0 ? 1 : 9;
+    a2[i] = String(v);
+    set(a2.join(""));
+  };
+  const a = analyse(s, sel);
+  const tone = a.look === "all" ? "sum" : "end";
+  const on = (i) => a.look === "units" ? i === n - 1 : a.look === "last2" ? i >= n - 2 : a.look === "all";
+  const r = mod(s, sel);
+  const ch = CHALLENGES[ci];
+  const checkChal = () => setCres(ch.conds.map(([label, f]) => ({ label, ok: f(s) })));
+  const allOk = cres && cres.every((c) => c.ok);
+  return /* @__PURE__ */ h(Fragment, null, /* @__PURE__ */ h("section", { className: "card" }, /* @__PURE__ */ h("header", { className: "card-h" }, /* @__PURE__ */ h(Icon, { name: "sliders" }), /* @__PURE__ */ h("h2", null, "Le détecteur de divisibilité")), /* @__PURE__ */ h("div", { className: "card-b stack" }, /* @__PURE__ */ h("p", null, "Change les chiffres avec les flèches, ou tape un nombre. Choisis ensuite un diviseur : les chiffres à regarder s'allument."), /* @__PURE__ */ h("div", { className: "lab-number", role: "group", "aria-label": "Nombre " + fmt(s) }, ds.map((c, i) => /* @__PURE__ */ h("div", { key: i, className: "dial" + ((n - i) % 3 === 0 && i > 0 ? " gap" : "") }, /* @__PURE__ */ h("button", { className: "tbtn", "aria-label": `Augmenter le chiffre n° ${i + 1}`, onClick: () => bump(i, 1) }, /* @__PURE__ */ h(Icon, { name: "up", size: 18 })), /* @__PURE__ */ h("span", { className: "dg big" + (on(i) ? " on-" + tone : "") }, c), /* @__PURE__ */ h("button", { className: "tbtn", "aria-label": `Diminuer le chiffre n° ${i + 1}`, onClick: () => bump(i, -1) }, /* @__PURE__ */ h(Icon, { name: "down", size: 18 }))))), /* @__PURE__ */ h("div", { className: "row center" }, /* @__PURE__ */ h("label", { htmlFor: "lab-in", className: "sr-only" }, "Taper un nombre"), /* @__PURE__ */ h(
+    "input",
+    {
+      id: "lab-in",
+      className: "field mono",
+      inputMode: "numeric",
+      autoComplete: "off",
+      value: txt,
+      onChange: (e) => {
+        setTxt(e.target.value);
+        const c = clean(e.target.value);
+        if (c) {
+          setS(strip0(c).slice(0, 12));
+          setCres(null);
+        }
+      }
+    }
+  ), /* @__PURE__ */ h("button", { className: "btn", onClick: () => set("1" + s), disabled: s.length >= 12 }, /* @__PURE__ */ h(Icon, { name: "plus", size: 16 }), " Chiffre à gauche"), /* @__PURE__ */ h("button", { className: "btn", onClick: () => set(s.slice(1)), disabled: s.length <= 1 }, /* @__PURE__ */ h(Icon, { name: "minus", size: 16 }), " Enlever le 1er chiffre"), /* @__PURE__ */ h("button", { className: "btn", onClick: () => set(genNumber()) }, /* @__PURE__ */ h(Icon, { name: "shuffle", size: 16 }), " Au hasard")), /* @__PURE__ */ h("div", { className: "lab-grid" }, /* @__PURE__ */ h("div", { className: "lab-list" }, LAB_DIVS.map((g) => /* @__PURE__ */ h("div", { key: g.group, className: "lab-group lg-" + g.tone }, /* @__PURE__ */ h("div", { className: "lab-gl" }, g.group), g.items.map((d) => /* @__PURE__ */ h("button", { key: d, className: "lab-row", "aria-pressed": sel === d, onClick: () => setSel(d) }, /* @__PURE__ */ h("span", null, "par ", d), /* @__PURE__ */ h(Pill, { ok: isDiv(s, d) })))))), /* @__PURE__ */ h("div", { className: "lab-explain stack" }, /* @__PURE__ */ h("h3", null, fmt(s), " est-il divisible par ", sel, " ?"), a.parts ? /* @__PURE__ */ h("div", { className: "stack-s" }, /* @__PURE__ */ h("p", null, sel, " = ", a.parts[0], " × ", a.parts[1], " : il faut tester les deux critères."), a.parts.map((p) => /* @__PURE__ */ h(AnaLine, { key: p, n: s, d: p }))) : /* @__PURE__ */ h("p", null, a.why), /* @__PURE__ */ h(Msg, { type: a.ok ? "pos" : "neg", title: a.verdict }), /* @__PURE__ */ h("p", { className: "small muted" }, "Vérification par la division : ", fmt(s), " = ", sel, " × ", fmt(quo(s, sel)), r ? ` + ${r}` : "", r ? ` (il reste ${r}).` : " (reste 0)."))), /* @__PURE__ */ h("p", { className: "small muted" }, "Observe : quand tu changes le premier chiffre, les critères par 2, 4, 5 et 10 ne bougent pas. Ceux par 3 et 9 peuvent changer."))), /* @__PURE__ */ h("section", { className: "card" }, /* @__PURE__ */ h("header", { className: "card-h" }, /* @__PURE__ */ h(Icon, { name: "flag" }), /* @__PURE__ */ h("h2", null, "Défis"), /* @__PURE__ */ h("span", { className: "muted small" }, "Défi ", ci + 1, " sur ", CHALLENGES.length)), /* @__PURE__ */ h("div", { className: "card-b stack" }, /* @__PURE__ */ h("p", { className: "lead" }, "Avec le détecteur, fabrique ", /* @__PURE__ */ h("b", null, ch.t), "."), /* @__PURE__ */ h("p", { className: "small muted" }, "Réfléchis d'abord avec les critères, puis règle les chiffres et vérifie."), /* @__PURE__ */ h("div", { className: "row" }, /* @__PURE__ */ h("button", { className: "btn primary", onClick: checkChal }, /* @__PURE__ */ h(Icon, { name: "check", size: 16 }), " Vérifier mon nombre (", fmt(s), ")"), /* @__PURE__ */ h("button", { className: "btn flat", onClick: () => {
+    setCi((ci + CHALLENGES.length - 1) % CHALLENGES.length);
+    setCres(null);
+  } }, /* @__PURE__ */ h(Icon, { name: "left", size: 16 }), " Défi précédent"), /* @__PURE__ */ h("button", { className: "btn flat", onClick: () => {
+    setCi((ci + 1) % CHALLENGES.length);
+    setCres(null);
+  } }, "Défi suivant ", /* @__PURE__ */ h(Icon, { name: "right", size: 16 }))), cres && /* @__PURE__ */ h(Fragment, null, /* @__PURE__ */ h("ul", { className: "conds" }, cres.map((c, i) => /* @__PURE__ */ h("li", { key: i, className: c.ok ? "ok" : "ko" }, /* @__PURE__ */ h(Icon, { name: c.ok ? "check" : "cross", size: 16 }), c.label))), /* @__PURE__ */ h(Msg, { type: allOk ? "pos" : "neg", title: allOk ? `Défi réussi avec ${fmt(s)}.` : "Pas encore : change les chiffres et vérifie de nouveau." })))), /* @__PURE__ */ h("section", { className: "card" }, /* @__PURE__ */ h("header", { className: "card-h" }, /* @__PURE__ */ h(Icon, { name: "cards" }), /* @__PURE__ */ h("h2", null, "Faire des paquets"), /* @__PURE__ */ h("span", { className: "muted small" }, "Revoir le sens de « divisible »")), /* @__PURE__ */ h("div", { className: "card-b" }, /* @__PURE__ */ h(Packets, { n0: 30, d0: 6 }))));
+}
+const multiNum = (id, level, d, nums, extra = {}) => ({
+  id,
+  level,
+  type: "multi",
+  d,
+  prompt: /* @__PURE__ */ h(Fragment, null, "Coche ", /* @__PURE__ */ h("b", null, "tous"), " les nombres divisibles par ", d, "."),
+  options: nums.map((n) => ({ key: String(n), label: fmt(n), ok: isDiv(n, d) })),
+  autoDetail: nums.map((n) => /* @__PURE__ */ h(AnaLine, { key: n, n, d })),
+  ...extra
+});
+const multi = (id, level, prompt, opts, okFn, simple, detail) => ({
+  id,
+  level,
+  type: "multi",
+  prompt,
+  simple,
+  detail,
+  options: opts.map((o) => ({ key: String(o), label: typeof o === "number" || /^\d+$/.test(o) ? fmt(o) : o, ok: okFn(o) }))
+});
+const grid = (id, level, nums, ds, extra = {}) => ({ id, level, type: "grid", nums: nums.map(String), ds, prompt: /* @__PURE__ */ h(Fragment, null, "Coche une case quand le nombre de la ligne est divisible par le nombre de la colonne."), ...extra });
+const digits = (id, level, pattern, d, detail) => ({ id, level, type: "digits", pattern, d, detail, prompt: /* @__PURE__ */ h(Fragment, null, "Remplace ★ par un chiffre pour que ", /* @__PURE__ */ h(Num, { v: pattern, raw: true, size: "sm" }), " soit divisible par ", d, ". Coche ", /* @__PURE__ */ h("b", null, "tous"), " les chiffres possibles.") });
+const FAMILIES = [
+  {
+    id: "vocab",
+    letter: "A",
+    short: "Vocabulaire",
+    title: "Multiple, diviseur, divisible",
+    goal: "je sais traduire une égalité comme 84 = 7 × 12 avec les mots multiple, diviseur et divisible.",
+    worked: {
+      title: "Traduire une multiplication",
+      statement: /* @__PURE__ */ h(Fragment, null, "On sait que ", /* @__PURE__ */ h("b", null, "84 = 7 × 12"), ". Écris trois phrases avec les mots ", /* @__PURE__ */ h("i", null, "multiple"), ", ", /* @__PURE__ */ h("i", null, "diviseur"), " et ", /* @__PURE__ */ h("i", null, "divisible"), "."),
+      steps: [
+        { t: "Je repère le grand nombre et les facteurs.", c: /* @__PURE__ */ h(Fragment, null, "Dans 84 = 7 × 12, le grand nombre est 84. Les facteurs sont 7 et 12. La division de 84 par 7 tombe juste : le reste est 0.") },
+        { t: "J'utilise « multiple ».", c: /* @__PURE__ */ h(Fragment, null, "84 est un ", /* @__PURE__ */ h("b", null, "multiple"), " de 7. (84 est aussi un multiple de 12.)") },
+        { t: "J'utilise « diviseur ».", c: /* @__PURE__ */ h(Fragment, null, "7 est un ", /* @__PURE__ */ h("b", null, "diviseur"), " de 84. On peut dire aussi : 7 divise 84.") },
+        { t: "J'utilise « divisible ».", c: /* @__PURE__ */ h(Fragment, null, "84 est ", /* @__PURE__ */ h("b", null, "divisible"), " par 7. (84 est aussi divisible par 12.)") },
+        { t: "Je vérifie le sens des phrases.", c: /* @__PURE__ */ h(Fragment, null, "Le multiple et le nombre divisible, c'est le ", /* @__PURE__ */ h("b", null, "grand"), " nombre (84). Le diviseur, c'est le ", /* @__PURE__ */ h("b", null, "petit"), " (7 ou 12).") }
+      ]
+    },
+    exercises: [
+      {
+        id: "A1",
+        level: 1,
+        type: "tf",
+        prompt: /* @__PURE__ */ h(Fragment, null, "On sait que ", /* @__PURE__ */ h("b", null, "72 = 8 × 9"), ". Pour chaque phrase, choisis Vrai ou Faux."),
+        items: [["72 est un multiple de 8.", true], ["9 est un diviseur de 72.", true], ["72 est un diviseur de 9.", false], ["72 est divisible par 9.", true], ["8 est divisible par 72.", false]],
+        detail: ["72 = 8 × 9, donc 72 est un multiple de 8 et de 9 : phrases 1 et 4 vraies.", "8 et 9 sont des diviseurs de 72 : phrase 2 vraie.", "Les phrases 3 et 5 inversent les rôles : le diviseur est le petit nombre (8 ou 9), le multiple est le grand nombre (72). Elles sont fausses."]
+      },
+      {
+        id: "A2",
+        level: 1,
+        type: "mcq",
+        prompt: "Quelle égalité prouve que 91 est un multiple de 7 ?",
+        options: ["91 = 7 + 84", "91 = 7 × 13", "91 = 90 + 1", "7 × 91 = 637"],
+        answer: 1,
+        detail: ["Pour prouver que 91 est un multiple de 7, on écrit 91 = 7 × (un nombre entier).", "7 × 13 = 91 : c'est bien le cas.", "« 7 × 91 = 637 » prouve que 637 est un multiple de 7 et de 91. Cela ne dit rien sur 91."]
+      },
+      multi(
+        "A3",
+        2,
+        /* @__PURE__ */ h(Fragment, null, "Coche ", /* @__PURE__ */ h("b", null, "tous"), " les diviseurs de 36."),
+        [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 12, 18, 24, 36],
+        (k) => 36 % k === 0,
+        "Diviseurs de 36 : 1 ; 2 ; 3 ; 4 ; 6 ; 9 ; 12 ; 18 ; 36.",
+        ["On cherche les produits égaux à 36 : 1 × 36, 2 × 18, 3 × 12, 4 × 9 et 6 × 6.", "Chaque facteur est un diviseur : 1, 2, 3, 4, 6, 9, 12, 18 et 36.", "5, 7, 8, 10 et 24 ne conviennent pas : par exemple 36 = 5 × 7 + 1 (il reste 1) et 36 = 8 × 4 + 4 (il reste 4)."]
+      ),
+      {
+        id: "A4",
+        level: 2,
+        type: "num",
+        prompt: /* @__PURE__ */ h(Fragment, null, "Quel est le reste de la division euclidienne de ", /* @__PURE__ */ h("b", null, "158"), " par ", /* @__PURE__ */ h("b", null, "6"), " ?"),
+        answer: "2",
+        simple: "Le reste est 2 : 158 = 6 × 26 + 2. Donc 158 n'est pas divisible par 6.",
+        detail: ["On cherche le plus grand multiple de 6 qui ne dépasse pas 158 : 6 × 26 = 156.", "158 − 156 = 2, donc 158 = 6 × 26 + 2.", "Le reste est 2. Il n'est pas nul : 158 n'est pas divisible par 6.", "Avec les critères : 158 est pair, mais 1 + 5 + 8 = 14 n'est pas un multiple de 3. On retrouve que 158 n'est pas divisible par 6."]
+      },
+      multi(
+        "A5",
+        3,
+        /* @__PURE__ */ h(Fragment, null, "Coche les nombres qui sont à la fois des ", /* @__PURE__ */ h("b", null, "multiples de 4"), " et des ", /* @__PURE__ */ h("b", null, "diviseurs de 96"), "."),
+        [2, 4, 8, 12, 16, 20, 24, 32, 48, 64],
+        (k) => k % 4 === 0 && 96 % k === 0,
+        "4 ; 8 ; 12 ; 16 ; 24 ; 32 ; 48.",
+        ["Multiples de 4 dans la liste : 4, 8, 12, 16, 20, 24, 32, 48 et 64. (2 n'en est pas un.)", "On garde ceux qui divisent 96 : 96 = 4 × 24 = 8 × 12 = 16 × 6 = 32 × 3 = 48 × 2.", "20 et 64 ne divisent pas 96 : 96 = 20 × 4 + 16 et 96 = 64 × 1 + 32."]
+      )
+    ]
+  },
+  {
+    id: "appliquer",
+    letter: "B",
+    short: "Appliquer",
+    title: "Appliquer un critère",
+    goal: "je sais dire si un nombre est divisible par 2, 3, 4, 5, 9 ou 10 sans poser la division.",
+    worked: {
+      title: "Tester tous les critères",
+      statement: /* @__PURE__ */ h(Fragment, null, "Le nombre ", /* @__PURE__ */ h("b", null, "5 130"), " est-il divisible par 2 ? par 3 ? par 4 ? par 5 ? par 9 ? par 10 ?"),
+      steps: [
+        { t: "Je regarde le chiffre des unités (pour 2, 5 et 10).", c: /* @__PURE__ */ h(Fragment, null, /* @__PURE__ */ h(Num, { v: "5130", hl: "units", size: "sm" }), " se termine par 0 : divisible par 2, par 5 et par 10.") },
+        { t: "Je regarde les deux derniers chiffres (pour 4).", c: /* @__PURE__ */ h(Fragment, null, /* @__PURE__ */ h(Num, { v: "5130", hl: "last2", size: "sm" }), " 30 = 4 × 7 + 2 : pas divisible par 4.") },
+        { t: "J'additionne les chiffres (pour 3 et 9).", c: /* @__PURE__ */ h(Fragment, null, /* @__PURE__ */ h(Num, { v: "5130", hl: "all", size: "sm" }), " 5 + 1 + 3 + 0 = 9. 9 est un multiple de 3 et de 9 : divisible par 3 et par 9.") },
+        { t: "Je conclus.", c: /* @__PURE__ */ h(Fragment, null, "5 130 est divisible par 2, 3, 5, 9 et 10, mais pas par 4. Vérification : 5 130 = 9 × 570.") }
+      ]
+    },
+    exercises: [
+      multiNum("B1", 1, 2, [135, 248, 1006, 7777, 3590, 4441]),
+      multiNum("B2", 1, 5, [205, 352, 1550, 5053, 9995, 4504]),
+      multiNum("B3", 1, 3, [123, 451, 2022, 7001, 1113, 9876]),
+      multiNum("B4", 2, 4, [316, 1234, 5500, 7018, 9992, 2042], { note: "Attention à 1 234 : il se termine par 4, mais 34 n'est pas un multiple de 4." }),
+      multiNum("B5", 2, 9, [729, 1990, 2019, 4500, 3339, 9091], { note: "Contenir des 9 ou se terminer par 9 ne suffit pas : seule la somme des chiffres compte." }),
+      grid("B6", 2, [1260, 4725, 3048, 8001], [2, 3, 4, 5, 9, 10]),
+      grid("B7", 3, [123456, 999990, 20252025, 7777776], [2, 3, 4, 5, 9, 10])
+    ]
+  },
+  {
+    id: "chiffre",
+    letter: "C",
+    short: "Chiffre manquant",
+    title: "Trouver un chiffre manquant",
+    goal: "je sais compléter un nombre pour qu'il soit divisible par un nombre donné.",
+    worked: {
+      title: "Compléter un nombre",
+      statement: /* @__PURE__ */ h(Fragment, null, "Remplace ★ par un chiffre pour que ", /* @__PURE__ */ h(Num, { v: "4★7", raw: true, size: "sm" }), " soit divisible par 3. Trouve ", /* @__PURE__ */ h("b", null, "toutes"), " les possibilités."),
+      steps: [
+        { t: "Je choisis le bon critère.", c: /* @__PURE__ */ h(Fragment, null, "Divisible par 3 : j'additionne les chiffres. ", /* @__PURE__ */ h(Num, { v: "4★7", raw: true, hl: "all", size: "sm" })) },
+        { t: "J'écris la somme avec ★.", c: /* @__PURE__ */ h(Fragment, null, "4 + ★ + 7 = 11 + ★.") },
+        { t: "Je cherche les multiples de 3 possibles.", c: /* @__PURE__ */ h(Fragment, null, "★ est un chiffre de 0 à 9, donc 11 + ★ est entre 11 et 20. Les multiples de 3 entre 11 et 20 sont 12, 15 et 18.") },
+        { t: "Je trouve ★.", c: /* @__PURE__ */ h(Fragment, null, "11 + 1 = 12 ; 11 + 4 = 15 ; 11 + 7 = 18. Donc ★ = 1, 4 ou 7.") },
+        { t: "Je vérifie.", c: /* @__PURE__ */ h(Fragment, null, "417 = 3 × 139 ; 447 = 3 × 149 ; 477 = 3 × 159.") }
+      ]
+    },
+    exercises: [
+      digits("C1", 1, "52★", 2, ["Divisible par 2 : on regarde le chiffre des unités, ici ★.", "★ doit être pair : 0, 2, 4, 6 ou 8."]),
+      digits("C2", 1, "73★", 5, ["Divisible par 5 : le chiffre des unités ★ vaut 0 ou 5."]),
+      digits("C3", 2, "★58", 3, ["Somme des chiffres : ★ + 5 + 8 = 13 + ★.", "★ est le premier chiffre, il ne peut pas être 0. Donc 13 + ★ est entre 14 et 22.", "Multiples de 3 entre 14 et 22 : 15, 18 et 21.", "Donc ★ = 2, 5 ou 8."]),
+      digits("C4", 2, "2★6", 4, ["Divisible par 4 : on regarde le nombre formé par les deux derniers chiffres, ★6.", "Multiples de 4 qui se terminent par 6 : 16, 36, 56, 76 et 96.", "Donc ★ = 1, 3, 5, 7 ou 9."]),
+      digits("C5", 2, "3★41", 9, ["Somme des chiffres : 3 + ★ + 4 + 1 = 8 + ★. Elle est entre 8 et 17.", "Le seul multiple de 9 entre 8 et 17 est 9.", "Donc ★ = 1. Vérification : 3 141 = 9 × 349."]),
+      digits("C6", 3, "15★", 6, ["Divisible par 6 : divisible par 2 et par 3.", "Par 2 : ★ est pair (0, 2, 4, 6 ou 8).", "Par 3 : 1 + 5 + ★ = 6 + ★ est un multiple de 3, donc ★ = 0, 3, 6 ou 9.", "Les deux conditions ensemble : ★ = 0 ou 6."]),
+      digits("C7", 3, "4★5", 15, ["Divisible par 15 : divisible par 3 et par 5.", "Par 5 : le nombre se termine par 5, c'est déjà bon.", "Par 3 : 4 + ★ + 5 = 9 + ★ est un multiple de 3, soit 9, 12, 15 ou 18.", "Donc ★ = 0, 3, 6 ou 9."]),
+      multi(
+        "C8",
+        3,
+        /* @__PURE__ */ h(Fragment, null, "Le nombre ", /* @__PURE__ */ h(Num, { v: "2★7▲", raw: true, size: "sm" }), " (★ et ▲ sont des chiffres) est divisible par 9 ", /* @__PURE__ */ h("b", null, "et"), " par 10. Coche toutes les écritures possibles."),
+        ["2070", "2079", "2175", "2370", "2970", "2979", "2670"],
+        (x) => isDiv(x, 90),
+        "2 070 et 2 970.",
+        ["Par 10 : le chiffre des unités ▲ vaut 0. Le nombre s'écrit 2★70.", "Par 9 : 2 + ★ + 7 + 0 = 9 + ★ doit être un multiple de 9, donc 9 ou 18.", "Donc ★ = 0 ou 9 : 2 070 et 2 970."]
+      )
+    ]
+  },
+  {
+    id: "combiner",
+    letter: "D",
+    short: "Combiner",
+    title: "Combiner deux critères",
+    goal: "je sais tester la divisibilité par 6, 12, 15, 18 ou 45 avec deux critères.",
+    worked: {
+      title: "Divisible par 6 ? par 18 ?",
+      statement: /* @__PURE__ */ h(Fragment, null, "Le nombre ", /* @__PURE__ */ h("b", null, "3 474"), " est-il divisible par 6 ? par 18 ?"),
+      steps: [
+        { t: "Je décompose chaque diviseur.", c: /* @__PURE__ */ h(Fragment, null, "6 = 2 × 3 et 18 = 2 × 9. Dans chaque produit, les deux nombres n'ont aucun diviseur commun à part 1.") },
+        { t: "Je teste la divisibilité par 2.", c: /* @__PURE__ */ h(Fragment, null, /* @__PURE__ */ h(Num, { v: "3474", hl: "units", size: "sm" }), " se termine par 4 : il est pair, donc divisible par 2.") },
+        { t: "Je teste la divisibilité par 3 et par 9.", c: /* @__PURE__ */ h(Fragment, null, /* @__PURE__ */ h(Num, { v: "3474", hl: "all", size: "sm" }), " 3 + 4 + 7 + 4 = 18 : c'est un multiple de 3 et de 9.") },
+        { t: "Je conclus.", c: /* @__PURE__ */ h(Fragment, null, "Divisible par 2 et par 3 : divisible par 6. Divisible par 2 et par 9 : divisible par 18. Vérification : 3 474 = 18 × 193.") }
+      ]
+    },
+    exercises: [
+      {
+        id: "D1",
+        level: 1,
+        type: "mcq",
+        prompt: "Pour montrer qu'un nombre est divisible par 6, il suffit de montrer qu'il est divisible…",
+        options: ["par 2 ou par 3", "par 3 seulement", "par 2 et par 3", "par 2 seulement"],
+        answer: 2,
+        detail: ["6 = 2 × 3, et 2 et 3 n'ont aucun diviseur commun à part 1.", "Il faut les deux critères : 9 est divisible par 3 mais pas par 2, donc pas par 6. 8 est divisible par 2 mais pas par 3, donc pas par 6."]
+      },
+      multiNum("D2", 1, 6, [114, 316, 405, 1002, 2610, 3334]),
+      multiNum("D3", 2, 15, [105, 250, 1335, 2015, 3330, 4444]),
+      {
+        id: "D4",
+        level: 2,
+        type: "mcq",
+        prompt: "Pour tester la divisibilité par 45, quels critères faut-il utiliser ?",
+        options: ["par 3 et par 15", "par 5 et par 9", "par 3 et par 5", "par 5 et par 15"],
+        answer: 1,
+        detail: ["45 = 5 × 9, et 5 et 9 n'ont aucun diviseur commun à part 1.", "Les autres choix ne suffisent pas : 15 est divisible par 3, par 5 et par 15, mais pas par 45."]
+      },
+      multiNum("D5", 3, 12, [132, 186, 324, 1038, 2004, 5414], { note: "186 et 1 038 sont divisibles par 2 et par 6, mais pas par 12 : il faut tester 3 et 4." }),
+      {
+        id: "D6",
+        level: 3,
+        type: "num",
+        prompt: "Quel est le plus petit nombre de quatre chiffres divisible à la fois par 2, 3, 5 et 9 ?",
+        answer: "1080",
+        simple: "1 080.",
+        detail: ["Par 2 et par 5 : le nombre se termine par 0.", "Par 9 (et donc par 3) : la somme des chiffres est un multiple de 9.", "Le plus petit nombre de quatre chiffres commence par 1. Il s'écrit 1 _ _ 0, et 1 + _ + _ doit valoir 9 ou 18.", "Pour être le plus petit possible, on met 0 aux centaines : 1 + 0 + ★ = 9, donc ★ = 8.", "Réponse : 1 080 = 90 × 12."]
+      },
+      {
+        id: "D7",
+        level: 3,
+        type: "num",
+        prompt: /* @__PURE__ */ h(Fragment, null, "Le nombre ", /* @__PURE__ */ h(Num, { v: "12★", raw: true, size: "sm" }), " est divisible par 18. Quel est le chiffre ★ ?"),
+        answer: "6",
+        simple: "★ = 6 : 126 = 18 × 7.",
+        detail: ["18 = 2 × 9 : on teste par 2 et par 9.", "Par 9 : 1 + 2 + ★ = 3 + ★ est un multiple de 9. Entre 3 et 12, seul 9 convient, donc ★ = 6.", "Par 2 : 126 se termine par 6, il est pair.", "Réponse : ★ = 6, et 126 = 18 × 7."]
+      }
+    ]
+  },
+  {
+    id: "problemes",
+    letter: "E",
+    short: "Problèmes",
+    title: "Raisonner et résoudre des problèmes",
+    goal: "je sais utiliser les critères pour résoudre un problème et justifier une réponse.",
+    worked: {
+      title: "Faire des équipes",
+      statement: /* @__PURE__ */ h(Fragment, null, "156 élèves participent à un tournoi. On veut faire des équipes de même effectif, sans qu'il reste d'élève. Peut-on faire des équipes de 3 ? de 4 ? de 5 ? de 6 ?"),
+      steps: [
+        { t: "Je traduis le problème.", c: /* @__PURE__ */ h(Fragment, null, "Faire des équipes de 3 sans reste, c'est se demander si 156 est divisible par 3. Même chose pour 4, 5 et 6.") },
+        { t: "Équipes de 3.", c: /* @__PURE__ */ h(Fragment, null, /* @__PURE__ */ h(Num, { v: "156", hl: "all", size: "sm" }), " 1 + 5 + 6 = 12, multiple de 3 : oui. 156 = 3 × 52, soit 52 équipes.") },
+        { t: "Équipes de 4.", c: /* @__PURE__ */ h(Fragment, null, /* @__PURE__ */ h(Num, { v: "156", hl: "last2", size: "sm" }), " 56 = 4 × 14 : oui. 156 = 4 × 39, soit 39 équipes.") },
+        { t: "Équipes de 5.", c: /* @__PURE__ */ h(Fragment, null, /* @__PURE__ */ h(Num, { v: "156", hl: "units", size: "sm" }), " Le chiffre des unités est 6, ni 0 ni 5 : non. Il resterait 1 élève (156 = 5 × 31 + 1).") },
+        { t: "Équipes de 6.", c: /* @__PURE__ */ h(Fragment, null, "156 est divisible par 2 (il est pair) et par 3 : oui. 156 = 6 × 26, soit 26 équipes.") }
+      ]
+    },
+    exercises: [
+      {
+        id: "E1",
+        level: 1,
+        type: "mcq",
+        prompt: "Une boulangère a 135 croissants. Peut-elle les ranger dans des boîtes de 5, toutes pleines ?",
+        options: ["Non, car 135 est impair.", "Oui, car 1 + 3 + 5 = 9.", "Oui, car 135 se termine par 5.", "Non, car 135 ne se termine pas par 0."],
+        answer: 2,
+        detail: ["Remplir des boîtes de 5 sans reste : on se demande si 135 est divisible par 5.", "Le chiffre des unités est 5 : oui. 135 = 5 × 27, il faut 27 boîtes.", "Un nombre impair peut être divisible par 5 : 15, 25, 135…"]
+      },
+      {
+        id: "E2",
+        level: 1,
+        type: "mcq",
+        prompt: "Entre 1901 et 2099, une année est bissextile quand son numéro est divisible par 4. Laquelle de ces années sera bissextile ?",
+        options: ["2034", "2038", "2044", "2050"],
+        answer: 2,
+        detail: ["On regarde les deux derniers chiffres : 34, 38, 44 et 50.", "44 = 4 × 11 : 2044 est divisible par 4, elle sera bissextile.", "34 = 4 × 8 + 2 ; 38 = 4 × 9 + 2 ; 50 = 4 × 12 + 2. Les autres années ne le seront pas."]
+      },
+      {
+        id: "E3",
+        level: 2,
+        type: "tf",
+        prompt: "Vrai ou faux ?",
+        items: [["Tout nombre divisible par 9 est divisible par 3.", true], ["Tout nombre divisible par 3 est divisible par 9.", false], ["Un nombre qui se termine par 3 est divisible par 3.", false], ["Un nombre divisible par 10 est divisible par 2 et par 5.", true]],
+        detail: ["Vrai : 9 = 3 × 3. Si un nombre vaut 9 × k, il vaut aussi 3 × (3 × k).", "Faux : 12 est divisible par 3 (1 + 2 = 3), mais pas par 9.", "Faux : 13 se termine par 3, mais 1 + 3 = 4 : 13 n'est pas divisible par 3.", "Vrai : il se termine par 0. Le 0 est pair, et il convient aussi pour 5."]
+      },
+      {
+        id: "E4",
+        level: 2,
+        type: "num",
+        unit: "billes",
+        prompt: "Léa a entre 50 et 70 billes. Elle peut les ranger exactement par paquets de 9, et aussi exactement par paquets de 2. Combien a-t-elle de billes ?",
+        answer: "54",
+        simple: "54 billes.",
+        detail: ["Le nombre de billes est divisible par 2 et par 9, donc par 18.", "Multiples de 18 : 18, 36, 54, 72…", "Le seul entre 50 et 70 est 54. Vérification : 54 = 9 × 6 = 2 × 27."]
+      },
+      {
+        id: "E5",
+        level: 3,
+        type: "tf",
+        prompt: "Vrai ou faux ? Pense à chercher un contre-exemple.",
+        items: [["Si un nombre est divisible par 2 et par 4, alors il est divisible par 8.", false], ["Si un nombre est divisible par 2 et par 9, alors il est divisible par 18.", true], ["La somme de deux multiples de 3 est un multiple de 3.", true], ["Si la somme des chiffres d'un nombre est paire, ce nombre est pair.", false], ["Un nombre divisible par 4 est toujours divisible par 2.", true]],
+        detail: ["Faux : 12 est divisible par 2 et par 4, mais pas par 8. 2 et 4 ont un diviseur commun (2).", "Vrai : 2 et 9 n'ont aucun diviseur commun à part 1, et 2 × 9 = 18.", "Vrai : 3 × a + 3 × b = 3 × (a + b).", "Faux : pour 37, 3 + 7 = 10 est pair, mais 37 est impair.", "Vrai : 4 = 2 × 2. Si un nombre vaut 4 × k, il vaut aussi 2 × (2 × k)."]
+      },
+      {
+        id: "E6",
+        level: 3,
+        type: "num",
+        prompt: "Le code d'un cadenas est un nombre de 3 chiffres. Son chiffre des centaines est 7. Il est divisible par 9 et par 5, mais pas par 2. Quel est ce code ?",
+        answer: "765",
+        simple: "Le code est 765.",
+        detail: ["Par 5 et pas par 2 : le chiffre des unités est 5. (Avec 0, le nombre serait pair.)", "Le code s'écrit 7★5. Par 9 : 7 + ★ + 5 = 12 + ★ est un multiple de 9. Entre 12 et 21, seul 18 convient.", "Donc ★ = 6 et le code est 765. Vérification : 765 = 45 × 17."]
+      },
+      {
+        id: "E7",
+        level: 3,
+        type: "mcq",
+        prompt: "Sans poser la division, comment justifier que 1 000 001 n'est pas divisible par 3 ?",
+        options: ["Il se termine par 1.", "Il est impair.", "La somme de ses chiffres vaut 2, qui n'est pas un multiple de 3.", "Il a 7 chiffres."],
+        answer: 2,
+        detail: ["Le critère de divisibilité par 3 utilise la somme des chiffres : 1 + 0 + 0 + 0 + 0 + 0 + 1 = 2.", "2 n'est pas un multiple de 3 : 1 000 001 n'est pas divisible par 3.", "Les autres raisons ne prouvent rien : 21 se termine par 1, 15 est impair et 1 000 002 a 7 chiffres, et pourtant ils sont tous divisibles par 3."]
+      }
+    ]
+  }
+];
+const ALL_EX = FAMILIES.flatMap((f) => f.exercises);
+function solution(ex) {
+  if (ex.type === "tf") return { simple: ex.items.map(([t, v], i) => `${i + 1}. ${v ? "Vrai" : "Faux"}`).join(" · "), detail: ex.detail, kind: "steps" };
+  if (ex.type === "mcq") return { simple: ex.options[ex.answer], detail: ex.detail, kind: "steps" };
+  if (ex.type === "num") return { simple: ex.simple, detail: ex.detail, kind: "steps" };
+  if (ex.type === "multi") {
+    const good = ex.options.filter((o) => o.ok).map((o) => o.key);
+    const simple = ex.simple || `Divisibles par ${ex.d} : ${ex.options.filter((o) => o.ok).map((o) => o.label).join(" ; ")}.`;
+    return ex.autoDetail ? { good, simple, detail: ex.autoDetail, kind: "lines", note: ex.note } : { good, simple, detail: ex.detail, kind: "steps" };
+  }
+  if (ex.type === "grid") {
+    const good = {};
+    ex.nums.forEach((n) => ex.ds.forEach((d) => {
+      good[n + "|" + d] = isDiv(n, d);
+    }));
+    const simple = /* @__PURE__ */ h("ul", { className: "plain" }, ex.nums.map((n) => {
+      const l = ex.ds.filter((d) => isDiv(n, d));
+      return /* @__PURE__ */ h("li", { key: n }, /* @__PURE__ */ h("b", { className: "mono" }, fmt(n)), " : ", l.length ? "divisible par " + l.join(", ") : "divisible par aucun", ".");
+    }));
+    return { good, simple, detail: ex.nums.map((n) => /* @__PURE__ */ h(FamilyLines, { key: n, n, ds: ex.ds })), kind: "lines" };
+  }
+  if (ex.type === "digits") {
+    const lead = ex.pattern.startsWith("★");
+    const good = [];
+    for (let c = 0; c <= 9; c++) {
+      if (lead && c === 0) continue;
+      if (isDiv(ex.pattern.replace("★", c), ex.d)) good.push(String(c));
+    }
+    const nums = good.map((c) => fmt(ex.pattern.replace("★", c)));
+    return { good, lead, simple: `★ = ${good.join(", ")}. Nombres obtenus : ${nums.join(" ; ")}.`, detail: [...ex.detail, `Vérification : ${nums.map((x) => `${x} = ${ex.d} × ${fmt(quo(x, ex.d))}`).join(" ; ")}.`], kind: "steps" };
+  }
+  return { simple: "", detail: [], kind: "steps" };
+}
+function initAns(ex) {
+  if (ex.type === "tf") return ex.items.map(() => null);
+  if (ex.type === "mcq") return null;
+  if (ex.type === "num") return "";
+  if (ex.type === "grid") return {};
+  return [];
+}
+function hasAns(ex, ans) {
+  if (ex.type === "tf") return ans.some((x) => x != null);
+  if (ex.type === "mcq") return ans != null;
+  if (ex.type === "num") return clean(ans) !== "";
+  if (ex.type === "grid") return true;
+  return ans.length > 0;
+}
+function grade(ex, ans, sol) {
+  if (ex.type === "tf") {
+    const per = ex.items.map(([, v], i) => ans[i] === v);
+    return { ok: per.every(Boolean), per };
+  }
+  if (ex.type === "mcq") return { ok: ans === ex.answer };
+  if (ex.type === "num") return { ok: strip0(clean(ans)) === ex.answer };
+  if (ex.type === "grid") {
+    const ok = Object.keys(sol.good).every((k) => !!ans[k] === sol.good[k]);
+    return { ok };
+  }
+  return { ok: sameSet(ans, sol.good) };
+}
+function Answer({ ex, ans, setAns, res, sol }) {
+  if (ex.type === "tf") {
+    return /* @__PURE__ */ h("div", { className: "tf" }, ex.items.map(([t], i) => {
+      const st = res ? res.per[i] ? "good" : "bad" : "";
+      return /* @__PURE__ */ h("div", { key: i, className: "tf-row " + st }, /* @__PURE__ */ h("span", { className: "tf-t" }, t), /* @__PURE__ */ h("span", { className: "seg", role: "group", "aria-label": "Phrase " + (i + 1) }, [true, false].map((v) => /* @__PURE__ */ h("button", { key: String(v), className: "btn seg-b", "aria-pressed": ans[i] === v, onClick: () => {
+        const a = ans.slice();
+        a[i] = v;
+        setAns(a);
+      } }, v ? "Vrai" : "Faux"))), res && /* @__PURE__ */ h("span", { className: "tf-mark" }, /* @__PURE__ */ h(Icon, { name: res.per[i] ? "check" : "cross", size: 18 })));
+    }));
+  }
+  if (ex.type === "mcq") {
+    return /* @__PURE__ */ h("div", { className: "opts" }, ex.options.map((o, k) => {
+      const st = res && ans === k ? res.ok ? "good" : "bad" : "";
+      return /* @__PURE__ */ h("button", { key: k, className: "opt " + st, "aria-pressed": ans === k, onClick: () => setAns(k) }, /* @__PURE__ */ h("span", { className: "opt-l" }, "ABCD"[k]), /* @__PURE__ */ h("span", { className: "opt-t" }, o), st && /* @__PURE__ */ h(Icon, { name: st === "good" ? "check" : "cross" }));
+    }));
+  }
+  if (ex.type === "num") {
+    return /* @__PURE__ */ h("div", { className: "row" }, /* @__PURE__ */ h("label", { htmlFor: "in-" + ex.id, className: "sr-only" }, "Ta réponse"), /* @__PURE__ */ h("input", { id: "in-" + ex.id, className: "field mono" + (res ? res.ok ? " good" : " bad" : ""), inputMode: "numeric", autoComplete: "off", placeholder: "Ta réponse", value: ans, onChange: (e) => setAns(e.target.value) }), ex.unit && /* @__PURE__ */ h("span", { className: "muted" }, ex.unit));
+  }
+  if (ex.type === "grid") {
+    return /* @__PURE__ */ h("div", { className: "tbl-wrap" }, /* @__PURE__ */ h("table", { className: "tbl gridex" }, /* @__PURE__ */ h("thead", null, /* @__PURE__ */ h("tr", null, /* @__PURE__ */ h("th", { scope: "col", className: "left" }, "Nombre"), ex.ds.map((d) => /* @__PURE__ */ h("th", { key: d, scope: "col" }, "par ", d)))), /* @__PURE__ */ h("tbody", null, ex.nums.map((n) => /* @__PURE__ */ h("tr", { key: n }, /* @__PURE__ */ h("th", { scope: "row", className: "left mono" }, fmt(n)), ex.ds.map((d) => {
+      const k = n + "|" + d;
+      const v = !!ans[k];
+      const st = res ? v === sol.good[k] ? v ? "good" : "" : v ? "bad" : "miss" : "";
+      return /* @__PURE__ */ h("td", { key: d }, /* @__PURE__ */ h("button", { className: "cellbtn " + st, "aria-pressed": v, "aria-label": `${fmt(n)} divisible par ${d}`, onClick: () => setAns({ ...ans, [k]: !v }) }, v && /* @__PURE__ */ h(Icon, { name: "check", size: 16 }), st === "bad" && /* @__PURE__ */ h("span", { className: "sr-only" }, " (erreur)"), st === "miss" && /* @__PURE__ */ h("span", { className: "sr-only" }, " (oubli)")));
+    }))))), res && !res.ok && /* @__PURE__ */ h("p", { className: "small muted legend-res" }, /* @__PURE__ */ h("span", { className: "lg lg-bad" }), " case cochée à tort · ", /* @__PURE__ */ h("span", { className: "lg lg-miss" }), " case oubliée"));
+  }
+  const opts = ex.type === "digits" ? Array.from({ length: 10 }, (_, c) => ({ key: String(c), label: String(c), disabled: sol.lead && c === 0 })) : ex.options;
+  const good = sol.good;
+  return /* @__PURE__ */ h("div", { className: "stack-s" }, /* @__PURE__ */ h("div", { className: "chips", role: "group", "aria-label": "Choix possibles" }, opts.map((o) => {
+    const sel = ans.includes(o.key);
+    const ok = good.includes(o.key);
+    const st = res ? sel ? ok ? "good" : "bad" : ok ? "miss" : "" : "";
+    return /* @__PURE__ */ h(
+      "button",
+      {
+        key: o.key,
+        className: "chip mono " + st,
+        "aria-pressed": sel,
+        disabled: o.disabled,
+        onClick: () => setAns(sel ? ans.filter((x) => x !== o.key) : [...ans, o.key])
+      },
+      o.label,
+      st === "bad" && /* @__PURE__ */ h("span", { className: "sr-only" }, " (erreur)"),
+      st === "miss" && /* @__PURE__ */ h("span", { className: "sr-only" }, " (oubli)")
+    );
+  })), sol.lead && /* @__PURE__ */ h("p", { className: "small muted" }, "Le 0 est grisé : un nombre ne commence pas par 0."), res && !res.ok && /* @__PURE__ */ h("p", { className: "small muted legend-res" }, /* @__PURE__ */ h("span", { className: "lg lg-bad" }), " coché à tort · ", /* @__PURE__ */ h("span", { className: "lg lg-miss" }), " oublié"));
+}
+function Exercise({ ex, num, status, onResult }) {
+  const sol = useMemo(() => solution(ex), [ex]);
+  const [ans, setAns] = useState(() => initAns(ex));
+  const [checked, setChecked] = useState(false);
+  const [view, setView] = useState(null);
+  const res = checked ? grade(ex, ans, sol) : null;
+  const touch = (v) => {
+    setAns(v);
+    setChecked(false);
+  };
+  const check = () => {
+    setChecked(true);
+    onResult(ex.id, grade(ex, ans, sol).ok);
+  };
+  const reset = () => {
+    setAns(initAns(ex));
+    setChecked(false);
+    setView(null);
+  };
+  const toggle = (v) => setView(view === v ? null : v);
+  return /* @__PURE__ */ h("article", { className: "card ex" + (status === "ok" ? " ex-ok" : "") }, /* @__PURE__ */ h("header", { className: "card-h" }, /* @__PURE__ */ h("span", { className: "ex-num" }, "Exercice ", num), /* @__PURE__ */ h(Level, { n: ex.level }), status === "ok" && /* @__PURE__ */ h("span", { className: "pill yes ml-auto" }, /* @__PURE__ */ h(Icon, { name: "check", size: 13 }), "Réussi")), /* @__PURE__ */ h("div", { className: "card-b stack" }, /* @__PURE__ */ h("div", { className: "prompt" }, ex.prompt), /* @__PURE__ */ h(Answer, { ex, ans, setAns: touch, res, sol }), res && /* @__PURE__ */ h(Msg, { type: res.ok ? "pos" : "neg", title: res.ok ? "Bravo, c'est juste." : "Ce n'est pas encore ça." }, res.ok ? null : "Les erreurs sont marquées. Corrige ta réponse, ou ouvre la correction."), /* @__PURE__ */ h("div", { className: "ex-actions" }, /* @__PURE__ */ h("button", { className: "btn primary", onClick: check, disabled: !hasAns(ex, ans) }, /* @__PURE__ */ h(Icon, { name: "check", size: 16 }), " Vérifier"), /* @__PURE__ */ h("button", { className: "btn", "aria-expanded": view === "simple", onClick: () => toggle("simple") }, "Réponse"), /* @__PURE__ */ h("button", { className: "btn", "aria-expanded": view === "detail", onClick: () => toggle("detail") }, "Correction détaillée"), /* @__PURE__ */ h("button", { className: "btn flat", onClick: reset }, /* @__PURE__ */ h(Icon, { name: "refresh", size: 16 }), " Recommencer")), view === "simple" && /* @__PURE__ */ h("div", { className: "corr" }, /* @__PURE__ */ h("div", { className: "corr-h" }, "Réponse"), /* @__PURE__ */ h("div", null, sol.simple)), view === "detail" && /* @__PURE__ */ h("div", { className: "corr corr-d" }, /* @__PURE__ */ h("div", { className: "corr-h" }, "Correction détaillée"), sol.kind === "steps" ? /* @__PURE__ */ h("ol", { className: "corr-steps" }, sol.detail.map((x, i) => /* @__PURE__ */ h("li", { key: i }, x))) : /* @__PURE__ */ h("div", { className: "stack-s" }, sol.detail), sol.note && /* @__PURE__ */ h(Msg, { type: "tip" }, sol.note))));
+}
+function Worked({ title, statement, steps }) {
+  const [k, setK] = useState(1);
+  return /* @__PURE__ */ h("section", { className: "card worked" }, /* @__PURE__ */ h("header", { className: "card-h" }, /* @__PURE__ */ h("span", { className: "tag accent" }, "Exercice résolu"), /* @__PURE__ */ h("h3", null, title)), /* @__PURE__ */ h("div", { className: "card-b stack" }, /* @__PURE__ */ h("div", { className: "statement" }, statement), /* @__PURE__ */ h("ol", { className: "wsteps" }, steps.slice(0, k).map((s, i) => /* @__PURE__ */ h("li", { key: i }, /* @__PURE__ */ h("div", { className: "wstep-t" }, s.t), /* @__PURE__ */ h("div", { className: "wstep-c" }, s.c)))), /* @__PURE__ */ h("div", { className: "row" }, k < steps.length ? /* @__PURE__ */ h(Fragment, null, /* @__PURE__ */ h("button", { className: "btn primary", onClick: () => setK(k + 1) }, "Étape suivante (", k + 1, " sur ", steps.length, ") ", /* @__PURE__ */ h(Icon, { name: "right", size: 16 })), /* @__PURE__ */ h("button", { className: "btn flat", onClick: () => setK(steps.length) }, "Tout afficher")) : /* @__PURE__ */ h("button", { className: "btn flat", onClick: () => setK(1) }, /* @__PURE__ */ h(Icon, { name: "refresh", size: 16 }), " Revoir depuis le début"))));
+}
+const QUIZ1 = [
+  { q: "Un nombre est divisible par 2 quand…", o: ["son chiffre des unités est 0, 2, 4, 6 ou 8", "la somme de ses chiffres est paire", "il contient au moins un chiffre pair", "son premier chiffre est pair"], e: "Pour 2, seul le chiffre des unités compte : 3 478 se termine par 8, il est pair." },
+  { q: "Un nombre est divisible par 9 quand…", o: ["la somme de ses chiffres est un multiple de 9", "il se termine par 9", "il contient le chiffre 9", "ses deux derniers chiffres forment un multiple de 9"], e: "4 527 : 4 + 5 + 2 + 7 = 18, multiple de 9. À l'inverse, 19 se termine par 9 mais n'est pas divisible par 9." },
+  { q: "Un nombre est divisible par 5 quand…", o: ["son chiffre des unités est 0 ou 5", "son chiffre des unités est 5", "la somme de ses chiffres est un multiple de 5", "il contient le chiffre 5"], e: "20 est divisible par 5 et se termine par 0 : le 0 compte aussi." },
+  { q: "Un nombre est divisible par 4 quand…", o: ["le nombre formé par ses deux derniers chiffres est divisible par 4", "il se termine par 4", "la somme de ses chiffres est un multiple de 4", "il est pair"], e: "7 316 : 16 = 4 × 4, donc 7 316 est divisible par 4. Attention : 34 se termine par 4 mais n'est pas divisible par 4." },
+  { q: "Un nombre est divisible par 3 quand…", o: ["la somme de ses chiffres est un multiple de 3", "il se termine par 3", "il contient le chiffre 3", "son chiffre des unités est 0, 3, 6 ou 9"], e: "13 se termine par 3, mais 1 + 3 = 4 : il n'est pas divisible par 3. 12 se termine par 2, et 1 + 2 = 3 : il est divisible par 3." },
+  { q: "Un nombre divisible par 6 est toujours divisible par…", o: ["2 et 3", "4", "9", "12"], e: "6 = 2 × 3. Le nombre 6 lui-même n'est divisible ni par 4, ni par 9, ni par 12." },
+  { q: "1 350 est divisible par…", o: ["2, 3, 5, 9 et 10", "2, 3, 4, 5, 9 et 10", "2, 5 et 10 seulement", "3, 5 et 9 seulement"], e: "Unités 0 : par 2, 5 et 10. Somme 1 + 3 + 5 + 0 = 9 : par 3 et 9. Deux derniers chiffres : 50 = 4 × 12 + 2, donc pas par 4." },
+  { q: "Quel nombre est divisible par 3 ?", o: ["2 451", "1 112", "4 007", "5 203"], e: "Sommes des chiffres : 2 451 → 12 ; 1 112 → 5 ; 4 007 → 11 ; 5 203 → 10. Seul 12 est un multiple de 3." },
+  { q: "Quel nombre est divisible par 9 ?", o: ["3 627", "9 091", "1 909", "6 029"], e: "Sommes des chiffres : 3 627 → 18 ; 9 091 → 19 ; 1 909 → 19 ; 6 029 → 17. Contenir des 9 ne suffit pas." },
+  { q: "Quel nombre est divisible par 4 ?", o: ["3 516", "2 714", "4 442", "1 534"], e: "Deux derniers chiffres : 16 = 4 × 4. Les autres (14, 42 et 34) ne sont pas des multiples de 4." },
+  { q: "Quel est le reste de la division de 47 par 5 ?", o: ["2", "0", "7", "9"], e: "47 = 5 × 9 + 2. Le reste n'est pas nul : 47 n'est pas divisible par 5." },
+  { q: "Quelle phrase veut dire la même chose que « 7 divise 63 » ?", o: ["63 est un multiple de 7.", "7 est un multiple de 63.", "63 est un diviseur de 7.", "7 est divisible par 63."], e: "63 = 7 × 9 : 7 est un diviseur de 63, et 63 est un multiple de 7." },
+  { q: "Combien de ces nombres sont divisibles par 10 : 100 ; 1 001 ; 1 010 ; 110 ; 1 105 ?", o: ["3", "2", "4", "5"], e: "100, 1 010 et 110 se terminent par 0. 1 001 et 1 105 non." },
+  { q: "Pour savoir si 2 358 est divisible par 9, je calcule…", o: ["2 + 3 + 5 + 8", "58 ÷ 9", "8 ÷ 9", "2 × 3 × 5 × 8"], e: "2 + 3 + 5 + 8 = 18, multiple de 9 : 2 358 est divisible par 9 (2 358 = 9 × 262)." },
+  { q: "Quel est le plus petit nombre entier non nul divisible à la fois par 2, 3 et 5 ?", o: ["30", "15", "10", "60"], e: "Il doit se terminer par 0 (pour 2 et 5) et la somme de ses chiffres doit être un multiple de 3 : 10 et 20 ne conviennent pas, 30 convient." },
+  { q: "Un nombre divisible par 10 est toujours divisible par…", o: ["2 et 5", "3", "4", "20"], e: "Il se termine par 0 : ce chiffre est pair, et il convient pour 5. Mais 10 n'est divisible ni par 3, ni par 4, ni par 20." }
+];
+const QUIZ2 = [
+  { q: "Théo dit : « 43 se termine par 3, donc il est divisible par 3. » A-t-il raison ?", o: ["Non : 4 + 3 = 7 n'est pas un multiple de 3.", "Oui : son chiffre des unités est 3.", "Oui : 43 est impair.", "Non : 43 n'est pas pair."], e: "Pour 3, on additionne les chiffres. Le chiffre des unités ne suffit pas." },
+  { q: "Inès dit : « 1 234 se termine par 4, donc il est divisible par 4. » A-t-elle raison ?", o: ["Non : 34 n'est pas divisible par 4.", "Oui : son chiffre des unités est 4.", "Oui : 1 234 est pair.", "Non : 1 + 2 + 3 + 4 = 10."], e: "Pour 4, on regarde les deux derniers chiffres : 34 = 4 × 8 + 2." },
+  { q: "12 est divisible par 2 et par 4. Est-il divisible par 8 ?", o: ["Non : 2 et 4 ont un diviseur commun, on ne peut pas combiner ces critères.", "Oui, car 2 × 4 = 8.", "Oui, car 12 est pair.", "On ne peut pas savoir."], e: "12 = 8 × 1 + 4. Pour combiner deux critères, les deux nombres ne doivent avoir aucun diviseur commun à part 1." },
+  { q: "Un nombre est divisible par 9. Est-il forcément divisible par 3 ?", o: ["Oui, toujours.", "Non, jamais.", "Seulement s'il est pair.", "Seulement s'il se termine par 3."], e: "9 = 3 × 3 : si un nombre vaut 9 × k, il vaut aussi 3 × (3 × k)." },
+  { q: "Un nombre est divisible par 3. Est-il forcément divisible par 9 ?", o: ["Non : 12 est divisible par 3, mais pas par 9.", "Oui, toujours.", "Oui, s'il est pair.", "Non, jamais."], e: "1 + 2 = 3 : c'est un multiple de 3, pas de 9. « Non, jamais » est faux aussi : 18 est divisible par 3 et par 9." },
+  { q: "La somme des chiffres de 1 117 est 10, un nombre pair. Que peut-on en conclure ?", o: ["Rien pour 2 : 1 117 se termine par 7, il est impair.", "1 117 est divisible par 2.", "1 117 est divisible par 10.", "1 117 est divisible par 5."], e: "La somme des chiffres sert pour 3 et 9, pas pour 2, 5 ou 10." },
+  { q: "Quel nombre montre que la phrase « Tout nombre pair est divisible par 4 » est fausse ?", o: ["18", "16", "24", "40"], e: "18 est pair, mais 18 = 4 × 4 + 2. Les trois autres sont divisibles par 4 : ils ne contredisent pas la phrase." },
+  { q: "Sami veut ranger 84 œufs dans des boîtes de 6, toutes pleines. C'est possible car…", o: ["84 est divisible par 2 et par 3.", "84 se termine par 4.", "8 + 4 = 12 est pair.", "84 est plus grand que 6."], e: "84 est pair et 8 + 4 = 12 est un multiple de 3 : 84 = 6 × 14, il faut 14 boîtes." },
+  { q: "Pour montrer qu'un nombre est divisible par 12, on vérifie qu'il est divisible…", o: ["par 3 et par 4", "par 2 et par 6", "par 2 et par 3", "par 2 et par 4"], e: "12 = 3 × 4, et 3 et 4 n'ont aucun diviseur commun. Avec 2 et 6, on se trompe : 18 est divisible par 2 et par 6, mais pas par 12." },
+  { q: "Le nombre 5★ est divisible par 9. Quel est le chiffre ★ ?", o: ["4", "9", "0", "3"], e: "5 + ★ doit être un multiple de 9 : 5 + 4 = 9. Donc 54 = 9 × 6." },
+  { q: "Lequel de ces nombres est divisible par 3, mais pas par 9 ?", o: ["1 245", "1 287", "2 006", "4 005"], e: "Sommes : 1 245 → 12, multiple de 3 mais pas de 9. 1 287 → 18 et 4 005 → 9 : multiples de 9. 2 006 → 8 : ni l'un ni l'autre." },
+  { q: "Combien y a-t-il de nombres à deux chiffres divisibles par 10 ?", o: ["9", "10", "8", "90"], e: "Ce sont 10, 20, 30, 40, 50, 60, 70, 80 et 90." }
+];
+function QuizRunner({ bank, count }) {
+  const make = () => shuffle(bank).slice(0, count).map((q2) => ({ ...q2, opts: shuffle(q2.o.map((t, i2) => ({ t, ok: i2 === 0 }))) }));
+  const [qs, setQs] = useState(make);
+  const [i, setI] = useState(0);
+  const [pick, setPick] = useState(null);
+  const [log, setLog] = useState([]);
+  const score = log.filter((l) => l.ok).length;
+  const restart = () => {
+    setQs(make());
+    setI(0);
+    setPick(null);
+    setLog([]);
+  };
+  if (i >= qs.length) {
+    const missed = log.filter((l) => !l.ok);
+    const msg = score >= 8 ? "Très bien : les critères sont en place." : score >= 5 ? "C'est en bonne voie. Relis la fiche mémo, puis refais un quiz." : "Reprends la partie « Comprendre », puis réessaie.";
+    return /* @__PURE__ */ h("section", { className: "card" }, /* @__PURE__ */ h("header", { className: "card-h" }, /* @__PURE__ */ h(Icon, { name: "quiz" }), /* @__PURE__ */ h("h2", null, "Résultat")), /* @__PURE__ */ h("div", { className: "card-b stack" }, /* @__PURE__ */ h("div", { className: "score" }, /* @__PURE__ */ h("span", { className: "score-n" }, score), /* @__PURE__ */ h("span", { className: "score-d" }, "/ ", qs.length)), /* @__PURE__ */ h(Msg, { type: score >= 8 ? "pos" : score >= 5 ? "info" : "warn", title: msg }), missed.length > 0 && /* @__PURE__ */ h("div", { className: "stack-s" }, /* @__PURE__ */ h("h3", null, "À revoir"), missed.map((l, k) => /* @__PURE__ */ h("div", { key: k, className: "review" }, /* @__PURE__ */ h("p", null, /* @__PURE__ */ h("b", null, l.q.q)), /* @__PURE__ */ h("p", { className: "small" }, "Ta réponse : ", /* @__PURE__ */ h("span", { className: "neg-ink" }, l.picked)), /* @__PURE__ */ h("p", { className: "small" }, "Bonne réponse : ", /* @__PURE__ */ h("span", { className: "pos-ink" }, l.q.o[0])), /* @__PURE__ */ h("p", { className: "small muted" }, l.q.e)))), /* @__PURE__ */ h("div", { className: "row" }, /* @__PURE__ */ h("button", { className: "btn primary", onClick: restart }, /* @__PURE__ */ h(Icon, { name: "refresh", size: 16 }), " Faire un nouveau quiz"))));
+  }
+  const q = qs[i];
+  const choose = (k) => {
+    if (pick != null) return;
+    setPick(k);
+    setLog((l) => [...l, { q, ok: q.opts[k].ok, picked: q.opts[k].t }]);
+  };
+  return /* @__PURE__ */ h("section", { className: "card quiz" }, /* @__PURE__ */ h("header", { className: "card-h" }, /* @__PURE__ */ h("span", { className: "ex-num" }, "Question ", i + 1, " sur ", qs.length), /* @__PURE__ */ h("span", { className: "muted small ml-auto" }, "Score : ", score)), /* @__PURE__ */ h("div", { className: "card-b stack" }, /* @__PURE__ */ h("div", { className: "progress", "aria-hidden": "true" }, /* @__PURE__ */ h("span", { style: { width: 100 * i / qs.length + "%" } })), /* @__PURE__ */ h("p", { className: "q" }, q.q), /* @__PURE__ */ h("div", { className: "opts" }, q.opts.map((o, k) => {
+    const st = pick == null ? "" : o.ok ? "good" : k === pick ? "bad" : "dim";
+    return /* @__PURE__ */ h("button", { key: k, className: "opt " + st, disabled: pick != null, onClick: () => choose(k) }, /* @__PURE__ */ h("span", { className: "opt-l" }, "ABCD"[k]), /* @__PURE__ */ h("span", { className: "opt-t" }, o.t), st === "good" && /* @__PURE__ */ h(Icon, { name: "check" }), st === "bad" && /* @__PURE__ */ h(Icon, { name: "cross" }));
+  })), pick != null && /* @__PURE__ */ h(Fragment, null, /* @__PURE__ */ h(Msg, { type: q.opts[pick].ok ? "pos" : "neg", title: q.opts[pick].ok ? "Bonne réponse." : "Pas tout à fait." }, q.e), /* @__PURE__ */ h("div", { className: "row" }, /* @__PURE__ */ h("button", { className: "btn primary", onClick: () => {
+    setPick(null);
+    setI(i + 1);
+  } }, i + 1 < qs.length ? "Question suivante" : "Voir mon résultat", " ", /* @__PURE__ */ h(Icon, { name: "right", size: 16 }))))));
+}
+function TriRapide() {
+  const DS = [2, 3, 4, 5, 9, 10];
+  const [n, setN] = useState(() => genNumber());
+  const [sel, setSel] = useState([]);
+  const [checked, setChecked] = useState(false);
+  const [stats, setStats] = useState({ done: 0, good: 0, streak: 0, best: 0 });
+  const correct = DS.filter((d) => isDiv(n, d));
+  const ok = sameSet(sel, correct);
+  const check = () => {
+    if (checked) return;
+    setChecked(true);
+    setStats((s) => {
+      const streak = ok ? s.streak + 1 : 0;
+      return { done: s.done + 1, good: s.good + (ok ? 1 : 0), streak, best: Math.max(s.best, streak) };
+    });
+  };
+  const next = () => {
+    setN(genNumber());
+    setSel([]);
+    setChecked(false);
+  };
+  return /* @__PURE__ */ h("section", { className: "card" }, /* @__PURE__ */ h("header", { className: "card-h" }, /* @__PURE__ */ h(Icon, { name: "shuffle" }), /* @__PURE__ */ h("h2", null, "Tri rapide"), /* @__PURE__ */ h("span", { className: "muted small ml-auto" }, "Réussis : ", stats.good, " sur ", stats.done, " · Série : ", stats.streak, " (record ", stats.best, ")")), /* @__PURE__ */ h("div", { className: "card-b stack" }, /* @__PURE__ */ h("p", null, "Coche ", /* @__PURE__ */ h("b", null, "tous"), " les nombres par lesquels ce nombre est divisible. Il n'y a pas de chronomètre : prends le temps de réfléchir."), /* @__PURE__ */ h("div", { className: "tri-num" }, /* @__PURE__ */ h(Num, { v: n, size: "lg" })), /* @__PURE__ */ h("div", { className: "chips center", role: "group", "aria-label": "Diviseurs" }, DS.map((d) => {
+    const s = sel.includes(d);
+    const g = correct.includes(d);
+    const st = checked ? s ? g ? "good" : "bad" : g ? "miss" : "" : "";
+    return /* @__PURE__ */ h("button", { key: d, className: "chip " + st, "aria-pressed": s, disabled: checked, onClick: () => setSel(s ? sel.filter((x) => x !== d) : [...sel, d]) }, "par ", d);
+  })), /* @__PURE__ */ h("div", { className: "row center" }, !checked ? /* @__PURE__ */ h("button", { className: "btn primary", onClick: check }, /* @__PURE__ */ h(Icon, { name: "check", size: 16 }), " Vérifier") : /* @__PURE__ */ h("button", { className: "btn primary", onClick: next }, "Nombre suivant ", /* @__PURE__ */ h(Icon, { name: "right", size: 16 }))), checked && /* @__PURE__ */ h(Fragment, null, /* @__PURE__ */ h(Msg, { type: ok ? "pos" : "neg", title: ok ? "Tout est juste." : `Réponse : ${correct.length ? "divisible par " + correct.join(", ") : "divisible par aucun de ces nombres"}.` }), /* @__PURE__ */ h(FamilyLines, { n, ds: DS }))));
+}
+const SECTIONS = [
+  { id: "accueil", label: "Accueil", icon: "home", sub: "Le parcours" },
+  { id: "comprendre", label: "Comprendre", icon: "book", sub: "La leçon en 6 étapes" },
+  { id: "memoriser", label: "Mémoriser", icon: "cards", sub: "Fiche et cartes mémo" },
+  { id: "manipuler", label: "Manipuler", icon: "sliders", sub: "Détecteur et défis" },
+  { id: "exercices", label: "S'entraîner", icon: "pencil", sub: "Exercices par famille" },
+  { id: "quiz", label: "Quiz", icon: "quiz", sub: "Se tester" }
+];
+function Accueil({ go, done, total }) {
+  const route = [
+    { id: "comprendre", t: "Comprendre", d: "Le vocabulaire, puis les critères un par un, avec des exemples et une question de vérification à chaque étape." },
+    { id: "memoriser", t: "Mémoriser", d: "La fiche mémo en trois familles, et des cartes à retourner pour réciter les critères." },
+    { id: "manipuler", t: "Manipuler", d: "Change les chiffres d'un nombre et observe quels critères changent. Relève des défis." },
+    { id: "exercices", t: "S'entraîner", d: `Cinq familles d'exercices, chacune ouverte par un exercice résolu. Tu en as réussi ${done} sur ${total}.` },
+    { id: "quiz", t: "Se tester", d: "Deux quiz de dix questions et un tri rapide de nombres, sans chronomètre." }
+  ];
+  return /* @__PURE__ */ h("div", { className: "page" }, /* @__PURE__ */ h(PageHead, { title: "Critères de divisibilité", sub: "Savoir si un nombre entier est divisible par 2, 3, 4, 5, 9 ou 10 sans poser la division, puis combiner les critères." }), /* @__PURE__ */ h("section", { className: "card" }, /* @__PURE__ */ h("header", { className: "card-h" }, /* @__PURE__ */ h("h2", null, "L'essentiel"), /* @__PURE__ */ h("span", { className: "muted small" }, "Trois façons de regarder un nombre")), /* @__PURE__ */ h("div", { className: "card-b stack" }, /* @__PURE__ */ h("div", { className: "fam3" }, /* @__PURE__ */ h("div", { className: "fam fam-end" }, /* @__PURE__ */ h("div", { className: "fam-h" }, /* @__PURE__ */ h("span", { className: "key key-end", "aria-hidden": "true" }), "La fin du nombre"), /* @__PURE__ */ h("p", null, "par ", /* @__PURE__ */ h("b", null, "2"), ", ", /* @__PURE__ */ h("b", null, "5"), ", ", /* @__PURE__ */ h("b", null, "10"), " : le chiffre des unités", /* @__PURE__ */ h("br", null), "par ", /* @__PURE__ */ h("b", null, "4"), " : les deux derniers chiffres"), /* @__PURE__ */ h(Num, { v: "7316", hl: "last2" })), /* @__PURE__ */ h("div", { className: "fam fam-sum" }, /* @__PURE__ */ h("div", { className: "fam-h" }, /* @__PURE__ */ h("span", { className: "key key-sum", "aria-hidden": "true" }), "La somme des chiffres"), /* @__PURE__ */ h("p", null, "par ", /* @__PURE__ */ h("b", null, "3"), " et par ", /* @__PURE__ */ h("b", null, "9"), " : on additionne tous les chiffres"), /* @__PURE__ */ h(Num, { v: "4527", hl: "all" })), /* @__PURE__ */ h("div", { className: "fam fam-comb" }, /* @__PURE__ */ h("div", { className: "fam-h" }, /* @__PURE__ */ h("span", { className: "key key-comb", "aria-hidden": "true" }), "Deux critères"), /* @__PURE__ */ h("p", null, "par ", /* @__PURE__ */ h("b", null, "6"), ", ", /* @__PURE__ */ h("b", null, "12"), ", ", /* @__PURE__ */ h("b", null, "15"), ", ", /* @__PURE__ */ h("b", null, "18"), ", ", /* @__PURE__ */ h("b", null, "45"), " : deux critères à la fois"), /* @__PURE__ */ h("p", { className: "mono" }, "6 = 2 × 3"))), /* @__PURE__ */ h("p", { className: "small muted legend" }, /* @__PURE__ */ h("span", null, /* @__PURE__ */ h("span", { className: "key key-end", "aria-hidden": "true" }), " bleu : la fin du nombre"), /* @__PURE__ */ h("span", null, /* @__PURE__ */ h("span", { className: "key key-sum", "aria-hidden": "true" }), " violet : la somme des chiffres"), /* @__PURE__ */ h("span", null, /* @__PURE__ */ h("span", { className: "key key-rest", "aria-hidden": "true" }), " orange : le reste, ou le chiffre à trouver")))), /* @__PURE__ */ h("section", { className: "stack" }, /* @__PURE__ */ h("h2", null, "Ton parcours"), /* @__PURE__ */ h("ol", { className: "route" }, route.map((r, i) => /* @__PURE__ */ h("li", { key: r.id }, /* @__PURE__ */ h("span", { className: "route-n" }, i + 1), /* @__PURE__ */ h("div", { className: "route-c" }, /* @__PURE__ */ h("b", null, r.t), /* @__PURE__ */ h("p", { className: "small muted" }, r.d)), /* @__PURE__ */ h("button", { className: "btn", onClick: () => go(r.id) }, "Ouvrir ", /* @__PURE__ */ h(Icon, { name: "right", size: 16 })))))), /* @__PURE__ */ h("details", { className: "teacher card" }, /* @__PURE__ */ h("summary", null, /* @__PURE__ */ h(Icon, { name: "info" }), " Pour l'enseignant : choix pédagogiques"), /* @__PURE__ */ h("div", { className: "card-b" }, /* @__PURE__ */ h("ul", { className: "notes" }, /* @__PURE__ */ h("li", null, /* @__PURE__ */ h("b", null, "Segmentation."), " La notion est découpée en six étapes courtes ; l'élève avance à son rythme."), /* @__PURE__ */ h("li", null, /* @__PURE__ */ h("b", null, "Pré-entraînement."), " Le vocabulaire (multiple, diviseur, divisible) est installé avant les critères, avec une représentation en paquets."), /* @__PURE__ */ h("li", null, /* @__PURE__ */ h("b", null, "Signalement."), " Un code couleur constant guide le regard : bleu pour la fin du nombre, violet pour la somme des chiffres, orange pour le reste ou le chiffre inconnu. Les verdicts portent aussi une icône, pas seulement une couleur."), /* @__PURE__ */ h("li", null, /* @__PURE__ */ h("b", null, "Contiguïté."), " Chaque explication est placée à côté du nombre qu'elle commente."), /* @__PURE__ */ h("li", null, /* @__PURE__ */ h("b", null, "Regroupement."), " Les critères sont rangés en trois familles pour réduire le nombre d'éléments à retenir."), /* @__PURE__ */ h("li", null, /* @__PURE__ */ h("b", null, "Exemple résolu, puis pratique graduée."), " Chaque famille d'exercices commence par un exercice résolu dévoilé étape par étape, puis trois niveaux de difficulté. Chaque exercice offre une réponse courte et une correction détaillée."), /* @__PURE__ */ h("li", null, /* @__PURE__ */ h("b", null, "Inversion liée à l'expertise."), " Les justifications (« Pourquoi ça marche ? ») sont repliées et facultatives."), /* @__PURE__ */ h("li", null, /* @__PURE__ */ h("b", null, "Pratique de récupération."), " Une question après chaque étape, des cartes mémo avec remise en fin de paquet, deux quiz et un tri rapide."), /* @__PURE__ */ h("li", null, /* @__PURE__ */ h("b", null, "Cohérence."), " Pas de décor, pas d'animation, pas de chronomètre."), /* @__PURE__ */ h("li", null, /* @__PURE__ */ h("b", null, "Accessibilité."), " Taille du texte réglable et mode « Lecture aérée » (police très lisible, espacements augmentés). La progression reste sur l'appareil."), /* @__PURE__ */ h("li", null, /* @__PURE__ */ h("b", null, "Repères de programme."), " Les critères par 2, 5, 10, puis 3 et 9 sont travaillés dès le cycle 3 et consolidés au cycle 4. Le critère par 4 et les combinaisons (6, 12, 15, 18, 45) sont des prolongements.")))));
+}
+function Comprendre({ go }) {
+  const [i, setI] = usePersist("lessonStep", 0);
+  const k = Math.min(Math.max(0, i), LESSON.length - 1);
+  const st = LESSON[k];
+  const move = (j) => {
+    setI(j);
+    window.scrollTo(0, 0);
+  };
+  return /* @__PURE__ */ h("div", { className: "page" }, /* @__PURE__ */ h(PageHead, { title: "Comprendre", sub: "Six étapes courtes. Lis, observe l'exemple, puis réponds à la question de vérification." }), /* @__PURE__ */ h("ol", { className: "stepper" }, LESSON.map((s, j) => /* @__PURE__ */ h("li", { key: j }, /* @__PURE__ */ h("button", { className: "step-pill" + (j < k ? " done" : ""), "aria-current": j === k ? "step" : void 0, onClick: () => move(j) }, /* @__PURE__ */ h("span", { className: "sp-n" }, j < k ? /* @__PURE__ */ h(Icon, { name: "check", size: 14 }) : j + 1), /* @__PURE__ */ h("span", { className: "sp-t" }, s.short))))), /* @__PURE__ */ h("article", { className: "card lesson" }, /* @__PURE__ */ h("header", { className: "card-h" }, /* @__PURE__ */ h("span", { className: "muted small" }, "Étape ", k + 1, " sur ", LESSON.length), /* @__PURE__ */ h("h2", null, st.title), st.tag && /* @__PURE__ */ h("span", { className: "tag" }, st.tag)), /* @__PURE__ */ h("div", { className: "card-b stack" }, st.body), st.why && /* @__PURE__ */ h("details", { className: "why", key: "why-" + k }, /* @__PURE__ */ h("summary", null, /* @__PURE__ */ h(Icon, { name: "bulb" }), " ", st.whyLabel || "Pourquoi ça marche ?", " ", /* @__PURE__ */ h("span", { className: "muted small" }, "(facultatif)")), /* @__PURE__ */ h("div", { className: "why-b stack" }, st.why))), st.check && /* @__PURE__ */ h(QuickCheck, { key: k, ...st.check }), /* @__PURE__ */ h("div", { className: "pager" }, /* @__PURE__ */ h("button", { className: "btn", onClick: () => move(k - 1), disabled: k === 0 }, /* @__PURE__ */ h(Icon, { name: "left", size: 16 }), " Étape précédente"), k < LESSON.length - 1 ? /* @__PURE__ */ h("button", { className: "btn primary", onClick: () => move(k + 1) }, "Étape suivante : ", LESSON[k + 1].short, " ", /* @__PURE__ */ h(Icon, { name: "right", size: 16 })) : /* @__PURE__ */ h("button", { className: "btn primary", onClick: () => go("memoriser") }, "Passer à la mémorisation ", /* @__PURE__ */ h(Icon, { name: "right", size: 16 }))));
+}
+function QuickCheck({ q, options, answer, expl }) {
+  const [p, setP] = useState(null);
+  return /* @__PURE__ */ h("section", { className: "card check" }, /* @__PURE__ */ h("header", { className: "card-h" }, /* @__PURE__ */ h(Icon, { name: "quiz" }), /* @__PURE__ */ h("h3", null, "Vérifie que tu as compris")), /* @__PURE__ */ h("div", { className: "card-b stack" }, /* @__PURE__ */ h("p", { className: "q" }, q), /* @__PURE__ */ h("div", { className: "opts" }, options.map((o, k) => {
+    const st = p == null ? "" : k === answer ? "good" : k === p ? "bad" : "dim";
+    return /* @__PURE__ */ h("button", { key: k, className: "opt " + st, disabled: p != null, onClick: () => setP(k) }, /* @__PURE__ */ h("span", { className: "opt-l" }, "ABCD"[k]), /* @__PURE__ */ h("span", { className: "opt-t" }, o), st === "good" && /* @__PURE__ */ h(Icon, { name: "check" }), st === "bad" && /* @__PURE__ */ h(Icon, { name: "cross" }));
+  })), p != null && /* @__PURE__ */ h(Msg, { type: p === answer ? "pos" : "neg", title: p === answer ? "Bonne réponse." : "Pas tout à fait." }, expl), p != null && /* @__PURE__ */ h("div", { className: "row" }, /* @__PURE__ */ h("button", { className: "btn flat", onClick: () => setP(null) }, /* @__PURE__ */ h(Icon, { name: "refresh", size: 16 }), " Réessayer"))));
+}
+function Memoriser({ go }) {
+  return /* @__PURE__ */ h("div", { className: "page" }, /* @__PURE__ */ h(PageHead, { title: "Mémoriser", sub: "Lis la fiche, puis cache-la et récite avec les cartes. Retrouver une réponse de tête fixe mieux le souvenir que relire." }), /* @__PURE__ */ h(Fiche, null), /* @__PURE__ */ h(Flashcards, null), /* @__PURE__ */ h("div", { className: "pager" }, /* @__PURE__ */ h("span", null), /* @__PURE__ */ h("button", { className: "btn primary", onClick: () => go("manipuler") }, "Passer à la manipulation ", /* @__PURE__ */ h(Icon, { name: "right", size: 16 }))));
+}
+function Manipuler({ go }) {
+  return /* @__PURE__ */ h("div", { className: "page" }, /* @__PURE__ */ h(PageHead, { title: "Manipuler", sub: "Expérimente : modifie un nombre chiffre par chiffre et observe l'effet sur chaque critère." }), /* @__PURE__ */ h(Lab, null), /* @__PURE__ */ h("div", { className: "pager" }, /* @__PURE__ */ h("span", null), /* @__PURE__ */ h("button", { className: "btn primary", onClick: () => go("exercices") }, "Passer aux exercices ", /* @__PURE__ */ h(Icon, { name: "right", size: 16 }))));
+}
+function Exercices({ progress, record, resetProgress, go }) {
+  const [f, setF] = usePersist("family", 0);
+  const fi = Math.min(Math.max(0, f), FAMILIES.length - 1);
+  const fam = FAMILIES[fi];
+  const okCount = fam.exercises.filter((e) => progress[e.id] === "ok").length;
+  const [confirm, setConfirm] = useState(false);
+  return /* @__PURE__ */ h("div", { className: "page" }, /* @__PURE__ */ h(PageHead, { title: "S'entraîner", sub: "Cinq familles d'exercices. Lis d'abord l'exercice résolu, puis fais les exercices dans l'ordre : ils deviennent plus difficiles." }), /* @__PURE__ */ h("div", { className: "tabs", role: "tablist", "aria-label": "Familles d'exercices" }, FAMILIES.map((x, i) => {
+    const n = x.exercises.filter((e) => progress[e.id] === "ok").length;
+    return /* @__PURE__ */ h("button", { key: x.id, role: "tab", "aria-selected": i === fi, className: "tab", onClick: () => setF(i) }, /* @__PURE__ */ h("span", { className: "tab-l" }, x.letter), /* @__PURE__ */ h("span", { className: "tab-t" }, x.short), /* @__PURE__ */ h("span", { className: "tab-c" }, n, "/", x.exercises.length));
+  })), /* @__PURE__ */ h("section", { className: "fam-head" }, /* @__PURE__ */ h("h2", null, "Famille ", fam.letter, " · ", fam.title), /* @__PURE__ */ h("p", { className: "goal" }, /* @__PURE__ */ h(Icon, { name: "flag", size: 16 }), " Objectif : ", fam.goal), /* @__PURE__ */ h("div", { className: "row" }, /* @__PURE__ */ h("div", { className: "progress grow", "aria-hidden": "true" }, /* @__PURE__ */ h("span", { style: { width: 100 * okCount / fam.exercises.length + "%" } })), /* @__PURE__ */ h("span", { className: "small muted" }, okCount, " réussi", okCount > 1 ? "s" : "", " sur ", fam.exercises.length))), /* @__PURE__ */ h(Worked, { key: fam.id, ...fam.worked }), /* @__PURE__ */ h("h3", { className: "sec-t" }, "À toi de jouer"), fam.exercises.map((e, i) => /* @__PURE__ */ h(Exercise, { key: e.id, ex: e, num: i + 1, status: progress[e.id], onResult: record })), /* @__PURE__ */ h("div", { className: "pager" }, fi > 0 ? /* @__PURE__ */ h("button", { className: "btn", onClick: () => {
+    setF(fi - 1);
+    window.scrollTo(0, 0);
+  } }, /* @__PURE__ */ h(Icon, { name: "left", size: 16 }), " Famille ", FAMILIES[fi - 1].letter) : /* @__PURE__ */ h("span", null), fi < FAMILIES.length - 1 ? /* @__PURE__ */ h("button", { className: "btn primary", onClick: () => {
+    setF(fi + 1);
+    window.scrollTo(0, 0);
+  } }, "Famille ", FAMILIES[fi + 1].letter, " : ", FAMILIES[fi + 1].short, " ", /* @__PURE__ */ h(Icon, { name: "right", size: 16 })) : /* @__PURE__ */ h("button", { className: "btn primary", onClick: () => go("quiz") }, "Passer au quiz ", /* @__PURE__ */ h(Icon, { name: "right", size: 16 }))), /* @__PURE__ */ h("div", { className: "reset-zone" }, !confirm ? /* @__PURE__ */ h("button", { className: "btn flat small", onClick: () => setConfirm(true) }, /* @__PURE__ */ h(Icon, { name: "refresh", size: 16 }), " Effacer ma progression") : /* @__PURE__ */ h("div", { className: "row" }, /* @__PURE__ */ h("span", { className: "small" }, "Effacer la progression de tous les exercices ?"), /* @__PURE__ */ h("button", { className: "btn small", onClick: () => {
+    resetProgress();
+    setConfirm(false);
+  } }, "Oui, effacer"), /* @__PURE__ */ h("button", { className: "btn flat small", onClick: () => setConfirm(false) }, "Annuler"))));
+}
+function QuizPage() {
+  const [t, setT] = usePersist("quizTab", 0);
+  const tabs = ["Quiz 1 · Les critères", "Quiz 2 · Pièges et raisonnement", "Tri rapide"];
+  return /* @__PURE__ */ h("div", { className: "page" }, /* @__PURE__ */ h(PageHead, { title: "Quiz", sub: "Teste tes connaissances. Chaque réponse est expliquée. Les questions changent à chaque nouveau quiz." }), /* @__PURE__ */ h("div", { className: "tabs", role: "tablist", "aria-label": "Choisir un quiz" }, tabs.map((x, i) => /* @__PURE__ */ h("button", { key: i, role: "tab", "aria-selected": i === t, className: "tab", onClick: () => setT(i) }, /* @__PURE__ */ h("span", { className: "tab-t" }, x)))), t === 0 && /* @__PURE__ */ h(QuizRunner, { key: "q1", bank: QUIZ1, count: 10 }), t === 1 && /* @__PURE__ */ h(QuizRunner, { key: "q2", bank: QUIZ2, count: 10 }), t === 2 && /* @__PURE__ */ h(TriRapide, null));
+}
+function App() {
+  const read = () => {
+    const hsh = (window.location.hash || "").slice(1);
+    return SECTIONS.some((s) => s.id === hsh) ? hsh : "accueil";
+  };
+  const [sec, setSec] = useState(read);
+  useEffect(() => {
+    const f = () => setSec(read());
+    window.addEventListener("hashchange", f);
+    return () => window.removeEventListener("hashchange", f);
+  }, []);
+  const go = useCallback((id) => {
+    setSec(id);
+    try {
+      if (window.location.hash !== "#" + id) window.location.hash = id;
+    } catch (e) {
+    }
+    window.scrollTo(0, 0);
+  }, []);
+  const [size, setSize] = usePersist("size", 0);
+  const [airy, setAiry] = usePersist("airy", false);
+  useEffect(() => {
+    document.documentElement.style.fontSize = ["100%", "112.5%", "125%", "137.5%"][size] || "100%";
+  }, [size]);
+  useEffect(() => {
+    document.documentElement.classList.toggle("airy", !!airy);
+  }, [airy]);
+  const [progress, setProgress] = usePersist("progress", {});
+  const record = useCallback((id, ok) => setProgress((p) => ({ ...p, [id]: ok || p[id] === "ok" ? "ok" : "ko" })), []);
+  const done = ALL_EX.filter((e) => progress[e.id] === "ok").length;
+  const total = ALL_EX.length;
+  let page;
+  if (sec === "comprendre") page = /* @__PURE__ */ h(Comprendre, { go });
+  else if (sec === "memoriser") page = /* @__PURE__ */ h(Memoriser, { go });
+  else if (sec === "manipuler") page = /* @__PURE__ */ h(Manipuler, { go });
+  else if (sec === "exercices") page = /* @__PURE__ */ h(Exercices, { progress, record, resetProgress: () => setProgress({}), go });
+  else if (sec === "quiz") page = /* @__PURE__ */ h(QuizPage, null);
+  else page = /* @__PURE__ */ h(Accueil, { go, done, total });
+  return /* @__PURE__ */ h("div", { className: "app" }, /* @__PURE__ */ h("header", { className: "toolbar" }, /* @__PURE__ */ h("div", { className: "appicon", "aria-hidden": "true" }, "÷"), /* @__PURE__ */ h("div", { className: "apptitle" }, /* @__PURE__ */ h("strong", null, "Critères de divisibilité"), /* @__PURE__ */ h("span", null, "Mathématiques · 4e")), /* @__PURE__ */ h("div", { className: "tb-actions" }, /* @__PURE__ */ h("div", { className: "seg", role: "group", "aria-label": "Taille du texte" }, /* @__PURE__ */ h("button", { className: "btn flat tb", onClick: () => setSize(Math.max(0, size - 1)), disabled: size === 0, "aria-label": "Réduire le texte", title: "Réduire le texte" }, "A", /* @__PURE__ */ h("small", null, "−")), /* @__PURE__ */ h("button", { className: "btn flat tb", onClick: () => setSize(Math.min(3, size + 1)), disabled: size === 3, "aria-label": "Agrandir le texte", title: "Agrandir le texte" }, "A", /* @__PURE__ */ h("small", null, "+"))), /* @__PURE__ */ h("span", { className: "tb-sep", "aria-hidden": "true" }), /* @__PURE__ */ h("button", { className: "btn flat tb", "aria-pressed": !!airy, onClick: () => setAiry(!airy), title: "Police très lisible et espacements augmentés" }, /* @__PURE__ */ h(Icon, { name: "eye" }), /* @__PURE__ */ h("span", { className: "tb-label" }, "Lecture aérée")))), /* @__PURE__ */ h("div", { className: "shell" }, /* @__PURE__ */ h("nav", { className: "sidebar", "aria-label": "Sections" }, /* @__PURE__ */ h("div", { className: "side-label" }, "Parcours"), SECTIONS.map((s) => /* @__PURE__ */ h("button", { key: s.id, className: "nav-item", "aria-current": sec === s.id ? "page" : void 0, onClick: () => go(s.id) }, /* @__PURE__ */ h(Icon, { name: s.icon, size: 20 }), /* @__PURE__ */ h("span", { className: "nav-txt" }, /* @__PURE__ */ h("span", null, s.label), /* @__PURE__ */ h("small", null, s.sub)), s.id === "exercices" && /* @__PURE__ */ h("span", { className: "nav-num" }, done, "/", total)))), /* @__PURE__ */ h("main", { className: "main", id: "contenu" }, page)));
+}
+ReactDOM.createRoot(document.getElementById("root")).render(/* @__PURE__ */ h(App, null));
+
+</script>
+</body>
+</html>
