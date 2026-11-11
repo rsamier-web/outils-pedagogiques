@@ -1,0 +1,1612 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Diagnostiquer et réparer une panne</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;500;600;700&family=Noto+Sans+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+/* Plan : fenêtre d'application façon Breeze (KDE Plasma) — barre latérale de navigation à gauche, page de contenu à droite, cadres sobres, un seul accent bleu. */
+:root{
+  --win:#eff0f1; --view:#ffffff; --alt:#f6f7f8; --text:#232629; --muted:#5f656b;
+  --line:#cdd1d5; --line-soft:#e2e5e8;
+  --accent:#3daee9; --accent-ink:#126fa3; --accent-soft:rgba(61,174,233,.16); --accent-tint:#eaf6fd;
+  --pos:#1f8f4e; --pos-soft:#e4f4ea; --neg:#c9303f; --neg-soft:#fbe8ea; --warn:#b85c00; --warn-soft:#fdf1e4;
+  --c-event:#e0a100; --c-motor:#3daee9; --c-ctrl:#9b59b6;
+  --font:"Noto Sans","Segoe UI",system-ui,sans-serif; --mono:"Noto Sans Mono","Hack",ui-monospace,monospace;
+  --r:6px; color-scheme:light;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --win:#202326; --view:#141618; --alt:#1b1e21; --text:#f3f4f5; --muted:#a3abb3;
+    --line:#3b4045; --line-soft:#2b2f33;
+    --accent:#3daee9; --accent-ink:#62c1f2; --accent-soft:rgba(61,174,233,.22); --accent-tint:#18293a;
+    --pos:#43c47f; --pos-soft:#15301f; --neg:#f0606f; --neg-soft:#3a1c21; --warn:#f2963f; --warn-soft:#3a2914;
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --win:#202326; --view:#141618; --alt:#1b1e21; --text:#f3f4f5; --muted:#a3abb3;
+  --line:#3b4045; --line-soft:#2b2f33;
+  --accent:#3daee9; --accent-ink:#62c1f2; --accent-soft:rgba(61,174,233,.22); --accent-tint:#18293a;
+  --pos:#43c47f; --pos-soft:#15301f; --neg:#f0606f; --neg-soft:#3a1c21; --warn:#f2963f; --warn-soft:#3a2914;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+html,body{height:100%;margin:0}
+body{background:var(--win);color:var(--text);font-family:var(--font);font-size:15px;line-height:1.55}
+button,select,input{font:inherit;color:inherit}
+h1,h2,h3,h4{line-height:1.25;text-wrap:balance;margin:0}
+p{margin:0}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:4px}
+strong{font-weight:600}
+
+/* ---------- Fenêtre ---------- */
+#root{height:100%}
+.app{display:grid;grid-template-columns:268px 1fr;height:100%}
+.side{background:var(--win);border-right:1px solid var(--line);display:flex;flex-direction:column;min-height:0}
+.side-head{padding:14px 16px 10px;border-bottom:1px solid var(--line-soft)}
+.side-head .sub{font-size:12px;color:var(--muted);letter-spacing:.02em}
+.side-head .ttl{font-weight:600;font-size:15px;margin-top:2px}
+.side nav{overflow:auto;padding:8px;flex:1}
+.nav-group{font-size:11.5px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;padding:12px 10px 4px}
+.nav-item{display:flex;align-items:center;gap:10px;width:100%;text-align:left;background:none;border:1px solid transparent;border-radius:5px;padding:6px 10px;cursor:pointer;font-size:14px}
+.nav-item:hover{background:var(--accent-soft)}
+.nav-item[aria-current="page"]{background:var(--accent-soft);border-color:var(--accent)}
+.nav-item svg{flex:none;color:var(--muted)}
+.nav-item[aria-current="page"] svg{color:var(--accent-ink)}
+.nav-item .lbl{flex:1;min-width:0}
+.nav-item .badge{font-size:11.5px;color:var(--muted);font-variant-numeric:tabular-nums}
+.nav-item .done{color:var(--pos)}
+.side-foot{padding:10px 16px;border-top:1px solid var(--line-soft);font-size:12.5px;color:var(--muted)}
+.meter{height:6px;border-radius:3px;background:var(--line-soft);overflow:hidden;margin-top:6px}
+.meter>span{display:block;height:100%;background:var(--accent);border-radius:3px}
+
+.main{display:flex;flex-direction:column;min-width:0;min-height:0;background:var(--view)}
+.toolbar{display:flex;align-items:center;gap:10px;padding:10px 20px;border-bottom:1px solid var(--line);background:var(--win);min-height:52px}
+.toolbar h1{font-size:17px;font-weight:600}
+.toolbar .crumb{font-size:13px;color:var(--muted)}
+.toolbar .spacer{flex:1}
+.btn.menu-btn{display:none}
+.scroll{overflow:auto;flex:1}
+.page{max-width:980px;margin:0 auto;padding:24px 24px 64px;display:flex;flex-direction:column;gap:22px}
+
+/* ---------- Composants ---------- */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;background:var(--view);border:1px solid var(--line);border-radius:5px;padding:6px 14px;cursor:pointer;min-height:34px;font-size:14px;transition:border-color .12s,background .12s}
+.btn:hover:not(:disabled){border-color:var(--accent)}
+.btn:active:not(:disabled){background:var(--accent-soft)}
+.btn.primary{border-color:var(--accent);background:var(--accent-tint)}
+.btn.primary:hover:not(:disabled){background:var(--accent-soft)}
+.btn:disabled{opacity:.5;cursor:not-allowed}
+.btn.sm{min-height:28px;padding:3px 10px;font-size:13px}
+.btn.icon{padding:4px 8px}
+.btn-row{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+
+.frame{background:var(--view);border:1px solid var(--line-soft);border-radius:var(--r);padding:18px 20px}
+.frame.alt{background:var(--alt)}
+.sec-title{font-size:13px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.06em}
+.lead{font-size:16px;max-width:68ch}
+.muted{color:var(--muted)}
+.small{font-size:13px}
+.stack{display:flex;flex-direction:column;gap:12px}
+.grid2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+.grid3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+.prose{max-width:68ch;display:flex;flex-direction:column;gap:10px}
+.prose ul,.prose ol{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:4px}
+
+.callout{border-left:3px solid var(--accent);background:var(--accent-tint);padding:12px 16px;border-radius:0 var(--r) var(--r) 0}
+.callout .ct{font-weight:600;font-size:13px;color:var(--accent-ink);text-transform:uppercase;letter-spacing:.05em;margin-bottom:4px}
+.callout.warn{border-color:var(--warn);background:var(--warn-soft)}
+.callout.warn .ct{color:var(--warn)}
+.callout.ok{border-color:var(--pos);background:var(--pos-soft)}
+.callout.ok .ct{color:var(--pos)}
+.callout.ko{border-color:var(--neg);background:var(--neg-soft)}
+.callout.ko .ct{color:var(--neg)}
+
+.pill{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:600;padding:2px 9px;border-radius:999px;border:1px solid var(--line);color:var(--muted);background:var(--view);white-space:nowrap}
+.pill.on{border-color:var(--pos);color:var(--pos);background:var(--pos-soft)}
+.pill.off{border-color:var(--line);color:var(--muted)}
+.pill.acc{border-color:var(--accent);color:var(--accent-ink);background:var(--accent-tint)}
+.pill.ko{border-color:var(--neg);color:var(--neg);background:var(--neg-soft)}
+.pill.warn{border-color:var(--warn);color:var(--warn);background:var(--warn-soft)}
+.dot{width:8px;height:8px;border-radius:50%;background:currentColor}
+
+table.tbl{border-collapse:collapse;width:100%;font-size:14px}
+.tbl th,.tbl td{border:1px solid var(--line-soft);padding:7px 10px;text-align:left;vertical-align:top}
+.tbl th{background:var(--alt);font-weight:600;font-size:13px}
+.tbl td.bad{background:var(--neg-soft);color:var(--neg);font-weight:500}
+.tbl td.good{background:var(--pos-soft);color:var(--pos);font-weight:500}
+.tbl-wrap{overflow-x:auto}
+
+/* Programme par blocs */
+.prog{font-family:var(--mono);font-size:13.5px;display:flex;flex-direction:column;gap:4px;background:var(--alt);border:1px solid var(--line-soft);border-radius:var(--r);padding:12px}
+.blk{display:flex;align-items:center;gap:10px;background:var(--view);border:1px solid var(--line-soft);border-left:4px solid var(--c-motor);border-radius:4px;padding:5px 10px}
+.blk.event{border-left-color:var(--c-event)}
+.blk.ctrl{border-left-color:var(--c-ctrl)}
+.blk.gap{border-style:dashed;border-left-style:solid;color:var(--muted)}
+.blk.hl{outline:2px solid var(--accent);outline-offset:-1px}
+.blk .n{color:var(--muted);font-size:12px;width:16px;text-align:right}
+.prog-legend{display:flex;gap:14px;flex-wrap:wrap;font-size:12px;color:var(--muted);margin-top:6px}
+.prog-legend span::before{content:"";display:inline-block;width:10px;height:10px;border-radius:2px;margin-right:6px;vertical-align:-1px;background:var(--c)}
+
+/* ---------- Accueil ---------- */
+.hero{display:grid;grid-template-columns:1.4fr 1fr;gap:20px;align-items:start}
+.hero h2{font-size:26px;font-weight:600}
+.obj-list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:8px}
+.obj-list li{display:flex;gap:10px;align-items:flex-start}
+.obj-list li svg{flex:none;margin-top:3px;color:var(--accent-ink)}
+.route{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:10px}
+.route-card{display:flex;flex-direction:column;gap:6px;text-align:left;background:var(--view);border:1px solid var(--line-soft);border-radius:var(--r);padding:14px;cursor:pointer;min-height:132px}
+.route-card:hover{border-color:var(--accent)}
+.route-card .step{font-size:12px;font-weight:600;color:var(--accent-ink);font-variant-numeric:tabular-nums}
+.route-card .nm{font-weight:600}
+.route-card .ds{font-size:13px;color:var(--muted);flex:1}
+details.note{border:1px solid var(--line-soft);border-radius:var(--r);background:var(--alt);padding:12px 16px}
+details.note summary{cursor:pointer;font-weight:600;font-size:14px}
+details.note[open] summary{margin-bottom:10px}
+
+/* ---------- Chaînes ---------- */
+.chains{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,1fr);gap:18px;align-items:start}
+.chain{display:flex;flex-direction:column;gap:6px}
+.chain-label{font-size:12.5px;font-weight:600;color:var(--muted)}
+.chain-row{display:flex;align-items:stretch;gap:0;flex-wrap:nowrap}
+.fn{flex:1;min-width:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;text-align:center;background:var(--view);border:1px solid var(--line);border-radius:5px;padding:9px 6px;cursor:pointer;font-size:13.5px}
+.fn b{font-weight:600;font-size:14px}
+.fn span{font-size:11.5px;color:var(--muted)}
+.fn:hover{border-color:var(--accent)}
+.fn[aria-pressed="true"]{border-color:var(--accent);background:var(--accent-tint);box-shadow:inset 0 0 0 1px var(--accent)}
+.arrow{flex:none;width:18px;display:flex;align-items:center;justify-content:center;color:var(--muted)}
+.orders{display:flex;align-items:center;gap:8px;font-size:12.5px;color:var(--muted);padding:2px 0 2px 32%}
+.robot-box{display:flex;flex-direction:column;align-items:center;gap:8px}
+.robot-svg{width:100%;max-width:240px;height:auto}
+.rb-part{fill:var(--view);stroke:var(--line);stroke-width:1.5;transition:fill .15s,stroke .15s}
+.rb-body{fill:var(--alt);stroke:var(--line);stroke-width:1.5}
+.rb-wheel{fill:#3a3f44;stroke:#2a2e32}
+.rb-part.hl,.rb-wheel.hl{stroke:var(--accent);stroke-width:3}
+.rb-part.hl{fill:var(--accent-tint)}
+.rb-text{font-family:var(--font);font-size:9.5px;fill:var(--muted);text-anchor:middle}
+.rb-cable{stroke:var(--muted);stroke-width:1.5;fill:none;stroke-dasharray:3 2}
+.rb-cable.hl{stroke:var(--accent);stroke-width:2.5;stroke-dasharray:none}
+.tread{animation:tread .5s linear infinite;animation-play-state:paused}
+.tread.run{animation-play-state:running}
+.tread.slow{animation-duration:2.6s}
+.tread.slip{animation-duration:3.5s}
+@keyframes tread{from{transform:translateY(0)}to{transform:translateY(-10px)}}
+.buzz{animation:buzz .09s linear infinite}
+@keyframes buzz{0%{transform:translate(0,0)}50%{transform:translate(.8px,-.6px)}100%{transform:translate(0,0)}}
+.snd{fill:none;stroke:var(--accent-ink);stroke-width:1.4;stroke-linecap:round}
+
+.fn-detail h3{font-size:18px;font-weight:600}
+.kv{display:grid;grid-template-columns:auto 1fr;gap:6px 12px;font-size:14px}
+.kv dt{color:var(--muted)}
+.kv dd{margin:0}
+
+/* ---------- Démarche ---------- */
+.stepper{display:grid;grid-template-columns:240px 1fr;gap:18px;align-items:start}
+.step-list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:4px}
+.step-btn{display:flex;gap:10px;align-items:center;width:100%;text-align:left;background:none;border:1px solid transparent;border-radius:5px;padding:7px 10px;cursor:pointer;font-size:14px}
+.step-btn:hover{background:var(--accent-soft)}
+.step-btn[aria-current="step"]{background:var(--accent-soft);border-color:var(--accent)}
+.step-num{flex:none;width:24px;height:24px;border-radius:50%;border:1px solid var(--line);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:600;font-variant-numeric:tabular-nums;background:var(--view)}
+.step-btn[aria-current="step"] .step-num{border-color:var(--accent);color:var(--accent-ink)}
+.step-btn.seen .step-num{border-color:var(--pos);color:var(--pos)}
+
+/* ---------- Organigramme ---------- */
+.flow-wrap{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:18px;align-items:start}
+.flow svg{width:100%;max-width:460px;height:auto;display:block}
+.fl-node{fill:var(--view);stroke:var(--line);stroke-width:1.5}
+.fl-node.on{fill:var(--accent-tint);stroke:var(--accent);stroke-width:2.5}
+.fl-txt{font-family:var(--font);font-size:12.5px;fill:var(--text);text-anchor:middle;dominant-baseline:middle}
+.fl-edge{stroke:var(--line);stroke-width:1.6;fill:none}
+.fl-edge.on{stroke:var(--accent);stroke-width:2.6}
+.fl-lab{font-family:var(--font);font-size:11.5px;fill:var(--muted);font-weight:600}
+.seg{display:inline-flex;border:1px solid var(--line);border-radius:5px;overflow:hidden}
+.seg button{background:var(--view);border:0;padding:5px 14px;cursor:pointer;font-size:14px}
+.seg button+button{border-left:1px solid var(--line)}
+.seg button[aria-pressed="true"]{background:var(--accent-soft);color:var(--accent-ink);font-weight:600}
+
+.tabs{display:flex;gap:2px;border-bottom:1px solid var(--line);flex-wrap:wrap}
+.tab{background:none;border:0;border-bottom:2px solid transparent;padding:8px 14px;cursor:pointer;font-size:14px;color:var(--muted);margin-bottom:-1px}
+.tab[aria-selected="true"]{color:var(--text);border-bottom-color:var(--accent);font-weight:600}
+.tab:hover{color:var(--text)}
+
+/* ---------- Composants (familles) ---------- */
+.fam-cards{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:10px}
+.fam{border:1px solid var(--line-soft);border-radius:var(--r);padding:12px;display:flex;flex-direction:column;gap:8px;background:var(--view)}
+.fam h4{font-size:14.5px;font-weight:600}
+.fam ul{margin:0;padding-left:16px;font-size:13px;display:flex;flex-direction:column;gap:2px}
+.fam .ex{font-size:12.5px;color:var(--muted);border-top:1px solid var(--line-soft);padding-top:6px;margin-top:auto}
+.fam-ico{width:40px;height:40px;color:var(--accent-ink)}
+
+/* ---------- Exercices ---------- */
+.ex-card{border:1px solid var(--line-soft);border-radius:var(--r);background:var(--view)}
+.ex-head{display:flex;align-items:center;gap:10px;padding:10px 16px;border-bottom:1px solid var(--line-soft);background:var(--alt);border-radius:var(--r) var(--r) 0 0;flex-wrap:wrap}
+.ex-head .t{font-weight:600;font-size:14.5px;flex:1;min-width:180px}
+.lvl{display:inline-flex;gap:3px;align-items:center}
+.lvl i{width:7px;height:12px;border-radius:2px;background:var(--line);display:block}
+.lvl i.f{background:var(--accent)}
+.ex-body{padding:16px;display:flex;flex-direction:column;gap:14px}
+.ex-q{font-size:15px;max-width:72ch}
+.opts{display:flex;flex-direction:column;gap:6px}
+.opt{display:flex;gap:10px;align-items:flex-start;text-align:left;width:100%;background:var(--view);border:1px solid var(--line);border-radius:5px;padding:8px 12px;cursor:pointer;font-size:14.5px}
+.opt:hover{border-color:var(--accent)}
+.opt .mk{flex:none;width:18px;height:18px;border:1.5px solid var(--line);border-radius:50%;margin-top:2px;display:flex;align-items:center;justify-content:center}
+.opt.chk .mk{border-radius:4px}
+.opt[aria-checked="true"]{border-color:var(--accent);background:var(--accent-tint)}
+.opt[aria-checked="true"] .mk{border-color:var(--accent);background:var(--accent)}
+.opt[aria-checked="true"] .mk::after{content:"";width:6px;height:6px;border-radius:50%;background:var(--view)}
+.opt.chk[aria-checked="true"] .mk::after{width:8px;height:4px;border-radius:0;background:none;border:2px solid var(--view);border-top:0;border-right:0;transform:rotate(-45deg) translate(1px,-1px)}
+.opt.ok{border-color:var(--pos);background:var(--pos-soft)}
+.opt.ok .mk{border-color:var(--pos);background:var(--pos)}
+.opt.ko{border-color:var(--neg);background:var(--neg-soft)}
+.opt.ko .mk{border-color:var(--neg);background:var(--neg)}
+.match{display:flex;flex-direction:column;gap:6px}
+.match-row{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr) 22px;gap:10px;align-items:center;padding:6px 10px;border:1px solid var(--line-soft);border-radius:5px}
+.match-row.ok{border-color:var(--pos);background:var(--pos-soft)}
+.match-row.ko{border-color:var(--neg);background:var(--neg-soft)}
+select{background:var(--view);border:1px solid var(--line);border-radius:5px;padding:5px 8px;min-height:32px;width:100%;cursor:pointer}
+select:hover{border-color:var(--accent)}
+.order{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:6px}
+.order li{display:flex;align-items:center;gap:10px;border:1px solid var(--line);border-radius:5px;padding:6px 8px 6px 12px;background:var(--view)}
+.order li.ok{border-color:var(--pos);background:var(--pos-soft)}
+.order li.ko{border-color:var(--neg);background:var(--neg-soft)}
+.order .pos{font-variant-numeric:tabular-nums;color:var(--muted);font-size:13px;width:18px}
+.order .txt{flex:1}
+.order .mv{display:flex;gap:4px}
+.mark-ok{color:var(--pos)}
+.mark-ko{color:var(--neg)}
+.feedback{display:flex;gap:10px;align-items:flex-start;padding:10px 14px;border-radius:5px;font-size:14.5px}
+.feedback.ok{background:var(--pos-soft);color:var(--pos)}
+.feedback.ko{background:var(--neg-soft);color:var(--neg)}
+.feedback p{color:var(--text)}
+.correction{border-top:1px dashed var(--line);padding-top:12px;display:flex;flex-direction:column;gap:8px}
+.correction h4{font-size:13px;text-transform:uppercase;letter-spacing:.05em;color:var(--accent-ink)}
+.correction ul{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:4px}
+
+/* Exemple résolu */
+.worked{border:1px solid var(--accent);border-radius:var(--r);background:var(--view);overflow:hidden}
+.worked-head{background:var(--accent-tint);padding:10px 16px;display:flex;gap:10px;align-items:center;flex-wrap:wrap;border-bottom:1px solid var(--accent-soft)}
+.worked-head .t{font-weight:600;flex:1}
+.worked-body{padding:16px;display:flex;flex-direction:column;gap:14px}
+.w-steps{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:10px;counter-reset:ws}
+.w-steps li{display:grid;grid-template-columns:28px 1fr;gap:10px;align-items:start}
+.w-steps li::before{counter-increment:ws;content:counter(ws);width:26px;height:26px;border-radius:50%;background:var(--accent-tint);border:1px solid var(--accent);color:var(--accent-ink);font-weight:600;font-size:13px;display:flex;align-items:center;justify-content:center}
+.w-steps h4{font-size:14.5px;font-weight:600;margin-bottom:2px}
+.w-steps li.hidden{display:none}
+
+.fam-head{display:flex;gap:14px;align-items:center;flex-wrap:wrap}
+.fam-head .prog-txt{font-size:13px;color:var(--muted);font-variant-numeric:tabular-nums}
+
+/* ---------- Cartes mémoire ---------- */
+.fc-wrap{display:flex;flex-direction:column;align-items:center;gap:14px}
+.flashcard{width:100%;max-width:560px;min-height:230px;border:1px solid var(--line);border-radius:10px;background:var(--view);display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding:28px;cursor:pointer;gap:10px;box-shadow:0 1px 3px rgba(0,0,0,.06)}
+.flashcard.back{border-color:var(--accent);background:var(--accent-tint)}
+.flashcard .side-lbl{font-size:11.5px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);font-weight:600}
+.flashcard .q{font-size:19px;font-weight:600;max-width:40ch}
+.flashcard .a{font-size:16.5px;max-width:44ch}
+
+/* ---------- Atelier ---------- */
+.lab{display:grid;grid-template-columns:minmax(0,300px) minmax(0,1fr);gap:18px;align-items:start}
+.stage{border:1px solid var(--line-soft);border-radius:var(--r);background:var(--alt);padding:14px;display:flex;flex-direction:column;align-items:center;gap:10px}
+.track{width:100%;height:280px;display:flex;align-items:flex-end;justify-content:center;overflow:hidden;background-image:linear-gradient(var(--line-soft) 1px,transparent 1px);background-size:100% 28px;border-radius:4px;border:1px solid var(--line-soft);background-color:var(--view)}
+.mover{width:170px;transition:transform 2.4s ease-in-out}
+.mover.straight{transform:translateY(-110px)}
+.mover.left{transform:translate(-20px,-30px) rotate(-150deg)}
+.mover.right{transform:translate(30px,-60px) rotate(80deg)}
+.mover.slow{transform:translateY(-22px)}
+.status-row{display:flex;gap:6px;flex-wrap:wrap;justify-content:center}
+.act-group{display:flex;flex-direction:column;gap:8px}
+.act-group h4{font-size:13px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.05em}
+.act-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px}
+.act-grid .btn{justify-content:flex-start;text-align:left;font-size:13.5px}
+.journal td:first-child{width:38%}
+.journal tr.warn td{background:var(--warn-soft)}
+.journal tr.ok td{background:var(--pos-soft)}
+.check-list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:6px}
+.check-list li{display:flex;gap:8px;align-items:flex-start}
+
+/* ---------- Quiz ---------- */
+.quiz-top{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.quiz-top .meter{flex:1;min-width:160px;margin:0}
+.score{font-size:40px;font-weight:600;font-variant-numeric:tabular-nums;line-height:1}
+
+.next-nav{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;border-top:1px solid var(--line-soft);padding-top:16px}
+
+/* ---------- Réactif ---------- */
+@media (max-width:980px){
+  .fam-cards{grid-template-columns:repeat(3,minmax(0,1fr))}
+  .route{grid-template-columns:repeat(3,minmax(0,1fr))}
+}
+@media (max-width:860px){
+  .app{grid-template-columns:1fr}
+  .side{position:fixed;inset:0 auto 0 0;width:280px;z-index:20;transform:translateX(-100%);transition:transform .2s;box-shadow:0 0 24px rgba(0,0,0,.2)}
+  .side.open{transform:none}
+  .scrim{position:fixed;inset:0;background:rgba(0,0,0,.3);z-index:15}
+  .btn.menu-btn{display:inline-flex}
+  .hero,.chains,.stepper,.flow-wrap,.lab{grid-template-columns:1fr}
+  .grid3{grid-template-columns:1fr 1fr}
+}
+@media (max-width:560px){
+  .page{padding:16px 16px 48px}
+  .grid2,.grid3,.act-grid{grid-template-columns:1fr}
+  .fam-cards,.route{grid-template-columns:1fr 1fr}
+  .match-row{grid-template-columns:1fr 22px}
+  .match-row select{grid-column:1}
+  .toolbar{padding:8px 12px}
+  .chain-row{flex-wrap:wrap;gap:6px}
+  .chain-row .arrow{display:none}
+  .fn{flex:1 1 40%}
+  .orders{padding-left:0}
+}
+@media (prefers-reduced-motion: reduce){
+  *{transition:none!important}
+  .tread,.buzz{animation:none!important}
+}
+</style>
+</head>
+<body>
+<div id="root"></div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.3.1/umd/react.production.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.3.1/umd/react-dom.production.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/htm@3.1.1/dist/htm.umd.js"></script>
+<script>
+"use strict";
+const { useState, useEffect, useRef, useMemo } = React;
+const html = htm.bind(React.createElement);
+
+/* ================== Outils ================== */
+function rich(s){
+  if (typeof s !== "string") return s;
+  return s.split("**").map((p,i)=> i%2 ? html`<strong key=${i}>${p}</strong>` : p);
+}
+const KEY = "techno4-diagnostic-v1";
+function loadStore(){ try { return JSON.parse(localStorage.getItem(KEY)) || {}; } catch(e){ return {}; } }
+function saveStore(o){ try { localStorage.setItem(KEY, JSON.stringify(o)); } catch(e){} }
+function permutation(n, seed){
+  const a = Array.from({length:n}, (_,i)=>i);
+  let s = seed * 9301 + 49297;
+  for (let i=n-1;i>0;i--){ s = (s*9301+49297)%233280; const j = Math.floor(s/233280*(i+1)); [a[i],a[j]]=[a[j],a[i]]; }
+  if (a.every((v,i)=>v===i)) a.push(a.shift());
+  return a;
+}
+function hashStr(s){ let h=0; for (const c of s) h=(h*31+c.charCodeAt(0))%100000; return h+7; }
+
+const ICONS = {
+  home:"M3 11l9-7 9 7M5 9.5V20h5v-6h4v6h5V9.5",
+  chain:"M3 6h7v6H3zM14 12h7v6h-7zM10 9h2a2 2 0 0 1 2 2v1",
+  steps:"M5 5h3M5 12h3M5 19h3M11 5h8M11 12h8M11 19h8",
+  flow:"M9 3h6v4H9zM4 17h6v4H4zM14 17h6v4h-6zM12 7v5M7 12h10M7 12v5M17 12v5",
+  chip:"M7 7h10v10H7zM10 3v4M14 3v4M10 17v4M14 17v4M3 10h4M3 14h4M17 10h4M17 14h4",
+  cards:"M4 7h12v13H4zM8 4h12v13",
+  wrench:"M14.5 6.5a4 4 0 0 0-5.3 5.1L3.5 17.3 6.7 20.5l5.7-5.7a4 4 0 0 0 5.1-5.3l-2.6 2.6-2.3-.7-.7-2.3z",
+  pencil:"M4 20h4L19 9l-4-4L4 16zM13.5 6.5l4 4",
+  check:"M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18zM8 12.5l2.7 2.7L16 9.5",
+  tick:"M5 12.5l4.5 4.5L19 7",
+  cross:"M6 6l12 12M18 6L6 18",
+  menu:"M4 6h16M4 12h16M4 18h16",
+  up:"M6 15l6-6 6 6",
+  down:"M6 9l6 6 6-6",
+  right:"M5 12h14M13 6l6 6-6 6",
+  left:"M19 12H5M11 6l-6 6 6 6",
+  play:"M8 5v14l11-7z",
+  power:"M12 3v8M6.3 7a8 8 0 1 0 11.4 0",
+  flip:"M4 12a8 8 0 0 1 14-5.3M20 12a8 8 0 0 1-14 5.3M18 3v4h-4M6 21v-4h4",
+  bulb:"M9 18h6M10 21h4M12 3a6 6 0 0 0-3.5 10.9c.6.5 1 1.2 1 2.1h5c0-.9.4-1.6 1-2.1A6 6 0 0 0 12 3z",
+  info:"M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18zM12 11v6M12 7.5v.5"
+};
+function Icon({name, size=18}){
+  return html`<svg width=${size} height=${size} viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d=${ICONS[name]} /></svg>`;
+}
+function Level({n}){
+  return html`<span class="lvl" title=${"Niveau "+n} aria-label=${"Niveau "+n+" sur 3"}>${[1,2,3].map(i=>html`<i key=${i} class=${i<=n?"f":""}></i>`)}</span>`;
+}
+
+/* ================== Robot (vue de dessus) ================== */
+function Robot({hl=[], wheels={L:"stop",R:"stop"}, buzz={L:false,R:false}, labels=true}){
+  const on = id => hl.includes(id) ? " hl" : "";
+  const tread = (side) => {
+    const st = wheels[side];
+    const cls = "tread" + (st==="run"?" run":st==="slow"?" run slow":st==="slip"?" run slip":"");
+    const stripes = [];
+    for (let y=-20; y<100; y+=10) stripes.push(html`<line key=${y} x1="0" y1=${y} x2="26" y2=${y} stroke="#8a9096" stroke-width="2" />`);
+    return html`<g class=${cls}>${stripes}</g>`;
+  };
+  return html`
+  <svg class="robot-svg" viewBox="0 0 240 250" role="img" aria-label="Robot vu de dessus">
+    <defs>
+      <clipPath id="clipL"><rect x="18" y="112" width="26" height="76" rx="6" /></clipPath>
+      <clipPath id="clipR"><rect x="196" y="112" width="26" height="76" rx="6" /></clipPath>
+    </defs>
+    <rect class="rb-body" x="48" y="46" width="144" height="180" rx="16" />
+    <g class=${"rb-sensor"}>
+      <rect class=${"rb-part"+on("capteur")} x="82" y="14" width="76" height="24" rx="5" />
+      <circle class=${"rb-part"+on("capteur")} cx="102" cy="26" r="8" />
+      <circle class=${"rb-part"+on("capteur")} cx="138" cy="26" r="8" />
+    </g>
+    <rect class=${"rb-part"+on("cyberpi")} x="78" y="56" width="84" height="46" rx="6" />
+    <rect class=${"rb-part"+on("ecran")} x="100" y="63" width="40" height="28" rx="3" />
+    <rect class=${"rb-part"+on("carte")} x="86" y="112" width="68" height="42" rx="4" />
+    <rect class=${"rb-part"+on("batterie")} x="86" y="166" width="68" height="44" rx="4" />
+    <path class=${"rb-cable"+on("cableL")} d="M86 133 H72" />
+    <path class=${"rb-cable"+on("cableR")} d="M154 133 H168" />
+    <g class=${buzz.L?"buzz":""}><rect class=${"rb-part"+on("moteurL")} x="52" y="122" width="20" height="56" rx="3" /></g>
+    <g class=${buzz.R?"buzz":""}><rect class=${"rb-part"+on("moteurR")} x="168" y="122" width="20" height="56" rx="3" /></g>
+    <rect class=${"rb-wheel"+on("roue")+on("roueL")} x="18" y="112" width="26" height="76" rx="6" />
+    <rect class=${"rb-wheel"+on("roue")+on("roueR")} x="196" y="112" width="26" height="76" rx="6" />
+    <g clip-path="url(#clipL)"><g transform="translate(18 112)">${tread("L")}</g></g>
+    <g clip-path="url(#clipR)"><g transform="translate(196 112)">${tread("R")}</g></g>
+    ${buzz.L && html`<g><path class="snd" d="M6 140 q-4 10 0 20" /><path class="snd" d="M1 136 q-6 14 0 28" /></g>`}
+    ${buzz.R && html`<g><path class="snd" d="M234 140 q4 10 0 20" /><path class="snd" d="M239 136 q6 14 0 28" /></g>`}
+    ${labels && html`<g>
+      <text class="rb-text" x="120" y="99">microcontrôleur</text>
+      <text class="rb-text" x="120" y="136">carte de</text>
+      <text class="rb-text" x="120" y="147">commande</text>
+      <text class="rb-text" x="120" y="191">batterie</text>
+      <text class="rb-text" x="31" y="204">roue G</text>
+      <text class="rb-text" x="209" y="204">roue D</text>
+      <text class="rb-text" x="62" y="194">mot. G</text>
+      <text class="rb-text" x="178" y="194">mot. D</text>
+    </g>`}
+  </svg>`;
+}
+
+/* ================== Visuels réutilisables ================== */
+function Program({lines, legend=true}){
+  return html`<div>
+    <div class="prog" role="list" aria-label="Programme">
+      ${lines.map((l,i)=>html`<div role="listitem" key=${i} class=${"blk "+(l.c||"")+(l.gap?" gap":"")+(l.hl?" hl":"")}><span class="n">${i+1}</span><span>${l.t}</span></div>`)}
+    </div>
+    ${legend && html`<div class="prog-legend"><span style=${{"--c":"var(--c-event)"}}>Événement</span><span style=${{"--c":"var(--c-motor)"}}>Moteur (action)</span><span style=${{"--c":"var(--c-ctrl)"}}>Contrôle (attente)</span></div>`}
+  </div>`;
+}
+function Table({head, rows, caption}){
+  return html`<div class="tbl-wrap"><table class="tbl">
+    ${caption && html`<caption class="small muted" style=${{textAlign:"left",paddingBottom:"6px"}}>${caption}</caption>`}
+    <thead><tr>${head.map((h,i)=>html`<th key=${i} scope="col">${h}</th>`)}</tr></thead>
+    <tbody>${rows.map((r,i)=>html`<tr key=${i}>${r.map((c,j)=> typeof c==="object" && c!==null && !React.isValidElement(c) ? html`<td key=${j} class=${c.cls||""}>${rich(c.t)}</td>` : html`<td key=${j}>${rich(c)}</td>`)}</tr>`)}</tbody>
+  </table></div>`;
+}
+
+const FLOW_NODES = {
+  start:{x:200,y:30,w:100,h:34,shape:"round",t:["Début"]},
+  dispo:{x:200,y:100,shape:"diamond",t:["Pièce disponible","en bibliothèque ?"]},
+  model:{x:400,y:100,w:130,h:38,t:["Modéliser la pièce"]},
+  complexe:{x:200,y:192,shape:"diamond",t:["Pièce","complexe ?"]},
+  stl:{x:200,y:270,w:130,h:36,t:["Exporter en .STL"]},
+  print:{x:200,y:340,w:130,h:36,t:["Imprimer en 3D"]},
+  dxf:{x:400,y:192,w:130,h:36,t:["Exporter en .DXF"]},
+  usiner:{x:400,y:270,w:130,h:36,t:["Usiner (découpe)"]}
+};
+const FLOW_EDGES = [
+  {a:"start",b:"dispo",d:"M200 47 V76"},
+  {a:"dispo",b:"model",d:"M264 100 H333",lab:{x:285,y:92,t:"Non"}},
+  {a:"dispo",b:"complexe",d:"M200 124 V168",lab:{x:208,y:140,t:"Oui",anchor:"start"},via:"dispoOui"},
+  {a:"model",b:"complexe",d:"M400 119 V146 H200 V168"},
+  {a:"complexe",b:"stl",d:"M200 216 V250",lab:{x:208,y:236,t:"Oui",anchor:"start"}},
+  {a:"stl",b:"print",d:"M200 288 V320"},
+  {a:"complexe",b:"dxf",d:"M264 192 H333",lab:{x:285,y:184,t:"Non"}},
+  {a:"dxf",b:"usiner",d:"M400 210 V250"}
+];
+function Flowchart({path=[]}){
+  const inPath = (a,b)=> { const i = path.indexOf(a); return i>=0 && path[i+1]===b; };
+  return html`<div class="flow"><svg viewBox="0 0 520 365" role="img" aria-label="Organigramme : obtenir une pièce de remplacement">
+    <defs><marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10z" style=${{fill:"var(--line)"}} /></marker><marker id="arrOn" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10z" style=${{fill:"var(--accent)"}} /></marker></defs>
+    ${FLOW_EDGES.map((e,i)=>html`<g key=${i}>
+      <path class=${"fl-edge"+(inPath(e.a,e.b)?" on":"")} d=${e.d} marker-end=${inPath(e.a,e.b)?"url(#arrOn)":"url(#arr)"} />
+      ${e.lab && html`<text class="fl-lab" x=${e.lab.x} y=${e.lab.y} text-anchor=${e.lab.anchor||"middle"}>${e.lab.t}</text>`}
+    </g>`)}
+    ${Object.entries(FLOW_NODES).map(([id,n])=>{
+      const on = path.includes(id) ? " on" : "";
+      let shape;
+      if (n.shape==="diamond") shape = html`<path class=${"fl-node"+on} d=${`M${n.x} ${n.y-24} L${n.x+64} ${n.y} L${n.x} ${n.y+24} L${n.x-64} ${n.y} Z`} />`;
+      else shape = html`<rect class=${"fl-node"+on} x=${n.x-n.w/2} y=${n.y-n.h/2} width=${n.w} height=${n.h} rx=${n.shape==="round"?17:5} />`;
+      const lines = n.t;
+      return html`<g key=${id}>${shape}${lines.map((t,k)=>html`<text key=${k} class="fl-txt" x=${n.x} y=${n.y + (k-(lines.length-1)/2)*14} style=${n.shape==="diamond"?{fontSize:"11.5px"}:null}>${t}</text>`)}</g>`;
+    })}
+  </svg></div>`;
+}
+function flowPath(dispo, complexe){
+  const p = ["start","dispo"];
+  if (dispo===false) p.push("model");
+  p.push("complexe");
+  if (complexe===true) p.push("stl","print");
+  if (complexe===false) p.push("dxf","usiner");
+  return p;
+}
+
+function Visual({v}){
+  if (!v) return null;
+  if (v.kind==="program") return html`<${Program} lines=${v.lines} legend=${v.legend!==false} />`;
+  if (v.kind==="table") return html`<${Table} head=${v.head} rows=${v.rows} caption=${v.caption} />`;
+  if (v.kind==="flow") return html`<${Flowchart} path=${v.path} />`;
+  if (v.kind==="robot") return html`<div style=${{maxWidth:"220px"}}><${Robot} hl=${v.hl||[]} /></div>`;
+  if (v.kind==="text") return html`<div class="callout"><div class="ct">${v.title||"Situation"}</div><p>${rich(v.t)}</p></div>`;
+  return null;
+}
+
+/* ================== Données : notions ================== */
+const FUNCS = {
+  alimenter:{chain:"energie", nom:"Alimenter", comp:"Batterie rechargeable", part:["batterie"],
+    role:"Stocker l'énergie électrique et la **fournir** à tout le robot.",
+    entree:"Énergie stockée (chimique)", sortie:"Énergie électrique",
+    panne:"Batterie déchargée : **les deux moteurs** tournent lentement, ou plus rien ne fonctionne."},
+  distribuer:{chain:"energie", nom:"Distribuer", comp:"Carte de commande des moteurs et câbles", part:["carte","cableL","cableR"],
+    role:"**Envoyer** l'énergie électrique au bon moteur, au bon moment, selon les ordres du microcontrôleur.",
+    entree:"Énergie électrique + ordres", sortie:"Énergie électrique dirigée vers un moteur",
+    panne:"Câble débranché ou port défectueux : **un seul moteur** ne reçoit plus d'énergie, il reste silencieux."},
+  convertir:{chain:"energie", nom:"Convertir", comp:"Moteurs gauche et droit", part:["moteurL","moteurR"],
+    role:"**Transformer** l'énergie électrique en énergie mécanique de rotation.",
+    entree:"Énergie électrique", sortie:"Énergie mécanique (rotation)",
+    panne:"Moteur défectueux : il ne tourne pas, **même bien branché**."},
+  transmettre:{chain:"energie", nom:"Transmettre", comp:"Roues, axes et vis de fixation", part:["roue"],
+    role:"**Transmettre** la rotation du moteur jusqu'au sol pour faire avancer le robot.",
+    entree:"Rotation du moteur", sortie:"Déplacement du robot",
+    panne:"Roue desserrée : **on entend le moteur**, mais la roue tourne mal ou pas du tout."},
+  acquerir:{chain:"info", nom:"Acquérir", comp:"Capteurs (ultrasons, suivi de ligne, boutons)", part:["capteur"],
+    role:"**Prélever** des informations sur l'environnement ou sur l'utilisateur.",
+    entree:"Grandeur physique (distance, lumière…)", sortie:"Information (signal)",
+    panne:"Capteur défectueux : le robot ne réagit plus aux obstacles ou à la ligne."},
+  traiter:{chain:"info", nom:"Traiter", comp:"Microcontrôleur (carte CyberPi du mBot 2)", part:["cyberpi"],
+    role:"**Exécuter le programme** et décider des ordres à envoyer.",
+    entree:"Informations des capteurs", sortie:"Ordres pour la chaîne d'énergie",
+    panne:"Erreur de programme ou carte défectueuse : le robot n'exécute pas ce qui est attendu."},
+  communiquer:{chain:"info", nom:"Communiquer", comp:"Écran, LED, haut-parleur, liaison sans fil", part:["ecran"],
+    role:"**Informer** l'utilisateur ou un autre appareil.",
+    entree:"Information traitée", sortie:"Message (affichage, son, lumière)",
+    panne:"Écran éteint : l'utilisateur ne voit plus les messages (niveau de batterie…)."}
+};
+
+const DEMARCHE = [
+  {t:"Observer le symptôme", short:"Observer",
+   body:"Je décris ce que fait le robot, **sans chercher d'explication** pour l'instant.",
+   ex:"On demande au robot d'avancer : **il tourne sur lui-même vers la gauche.**",
+   tip:"Une observation se voit ou s'entend. Elle ne contient ni « peut-être » ni « sans doute »."},
+  {t:"Comparer l'attendu et l'observé", short:"Comparer",
+   body:"Je lance un **programme de test** qui commande **un seul moteur à la fois**. Pour chaque vérification, je note le fonctionnement attendu et l'observation réelle.",
+   table:{head:["Vérification","Fonctionnement attendu","Observation réelle"],rows:[
+     ["Commander le moteur gauche","La roue gauche tourne 5 s puis s'arrête.",{t:"La roue gauche ne tourne pas. Aucun bruit.",cls:"bad"}],
+     ["Commander le moteur droit","La roue droite tourne 5 s puis s'arrête.",{t:"Conforme.",cls:"good"}],
+     ["Examiner les roues, robot éteint","Roues bien fixées, sans jeu.",{t:"Conforme.",cls:"good"}]]},
+   tip:"Ce même programme servira à nouveau **après** la réparation."},
+  {t:"Émettre des hypothèses", short:"Hypothèses",
+   body:"Je liste les **causes possibles** de l'écart, en suivant la chaîne d'énergie du côté concerné : Distribuer, Convertir, Transmettre.",
+   ex:"Côté gauche : câble du moteur gauche débranché (Distribuer) ? Moteur gauche défectueux (Convertir) ? La batterie est peu probable : le moteur droit fonctionne.",
+   tip:"Une hypothèse est une cause **possible**. Elle doit être vérifiée par un test."},
+  {t:"Proposer un test par cause", short:"Tests",
+   body:"Pour chaque cause, je prévois **un test** et ses deux résultats possibles. Je **présente mes tests à l'enseignant avant de les faire**.",
+   table:{head:["Cause possible","Test proposé","Si la cause est écartée","Si la cause est retenue"],rows:[
+     ["Câble du moteur gauche débranché","Robot éteint : vérifier et rebrancher le câble, puis relancer le même programme.","Le moteur gauche ne tourne toujours pas.","Le moteur gauche tourne."],
+     ["Moteur gauche défectueux","Robot éteint : échanger les câbles des deux moteurs, puis relancer le même programme.","La panne reste sur le même port.","La panne suit le moteur gauche."]]},
+   tip:"Un test ne doit vérifier **qu'une seule cause** à la fois."},
+  {t:"Réaliser les tests et conclure", short:"Identifier",
+   body:"Je réalise les tests **un par un**, je note les résultats et j'**identifie** le ou les dysfonctionnements.",
+   ex:"Le câble était bien branché, mais après l'échange des câbles, la panne suit le moteur gauche : **le moteur gauche est défectueux.**",
+   tip:"Si je change deux choses en même temps, je ne peux plus savoir laquelle a eu un effet."},
+  {t:"Réparer et vérifier", short:"Réparer",
+   body:"Je demande la pièce à l'enseignant. **J'éteins le robot et je débranche la batterie** avant de remplacer la pièce. Puis je relance **le même programme de test** et je termine par un **test final** en faisant déplacer le robot.",
+   table:{head:["Vérification","Résultat observé","Fonctionnement rétabli ?"],rows:[
+     ["Commander le moteur gauche","La roue gauche tourne 5 s puis s'arrête.",{t:"Oui",cls:"good"}],
+     ["Commander le moteur droit","La roue droite tourne 5 s puis s'arrête.",{t:"Oui",cls:"good"}],
+     ["Examiner les roues, robot éteint","Roues bien fixées.",{t:"Oui",cls:"good"}]]},
+   tip:"Garder le même programme garantit que **la seule chose qui a changé est l'intervention**."}
+];
+
+const FAMILLES = [
+  {id:"capteurs", nom:"Capteurs", ico:"M12 4a8 8 0 0 1 8 8M12 8a4 4 0 0 1 4 4M5 19l5-5", crit:["Type d'information mesurée","Taille physique","Mode de fixation"], ex:"Robot : capteur à ultrasons, capteur de suivi de ligne."},
+  {id:"actionneurs", nom:"Actionneurs", ico:"M12 12m-6 0a6 6 0 1 0 12 0a6 6 0 1 0-12 0M12 6v-2M12 20v-2M6 12H4M20 12h-2", crit:["Intensité","Tension","Mode de fonctionnement","Taille physique","Connectivité"], ex:"Robot : moteurs à encodeur, LED, haut-parleur."},
+  {id:"micro", nom:"Microcontrôleurs", ico:ICONS.chip, crit:["Fonctionnalités","Connexions"], ex:"Robot : carte CyberPi (programme, écran, Wi-Fi)."},
+  {id:"generateurs", nom:"Générateurs", ico:"M6 7h11v10H6zM17 10h2v4h-2M9 10l-1 2h3l-1 2", crit:["Capacité (mAh)","Tension (V)","Intensité (A)"], ex:"Robot : batterie rechargeable."},
+  {id:"structure", nom:"Structure", ico:"M4 18h16M6 18V8h12v10M9 8V5h6v3", crit:["Hauteur, largeur, longueur","Poids","Forme"], ex:"Robot : châssis, roues, supports, vis."}
+];
+
+/* ================== Données : exercices ================== */
+const PROG_TEST = [
+  {t:"Quand le bouton A est pressé", c:"event"},
+  {t:"Moteur gauche : tourner à 50 tr/min", c:"motor"},
+  {t:"Attendre 5 secondes", c:"ctrl"},
+  {t:"Moteur gauche : arrêter", c:"motor"},
+  {t:"Moteur droit : tourner à 50 tr/min", c:"motor"},
+  {t:"Attendre 5 secondes", c:"ctrl"},
+  {t:"Moteur droit : arrêter", c:"motor"}
+];
+const FUNC_CHOICES = ["Alimenter","Distribuer","Convertir","Transmettre","Acquérir","Traiter","Communiquer"];
+
+const EXOS = [
+ {id:"f1", titre:"Situer un composant dans les chaînes", court:"Chaînes", lien:"chaines",
+  objectif:"Associer un composant du robot à sa fonction, et localiser une panne grâce à la chaîne d'énergie.",
+  worked:{
+    titre:"Quelle est la fonction du moteur dans la chaîne d'énergie ?",
+    visual:{kind:"robot", hl:["moteurL","moteurR"]},
+    steps:[
+      {h:"Je repère ce que le moteur reçoit", t:"De l'**énergie électrique**, envoyée par la carte de commande."},
+      {h:"Je repère ce qu'il produit", t:"Un **mouvement de rotation** : c'est de l'énergie mécanique."},
+      {h:"Je nomme la fonction", t:"Passer d'une forme d'énergie à une autre, c'est **Convertir**."}
+    ],
+    conclusion:"Le moteur réalise la fonction **Convertir** : il transforme l'énergie électrique en énergie mécanique de rotation.",
+    methode:"Entrée ? Sortie ? Puis le verbe de la fonction."
+  },
+  items:[
+   {id:"f1e1", keepOrder:true, level:1, type:"qcm", titre:"La batterie",
+    q:"Quelle fonction réalise la **batterie** du robot ?",
+    options:["Alimenter","Distribuer","Convertir","Acquérir"], answer:0,
+    simple:"Alimenter.",
+    detail:["La batterie stocke l'énergie et fournit l'énergie électrique à tout le robot : c'est le début de la chaîne d'énergie, la fonction **Alimenter**.","**Distribuer** est le rôle de la carte de commande des moteurs.","**Acquérir** appartient à la chaîne d'information (capteurs)."]},
+   {id:"f1e2", level:1, type:"order", titre:"Ordre de la chaîne d'énergie",
+    q:"Remets les fonctions de la chaîne d'énergie dans l'ordre, de la batterie jusqu'au déplacement du robot.",
+    items:["Alimenter (batterie)","Distribuer (carte de commande)","Convertir (moteur)","Transmettre (roue)"],
+    simple:"Alimenter → Distribuer → Convertir → Transmettre.",
+    detail:["L'énergie suit un chemin : elle est **fournie** par la batterie, **dirigée** vers le bon moteur par la carte, **transformée** en rotation par le moteur, puis **transmise** au sol par la roue.","Retenir l'ordre aide à chercher une panne : on remonte la chaîne à partir de l'endroit où le défaut apparaît."]},
+   {id:"f1e3", level:2, type:"match", titre:"Composants et fonctions",
+    q:"Associe chaque composant du robot à sa fonction.",
+    rows:[
+      {l:"Capteur à ultrasons", a:"Acquérir"},
+      {l:"Microcontrôleur (carte CyberPi)", a:"Traiter"},
+      {l:"Carte de commande des moteurs", a:"Distribuer"},
+      {l:"Roue", a:"Transmettre"},
+      {l:"Écran", a:"Communiquer"}],
+    choices:FUNC_CHOICES,
+    simple:"Ultrasons → Acquérir ; CyberPi → Traiter ; carte de commande → Distribuer ; roue → Transmettre ; écran → Communiquer.",
+    detail:["Le **capteur** prélève une information (la distance) : Acquérir.","Le **microcontrôleur** exécute le programme et décide : Traiter.","La **carte de commande** dirige l'énergie vers un moteur : Distribuer.","La **roue** transmet la rotation au sol : Transmettre.","L'**écran** informe l'utilisateur : Communiquer."]},
+   {id:"f1e4", keepOrder:true, level:3, type:"qcm", titre:"Localiser la panne",
+    visual:{kind:"text", title:"Observation", t:"Pendant la phase « moteur droit » du programme de test, **on entend le moteur droit tourner**, mais **la roue droite reste immobile**."},
+    q:"Quelle fonction de la chaîne d'énergie est en défaut ?",
+    options:["Alimenter","Distribuer","Convertir","Transmettre"], answer:3,
+    simple:"Transmettre.",
+    detail:["On entend le moteur : il **reçoit** de l'énergie (Alimenter et Distribuer fonctionnent) et il **tourne** (Convertir fonctionne).","C'est le passage du mouvement du moteur à la roue qui ne se fait pas : la fonction **Transmettre**.","Cause probable : roue desserrée, vis de fixation manquante ou moyeu abîmé."]}
+  ]},
+ {id:"f2", titre:"Écrire un programme de test", court:"Programme de test", lien:"demarche",
+  objectif:"Construire un programme qui commande un seul moteur à la fois, et comprendre pourquoi on le garde identique.",
+  worked:{
+    titre:"Faire tourner le moteur gauche 5 s, l'arrêter, puis faire tourner le moteur droit 5 s et l'arrêter.",
+    visual:{kind:"program", lines:PROG_TEST},
+    steps:[
+      {h:"Je découpe la consigne en actions simples", t:"Démarrer le moteur gauche, attendre 5 s, l'arrêter ; démarrer le moteur droit, attendre 5 s, l'arrêter."},
+      {h:"Je choisis l'événement de départ", t:"« Quand le bouton A est pressé » : je lance le test quand je suis prêt à observer."},
+      {h:"Je traduis chaque action par un bloc", t:"Un bloc **moteur** pour démarrer, un bloc **attendre** pour la durée, un bloc **moteur** pour arrêter."},
+      {h:"Je vérifie que chaque moteur est isolé", t:"**Un seul moteur à la fois** : je sais exactement quelle roue j'observe, et je remplis une ligne du tableau par moteur."}
+    ],
+    conclusion:"Ce programme sert de **référence** : je l'utilise avant l'intervention, puis **sans le modifier** après.",
+    methode:"Une action = un bloc. Une durée = un bloc « attendre »."
+  },
+  items:[
+   {id:"f2e1", level:1, type:"match", titre:"Programme à compléter",
+    visual:{kind:"program", lines:[
+      {t:"Quand le bouton A est pressé", c:"event"},
+      {t:"Moteur gauche : tourner à 50 tr/min", c:"motor"},
+      {t:"[ ligne 3 à compléter ]", c:"ctrl", gap:true},
+      {t:"[ ligne 4 à compléter ]", c:"motor", gap:true},
+      {t:"Moteur droit : tourner à 50 tr/min", c:"motor"},
+      {t:"Attendre 5 secondes", c:"ctrl"},
+      {t:"Moteur droit : arrêter", c:"motor"}]},
+    q:"Complète les lignes 3 et 4 pour que le moteur gauche tourne 5 s puis s'arrête.",
+    rows:[{l:"Ligne 3", a:"Attendre 5 secondes"},{l:"Ligne 4", a:"Moteur gauche : arrêter"}],
+    choices:["Attendre 5 secondes","Répéter indéfiniment","Moteur gauche : arrêter","Moteur droit : arrêter","Attendre 1 seconde"],
+    simple:"Ligne 3 : « Attendre 5 secondes ». Ligne 4 : « Moteur gauche : arrêter ».",
+    detail:["La consigne demande **5 secondes** de rotation : il faut un bloc d'attente de 5 s juste après le démarrage.","Ensuite, il faut **arrêter le moteur gauche** avant de démarrer le moteur droit, sinon les deux tourneraient ensemble.","« Répéter indéfiniment » ferait tourner le programme sans fin : impossible de remplir le tableau."]},
+   {id:"f2e2", level:2, type:"order", titre:"Remettre les blocs dans l'ordre",
+    q:"Les blocs du programme de test ont été mélangés. Remets-les dans l'ordre.",
+    items:PROG_TEST.map(l=>l.t),
+    simple:"Bouton A → gauche tourne → attendre 5 s → gauche arrête → droit tourne → attendre 5 s → droit arrête.",
+    detail:["Le programme commence toujours par l'**événement** de départ.","Pour chaque moteur : **démarrer**, **attendre**, **arrêter**.","On traite le moteur gauche en entier avant de passer au moteur droit : un seul moteur à la fois."]},
+   {id:"f2e3", level:2, type:"qcm", titre:"Un test bien conçu ?",
+    visual:{kind:"program", legend:false, lines:[
+      {t:"Quand le bouton A est pressé", c:"event"},
+      {t:"Moteur gauche : tourner à 50 tr/min", c:"motor"},
+      {t:"Moteur droit : tourner à 50 tr/min", c:"motor"},
+      {t:"Attendre 5 secondes", c:"ctrl"},
+      {t:"Arrêter les deux moteurs", c:"motor"}]},
+    q:"Ce programme convient-il pour diagnostiquer une panne de moteur ?",
+    options:["Oui : il teste les deux moteurs en même temps, c'est plus rapide.","Non : les deux moteurs tournent ensemble, on ne peut pas observer chaque moteur séparément.","Non : il manque un bloc « répéter indéfiniment ».","Oui : il dure 5 secondes comme demandé."], answer:1,
+    simple:"Non : il faut commander un seul moteur à la fois.",
+    detail:["Quand les deux moteurs tournent en même temps, le robot se déplace et les observations se mélangent.","Pour diagnostiquer, on **isole** chaque élément : un moteur, puis l'autre. On obtient une observation claire par ligne du tableau.","La durée de 5 s ne suffit pas à rendre le test valable."]},
+   {id:"f2e4", level:3, type:"qcm", titre:"Garder le même programme",
+    visual:{kind:"text", title:"Situation", t:"Après avoir rebranché le câble du moteur gauche, Inès modifie son programme : elle passe la vitesse de **50 à 100 tr/min** avant de relancer le test."},
+    q:"Sa démarche est-elle correcte ?",
+    options:["Oui : une vitesse plus élevée rend le test plus visible.","Non : deux choses ont changé (le câble et le programme), elle ne peut pas savoir laquelle explique le résultat.","Oui : le programme n'a aucun effet sur le résultat.","Non : il fallait diminuer la vitesse."], answer:1,
+    simple:"Non : il faut relancer exactement le même programme.",
+    detail:["Le test après intervention doit être **comparable** au test d'avant.","Si le programme change aussi, il y a **deux différences** : on ne peut plus attribuer le résultat à la réparation.","Règle : avant et après l'intervention, **la seule chose qui change, c'est l'intervention**."]}
+  ]},
+ {id:"f3", titre:"Observer et formuler des hypothèses", court:"Hypothèses", lien:"demarche",
+  objectif:"Distinguer une observation d'une hypothèse, et proposer des causes plausibles à partir des observations.",
+  worked:{
+    titre:"On demande au robot d'avancer : il tourne sur lui-même vers la gauche.",
+    visual:{kind:"table", head:["Vérification","Attendu","Observé"], rows:[
+      ["Moteur gauche","La roue gauche tourne 5 s.",{t:"Ne tourne pas. Aucun bruit.",cls:"bad"}],
+      ["Moteur droit","La roue droite tourne 5 s.",{t:"Conforme.",cls:"good"}]]},
+    steps:[
+      {h:"J'écris le fonctionnement attendu", t:"Les deux roues tournent à la même vitesse : le robot avance droit."},
+      {h:"J'écris l'observation, sans interpréter", t:"Programme de test : la roue gauche ne tourne pas et **on n'entend pas** le moteur gauche. La roue droite tourne normalement."},
+      {h:"Je compare", t:"Seul le **côté gauche** est touché. Une panne de batterie toucherait les deux moteurs : elle est peu probable."},
+      {h:"Je liste les causes en suivant la chaîne", t:"**Distribuer** : câble du moteur gauche débranché. **Convertir** : moteur gauche défectueux. Une roue desserrée (Transmettre) est peu probable : on entendrait le moteur."}
+    ],
+    conclusion:"Deux hypothèses retenues : câble du moteur gauche, ou moteur gauche. Chacune devra être **vérifiée par un test**.",
+    methode:"Observation = ce que je vois ou entends. Hypothèse = cause possible, à tester."
+  },
+  items:[
+   {id:"f3e1", level:1, type:"match", titre:"Observation ou hypothèse ?",
+    q:"Classe chaque phrase.",
+    rows:[
+      {l:"La roue gauche ne tourne pas.", a:"Observation"},
+      {l:"Le câble du moteur gauche est peut-être débranché.", a:"Hypothèse"},
+      {l:"On entend le moteur droit pendant 5 s.", a:"Observation"},
+      {l:"La batterie est sans doute faible.", a:"Hypothèse"},
+      {l:"L'écran affiche 8 % de batterie.", a:"Observation"}],
+    choices:["Observation","Hypothèse"],
+    simple:"Observations : phrases 1, 3 et 5. Hypothèses : phrases 2 et 4.",
+    detail:["Une **observation** décrit un fait que l'on voit, entend ou lit : elle est certaine.","Une **hypothèse** propose une explication : les mots « peut-être », « sans doute » le signalent.","« L'écran affiche 8 % » est une observation : on la lit. Elle permettra ensuite de **retenir** l'hypothèse de la batterie."]},
+   {id:"f3e2", level:2, type:"multi", titre:"Causes possibles",
+    visual:{kind:"text", title:"Observation", t:"Pendant la phase « moteur gauche », **on entend le moteur gauche**, mais **la roue gauche reste immobile**."},
+    q:"Coche **toutes** les causes possibles.",
+    options:["La roue gauche est desserrée sur son axe.","La vis de fixation de la roue gauche manque.","Le câble du moteur gauche est débranché.","La batterie est déchargée.","Le moyeu de la roue gauche est cassé."], answers:[0,1,4],
+    simple:"Roue desserrée, vis manquante, moyeu cassé.",
+    detail:["On **entend** le moteur : il reçoit de l'énergie et il tourne. Le câble et la batterie ne sont donc pas en cause.","Le défaut se situe entre le moteur et le sol : fonction **Transmettre**.","Toutes les causes liées à la roue et à sa fixation sont possibles."]},
+   {id:"f3e3", level:3, type:"qcm", titre:"La cause la plus probable",
+    visual:{kind:"table", head:["Vérification","Observation réelle"], rows:[
+      ["Commander le moteur gauche",{t:"La roue tourne, mais très lentement.",cls:"bad"}],
+      ["Commander le moteur droit",{t:"La roue tourne, mais très lentement.",cls:"bad"}],
+      ["Examiner les roues, robot éteint",{t:"Roues bien fixées.",cls:"good"}]]},
+    q:"Quelle est la cause la plus probable ?",
+    options:["Les deux moteurs sont tombés en panne en même temps.","La batterie est déchargée.","La roue droite est desserrée.","Le câble du moteur gauche est débranché."], answer:1,
+    simple:"La batterie est déchargée.",
+    detail:["**Les deux côtés** présentent le même défaut.","Deux pièces indépendantes tombent rarement en panne en même temps : on cherche un élément **commun aux deux moteurs**, en amont dans la chaîne d'énergie.","C'est la fonction **Alimenter** : la batterie. Test à proposer : vérifier le niveau de charge, recharger, puis relancer le même programme."]}
+  ]},
+ {id:"f4", titre:"Proposer un test et l'interpréter", court:"Tests", lien:"demarche",
+  objectif:"Concevoir un test qui vérifie une seule cause, prévoir ses résultats et en tirer une conclusion.",
+  worked:{
+    titre:"Cause possible : le câble du moteur gauche est débranché.",
+    visual:{kind:"table", head:["Cause possible","Test proposé","Si la cause est écartée","Si la cause est retenue"], rows:[
+      ["Câble du moteur gauche débranché","Robot éteint : vérifier le câble et le rebrancher, puis relancer le même programme.","Le moteur gauche ne tourne toujours pas.","Le moteur gauche tourne à nouveau."]]},
+    steps:[
+      {h:"Je choisis une action qui ne vérifie que cette cause", t:"Robot éteint, je vérifie le câble du moteur gauche et je le rebranche correctement."},
+      {h:"Je garde tout le reste identique", t:"**Même programme**, même batterie, même surface."},
+      {h:"Je prévois les deux résultats", t:"Si le moteur tourne : cause **retenue**. S'il ne tourne toujours pas : cause **écartée**, je passe à l'hypothèse suivante."},
+      {h:"Je fais valider", t:"Je présente mon test à l'enseignant **avant** de le réaliser."}
+    ],
+    conclusion:"Un bon test agit sur **une seule cause** et prévoit à l'avance comment interpréter le résultat.",
+    methode:"Une cause → un test → deux résultats prévus."
+  },
+  items:[
+   {id:"f4e1", level:1, type:"qcm", titre:"Choisir un test",
+    q:"Cause possible : **la batterie est déchargée**. Quel test proposes-tu ?",
+    options:["Remplacer le moteur gauche.","Vérifier le niveau de charge, recharger la batterie, puis relancer le même programme.","Changer de programme pour faire tourner les moteurs plus vite.","Resserrer les roues et changer la batterie en même temps."], answer:1,
+    simple:"Vérifier la charge, recharger, relancer le même programme.",
+    detail:["Le test doit agir **uniquement** sur la cause étudiée : la batterie.","Changer le programme ou faire deux interventions à la fois empêcherait de conclure.","Remplacer le moteur ne vérifie pas la batterie et coûte une pièce pour rien."]},
+   {id:"f4e2", level:2, type:"match", titre:"Prévoir les résultats",
+    visual:{kind:"text", title:"Test proposé", t:"Cause : la roue droite est desserrée. Test : robot éteint, resserrer la vis de la roue droite, puis relancer **le même programme**."},
+    q:"Complète la ligne du tableau.",
+    rows:[{l:"Résultat si la cause est retenue", a:"La roue droite tourne normalement."},{l:"Résultat si la cause est écartée", a:"La roue droite tourne toujours mal."}],
+    choices:["La roue droite tourne normalement.","La roue droite tourne toujours mal.","Le moteur gauche s'arrête.","La batterie se recharge."],
+    simple:"Retenue : la roue droite tourne normalement. Écartée : elle tourne toujours mal.",
+    detail:["Si la roue desserrée était bien la cause, la resserrer **supprime** le défaut : la cause est retenue.","Si le défaut persiste, la roue n'était pas (ou pas la seule) en cause : on l'écarte et on teste l'hypothèse suivante.","Les autres propositions concernent d'autres éléments : elles ne répondent pas à ce test."]},
+   {id:"f4e3", level:3, type:"qcm", titre:"Le test d'échange",
+    visual:{kind:"text", title:"Situation", t:"Le moteur gauche ne tourne pas, alors que son câble est bien branché. Robot éteint, on **échange les câbles** : le moteur gauche est branché sur le port droit, et inversement. On relance le même programme. Phase « port gauche » : **la roue droite tourne normalement**. Phase « port droit » : **la roue gauche ne tourne pas**."},
+    q:"Quelle conclusion tires-tu ?",
+    options:["Le port gauche de la carte est défectueux.","Le moteur gauche est défectueux.","La batterie est déchargée.","Le programme est faux."], answer:1,
+    simple:"Le moteur gauche est défectueux.",
+    detail:["Le port gauche fait tourner le moteur droit normalement : **le port gauche fonctionne**.","Le moteur gauche ne tourne sur **aucun** des deux ports : la panne **suit le moteur**.","Il faut donc remplacer le moteur gauche. Si la panne était restée sur le port gauche, c'est la carte qui aurait été en cause."]},
+   {id:"f4e4", level:3, type:"qcm", titre:"Deux interventions à la fois",
+    q:"Hugo rebranche le câble **et** recharge la batterie en même temps. Le robot fonctionne à nouveau. Peut-il dire quelle était la panne ?",
+    options:["Oui, c'était le câble.","Oui, c'était la batterie.","Non : il a changé deux choses à la fois, il ne sait pas laquelle a réparé le robot.","Non : il aurait dû changer de programme."], answer:2,
+    simple:"Non : deux changements à la fois empêchent de conclure.",
+    detail:["Le robot est réparé, mais le **diagnostic** n'est pas fait : la cause reste inconnue.","Pour conclure, il faut faire **un seul changement**, relancer le même programme, observer, puis passer au changement suivant si besoin.","C'est le même principe que pour une mesure : une seule variable à la fois."]}
+  ]},
+ {id:"f5", titre:"Choisir un composant de remplacement", court:"Composants", lien:"composants",
+  objectif:"Identifier la famille d'un composant et comparer ses caractéristiques pour choisir la bonne pièce.",
+  worked:{
+    titre:"La batterie ne tient plus la charge. Quelle batterie commander ?",
+    visual:{kind:"table", caption:"Valeurs d'exemple. Batterie d'origine : 3,7 V – 2 500 mAh – connecteur JST – 60 × 35 mm.", head:["Réf.","Tension","Capacité","Connecteur","Dimensions"], rows:[
+      ["A","3,7 V","2 500 mAh","JST","60 × 35 mm"],
+      ["B",{t:"7,4 V",cls:"bad"},"2 500 mAh","JST","60 × 35 mm"],
+      ["C","3,7 V",{t:"1 000 mAh",cls:"bad"},"JST","60 × 35 mm"],
+      ["D","3,7 V","2 500 mAh","JST",{t:"80 × 50 mm",cls:"bad"}]]},
+    steps:[
+      {h:"Je repère la famille du composant", t:"Une batterie est un **générateur** : je compare capacité, tension et intensité."},
+      {h:"J'ajoute les contraintes physiques", t:"Le **connecteur** et les **dimensions** doivent permettre de la brancher et de la loger."},
+      {h:"J'élimine critère par critère", t:"B : tension trop élevée, risque d'abîmer la carte. C : capacité trop faible, autonomie réduite. D : trop grande pour le logement."},
+      {h:"Je choisis", t:"Seule la batterie **A** a toutes les caractéristiques de la pièce d'origine."}
+    ],
+    conclusion:"On remplace une pièce par une pièce aux **caractéristiques identiques** à celles de l'origine.",
+    methode:"Famille → caractéristiques à comparer → élimination une par une."
+  },
+  items:[
+   {id:"f5e1", level:1, type:"match", titre:"Familles de composants",
+    q:"Classe chaque élément du robot dans sa famille.",
+    rows:[
+      {l:"Moteur", a:"Actionneur"},
+      {l:"Batterie", a:"Générateur"},
+      {l:"Capteur de suivi de ligne", a:"Capteur"},
+      {l:"Carte CyberPi", a:"Microcontrôleur"},
+      {l:"Châssis", a:"Structure"},
+      {l:"Roue", a:"Structure"}],
+    choices:["Capteur","Actionneur","Microcontrôleur","Générateur","Structure"],
+    simple:"Moteur : actionneur. Batterie : générateur. Suivi de ligne : capteur. CyberPi : microcontrôleur. Châssis et roue : structure.",
+    detail:["Un **actionneur** produit une action (le moteur fait tourner).","Un **générateur** fournit l'énergie (la batterie).","Un **capteur** mesure une information (la ligne au sol).","Le **microcontrôleur** exécute le programme.","La **structure** donne la forme et porte les éléments : châssis, roues, supports."]},
+   {id:"f5e2", level:2, type:"multi", titre:"Remplacer un capteur",
+    q:"Le capteur à ultrasons est cassé. Coche les caractéristiques à vérifier pour le remplacer.",
+    options:["Le type d'information mesurée (une distance)","La taille physique","Le mode de fixation","La couleur du boîtier","La capacité en mAh"], answers:[0,1,2],
+    simple:"Information mesurée, taille, mode de fixation.",
+    detail:["Pour un **capteur**, on compare : le type d'information mesurée, la taille physique et le mode de fixation.","La couleur ne change rien au fonctionnement.","La capacité en mAh concerne les **générateurs** (batteries)."]},
+   {id:"f5e3", keepOrder:true, level:3, type:"qcm", titre:"Commander un moteur",
+    visual:{kind:"table", caption:"Moteur d'origine (valeurs d'exemple) : 6 V – 0,4 A – connecteur 4 broches – axe Ø 4 mm – fixation 2 vis M3.", head:["Réf.","Tension","Intensité","Connecteur","Axe","Fixation"], rows:[
+      ["M1","12 V","0,4 A","4 broches","Ø 4 mm","2 vis M3"],
+      ["M2","6 V","0,4 A","2 broches","Ø 4 mm","2 vis M3"],
+      ["M3","6 V","0,4 A","4 broches","Ø 4 mm","2 vis M3"],
+      ["M4","6 V","0,4 A","4 broches","Ø 6 mm","2 vis M3"]]},
+    q:"Quel moteur faut-il commander ?",
+    options:["M1","M2","M3","M4"], answer:2,
+    simple:"M3.",
+    detail:["**M1** : tension de 12 V au lieu de 6 V. Il ne tournerait pas correctement avec la batterie du robot.","**M2** : connecteur 2 broches. On ne peut pas le brancher sur le port prévu (connectivité).","**M4** : axe de 6 mm. La roue ne rentre pas dessus (taille physique).","**M3** reprend toutes les caractéristiques d'origine."]}
+  ]},
+ {id:"f6", titre:"Suivre et construire une procédure", court:"Procédure", lien:"procedure",
+  objectif:"Suivre un organigramme, ordonner une procédure et contrôler les conditions d'une mesure.",
+  worked:{
+    titre:"Le support du capteur est cassé. Il n'existe pas dans la bibliothèque de pièces. C'est une plaque plane, simple.",
+    visual:{kind:"flow", path:flowPath(false,false)},
+    steps:[
+      {h:"Première question : pièce disponible ?", t:"**Non** : je dois d'abord **modéliser** la pièce avec un logiciel de conception 3D."},
+      {h:"Deuxième question : pièce complexe ?", t:"**Non** : c'est une plaque plane."},
+      {h:"Je suis la flèche « Non »", t:"J'exporte en **.DXF** (un dessin en 2 dimensions) pour l'**usiner**, par exemple à la découpeuse."},
+      {h:"Je retiens les deux formats", t:"**.STL** : modèle en 3D pour l'imprimante 3D. **.DXF** : dessin en 2D pour l'usinage."}
+    ],
+    conclusion:"Chemin suivi : Début → Modéliser → Exporter en .DXF → Usiner.",
+    methode:"Losange = question. Je suis la flèche qui correspond à ma réponse."
+  },
+  items:[
+   {id:"f6e1", level:1, type:"qcm", titre:"Suivre l'organigramme",
+    q:"La roue cassée **existe** dans la bibliothèque, et sa forme est **complexe** (en 3D, avec des courbes). Quel chemin suis-tu ?",
+    options:["Modéliser → Exporter en .DXF → Usiner","Exporter en .STL → Imprimer en 3D","Exporter en .DXF → Usiner","Imprimer directement, sans exporter"], answer:1,
+    simple:"Exporter en .STL → Imprimer en 3D.",
+    detail:["Disponible : **Oui**, donc pas besoin de modéliser.","Complexe : **Oui**, donc la flèche mène à l'export **.STL**.","Le fichier .STL décrit la forme en 3D : c'est celui que lit l'imprimante 3D."]},
+   {id:"f6e2", level:2, type:"order", titre:"La procédure de réparation",
+    q:"Remets dans l'ordre les étapes de la réparation du robot.",
+    items:["Lancer le programme de test et noter les observations","Proposer des causes possibles et un test pour chacune","Présenter ses tests à l'enseignant","Réaliser les tests et identifier le dysfonctionnement","Éteindre le robot et débrancher la batterie","Remplacer ou remettre en état la pièce","Relancer le même programme et vérifier","Faire un test final en faisant déplacer le robot"],
+    simple:"Observer → hypothèses et tests → validation → tests → éteindre → réparer → même programme → test final.",
+    detail:["On **diagnostique** d'abord (étapes 1 à 4), on **répare** ensuite (étapes 5 et 6), puis on **vérifie** (étapes 7 et 8).","La précaution (éteindre, débrancher) vient **juste avant** de toucher à la pièce.","La vérification utilise le **même programme** que le diagnostic, puis un essai réel."]},
+   {id:"f6e3", level:3, type:"multi", titre:"Une seule variable",
+    visual:{kind:"text", title:"Protocole", t:"On veut savoir si **la vitesse du robot dépend du niveau de charge de la batterie**. On fait trois essais avec trois niveaux de charge."},
+    q:"Coche ce qui doit rester **identique** d'un essai à l'autre.",
+    options:["Le programme","La surface du sol","La distance parcourue","Le niveau de charge de la batterie","Le robot utilisé"], answers:[0,1,2,4],
+    simple:"Tout, sauf le niveau de charge de la batterie.",
+    detail:["Le **niveau de charge** est la variable étudiée : c'est la seule qui doit changer.","Si le sol, le programme ou le robot changeaient aussi, on ne saurait pas ce qui explique la différence de vitesse.","Une mesure fiable se fait **dans les mêmes conditions**, sauf pour la variable étudiée."]}
+  ]}
+];
+
+const MINI = {
+  chaines:[
+    {id:"m1a", keepOrder:true, type:"qcm", q:"Quelle est la fonction du moteur dans la chaîne d'énergie ?", options:["Alimenter","Distribuer","Convertir","Transmettre"], answer:2, simple:"Convertir.", detail:["Le moteur transforme l'énergie électrique en énergie mécanique de rotation."]},
+    {id:"m1b", keepOrder:true, type:"qcm", q:"Les **deux** moteurs tournent très lentement. Quelle fonction faut-il vérifier en premier ?", options:["Alimenter","Convertir","Transmettre","Acquérir"], answer:0, simple:"Alimenter (la batterie).", detail:["Un défaut commun aux deux moteurs vient d'un élément qu'ils partagent : la batterie, en début de chaîne."]}
+  ],
+  demarche:[
+    {id:"m2a", type:"qcm", q:"Pourquoi garder le même programme avant et après l'intervention ?", options:["Pour gagner du temps.","Pour que la seule différence entre les deux tests soit l'intervention.","Parce que le robot ne peut garder qu'un programme.","Pour que le robot aille plus vite."], answer:1, simple:"Pour que seule l'intervention change.", detail:["Si le programme changeait aussi, on ne saurait pas si le résultat vient de la réparation ou du programme."]},
+    {id:"m2b", type:"qcm", q:"Que fais-tu de tes tests **avant** de les réaliser ?", options:["Je les réalise tous en même temps.","Je les présente à l'enseignant.","Je change de programme.","Je remplace la pièce."], answer:1, simple:"Je les présente à l'enseignant.", detail:["L'enseignant vérifie qu'ils sont sans danger et qu'ils testent bien une seule cause."]}
+  ],
+  procedure:[
+    {id:"m3a", type:"qcm", q:"À quoi sert une procédure ?", options:["À décorer un compte rendu.","À réaliser une tâche précise sans se tromper, en respectant des étapes.","À remplacer le programme du robot.","À mesurer une tension."], answer:1, simple:"Réaliser une tâche précise sans se tromper.", detail:["Elle précise toutes les étapes à respecter, dans l'ordre."]},
+    {id:"m3b", type:"qcm", q:"Lors d'une mesure, combien de paramètres fais-tu varier ?", options:["Aucun","Un seul","Deux","Tous"], answer:1, simple:"Un seul.", detail:["Tout le reste reste identique : ainsi, la seule variable est celle qui nous intéresse."]}
+  ],
+  composants:[
+    {id:"m4a", type:"qcm", q:"À quelle famille appartient la roue ?", options:["Actionneur","Capteur","Structure","Générateur"], answer:2, simple:"Structure.", detail:["Ses caractéristiques sont des dimensions, un poids et une forme."]},
+    {id:"m4b", type:"multi", q:"Pour remplacer une batterie, coche les caractéristiques à comparer.", options:["Capacité","Tension","Intensité","Type d'information mesurée"], answers:[0,1,2], simple:"Capacité, tension, intensité.", detail:["Ce sont les caractéristiques des générateurs. Le type d'information mesurée concerne les capteurs."]}
+  ]
+};
+
+const CARDS = [
+  {q:"Qu'est-ce qu'une procédure ?", a:"Un document qui précise toutes les étapes à respecter pour réaliser une tâche précise sans se tromper."},
+  {q:"Sous quelles formes peut-on représenter une procédure ?", a:"Algorithme, organigramme, carte mentale, tableau, liste."},
+  {q:"Les 4 fonctions de la chaîne d'énergie, dans l'ordre ?", a:"Alimenter → Distribuer → Convertir → Transmettre."},
+  {q:"Les 3 fonctions de la chaîne d'information ?", a:"Acquérir → Traiter → Communiquer."},
+  {q:"Fonction du moteur dans la chaîne d'énergie ?", a:"Convertir : énergie électrique → énergie mécanique de rotation."},
+  {q:"Pourquoi garder le même programme avant et après l'intervention ?", a:"Pour que la seule chose qui change entre les deux tests soit l'intervention."},
+  {q:"Règle d'or d'une mesure ?", a:"Ne faire varier qu'un seul paramètre ; tout le reste reste identique."},
+  {q:"Observation ou hypothèse : quelle différence ?", a:"L'observation est un fait constaté. L'hypothèse est une cause possible, à vérifier par un test."},
+  {q:"Que faire avant de réaliser ses tests ?", a:"Les présenter à l'enseignant."},
+  {q:"Précaution avant de changer une pièce ?", a:"Éteindre le robot et débrancher la batterie."},
+  {q:"Test d'échange des moteurs : la panne suit le moteur. Conclusion ?", a:"Le moteur est défectueux. Si la panne restait sur le port, ce serait la carte ou le câble."},
+  {q:"Caractéristiques d'un capteur ?", a:"Type d'information mesurée, taille physique, mode de fixation."},
+  {q:"Caractéristiques d'un actionneur ?", a:"Intensité, tension, mode, taille physique, connectivité."},
+  {q:"Caractéristiques d'un générateur ?", a:"Capacité, tension, intensité."},
+  {q:"Caractéristiques d'un microcontrôleur ? d'une pièce de structure ?", a:"Microcontrôleur : fonctionnalités, connexions. Structure : hauteur, largeur, longueur, poids, forme."},
+  {q:"Fichier .STL ou .DXF ?", a:".STL : modèle 3D pour l'imprimante 3D (pièce complexe). .DXF : dessin 2D pour l'usinage (pièce simple)."}
+];
+
+const QUIZ = [
+  {q:"Une procédure, c'est…", options:["une liste de pièces à commander","un document qui précise les étapes pour réaliser une tâche sans se tromper","un programme pour le robot","un schéma de la chaîne d'énergie"], answer:1, exp:"La procédure décrit toutes les étapes à respecter, dans l'ordre.", lien:"procedure"},
+  {q:"Dans la chaîne d'énergie du robot, le moteur réalise la fonction…", options:["Alimenter","Distribuer","Convertir","Transmettre"], answer:2, exp:"Il convertit l'énergie électrique en énergie mécanique de rotation.", lien:"chaines"},
+  {q:"Pourquoi utiliser le même programme de test avant et après la réparation ?", options:["Pour que seule l'intervention change entre les deux tests","Parce qu'il est plus court","Pour économiser la batterie","Pour que le robot aille plus vite"], answer:0, exp:"Une seule différence entre les deux tests : on peut attribuer le résultat à la réparation.", lien:"demarche"},
+  {q:"Quelle phrase est une observation ?", options:["Le moteur gauche est sans doute cassé.","La roue gauche ne tourne pas.","La batterie est peut-être vide.","Le câble a dû se débrancher."], answer:1, exp:"Une observation décrit ce que l'on voit ou entend, sans l'expliquer.", lien:"demarche"},
+  {q:"Les deux moteurs tournent très lentement, les roues sont bien fixées. Cause la plus probable ?", options:["Les deux moteurs sont cassés","La batterie est déchargée","Une roue est desserrée","Le câble gauche est débranché"], answer:1, exp:"Un défaut commun aux deux moteurs vient d'un élément partagé : la batterie (Alimenter).", lien:"chaines"},
+  {q:"Après échange des câbles, le moteur gauche ne tourne sur aucun port. Conclusion ?", options:["Le port gauche est défectueux","Le moteur gauche est défectueux","La batterie est déchargée","Le programme est faux"], answer:1, exp:"La panne suit le moteur : c'est lui qu'il faut remplacer.", lien:"demarche"},
+  {q:"Que dois-tu faire avant de réaliser tes tests ?", options:["Changer la pièce","Les présenter à l'enseignant","Modifier le programme","Rien de particulier"], answer:1, exp:"L'enseignant valide les tests avant qu'ils soient réalisés.", lien:"demarche"},
+  {q:"Quelle précaution prendre avant de changer une pièce ?", options:["Relancer le programme","Éteindre le robot et débrancher la batterie","Recharger la batterie","Retirer les roues"], answer:1, exp:"On coupe l'alimentation pour travailler sans risque pour soi et pour les composants.", lien:"demarche"},
+  {q:"Pour remplacer une batterie, quelles caractéristiques compare-t-on ?", options:["Capacité, tension, intensité","Type d'information mesurée, fixation","Fonctionnalités, connexions","Hauteur, poids, forme"], answer:0, exp:"Ce sont les caractéristiques des générateurs.", lien:"composants"},
+  {q:"Une pièce non disponible et complexe doit être…", options:["exportée en .DXF puis usinée","modélisée, exportée en .STL puis imprimée en 3D","imprimée directement","modélisée puis usinée sans export"], answer:1, exp:"Non disponible → modéliser ; complexe → .STL → impression 3D.", lien:"procedure"}
+];
+
+/* ================== Navigation ================== */
+const NAV = [
+  {id:"accueil", label:"Accueil", icon:"home"},
+  {group:"Comprendre"},
+  {id:"chaines", label:"1. Les chaînes du robot", icon:"chain", lesson:true},
+  {id:"demarche", label:"2. La démarche de diagnostic", icon:"steps", lesson:true},
+  {id:"procedure", label:"3. La procédure de travail", icon:"flow", lesson:true},
+  {id:"composants", label:"4. Les composants à remplacer", icon:"chip", lesson:true},
+  {group:"Mémoriser"},
+  {id:"cartes", label:"Cartes mémoire", icon:"cards"},
+  {group:"Manipuler"},
+  {id:"atelier", label:"Atelier de diagnostic", icon:"wrench"},
+  {group:"S'entraîner"},
+  ...EXOS.map((f,i)=>({id:"famille-"+(i+1), label:f.court, icon:"pencil", fam:f})),
+  {group:"Évaluer"},
+  {id:"quiz", label:"Quiz bilan", icon:"check"}
+];
+const VIEW_IDS = NAV.filter(n=>n.id).map(n=>n.id);
+const LESSONS = NAV.filter(n=>n.lesson);
+const TITLES = Object.fromEntries(NAV.filter(n=>n.id).map(n=>[n.id, n.label]));
+
+/* ================== Moteur d'exercices ================== */
+function initValue(ex){
+  if (ex.type==="qcm") return null;
+  if (ex.type==="multi") return [];
+  if (ex.type==="match") return {};
+  if (ex.type==="order") return permutation(ex.items.length, hashStr(ex.id));
+  return null;
+}
+function isComplete(ex,v){
+  if (ex.type==="qcm") return v!==null;
+  if (ex.type==="multi") return v.length>0;
+  if (ex.type==="match") return ex.rows.every((_,i)=>v[i]);
+  return true;
+}
+function evaluate(ex,v){
+  if (ex.type==="qcm") return {ok: v===ex.answer};
+  if (ex.type==="multi"){
+    const s = new Set(v), a = new Set(ex.answers);
+    let wrong = 0; ex.options.forEach((_,i)=>{ if (s.has(i)!==a.has(i)) wrong++; });
+    return {ok: wrong===0, wrong};
+  }
+  if (ex.type==="match"){
+    const marks = ex.rows.map((r,i)=> v[i]===r.a);
+    return {ok: marks.every(Boolean), marks, wrong: marks.filter(m=>!m).length};
+  }
+  if (ex.type==="order"){
+    const marks = v.map((idx,pos)=> ex.items[idx]===ex.items[pos]);
+    return {ok: marks.every(Boolean), marks, wrong: marks.filter(m=>!m).length};
+  }
+}
+
+function QcmBody({ex,value,onChange,result,multi}){
+  const sel = i => multi ? value.includes(i) : value===i;
+  const toggle = i => multi ? onChange(value.includes(i) ? value.filter(x=>x!==i) : [...value,i]) : onChange(i);
+  const order = useMemo(()=> ex.keepOrder ? ex.options.map((_,i)=>i) : permutation(ex.options.length, hashStr(ex.id)), [ex.id]);
+  return html`<div class="opts" role=${multi?"group":"radiogroup"}>
+    ${order.map(i=>{ const o = ex.options[i];
+      let cls = "opt" + (multi?" chk":"");
+      if (result && sel(i) && !multi) cls += result.ok ? " ok" : " ko";
+      if (result && multi && result.ok && sel(i)) cls += " ok";
+      return html`<button key=${i} type="button" class=${cls} role=${multi?"checkbox":"radio"} aria-checked=${sel(i)} onClick=${()=>toggle(i)}><span class="mk"></span><span>${rich(o)}</span></button>`;
+    })}
+  </div>`;
+}
+function MatchBody({ex,value,onChange,result}){
+  return html`<div class="match">
+    ${ex.rows.map((r,i)=>{
+      const m = result ? (result.marks[i] ? " ok" : " ko") : "";
+      return html`<div key=${i} class=${"match-row"+m}>
+        <label for=${ex.id+"-"+i}>${rich(r.l)}</label>
+        <select id=${ex.id+"-"+i} value=${value[i]||""} onChange=${e=>onChange({...value,[i]:e.target.value})}>
+          <option value="">Choisir…</option>
+          ${ex.choices.map(c=>html`<option key=${c} value=${c}>${c}</option>`)}
+        </select>
+        <span aria-hidden="true">${result ? (result.marks[i] ? html`<span class="mark-ok"><${Icon} name="tick" /></span>` : html`<span class="mark-ko"><${Icon} name="cross" /></span>`) : ""}</span>
+      </div>`;
+    })}
+  </div>`;
+}
+function OrderBody({ex,value,onChange,result}){
+  const move = (pos,d)=>{ const n=[...value]; const t=pos+d; if (t<0||t>=n.length) return; [n[pos],n[t]]=[n[t],n[pos]]; onChange(n); };
+  return html`<ol class="order">
+    ${value.map((idx,pos)=>{
+      const m = result ? (result.marks[pos] ? " ok" : " ko") : "";
+      return html`<li key=${idx} class=${m.trim()}>
+        <span class="pos">${pos+1}</span><span class="txt">${ex.items[idx]}</span>
+        <span class="mv">
+          <button type="button" class="btn sm icon" aria-label=${"Monter : "+ex.items[idx]} disabled=${pos===0} onClick=${()=>move(pos,-1)}><${Icon} name="up" size=${16} /></button>
+          <button type="button" class="btn sm icon" aria-label=${"Descendre : "+ex.items[idx]} disabled=${pos===value.length-1} onClick=${()=>move(pos,1)}><${Icon} name="down" size=${16} /></button>
+        </span>
+      </li>`;
+    })}
+  </ol>`;
+}
+
+function ExerciseCard({ex, num, solved, onSolved, compact}){
+  const [value,setValue] = useState(()=>initValue(ex));
+  const [result,setResult] = useState(null);
+  const [attempted,setAttempted] = useState(false);
+  const [show,setShow] = useState(null);
+  const change = v => { setValue(v); setResult(null); };
+  const check = () => { const r = evaluate(ex,value); setResult(r); setAttempted(true); if (r.ok && onSolved) onSolved(ex.id); };
+  const giveUp = () => { setAttempted(true); setShow("simple"); };
+  const reset = () => { setValue(initValue(ex)); setResult(null); setShow(null); };
+  const Body = ex.type==="match" ? MatchBody : ex.type==="order" ? OrderBody : QcmBody;
+  const detail = Array.isArray(ex.detail) ? ex.detail : [ex.detail];
+  return html`<article class="ex-card">
+    <div class="ex-head">
+      ${num && html`<span class="pill acc">${num}</span>`}
+      <span class="t">${ex.titre || "Vérifie ta compréhension"}</span>
+      ${ex.level && html`<${Level} n=${ex.level} />`}
+      ${solved && html`<span class="pill on"><${Icon} name="tick" size=${13} /> Réussi</span>`}
+    </div>
+    <div class="ex-body">
+      ${ex.visual && html`<${Visual} v=${ex.visual} />`}
+      <p class="ex-q">${rich(ex.q)}</p>
+      <${Body} ex=${ex} value=${value} onChange=${change} result=${result} multi=${ex.type==="multi"} />
+      ${result && (result.ok
+        ? html`<div class="feedback ok" role="status"><${Icon} name="tick" /><p><strong>Bonne réponse.</strong> ${compact ? rich(detail[0]) : "Lis la correction détaillée pour vérifier ton raisonnement."}</p></div>`
+        : html`<div class="feedback ko" role="status"><${Icon} name="cross" /><p><strong>Pas encore.</strong> ${result.wrong ? (result.wrong===1 ? "Un élément est à revoir." : result.wrong+" éléments sont à revoir.") : "Relis la situation et réessaie."} Modifie ta réponse, ou consulte la correction.</p></div>`)}
+      <div class="btn-row">
+        <button type="button" class="btn primary" disabled=${!isComplete(ex,value)} onClick=${check}>Vérifier</button>
+        ${!attempted && html`<button type="button" class="btn" onClick=${giveUp}>Je ne sais pas</button>`}
+        ${attempted && html`<button type="button" class="btn" aria-pressed=${show==="simple"} onClick=${()=>setShow(show==="simple"?null:"simple")}>Correction simple</button>`}
+        ${attempted && html`<button type="button" class="btn" aria-pressed=${show==="detail"} onClick=${()=>setShow(show==="detail"?null:"detail")}>Correction détaillée</button>`}
+        ${attempted && html`<button type="button" class="btn sm" onClick=${reset}>Recommencer</button>`}
+        ${!attempted && html`<span class="small muted">Réponds d'abord : les corrections s'affichent ensuite.</span>`}
+      </div>
+      ${show==="simple" && html`<div class="correction"><h4>Correction simple</h4><p>${rich(ex.simple)}</p></div>`}
+      ${show==="detail" && html`<div class="correction"><h4>Correction détaillée</h4><ul>${detail.map((d,i)=>html`<li key=${i}>${rich(d)}</li>`)}</ul></div>`}
+    </div>
+  </article>`;
+}
+
+function Worked({w}){
+  const [n,setN] = useState(1);
+  const all = n>=w.steps.length;
+  return html`<section class="worked" aria-label="Exemple résolu">
+    <div class="worked-head"><span class="pill acc"><${Icon} name="bulb" size=${13} /> Exemple résolu</span><span class="t">${rich(w.titre)}</span></div>
+    <div class="worked-body">
+      ${w.visual && html`<${Visual} v=${w.visual} />`}
+      <ol class="w-steps">
+        ${w.steps.map((s,i)=>html`<li key=${i} class=${i<n?"":"hidden"}><span></span><div><h4>${s.h}</h4><p>${rich(s.t)}</p></div></li>`)}
+      </ol>
+      ${all
+        ? html`<div class="callout ok"><div class="ct">Conclusion</div><p>${rich(w.conclusion)}</p><p class="small" style=${{marginTop:"6px"}}><strong>Méthode :</strong> ${w.methode}</p></div>`
+        : html`<div class="btn-row"><button type="button" class="btn primary" onClick=${()=>setN(n+1)}>Étape suivante <span class="muted small">(${n}/${w.steps.length})</span></button><button type="button" class="btn" onClick=${()=>setN(w.steps.length)}>Tout afficher</button></div>`}
+    </div>
+  </section>`;
+}
+
+/* ================== Pages ================== */
+function Accueil({go, stats}){
+  const route = [
+    {n:"1", nm:"Comprendre", ds:"4 notions courtes, avec schémas et exemples.", to:"chaines", st:stats.lessons+"/4 vues"},
+    {n:"2", nm:"Mémoriser", ds:"16 cartes pour se tester sans regarder.", to:"cartes", st:stats.cards+"/16 sues"},
+    {n:"3", nm:"Manipuler", ds:"Diagnostiquer un robot virtuel en panne.", to:"atelier", st:stats.lab+" réparation(s)"},
+    {n:"4", nm:"S'entraîner", ds:"6 familles d'exercices, du guidé à l'autonome.", to:"famille-1", st:stats.solved+"/"+stats.total+" réussis"},
+    {n:"5", nm:"Évaluer", ds:"Quiz bilan de 10 questions.", to:"quiz", st: stats.quiz!=null ? "Meilleur : "+stats.quiz+"/10" : "Pas encore fait"}
+  ];
+  const objs = [
+    "Situer un composant du robot dans la **chaîne d'énergie** ou la **chaîne d'information**.",
+    "Écrire un **programme de test** qui commande un seul moteur à la fois.",
+    "Comparer le **fonctionnement attendu** et l'**observation réelle**, puis proposer des **causes possibles**.",
+    "Proposer un **test** pour chaque cause et interpréter son résultat.",
+    "Choisir une **pièce de remplacement** d'après ses caractéristiques.",
+    "Suivre une **procédure** et réparer en toute sécurité, puis **vérifier**."
+  ];
+  return html`<div class="page">
+    <section class="hero">
+      <div class="stack">
+        <span class="small muted">Technologie · 4e · Séquence 2 · Séance 3</span>
+        <h2>Comment diagnostiquer et réparer une panne ?</h2>
+        <p class="lead">Un robot ne se comporte plus comme prévu. Pour le réparer, on ne change pas les pièces au hasard : on suit une <strong>démarche</strong> et une <strong>procédure</strong>.</p>
+        <div class="btn-row"><button type="button" class="btn primary" onClick=${()=>go("chaines")}>Commencer par la notion 1 <${Icon} name="right" size=${16} /></button><button type="button" class="btn" onClick=${()=>go("atelier")}>Aller à l'atelier</button></div>
+      </div>
+      <div class="frame alt">
+        <div class="sec-title" style=${{marginBottom:"10px"}}>À la fin, je sais…</div>
+        <ul class="obj-list">${objs.map((o,i)=>html`<li key=${i}><${Icon} name="tick" size=${16} /><span>${rich(o)}</span></li>`)}</ul>
+      </div>
+    </section>
+    <section class="stack">
+      <div class="sec-title">Parcours conseillé</div>
+      <div class="route">
+        ${route.map(r=>html`<button key=${r.n} type="button" class="route-card" onClick=${()=>go(r.to)}>
+          <span class="step">Étape ${r.n}</span><span class="nm">${r.nm}</span><span class="ds">${r.ds}</span><span class="pill">${r.st}</span>
+        </button>`)}
+      </div>
+    </section>
+    <details class="note">
+      <summary>Note pour l'enseignant : choix de conception</summary>
+      <div class="prose small">
+        <ul>
+          <li><strong>Segmentation</strong> : une notion par écran, la démarche découpée en 6 étapes consultables une à une.</li>
+          <li><strong>Contiguïté et signalisation</strong> : le schéma du robot est placé à côté du texte qui le décrit, la partie concernée est surlignée ; les mots-clés sont en gras.</li>
+          <li><strong>Cohérence</strong> : pas d'image décorative, pas d'animation hors de l'atelier.</li>
+          <li><strong>Effet de l'exemple résolu puis estompage</strong> : chaque famille commence par un exemple détaillé étape par étape, suivi d'exercices de niveau 1 (guidé ou à compléter), 2, puis 3 (transfert).</li>
+          <li><strong>Pratique de récupération</strong> : mini-quiz en fin de notion, cartes mémoire avec remise en file des cartes non sues, quiz bilan.</li>
+          <li><strong>Rétroaction</strong> : correction immédiate, simple ou détaillée, accessible après une tentative.</li>
+        </ul>
+        <p>La progression est enregistrée dans ce navigateur uniquement.</p>
+      </div>
+    </details>
+  </div>`;
+}
+
+function LessonShell({id, intro, children, solved, onSolved, go}){
+  const idx = LESSONS.findIndex(l=>l.id===id);
+  const prev = LESSONS[idx-1], next = LESSONS[idx+1];
+  return html`<div class="page">
+    <div class="stack">
+      <span class="small muted">Comprendre · Notion ${idx+1} sur ${LESSONS.length}</span>
+      <p class="lead">${rich(intro)}</p>
+    </div>
+    ${children}
+    <section class="stack">
+      <div class="sec-title">Vérifie ta compréhension</div>
+      <div class="grid2">${MINI[id].map(m=>html`<${ExerciseCard} key=${m.id} ex=${m} compact=${true} solved=${solved.includes(m.id)} onSolved=${onSolved} />`)}</div>
+    </section>
+    <nav class="next-nav" aria-label="Notions">
+      ${prev ? html`<button type="button" class="btn" onClick=${()=>go(prev.id)}><${Icon} name="left" size=${16} /> ${prev.label}</button>` : html`<span></span>`}
+      ${next ? html`<button type="button" class="btn primary" onClick=${()=>go(next.id)}>${next.label} <${Icon} name="right" size=${16} /></button>`
+             : html`<button type="button" class="btn primary" onClick=${()=>go("cartes")}>Passer aux cartes mémoire <${Icon} name="right" size=${16} /></button>`}
+    </nav>
+  </div>`;
+}
+
+function Chaines(props){
+  const [sel,setSel] = useState("convertir");
+  const f = FUNCS[sel];
+  const Fn = (k, i, arr) => html`<${React.Fragment} key=${k}>
+    <button type="button" class="fn" aria-pressed=${sel===k} onClick=${()=>setSel(k)}><b>${FUNCS[k].nom}</b><span>${FUNCS[k].comp.split(" (")[0].split(",")[0]}</span></button>
+    ${i<arr.length-1 && html`<span class="arrow" aria-hidden="true"><${Icon} name="right" size=${16} /></span>`}<//>`;
+  const info = ["acquerir","traiter","communiquer"], energie = ["alimenter","distribuer","convertir","transmettre"];
+  return html`<${LessonShell} id="chaines" intro="Le robot est organisé en **deux chaînes**. La **chaîne d'information** décide, la **chaîne d'énergie** agit. Pour trouver une panne, on cherche **quelle fonction** ne se fait plus." ...${props}>
+    <section class="chains">
+      <div class="stack">
+        <div class="chain">
+          <div class="chain-label">Chaîne d'information</div>
+          <div class="chain-row">${info.map((k,i,a)=>Fn(k,i,a))}</div>
+        </div>
+        <div class="orders"><${Icon} name="down" size=${16} /> ordres du microcontrôleur</div>
+        <div class="chain">
+          <div class="chain-label">Chaîne d'énergie</div>
+          <div class="chain-row">${energie.map((k,i,a)=>Fn(k,i,a))}</div>
+        </div>
+        <div class="small muted">Clique sur une fonction : la partie du robot correspondante est surlignée.</div>
+        <div class="frame fn-detail stack" aria-live="polite">
+          <div class="btn-row"><span class=${"pill "+(f.chain==="energie"?"acc":"warn")}>${f.chain==="energie"?"Chaîne d'énergie":"Chaîne d'information"}</span></div>
+          <h3>${f.nom}</h3>
+          <p>${rich(f.role)}</p>
+          <dl class="kv">
+            <dt>Sur le robot</dt><dd>${f.comp}</dd>
+            <dt>Entre</dt><dd>${f.entree}</dd>
+            <dt>Sort</dt><dd>${f.sortie}</dd>
+          </dl>
+          <div class="callout warn"><div class="ct">Si cette fonction est en panne</div><p>${rich(f.panne)}</p></div>
+        </div>
+      </div>
+      <div class="robot-box frame alt">
+        <span class="small muted">Robot mBot 2, vu de dessus</span>
+        <${Robot} hl=${f.part} />
+      </div>
+    </section>
+    <div class="callout"><div class="ct">À retenir</div><p>Le moteur réalise la fonction <strong>Convertir</strong> : il transforme l'énergie électrique en énergie mécanique. Si <strong>un seul côté</strong> est en panne, la cause est sur ce côté (câble, moteur, roue). Si <strong>les deux côtés</strong> sont touchés, on cherche un élément commun (batterie, programme).</p></div>
+  <//>`;
+}
+
+function Demarche(props){
+  const [i,setI] = useState(0);
+  const [seen,setSeen] = useState([0]);
+  const go = k => { setI(k); if (!seen.includes(k)) setSeen([...seen,k]); };
+  const s = DEMARCHE[i];
+  return html`<${LessonShell} id="demarche" intro="Diagnostiquer, c'est **trouver la cause** d'un dysfonctionnement avant de réparer. On suit **6 étapes**, dans l'ordre." ...${props}>
+    <section class="stepper">
+      <ol class="step-list">
+        ${DEMARCHE.map((d,k)=>html`<li key=${k}><button type="button" class=${"step-btn"+(seen.includes(k)&&k!==i?" seen":"")} aria-current=${k===i?"step":null} onClick=${()=>go(k)}><span class="step-num">${k+1}</span>${d.t}</button></li>`)}
+      </ol>
+      <div class="frame stack" aria-live="polite">
+        <span class="small muted">Étape ${i+1} sur 6</span>
+        <h3 style=${{fontSize:"19px",fontWeight:600}}>${s.t}</h3>
+        <p class="lead" style=${{fontSize:"15.5px"}}>${rich(s.body)}</p>
+        ${s.ex && html`<div class="callout"><div class="ct">Exemple</div><p>${rich(s.ex)}</p></div>`}
+        ${s.table && html`<${Table} head=${s.table.head} rows=${s.table.rows} />`}
+        <p class="small"><strong>Repère :</strong> ${rich(s.tip)}</p>
+        <div class="btn-row">
+          <button type="button" class="btn" disabled=${i===0} onClick=${()=>go(i-1)}><${Icon} name="left" size=${16} /> Précédente</button>
+          <button type="button" class="btn primary" disabled=${i===5} onClick=${()=>go(i+1)}>Étape suivante <${Icon} name="right" size=${16} /></button>
+        </div>
+      </div>
+    </section>
+    <div class="callout warn"><div class="ct">Sécurité</div><p>Avant de changer une pièce : <strong>éteindre le robot et débrancher la batterie</strong>. On protège ainsi les composants et soi-même.</p></div>
+  <//>`;
+}
+
+function Procedure(props){
+  const [tab,setTab] = useState("liste");
+  const [dispo,setDispo] = useState(true);
+  const [cx,setCx] = useState(true);
+  const forms = {
+    liste: html`<ol class="prose" style=${{paddingLeft:"20px"}}><li>Éteindre le robot et débrancher la batterie.</li><li>Dévisser la vis de la roue.</li><li>Retirer la roue abîmée.</li><li>Placer la nouvelle roue sur l'axe.</li><li>Revisser la vis.</li><li>Rebrancher, allumer, relancer le même programme de test.</li></ol>`,
+    tableau: html`<${Table} head=${["Étape","Action","Outil","Contrôle"]} rows=${[["1","Couper l'alimentation","—","Écran éteint"],["2","Dévisser la roue","Tournevis","Roue libre"],["3","Remplacer la roue","—","Roue en place sur l'axe"],["4","Revisser","Tournevis","Pas de jeu"],["5","Relancer le test","Programme de test","La roue tourne 5 s"]]} />`,
+    algorithme: html`<${Program} legend=${false} lines=${[{t:"Couper l'alimentation",c:"event"},{t:"Dévisser la roue",c:"motor"},{t:"Remplacer la roue",c:"motor"},{t:"Revisser",c:"motor"},{t:"Si la roue a du jeu alors resserrer",c:"ctrl"},{t:"Relancer le programme de test",c:"motor"}]} />`,
+    organigramme: html`<${Flowchart} path=${flowPath(dispo,cx)} />`
+  };
+  return html`<${LessonShell} id="procedure" intro="Une **procédure** permet de réaliser une tâche précise **sans se tromper**. C'est un document qui précise **toutes les étapes à respecter**, dans l'ordre." ...${props}>
+    <section class="frame stack">
+      <div class="sec-title">Une même procédure, plusieurs formes</div>
+      <p class="small muted">Exemple : remplacer une roue. Une procédure peut être un algorithme, un organigramme, une carte mentale, un tableau ou une liste.</p>
+      <div class="tabs" role="tablist">
+        ${[["liste","Liste"],["tableau","Tableau"],["algorithme","Algorithme"],["organigramme","Organigramme"]].map(([k,l])=>html`<button key=${k} type="button" role="tab" class="tab" aria-selected=${tab===k} onClick=${()=>setTab(k)}>${l}</button>`)}
+      </div>
+      <div role="tabpanel">${tab==="organigramme" ? html`<p class="small muted" style=${{marginBottom:"8px"}}>L'organigramme ci-dessous concerne une autre tâche : obtenir une pièce de remplacement. Explore-le plus bas.</p>` : null}${forms[tab]}</div>
+    </section>
+    <section class="flow-wrap">
+      <div class="frame alt"><${Flowchart} path=${flowPath(dispo,cx)} /></div>
+      <div class="stack">
+        <div class="sec-title">Explorer l'organigramme</div>
+        <p>Obtenir une pièce de remplacement : réponds aux deux questions, le chemin s'allume.</p>
+        <div class="stack">
+          <div><p class="small" style=${{marginBottom:"4px"}}>La pièce est-elle disponible dans la bibliothèque ?</p><div class="seg"><button type="button" aria-pressed=${dispo} onClick=${()=>setDispo(true)}>Oui</button><button type="button" aria-pressed=${!dispo} onClick=${()=>setDispo(false)}>Non</button></div></div>
+          <div><p class="small" style=${{marginBottom:"4px"}}>La pièce est-elle complexe ?</p><div class="seg"><button type="button" aria-pressed=${cx} onClick=${()=>setCx(true)}>Oui</button><button type="button" aria-pressed=${!cx} onClick=${()=>setCx(false)}>Non</button></div></div>
+        </div>
+        <div class="callout"><div class="ct">Résultat</div><p>${!dispo ? "Modéliser la pièce, puis " : ""}${cx ? "exporter en **.STL** et **imprimer en 3D**." : "exporter en **.DXF** et **usiner** (découpe)."}</p></div>
+        <p class="small muted">.STL : modèle en 3D pour l'imprimante 3D. .DXF : dessin en 2D pour l'usinage.</p>
+      </div>
+    </section>
+    <section class="frame stack">
+      <div class="sec-title">Procédures avec mesure : une seule variable</div>
+      <p class="prose">Quand une procédure comporte une <strong>mesure</strong>, tous les essais se font <strong>dans les mêmes conditions</strong>. Seul le paramètre étudié change : on est sûr que la différence observée vient de lui.</p>
+      <${Table} caption="Exemple : tester la vitesse angulaire du mBot 2 (protocole simplifié)." head=${["Rubrique","Contenu"]} rows=${[
+        ["Objectif","Vérifier la précision des rotations du robot."],
+        ["Matériel","mBot 2, chronomètre, ordinateur, câble USB-C, rapporteur."],
+        ["Paramètre qui change","L'angle demandé au robot (30°, 60°, 90°)."],
+        ["Ce qui reste identique","Même programme, même surface, même vitesse, batterie chargée."],
+        ["Mesure","Angle réellement parcouru, mesuré au rapporteur, 3 essais par angle."]]} />
+    </section>
+  <//>`;
+}
+
+function Composants(props){
+  return html`<${LessonShell} id="composants" intro="Pour **réparer un objet technique**, il faut connaître la **technologie** et les **caractéristiques** des composants à remplacer. La pièce neuve doit avoir les mêmes caractéristiques que celle d'origine." ...${props}>
+    <section class="fam-cards">
+      ${FAMILLES.map(f=>html`<div key=${f.id} class="fam">
+        <svg class="fam-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d=${f.ico} /></svg>
+        <h4>${f.nom}</h4>
+        <ul>${f.crit.map(c=>html`<li key=${c}>${c}</li>`)}</ul>
+        <p class="ex">${f.ex}</p>
+      </div>`)}
+    </section>
+    <section class="grid2">
+      <div class="callout"><div class="ct">Méthode</div><p>1. Je repère la <strong>famille</strong> du composant. 2. Je relève ses <strong>caractéristiques</strong> sur la pièce d'origine. 3. Je compare avec la pièce proposée, critère par critère.</p></div>
+      <div class="callout warn"><div class="ct">Erreur fréquente</div><p>Choisir une batterie de <strong>tension plus élevée</strong> « pour que le robot aille plus vite » : on risque d'abîmer la carte et les moteurs.</p></div>
+    </section>
+  <//>`;
+}
+
+/* ---------- Cartes mémoire ---------- */
+function Cartes({onKnown}){
+  const [queue,setQueue] = useState(()=>CARDS.map((_,i)=>i));
+  const [flip,setFlip] = useState(false);
+  const [known,setKnown] = useState(0);
+  const [again,setAgain] = useState(0);
+  const cur = queue[0];
+  const rate = ok => {
+    if (ok){ setKnown(known+1); setQueue(queue.slice(1)); onKnown(known+1); }
+    else { setAgain(again+1); setQueue([...queue.slice(1), cur]); }
+    setFlip(false);
+  };
+  const restart = shuffle => { const base = CARDS.map((_,i)=>i); setQueue(shuffle ? permutation(base.length, Date.now()%9973) : base); setKnown(0); setAgain(0); setFlip(false); };
+  useEffect(()=>{
+    const h = e => { if (e.target.tagName==="BUTTON" || e.target.tagName==="SELECT") return; if (e.code==="Space" && cur!==undefined){ e.preventDefault(); setFlip(f=>!f); } };
+    window.addEventListener("keydown",h); return ()=>window.removeEventListener("keydown",h);
+  },[cur]);
+  const pct = Math.round(known/CARDS.length*100);
+  return html`<div class="page">
+    <div class="stack">
+      <p class="lead">Lis la question, <strong>réponds dans ta tête</strong>, puis retourne la carte. Sois honnête : les cartes non sues reviennent en fin de paquet.</p>
+      <div class="quiz-top"><span class="small muted" style=${{fontVariantNumeric:"tabular-nums"}}>${known} / ${CARDS.length} sues</span><div class="meter"><span style=${{width:pct+"%"}}></span></div><span class="small muted">${again} à revoir</span></div>
+    </div>
+    ${cur!==undefined ? html`<div class="fc-wrap">
+      <button type="button" class=${"flashcard"+(flip?" back":"")} onClick=${()=>setFlip(!flip)} aria-label=${flip?"Retourner vers la question":"Afficher la réponse"}>
+        <span class="side-lbl">${flip?"Réponse":"Question"}</span>
+        ${flip ? html`<span class="a">${CARDS[cur].a}</span>` : html`<span class="q">${CARDS[cur].q}</span>`}
+        ${!flip && html`<span class="small muted">Clique ou appuie sur Espace pour retourner</span>`}
+      </button>
+      <div class="btn-row">
+        ${flip ? html`<button type="button" class="btn" onClick=${()=>rate(false)}><${Icon} name="flip" size=${16} /> À revoir</button><button type="button" class="btn primary" onClick=${()=>rate(true)}><${Icon} name="tick" size=${16} /> Je savais</button>`
+               : html`<button type="button" class="btn primary" onClick=${()=>setFlip(true)}>Voir la réponse</button>`}
+      </div>
+    </div>` : html`<div class="callout ok"><div class="ct">Paquet terminé</div><p>Les ${CARDS.length} cartes sont sues. ${again>0 ? "Tu as eu besoin de "+again+" passage(s) supplémentaire(s) : refais le paquet demain pour ancrer ces notions." : "Sans aucune erreur : bravo. Refais-le dans quelques jours pour vérifier que tu t'en souviens."}</p><div class="btn-row" style=${{marginTop:"10px"}}><button type="button" class="btn" onClick=${()=>restart(false)}>Recommencer</button><button type="button" class="btn primary" onClick=${()=>restart(true)}>Recommencer dans le désordre</button></div></div>`}
+  </div>`;
+}
+
+/* ---------- Atelier ---------- */
+const SCEN = [
+  {id:"cable", symptome:"Quand on lui demande d'avancer, le robot **tourne sur lui-même vers la gauche**.", obs:{L:"none",R:"ok"}, fix:"cable", final:"left",
+   bat:86, roues:"Les deux roues sont bien fixées, sans jeu.", cables:"Le câble du moteur gauche est **mal enfoncé** dans son connecteur.",
+   swap:"Port gauche → la roue droite tourne normalement. Port droit → la roue gauche ne tourne pas. **La panne suit le moteur gauche et son câble** : la carte fonctionne."},
+  {id:"roue", symptome:"Quand on lui demande d'avancer, le robot **dévie vers la droite** et avance par à-coups.", obs:{L:"ok",R:"slip"}, fix:"roue", final:"right",
+   bat:84, roues:"La roue droite **a du jeu** : sa vis de fixation est desserrée.", cables:"Tous les câbles sont correctement branchés.",
+   swap:"Port gauche → on entend le moteur droit mais la roue droite tourne à peine. Port droit → la roue gauche tourne normalement. **La panne reste du côté droit, quel que soit le port.**"},
+  {id:"moteur", symptome:"Quand on lui demande d'avancer, le robot **tourne sur lui-même vers la gauche**.", obs:{L:"none",R:"ok"}, fix:"moteur", final:"left",
+   bat:88, roues:"Les deux roues sont bien fixées, sans jeu.", cables:"Tous les câbles sont correctement branchés.",
+   swap:"Port gauche → la roue droite tourne normalement. Port droit → la roue gauche ne tourne pas. **La panne suit le moteur gauche et son câble** : la carte fonctionne."},
+  {id:"batterie", symptome:"Le robot avance **très lentement**, puis s'arrête parfois.", obs:{L:"slow",R:"slow"}, fix:"batterie", final:"slow",
+   bat:4, roues:"Les deux roues sont bien fixées, sans jeu.", cables:"Tous les câbles sont correctement branchés.",
+   swap:"Les deux roues tournent toujours très lentement. **L'échange ne change rien** : la panne ne vient ni d'un moteur ni d'un port."}
+];
+const OBS_TXT = {ok:"La roue tourne 5 s puis s'arrête.", none:"La roue ne tourne pas. Aucun bruit de moteur.", slip:"On entend le moteur, mais la roue tourne à peine.", slow:"La roue tourne, mais très lentement."};
+const INTERV = [
+  {id:"cable", t:"Rebrancher correctement le câble du moteur gauche"},
+  {id:"roue", t:"Resserrer la vis de la roue droite"},
+  {id:"moteur", t:"Remplacer le moteur gauche (pièce demandée à l'enseignant)"},
+  {id:"batterie", t:"Recharger la batterie"}
+];
+function Atelier({onRepaired}){
+  const [si,setSi] = useState(()=>Math.floor(Math.random()*SCEN.length));
+  const sc = SCEN[si];
+  const [power,setPower] = useState(true);
+  const [fixed,setFixed] = useState(false);
+  const [phase,setPhase] = useState(null);
+  const [journal,setJournal] = useState([]);
+  const [flags,setFlags] = useState({ranBefore:false, tests:0, interventions:0, miss:false, rerun:false, final:null});
+  const [mover,setMover] = useState("");
+  const timers = useRef([]);
+  useEffect(()=>()=>timers.current.forEach(clearTimeout),[]);
+  const later = (fn,ms)=>{ timers.current.push(setTimeout(fn,ms)); };
+  const log = (k,t,r)=> setJournal(j=>[...j,{k,t,r}]);
+  const busy = phase!==null;
+  const sideState = side => fixed ? "ok" : sc.obs[side];
+
+  const runProgram = () => {
+    if (!power){ log("warn","Lancer le programme de test","Le robot est éteint : allume-le d'abord."); return; }
+    setPhase("L");
+    later(()=>setPhase("R"),2600);
+    later(()=>{
+      setPhase(null);
+      const after = flags.interventions>0;
+      const l = sideState("L"), r = sideState("R");
+      log(l==="ok"?"":"bad","Commander le moteur gauche"+(after?" (après intervention)":""), OBS_TXT[l]);
+      log(r==="ok"?"":"bad","Commander le moteur droit"+(after?" (après intervention)":""), OBS_TXT[r]);
+      setFlags(f=>({...f, ranBefore: f.ranBefore || f.interventions===0, rerun: f.rerun || (fixed && f.interventions>0)}));
+    },5200);
+  };
+  const needOff = (label, fn) => {
+    if (power){ log("warn",label,"Éteins le robot avant de manipuler les roues ou les câbles."); return; }
+    fn();
+  };
+  const test = kind => {
+    if (kind==="bat"){
+      if (!power){ log("warn","Lire le niveau de batterie","L'écran est éteint : allume le robot pour lire le niveau."); return; }
+      const v = fixed && sc.id==="batterie" ? 100 : sc.bat;
+      log(v<20?"bad":"","Lire le niveau de batterie à l'écran","L'écran affiche "+v+" %.");
+    }
+    if (kind==="roues") needOff("Examiner les roues et leurs fixations", ()=>log(sc.id==="roue"&&!fixed?"bad":"","Examiner les roues et leurs fixations (robot éteint)", fixed&&sc.id==="roue" ? "Les deux roues sont bien fixées, sans jeu." : sc.roues));
+    if (kind==="cables") needOff("Vérifier le branchement des câbles", ()=>log(sc.id==="cable"&&!fixed?"bad":"","Vérifier le branchement des câbles (robot éteint)", fixed&&sc.id==="cable" ? "Tous les câbles sont correctement branchés." : sc.cables));
+    if (kind==="swap") needOff("Échanger les câbles des moteurs", ()=>log("","Échanger les câbles des moteurs, rallumer, relancer le même programme, puis remettre les câbles", fixed ? "Les deux roues tournent normalement sur les deux ports." : sc.swap));
+    if (!(kind==="bat" && !power) && !(kind!=="bat" && power)) setFlags(f=>({...f, tests: f.interventions===0 ? f.tests+1 : f.tests}));
+  };
+  const intervene = id => {
+    const it = INTERV.find(x=>x.id===id);
+    if (power){ log("warn",it.t,"Précaution oubliée : le robot est allumé. Éteins-le et débranche la batterie avant toute intervention."); setFlags(f=>({...f,miss:true})); return; }
+    const ok = id===sc.fix;
+    if (ok) setFixed(true);
+    setFlags(f=>({...f, interventions:f.interventions+1}));
+    log("",it.t,"Intervention réalisée. Rallume le robot et relance le même programme pour vérifier.");
+  };
+  const finalTest = () => {
+    if (!power){ log("warn","Test final","Le robot est éteint : allume-le d'abord."); return; }
+    const kind = fixed ? "straight" : sc.final;
+    setPhase("final"); setMover(kind);
+    later(()=>{
+      setPhase(null);
+      const txt = {straight:"Le robot avance en ligne droite.", left:"Le robot tourne sur lui-même vers la gauche.", right:"Le robot dévie vers la droite.", slow:"Le robot avance à peine."}[kind];
+      log(fixed?"ok":"bad","Test final : faire déplacer le robot", txt);
+      setFlags(f=>({...f, final: fixed}));
+      if (fixed) onRepaired();
+    },2800);
+    later(()=>setMover(""),3600);
+  };
+  const reset = () => {
+    timers.current.forEach(clearTimeout); timers.current=[];
+    let n = Math.floor(Math.random()*SCEN.length); if (n===si) n=(n+1)%SCEN.length;
+    setSi(n); setPower(true); setFixed(false); setPhase(null); setJournal([]); setMover("");
+    setFlags({ranBefore:false, tests:0, interventions:0, miss:false, rerun:false, final:null});
+  };
+  const wheelAnim = side => {
+    if (phase!==side) return "stop";
+    const s = sideState(side);
+    return s==="ok"?"run":s==="slow"?"slow":s==="slip"?"slip":"stop";
+  };
+  const buzzOn = side => phase===side && ["ok","slip","slow"].includes(sideState(side));
+  const done = flags.final===true;
+  const crit = [
+    {ok:flags.ranBefore, t:"Programme de test lancé avant toute intervention"},
+    {ok:flags.tests>0, t:"Au moins un test réalisé avant d'intervenir ("+flags.tests+")"},
+    {ok:!flags.miss, t:"Robot éteint pendant chaque intervention"},
+    {ok:flags.interventions===1, t:"Une seule intervention, la bonne ("+flags.interventions+" au total)"},
+    {ok:flags.rerun, t:"Même programme relancé après l'intervention"},
+    {ok:done, t:"Test final réussi"}
+  ];
+  const phaseTxt = phase==="L" ? "Programme en cours : moteur gauche (5 s)" : phase==="R" ? "Programme en cours : moteur droit (5 s)" : phase==="final" ? "Test final en cours" : "En attente";
+  return html`<div class="page">
+    <div class="callout"><div class="ct">Mission</div><p>Un robot revient en panne. ${rich(sc.symptome)} Trouve la cause en suivant la démarche, répare-le en sécurité, puis vérifie.</p></div>
+    <section class="lab">
+      <div class="stage">
+        <div class="track"><div class=${"mover "+mover}><${Robot} labels=${false} wheels=${{L:wheelAnim("L"),R:wheelAnim("R")}} buzz=${{L:buzzOn("L"),R:buzzOn("R")}} /></div></div>
+        <div class="status-row">
+          <span class=${"pill "+(power?"on":"off")}><span class="dot"></span>${power?"Robot allumé":"Robot éteint, batterie débranchée"}</span>
+          <span class=${"pill "+(phase?"acc":"")} aria-live="polite">${phaseTxt}</span>
+        </div>
+        <button type="button" class="btn" disabled=${busy} onClick=${()=>{ setPower(!power); log("", power?"Éteindre le robot et débrancher la batterie":"Rebrancher la batterie et allumer le robot", power?"Le robot est hors tension.":"Le robot est sous tension."); }}><${Icon} name="power" size=${16} /> ${power?"Éteindre et débrancher":"Rebrancher et allumer"}</button>
+      </div>
+      <div class="stack">
+        <div class="act-group">
+          <h4>1. Observer</h4>
+          <div class="btn-row"><button type="button" class="btn primary" disabled=${busy} onClick=${runProgram}><${Icon} name="play" size=${16} /> Lancer le programme de test</button><span class="small muted">Gauche 5 s, puis droit 5 s</span></div>
+        </div>
+        <div class="act-group">
+          <h4>2. Tester une hypothèse</h4>
+          <div class="act-grid">
+            <button type="button" class="btn" disabled=${busy} onClick=${()=>test("bat")}>Lire le niveau de batterie</button>
+            <button type="button" class="btn" disabled=${busy} onClick=${()=>test("roues")}>Examiner les roues et fixations</button>
+            <button type="button" class="btn" disabled=${busy} onClick=${()=>test("cables")}>Vérifier le branchement des câbles</button>
+            <button type="button" class="btn" disabled=${busy} onClick=${()=>test("swap")}>Échanger les câbles des deux moteurs</button>
+          </div>
+        </div>
+        <div class="act-group">
+          <h4>3. Intervenir</h4>
+          <div class="act-grid">${INTERV.map(it=>html`<button key=${it.id} type="button" class="btn" disabled=${busy} onClick=${()=>intervene(it.id)}>${it.t}</button>`)}</div>
+        </div>
+        <div class="act-group">
+          <h4>4. Vérifier</h4>
+          <div class="btn-row"><button type="button" class="btn" disabled=${busy} onClick=${runProgram}>Relancer le même programme</button><button type="button" class="btn primary" disabled=${busy} onClick=${finalTest}>Test final : faire déplacer le robot</button></div>
+        </div>
+      </div>
+    </section>
+    <section class="stack">
+      <div class="fam-head"><div class="sec-title">Cahier de diagnostic</div><span class="small muted">${journal.length} ligne(s)</span><span style=${{flex:1}}></span><button type="button" class="btn sm" onClick=${reset}>Nouvelle panne</button></div>
+      ${journal.length===0 ? html`<p class="small muted">Commence par lancer le programme de test : les observations s'inscriront ici.</p>` :
+        html`<div class="tbl-wrap"><table class="tbl journal"><thead><tr><th scope="col">Vérification ou action</th><th scope="col">Résultat observé</th></tr></thead>
+        <tbody>${journal.map((l,i)=>html`<tr key=${i} class=${l.k==="warn"?"warn":l.k==="ok"?"ok":""}><td>${l.t}</td><td class=${l.k==="bad"?"bad":""}>${rich(l.r)}</td></tr>`)}</tbody></table></div>`}
+    </section>
+    ${done && html`<section class="frame stack">
+      <div class="sec-title">Bilan de ta démarche</div>
+      <ul class="check-list">${crit.map((c,i)=>html`<li key=${i}><span class=${c.ok?"mark-ok":"mark-ko"}><${Icon} name=${c.ok?"tick":"cross"} size=${18} /></span><span>${c.t}</span></li>`)}</ul>
+      <p class="small muted">Panne de cette partie : ${{cable:"câble du moteur gauche mal branché",roue:"roue droite desserrée",moteur:"moteur gauche défectueux",batterie:"batterie déchargée"}[sc.id]}.</p>
+      <div class="btn-row"><button type="button" class="btn primary" onClick=${reset}>Diagnostiquer une autre panne</button></div>
+    </section>`}
+  </div>`;
+}
+
+/* ---------- Famille d'exercices ---------- */
+function Famille({fam, n, solved, onSolved, go}){
+  const count = fam.items.filter(e=>solved.includes(e.id)).length;
+  return html`<div class="page">
+    <div class="stack">
+      <div class="fam-head"><span class="small muted">S'entraîner · Famille ${n} sur ${EXOS.length}</span><span class="prog-txt">${count}/${fam.items.length} réussis</span></div>
+      <p class="lead">${fam.objectif}</p>
+      <p class="small muted">Lis d'abord l'exemple résolu, étape par étape. Les exercices suivent, du niveau 1 (guidé) au niveau 3 (autonome). <button type="button" class="btn sm" onClick=${()=>go(fam.lien)}>Revoir la notion</button></p>
+    </div>
+    <${Worked} key=${fam.id} w=${fam.worked} />
+    ${fam.items.map((ex,i)=>html`<${ExerciseCard} key=${ex.id} ex=${ex} num=${"Exercice "+(i+1)} solved=${solved.includes(ex.id)} onSolved=${onSolved} />`)}
+    <nav class="next-nav">
+      ${n>1 ? html`<button type="button" class="btn" onClick=${()=>go("famille-"+(n-1))}><${Icon} name="left" size=${16} /> Famille précédente</button>` : html`<span></span>`}
+      ${n<EXOS.length ? html`<button type="button" class="btn primary" onClick=${()=>go("famille-"+(n+1))}>Famille suivante : ${EXOS[n].court} <${Icon} name="right" size=${16} /></button>` : html`<button type="button" class="btn primary" onClick=${()=>go("quiz")}>Passer au quiz bilan <${Icon} name="right" size=${16} /></button>`}
+    </nav>
+  </div>`;
+}
+
+/* ---------- Quiz ---------- */
+function Quiz({onScore, go}){
+  const [i,setI] = useState(0);
+  const [pick,setPick] = useState(null);
+  const [answers,setAnswers] = useState([]);
+  const done = i>=QUIZ.length;
+  const q = QUIZ[i];
+  const validate = () => setAnswers([...answers, pick]);
+  const next = () => { const ni=i+1; setI(ni); setPick(null); if (ni>=QUIZ.length) onScore(answers.filter((a,k)=>a===QUIZ[k].answer).length); };
+  const answered = answers.length>i;
+  const score = answers.filter((a,k)=>a===QUIZ[k].answer).length;
+  if (done){
+    const missed = QUIZ.map((qq,k)=>({qq,k})).filter(({qq,k})=>answers[k]!==qq.answer);
+    const lessons = [...new Set(missed.map(m=>m.qq.lien))];
+    return html`<div class="page">
+      <section class="frame stack">
+        <div class="sec-title">Résultat</div>
+        <div class="btn-row"><span class="score">${score}/10</span><span class="muted">${score>=8?"Les notions sont bien maîtrisées.":score>=5?"C'est en bonne voie : revois les notions indiquées.":"Reprends les notions indiquées, puis refais le quiz."}</span></div>
+        ${missed.length>0 && html`<div class="stack"><p class="small"><strong>Questions à revoir :</strong></p>
+          <ul class="check-list">${missed.map(({qq,k})=>html`<li key=${k}><span class="mark-ko"><${Icon} name="cross" size=${18} /></span><span><strong>${qq.q}</strong> ${qq.options[qq.answer]}. <span class="muted">${qq.exp}</span></span></li>`)}</ul>
+          <div class="btn-row">${lessons.map(l=>html`<button key=${l} type="button" class="btn" onClick=${()=>go(l)}>Revoir : ${TITLES[l]}</button>`)}</div></div>`}
+        <div class="btn-row"><button type="button" class="btn primary" onClick=${()=>{setI(0);setPick(null);setAnswers([]);}}>Refaire le quiz</button></div>
+      </section>
+    </div>`;
+  }
+  const ok = answered && answers[i]===q.answer;
+  return html`<div class="page">
+    <div class="quiz-top"><span class="small muted" style=${{fontVariantNumeric:"tabular-nums"}}>Question ${i+1} / ${QUIZ.length}</span><div class="meter"><span style=${{width:(i/QUIZ.length*100)+"%"}}></span></div><span class="small muted" style=${{fontVariantNumeric:"tabular-nums"}}>Score : ${score}</span></div>
+    <article class="ex-card">
+      <div class="ex-body">
+        <p class="ex-q" style=${{fontSize:"17px",fontWeight:600}}>${q.q}</p>
+        <div class="opts" role="radiogroup">
+          ${permutation(q.options.length, i*17+3).map(k=>{ const o = q.options[k];
+            let cls="opt";
+            if (answered){ if (k===q.answer) cls+=" ok"; else if (k===answers[i]) cls+=" ko"; }
+            return html`<button key=${k} type="button" class=${cls} role="radio" aria-checked=${answered ? k===answers[i] : pick===k} disabled=${answered} onClick=${()=>setPick(k)}><span class="mk"></span><span>${o}</span></button>`;
+          })}
+        </div>
+        ${answered && html`<div class=${"feedback "+(ok?"ok":"ko")} role="status"><${Icon} name=${ok?"tick":"cross"} /><p><strong>${ok?"Exact.":"Non."}</strong> ${q.exp}</p></div>`}
+        <div class="btn-row">
+          ${!answered ? html`<button type="button" class="btn primary" disabled=${pick===null} onClick=${validate}>Valider</button>`
+                      : html`<button type="button" class="btn primary" onClick=${next}>${i===QUIZ.length-1?"Voir le résultat":"Question suivante"} <${Icon} name="right" size=${16} /></button>`}
+        </div>
+      </div>
+    </article>
+  </div>`;
+}
+
+/* ================== Application ================== */
+function App(){
+  const initial = (()=>{ const h=(location.hash||"").slice(1); return VIEW_IDS.includes(h)?h:"accueil"; })();
+  const [view,setView] = useState(initial);
+  const [store,setStore] = useState(()=>({solved:[], seen:[], cards:0, quiz:null, lab:0, ...loadStore()}));
+  const [drawer,setDrawer] = useState(false);
+  const scrollRef = useRef(null);
+  useEffect(()=>{ saveStore(store); },[store]);
+  useEffect(()=>{
+    const h = ()=>{ const v=(location.hash||"").slice(1); if (VIEW_IDS.includes(v)) setView(v); };
+    window.addEventListener("hashchange",h); return ()=>window.removeEventListener("hashchange",h);
+  },[]);
+  useEffect(()=>{
+    if (scrollRef.current) scrollRef.current.scrollTop = 0;
+    if (LESSONS.some(l=>l.id===view) && !store.seen.includes(view)) setStore(s=>({...s, seen:[...s.seen, view]}));
+  },[view]);
+  const go = v => { setView(v); setDrawer(false); try { if (location.hash.slice(1)!==v) history.replaceState(null,"","#"+v); } catch(e){} };
+  const onSolved = id => setStore(s=> s.solved.includes(id) ? s : {...s, solved:[...s.solved,id]});
+  const allEx = EXOS.flatMap(f=>f.items.map(e=>e.id));
+  const stats = {
+    lessons: store.seen.length, cards: store.cards, lab: store.lab, quiz: store.quiz,
+    solved: allEx.filter(id=>store.solved.includes(id)).length, total: allEx.length
+  };
+  const overall = Math.round(((stats.lessons/4) + (stats.cards/CARDS.length) + Math.min(stats.lab,1) + (stats.solved/stats.total) + (stats.quiz!=null ? stats.quiz/10 : 0)) / 5 * 100);
+  const famIdx = view.startsWith("famille-") ? parseInt(view.split("-")[1],10) : 0;
+  const lessonProps = {solved:store.solved, onSolved, go};
+  let page;
+  if (view==="accueil") page = html`<${Accueil} go=${go} stats=${stats} />`;
+  else if (view==="chaines") page = html`<${Chaines} ...${lessonProps} />`;
+  else if (view==="demarche") page = html`<${Demarche} ...${lessonProps} />`;
+  else if (view==="procedure") page = html`<${Procedure} ...${lessonProps} />`;
+  else if (view==="composants") page = html`<${Composants} ...${lessonProps} />`;
+  else if (view==="cartes") page = html`<${Cartes} onKnown=${k=>setStore(s=>({...s, cards:Math.max(s.cards,k)}))} />`;
+  else if (view==="atelier") page = html`<${Atelier} onRepaired=${()=>setStore(s=>({...s, lab:s.lab+1}))} />`;
+  else if (famIdx) page = html`<${Famille} key=${view} fam=${EXOS[famIdx-1]} n=${famIdx} solved=${store.solved} onSolved=${onSolved} go=${go} />`;
+  else if (view==="quiz") page = html`<${Quiz} go=${go} onScore=${sc=>setStore(s=>({...s, quiz: s.quiz==null ? sc : Math.max(s.quiz,sc)}))} />`;
+  const groupOf = (()=>{ let g="Accueil"; for (const n of NAV){ if (n.group) g=n.group; if (n.id===view) return n.id==="accueil"?"":g; } return ""; })();
+  const famBadge = f => { const c=f.items.filter(e=>store.solved.includes(e.id)).length; return c===f.items.length ? html`<span class="badge done"><${Icon} name="tick" size=${14} /></span>` : html`<span class="badge">${c}/${f.items.length}</span>`; };
+  return html`<div class="app">
+    <aside class=${"side"+(drawer?" open":"")} aria-label="Navigation">
+      <div class="side-head"><div class="sub">Technologie · 4e</div><div class="ttl">Diagnostiquer et réparer</div></div>
+      <nav>
+        ${NAV.map((n,i)=> n.group ? html`<div key=${"g"+i} class="nav-group">${n.group}</div>` :
+          html`<button key=${n.id} type="button" class="nav-item" aria-current=${view===n.id?"page":null} onClick=${()=>go(n.id)}>
+            <${Icon} name=${n.icon} /><span class="lbl">${n.label}</span>
+            ${n.fam ? famBadge(n.fam) : n.lesson && store.seen.includes(n.id) ? html`<span class="badge done"><${Icon} name="tick" size=${14} /></span>` : n.id==="quiz" && store.quiz!=null ? html`<span class="badge">${store.quiz}/10</span>` : null}
+          </button>`)}
+      </nav>
+      <div class="side-foot">Progression globale : ${overall} %<div class="meter"><span style=${{width:overall+"%"}}></span></div></div>
+    </aside>
+    ${drawer && html`<div class="scrim" onClick=${()=>setDrawer(false)}></div>`}
+    <main class="main">
+      <header class="toolbar">
+        <button type="button" class="btn icon menu-btn" aria-label="Ouvrir le menu" onClick=${()=>setDrawer(true)}><${Icon} name="menu" /></button>
+        <div><div class="crumb">${groupOf || "Séance 3"}</div><h1>${view==="accueil" ? "Accueil" : famIdx ? EXOS[famIdx-1].titre : (TITLES[view]||"").replace(/^\d\.\s/,"")}</h1></div>
+        <span class="spacer"></span>
+      </header>
+      <div class="scroll" ref=${scrollRef}>${page}</div>
+    </main>
+  </div>`;
+}
+
+ReactDOM.createRoot(document.getElementById("root")).render(html`<${App} />`);
+</script>
+</body>
+</html>
