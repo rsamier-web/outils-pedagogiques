@@ -1,0 +1,845 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Tables de multiplication — mémoriser pas à pas</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#eff0f1; --view:#fcfcfc; --text:#232629; --muted:#5f6b74;
+    --hl:#3daee9; --hl-dark:#1d82b8; --hl-soft:#e3f2fb;
+    --pos:#27ae60; --pos-soft:#e5f5ec; --neu:#f67400; --neu-soft:#fff1e3;
+    --border:#c3c9ce; --border-soft:#dde1e4;
+    --radius:5px; --scale:1;
+    --shadow:0 1px 2px rgba(35,38,41,.08), 0 2px 8px rgba(35,38,41,.05);
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;background:var(--bg);color:var(--text);
+    font-family:"Noto Sans","Segoe UI",system-ui,sans-serif;font-size:16px;line-height:1.45}
+  button{font-family:inherit;color:inherit}
+  .app{min-height:100vh;display:flex;flex-direction:column}
+
+  /* Barre d'outils façon KDE */
+  .toolbar{display:flex;align-items:center;gap:8px;padding:8px 16px;background:var(--view);
+    border-bottom:1px solid var(--border-soft)}
+  .toolbar h1{font-size:1rem;font-weight:600;margin:0 auto 0 4px;display:flex;align-items:center;gap:8px}
+  .toolbar h1 .logo{width:22px;height:22px;border-radius:4px;background:var(--hl);color:#fff;
+    display:inline-grid;place-items:center;font-size:.85rem;font-weight:700}
+  .chip{font-size:.85rem;color:var(--muted);padding:2px 10px;border:1px solid var(--border-soft);border-radius:12px;background:var(--bg)}
+
+  .btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;
+    padding:7px 14px;min-height:36px;background:var(--view);border:1px solid var(--border);
+    border-radius:var(--radius);cursor:pointer;font-size:.95rem;transition:border-color .12s,background .12s}
+  .btn:hover{border-color:var(--hl);background:var(--hl-soft)}
+  .btn:focus-visible{outline:2px solid var(--hl);outline-offset:1px}
+  .btn.primary{background:var(--hl);border-color:var(--hl-dark);color:#fff;font-weight:600}
+  .btn.primary:hover{background:var(--hl-dark)}
+  .btn.flat{border-color:transparent;background:transparent}
+  .btn.flat:hover{background:var(--hl-soft);border-color:var(--hl-soft)}
+  .btn.big{min-height:52px;padding:10px 26px;font-size:1.1rem}
+  .btn[disabled]{opacity:.45;cursor:default}
+  .btn svg{width:18px;height:18px}
+
+  main{flex:1;width:100%;max-width:860px;margin:0 auto;padding:24px 16px 40px}
+  .card{background:var(--view);border:1px solid var(--border-soft);border-radius:6px;box-shadow:var(--shadow);padding:20px}
+  .section-title{font-size:.8rem;font-weight:600;letter-spacing:.04em;text-transform:uppercase;color:var(--muted);margin:22px 0 10px}
+  .muted{color:var(--muted)}
+
+  /* Accueil */
+  .levels{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}
+  .level{text-align:left;padding:16px;border:1px solid var(--border);border-radius:6px;background:var(--view);cursor:pointer}
+  .level:hover{border-color:var(--hl)}
+  .level.sel{border:2px solid var(--hl);padding:15px;background:var(--hl-soft)}
+  .level .t{font-weight:600;font-size:1.05rem}
+  .level .s{color:var(--muted);font-size:.9rem;margin-bottom:10px}
+  .bar{height:8px;background:var(--border-soft);border-radius:4px;overflow:hidden;display:flex}
+  .bar i{display:block;height:100%}
+  .bar .b-acq{background:var(--hl)} .bar .b-auto{background:var(--pos)}
+  .segmented{display:flex;flex-wrap:wrap;border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;background:var(--view)}
+  .segmented button{flex:1 1 160px;padding:12px 10px;border:0;border-right:1px solid var(--border);background:transparent;cursor:pointer;text-align:center}
+  .segmented button:last-child{border-right:0}
+  .segmented button.sel{background:var(--hl);color:#fff}
+  .segmented .q{font-size:1.15rem;font-weight:600;font-variant-numeric:tabular-nums;display:block}
+  .segmented .d{font-size:.82rem;opacity:.85}
+  .start{display:flex;justify-content:center;margin-top:28px}
+
+  /* Séance */
+  .session{max-width:620px;margin:0 auto}
+  .sess-top{display:flex;align-items:center;gap:12px;margin-bottom:18px}
+  .sess-top .bar{flex:1;height:6px}
+  .sess-top .bar i{background:var(--hl)}
+  .stage{background:var(--view);border:1px solid var(--border-soft);border-radius:8px;box-shadow:var(--shadow);
+    padding:28px 20px 24px;text-align:center}
+  .label{font-size:calc(.95rem * var(--scale));color:var(--muted);min-height:1.5em;margin-bottom:10px}
+  .fact{font-size:min(calc(clamp(44px,11vw,84px) * var(--scale)), 11.5vw);font-weight:600;font-variant-numeric:tabular-nums;
+    letter-spacing:.02em;display:flex;align-items:center;justify-content:center;gap:.28em;flex-wrap:wrap;min-height:1.3em;line-height:1.2}
+  .fact .op{color:var(--muted);font-weight:500}
+  .fact.dmode{font-size:min(calc(clamp(38px,9vw,70px) * var(--scale)), 10vw)}
+  .fact.copy{font-size:min(calc(clamp(32px,7.5vw,56px) * var(--scale)), 9vw);margin-top:14px}
+  .slot{display:inline-flex;align-items:center;justify-content:center;min-width:1.3em;height:1.25em;padding:0 .1em;
+    border:3px solid var(--border);border-radius:8px;background:#fff;color:var(--text)}
+  .slot.active{border-color:var(--hl);box-shadow:0 0 0 3px var(--hl-soft)}
+  .slot.empty::after{content:"?";color:#b7bfc5}
+  .slot.ok{border-color:var(--pos);background:var(--pos-soft)}
+  .slot.fix{border-color:var(--neu);background:var(--neu-soft)}
+  .hl{color:var(--hl-dark)}
+  .feedback{min-height:2.2em;margin-top:14px;font-size:calc(1.1rem * var(--scale));font-weight:500}
+  .feedback.ok{color:#1e8449}
+  .feedback.fix{color:#b35400}
+  .hint{margin:12px auto 0;max-width:460px;padding:10px 14px;border-left:4px solid var(--hl);background:var(--hl-soft);
+    border-radius:4px;text-align:left;font-size:calc(1.05rem * var(--scale))}
+  .actions{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;margin-top:18px}
+
+  .keypad{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;max-width:340px;margin:20px auto 0}
+  .key{min-height:62px;font-size:calc(1.7rem * var(--scale));font-weight:600;font-variant-numeric:tabular-nums;
+    background:var(--view);border:1px solid var(--border);border-radius:8px;cursor:pointer;touch-action:manipulation}
+  .key:hover{border-color:var(--hl);background:var(--hl-soft)}
+  .key:active{background:#d2ebf8}
+  .key.ok{background:var(--hl);border-color:var(--hl-dark);color:#fff}
+  .key.ok:hover{background:var(--hl-dark)}
+  .key svg{width:28px;height:28px;vertical-align:middle}
+
+  /* Fin de séance */
+  .stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin:18px 0}
+  .stat{padding:14px;border:1px solid var(--border-soft);border-radius:6px;text-align:center;background:var(--bg)}
+  .stat b{display:block;font-size:1.8rem;font-variant-numeric:tabular-nums}
+  .facts-list{display:flex;flex-wrap:wrap;gap:8px;justify-content:center}
+  .facts-list span{padding:4px 12px;border-radius:14px;background:var(--hl-soft);font-variant-numeric:tabular-nums;font-weight:500}
+
+  /* Suivi */
+  .tabs{display:flex;gap:4px;border-bottom:1px solid var(--border);margin-bottom:16px}
+  .tabs button{border:0;background:transparent;padding:8px 14px;cursor:pointer;border-bottom:3px solid transparent;font-size:.95rem}
+  .tabs button.sel{border-bottom-color:var(--hl);font-weight:600}
+  .group{margin-bottom:14px}
+  .group h3{font-size:.9rem;margin:0 0 6px;font-weight:600}
+  .chips{display:flex;flex-wrap:wrap;gap:6px}
+  .fchip{display:flex;flex-direction:column;align-items:center;gap:3px;padding:5px 8px;border:1px solid var(--border-soft);border-radius:4px;background:var(--view);font-size:.85rem;font-variant-numeric:tabular-nums;min-width:58px}
+  .dots{display:flex;gap:3px}
+  .dots i{width:20px;height:5px;border-radius:2px;background:var(--border-soft)}
+  .s1,.s2{background:var(--neu)!important}
+  .s3,.s4{background:var(--hl)!important}
+  .s5{background:var(--pos)!important}
+  .legend{display:flex;flex-wrap:wrap;gap:14px;font-size:.85rem;color:var(--muted);margin-bottom:14px}
+  .legend span{display:inline-flex;align-items:center;gap:6px}
+  .legend i{width:20px;height:6px;border-radius:2px;display:inline-block;background:var(--border-soft)}
+
+  /* Réglages */
+  .row{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 0;border-bottom:1px solid var(--border-soft)}
+  .row:last-child{border-bottom:0}
+  .row .lbl{font-weight:500}
+  .row .sub{font-size:.85rem;color:var(--muted)}
+  select,input[type=text]{font-family:inherit;font-size:.95rem;padding:6px 10px;border:1px solid var(--border);border-radius:var(--radius);background:#fff;min-height:36px}
+  select:focus,input:focus{outline:2px solid var(--hl);outline-offset:0;border-color:var(--hl)}
+  .switch{position:relative;width:44px;height:24px;border-radius:12px;background:var(--border);border:0;cursor:pointer;flex:none}
+  .switch::after{content:"";position:absolute;top:3px;left:3px;width:18px;height:18px;border-radius:50%;background:#fff;transition:left .12s}
+  .switch.on{background:var(--hl)}
+  .switch.on::after{left:23px}
+  .small-seg{display:flex;border:1px solid var(--border);border-radius:var(--radius);overflow:hidden}
+  .small-seg button{border:0;border-right:1px solid var(--border);background:var(--view);padding:6px 12px;cursor:pointer;min-width:42px}
+  .small-seg button:last-child{border-right:0}
+  .small-seg button.sel{background:var(--hl);color:#fff}
+
+  /* Guide */
+  .overlay{position:fixed;inset:0;background:rgba(35,38,41,.45);display:grid;place-items:center;padding:16px;z-index:10}
+  .dialog{background:var(--view);border-radius:6px;max-width:680px;width:100%;max-height:88vh;overflow:auto;box-shadow:0 8px 30px rgba(0,0,0,.25)}
+  .dialog header{display:flex;align-items:center;justify-content:space-between;padding:14px 18px;border-bottom:1px solid var(--border-soft);position:sticky;top:0;background:var(--view)}
+  .dialog header h2{font-size:1.05rem;margin:0}
+  .dialog .body{padding:6px 20px 20px}
+  .dialog h3{font-size:.95rem;margin:18px 0 6px;color:var(--hl-dark)}
+  .dialog p,.dialog li{font-size:.93rem}
+  .dialog ul{padding-left:20px;margin:6px 0}
+  .refs{font-size:.8rem;color:var(--muted)}
+
+  @media (max-width:520px){
+    .toolbar .lbl-txt{display:none}
+    .stage{padding:22px 12px 18px}
+    .key{min-height:56px}
+  }
+  @media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<div id="root"></div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.3.1/umd/react.production.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.3.1/umd/react-dom.production.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/htm@3.1.1/dist/htm.umd.js"></script>
+<script>
+"use strict";
+const { useState, useEffect, useRef, useCallback } = React;
+const html = htm.bind(React.createElement);
+
+/* =====================================================================
+   1. Données : faits multiplicatifs
+   Un « fait » = une famille commutative (3×5 et 5×3 = même fait).
+   Chaque fait existe dans deux sens : p (3 × 5 = ?) et d (15 = ? × ?).
+   ===================================================================== */
+const LEVELS = [
+  { id: 5,  title: "Jusqu’à la table de 5",  sub: "Tables de 2, 3, 4 et 5" },
+  { id: 10, title: "Jusqu’à la table de 10", sub: "Tables de 2 à 10" },
+  { id: 15, title: "Jusqu’à la table de 15", sub: "Tables de 2 à 15" },
+];
+const MODES = [
+  { id: "p",    q: "3 × 5 = ?",  d: "Trouver le résultat" },
+  { id: "d",    q: "15 = ? × ?", d: "Retrouver la multiplication" },
+  { id: "both", q: "Les deux",   d: "Dans les deux sens" },
+];
+const INTERVALS = { 1: 1, 2: 2, 3: 3, 4: 5, 5: 8 };   // en séances (Leitner)
+const GAPS = [1, 3, 5];                                // répétition espacée dans la séance
+
+const famKey = (a, b) => (a <= b ? a + "x" + b : b + "x" + a);
+function parseFam(f) { const [a, b] = f.split("x").map(Number); return { a, b, p: a * b }; }
+function buildPool(max) {
+  const out = [];
+  for (let a = 2; a <= 15; a++) for (let b = a; b <= 15; b++) {
+    if ((a <= max && b <= 10) || (b <= max && a <= 10)) out.push(a + "x" + b);
+  }
+  return out;
+}
+
+/* Similarité entre deux faits (hypothèse d'interférence, De Visscher & Noël) :
+   même produit, opérandes communs, chiffres communs dans le résultat. */
+function sim(f1, f2) {
+  if (f1 === f2) return 10;
+  const A = parseFam(f1), B = parseFam(f2);
+  let s = A.p === B.p ? 3 : 0;
+  const ops = [B.a, B.b];
+  for (const x of [A.a, A.b]) { const i = ops.indexOf(x); if (i >= 0) { ops.splice(i, 1); s += 1; } }
+  const d2 = String(B.p).split("");
+  for (const c of String(A.p)) { const i = d2.indexOf(c); if (i >= 0) { d2.splice(i, 1); s += 0.5; } }
+  return s;
+}
+/* Ordre de facilité : faits « à règle » d'abord (×10, ×2, ×5, carrés…). */
+function ease(f) {
+  const { a, b, p } = parseFam(f); const has = n => a === n || b === n; let r;
+  if (has(10)) r = 0; else if (has(2)) r = 1; else if (has(5)) r = 2; else if (a === b) r = 3;
+  else if (has(11)) r = 3; else if (has(9)) r = 4; else if (has(4)) r = 5; else if (has(3)) r = 6;
+  else if (b >= 12) r = 7; else r = 8;
+  return r + p / 40;
+}
+/* Astuce verbale (sans dénombrement), proposée seulement à la demande. */
+function hint(x, y) {
+  const a = Math.min(x, y), b = Math.max(x, y), p = a * b;
+  const other = k => (a === k ? b : a);
+  if (a === 10 || b === 10) { const o = other(10); return `× 10 : on écrit ${o}, puis un 0 → ${p}.`; }
+  if (b >= 11) {
+    if (b === 11 && a <= 9) return `× 11 : le chiffre ${a} se répète → ${p}.`;
+    const u = b - 10; return `${b} × ${a}, c’est 10 × ${a} + ${u} × ${a} : ${10 * a} + ${u * a} = ${p}.`;
+  }
+  if (a === 2) return `× 2, c’est le double : ${b} + ${b} = ${p}.`;
+  if (a === b) return `C’est un carré : ${a} × ${a} = ${p}. Les carrés servent de repères.`;
+  if (a === 7 && b === 8) return `5, 6, 7, 8 → 56 = 7 × 8.`;
+  if (a === 5 || b === 5) { const o = other(5); return `× 5, c’est la moitié de × 10 : ${o} × 10 = ${o * 10}, la moitié, c’est ${p}.`; }
+  if (a === 9 || b === 9) { const o = other(9); return `× 9, c’est × 10 moins une fois : ${o * 10} − ${o} = ${p}.`; }
+  if (a === 4 || b === 4) { const o = other(4); return `× 4, c’est le double du double : ${o} → ${2 * o} → ${p}.`; }
+  if (a === 3 || b === 3) { const o = other(3); return `× 3, c’est le double, plus une fois : ${2 * o} + ${o} = ${p}.`; }
+  if (a === 6 || b === 6) { const o = other(6); return `× 6, c’est × 5, plus une fois : ${5 * o} + ${o} = ${p}.`; }
+  if (a === 8 || b === 8) { const o = other(8); return `× 8, c’est × 10 moins deux fois : ${10 * o} − ${2 * o} = ${p}.`; }
+  return `${a} × ${b} = ${p}`;
+}
+
+/* =====================================================================
+   2. Voix (canal auditif : modalité verbale)
+   ===================================================================== */
+let frVoice = null;
+function pickVoice() {
+  try { const vs = speechSynthesis.getVoices(); frVoice = vs.find(v => /^fr(-|_)FR/i.test(v.lang)) || vs.find(v => /^fr/i.test(v.lang)) || null; } catch (e) {}
+}
+try { if (window.speechSynthesis) { pickVoice(); speechSynthesis.onvoiceschanged = pickVoice; } } catch (e) {}
+function speak(text, on) {
+  if (!on) return;
+  try {
+    if (!window.speechSynthesis) return;
+    speechSynthesis.cancel();
+    const u = new SpeechSynthesisUtterance(text);
+    u.lang = "fr-FR"; u.rate = 0.85; if (frVoice) u.voice = frVoice;
+    speechSynthesis.speak(u);
+  } catch (e) {}
+}
+const sayFact = tr => tr.dir === "p" ? `${tr.a} fois ${tr.b} égale ${tr.p}` : `${tr.p} égale ${tr.a} fois ${tr.b}`;
+const sayQuestion = tr => tr.dir === "p" ? `${tr.a} fois ${tr.b} ?` : `${tr.p} égale combien fois combien ?`;
+
+/* =====================================================================
+   3. Sauvegarde locale (profils)
+   ===================================================================== */
+const LS_KEY = "tables-multiplication-v1";
+const defaultSettings = () => ({ len: 20, maxNew: 3, voice: true, readQ: true, size: 1, auto: true });
+const newProfile = () => ({ items: {}, session: 1, level: 5, mode: "p", settings: defaultSettings() });
+function loadStore() {
+  try { const s = JSON.parse(localStorage.getItem(LS_KEY)); if (s && s.profiles && s.current && s.profiles[s.current]) return s; } catch (e) {}
+  return { current: "Élève", profiles: { "Élève": newProfile() } };
+}
+function saveStore(s) { try { localStorage.setItem(LS_KEY, JSON.stringify(s)); } catch (e) {} }
+
+/* =====================================================================
+   4. Moteur de séance
+   - Leitner entre séances (boîtes 1 à 5)
+   - Répétition incrémentale dans la séance : peu de faits nouveaux (≤3 à la fois),
+     rappelés à intervalles croissants, intercalés avec des faits connus
+   - Choix des faits nouveaux à faible interférence mutuelle
+   ===================================================================== */
+class Engine {
+  constructor(profile, level, mode) {
+    this.items = profile.items; this.S = profile.session; this.mode = mode;
+    this.pool = buildPool(level);
+    this.L = profile.settings.len; this.maxNew = profile.settings.maxNew;
+    this.t = 0; this.sched = []; this.presented = new Set();
+    this.newCount = 0; this.lastIntro = -99; this.lastKey = null; this.lastFam = null;
+    this.log = []; this.introduced = new Set(); this.learned = []; this.reviewed = 0;
+    this.warmup = Math.min(2, this.dueReviews().length);
+  }
+  rec(k) { return this.items[k] || (this.items[k] = { box: 0, due: 0, ok: 0, err: 0 }); }
+  peek(k) { return this.items[k]; }
+  box(k) { const r = this.items[k]; return r ? r.box : 0; }
+  inSched(k) { return this.sched.some(s => s.key === k); }
+  modeKeys() {
+    const ks = [];
+    for (const f of this.pool) { if (this.mode !== "d") ks.push(f + "|p"); if (this.mode !== "p") ks.push(f + "|d"); }
+    return ks;
+  }
+  dueReviews() {
+    return this.modeKeys()
+      .filter(k => { const r = this.peek(k); return r && r.box >= 1 && r.due <= this.S && !this.presented.has(k) && !this.inSched(k); })
+      .sort((x, y) => this.box(x) - this.box(y) || this.peek(x).due - this.peek(y).due);
+  }
+  newCandidates() {
+    const out = [];
+    for (const f of this.pool) {
+      const p = f + "|p", d = f + "|d";
+      if (this.mode !== "d" && this.box(p) === 0 && !this.inSched(p)) out.push(p);
+      if (this.mode === "d" && this.box(d) === 0 && !this.inSched(d)) out.push(d);
+      if (this.mode === "both" && this.box(p) >= 2 && this.box(d) === 0 && !this.inSched(d)) out.push(d);
+    }
+    return out;
+  }
+  activeFams() {
+    const s = new Set(this.sched.map(x => x.key.split("|")[0]));
+    for (const k of Object.keys(this.items)) { const b = this.items[k].box; if (b === 1 || b === 2) s.add(k.split("|")[0]); }
+    return [...s];
+  }
+  pickNew() {
+    const c = this.newCandidates(); if (!c.length) return null;
+    const act = this.activeFams();
+    let best = null, bestScore = Infinity;
+    for (const k of c) {
+      const f = k.split("|")[0];
+      const inter = act.length ? Math.max(...act.map(a => sim(f, a))) : 0;
+      const score = 2 * inter + 0.3 * ease(f) - (k.endsWith("|d") ? 0.8 : 0) + Math.random() * 0.05;
+      if (score < bestScore) { bestScore = score; best = k; }
+    }
+    return best;
+  }
+  pickLowSim(list) {
+    const ok = list.filter(k => k.split("|")[0] !== this.lastFam);
+    const pool = (ok.length ? ok : list).slice(0, 5);
+    if (!pool.length) return null;
+    if (!this.lastFam) return pool[0];
+    return pool.slice().sort((x, y) => sim(x.split("|")[0], this.lastFam) - sim(y.split("|")[0], this.lastFam))[0];
+  }
+  pickReview() { return this.pickLowSim(this.dueReviews()); }
+  pickFiller() {
+    const known = this.modeKeys().filter(k => this.box(k) >= 2 && !this.inSched(k) && k !== this.lastKey);
+    known.sort(() => Math.random() - 0.5);
+    known.sort((x, y) => (this.presented.has(x) ? 1 : 0) - (this.presented.has(y) ? 1 : 0));
+    return this.pickLowSim(known);
+  }
+  mk(key, kind) {
+    const [f, dir] = key.split("|"); const { a, b, p } = parseFam(f);
+    const swap = Math.random() < 0.5;
+    if (kind === "study") { this.newCount++; this.lastIntro = this.t; this.introduced.add(key); }
+    return { key, fam: f, dir, a: swap ? b : a, b: swap ? a : b, p, kind, t: this.t };
+  }
+  next() {
+    const t = this.t, overL = t >= this.L;
+    if (t >= this.L + 12) return null;
+    const due = this.sched.filter(s => s.at <= t && s.key !== this.lastKey).sort((x, y) => x.at - y.at)[0];
+    if (due) return this.mk(due.key, "learn");
+    const canNew = () => !overL && this.newCount < this.maxNew && this.sched.length < 3;
+    if (canNew() && t >= this.warmup && t - this.lastIntro >= 2 && t < this.L - 4) {
+      const k = this.pickNew(); if (k) return this.mk(k, "study");
+    }
+    if (!overL) { const k = this.pickReview(); if (k) { this.reviewed++; return this.mk(k, "review"); } }
+    if (this.sched.length) {
+      if (!overL) { const k = this.pickFiller(); if (k) return this.mk(k, "filler"); }
+      if (canNew()) { const k = this.pickNew(); if (k) return this.mk(k, "study"); }
+      const s = this.sched.filter(s => s.key !== this.lastKey).sort((x, y) => x.at - y.at)[0] || this.sched[0];
+      return this.mk(s.key, "learn");
+    }
+    if (canNew()) { const k = this.pickNew(); if (k) return this.mk(k, "study"); }
+    return null;
+  }
+  answer(tr, res, rt) {
+    const r = this.rec(tr.key);
+    this.presented.add(tr.key); this.lastKey = tr.key; this.lastFam = tr.fam;
+    this.log.push({ key: tr.key, res, rt, kind: tr.kind });
+    if (res === "ok") r.ok++; else if (res === "wrong") r.err++;
+    r.last = this.S;
+    const idx = this.sched.findIndex(s => s.key === tr.key);
+    const fast = rt < (tr.dir === "p" ? 5000 : 9000);
+    if (tr.kind === "study") {
+      this.sched.push({ key: tr.key, stage: 0, at: this.t + (res === "ok" ? GAPS[0] + 1 : 2) });
+    } else if (tr.kind === "learn") {
+      const s = this.sched[idx];
+      if (s) {
+        if (res === "ok") {
+          s.stage++;
+          if (s.stage >= GAPS.length) {
+            this.sched.splice(idx, 1); r.box = Math.max(r.box, 1); r.due = this.S + 1;
+            if (this.introduced.has(tr.key)) this.learned.push(tr.key);
+          } else s.at = this.t + GAPS[s.stage] + 1;
+        } else { if (res === "wrong") s.stage = 0; s.at = this.t + 2; }
+      }
+    } else {
+      if (res === "wrong") { r.box = 1; r.due = this.S + 1; if (idx < 0) this.sched.push({ key: tr.key, stage: 0, at: this.t + 2 }); }
+      else if (res === "ok" && tr.kind === "review") {
+        const nb = fast ? Math.min(5, r.box + 1) : (r.box < 3 ? r.box + 1 : r.box);
+        r.box = nb; r.due = this.S + INTERVALS[nb];
+      } else if (res === "alt") r.due = this.S + 1;
+    }
+    this.t++;
+  }
+  finish(profile) {
+    for (const s of this.sched) { const r = this.rec(s.key); if (r.box < 1) r.box = 1; r.due = this.S + 1; if (this.introduced.has(s.key)) this.learned.push(s.key); }
+    this.sched = [];
+    if (this.t > 0) profile.session = this.S + 1;
+    const ok = this.log.filter(l => l.res !== "wrong").length;
+    return { total: this.log.length, ok, learned: [...new Set(this.learned)] };
+  }
+}
+
+/* Statistiques d'un niveau pour un sens donné */
+function levelStats(profile, level, mode) {
+  const pool = buildPool(level); const keys = [];
+  for (const f of pool) { if (mode !== "d") keys.push(f + "|p"); if (mode !== "p") keys.push(f + "|d"); }
+  let acq = 0, auto = 0, started = 0;
+  for (const k of keys) { const r = profile.items[k]; const b = r ? r.box : 0; if (b >= 1) started++; if (b >= 5) auto++; else if (b >= 3) acq++; }
+  return { n: keys.length, acq, auto, started };
+}
+const keyLabel = k => { const [f, dir] = k.split("|"); const { a, b, p } = parseFam(f); return dir === "p" ? `${a} × ${b} = ${p}` : `${p} = ${a} × ${b}`; };
+
+/* =====================================================================
+   5. Icônes (monochromes, style Breeze)
+   ===================================================================== */
+const Icon = {
+  chart: html`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg>`,
+  gear: html`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="3.2"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M4.9 19.1L7 17M17 7l2.1-2.1"/></svg>`,
+  help: html`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9.5"/><path d="M9.5 9.3a2.6 2.6 0 0 1 5 .9c0 1.8-2.5 2.2-2.5 3.8"/><circle cx="12" cy="17.2" r=".6" fill="currentColor"/></svg>`,
+  back: html`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 5l-7 7 7 7"/></svg>`,
+  close: html`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 6l12 12M18 6L6 18"/></svg>`,
+  sound: html`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 9h4l5-4v14l-5-4H4z"/><path d="M16.5 8.5a5 5 0 0 1 0 7M19 6a8.5 8.5 0 0 1 0 12"/></svg>`,
+  bulb: html`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M9 18h6M10 21h4M12 3a6 6 0 0 0-3.5 10.9c.6.5 1 1.2 1 2V16h5v-.1c0-.8.4-1.5 1-2A6 6 0 0 0 12 3z"/></svg>`,
+  del: html`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M9 5h11v14H9l-6-7z"/><path d="M12 9l5 6M17 9l-5 6"/></svg>`,
+  check: html`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M4 12.5l5 5L20 6.5"/></svg>`,
+};
+
+/* =====================================================================
+   6. Composants
+   ===================================================================== */
+function Toolbar({ name, onNav, onGuide, view }) {
+  return html`<header class="toolbar">
+    <h1><span class="logo">×</span>Tables de multiplication</h1>
+    <span class="chip" title="Profil actif">${name}</span>
+    ${view !== "home" && view !== "session" && html`<button class="btn flat" onClick=${() => onNav("home")}>${Icon.back}<span class="lbl-txt">Accueil</span></button>`}
+    ${view !== "session" && html`<button class="btn flat" onClick=${() => onNav("progress")} title="Suivi">${Icon.chart}<span class="lbl-txt">Suivi</span></button>`}
+    ${view !== "session" && html`<button class="btn flat" onClick=${() => onNav("settings")} title="Réglages">${Icon.gear}<span class="lbl-txt">Réglages</span></button>`}
+    <button class="btn flat" onClick=${onGuide} title="Guide pour l’adulte">${Icon.help}<span class="lbl-txt">Guide</span></button>
+  </header>`;
+}
+
+function StatBar({ st }) {
+  return html`<div class="bar" aria-hidden="true">
+    <i class="b-auto" style=${{ width: (100 * st.auto / st.n) + "%" }}></i>
+    <i class="b-acq" style=${{ width: (100 * st.acq / st.n) + "%" }}></i>
+  </div>`;
+}
+
+function Home({ profile, update, onStart }) {
+  return html`<main>
+    <div class="section-title">1. Choisir le niveau</div>
+    <div class="levels">
+      ${LEVELS.map(l => {
+        const st = levelStats(profile, l.id, profile.mode);
+        return html`<button key=${l.id} class=${"level" + (profile.level === l.id ? " sel" : "")}
+            onClick=${() => update(p => { p.level = l.id; })} aria-pressed=${profile.level === l.id}>
+          <div class="t">${l.title}</div>
+          <div class="s">${l.sub} · ${st.acq + st.auto} / ${st.n} acquis</div>
+          <${StatBar} st=${st} />
+        </button>`;
+      })}
+    </div>
+    <div class="section-title">2. Choisir le sens</div>
+    <div class="segmented" role="group">
+      ${MODES.map(m => html`<button key=${m.id} class=${profile.mode === m.id ? "sel" : ""}
+          onClick=${() => update(p => { p.mode = m.id; })} aria-pressed=${profile.mode === m.id}>
+        <span class="q">${m.q}</span><span class="d">${m.d}</span></button>`)}
+    </div>
+    ${profile.mode === "both" && html`<p class="muted" style=${{ fontSize: ".88rem", marginTop: "10px" }}>
+      Le sens « 15 = ? × ? » s’ajoute pour un fait dès qu’il est bien connu dans le sens « 3 × 5 = ? ».</p>`}
+    <div class="start"><button class="btn primary big" onClick=${onStart}>Commencer la séance</button></div>
+    <p class="muted" style=${{ textAlign: "center", fontSize: ".88rem", marginTop: "14px" }}>
+      Séance courte (${profile.settings.len} questions au plus), sans chronomètre. Une séance par jour suffit.</p>
+  </main>`;
+}
+
+function Slot({ value, active, state, onClick }) {
+  const cls = "slot" + (value === "" ? " empty" : "") + (active ? " active" : "") + (state ? " " + state : "");
+  return html`<span class=${cls} onClick=${onClick} role=${onClick ? "button" : undefined}>${value}</span>`;
+}
+
+function Keypad({ onDigit, onBack, onOk, okDisabled }) {
+  const d = n => html`<button key=${n} class="key" onClick=${() => onDigit(String(n))}>${n}</button>`;
+  return html`<div class="keypad">
+    ${[1, 2, 3, 4, 5, 6, 7, 8, 9].map(d)}
+    <button class="key" onClick=${onBack} aria-label="Effacer">${Icon.del}</button>
+    ${d(0)}
+    <button class="key ok" onClick=${onOk} disabled=${okDisabled} aria-label="Valider">${Icon.check}</button>
+  </div>`;
+}
+
+function Session({ profile, level, mode, onEnd }) {
+  const S = profile.settings;
+  const eng = useRef(null);
+  const [tr, setTr] = useState(null);
+  const [phase, setPhase] = useState("ask");      // study | ask | ok | alt | fix
+  const [v, setV] = useState("");                  // réponse (sens p)
+  const [f, setF] = useState(["", ""]);            // réponse (sens d)
+  const [act, setAct] = useState(0);
+  const [showHint, setShowHint] = useState(false);
+  const [altTxt, setAltTxt] = useState("");
+  const t0 = useRef(0);
+  const timer = useRef(null);
+
+  const clearInput = () => { setV(""); setF(["", ""]); setAct(0); };
+  const advance = useCallback(() => {
+    clearTimeout(timer.current);
+    const n = eng.current.next();
+    if (!n) { onEnd(eng.current.finish(profile)); return; }
+    clearInput(); setShowHint(false); setTr(n);
+    if (n.kind === "study") { setPhase("study"); speak(sayFact(n), S.voice); }
+    else { setPhase("ask"); t0.current = performance.now(); if (S.readQ) speak(sayQuestion(n), S.voice); }
+  }, [profile]);
+
+  useEffect(() => { eng.current = new Engine(profile, level, mode); advance(); return () => { clearTimeout(timer.current); try { speechSynthesis.cancel(); } catch (e) {} }; }, []);
+
+  const filled = tr && (tr.dir === "p" ? v !== "" : f[0] !== "" && f[1] !== "");
+
+  function validate() {
+    if (!tr || !filled) return;
+    if (phase === "ask") {
+      const rt = performance.now() - t0.current;
+      let res;
+      if (tr.dir === "p") res = Number(v) === tr.p ? "ok" : "wrong";
+      else {
+        const x = +f[0], y = +f[1];
+        if (x * y !== tr.p || x < 2 || y < 2) res = "wrong";
+        else if ((x === tr.a && y === tr.b) || (x === tr.b && y === tr.a)) res = "ok";
+        else res = "alt";
+      }
+      eng.current.answer(tr, res, rt);
+      if (res === "ok") {
+        setPhase("ok"); speak(sayFact(tr), S.voice);
+        if (S.auto) timer.current = setTimeout(advance, 1600);
+      } else if (res === "alt") {
+        setAltTxt(`${tr.p} = ${f[0]} × ${f[1]}`); setPhase("alt");
+        speak(`Oui. On peut aussi écrire : ${tr.p} égale ${tr.a} fois ${tr.b}`, S.voice);
+      } else {
+        clearInput(); setPhase("fix"); speak(sayFact(tr), S.voice);
+      }
+    } else if (phase === "fix") {
+      const good = tr.dir === "p" ? Number(v) === tr.p
+        : ((+f[0] === tr.a && +f[1] === tr.b) || (+f[0] === tr.b && +f[1] === tr.a));
+      if (good) advance(); else clearInput();
+    }
+  }
+  function digit(d) {
+    if (phase !== "ask" && phase !== "fix") return;
+    if (tr.dir === "p") { setV(x => (x.length < 3 ? x + d : x)); return; }
+    setF(prev => {
+      const n = prev.slice(); if (n[act].length >= 2) return prev;
+      if (n[act] === "" && d === "0") return prev;
+      n[act] = n[act] + d;
+      if (act === 0 && (n[0].length === 2 || n[0] !== "1")) setAct(1);
+      return n;
+    });
+  }
+  function back() {
+    if (phase !== "ask" && phase !== "fix") return;
+    if (tr.dir === "p") { setV(x => x.slice(0, -1)); return; }
+    setF(prev => {
+      const n = prev.slice();
+      if (n[act] === "" && act === 1) { setAct(0); n[0] = n[0].slice(0, -1); return n; }
+      n[act] = n[act].slice(0, -1); return n;
+    });
+  }
+  // Clavier physique
+  const handler = useRef(null);
+  handler.current = e => {
+    if (!tr) return;
+    if (e.key === "Enter") {
+      e.preventDefault();
+      if (phase === "study") { setPhase("ask"); t0.current = performance.now(); return; }
+      if (phase === "ok" || phase === "alt") { advance(); return; }
+      validate(); return;
+    }
+    if (/^[0-9]$/.test(e.key)) { digit(e.key); return; }
+    if (e.key === "Backspace") { e.preventDefault(); back(); return; }
+    if (tr.dir === "d" && (e.key === "Tab" || e.key === "x" || e.key === "*" || e.key === " ")) { e.preventDefault(); setAct(a => 1 - a); }
+  };
+  useEffect(() => { const h = e => handler.current(e); window.addEventListener("keydown", h); return () => window.removeEventListener("keydown", h); }, []);
+
+  if (!tr) return html`<main></main>`;
+  const e = eng.current;
+  const pct = Math.min(100, 100 * e.t / Math.max(e.L, 1));
+
+  // Affichage du fait / de la question
+  let label = "", body;
+  const op = s => html`<span class="op">${s}</span>`;
+  if (phase === "study") {
+    label = "Nouveau fait : regarde et écoute";
+    body = tr.dir === "p"
+      ? html`<span>${tr.a}</span>${op("×")}<span>${tr.b}</span>${op("=")}<span class="hl">${tr.p}</span>`
+      : html`<span class="hl">${tr.p}</span>${op("=")}<span>${tr.a}</span>${op("×")}<span>${tr.b}</span>`;
+  } else if (tr.dir === "p") {
+    const st = phase === "ok" ? "ok" : null;
+    if (phase === "fix") label = "Voici la réponse. Recopie-la.";
+    body = html`<span>${tr.a}</span>${op("×")}<span>${tr.b}</span>${op("=")}
+      ${phase === "fix" ? html`<span class="hl">${tr.p}</span>` : html`<${Slot} value=${v} active=${phase === "ask"} state=${st} />`}`;
+  } else {
+    const st = phase === "ok" || phase === "alt" ? "ok" : null;
+    if (phase === "fix") label = "Voici la réponse. Recopie-la.";
+    body = phase === "fix"
+      ? html`<span>${tr.p}</span>${op("=")}<span class="hl">${tr.a}</span>${op("×")}<span class="hl">${tr.b}</span>`
+      : html`<span>${tr.p}</span>${op("=")}
+          <${Slot} value=${f[0]} active=${phase === "ask" && act === 0} state=${st} onClick=${() => setAct(0)} />${op("×")}
+          <${Slot} value=${f[1]} active=${phase === "ask" && act === 1} state=${st} onClick=${() => setAct(1)} />`;
+  }
+
+  let fb = null;
+  if (phase === "ok") fb = html`<div class="feedback ok">Oui ! ${tr.dir === "p" ? `${tr.a} × ${tr.b} = ${tr.p}` : `${tr.p} = ${f[0]} × ${f[1]}`}</div>`;
+  else if (phase === "alt") fb = html`<div class="feedback ok">Juste : ${altTxt}. On peut aussi écrire ${tr.p} = ${tr.a} × ${tr.b}.</div>`;
+  else if (phase === "fix") fb = html`<div class="fact copy">
+      ${tr.dir === "p" ? html`<span>${tr.a}</span>${op("×")}<span>${tr.b}</span>${op("=")}<${Slot} value=${v} active=${true} state="fix" />` :
+        html`<span>${tr.p}</span>${op("=")}<${Slot} value=${f[0]} active=${act === 0} state="fix" onClick=${() => setAct(0)} />${op("×")}<${Slot} value=${f[1]} active=${act === 1} state="fix" onClick=${() => setAct(1)} />`}
+    </div>`;
+  else fb = html`<div class="feedback"></div>`;
+
+  return html`<main><div class="session">
+    <div class="sess-top">
+      <div class="bar" role="progressbar" aria-valuenow=${Math.round(pct)}><i style=${{ width: pct + "%" }}></i></div>
+      <button class="btn flat" onClick=${() => onEnd(e.finish(profile))} title="Terminer la séance">${Icon.close}<span class="lbl-txt">Terminer</span></button>
+    </div>
+    <div class="stage">
+      <div class="label">${label}</div>
+      <div class=${"fact" + (tr.dir === "d" ? " dmode" : "")} aria-live="polite">${body}</div>
+      ${fb}
+      ${phase === "study" && showHint && html`<div class="hint">${hint(tr.a, tr.b)}${tr.a !== tr.b ? html`<br/><span class="muted">${tr.b} × ${tr.a}, c’est le même fait.</span>` : null}</div>`}
+      <div class="actions">
+        ${(phase === "study" || phase === "fix" || phase === "ok") && S.voice && html`<button class="btn" onClick=${() => speak(sayFact(tr), true)}>${Icon.sound} Écouter</button>`}
+        ${phase === "ask" && S.voice && html`<button class="btn flat" onClick=${() => speak(sayQuestion(tr), true)} title="Réécouter la question">${Icon.sound}</button>`}
+        ${phase === "study" && html`<button class="btn" onClick=${() => setShowHint(h => !h)} aria-pressed=${showHint}>${Icon.bulb} Astuce</button>`}
+        ${phase === "study" && html`<button class="btn primary" onClick=${() => { setPhase("ask"); t0.current = performance.now(); }}>J’ai retenu</button>`}
+        ${(phase === "ok" || phase === "alt") && html`<button class="btn primary" onClick=${advance}>Suivant</button>`}
+      </div>
+    </div>
+    ${(phase === "ask" || phase === "fix") && html`<${Keypad} onDigit=${digit} onBack=${back} onOk=${validate} okDisabled=${!filled} />`}
+  </div></main>`;
+}
+
+function End({ summary, profile, onHome, onAgain }) {
+  const st = levelStats(profile, profile.level, profile.mode);
+  return html`<main><div class="card" style=${{ textAlign: "center" }}>
+    <h2 style=${{ margin: "4px 0 6px" }}>Séance terminée</h2>
+    <p class="muted" style=${{ margin: 0 }}>Bravo pour ton travail.</p>
+    <div class="stats">
+      <div class="stat"><b>${summary.ok} / ${summary.total}</b>bonnes réponses</div>
+      <div class="stat"><b>${summary.learned.length}</b>nouveaux faits</div>
+      <div class="stat"><b>${st.acq + st.auto} / ${st.n}</b>faits acquis</div>
+    </div>
+    ${summary.learned.length > 0 && html`<div class="section-title">Faits appris aujourd’hui</div>
+      <div class="facts-list">${summary.learned.map(k => html`<span key=${k}>${keyLabel(k)}</span>`)}</div>`}
+    <div style=${{ margin: "22px auto 0", maxWidth: "360px" }}><${StatBar} st=${st} /></div>
+    <div class="actions" style=${{ marginTop: "24px" }}>
+      <button class="btn" onClick=${onHome}>Accueil</button>
+      <button class="btn primary" onClick=${onAgain}>Nouvelle séance</button>
+    </div>
+    <p class="muted" style=${{ fontSize: ".85rem", marginTop: "16px" }}>Conseil : attendre quelques heures, idéalement le lendemain, avant la prochaine séance.</p>
+  </div></main>`;
+}
+
+function Progress({ profile }) {
+  const [lvl, setLvl] = useState(profile.level);
+  const pool = buildPool(lvl);
+  const groups = {};
+  for (const fk of pool) { const { a, b } = parseFam(fk); const g = b > 10 ? b : a; (groups[g] = groups[g] || []).push(fk); }
+  const cls = k => { const r = profile.items[k]; return r && r.box ? "s" + r.box : ""; };
+  const sP = levelStats(profile, lvl, "p"), sD = levelStats(profile, lvl, "d");
+  return html`<main><div class="card">
+    <h2 style=${{ margin: "0 0 12px", fontSize: "1.15rem" }}>Suivi des faits</h2>
+    <div class="tabs">${LEVELS.map(l => html`<button key=${l.id} class=${lvl === l.id ? "sel" : ""} onClick=${() => setLvl(l.id)}>Table de ${l.id}</button>`)}</div>
+    <div class="stats" style=${{ marginTop: 0 }}>
+      <div class="stat"><b>${sP.acq + sP.auto} / ${sP.n}</b>acquis · 3 × 5 = ?</div>
+      <div class="stat"><b>${sD.acq + sD.auto} / ${sD.n}</b>acquis · 15 = ? × ?</div>
+      <div class="stat"><b>${profile.session - 1}</b>séances réalisées</div>
+    </div>
+    <div class="legend">
+      <span><i></i>Pas encore vu</span><span><i class="s1"></i>En apprentissage</span>
+      <span><i class="s3"></i>Acquis</span><span><i class="s5"></i>Automatisé (rapide)</span>
+      <span class="muted">Barre de gauche : 3 × 5 = ? · barre de droite : 15 = ? × ?</span>
+    </div>
+    ${Object.keys(groups).map(Number).sort((x, y) => x - y).map(g => html`<div class="group" key=${g}>
+      <h3>Table de ${g}</h3>
+      <div class="chips">${groups[g].map(fk => { const { a, b, p } = parseFam(fk);
+        const x = b > 10 ? b : a, y = b > 10 ? a : b;
+        return html`<div class="fchip" key=${fk} title=${`${x} × ${y} = ${p}`}>${x} × ${y}
+          <span class="dots"><i class=${cls(fk + "|p")}></i><i class=${cls(fk + "|d")}></i></span></div>`; })}</div>
+    </div>`)}
+  </div></main>`;
+}
+
+function Toggle({ on, onClick, label }) {
+  return html`<button class=${"switch" + (on ? " on" : "")} onClick=${onClick} role="switch" aria-checked=${on} aria-label=${label}></button>`;
+}
+function Seg({ value, options, onChange }) {
+  return html`<div class="small-seg">${options.map(o => html`<button key=${o.v} class=${value === o.v ? "sel" : ""} onClick=${() => onChange(o.v)}>${o.l}</button>`)}</div>`;
+}
+
+function Settings({ store, setStore, update }) {
+  const p = store.profiles[store.current]; const s = p.settings;
+  const [newName, setNewName] = useState("");
+  const [confirm, setConfirm] = useState(null);
+  const setS = (k, val) => update(pr => { pr.settings[k] = val; });
+  const names = Object.keys(store.profiles);
+  function addProfile() {
+    const n = newName.trim(); if (!n || store.profiles[n]) return;
+    setStore(st => { const c = { ...st, profiles: { ...st.profiles, [n]: newProfile() }, current: n }; return c; });
+    setNewName("");
+  }
+  return html`<main><div class="card">
+    <h2 style=${{ margin: "0 0 4px", fontSize: "1.15rem" }}>Réglages</h2>
+    <p class="muted" style=${{ margin: "0 0 8px", fontSize: ".9rem" }}>Partie réservée à l’adulte.</p>
+
+    <div class="section-title">Profil de l’élève</div>
+    <div class="row"><div><div class="lbl">Profil actif</div><div class="sub">Chaque profil garde sa propre progression sur cet appareil.</div></div>
+      <select value=${store.current} onChange=${e => setStore(st => ({ ...st, current: e.target.value }))}>
+        ${names.map(n => html`<option key=${n} value=${n}>${n}</option>`)}</select></div>
+    <div class="row"><div class="lbl">Ajouter un profil</div>
+      <div style=${{ display: "flex", gap: "8px" }}><input type="text" placeholder="Prénom" value=${newName} onInput=${e => setNewName(e.target.value)} onKeyDown=${e => { if (e.key === "Enter") addProfile(); }} />
+      <button class="btn" onClick=${addProfile}>Ajouter</button></div></div>
+
+    <div class="section-title">Séance</div>
+    <div class="row"><div><div class="lbl">Nombre de questions</div><div class="sub">Séances courtes recommandées (10 minutes au plus).</div></div>
+      <${Seg} value=${s.len} onChange=${x => setS("len", x)} options=${[10, 15, 20, 30].map(v => ({ v, l: v }))} /></div>
+    <div class="row"><div><div class="lbl">Faits nouveaux par séance</div><div class="sub">Peu de faits nouveaux à la fois limite les confusions.</div></div>
+      <${Seg} value=${s.maxNew} onChange=${x => setS("maxNew", x)} options=${[2, 3, 4, 5].map(v => ({ v, l: v }))} /></div>
+    <div class="row"><div><div class="lbl">Passer automatiquement à la suite</div><div class="sub">Après une bonne réponse.</div></div>
+      <${Toggle} on=${s.auto} onClick=${() => setS("auto", !s.auto)} label="Passage automatique" /></div>
+
+    <div class="section-title">Affichage et voix</div>
+    <div class="row"><div><div class="lbl">Taille des nombres</div></div>
+      <${Seg} value=${s.size} onChange=${x => setS("size", x)} options=${[{ v: 1, l: "Normale" }, { v: 1.2, l: "Grande" }, { v: 1.4, l: "Très grande" }]} /></div>
+    <div class="row"><div><div class="lbl">Voix</div><div class="sub">Le fait est lu à voix haute (« trois fois cinq égale quinze »).</div></div>
+      <${Toggle} on=${s.voice} onClick=${() => setS("voice", !s.voice)} label="Voix" /></div>
+    <div class="row"><div><div class="lbl">Lire aussi les questions</div></div>
+      <${Toggle} on=${s.readQ} onClick=${() => setS("readQ", !s.readQ)} label="Lire les questions" /></div>
+
+    <div class="section-title">Données</div>
+    <div class="row"><div><div class="lbl">Remettre à zéro la progression de « ${store.current} »</div></div>
+      ${confirm === "reset"
+        ? html`<div style=${{ display: "flex", gap: "8px" }}><button class="btn" onClick=${() => setConfirm(null)}>Annuler</button>
+            <button class="btn primary" onClick=${() => { update(pr => { pr.items = {}; pr.session = 1; }); setConfirm(null); }}>Confirmer</button></div>`
+        : html`<button class="btn" onClick=${() => setConfirm("reset")}>Remettre à zéro</button>`}</div>
+    ${names.length > 1 && html`<div class="row"><div><div class="lbl">Supprimer le profil « ${store.current} »</div></div>
+      ${confirm === "del"
+        ? html`<div style=${{ display: "flex", gap: "8px" }}><button class="btn" onClick=${() => setConfirm(null)}>Annuler</button>
+            <button class="btn primary" onClick=${() => { setStore(st => { const pr = { ...st.profiles }; delete pr[st.current]; return { ...st, profiles: pr, current: Object.keys(pr)[0] }; }); setConfirm(null); }}>Confirmer</button></div>`
+        : html`<button class="btn" onClick=${() => setConfirm("del")}>Supprimer</button>`}</div>`}
+    <p class="muted" style=${{ fontSize: ".82rem", marginTop: "12px" }}>La progression est enregistrée dans ce navigateur uniquement.</p>
+  </div></main>`;
+}
+
+function Guide({ onClose }) {
+  useEffect(() => { const h = e => { if (e.key === "Escape") onClose(); }; window.addEventListener("keydown", h); return () => window.removeEventListener("keydown", h); }, []);
+  return html`<div class="overlay" onClick=${e => { if (e.target === e.currentTarget) onClose(); }}>
+    <div class="dialog" role="dialog" aria-modal="true" aria-label="Guide">
+      <header><h2>Guide pour l’adulte</h2><button class="btn flat" onClick=${onClose} aria-label="Fermer">${Icon.close}</button></header>
+      <div class="body">
+        <h3>À qui s’adresse l’outil</h3>
+        <p>Aux élèves pour qui le dénombrement (compter de 3 en 3, compter des points) ne fonctionne pas et pour qui la voie visuelle est fragile (troubles neurovisuels, dyspraxie visuo-spatiale, troubles du neurodéveloppement). L’outil vise la <b>récupération directe en mémoire</b> du fait, sans calcul.</p>
+        <h3>Ce que fait l’outil, et pourquoi</h3>
+        <ul>
+          <li><b>Récupération active plutôt que relecture.</b> L’élève doit produire la réponse : c’est plus efficace que réciter la table (Ophuis-Cox, Catrysse & Camp, 2023).</li>
+          <li><b>Couvrir – rappeler – comparer.</b> Un fait nouveau est montré et lu, puis caché ; l’élève le rappelle aussitôt.</li>
+          <li><b>Répétition incrémentale.</b> 3 faits nouveaux au plus en cours d’apprentissage, rappelés à intervalles croissants et intercalés avec des faits déjà connus (Burns, 2005).</li>
+          <li><b>Espacement entre séances.</b> Système de boîtes : un fait bien su revient de plus en plus rarement ; une erreur le fait revenir dès la séance suivante.</li>
+          <li><b>Réduction des interférences.</b> Les faits nouveaux d’une même séance sont choisis pour se ressembler le moins possible (produits, opérandes et chiffres différents), au lieu d’apprendre une table entière d’un coup (De Visscher & Noël, 2014 ; Dotan & Friedmann, 2019).</li>
+          <li><b>Commutativité.</b> 3 × 5 et 5 × 3 sont un seul fait, présenté dans les deux ordres : cela divise presque par deux le nombre de faits à mémoriser.</li>
+          <li><b>Voie auditivo-verbale.</b> Les faits multiplicatifs sont stockés sous forme verbale ; la voix lit chaque fait, ce qui soulage la voie visuelle.</li>
+          <li><b>Sans chronomètre.</b> La pression temporelle augmente la charge et l’anxiété ; la rapidité est mesurée discrètement pour repérer les faits « automatisés » (McNeil et al., 2025 : le travail chronométré ne vient qu’après une bonne précision).</li>
+          <li><b>Erreur sans pénalité.</b> En cas d’erreur, la bonne réponse est montrée et lue, puis recopiée : l’élève termine toujours sur une réponse juste.</li>
+        </ul>
+        <h3>Charge cognitive et apprentissage multimédia (Sweller ; Mayer)</h3>
+        <ul>
+          <li>Un seul fait à l’écran, toujours au même endroit, en grands chiffres (cohérence, faible encombrement visuel).</li>
+          <li>Le résultat est mis en évidence par la couleur (signalisation).</li>
+          <li>Le fait écrit et sa lecture orale sont présentés ensemble (contiguïté temporelle, modalité).</li>
+          <li>L’élève avance à son rythme, par segments courts (segmentation).</li>
+          <li>L’astuce verbale n’apparaît qu’à la demande, pour ne pas surcharger.</li>
+        </ul>
+        <h3>Conseils d’utilisation</h3>
+        <ul>
+          <li>Une séance courte par jour (environ 10 minutes), plutôt qu’une longue séance par semaine.</li>
+          <li>Commencer par le niveau « table de 5 », sens « 3 × 5 = ? ». Passer à « Les deux » quand une partie des faits est acquise.</li>
+          <li>Les sens se renforcent : « 15 = ? × ? » prépare la division et la simplification de fractions.</li>
+          <li>Le niveau « table de 15 » reprend la progression des niveaux précédents (les faits déjà acquis sont conservés).</li>
+        </ul>
+        <p class="refs">Références : Burns (2005), <i>Education and Treatment of Children</i> ; De Visscher & Noël (2014), <i>Journal of Experimental Psychology: General</i> et <i>Developmental Science</i> ; Dotan & Friedmann (2019), <i>Journal of Numerical Cognition</i> ; Ophuis-Cox, Catrysse & Camp (2023), <i>Applied Cognitive Psychology</i> ; McNeil et al. (2025), <i>Psychological Science in the Public Interest</i> ; Mayer (2020), <i>Multimedia Learning</i> ; Pouhet & Mouchard-Garelli, dyspraxie visuo-spatiale.</p>
+      </div>
+    </div>
+  </div>`;
+}
+
+/* =====================================================================
+   7. Application
+   ===================================================================== */
+function App() {
+  const [store, setStore] = useState(loadStore);
+  const [view, setView] = useState("home");
+  const [guide, setGuide] = useState(false);
+  const [summary, setSummary] = useState(null);
+  const [sessKey, setSessKey] = useState(0);
+  const profile = store.profiles[store.current];
+
+  useEffect(() => { saveStore(store); }, [store]);
+  useEffect(() => { document.documentElement.style.setProperty("--scale", profile.settings.size || 1); }, [profile.settings.size]);
+
+  const update = fn => setStore(st => {
+    const p = JSON.parse(JSON.stringify(st.profiles[st.current])); fn(p);
+    return { ...st, profiles: { ...st.profiles, [st.current]: p } };
+  });
+  // La séance travaille sur une copie du profil, enregistrée à la fin.
+  const sessProfile = useRef(null);
+  function start() { sessProfile.current = JSON.parse(JSON.stringify(profile)); setSessKey(k => k + 1); setView("session"); }
+  function end(sum) {
+    const p = sessProfile.current;
+    setStore(st => ({ ...st, profiles: { ...st.profiles, [st.current]: p } }));
+    setSummary(sum); setView("end");
+    try { speechSynthesis.cancel(); } catch (e) {}
+  }
+
+  return html`<div class="app">
+    <${Toolbar} name=${store.current} view=${view} onNav=${setView} onGuide=${() => setGuide(true)} />
+    ${view === "home" && html`<${Home} profile=${profile} update=${update} onStart=${start} />`}
+    ${view === "session" && html`<${Session} key=${sessKey} profile=${sessProfile.current} level=${profile.level} mode=${profile.mode} onEnd=${end} />`}
+    ${view === "end" && summary && html`<${End} summary=${summary} profile=${profile} onHome=${() => setView("home")} onAgain=${start} />`}
+    ${view === "progress" && html`<${Progress} profile=${profile} />`}
+    ${view === "settings" && html`<${Settings} store=${store} setStore=${setStore} update=${update} />`}
+    ${guide && html`<${Guide} onClose=${() => setGuide(false)} />`}
+  </div>`;
+}
+
+ReactDOM.createRoot(document.getElementById("root")).render(html`<${App} />`);
+</script>
+</body>
+</html>
