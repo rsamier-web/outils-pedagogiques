@@ -248,15 +248,23 @@ function pickVoice() {
   try { const vs = speechSynthesis.getVoices(); frVoice = vs.find(v => /^fr(-|_)FR/i.test(v.lang)) || vs.find(v => /^fr/i.test(v.lang)) || null; } catch (e) {}
 }
 try { if (window.speechSynthesis) { pickVoice(); speechSynthesis.onvoiceschanged = pickVoice; } } catch (e) {}
-function speak(text, on) {
-  if (!on) return;
+let currentUtt = null; // référence gardée : évite que Chrome perde l'événement onend
+/* onDone(true) est appelé quand la lecture est terminée (pas si elle est interrompue). */
+function speak(text, on, onDone) {
+  const skip = () => { if (onDone) onDone(false); };
+  if (!on) return skip();
   try {
-    if (!window.speechSynthesis) return;
+    if (!window.speechSynthesis) return skip();
     speechSynthesis.cancel();
     const u = new SpeechSynthesisUtterance(text);
     u.lang = "fr-FR"; u.rate = 0.85; if (frVoice) u.voice = frVoice;
+    if (onDone) {
+      u.onend = () => onDone(true);
+      u.onerror = ev => { if (ev.error !== "interrupted" && ev.error !== "canceled") onDone(false); };
+    }
+    currentUtt = u;
     speechSynthesis.speak(u);
-  } catch (e) {}
+  } catch (e) { skip(); }
 }
 const sayFact = tr => tr.dir === "p" ? `${tr.a} fois ${tr.b} égale ${tr.p}` : `${tr.p} égale ${tr.a} fois ${tr.b}`;
 const sayQuestion = tr => tr.dir === "p" ? `${tr.a} fois ${tr.b} ?` : `${tr.p} égale combien fois combien ?`;
@@ -510,10 +518,11 @@ function Session({ profile, level, mode, onEnd }) {
   const [altTxt, setAltTxt] = useState("");
   const t0 = useRef(0);
   const timer = useRef(null);
+  const okToken = useRef(0);
 
   const clearInput = () => { setV(""); setF(["", ""]); setAct(0); };
   const advance = useCallback(() => {
-    clearTimeout(timer.current);
+    clearTimeout(timer.current); okToken.current++;
     const n = eng.current.next();
     if (!n) { onEnd(eng.current.finish(profile)); return; }
     clearInput(); setShowHint(false); setTr(n);
@@ -539,8 +548,16 @@ function Session({ profile, level, mode, onEnd }) {
       }
       eng.current.answer(tr, res, rt);
       if (res === "ok") {
-        setPhase("ok"); speak(sayFact(tr), S.voice);
-        if (S.auto) timer.current = setTimeout(advance, 1600);
+        setPhase("ok");
+        // Passage automatique seulement après la fin de la lecture du fait
+        const tok = ++okToken.current, text = sayFact(tr);
+        const go = () => { if (okToken.current === tok) { okToken.current++; advance(); } };
+        if (!S.auto) speak(text, S.voice);
+        else if (!S.voice || !window.speechSynthesis) timer.current = setTimeout(go, 1600);
+        else {
+          speak(text, true, () => { clearTimeout(timer.current); timer.current = setTimeout(go, 700); });
+          timer.current = setTimeout(go, 3000 + text.length * 160); // filet de sécurité si onend ne vient pas
+        }
       } else if (res === "alt") {
         setAltTxt(`${tr.p} = ${f[0]} × ${f[1]}`); setPhase("alt");
         speak(`Oui. On peut aussi écrire : ${tr.p} égale ${tr.a} fois ${tr.b}`, S.voice);
@@ -636,7 +653,7 @@ function Session({ profile, level, mode, onEnd }) {
       ${fb}
       ${phase === "study" && showHint && html`<div class="hint">${hint(tr.a, tr.b)}${tr.a !== tr.b ? html`<br/><span class="muted">${tr.b} × ${tr.a}, c’est le même fait.</span>` : null}</div>`}
       <div class="actions">
-        ${(phase === "study" || phase === "fix" || phase === "ok") && S.voice && html`<button class="btn" onClick=${() => speak(sayFact(tr), true)}>${Icon.sound} Écouter</button>`}
+        ${(phase === "study" || phase === "fix" || phase === "ok") && S.voice && html`<button class="btn" onClick=${() => { if (phase === "ok") { clearTimeout(timer.current); okToken.current++; } speak(sayFact(tr), true); }}>${Icon.sound} Écouter</button>`}
         ${phase === "ask" && S.voice && html`<button class="btn flat" onClick=${() => speak(sayQuestion(tr), true)} title="Réécouter la question">${Icon.sound}</button>`}
         ${phase === "study" && html`<button class="btn" onClick=${() => setShowHint(h => !h)} aria-pressed=${showHint}>${Icon.bulb} Astuce</button>`}
         ${phase === "study" && html`<button class="btn primary" onClick=${() => { setPhase("ask"); t0.current = performance.now(); }}>J’ai retenu</button>`}
