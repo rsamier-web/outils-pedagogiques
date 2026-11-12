@@ -1,0 +1,19 @@
+{
+  "id": "troc",
+  "name": "Le troc – chez l'indienne",
+  "short_name": "Le troc",
+  "description": "Jeu du troc en base 4 : échanger, compter, troquer et rendre.",
+  "lang": "fr",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#eff0f1",
+  "theme_color": "#eff0f1",
+  "categories": ["education"],
+  "icons": [
+    { "src": "icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}
