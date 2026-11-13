@@ -1,0 +1,675 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Le Carnet des sept rivages</title>
+<style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Andika:ital,wght@0,400;0,700;1,400&family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=Kalam:wght@400;700&family=Lexend:wght@400;600&display=swap">
+</head>
+<body>
+<style>
+/* Mise en page : une colonne de lecture (62 caractères max) façon page de carnet, barre de lecture fixée en bas, réglages à droite (ordinateur) ou en bas (téléphone). Palette : bleu d'azulejo, gris de La Rochelle, rouge de la poupe, vert pomme de Mindelo, or du soleil de Lisbonne. */
+:root{
+  --bg:#EEF2F4; --surface:#FAFBFC; --fg:#1B2731; --muted:#55636E;
+  --line:#C3CED6; --line-strong:#8E9FAC;
+  --accent:#1D5C8A; --accent-fg:#FFFFFF; --accent-soft:#9DBCD3;
+  --hl-s:#DCE9F3; --hl-w:#F2C14E; --hl-w-fg:#1B2731; --hover:#E2E9EE;
+  --c-h:#C4472F; --c-a:#2F7D57; --c-o:#7A4FB0;
+  --warn-bg:#FBF0DA; --warn-line:#D9A441;
+  --display:"Kalam","Segoe Print","Comic Sans MS",cursive;
+  --read:"Atkinson Hyperlegible",Verdana,"Segoe UI",sans-serif;
+  --ui:"Atkinson Hyperlegible",system-ui,"Segoe UI",sans-serif;
+  --fs:20px; --lh:1.7; --barh:70px;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#121A20; --surface:#18232B; --fg:#E2E9EE; --muted:#9AA9B4;
+    --line:#2C3A44; --line-strong:#4D606D;
+    --accent:#5FA8DC; --accent-fg:#0E1A22; --accent-soft:#2F5878;
+    --hl-s:#1F3445; --hl-w:#E6B44A; --hl-w-fg:#121A20; --hover:#22303A;
+    --c-h:#F0896F; --c-a:#69C595; --c-o:#B697EC;
+    --warn-bg:#33291A; --warn-line:#A87D2E;
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#121A20; --surface:#18232B; --fg:#E2E9EE; --muted:#9AA9B4;
+  --line:#2C3A44; --line-strong:#4D606D;
+  --accent:#5FA8DC; --accent-fg:#0E1A22; --accent-soft:#2F5878;
+  --hl-s:#1F3445; --hl-w:#E6B44A; --hl-w-fg:#121A20; --hover:#22303A;
+  --c-h:#F0896F; --c-a:#69C595; --c-o:#B697EC;
+  --warn-bg:#33291A; --warn-line:#A87D2E;
+  color-scheme:dark;
+}
+/* Choix fait dans les réglages du lecteur : prioritaire */
+:root[data-reader-theme="light"]{
+  --bg:#EEF2F4; --surface:#FAFBFC; --fg:#1B2731; --muted:#55636E;
+  --line:#C3CED6; --line-strong:#8E9FAC;
+  --accent:#1D5C8A; --accent-fg:#FFFFFF; --accent-soft:#9DBCD3;
+  --hl-s:#DCE9F3; --hl-w:#F2C14E; --hl-w-fg:#1B2731; --hover:#E2E9EE;
+  --c-h:#C4472F; --c-a:#2F7D57; --c-o:#7A4FB0;
+  --warn-bg:#FBF0DA; --warn-line:#D9A441;
+  color-scheme:light;
+}
+:root[data-reader-theme="dark"]{
+  --bg:#121A20; --surface:#18232B; --fg:#E2E9EE; --muted:#9AA9B4;
+  --line:#2C3A44; --line-strong:#4D606D;
+  --accent:#5FA8DC; --accent-fg:#0E1A22; --accent-soft:#2F5878;
+  --hl-s:#1F3445; --hl-w:#E6B44A; --hl-w-fg:#121A20; --hover:#22303A;
+  --c-h:#F0896F; --c-a:#69C595; --c-o:#B697EC;
+  --warn-bg:#33291A; --warn-line:#A87D2E;
+  color-scheme:dark;
+}
+:root[data-font="lexend"]{ --read:"Lexend",Verdana,"Segoe UI",sans-serif; }
+:root[data-font="andika"]{ --read:"Andika",Verdana,"Segoe UI",sans-serif; }
+
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+html,body{min-height:100%}
+body{background:var(--bg);color:var(--fg);font-family:var(--ui);font-size:16px;line-height:1.45}
+button,input,select{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}
+
+/* ---------- En-tête ---------- */
+.top{background:var(--surface);border-bottom:1px solid var(--line);padding:10px clamp(16px,4vw,40px) 4px}
+.top-row{display:flex;align-items:center;gap:12px;justify-content:space-between}
+.brand{display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 12px;min-width:0}
+.book{font-family:var(--display);font-weight:700;font-size:1.3rem;line-height:1.2}
+.act{color:var(--muted);font-size:.9rem}
+.progress{display:flex;gap:6px;margin-top:6px}
+.pgroup{display:flex;gap:2px;min-width:0}
+.blk{flex:1 1 0;min-width:0;height:26px;padding:0;border:0;background:transparent;cursor:pointer;display:flex;align-items:center}
+.blk::before{content:"";display:block;width:100%;height:8px;background:var(--line);border-radius:1px}
+.blk.done::before{background:var(--accent-soft)}
+.blk.cur::before{background:var(--accent);height:12px}
+.blk:hover::before{background:var(--line-strong)}
+.blk.cur:hover::before{background:var(--accent)}
+
+/* ---------- Boutons (style Breeze : aplats, bordure fine) ---------- */
+.btn{min-height:44px;min-width:44px;display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:0 14px;background:var(--surface);border:1px solid var(--line-strong);border-radius:3px;cursor:pointer;font-weight:700;font-size:.95rem;white-space:nowrap}
+.btn:hover{background:var(--hover);border-color:var(--accent)}
+.btn:disabled{opacity:.45;cursor:default}
+.btn:disabled:hover{background:var(--surface);border-color:var(--line-strong)}
+.btn.primary{background:var(--accent);color:var(--accent-fg);border-color:var(--accent)}
+.btn.primary:hover{filter:brightness(1.08);background:var(--accent)}
+.btn svg{width:20px;height:20px;flex:none;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.btn[aria-expanded="true"]{background:var(--hl-s);border-color:var(--accent)}
+
+/* ---------- Mise en page ---------- */
+.layout{display:block}
+main{padding:20px clamp(16px,4vw,40px) calc(var(--barh) + 32px + env(safe-area-inset-bottom,0px));min-width:0}
+.page{width:min(100%,62ch);margin:0 auto;font-size:var(--fs);font-family:var(--read)}
+@media (min-width:700px){
+  .page{width:min(100%,calc(62ch + 2 * 40px));background:var(--surface);border:1px solid var(--line);border-radius:3px;padding:28px 40px 36px}
+}
+.eyebrow{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;font-family:var(--ui);font-size:15px;color:var(--muted);margin:0 0 6px;letter-spacing:.02em}
+.eyebrow .num{font-variant-numeric:tabular-nums;white-space:nowrap}
+h1.ptitle{font-family:var(--display);font-weight:700;font-size:clamp(30px,1.4rem + 2vw,42px);line-height:1.15;margin:0 0 18px;text-wrap:balance;color:var(--fg)}
+h1.ptitle:focus{outline:none}
+.text{line-height:var(--lh);display:flex;flex-direction:column;gap:.85em}
+.text p{margin:0}
+.text.wide,.ptitle.wide{letter-spacing:.12em;word-spacing:.16em}
+.text p.letter{padding-left:1em;border-left:2px solid var(--line-strong)}
+.text p.end{text-align:center;color:var(--muted);margin-top:.6em}
+.s{box-decoration-break:clone;-webkit-box-decoration-break:clone;border-radius:2px}
+.w{cursor:pointer;border-radius:2px}
+.w:hover{background:var(--hover)}
+.s.s-on{background:var(--hl-s);box-shadow:0 0 0 2px var(--hl-s)}
+.w.on,.w.on:hover{background:var(--hl-w);color:var(--hl-w-fg);box-shadow:0 0 0 2px var(--hl-w)}
+.chars .ch-h{text-decoration:underline solid var(--c-h);text-decoration-thickness:3px;text-underline-offset:.22em}
+.chars .ch-a{text-decoration:underline dashed var(--c-a);text-decoration-thickness:3px;text-underline-offset:.22em}
+.chars .ch-o{text-decoration:underline wavy var(--c-o);text-decoration-thickness:2px;text-underline-offset:.22em}
+
+.legend{font-family:var(--ui);font-size:15px;display:flex;flex-wrap:wrap;gap:6px 18px;margin:0 0 18px;padding:8px 12px;border:1px solid var(--line);border-radius:3px;list-style:none}
+.legend li{margin:0}
+.legend b{font-weight:700}
+.notice{font-family:var(--ui);font-size:15px;margin:0 0 18px;padding:10px 12px;background:var(--warn-bg);border:1px solid var(--warn-line);border-radius:3px}
+.notice button{margin-top:8px}
+
+/* ---------- Barre de lecture fixe ---------- */
+.bar{position:fixed;left:0;right:0;bottom:0;z-index:30;background:var(--surface);border-top:1px solid var(--line);padding:10px 16px calc(10px + env(safe-area-inset-bottom,0px))}
+.bar-inner{max-width:760px;margin:0 auto;display:flex;gap:8px}
+#btnPlay{flex:1 1 auto;font-size:1rem}
+@media (max-width:540px){ .bar .lbl{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)} .bar .btn{padding:0 10px} #btnPlay .lbl{position:static;width:auto;height:auto;clip:auto} }
+
+/* ---------- Panneau de réglages ---------- */
+.panel{background:var(--surface);font-family:var(--ui);font-size:15px}
+.panel-head{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:10px 16px;border-bottom:1px solid var(--line);position:sticky;top:0;background:var(--surface);z-index:1}
+.panel-head h2{font-size:1rem;margin:0}
+.panel fieldset{border:0;border-bottom:1px solid var(--line);margin:0;padding:12px 16px 16px;display:flex;flex-direction:column;gap:12px}
+.panel legend{font-size:.8rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);padding:0;margin-bottom:4px;float:left;width:100%}
+.panel legend + *{clear:both}
+.field{display:flex;flex-direction:column;gap:4px}
+.field-top{display:flex;justify-content:space-between;gap:8px}
+.field-top output{font-variant-numeric:tabular-nums;color:var(--muted)}
+.panel select{min-height:44px;padding:0 8px;border:1px solid var(--line-strong);border-radius:3px;background:var(--surface);width:100%}
+.panel input[type=range]{width:100%;min-height:32px;accent-color:var(--accent)}
+.check{display:flex;align-items:center;gap:10px;min-height:44px;cursor:pointer}
+.check input{width:20px;height:20px;accent-color:var(--accent);flex:none}
+.seg{display:flex;border:1px solid var(--line-strong);border-radius:3px;overflow:hidden}
+.seg label{flex:1;position:relative;display:flex}
+.seg input{position:absolute;opacity:0;inset:0;margin:0;cursor:pointer}
+.seg span{flex:1;display:flex;align-items:center;justify-content:center;min-height:44px;padding:0 8px;text-align:center;border-left:1px solid var(--line-strong);cursor:pointer}
+.seg label:first-child span{border-left:0}
+.seg input:checked + span{background:var(--accent);color:var(--accent-fg);font-weight:700}
+.seg input:focus-visible + span{outline:2px solid var(--accent);outline-offset:-4px}
+.seg.fonts span{font-size:1rem}
+.status{padding:8px 10px;border:1px solid var(--line);border-radius:3px;color:var(--muted)}
+.status.warn{background:var(--warn-bg);border-color:var(--warn-line);color:var(--fg)}
+.panel .foot{padding:12px 16px 20px}
+.kbd{font-size:.85rem;color:var(--muted);line-height:1.5}
+
+@media (min-width:960px){
+  .layout.open{display:grid;grid-template-columns:minmax(0,1fr) 340px}
+  .panel{position:sticky;top:0;align-self:start;height:calc(100dvh - var(--barh));overflow:auto;border-left:1px solid var(--line)}
+}
+@media (max-width:959.98px){
+  .panel{position:fixed;left:0;right:0;bottom:calc(var(--barh) + env(safe-area-inset-bottom,0px));max-height:62dvh;overflow:auto;z-index:25;border-top:1px solid var(--line-strong)}
+}
+@media (prefers-reduced-motion: reduce){ *{transition:none!important;animation:none!important;scroll-behavior:auto!important} }
+</style>
+
+<header class="top">
+  <div class="top-row">
+    <div class="brand"><span class="book">Le Carnet des sept rivages</span><span class="act">Acte I – Le départ</span></div>
+    <button class="btn" id="btnSettings" aria-expanded="false" aria-controls="panel">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h10M18 6h2M4 12h4M12 12h8M4 18h12M20 18h0"/><circle cx="16" cy="6" r="2"/><circle cx="10" cy="12" r="2"/><circle cx="18" cy="18" r="2"/></svg>
+      <span>Réglages</span>
+    </button>
+  </div>
+  <nav class="progress" id="progress" aria-label="Aller à une page"></nav>
+</header>
+
+<div class="layout" id="layout">
+  <main id="main">
+    <article class="page" id="pageEl">
+      <p class="eyebrow"><span id="chap"></span><span class="num" id="pnum"></span></p>
+      <h1 class="ptitle" id="ptitle" tabindex="-1"></h1>
+      <ul class="legend" id="legend" hidden aria-label="Légende des personnages">
+        <li><b>Héroïne :</b> <span class="ch-h">Lila</span></li>
+        <li><b>Adjuvants :</b> <span class="ch-a">Ana</span>, <span class="ch-a">Paul</span> (Papa), <span class="ch-a">Jeanne</span> (Mamie), <span class="ch-a">Djamila</span>, <span class="ch-a">Dona Celeste</span></li>
+        <li><b>Opposant :</b> <span class="ch-o">Enzo</span></li>
+      </ul>
+      <div class="notice" id="notice" role="status" hidden></div>
+      <div class="text" id="text"></div>
+    </article>
+  </main>
+
+  <aside class="panel" id="panel" hidden aria-labelledby="panelTitle">
+    <div class="panel-head">
+      <h2 id="panelTitle" tabindex="-1">Réglages</h2>
+      <button class="btn" id="btnClose">Fermer</button>
+    </div>
+
+    <fieldset>
+      <legend>Voix</legend>
+      <div class="status" id="voiceStatus">Recherche des voix françaises…</div>
+      <div class="field">
+        <label for="voice">Voix française</label>
+        <select id="voice"></select>
+        <p class="kbd" id="voiceHint" hidden>Avec une voix Google, seule la phrase lue est surlignée.</p>
+      </div>
+      <div class="field">
+        <div class="field-top"><label for="rate">Vitesse</label><output id="rateOut" for="rate"></output></div>
+        <input type="range" id="rate" min="0.5" max="1.5" step="0.1">
+      </div>
+      <div class="field">
+        <div class="field-top"><label for="pitch">Hauteur</label><output id="pitchOut" for="pitch"></output></div>
+        <input type="range" id="pitch" min="0.5" max="1.5" step="0.1">
+      </div>
+      <div class="field">
+        <div class="field-top"><label for="vol">Volume</label><output id="volOut" for="vol"></output></div>
+        <input type="range" id="vol" min="0" max="1" step="0.1">
+      </div>
+      <button class="btn" id="btnTest">Tester la voix</button>
+    </fieldset>
+
+    <fieldset>
+      <legend>Lecture</legend>
+      <label class="check"><input type="checkbox" id="hl"> Surligner la phrase et le mot lus</label>
+      <div class="field">
+        <span id="clickLbl">Un clic sur un mot lit…</span>
+        <div class="seg" role="radiogroup" aria-labelledby="clickLbl">
+          <label><input type="radio" name="click" id="clickWord" value="word"><span>le mot</span></label>
+          <label><input type="radio" name="click" id="clickSentence" value="sentence"><span>la phrase</span></label>
+        </div>
+      </div>
+      <label class="check"><input type="checkbox" id="auto"> Passer seul à la page suivante</label>
+    </fieldset>
+
+    <fieldset>
+      <legend>Affichage</legend>
+      <div class="field">
+        <span id="fontLbl">Police</span>
+        <div class="seg fonts" role="radiogroup" aria-labelledby="fontLbl">
+          <label><input type="radio" name="font" id="fontAtk" value="atkinson"><span style="font-family:'Atkinson Hyperlegible',sans-serif">Atkinson</span></label>
+          <label><input type="radio" name="font" id="fontLex" value="lexend"><span style="font-family:'Lexend',sans-serif">Lexend</span></label>
+          <label><input type="radio" name="font" id="fontAnd" value="andika"><span style="font-family:'Andika',sans-serif">Andika</span></label>
+        </div>
+      </div>
+      <div class="field">
+        <div class="field-top"><label for="size">Taille du texte</label><output id="sizeOut" for="size"></output></div>
+        <input type="range" id="size" min="16" max="30" step="1">
+      </div>
+      <div class="field">
+        <div class="field-top"><label for="lh">Interligne</label><output id="lhOut" for="lh"></output></div>
+        <input type="range" id="lh" min="1.4" max="2.2" step="0.1">
+      </div>
+      <label class="check"><input type="checkbox" id="wide"> Espacer les lettres et les mots</label>
+      <label class="check"><input type="checkbox" id="chars"> Repérer les personnages</label>
+      <div class="field">
+        <span id="themeLbl">Thème</span>
+        <div class="seg" role="radiogroup" aria-labelledby="themeLbl">
+          <label><input type="radio" name="theme" id="thAuto" value="auto"><span>Auto</span></label>
+          <label><input type="radio" name="theme" id="thLight" value="light"><span>Clair</span></label>
+          <label><input type="radio" name="theme" id="thDark" value="dark"><span>Sombre</span></label>
+        </div>
+      </div>
+    </fieldset>
+
+    <div class="foot">
+      <p class="kbd">Clavier : flèches ← → pour changer de page, Espace pour lire ou mettre en pause.<br>Téléphone : glisser vers la gauche ou la droite.</p>
+      <button class="btn" id="btnReset">Rétablir les réglages d’origine</button>
+    </div>
+  </aside>
+</div>
+
+<div class="bar" id="bar">
+  <div class="bar-inner">
+    <button class="btn" id="btnPrev" aria-label="Page précédente">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg><span class="lbl">Précédente</span>
+    </button>
+    <button class="btn primary" id="btnPlay">
+      <svg viewBox="0 0 24 24" aria-hidden="true" id="playIcon"><path d="M7 4.5v15l12-7.5z"/></svg><span class="lbl" id="playLbl">Lire la page</span>
+    </button>
+    <button class="btn" id="btnStop" aria-label="Arrêter la lecture" disabled>
+      <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="6" y="6" width="12" height="12" rx="1"/></svg><span class="lbl">Arrêter</span>
+    </button>
+    <button class="btn" id="btnNext" aria-label="Page suivante">
+      <span class="lbl" id="nextLbl">Suivante</span><svg viewBox="0 0 24 24" aria-hidden="true" id="nextIcon"><path d="M9 5l7 7-7 7"/></svg>
+    </button>
+  </div>
+</div>
+<div class="sr-only" aria-live="polite" id="live"></div>
+
+<script>
+(function(){
+"use strict";
+const PAGES = [{"c": "Chapitre 1 – L’héritage", "t": "Un jour gris", "p": ["Il pleuvait sur La Rochelle le jour où on enterra Jeanne Morel. Une pluie fine, obstinée, qui collait aux manteaux et faisait briller les pavés comme du vernis frais. Lila pensa que sa grand-mère aurait détesté ce temps-là. Ou alors elle aurait sorti ses pinceaux pour essayer d’attraper ce gris, ce gris si particulier qui n’était ni bleu ni argent. « Le gris n’existe pas, disait-elle toujours. Regarde mieux. »", "Lila regardait. Elle ne voyait que du gris."]}, {"c": "Chapitre 1 – L’héritage", "t": "Lila, douze ans", "p": ["Autour d’elle, les adultes parlaient à voix basse. Des inconnus venaient lui serrer la main en disant « Tu lui ressembles tellement », et Lila hochait la tête sans répondre. Elle avait douze ans, des cheveux bruns impossibles à coiffer et des doigts toujours tachés de gouache. Elle ne ressemblait à personne. Surtout pas à Jeanne, qui avait joué sur les plus grandes scènes de France, peint des fresques dans des ports dont Lila ne savait même pas prononcer le nom, et qui riait si fort qu’on se retournait dans la rue."]}, {"c": "Chapitre 1 – L’héritage", "t": "Paul, le père", "p": ["Son père se tenait à côté d’elle, raide dans son costume sombre. Paul Morel était comptable. Il aimait les colonnes de chiffres qui tombent juste et les dimanches sans surprise. Depuis le divorce, il y a trois ans, Lila le voyait un week-end sur deux. Ils parlaient de ses notes, de la météo, de ce qu’elle voulait manger. Jamais de choses importantes. Ce matin-là, il n’avait pas dit un mot. Ses mâchoires étaient tellement serrées que Lila se demandait s’il n’allait pas se casser une dent."]}, {"c": "Chapitre 1 – L’héritage", "t": "Chez le notaire", "p": ["Après la cérémonie, un monsieur en imperméable beige les fit entrer dans un bureau qui sentait la poussière et le papier ancien. C’était le notaire. Il parla longtemps de « succession », de « biens » et de « dispositions particulières ». Lila n’écoutait qu’à moitié. Elle fixait la fenêtre où les gouttes de pluie faisaient la course.", "— … et le voilier <i>L’Hirondelle</i>, actuellement amarré au port des Minimes, est légué à Mademoiselle Lila Morel.", "Lila tourna la tête.", "— Pardon ?"]}, {"c": "Chapitre 1 – L’héritage", "t": "Le paquet jaune", "p": ["Le notaire leva les yeux au-dessus de ses lunettes.", "— Votre grand-mère vous laisse son bateau, mademoiselle. Ainsi que ceci.", "Il poussa vers elle un paquet enveloppé dans une toile cirée jaune, ficelé avec une cordelette de marin. Lila défit le nœud avec des doigts qui tremblaient un peu. À l’intérieur, il y avait un carnet à la couverture de cuir usé, gonflé par l’humidité et le temps, et une enveloppe à son nom, écrite de la grande écriture penchée de Jeanne.", "Elle ouvrit d’abord le carnet."]}, {"c": "Chapitre 1 – L’héritage", "t": "Sept esquisses", "p": ["Sept esquisses. Sept dessins au crayon, à peine rehaussés de quelques touches d’aquarelle, comme si Jeanne avait été interrompue chaque fois au milieu de son geste. Une ruelle en pente sous un ciel immense. Un port hérissé de mâts, avec une montagne qui ressemblait à un visage endormi. Des masques. Une falaise noire plongeant dans une mer d’un bleu impossible. Sous chaque dessin, un nom et une date : <i>Lisbonne, 1987. Mindelo, 1987. Saint-Pierre, 1988. Hiva Oa, 1988…</i>", "Et sur la première page, en lettres capitales : <i>LA TRAVERSÉE – décors.</i>", "À la fin du carnet, quelques feuillets couverts de dialogues raturés, de flèches, de mots barrés et réécrits. Un début de pièce de théâtre. Inachevée, elle aussi."]}, {"c": "Chapitre 1 – L’héritage", "t": "La lettre de Jeanne", "p": ["Lila ouvrit l’enveloppe.", "<i>Ma Lila,</i>", "<i>Si tu lis ces lignes, c’est que j’ai fini par partir pour la seule traversée que je n’avais pas préparée. Ne sois pas trop triste. J’ai eu une vie pleine comme un sac de marin.</i>", "<i>J’ai pourtant laissé une chose en plan, et c’est la seule qui me fasse regret. Il y a trente-cinq ans, j’ai voulu faire le tour du monde pour peindre les décors d’une pièce que j’avais dans la tête. J’ai commencé les sept esquisses. Puis la vie m’a rattrapée, et je ne les ai jamais terminées. La pièce non plus.</i>"]}, {"c": "Chapitre 1 – L’héritage", "t": "Y aller quand même", "p": ["<i>Je te les confie. Termine-les sur place. Puis fais jouer la pièce.</i>", "<i>Je sais ce qui s’est passé l’an dernier, sur la scène de ton collège. Je sais que tu as juré de ne plus jamais jouer. Je sais aussi pour l’eau. Je ne te demande pas de ne plus avoir peur. Je te demande d’y aller quand même.</i>", "<i>Ana t’attendra. Elle sait tout.</i>", "<i>Je t’aime plus grand que l’océan.</i>", "<i>Jeanne</i>", "Lila referma la lettre. Les mots dansaient devant ses yeux."]}, {"c": "Chapitre 1 – L’héritage", "t": "Le trou de mémoire", "p": ["Sur la scène de son collège. Elle revoyait tout, comme si c’était hier. La pièce de fin d’année, en juin. Le projecteur brûlant sur son visage. Sa grande tirade, qu’elle connaissait par cœur, qu’elle avait répétée cent fois devant son miroir. Et puis, plus rien. Le vide. Un blanc immense dans sa tête, comme une page arrachée. Les secondes qui s’étiraient. Quelqu’un qui toussait. Puis le rire d’Enzo, au deuxième rang, aussitôt suivi par d’autres rires. Elle avait quitté la scène en courant. Depuis, elle n’avait plus jamais remis les pieds au club théâtre."]}, {"c": "Chapitre 1 – L’héritage", "t": "Trois peurs", "p": ["Et l’eau. Elle avait sept ans, sur une plage de l’île de Ré. Une vague plus haute que les autres l’avait renversée, roulée, plaquée contre le sable. Elle se souvenait du goût du sel dans sa gorge, du bruit sourd sous l’eau, de cette main qui l’avait arrachée à la mer. Depuis, elle ne se baignait plus. Même à la piscine, elle restait près du bord.", "Un bateau. Un tour du monde. Une pièce de théâtre.", "Jeanne lui demandait exactement les trois choses qui la terrifiaient le plus au monde.", "— C’est impossible, murmura Lila. Je ne peux pas.", "Elle repoussa le carnet sur le bureau du notaire. À côté d’elle, son père n’avait pas bougé. Mais il regardait les esquisses avec une expression que Lila ne lui connaissait pas. On aurait dit un petit garçon devant une vitrine."]}, {"c": "Chapitre 2 – Le pacte", "t": "Le carnet au tiroir", "p": ["Pendant deux semaines, le carnet resta au fond d’un tiroir, sous des chaussettes dépareillées. Lila retourna au collège. Elle fit ses exercices de maths, son contrôle d’histoire, ses croquis dans les marges de son cahier de SVT. Elle évitait Enzo dans les couloirs. Le soir, elle ne pensait pas au carnet. Elle se l’interdisait.", "Mais la nuit, elle rêvait de ports qu’elle n’avait jamais vus.", "Un samedi matin, son père vint la chercher pour son week-end. Au lieu de prendre la route de son appartement, il tourna vers le port des Minimes.", "— Papa, qu’est-ce que tu fais ?", "— Je veux juste voir à quoi il ressemble."]}, {"c": "Chapitre 2 – Le pacte", "t": "L’Hirondelle", "p": ["<i>L’Hirondelle</i> était amarrée au bout d’un ponton, entre deux gros bateaux de plaisance tout neufs. Elle paraissait minuscule à côté d’eux : onze mètres de coque blanche, un liseré bleu un peu écaillé, un mât qui se balançait doucement dans le vent. Sur la poupe, son nom était peint à la main, en lettres rouges. Lila reconnut tout de suite le style de Jeanne : la courbe du H, l’oiseau esquissé en trois traits à côté du nom.", "Quelqu’un était assis dans le cockpit, en train de recoudre une voile. Une femme d’une cinquantaine d’années, la peau sombre et tannée par le soleil, des tresses grises attachées par un foulard orange. Elle leva la tête."]}, {"c": "Chapitre 2 – Le pacte", "t": "Ana Tavares", "p": ["— Vous avez mis le temps, dit-elle avec un accent chantant. J’ai cru que j’allais devoir repartir toute seule.", "— Vous êtes… Ana ? demanda Paul.", "— Ana Tavares. Skippeuse. Trente ans de navigation, quatre tours du monde, deux naufrages, zéro mort. Et vous, vous êtes Paul, le fils qui a le mal de mer en pédalo.", "Paul rougit jusqu’aux oreilles. Lila faillit rire. Ana posa son aiguille et regarda Lila longuement, de la tête aux pieds, comme si elle évaluait un bateau avant de l’acheter.", "— Et toi, tu es Lila. Jeanne m’a beaucoup parlé de toi. Elle disait que tu avais l’œil. Tu as apporté le carnet ?", "— Non. Je ne pars pas.", "— Ah."]}, {"c": "Chapitre 2 – Le pacte", "t": "Un congé d’un an", "p": ["Ana reprit sa couture comme si de rien n’était.", "— C’est dommage. Le bateau est prêt.", "Sur le chemin du retour, dans la voiture, le silence était épais comme du brouillard. Puis, à un feu rouge, Paul dit sans la regarder :", "— J’ai demandé un congé sans solde. Un an.", "Lila tourna la tête si vite qu’elle se fit mal au cou.", "— Quoi ?", "— Ta mère est d’accord, à condition que tu suives tes cours à distance et qu’on l’appelle chaque semaine. J’ai déjà vu pour le CNED.", "— Mais… tu détestes la mer. Tu as le mal de mer en pédalo !", "— Je sais."]}, {"c": "Chapitre 2 – Le pacte", "t": "Le secret de Paul", "p": ["Le feu passa au vert. Paul démarra. Ses mains étaient crispées sur le volant.", "— Quand j’avais ton âge, reprit-il, ta grand-mère m’a proposé de partir avec elle. Pour ce voyage-là, justement. Celui du carnet. J’ai refusé. J’avais peur. Je voulais rester avec mes copains, mon collège, mes habitudes. Elle est partie sans moi, puis elle est revenue au bout de quelques mois. Je crois qu’elle a abandonné à cause de moi. Parce que je lui manquais trop. Ou parce qu’elle s’en voulait de m’avoir laissé.", "Il se tut un instant.", "— Elle ne m’en a jamais parlé. Mais je l’ai toujours su."]}, {"c": "Chapitre 2 – Le pacte", "t": "Zéro mort", "p": ["Lila regarda son père. Pour la première fois depuis longtemps, il ne ressemblait pas à un comptable. Il ressemblait à quelqu’un qui avait un poids sur la poitrine depuis trente ans.", "— Je ne sais pas nager, Papa. Pas vraiment.", "— Moi non plus, pas vraiment.", "— Et si on coule ?", "— Ana dit qu’elle n’a jamais perdu personne.", "— Elle a fait deux naufrages !", "Pour la première fois depuis l’enterrement, Paul sourit.", "— Zéro mort, Lila. Elle a bien précisé : zéro mort.", "Ce soir-là, Lila ressortit le carnet du tiroir. Elle relut la lettre trois fois. <i>Je ne te demande pas de ne plus avoir peur. Je te demande d’y aller quand même.</i> Elle s’endormit le carnet contre elle."]}, {"c": "Chapitre 2 – Le pacte", "t": "Les préparatifs", "p": ["Le départ fut fixé au début du mois de septembre. L’été passa dans une agitation folle : des listes, des cartons, des vaccins, des formulaires, des cours accélérés de sécurité en mer. Lila apprit à faire un nœud de chaise, à enfiler un harnais, à reconnaître bâbord et tribord. Elle refusa catégoriquement d’apprendre à nager avec Ana.", "— Je mettrai mon gilet. Tout le temps.", "— Tout le temps ? Même pour dormir ?", "— Tout le temps.", "Ana haussa les épaules.", "— Comme tu veux. La mer s’en fiche, de ce que tu veux."]}, {"c": "Chapitre 2 – Le pacte", "t": "Le grand départ", "p": ["Le matin du départ, sa mère la serra si fort qu’elle eut du mal à respirer. Elle lui glissa dans la poche une boîte d’aquarelle neuve et un petit mot plié en quatre. Puis Lila monta à bord, son gilet de sauvetage serré jusqu’au menton, le carnet de Jeanne dans une pochette étanche plaquée contre son ventre.", "<i>L’Hirondelle</i> quitta le port sous un ciel enfin bleu. Lila regarda les tours de La Rochelle rapetisser derrière elle, puis la côte devenir une ligne, puis plus rien du tout.", "Autour d’elle, il n’y avait plus que de l’eau."]}, {"c": "Chapitre 3 – Lisbonne", "t": "Lisbonne à l’aube", "p": ["Le golfe de Gascogne, célèbre pour ses colères, fut étonnamment calme. Ana dit que c’était un cadeau de Jeanne. Paul vomit quand même pendant deux jours. Lila, elle, passa la traversée assise au milieu du cockpit, le plus loin possible des bords, accrochée à la ligne de vie comme à une bouée.", "Le cinquième jour, à l’aube, Lisbonne apparut.", "Lila n’avait jamais rien vu de pareil. La ville s’étalait sur des collines, en cascade, avec ses maisons ocre, roses, jaunes, blanches, ses toits de tuiles rousses, ses clochers. Le soleil levant posait sur tout ça une lumière dorée, presque liquide. Le grand fleuve, le Tage, était si large qu’on aurait dit une mer."]}, {"c": "Chapitre 3 – Lisbonne", "t": "Dans l’Alfama", "p": ["— Alors ? demanda Ana en tenant la barre. Toujours aussi gris, le monde ?", "Lila ne répondit pas. Elle avait déjà sorti son crayon.", "Ils restèrent quatre jours à Lisbonne. Lila monta dans le vieux tramway jaune qui grinçait dans les ruelles en pente. Elle se perdit dans l’Alfama, le plus vieux quartier, où le linge séchait entre les fenêtres et où les murs étaient couverts d’azulejos, ces carreaux de faïence bleue et blanche peints à la main. Elle les dessina pendant des heures, fascinée par les motifs qui se répétaient sans jamais être tout à fait identiques."]}, {"c": "Chapitre 3 – Lisbonne", "t": "Le belvédère", "p": ["Le troisième jour, elle trouva l’endroit de l’esquisse. C’était un belvédère, au sommet d’une colline, avec un petit jardin, une treille de bougainvilliers et une vue sur les toits jusqu’au fleuve. Exactement le même angle que dans le carnet. Trente-cinq ans plus tôt, Jeanne s’était assise là, peut-être sur ce même banc de pierre.", "Lila sortit le carnet de sa pochette, l’ouvrit à la première page et le posa sur ses genoux. Puis elle prit une feuille volante. Elle ne toucherait pas à l’original tant qu’elle ne serait pas sûre d’elle.", "Elle commença à peindre."]}, {"c": "Chapitre 3 – Lisbonne", "t": "Quatre tentatives", "p": ["Une heure plus tard, elle regardait sa feuille avec dégoût. C’était raté. Complètement raté. Les maisons étaient trop raides, les couleurs boueuses, le ciel trop bleu, comme dans un dessin d’enfant. Rien à voir avec le trait léger de Jeanne, ce trait qui semblait danser sur le papier. Elle recommença. Une deuxième feuille. Une troisième. C’était encore pire. Plus elle essayait d’imiter sa grand-mère, plus sa main devenait lourde.", "À la quatrième tentative, elle sentit les larmes lui brûler les yeux. Elle froissa la feuille et la déchira en petits morceaux.", "— Eh bien, dit une voix derrière elle. Les pigeons vont avoir de quoi faire leur nid."]}, {"c": "Chapitre 3 – Lisbonne", "t": "Comme elle l’aurait fait", "p": ["Ana était là, appuyée contre la rambarde, un cornet de glace à la main. Lila ne l’avait pas entendue arriver.", "— Je n’y arrive pas, dit Lila d’une voix étranglée. Je n’y arriverai jamais. Mamie peignait comme… comme si c’était facile. Moi, je fais des gribouillis.", "Ana s’assit à côté d’elle. Elle regarda longuement l’esquisse de Jeanne, puis les morceaux de papier déchirés qui traînaient sur le banc.", "— Qu’est-ce que tu essaies de faire, exactement ?", "— Ben… de terminer le dessin. Comme elle l’aurait fait.", "— Et comment tu sais comment elle l’aurait fait ?"]}, {"c": "Chapitre 3 – Lisbonne", "t": "Les yeux d’aujourd’hui", "p": ["Lila ouvrit la bouche, puis la referma.", "— Je la connaissais depuis quarante ans, ta grand-mère, reprit Ana. Je l’ai vue peindre des centaines de fois. Tu sais ce qu’elle faisait, quand elle reprenait une vieille toile ? Elle ne la terminait jamais comme elle l’avait commencée. Elle disait que le peintre d’hier était un étranger. Qu’il fallait peindre avec les yeux d’aujourd’hui.", "Elle tendit sa glace à Lila, qui la prit sans réfléchir.", "— Jeanne ne t’a pas demandé de peindre comme elle, Lila. Relis sa lettre. Elle t’a demandé de terminer les tableaux. C’est pas pareil."]}, {"c": "Chapitre 3 – Lisbonne", "t": "La page inachevée", "p": ["Ana se leva et s’éloigna en sifflotant, les mains dans les poches.", "Lila resta longtemps sur le banc. La glace fondait et coulait sur ses doigts. En bas, les toits brillaient au soleil. Elle essaya de les regarder avec ses yeux à elle, mais elle ne savait pas comment on faisait. Elle ne savait même pas si elle avait des yeux à elle.", "Ce soir-là, elle ne termina pas l’esquisse de Lisbonne. Le lendemain matin, <i>L’Hirondelle</i> larguait les amarres. La première page du carnet restait inachevée.", "Lila avait l’impression d’avoir échoué avant même d’avoir commencé."]}, {"c": "Chapitre 4 – Le coup de vent", "t": "Le baromètre chute", "p": ["Le troisième jour après Lisbonne, au large des côtes marocaines, le baromètre se mit à chuter.", "Ana l’observait en tapotant le cadran du bout de l’ongle, les sourcils froncés. Puis elle consulta la météo sur l’ordinateur de bord, grommela quelque chose en créole et se tourna vers eux.", "— Coup de vent cette nuit. Force 7, peut-être 8. Rien de grave pour le bateau. Mais ça va secouer. Paul, tu ranges tout ce qui traîne à l’intérieur. Lila, tu vérifies que les hublots sont bien fermés. Et vous mettez vos harnais. Tous les deux. Tout le temps."]}, {"c": "Chapitre 4 – Le coup de vent", "t": "Le vent se lève", "p": ["Le vent arriva en fin d’après-midi. D’abord, ce ne fut qu’une brise un peu plus forte, qui faisait claquer les drisses contre le mât. Puis le ciel se couvrit d’un coup, comme si quelqu’un avait tiré un rideau. La mer changea de couleur, passant du bleu au vert sombre, puis au gris ardoise. Les vagues se creusèrent. <i>L’Hirondelle</i> commença à monter, à redescendre, à monter encore, de plus en plus haut.", "Ana réduisit la voilure. Elle se déplaçait sur le pont avec une agilité incroyable, accrochée à sa ligne de vie, comme si le bateau ne bougeait pas."]}, {"c": "Chapitre 4 – Le coup de vent", "t": "Des murs d’eau", "p": ["Lila, elle, était tétanisée.", "Assise dans le cockpit, les deux mains cramponnées au winch, elle regardait les vagues arriver. Elles étaient énormes. Des murs d’eau grise, coiffés d’écume blanche, qui soulevaient le bateau comme un jouet. Chaque fois que l’arrière plongeait dans un creux, Lila avait l’impression que la mer allait les avaler. Le bruit était assourdissant : le vent qui hurlait dans les haubans, l’eau qui frappait la coque, le grincement de tout ce qui pouvait grincer.", "Et puis la nausée arriva."]}, {"c": "Chapitre 4 – Le coup de vent", "t": "Le mal de mer", "p": ["Une vague de chaleur, puis de froid, puis la bouche pleine de salive. Lila eut à peine le temps de se pencher par-dessus le bord. Elle vomit, encore et encore, jusqu’à ce qu’il ne reste plus rien. Quand elle se redressa, tremblante, le visage trempé d’embruns et de larmes, Ana lui cria quelque chose qu’elle n’entendit pas.", "— QUOI ?", "— DESCENDS ! VA T’ALLONGER !", "Lila ne se le fit pas répéter. Elle se glissa dans la cabine, défit son harnais avec des doigts gourds et se recroquevilla sur sa couchette, son gilet toujours serré autour d’elle. De l’autre côté de la cloison, elle entendait son père gémir dans la sienne."]}, {"c": "Chapitre 4 – Le coup de vent", "t": "Une nuit interminable", "p": ["La nuit fut interminable.", "Dans le noir, tout était pire. Chaque coup de boutoir des vagues résonnait dans la coque comme un coup de poing. Les objets mal rangés glissaient et s’entrechoquaient. Lila sentait le bateau se coucher sur le côté, puis se redresser, puis se coucher encore. Elle avait l’impression d’être enfermée dans une boîte qu’un géant secouait pour voir ce qu’il y avait dedans.", "Elle pensa à la plage de l’île de Ré. Au goût du sel. Au bruit sourd sous l’eau.", "Elle pensa à Enzo qui riait."]}, {"c": "Chapitre 4 – Le coup de vent", "t": "La honte", "p": ["Elle pensa : <i>Qu’est-ce que je fais là ?</i>", "Et au-dessus d’elle, dans le cockpit, il y avait Ana. Seule. Depuis des heures. Qui tenait la barre dans le vent et le noir pendant que Lila se cachait sous sa couverture comme un bébé.", "La honte arriva, plus forte que la peur. Une honte brûlante, qui lui serrait la gorge. <i>Je suis inutile. Je ne sers à rien. Jeanne s’est trompée. Elle aurait dû confier son carnet à quelqu’un d’autre. Quelqu’un de courageux.</i>", "Elle pleura sans bruit, le visage dans son oreiller, jusqu’à ce que la fatigue l’emporte."]}, {"c": "Chapitre 4 – Le coup de vent", "t": "Le jour revient", "p": ["Quand elle se réveilla, le bateau bougeait encore, mais plus doucement. Une lumière grise filtrait par le hublot. Le vacarme s’était transformé en un grondement lointain. Lila se leva, les jambes en coton, et passa la tête par la descente.", "Le ciel s’éclaircissait à l’est. La mer était encore forte, mais les vagues étaient plus longues, plus régulières, comme une respiration qui se calme. Ana était toujours à la barre. Son visage était creusé par la fatigue, ses tresses collées par le sel. Elle n’avait pas dormi de la nuit."]}, {"c": "Chapitre 4 – Le coup de vent", "t": "Un thé sucré", "p": ["Lila redescendit, fit chauffer de l’eau sur le petit réchaud qui se balançait sur son cardan, prépara un thé très sucré et remonta, en tenant la tasse à deux mains pour ne rien renverser. Elle s’accrocha à la ligne de vie et s’assit à côté d’Ana.", "— Tiens.", "Ana la regarda, surprise. Puis elle prit la tasse et but une longue gorgée.", "— Obrigada.", "Elles restèrent un moment sans parler. Lila fixait ses chaussures.", "— Je suis désolée, finit-elle par dire. Je n’ai servi à rien, cette nuit.", "— Tu as eu le mal de mer. C’est pas une faute, c’est de la biologie."]}, {"c": "Chapitre 4 – Le coup de vent", "t": "Le secret de Jeanne", "p": ["— Je me suis cachée.", "— Tu t’es mise à l’abri. C’est ce que je t’ai demandé de faire.", "— Mamie, elle, ne se serait pas cachée.", "Ana posa sa tasse.", "— Ta grand-mère, la première fois que je l’ai embarquée, il y a quarante ans, elle a passé une tempête entière enfermée dans les toilettes du bateau, à pleurer et à prier tous les saints. Elle m’a fait jurer de ne jamais le raconter à personne.", "Lila leva les yeux. Ana souriait.", "— Bon. Elle est morte, alors je crois que le serment ne compte plus."]}, {"c": "Chapitre 4 – Le coup de vent", "t": "Les dauphins", "p": ["Un mouvement attira leur attention à tribord. Une forme grise jaillit de l’eau, puis une autre, puis une troisième. Des dauphins. Une dizaine de dauphins qui filaient le long de la coque, sautaient dans l’écume de l’étrave, replongeaient, ressortaient, comme s’ils jouaient avec le bateau.", "Lila oublia sa nausée, sa honte et sa fatigue. Elle se pencha pour mieux voir. Les dauphins l’accompagnèrent pendant de longues minutes, puis disparurent aussi vite qu’ils étaient venus.", "Quand elle se retourna, Ana la regardait.", "— Tu vois, dit-elle simplement. Il faut passer la nuit pour voir ça."]}, {"c": "Chapitre 5 – Mindelo", "t": "Huit jours de mer", "p": ["Après une courte escale technique aux Canaries, pour réparer une poulie et faire le plein d’eau, il fallut encore huit jours de mer pour rejoindre le Cap-Vert. Huit jours de vent régulier, de vagues longues et de ciel immense. Lila n’eut plus le mal de mer. Elle apprit à barrer sous la surveillance d’Ana, à lire le vent sur la surface de l’eau, à reconnaître les étoiles. Elle dessina tout : les nuages, les poissons volants qui atterrissaient sur le pont la nuit, son père endormi dans le cockpit avec la bouche ouverte. Elle portait toujours son gilet. Mais elle ne se cramponnait plus au winch."]}, {"c": "Chapitre 5 – Mindelo", "t": "Monte Cara", "p": ["Un matin, une forme se dessina à l’horizon : une île rousse, sèche, presque sans végétation, avec des montagnes déchiquetées qui sortaient de la brume.", "— São Vicente, annonça Ana. Ma maison.", "Sa voix avait changé. Plus douce. Plus fragile aussi.", "Quand <i>L’Hirondelle</i> entra dans la baie de Mindelo, Lila reconnut immédiatement le paysage du carnet. La grande baie en arc de cercle, les bateaux au mouillage, les maisons colorées alignées sur le front de mer, et surtout, juste en face, la montagne. Une montagne dont le sommet dessinait parfaitement le profil d’un visage allongé, les yeux fermés, le nez pointé vers le ciel.", "— Monte Cara, dit Ana. La montagne du visage. Les gens d’ici disent que c’est un géant qui dort en attendant que les marins reviennent."]}, {"c": "Chapitre 5 – Mindelo", "t": "La famille d’Ana", "p": ["Sur le quai, une foule les attendait. Enfin, pas une foule : la famille d’Ana. Mais c’était presque pareil. Il y avait sa mère, Dona Celeste, une petite dame toute ridée avec un rire d’enfant. Il y avait ses deux sœurs, ses trois neveux, sa nièce Djamila, une fille de l’âge de Lila avec des yeux immenses, et un nombre incalculable de cousins, de voisins et d’amis qui semblaient tous connaître Ana depuis toujours. On les embrassa, on les serra dans les bras, on leur parla dans une langue que Lila ne comprenait pas, le créole cap-verdien, un mélange chantant de portugais et de mots africains."]}, {"c": "Chapitre 5 – Mindelo", "t": "Morabeza", "p": ["— Morabeza, dit Dona Celeste en prenant le visage de Lila entre ses mains rugueuses.", "— Qu’est-ce que ça veut dire ? demanda Lila à Ana.", "— Il n’y a pas de traduction exacte. C’est la façon d’accueillir les gens ici. Comme s’ils étaient de la famille, même si on ne les a jamais vus.", "Ils restèrent deux semaines à Mindelo. Ce furent les deux semaines les plus heureuses de la vie de Lila."]}, {"c": "Chapitre 5 – Mindelo", "t": "La maison vert pomme", "p": ["La maison de Dona Celeste était petite, peinte en vert pomme, avec une cour intérieure où poussait un manguier. On y mangeait tous ensemble, autour d’une grande table, la cachupa, un ragoût de maïs, de haricots et de poisson qui mijotait pendant des heures. Les enfants jouaient au football pieds nus dans la rue. Les maisons étaient jaunes, roses, bleu turquoise, orange, comme si chaque famille avait choisi la couleur la plus joyeuse possible. Pourtant, Lila voyait bien que les gens n’étaient pas riches. Les murs étaient fissurés. L’eau manquait souvent, car il ne pleuvait presque jamais sur l’île. Mais les gens riaient. Tout le temps. Fort. Comme Jeanne."]}, {"c": "Chapitre 5 – Mindelo", "t": "Djamila", "p": ["Djamila devint son amie dès le deuxième jour. Elle parlait un peu français, Lila apprit quelques mots de créole, et pour le reste, elles se débrouillaient avec des gestes et des dessins. Djamila chantait. Partout, tout le temps : en faisant la vaisselle, en marchant, en étendant le linge. Une voix grave, puissante, surprenante chez une fille si menue."]}, {"c": "Chapitre 5 – Mindelo", "t": "La fête", "p": ["Le samedi soir, il y eut une fête sur la place principale. Des musiciens jouaient de la guitare et du cavaquinho, une sorte de petite guitare à quatre cordes. Ils jouaient de la morna, une musique lente et mélancolique, la musique de l’île. Ana expliqua que c’était la musique de la sodade : la nostalgie de ceux qui sont partis, le manque de ceux qu’on aime, la tristesse douce de la séparation.", "Au milieu de la soirée, quelqu’un appela Djamila. Elle se leva, monta sur la petite estrade et se mit à chanter devant toute la place."]}, {"c": "Chapitre 5 – Mindelo", "t": "Boum boum boum", "p": ["Lila la regardait, fascinée. Djamila avait les mains qui tremblaient un peu. Elle chantait les yeux fermés, mais elle chantait. Sa voix montait dans la nuit chaude, et les conversations s’arrêtaient, et les gens se taisaient pour écouter. Quand elle eut fini, il y eut un silence, puis des applaudissements à faire trembler les fenêtres.", "Djamila redescendit, les joues brûlantes, et s’assit à côté de Lila.", "— Tu as eu peur ? demanda Lila.", "— Toujours, répondit Djamila en riant. Mon cœur fait boum boum boum. Mais si je ne chante pas, la chanson reste coincée là.", "Elle tapota sa poitrine.", "— Et ça fait plus mal que la peur."]}, {"c": "Chapitre 5 – Mindelo", "t": "Ce qui manquait", "p": ["Cette nuit-là, Lila ne dormit pas. Elle resta assise dans la cour, sous le manguier, le carnet ouvert à la page de Mindelo. Elle regardait l’esquisse de Jeanne : la baie, les mâts, la montagne endormie. Un dessin magnifique, précis, élégant.", "Mais il manquait quelque chose.", "Il manquait le vert pomme de la maison de Dona Celeste. Il manquait les enfants pieds nus dans la poussière. Il manquait le linge multicolore qui claquait au vent, la voix de Djamila, la sodade, le rire. Jeanne avait dessiné un port. Lila, elle, avait vécu dans une maison."]}, {"c": "Chapitre 5 – Mindelo", "t": "Ses propres couleurs", "p": ["Au petit matin, elle prit sa boîte d’aquarelle, celle que sa mère lui avait offerte, et elle commença à peindre. Directement dans le carnet.", "Elle ne chercha pas à imiter le trait de Jeanne. Elle garda les lignes de sa grand-mère, la baie, la montagne, les mâts. Mais elle y ajouta des couleurs vives, presque insolentes. Elle peignit les maisons comme elle les voyait, éclatantes. Elle ajouta des silhouettes minuscules qui jouaient au ballon sur la plage, une fille sur une estrade avec les bras ouverts. Dans le ciel, au-dessus de la montagne au visage, elle ajouta une petite hirondelle."]}, {"c": "Chapitre 5 – Mindelo", "t": "C’est la petite", "p": ["Quand Ana se leva, elle trouva Lila endormie sur la chaise, le pinceau encore à la main, le carnet ouvert sur ses genoux. Elle regarda longtemps le tableau. Puis elle alla chercher Paul.", "Paul resta silencieux devant la page pendant une bonne minute. Ses yeux brillaient.", "— C’est… commença-t-il, sans trouver la suite.", "— C’est elle, dit Ana doucement. C’est la petite.", "Quand Lila se réveilla, son père était assis en face d’elle. Il ne dit rien. Il posa juste la main sur son épaule, maladroitement, comme s’il avait oublié comment on faisait. Et Lila comprit que c’était sa façon à lui de lui dire qu’il était fier."]}, {"c": "Chapitre 5 – Mindelo", "t": "Il en restait six", "p": ["Le soir, elle feuilleta le carnet. Un tableau terminé. Mindelo. Il en restait six.", "Elle s’arrêta sur la première page, celle de Lisbonne, toujours inachevée. Elle ne savait pas encore ce qu’elle en ferait. Mais elle n’avait plus envie de la déchirer.", "Elle écrivit au crayon, en bas de la page de Mindelo, de sa petite écriture serrée : <i>Mon cœur fait boum boum boum. Mais si je ne peins pas, ça reste coincé là.</i>", "Le lendemain, <i>L’Hirondelle</i> hissait les voiles pour la grande traversée de l’Atlantique.", "<i>Fin de l’acte I</i>"]}];
+const NAMES = {Lila:"h",Ana:"a",Paul:"a",Papa:"a",Jeanne:"a",Mamie:"a",Djamila:"a",Dona:"a",Celeste:"a",Enzo:"o"};
+const DEFAULTS = {font:"atkinson",size:20,lh:1.7,wide:false,chars:false,hl:true,click:"word",voice:"",rate:0.9,pitch:1,vol:1,auto:false,theme:"auto"};
+const KEY = "carnet-sept-rivages-v1";
+const $ = id => document.getElementById(id);
+const root = document.documentElement;
+const textEl=$("text"), titleEl=$("ptitle"), chapEl=$("chap"), pnumEl=$("pnum"), noticeEl=$("notice"), legendEl=$("legend"), live=$("live");
+let S = Object.assign({}, DEFAULTS), page = 0, model = null;
+
+/* ---------- Mémoire du navigateur ---------- */
+function load(){
+  try{
+    const d = JSON.parse(localStorage.getItem(KEY) || "null");
+    if(d && typeof d === "object"){
+      if(d.s) for(const k in DEFAULTS) if(k in d.s && typeof d.s[k] === typeof DEFAULTS[k]) S[k] = d.s[k];
+      if(Number.isInteger(d.p) && d.p >= 0 && d.p < PAGES.length) page = d.p;
+    }
+  }catch(e){}
+}
+function save(){ try{ localStorage.setItem(KEY, JSON.stringify({s:S,p:page})); }catch(e){} }
+
+/* ---------- Découpage en phrases et en mots ---------- */
+const SENT_END = /[.!?…]( »)?$/;
+const STARTS = /^[«—\p{Lu}]/u;
+function segments(html){
+  const out=[]; let it=false;
+  html.split(/(<\/?i>)/).forEach(p=>{ if(p==="<i>") it=true; else if(p==="</i>") it=false; else if(p) out.push({t:p,i:it}); });
+  return out;
+}
+function tokenize(html){
+  const words=[]; let cur=null;
+  segments(html).forEach(seg=>{
+    for(const ch of seg.t){
+      if(ch===" "){ if(cur){words.push(cur);cur=null;} continue; }
+      if(!cur) cur={pieces:[],text:""};
+      const last=cur.pieces[cur.pieces.length-1];
+      if(last && last.i===seg.i) last.t+=ch; else cur.pieces.push({t:ch,i:seg.i});
+      cur.text+=ch;
+    }
+  });
+  if(cur) words.push(cur);
+  return words;
+}
+const spoken = t => t.replace(/[ «»—–]/g," ");
+const bare = t => t.replace(/^[^\p{L}\p{N}]+|[^\p{L}\p{N}]+$/gu,"");
+const nameOf = t => NAMES[bare(t).replace(/^(?:[dlj]|qu)’/i,"")];
+
+function buildModel(pg){
+  const sentences=[], words=[], blocks=[];
+  const add = (html, kind) => {
+    const toks=tokenize(html), block={kind, sents:[]}; let sent=null;
+    toks.forEach((w,k)=>{
+      if(!sent){ sent={id:sentences.length,words:[]}; sentences.push(sent); block.sents.push(sent); }
+      w.id=words.length; w.s=sent.id; words.push(w); sent.words.push(w);
+      const nx=toks[k+1];
+      if(!nx || (SENT_END.test(w.text) && STARTS.test(nx.text))) sent=null;
+    });
+    block.allItalic = toks.length>0 && toks.every(w=>w.pieces.every(p=>p.i));
+    blocks.push(block);
+  };
+  add(pg.t, "title");
+  pg.p.forEach(h=>add(h,"p"));
+  sentences.forEach(s=>{
+    let str="", offs=[];
+    s.words.forEach((w,j)=>{ if(j) str+=" "; offs.push(str.length); str+=spoken(w.text); });
+    s.spoken=str; s.offs=offs;
+  });
+  return {sentences, words, blocks};
+}
+
+function fillBlock(el, block){
+  block.sents.forEach((s,si)=>{
+    if(si) el.append(" ");
+    const ss=document.createElement("span"); ss.className="s"; ss.dataset.s=s.id;
+    s.words.forEach((w,j)=>{
+      if(j) ss.append(" ");
+      const sp=document.createElement("span"); sp.className="w"; sp.dataset.w=w.id;
+      const nm=nameOf(w.text); if(nm) sp.classList.add("ch-"+nm);
+      w.pieces.forEach(pc=>{ if(pc.i){ const i=document.createElement("i"); i.textContent=pc.t; sp.append(i);} else sp.append(pc.t); });
+      ss.append(sp); w.el=sp;
+    });
+    s.el=ss; el.append(ss);
+  });
+}
+
+function render(){
+  const pg=PAGES[page];
+  model=buildModel(pg);
+  titleEl.textContent=""; textEl.textContent="";
+  model.blocks.forEach((b,bi)=>{
+    if(b.kind==="title"){ fillBlock(titleEl,b); return; }
+    const p=document.createElement("p");
+    const isEnd = page===PAGES.length-1 && bi===model.blocks.length-1;
+    if(isEnd) p.className="end"; else if(b.allItalic) p.className="letter";
+    fillBlock(p,b); textEl.append(p);
+  });
+  chapEl.textContent=pg.c;
+  pnumEl.textContent="Page "+(page+1)+" sur "+PAGES.length;
+  const last = page===PAGES.length-1;
+  $("btnPrev").disabled = page===0;
+  $("nextLbl").textContent = last ? "Recommencer" : "Suivante";
+  $("btnNext").setAttribute("aria-label", last ? "Recommencer au début" : "Page suivante");
+  $("nextIcon").innerHTML = last ? '<path d="M4 12a8 8 0 1 0 2.4-5.7"/><path d="M4 4v4h4"/>' : '<path d="M9 5l7 7-7 7"/>';
+  document.querySelectorAll(".blk").forEach((b,i)=>{
+    b.classList.toggle("cur",i===page); b.classList.toggle("done",i<page);
+    if(i===page) b.setAttribute("aria-current","page"); else b.removeAttribute("aria-current");
+  });
+}
+
+/* ---------- Barre de progression ---------- */
+function buildProgress(){
+  const nav=$("progress"); let group=null, lastC=null;
+  PAGES.forEach((pg,i)=>{
+    if(pg.c!==lastC){ group=document.createElement("div"); group.className="pgroup"; nav.append(group); lastC=pg.c; }
+    const b=document.createElement("button"); b.className="blk"; b.type="button";
+    const label="Page "+(i+1)+" : "+pg.t.replace(/ /g," ");
+    b.title=label; b.setAttribute("aria-label",label);
+    b.addEventListener("click",()=>goTo(i,{focus:true}));
+    group.append(b);
+  });
+  nav.querySelectorAll(".pgroup").forEach(g=>g.style.flex=g.children.length+" 1 0");
+}
+
+function goTo(n, opts){
+  opts=opts||{};
+  n=Math.max(0,Math.min(PAGES.length-1,n));
+  if(opts.keep){ gen++; cancelSpeech(); } else stopReading();
+  page=n; save(); render();
+  hideNotice();
+  window.scrollTo(0,0);
+  live.textContent="Page "+(n+1)+" sur "+PAGES.length+" : "+PAGES[n].t;
+  if(opts.focus) titleEl.focus({preventScroll:true});
+}
+const next = () => goTo(page===PAGES.length-1 ? 0 : page+1, {focus:true});
+const prev = () => { if(page>0) goTo(page-1,{focus:true}); };
+
+/* ---------- Synthèse vocale ---------- */
+const synth = window.speechSynthesis;
+const hasTTS = !!synth && typeof window.SpeechSynthesisUtterance !== "undefined";
+let frVoices=[], voicesChecked=false, state="idle", curS=0, gen=0, estTimer=null, curSentEl=null, curWordEl=null, keepUtt=null;
+
+function rankVoice(v){
+  let r = /natural|neural|online|premium|enhanced/i.test(v.name) ? 0 : /google/i.test(v.name) ? 1 : 2;
+  if(!/^fr[-_]FR/i.test(v.lang)) r += 0.5;
+  return r;
+}
+function loadVoices(){
+  if(!hasTTS) return;
+  const all=synth.getVoices()||[];
+  if(all.length) voicesChecked=true;
+  frVoices=all.filter(v=>/^fr([-_]|$)/i.test(v.lang)).sort((a,b)=>rankVoice(a)-rankVoice(b));
+  const sel=$("voice"); sel.textContent="";
+  frVoices.forEach(v=>{ const o=document.createElement("option"); o.value=v.voiceURI; o.textContent=v.name.replace(/^Microsoft\s+/,"")+" ("+v.lang.replace("_","-")+")"; sel.append(o); });
+  if(!frVoices.length){ const o=document.createElement("option"); o.textContent="Aucune voix française"; o.value=""; sel.append(o); }
+  sel.disabled=!frVoices.length;
+  const v=getVoice(); if(v) sel.value=v.voiceURI;
+  updateVoiceStatus(); updateVoiceHint();
+}
+function getVoice(){ return frVoices.find(v=>v.voiceURI===S.voice) || frVoices[0] || null; }
+function isGoogleVoice(){ const v=getVoice(); return !!v && /google/i.test(v.name); }
+function updateVoiceHint(){ $("voiceHint").hidden=!isGoogleVoice(); }
+const HELP = "Pour en ajouter une : sous Windows, Paramètres › Heure et langue › Voix ; sur Mac, Réglages › Accessibilité › Contenu énoncé ; sur Android, Paramètres › Synthèse vocale ; sur iPhone, Réglages › Accessibilité › Contenu énoncé › Voix. Rechargez ensuite la page.";
+function voiceProblem(){
+  if(!hasTTS) return "Ce navigateur ne propose pas la lecture à voix haute. Essayez Chrome, Edge ou Safari à jour.";
+  if(voicesChecked && !frVoices.length) return "Aucune voix française n’est installée sur cet appareil. La lecture risque de se faire avec un accent étranger, ou pas du tout. "+HELP;
+  return "";
+}
+function updateVoiceStatus(){
+  const el=$("voiceStatus"), pb=voiceProblem();
+  if(pb){ el.textContent=pb; el.classList.add("warn"); }
+  else if(!voicesChecked){ el.textContent="Recherche des voix françaises…"; el.classList.remove("warn"); }
+  else { el.textContent=frVoices.length+(frVoices.length>1?" voix françaises disponibles.":" voix française disponible."); el.classList.remove("warn"); }
+}
+function showNotice(msg, withSettings){
+  noticeEl.textContent=msg;
+  if(withSettings){ const b=document.createElement("button"); b.className="btn"; b.textContent="Ouvrir les réglages de la voix"; b.addEventListener("click",()=>openPanel()); noticeEl.append(document.createElement("br"), b); }
+  noticeEl.hidden=false;
+}
+function hideNotice(){ noticeEl.hidden=true; noticeEl.textContent=""; }
+function checkVoiceNotice(){ const pb=voiceProblem(); if(pb){ showNotice(pb, hasTTS); return !hasTTS; } return false; }
+
+function makeUtt(text){
+  const u=new SpeechSynthesisUtterance(text), v=getVoice();
+  if(v){ u.voice=v; u.lang=v.lang; } else u.lang="fr-FR";
+  u.rate=S.rate; u.pitch=S.pitch; u.volume=S.vol;
+  keepUtt=u; // évite que Chrome « oublie » l'énoncé en cours
+  return u;
+}
+function clearEst(){ if(estTimer){ clearInterval(estTimer); estTimer=null; } }
+function cancelSpeech(){ clearEst(); if(hasTTS) synth.cancel(); }
+function startUtt(u, my){ setTimeout(()=>{ if(my!==gen) return; try{ synth.resume(); }catch(e){} synth.speak(u); }, 60); }
+
+function markSentence(i){
+  if(curSentEl){ curSentEl.classList.remove("s-on"); curSentEl=null; }
+  if(i==null || !S.hl || !model.sentences[i]) return;
+  curSentEl=model.sentences[i].el; curSentEl.classList.add("s-on");
+}
+function markWord(w){
+  if(curWordEl){ curWordEl.classList.remove("on"); curWordEl=null; }
+  if(!w || !S.hl) return;
+  curWordEl=w.el; curWordEl.classList.add("on");
+}
+function markWordAt(s, ci){
+  let j=0; for(let k=0;k<s.offs.length;k++){ if(s.offs[k]<=ci+0.5) j=k; else break; }
+  if(!curWordEl || curWordEl!==s.words[j].el) markWord(s.words[j]);
+}
+
+function speakSentence(i, mode){
+  const s=model.sentences[i]; if(!s) return;
+  const my=++gen; cancelSpeech();
+  curS=i; markSentence(i); markWord(null);
+  const u=makeUtt(s.spoken); let gotB=false, t0=0;
+  const noWord=isGoogleVoice(); // voix Google : seule la phrase est surlignée
+  u.onstart=()=>{
+    if(my!==gen || noWord) return; t0=performance.now();
+    // Si la voix ne signale pas les mots (voix Google de Chrome), on estime la position.
+    estTimer=setInterval(()=>{
+      if(gotB || my!==gen){ clearEst(); return; }
+      const el=(performance.now()-t0)/1000;
+      markWordAt(s, Math.min(s.spoken.length-1, el*13.5*S.rate));
+    },80);
+  };
+  u.onboundary=e=>{ if(my!==gen || noWord) return; if(e.name && e.name!=="word") return; gotB=true; clearEst(); markWordAt(s,e.charIndex); };
+  u.onend=()=>{
+    if(my!==gen) return; clearEst();
+    if(mode==="page"){
+      if(i+1<model.sentences.length) speakSentence(i+1,"page"); else endOfPage();
+    } else { markWord(null); markSentence(null); }
+  };
+  u.onerror=e=>{
+    if(my!==gen) return; clearEst();
+    if(e.error==="interrupted"||e.error==="canceled") return;
+    stopReading();
+    showNotice(e.error==="not-allowed" ? "Le navigateur a bloqué la lecture. Touchez « Lire la page » pour la lancer." : "La lecture s’est arrêtée ("+e.error+"). Touchez « Lire la page » pour réessayer.");
+  };
+  startUtt(u,my);
+}
+function speakText(text, onEnd){
+  const my=++gen; cancelSpeech();
+  const u=makeUtt(text);
+  u.onend=u.onerror=()=>{ if(my===gen && onEnd) onEnd(); };
+  startUtt(u,my);
+}
+function endOfPage(){
+  if(S.auto && page<PAGES.length-1){
+    goTo(page+1,{keep:true});
+    const my=gen;
+    setTimeout(()=>{ if(state==="playing" && my===gen) speakSentence(0,"page"); }, 700);
+  } else stopReading();
+}
+function togglePlay(){
+  if(state==="playing"){ pauseReading(); return; }
+  if(checkVoiceNotice()) return;
+  const from = state==="paused" ? curS : 0;
+  state="playing"; updateBar(); speakSentence(from,"page");
+}
+function pauseReading(){ gen++; cancelSpeech(); state="paused"; markWord(null); updateBar(); }
+function stopReading(){ gen++; cancelSpeech(); state="idle"; curS=0; markSentence(null); markWord(null); updateBar(); }
+function updateBar(){
+  const lbl={idle:"Lire la page",playing:"Pause",paused:"Reprendre"}[state];
+  $("playLbl").textContent=lbl;
+  $("playIcon").innerHTML = state==="playing" ? '<path d="M8 5v14M16 5v14"/>' : '<path d="M7 4.5v15l12-7.5z"/>';
+  $("btnStop").disabled = state==="idle";
+}
+
+/* ---------- Clic ou toucher sur un mot ---------- */
+let swiped=false;
+function onWordClick(e){
+  const sp=e.target.closest(".w"); if(!sp || swiped) return;
+  const w=model.words[+sp.dataset.w]; if(!w) return;
+  if(!hasTTS){ checkVoiceNotice(); return; }
+  if(voiceProblem()) checkVoiceNotice();
+  if(state==="playing") pauseReading();
+  if(S.click==="sentence"){ speakSentence(w.s,"single"); }
+  else {
+    const txt=bare(w.text); if(!txt) return;
+    markSentence(null); markWord(w);
+    speakText(txt, ()=>markWord(null));
+  }
+}
+textEl.addEventListener("click", onWordClick);
+titleEl.addEventListener("click", onWordClick);
+
+/* ---------- Réglages ---------- */
+const fmt = (n,d) => n.toFixed(d).replace(".",",");
+function applySettings(){
+  root.style.setProperty("--fs", S.size+"px");
+  root.style.setProperty("--lh", String(S.lh));
+  if(S.font==="atkinson") root.removeAttribute("data-font"); else root.dataset.font=S.font;
+  if(S.theme==="auto") root.removeAttribute("data-reader-theme"); else root.dataset.readerTheme=S.theme;
+  textEl.classList.toggle("wide",S.wide); titleEl.classList.toggle("wide",S.wide);
+  $("pageEl").classList.toggle("chars",S.chars);
+  legendEl.hidden=!S.chars;
+  $("rateOut").textContent=fmt(S.rate,1); $("pitchOut").textContent=fmt(S.pitch,1);
+  $("volOut").textContent=Math.round(S.vol*100)+" %"; $("sizeOut").textContent=S.size+" px"; $("lhOut").textContent=fmt(S.lh,1);
+  if(!S.hl){ markWord(null); markSentence(null); }
+  else if(state!=="idle" && !curSentEl) markSentence(curS);
+  save();
+}
+function syncControls(){
+  ["rate","pitch","vol","size","lh"].forEach(k=>$(k).value=S[k]);
+  ["hl","auto","wide","chars"].forEach(k=>$(k).checked=S[k]);
+  document.querySelectorAll('input[name="click"]').forEach(r=>r.checked=r.value===S.click);
+  document.querySelectorAll('input[name="font"]').forEach(r=>r.checked=r.value===S.font);
+  document.querySelectorAll('input[name="theme"]').forEach(r=>r.checked=r.value===S.theme);
+  const v=getVoice(); if(v) $("voice").value=v.voiceURI;
+}
+["rate","pitch","vol","size","lh"].forEach(k=>$(k).addEventListener("input",e=>{ S[k]=parseFloat(e.target.value); applySettings(); }));
+["hl","auto","wide","chars"].forEach(k=>$(k).addEventListener("change",e=>{ S[k]=e.target.checked; applySettings(); }));
+["click","font","theme"].forEach(n=>document.querySelectorAll('input[name="'+n+'"]').forEach(r=>r.addEventListener("change",e=>{ if(e.target.checked){ S[n]=e.target.value; applySettings(); } })));
+$("voice").addEventListener("change",e=>{ S.voice=e.target.value; save(); updateVoiceHint(); if(state==="playing"){ markWord(null); speakSentence(curS,"page"); } });
+$("btnTest").addEventListener("click",()=>{
+  if(checkVoiceNotice()) return;
+  if(state==="playing") pauseReading();
+  speakText("Bonjour ! Je suis la voix qui va lire Le Carnet des sept rivages avec toi.");
+});
+$("btnReset").addEventListener("click",()=>{ const v=S.voice; S=Object.assign({},DEFAULTS,{voice:v}); syncControls(); applySettings(); });
+
+let panelOpen=false;
+function openPanel(){ panelOpen=true; $("panel").hidden=false; $("layout").classList.add("open"); $("btnSettings").setAttribute("aria-expanded","true"); $("panelTitle").focus({preventScroll:true}); }
+function closePanel(){ panelOpen=false; $("panel").hidden=true; $("layout").classList.remove("open"); $("btnSettings").setAttribute("aria-expanded","false"); $("btnSettings").focus({preventScroll:true}); }
+$("btnSettings").addEventListener("click",()=>panelOpen?closePanel():openPanel());
+$("btnClose").addEventListener("click",closePanel);
+
+/* ---------- Navigation ---------- */
+$("btnPrev").addEventListener("click",prev);
+$("btnNext").addEventListener("click",next);
+$("btnPlay").addEventListener("click",togglePlay);
+$("btnStop").addEventListener("click",stopReading);
+document.addEventListener("keydown",e=>{
+  if(e.altKey||e.ctrlKey||e.metaKey) return;
+  const t=e.target, tag=t.tagName;
+  if(e.key==="Escape" && panelOpen){ closePanel(); return; }
+  if(/^(INPUT|SELECT|TEXTAREA)$/.test(tag) || t.isContentEditable) return;
+  if(e.key==="ArrowRight"){ e.preventDefault(); if(page<PAGES.length-1) next(); }
+  else if(e.key==="ArrowLeft"){ e.preventDefault(); prev(); }
+  else if(e.key===" " || e.code==="Space"){ if(tag==="BUTTON"||tag==="A") return; e.preventDefault(); togglePlay(); }
+});
+let tx=0,ty=0,tt=0;
+const mainEl=$("main");
+mainEl.addEventListener("touchstart",e=>{ if(e.touches.length!==1) return; tx=e.touches[0].clientX; ty=e.touches[0].clientY; tt=Date.now(); },{passive:true});
+mainEl.addEventListener("touchend",e=>{
+  const t=e.changedTouches[0]; if(!t) return;
+  const dx=t.clientX-tx, dy=t.clientY-ty;
+  if(Math.abs(dx)>60 && Math.abs(dx)>Math.abs(dy)*1.5 && Date.now()-tt<900){
+    swiped=true; setTimeout(()=>swiped=false,400);
+    if(dx<0){ if(page<PAGES.length-1) next(); } else prev();
+  }
+},{passive:true});
+
+/* Hauteur réelle de la barre du bas */
+function measureBar(){ root.style.setProperty("--barh", $("bar").offsetHeight+"px"); }
+if(window.ResizeObserver) new ResizeObserver(measureBar).observe($("bar")); else window.addEventListener("resize",measureBar);
+measureBar();
+
+window.addEventListener("pagehide",()=>{ if(hasTTS) synth.cancel(); });
+
+/* ---------- Démarrage ---------- */
+load();
+if(hasTTS){
+  try{ synth.cancel(); }catch(e){}
+  loadVoices();
+  if("onvoiceschanged" in synth) synth.addEventListener("voiceschanged",loadVoices);
+  setTimeout(loadVoices,700);
+  setTimeout(()=>{ voicesChecked=true; loadVoices(); },2500);
+} else { voicesChecked=true; updateVoiceStatus(); $("voice").disabled=true; }
+buildProgress();
+syncControls();
+applySettings();
+goTo(page);
+})();
+</script>
+</body>
+</html>
