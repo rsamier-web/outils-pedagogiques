@@ -1,0 +1,1537 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Disserter sur Musset</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;600;700&family=Noto+Serif:ital,wght@0,400;0,700;1,400&display=swap">
+<style>
+/* Layout : barre d'outils façon KDE Breeze, onglets, panneau latéral + vue de contenu.
+   Couleurs : palette Breeze (fenêtre, vue, bleu de sélection) ; trois teintes réservées aux parties I, II, III. */
+:root {
+  --win: #eff0f1;
+  --view: #fcfcfc;
+  --head: #dee0e2;
+  --fg: #232629;
+  --mute: #6b7680;
+  --line: #c9cdd1;
+  --line-soft: #e1e4e6;
+  --accent: #3daee9;
+  --accent-ink: #1d78b5;
+  --accent-tint: rgba(61, 174, 233, 0.14);
+  --p1: #1d78b5;
+  --p1-tint: rgba(29, 120, 181, 0.10);
+  --p2: #b85700;
+  --p2-tint: rgba(246, 116, 0, 0.11);
+  --p3: #7d3c98;
+  --p3-tint: rgba(142, 68, 173, 0.10);
+  --warn-tint: rgba(246, 116, 0, 0.10);
+  --ok: #1e8f50;
+  --shadow: 0 1px 2px rgba(35, 38, 41, 0.08);
+  --ui: "Noto Sans", "Segoe UI", system-ui, sans-serif;
+  --read: "Noto Serif", Georgia, "Times New Roman", serif;
+  --r: 4px;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --win: #202326; --view: #141618; --head: #2a2e32; --fg: #eff0f1; --mute: #a1a9b1;
+    --line: #3d4247; --line-soft: #2f3337; --accent: #3daee9; --accent-ink: #6cc3f0;
+    --accent-tint: rgba(61, 174, 233, 0.18);
+    --p1: #5ab8ef; --p1-tint: rgba(61, 174, 233, 0.13);
+    --p2: #f7a04a; --p2-tint: rgba(246, 116, 0, 0.15);
+    --p3: #c48ee0; --p3-tint: rgba(155, 89, 182, 0.17);
+    --warn-tint: rgba(246, 116, 0, 0.14); --ok: #4cc07c; --shadow: none;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --win: #202326; --view: #141618; --head: #2a2e32; --fg: #eff0f1; --mute: #a1a9b1;
+  --line: #3d4247; --line-soft: #2f3337; --accent: #3daee9; --accent-ink: #6cc3f0;
+  --accent-tint: rgba(61, 174, 233, 0.18);
+  --p1: #5ab8ef; --p1-tint: rgba(61, 174, 233, 0.13);
+  --p2: #f7a04a; --p2-tint: rgba(246, 116, 0, 0.15);
+  --p3: #c48ee0; --p3-tint: rgba(155, 89, 182, 0.17);
+  --warn-tint: rgba(246, 116, 0, 0.14); --ok: #4cc07c; --shadow: none;
+  color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+body { background: var(--win); color: var(--fg); font-family: var(--ui); font-size: 15px; line-height: 1.5; }
+button, input, select { font: inherit; color: inherit; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; }
+h1, h2, h3 { text-wrap: balance; margin: 0; }
+p { margin: 0; }
+
+.app { min-height: 100%; display: flex; flex-direction: column; }
+
+/* Barre d'outils */
+.toolbar { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 5; background: var(--head); border-bottom: 1px solid var(--line);
+  padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+.toolbar-row { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; padding-block: 8px; max-width: 1280px; margin: 0 auto; }
+.brand { display: flex; align-items: center; gap: 10px; min-width: 0; margin-right: auto; }
+.brand svg { flex: none; }
+.brand h1 { font-size: 15px; font-weight: 600; }
+.brand small { display: block; color: var(--mute); font-size: 12px; }
+.tabs { display: flex; gap: 2px; background: var(--win); border: 1px solid var(--line); border-radius: var(--r); padding: 2px; overflow-x: auto; max-width: 100%; }
+.tab { border: 0; background: transparent; padding: 5px 12px; border-radius: 3px; cursor: pointer; white-space: nowrap; color: var(--fg); }
+.tab:hover { background: var(--accent-tint); }
+.tab[aria-selected="true"] { background: var(--view); box-shadow: 0 0 0 1px var(--accent) inset; color: var(--accent-ink); font-weight: 600; }
+.progress { display: flex; align-items: center; gap: 8px; font-size: 12px; color: var(--mute); font-variant-numeric: tabular-nums; }
+.meter { width: 80px; height: 6px; border-radius: 3px; background: var(--line-soft); overflow: hidden; }
+.meter i { display: block; height: 100%; background: var(--ok); }
+
+/* Zone principale */
+.main { flex: 1; width: 100%; max-width: 1280px; margin: 0 auto; padding-block: 16px 40px;
+  padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+
+.pane { background: var(--view); border: 1px solid var(--line); border-radius: var(--r); box-shadow: var(--shadow); }
+.split { display: grid; grid-template-columns: 290px minmax(0, 1fr); gap: 16px; align-items: start; }
+@media (max-width: 820px) { .split { grid-template-columns: minmax(0, 1fr); } .sidebar { display: none; } }
+@media (min-width: 821px) { .mobile-pick { display: none; } }
+
+/* Panneau latéral (style Dolphin « Emplacements ») */
+.sidebar { position: sticky; top: 72px; max-height: calc(100vh - 90px); overflow: auto; padding: 8px 0; }
+.side-filter { display: flex; gap: 4px; padding: 4px 10px 10px; border-bottom: 1px solid var(--line-soft); }
+.seg { flex: 1; border: 1px solid var(--line); background: var(--win); border-radius: 3px; padding: 3px 6px; font-size: 12px; cursor: pointer; }
+.seg[aria-pressed="true"] { border-color: var(--accent); background: var(--accent-tint); color: var(--accent-ink); font-weight: 600; }
+.group-title { font-size: 11px; text-transform: uppercase; letter-spacing: 0.06em; color: var(--mute); padding: 12px 14px 4px; font-weight: 600; }
+.item { width: 100%; display: flex; gap: 8px; align-items: flex-start; border: 0; background: transparent; text-align: left; padding: 6px 12px 6px 14px; cursor: pointer; font-size: 13.5px; line-height: 1.35; border-left: 3px solid transparent; }
+.item:hover { background: var(--accent-tint); }
+.item[aria-current="true"] { background: var(--accent-tint); border-left-color: var(--accent); font-weight: 600; }
+.item .done { margin-left: auto; color: var(--ok); flex: none; }
+
+/* Badges de type : forme + lettre, pas de couleur */
+.tbadge { flex: none; display: inline-grid; place-items: center; width: 20px; height: 20px; font-size: 11px; font-weight: 700; border: 1.5px solid currentColor; color: var(--mute); }
+.tbadge.D { border-radius: 50%; }
+.tbadge.T { border-radius: 3px; }
+.pill { display: inline-flex; align-items: center; gap: 6px; font-size: 12px; padding: 2px 8px; border: 1px solid var(--line); border-radius: 999px; color: var(--mute); background: var(--win); }
+.pill.bac { border-color: var(--accent); color: var(--accent-ink); background: var(--accent-tint); font-weight: 600; }
+
+/* Fiche sujet */
+.sheet { padding: 20px 24px 24px; display: grid; gap: 18px; min-width: 0; }
+@media (max-width: 520px) { .sheet { padding: 16px; } }
+.meta { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
+.enonce { font-family: var(--read); font-weight: 400; font-size: 1.22rem; line-height: 1.5; max-width: 70ch; }
+details.var { font-size: 14px; color: var(--mute); }
+details.var summary { cursor: pointer; }
+details.var ul { margin: 6px 0 0; padding-left: 20px; display: grid; gap: 4px; color: var(--fg); font-family: var(--read); }
+
+.steps { display: flex; border-bottom: 1px solid var(--line); gap: 4px; overflow-x: auto; }
+.step { border: 0; background: transparent; padding: 8px 14px; cursor: pointer; border-bottom: 2px solid transparent; margin-bottom: -1px; white-space: nowrap; color: var(--mute); }
+.step b { display: inline-grid; place-items: center; width: 20px; height: 20px; border-radius: 50%; border: 1px solid currentColor; font-size: 11px; margin-right: 6px; }
+.step[aria-selected="true"] { color: var(--fg); border-bottom-color: var(--accent); font-weight: 600; }
+
+.tools { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; justify-content: space-between; }
+.btn { border: 1px solid var(--line); background: var(--view); border-radius: 3px; padding: 5px 12px; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; font-size: 13.5px; }
+.btn:hover { border-color: var(--accent); }
+.btn.primary { background: var(--accent); border-color: var(--accent); color: #fff; }
+.switch { display: inline-flex; align-items: center; gap: 8px; cursor: pointer; font-size: 13.5px; user-select: none; }
+.switch input { appearance: none; width: 34px; height: 18px; border-radius: 9px; background: var(--line); position: relative; cursor: pointer; transition: background .15s; }
+.switch input::after { content: ""; position: absolute; top: 2px; left: 2px; width: 14px; height: 14px; border-radius: 50%; background: var(--view); transition: transform .15s; }
+.switch input:checked { background: var(--accent); }
+.switch input:checked::after { transform: translateX(16px); }
+
+/* Analyse */
+.kw { display: grid; gap: 0; border: 1px solid var(--line-soft); border-radius: var(--r); }
+.kw > div { display: grid; grid-template-columns: minmax(120px, 200px) minmax(0, 1fr); gap: 12px; padding: 10px 14px; border-top: 1px solid var(--line-soft); }
+.kw > div:first-child { border-top: 0; }
+.kw dt { font-weight: 600; }
+.kw dd { margin: 0; }
+@media (max-width: 520px) { .kw > div { grid-template-columns: minmax(0, 1fr); gap: 2px; } }
+.label { font-size: 11px; text-transform: uppercase; letter-spacing: 0.07em; color: var(--mute); font-weight: 600; margin-bottom: 6px; }
+.note { display: flex; gap: 10px; padding: 10px 14px; border-radius: var(--r); background: var(--warn-tint); font-size: 14px; }
+.note svg { flex: none; margin-top: 2px; color: var(--p2); }
+.pb { font-family: var(--read); font-size: 1.08rem; padding: 12px 16px; border: 1px solid var(--accent); border-radius: var(--r); background: var(--accent-tint); }
+.fil { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
+.fil span.w { font-weight: 700; padding: 3px 10px; border-radius: 3px; }
+.fil .arrow { color: var(--mute); }
+.c1 { color: var(--p1); } .c2 { color: var(--p2); } .c3 { color: var(--p3); }
+.bg1 { background: var(--p1-tint); } .bg2 { background: var(--p2-tint); } .bg3 { background: var(--p3-tint); }
+
+/* Plan */
+.plan { display: grid; gap: 14px; }
+.part { border: 1px solid var(--line-soft); border-radius: var(--r); overflow: hidden; }
+.part-head { display: flex; align-items: center; gap: 12px; padding: 10px 14px; }
+.num { flex: none; width: 30px; height: 30px; display: grid; place-items: center; border-radius: 3px; color: #fff; font-weight: 700; font-family: var(--read); }
+.n1 { background: var(--p1); } .n2 { background: var(--p2); } .n3 { background: var(--p3); }
+:root[data-theme="dark"] .num { color: #141618; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .num { color: #141618; } }
+.part-head h3 { font-size: 1rem; }
+.subs { display: grid; }
+.sub { display: grid; grid-template-columns: 26px minmax(0, 1fr); gap: 8px; padding: 12px 14px; border-top: 1px solid var(--line-soft); }
+.letter { font-weight: 700; color: var(--mute); }
+.arg { font-weight: 600; }
+.expl { margin-top: 4px; max-width: 72ch; }
+.cits { display: grid; gap: 6px; margin-top: 8px; }
+.cit { font-family: var(--read); font-style: italic; padding-left: 12px; border-left: 2px solid var(--line); max-width: 72ch; }
+.ref { font-family: var(--ui); font-style: normal; font-size: 12px; color: var(--mute); white-space: nowrap; margin-left: 6px; font-variant-numeric: tabular-nums; }
+.hidden-slot { border: 1px dashed var(--line); border-radius: 3px; background: var(--win); padding: 6px 10px; cursor: pointer; text-align: left; color: var(--mute); width: 100%; }
+.hidden-slot:hover { border-color: var(--accent); color: var(--fg); }
+.open { font-size: 14px; display: flex; gap: 10px; padding: 10px 14px; border-radius: var(--r); background: var(--win); }
+
+/* Introduction */
+.intro { display: grid; gap: 0; border: 1px solid var(--line-soft); border-radius: var(--r); }
+.irow { display: grid; grid-template-columns: 170px minmax(0, 1fr); gap: 14px; padding: 12px 16px; border-top: 1px solid var(--line-soft); }
+.irow:first-child { border-top: 0; }
+.ilabel { display: flex; gap: 8px; align-items: baseline; font-size: 13px; font-weight: 600; color: var(--mute); }
+.ilabel b { display: inline-grid; place-items: center; width: 20px; height: 20px; border-radius: 50%; background: var(--win); border: 1px solid var(--line); font-size: 11px; color: var(--fg); flex: none; }
+.itext { font-family: var(--read); line-height: 1.65; max-width: 70ch; }
+.itext mark { background: none; font-weight: 700; padding: 0 2px; border-bottom: 2px solid currentColor; }
+@media (max-width: 600px) { .irow { grid-template-columns: minmax(0, 1fr); gap: 4px; } }
+.cue { color: var(--mute); }
+
+.footer-actions { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; justify-content: space-between; border-top: 1px solid var(--line-soft); padding-top: 14px; }
+
+/* Carte */
+.map-grid { display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); gap: 16px; align-items: start; }
+@media (max-width: 900px) { .map-grid { grid-template-columns: minmax(0, 1fr); } }
+.map-box { padding: 14px; }
+.map-box svg { width: 100%; height: auto; display: block; }
+.node { cursor: pointer; }
+.node rect { fill: var(--view); stroke: var(--line); stroke-width: 1.2; }
+.node:hover rect { stroke: var(--accent); }
+.node.sel rect { fill: var(--accent-tint); stroke: var(--accent); stroke-width: 2; }
+.node text { fill: var(--fg); font-family: var(--ui); }
+.node .cnt { fill: var(--mute); font-size: 11px; }
+.edge { stroke: var(--line); stroke-width: 1.5; }
+.edge-label { fill: var(--mute); font-size: 11px; font-family: var(--ui); font-style: italic; }
+.edge-label-bg { fill: var(--view); }
+.fam-panel { padding: 16px 18px; display: grid; gap: 12px; }
+.fam-panel h2 { font-size: 1.05rem; }
+.list { display: grid; gap: 6px; }
+.row-link { display: flex; gap: 10px; align-items: flex-start; border: 1px solid var(--line-soft); border-radius: 3px; padding: 8px 10px; background: var(--view); cursor: pointer; text-align: left; width: 100%; }
+.row-link:hover { border-color: var(--accent); background: var(--accent-tint); }
+.row-link small { display: block; color: var(--mute); font-size: 12px; }
+.matrix-wrap { overflow-x: auto; }
+table.matrix { width: 100%; border-collapse: collapse; font-size: 13.5px; min-width: 560px; }
+.matrix th, .matrix td { border-top: 1px solid var(--line-soft); padding: 8px 10px; text-align: left; vertical-align: top; }
+.matrix thead th { border-top: 0; font-size: 12px; color: var(--mute); font-weight: 600; }
+.chip { display: inline-flex; margin: 2px 4px 2px 0; border: 1px solid var(--line); border-radius: 3px; padding: 1px 8px; background: var(--win); cursor: pointer; font-size: 12.5px; }
+.chip:hover { border-color: var(--accent); }
+.chip.on { border-color: var(--accent); background: var(--accent-tint); color: var(--accent-ink); font-weight: 600; }
+.legend { display: flex; flex-wrap: wrap; gap: 14px; font-size: 13px; color: var(--mute); align-items: center; }
+
+/* Citations */
+.cit-tools { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; padding: 14px 16px; border-bottom: 1px solid var(--line-soft); }
+.search { flex: 1 1 220px; min-width: 0; border: 1px solid var(--line); border-radius: 3px; padding: 5px 10px; background: var(--view); }
+.cit-list { display: grid; }
+.cit-row { padding: 12px 16px; border-top: 1px solid var(--line-soft); display: grid; gap: 6px; }
+.cit-row:first-child { border-top: 0; }
+.cit-row q { font-family: var(--read); font-size: 1.02rem; quotes: "« " " »"; }
+.cit-meta { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; font-size: 12.5px; color: var(--mute); }
+
+/* Méthode */
+.method { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 340px), 1fr)); gap: 16px; }
+.mcard { padding: 18px 20px; display: grid; gap: 10px; align-content: start; }
+.mcard h2 { font-size: 1.02rem; }
+.mcard ol, .mcard ul { margin: 0; padding-left: 20px; display: grid; gap: 6px; }
+.mtable { width: 100%; border-collapse: collapse; font-size: 14px; }
+.mtable td, .mtable th { border-top: 1px solid var(--line-soft); padding: 7px 6px; text-align: left; vertical-align: top; }
+.mtable th { font-size: 12px; color: var(--mute); border-top: 0; }
+.sources { padding: 16px 20px; display: grid; gap: 8px; font-size: 13.5px; }
+.sources a { color: var(--accent-ink); }
+.sources ul { margin: 0; padding-left: 18px; display: grid; gap: 4px; }
+
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+
+.mobile-pick { padding: 10px 12px; display: grid; gap: 4px; }
+@media (min-width: 821px) { .mobile-pick { display: none; } }
+
+.node rect.under, .node.sel rect.under, .node:hover rect.under { fill: var(--view); stroke: none; }
+
+@media (max-width: 640px) {
+  .toolbar { position: static; }
+  .brand small { display: none; }
+  .tabs { width: 100%; }
+  .tab { flex: 1; padding: 5px 8px; }
+  .step { padding: 8px 8px; }
+  .step b { display: none; }
+  .progress { width: 100%; }
+}
+
+</style>
+<div id="root"></div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.3.1/umd/react.production.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.3.1/umd/react-dom.production.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/htm@3.1.1/dist/htm.umd.js"></script>
+<script>
+const FAMILIES = [
+  { id: "jeu", nom: "Jeu ou sérieux ?", court: "Jeu / sérieux", notions: "badinage, comédie, tragique, registres" },
+  { id: "parole", nom: "La parole : arme ou aveu ?", court: "Parole", notions: "langage, manipulation, mensonge, aveu" },
+  { id: "coeur", nom: "Le cœur caché", court: "Cœur caché", notions: "sincérité, corps, masque, hermétisme" },
+  { id: "orgueil", nom: "L’orgueil, moteur du drame ?", court: "Orgueil", notions: "orgueil, amour-propre, causes du dénouement" },
+  { id: "societe", nom: "Responsabilité et société", court: "Responsabilité", notions: "éducation, responsabilité, classes sociales, idéal" },
+  { id: "esthetique", nom: "Drame romantique et passion", court: "Esthétique", notions: "genre, drame romantique, passion, tragédie moderne" }
+];
+
+/* Liens de proximité entre familles (carte) */
+const LINKS = [
+  ["jeu", "parole", "le jeu passe par les mots"],
+  ["parole", "coeur", "dire ou cacher"],
+  ["coeur", "orgueil", "l’orgueil ferme le cœur"],
+  ["orgueil", "societe", "qui est coupable ?"],
+  ["societe", "esthetique", "l’idéal romantique"],
+  ["esthetique", "jeu", "comique et tragique"]
+];
+
+const SOURCES = [
+  { nom: "L’École des Lettres : corrigé du bac 2025", url: "https://ecoledeslettres.fr/bac-de-francais-2025-corrige-de-la-dissertation-serie-generale-alfred-de-musset-on-ne-badine-pas-avec-lamour/" },
+  { nom: "Freemaths : sujet du bac 2025, centres étrangers (Asie)", url: "https://www.freemaths.fr/sujets-du-bac/baccalaureat-general/francais/annees/annee-2025/asie/sujet-1-et-correction/bac-francais-asie-2025-sujet-1.pdf" },
+  { nom: "Lelivrescolaire : sujets d’entraînement", url: "https://www.lelivrescolaire.fr/page/19134212" },
+  { nom: "Gloria Lauzanne : sujets de dissertation", url: "https://www.gloria-lauzanne-cours-de-francais.fr/2025/02/04/sujets-de-dissertation-sur-on-ne-badine-pas-avec-l-amour-de-musset/" },
+  { nom: "Edith Lejet : sujets corrigés", url: "https://www.edith-lejet.com/sujets-dissertation-bac-badine-amour-musset-corriges/" },
+  { nom: "MyStudies : 5 sujets liés au parcours", url: "https://ai.mystudies.com/blog/exemple-document/5-sujets-dissertation-badine-amour-alfred-musset-lies-parcours-jeux-coeur-parole-22-01-2025.html" },
+  { nom: "Fiche-de-revision.fr : annales et sujets", url: "https://fiche-de-revision.fr/2025/06/11/musset-fiche-bac-francais-citations-sujets-plans/" },
+  { nom: "Studocu : sujets de dissertation et plans", url: "https://www.studocu.com/fr/document/lycee-general-jean-baptiste-kleber/francais/sujets-de-dissertation-et-plans-sur-on-ne-badine-pas-avec-musset/162480105" },
+  { nom: "Commentairecompose.fr : fiche de l’œuvre", url: "https://commentairecompose.fr/on-ne-badine-pas-avec-l-amour-musset/" }
+];
+
+const SUJETS = [
+/* ───────────── FAMILLE 1 : JEU OU SÉRIEUX ───────────── */
+{
+  id: "s1", fam: "jeu", type: "D", officiel: true,
+  src: "Bac 2025 · métropole, voie générale (sujet B)",
+  enonce: "Les personnages s’affrontent-ils sérieusement dans On ne badine pas avec l’amour ?",
+  mots: [
+    ["s’affrontent", "se combattent : duel verbal, rivalité, deux camps et un enjeu."],
+    ["sérieusement", "avec gravité, avec de vraies conséquences ; s’oppose à « pour jouer », « par badinage »."],
+    ["les personnages", "pas seulement Camille et Perdican : aussi le Baron, Blazius, Bridaine et Dame Pluche."]
+  ],
+  piege: "Ne réponds pas seulement « oui, puisque Rosette meurt » : montre d’abord la part de jeu, sinon le sujet n’est pas discuté.",
+  pb: "Les joutes de la pièce ne sont-elles qu’un badinage plaisant, ou engagent-elles des enjeux si graves qu’elles finissent par tuer ?",
+  fil: ["Jeu", "Duel", "Drame"],
+  parties: [
+    { t: "Des affrontements qui ont l’apparence d’un jeu", s: [
+      { a: "Les fantoches se disputent pour des riens.", e: "Blazius et Bridaine rivalisent pour une place à table ; Dame Pluche et Blazius se battent pour une lettre. Ces querelles parodiques font rire et donnent le ton de la comédie.",
+        c: [ { t: "Pourquoi un vain orgueil m’a-t-il éloigné de ce dîner", r: "III, 2", w: "Bridaine" },
+             { t: "il me semble assister à un concert où le violon joue Mon cœur soupire, pendant que la flûte joue Vive Henri IV", r: "I, 3", w: "Le Baron" } ] },
+      { a: "Camille et Perdican échangent comme dans une joute galante.", e: "Répliques brèves, piques ironiques : chacun cache ses sentiments derrière un trait d’esprit, à la manière de Marivaux.",
+        c: [ { t: "Je suis bien aise que mon refus vous soit indifférent.", r: "II, 1", w: "Camille" },
+             { t: "Ton amour m’eût donné la vie, mais ton amitié m’en consolera.", r: "II, 1", w: "Perdican" } ] },
+      { a: "L’affrontement se joue comme un spectacle.", e: "Rendez-vous à la fontaine, cachette derrière un arbre, rideau : un décor de comédie d’intrigue où chacun observe l’autre.",
+        c: [ { t: "Je suis curieuse de savoir ce qu’il lui dit.", r: "III, 3", w: "Camille, cachée" },
+             { t: "rentre derrière ce rideau", r: "III, 6", w: "Camille à Rosette" } ] }
+    ]},
+    { t: "Un jeu qui devient un duel grave", s: [
+      { a: "L’enjeu est vital : deux façons de vivre et d’aimer.", e: "La scène de la fontaine oppose l’amour éternel et sans souffrance que cherche Camille à l’amour humain, imparfait, que défend Perdican.",
+        c: [ { t: "Je veux aimer, mais je ne veux pas souffrir ; je veux aimer d’un amour éternel", r: "II, 5", w: "Camille" },
+             { t: "J’ai souffert souvent, je me suis trompé quelquefois, mais j’ai aimé.", r: "II, 5", w: "Perdican" } ] },
+      { a: "L’orgueil blessé change le jeu en vengeance.", e: "La lettre lue par Perdican déclenche sa riposte : les mots deviennent des armes.",
+        c: [ { t: "ce pauvre jeune homme a le poignard dans le cœur", r: "III, 2", w: "lettre de Camille" },
+             { t: "tu comptais pour rien que ta flèche empoisonnée traversât cette enfant", r: "III, 6", w: "Camille" } ] },
+      { a: "Le duel fait une victime réelle.", e: "Rosette, prise entre les deux combattants, meurt en entendant leurs aveux.",
+        c: [ { t: "on entend un grand cri derrière l’autel", r: "III, 8", w: "didascalie" },
+             { t: "Elle est morte. Adieu, Perdican !", r: "III, 8", w: "Camille" } ] }
+    ]},
+    { t: "Le sérieux caché du jeu : badiner est dangereux", s: [
+      { a: "Le mélange des registres rend la chute plus brutale.", e: "Comme dans le drame romantique, le comique des fantoches côtoie le tragique final : le rire du début rend la fin plus saisissante.",
+        c: [ { t: "vous arrivez comme la fièvre, avec le vent qui fait jaunir les bois", r: "I, 1", w: "le Chœur à Dame Pluche" },
+             { t: "je sens un froid mortel qui me paralyse", r: "III, 8", w: "Perdican" } ] },
+      { a: "Les héros comprennent trop tard que leur jeu était sérieux.", e: "Perdican reconnaît qu’ils ont joué comme des enfants avec ce qu’il y a de plus grave.",
+        c: [ { t: "nous sommes deux enfants insensés, et nous avons joué avec la vie et la mort", r: "III, 8", w: "Perdican" } ] },
+      { a: "Le titre-proverbe tire la leçon.", e: "Au présent de vérité générale, il énonce une loi que la pièce démontre. Chez Marivaux, le jeu des masques finit en mariage ; chez Musset, il finit par la mort.",
+        c: [] }
+    ]}
+  ],
+  intro: {
+    acc: "« Insensés que nous sommes ! nous nous aimons. » Il faut attendre la dernière scène pour que Perdican prononce ces mots ; quelques instants plus tard, Rosette est morte.",
+    suj: "Dans On ne badine pas avec l’amour (1834), Musset fait se croiser des fantoches qui se querellent pour une place à table et deux jeunes gens qui se défient à coups de mots. On peut donc se demander si les personnages s’affrontent sérieusement.",
+    mots: "S’affronter, c’est se combattre ; le faire sérieusement, c’est engager des enjeux graves et en subir les conséquences, à l’opposé du badinage, ce jeu léger de la conversation amoureuse.",
+    pb: "Les joutes de la pièce ne sont-elles qu’un badinage plaisant, ou engagent-elles des enjeux si graves qu’elles finissent par tuer ?",
+    ann: "Nous verrons d’abord que ces affrontements ont l’apparence d’un ⟨1|jeu⟩, puis qu’ils se changent en un véritable ⟨2|duel⟩, avant de montrer que Musset révèle ainsi le ⟨3|drame⟩ caché de tout badinage amoureux."
+  }
+},
+{
+  id: "s2", fam: "jeu", type: "D",
+  src: "Sujet d’entraînement · Lelivrescolaire",
+  enonce: "On ne badine pas avec l’amour : comédie de la parole, tragédie du cœur ?",
+  mots: [
+    ["comédie de la parole", "les échanges verbaux font rire : ironie, ruses, bavardages, quiproquos."],
+    ["tragédie du cœur", "les sentiments mènent au malheur et à la mort."],
+    ["la formule", "elle sépare deux plans : la parole jouerait, le cœur souffrirait. C’est cette séparation qu’il faut discuter."]
+  ],
+  piege: "Ne traite pas « comédie » et « tragédie » comme deux exposés séparés : la troisième partie doit montrer comment l’une bascule dans l’autre.",
+  pb: "La pièce sépare-t-elle vraiment une parole qui joue et un cœur qui souffre, ou bien la parole devient-elle elle-même tragique ?",
+  fil: ["Rire", "Souffrir", "Basculer"],
+  parties: [
+    { t: "Une comédie de la parole", s: [
+      { a: "Les fantoches parlent pour ne rien dire.", e: "Le Baron accumule les phrases toutes faites, Bridaine et Blazius se dénoncent l’un l’autre : une parole mécanique et ridicule.",
+        c: [ { t: "Le gouverneur de votre fils sent le vin à pleine bouche.", r: "I, 2", w: "Bridaine" },
+             { t: "Je suis choqué, – blessé –. Cette réponse m’a déplu.", r: "I, 2", w: "Le Baron" } ] },
+      { a: "Les jeunes gens se lancent des piques.", e: "Refus secs, répliques ironiques, mots d’esprit : le dialogue amoureux ressemble à un jeu de salon.",
+        c: [ { t: "Je n’en ai nulle envie.", r: "I, 3", w: "Camille" },
+             { t: "l’amour peut voler un baiser, mais non pas l’amitié", r: "I, 2", w: "Perdican" } ] }
+    ]},
+    { t: "Une tragédie du cœur", s: [
+      { a: "Des cœurs déjà blessés.", e: "Camille a fait siens les malheurs des religieuses ; elle a peur d’aimer parce qu’elle a peur de souffrir.",
+        c: [ { t: "Son mari l’a trompée ; elle a aimé un autre homme, et elle se meurt de désespoir.", r: "II, 5", w: "Camille" },
+             { t: "Ô Perdican ! ne raillez pas, tout cela est triste à mourir.", r: "II, 5", w: "Camille" } ] },
+      { a: "Un dénouement tragique.", e: "La mort de Rosette et la séparation définitive suscitent la pitié et la terreur, comme dans une tragédie.",
+        c: [ { t: "il me semble que mes mains sont couvertes de sang", r: "III, 8", w: "Perdican" },
+             { t: "Elle est morte. Adieu, Perdican !", r: "III, 8", w: "Camille" } ] }
+    ]},
+    { t: "La parole elle-même fait basculer la comédie en tragédie", s: [
+      { a: "Les mots tuent.", e: "La déclaration mensongère à Rosette, prononcée pour être entendue, est l’arme qui provoque le drame.",
+        c: [ { t: "à haute voix, de manière que Camille l’entende", r: "III, 3", w: "didascalie" },
+             { t: "lève-toi, tu seras ma femme", r: "III, 3", w: "Perdican à Rosette" } ] },
+      { a: "Le cœur parle enfin, mais trop tard.", e: "Le langage devient lyrique et religieux au moment de l’aveu ; Perdican condamne alors les paroles qui les ont perdus.",
+        c: [ { t: "Quelles vaines paroles, quelles misérables folies ont passé comme un vent funeste entre nous deux ?", r: "III, 8", w: "Perdican" },
+             { t: "Insensés que nous sommes ! nous nous aimons.", r: "III, 8", w: "Perdican" } ] }
+    ]}
+  ],
+  intro: {
+    acc: "Le Baron se plaint d’assister « à un concert où le violon joue Mon cœur soupire, pendant que la flûte joue Vive Henri IV ». Cette discordance résume la pièce : deux tons qui ne s’accordent pas.",
+    suj: "Dans On ne badine pas avec l’amour (1834), Musset mêle les bavardages ridicules des fantoches et le malheur des amants. D’où la question : la pièce est-elle une comédie de la parole et une tragédie du cœur ?",
+    mots: "La comédie de la parole désigne les jeux verbaux qui font rire ; la tragédie du cœur, la souffrance amoureuse qui mène à un dénouement fatal.",
+    pb: "La pièce sépare-t-elle vraiment une parole qui joue et un cœur qui souffre, ou bien la parole devient-elle elle-même tragique ?",
+    ann: "Nous étudierons d’abord une parole qui fait ⟨1|rire⟩, puis des cœurs qui ⟨2|souffrent⟩, avant de montrer que c’est la parole elle-même qui fait ⟨3|basculer⟩ la comédie dans la tragédie."
+  }
+},
+{
+  id: "s3", fam: "jeu", type: "D",
+  src: "Sujet d’entraînement · citation du critique Bertrand Marchal",
+  enonce: "Le critique Bertrand Marchal affirme que « badiner, c’est proprement jouer la comédie ». Partagez-vous ce point de vue sur On ne badine pas avec l’amour ?",
+  variantes: [
+    "Le jeu de la parole et du cœur chez Camille et Perdican se limite-t-il à un simple badinage ?",
+    "Peut-on dire que le badinage cache une profondeur tragique dans la pièce ?"
+  ],
+  mots: [
+    ["badiner", "plaisanter avec légèreté, mener une conversation galante sans gravité."],
+    ["jouer la comédie", "double sens : feindre, porter un masque, et se donner en spectacle."],
+    ["proprement", "« au sens propre » : le critique dit que badiner, c’est exactement faire du théâtre."]
+  ],
+  piege: "Exploite le double sens de « jouer la comédie » : faire semblant, mais aussi être sur une scène.",
+  pb: "Badiner n’est-il qu’un jeu de masques pour s’amuser, ou ce jeu cache-t-il une vérité et un danger tragiques ?",
+  fil: ["Masque", "Vérité", "Danger"],
+  parties: [
+    { t: "Badiner, c’est bien jouer la comédie", s: [
+      { a: "Les personnages se composent des rôles.", e: "Camille joue la future religieuse glacée, Perdican le séducteur détaché ; Camille avoue elle-même ce jeu.",
+        c: [ { t: "il nous faut souvent jouer un rôle, souvent mentir", r: "III, 6", w: "Camille" },
+             { t: "Avez-vous vu qu’elle a fait mine de se signer ?", r: "I, 2", w: "Le Baron" } ] },
+      { a: "Ils montent de vraies scènes de théâtre.", e: "Un acteur, une spectatrice cachée, un décor : c’est du théâtre dans le théâtre.",
+        c: [ { t: "à haute voix, de manière que Camille l’entende", r: "III, 3", w: "didascalie" },
+             { t: "Quelle toilette, Camille ! À qui en voulez-vous ?", r: "III, 6", w: "Perdican" } ] }
+    ]},
+    { t: "Mais le masque cache la vérité des cœurs", s: [
+      { a: "Derrière le rôle, un amour sincère.", e: "Le jeu n’empêche pas les sentiments ; il les protège.",
+        c: [ { t: "En vérité, je vous ai aimé, Perdican.", r: "II, 5", w: "Camille" },
+             { t: "êtes-vous sûr que tout mente dans une femme, lorsque sa langue ment ?", r: "III, 6", w: "Camille" } ] },
+      { a: "Le jeu sert à sonder l’autre.", e: "Questions, défis et pièges sont des moyens de découvrir ce que l’autre ressent : un jeu du chat et de la souris.",
+        c: [ { t: "Je voudrais m’instruire, et savoir si j’ai tort ou raison de me faire religieuse.", r: "II, 5", w: "Camille" },
+             { t: "Connaissez-vous un homme qui n’ait aimé qu’une femme ?", r: "II, 5", w: "Camille" } ] }
+    ]},
+    { t: "Une comédie qui tourne au drame", s: [
+      { a: "Rosette prend la comédie pour la réalité.", e: "Elle ne connaît pas les règles du jeu et croit les mots au pied de la lettre.",
+        c: [ { t: "Comment n’y croirais-je pas ? il me tromperait donc ? Pour quoi faire ?", r: "III, 6", w: "Rosette" },
+             { t: "la pauvre fille ne sait pas quel danger elle court en écoutant les discours d’un jeune et galant seigneur", r: "III, 4", w: "le Chœur" } ] },
+      { a: "Le titre corrige la formule du critique.", e: "On peut jouer la comédie avec tout, sauf avec l’amour : le jeu a coûté une vie.",
+        c: [ { t: "comme des enfants gâtés que nous sommes, nous en avons fait un jouet", r: "III, 8", w: "Perdican" } ] }
+    ]}
+  ],
+  ouverture: "Marivaux, Le Jeu de l’amour et du hasard (1730) : les déguisements y mènent au mariage ; chez Musset, ils mènent à la mort.",
+  intro: {
+    acc: "« Il nous faut souvent jouer un rôle, souvent mentir » : c’est Camille elle-même qui l’avoue à Perdican, comme si elle savait qu’elle est en train de jouer la comédie.",
+    suj: "Le critique Bertrand Marchal affirme que « badiner, c’est proprement jouer la comédie ». Dans On ne badine pas avec l’amour (1834), Musset met en scène deux cousins qui feignent l’indifférence pour se faire avouer leur amour.",
+    mots: "Badiner, c’est plaisanter avec légèreté ; jouer la comédie, c’est à la fois feindre et se donner en spectacle.",
+    pb: "Badiner n’est-il qu’un jeu de masques pour s’amuser, ou ce jeu cache-t-il une vérité et un danger tragiques ?",
+    ann: "Nous verrons que les personnages portent bien un ⟨1|masque⟩, mais que ce masque cache la ⟨2|vérité⟩ des cœurs, et enfin que ce jeu se change en ⟨3|danger⟩ mortel."
+  }
+},
+{
+  id: "s4", fam: "jeu", type: "T",
+  src: "Sujet d’entraînement · recueil de sujets (Studocu)",
+  enonce: "En quoi peut-on dire que Camille et Perdican badinent avec l’amour ?",
+  mots: [
+    ["en quoi", "il ne s’agit pas de contester, mais de montrer comment et sous quelles formes."],
+    ["badiner avec", "traiter à la légère, comme un jeu, quelque chose de sérieux."]
+  ],
+  piege: "« En quoi » appelle un plan thématique, mais la dernière partie doit montrer que la pièce condamne ce badinage.",
+  pb: "Sous quelles formes Camille et Perdican font-ils de l’amour un jeu, et pourquoi la pièce condamne-t-elle ce badinage ?",
+  fil: ["Refuser", "Ruser", "Payer"],
+  parties: [
+    { t: "Ils badinent en refusant l’amour qu’ils éprouvent", s: [
+      { a: "La froideur calculée de Camille.", e: "Négations, refus, ton glacial : Camille nie ce qu’elle ressent.",
+        c: [ { t: "Je ne suis pas assez jeune pour m’amuser de mes poupées, ni assez vieille pour aimer le passé.", r: "I, 3", w: "Camille" },
+             { t: "mon parti est pris là-dessus", r: "II, 1", w: "Camille" } ] },
+      { a: "L’indifférence affichée de Perdican.", e: "Il répond au refus par l’ironie, pour sauver la face.",
+        c: [ { t: "Ton amour m’eût donné la vie, mais ton amitié m’en consolera.", r: "II, 1", w: "Perdican" },
+             { t: "L’orgueil n’est pas mon fait", r: "II, 1", w: "Perdican" } ] }
+    ]},
+    { t: "Ils badinent en faisant de l’amour une stratégie", s: [
+      { a: "La vanité de la conquête.", e: "Camille se vante d’avoir désespéré son cousin ; Perdican, blessé, veut se venger.",
+        c: [ { t: "Je m’étais vantée de t’avoir inspiré quelque amour", r: "III, 6", w: "Camille" },
+             { t: "ce pauvre jeune homme a le poignard dans le cœur", r: "III, 2", w: "lettre de Camille" } ] },
+      { a: "Rosette, pion du jeu.", e: "Perdican la séduit pour rendre Camille jalouse ; il jette dans la fontaine la bague de sa cousine.",
+        c: [ { t: "Il a jeté ma bague dans l’eau !", r: "III, 3", w: "Camille, à part" },
+             { t: "pour en faire un appât, un jouet", r: "III, 6", w: "Camille" } ] },
+      { a: "Le mariage devient un pari.", e: "Défié, Perdican s’engage à épouser Rosette sans la consulter.",
+        c: [ { t: "tu épouseras cette fille, ou tu n’es qu’un lâche !", r: "III, 6", w: "Camille" },
+             { t: "Oui, je l’épouserai.", r: "III, 6", w: "Perdican" } ] }
+    ]},
+    { t: "Le badinage est puni : la pièce illustre son proverbe", s: [
+      { a: "La mort de Rosette sanctionne le jeu.", e: "Elle entend les aveux des deux cousins et meurt ; Camille part pour toujours.",
+        c: [ { t: "on entend un grand cri derrière l’autel", r: "III, 8", w: "didascalie" },
+             { t: "Elle est morte. Adieu, Perdican !", r: "III, 8", w: "Camille" } ] },
+      { a: "La prise de conscience finale.", e: "Perdican reconnaît la faute et l’étend à tous les hommes : la comédie-proverbe démontre sa morale.",
+        c: [ { t: "comme des enfants gâtés que nous sommes, nous en avons fait un jouet", r: "III, 8", w: "Perdican" },
+             { t: "Il a bien fallu que nous nous fissions du mal, car nous sommes des hommes.", r: "III, 8", w: "Perdican" } ] }
+    ]}
+  ],
+  intro: {
+    acc: "Un titre qui sonne comme un avertissement : « On ne badine pas avec l’amour ». Toute la pièce montre ce qui arrive à ceux qui l’oublient.",
+    suj: "Dans cette comédie publiée en 1834, Musset réunit Camille, élevée au couvent, et Perdican, jeune docteur, que le Baron veut marier. Au lieu de s’avouer leur amour, ils se défient. En quoi peut-on dire qu’ils badinent avec l’amour ?",
+    mots: "Badiner avec quelque chose, c’est le traiter à la légère, comme un jeu, alors qu’il est sérieux.",
+    pb: "Sous quelles formes Camille et Perdican font-ils de l’amour un jeu, et pourquoi la pièce condamne-t-elle ce badinage ?",
+    ann: "Nous verrons qu’ils badinent d’abord en ⟨1|refusant⟩ l’amour qu’ils éprouvent, puis en le changeant en ⟨2|ruse⟩, avant de montrer qu’ils le ⟨3|paient⟩ cruellement."
+  }
+},
+
+/* ───────────── FAMILLE 2 : LA PAROLE ───────────── */
+{
+  id: "s5", fam: "parole", type: "D", officiel: true,
+  src: "Bac 2025 · centres étrangers, Asie (sujet 1)",
+  enonce: "« J’ai eu tort de parler », dit Camille à Perdican (acte II, scène 5). Cette réplique éclaire-t-elle votre lecture de On ne badine pas avec l’amour ?",
+  mots: [
+    ["contexte", "Camille vient de confier sa vie au couvent et ses peurs ; Perdican la raille. Elle ajoute : « j’ai ma vie entière sur les lèvres »."],
+    ["avoir tort de parler", "regretter de s’être livrée : parler, c’est s’exposer et donner à l’autre une arme."],
+    ["éclaire-t-elle", "dans quelle mesure la réplique résume-t-elle la pièce ? Où s’arrête-t-elle ?"]
+  ],
+  piege: "Situe précisément la réplique (II, 5) et explique son sens dans la scène avant de l’élargir à toute la pièce.",
+  pb: "Parler est-il toujours une faute dans la pièce, ou la parole est-elle aussi le seul chemin vers la vérité du cœur ?",
+  fil: ["Danger", "Nécessité", "Trop tard"],
+  parties: [
+    { t: "Oui : dans la pièce, parler est souvent une faute", s: [
+      { a: "Parler, c’est s’exposer.", e: "Camille regrette sa confidence parce qu’elle a livré son intimité à un adversaire qui raille.",
+        c: [ { t: "J’ai eu tort de parler ; j’ai ma vie entière sur les lèvres.", r: "II, 5", w: "Camille" },
+             { t: "Ô Perdican ! ne raillez pas, tout cela est triste à mourir.", r: "II, 5", w: "Camille" } ] },
+      { a: "Les paroles imprudentes provoquent le drame.", e: "La lettre vaniteuse, les promesses à Rosette : chaque mot de trop fait avancer la catastrophe.",
+        c: [ { t: "ce pauvre jeune homme a le poignard dans le cœur", r: "III, 2", w: "lettre de Camille" },
+             { t: "je n’ai pas répété imprudemment devant elle des paroles brûlantes adressées à une autre", r: "III, 6", w: "Camille" } ] },
+      { a: "Les fantoches bavardent et calomnient.", e: "Leur parole irresponsable a aussi des effets : c’est la dispute de Blazius qui livre la lettre à Perdican.",
+        c: [ { t: "J’ai accusé faussement mademoiselle Camille d’avoir une correspondance secrète", r: "III, 2", w: "Blazius" } ] }
+    ]},
+    { t: "Mais se taire ou mentir est une faute plus grave", s: [
+      { a: "Les refus et les silences empêchent l’amour.", e: "Camille oppose des négations à chaque invitation ; au moment décisif, elle ne parvient plus à parler.",
+        c: [ { t: "Non, pas ce soir.", r: "I, 3", w: "Camille" },
+             { t: "Non, non. – Ô Seigneur Dieu !", r: "III, 7", w: "Camille" } ] },
+      { a: "La parole sincère est nécessaire.", e: "Camille réclame elle-même la franchise ; la grande tirade de Perdican dit la vérité sur l’amour.",
+        c: [ { t: "me montrer votre cœur à nu", r: "II, 5", w: "Camille" },
+             { t: "J’ai souffert souvent, je me suis trompé quelquefois, mais j’ai aimé.", r: "II, 5", w: "Perdican" } ] }
+    ]},
+    { t: "Le vrai tort : parler pour jouer, et avouer trop tard", s: [
+      { a: "L’aveu sincère arrive trop tard.", e: "Quand les deux cousins se parlent enfin vraiment, Rosette les entend et meurt.",
+        c: [ { t: "Insensés que nous sommes ! nous nous aimons.", r: "III, 8", w: "Perdican" },
+             { t: "on entend un grand cri derrière l’autel", r: "III, 8", w: "didascalie" } ] },
+      { a: "Perdican condamne les paroles vaines, pas la parole.", e: "La faute vient de la vanité et du bavardage, c’est-à-dire d’une parole sans vérité.",
+        c: [ { t: "il a bien fallu que la vanité, le bavardage et la colère vinssent jeter leurs rochers informes sur cette route céleste", r: "III, 8", w: "Perdican" } ] }
+    ]}
+  ],
+  intro: {
+    acc: "« J’ai ma vie entière sur les lèvres. » Au milieu de la pièce, Camille vient de tout confier à Perdican ; aussitôt, elle le regrette.",
+    suj: "Dans On ne badine pas avec l’amour (1834), Musset fait de la parole le terrain d’affrontement de deux cousins qui s’aiment sans se le dire. La réplique de Camille, « J’ai eu tort de parler » (II, 5), éclaire-t-elle toute la pièce ?",
+    mots: "Camille regrette de s’être livrée : pour elle, parler, c’est s’exposer et donner à l’autre une arme contre soi.",
+    pb: "Parler est-il toujours une faute dans la pièce, ou la parole est-elle aussi le seul chemin vers la vérité du cœur ?",
+    ann: "Nous verrons d’abord que la parole est souvent un ⟨1|danger⟩, puis qu’elle reste une ⟨2|nécessité⟩, avant de montrer que le vrai tort des personnages est de parler pour jouer et d’avouer ⟨3|trop tard⟩."
+  }
+},
+{
+  id: "s6", fam: "parole", type: "D",
+  src: "Sujet d’entraînement · fréquent (MyStudies, Studocu, fiche-de-revision.fr)",
+  enonce: "La parole est-elle uniquement un instrument de manipulation dans On ne badine pas avec l’amour ?",
+  variantes: [ "Dans quelle mesure les personnages utilisent-ils la parole comme moyen de manipulation, et avec quelles conséquences ?" ],
+  mots: [
+    ["instrument de manipulation", "outil pour agir sur autrui à son insu et obtenir ce que l’on veut."],
+    ["uniquement", "le mot clé : il faut chercher les autres fonctions de la parole (révéler, aimer, prier)."]
+  ],
+  piege: "Ne pars pas sur un plan « manipulation / sincérité » sans troisième temps : la fin de la pièce offre un vrai dépassement, l’aveu et la prière.",
+  pb: "La parole ne sert-elle qu’à tromper et dominer l’autre, ou permet-elle aussi de dire la vérité du cœur ?",
+  fil: ["Manipuler", "Révéler", "Avouer"],
+  parties: [
+    { t: "Une parole qui manipule", s: [
+      { a: "Perdican manipule Rosette pour atteindre Camille.", e: "Sa déclaration est un message adressé à une autre ; ses métaphores galantes éblouissent la paysanne.",
+        c: [ { t: "à haute voix, de manière que Camille l’entende", r: "III, 3", w: "didascalie" },
+             { t: "De tout ce qui te plaira, de tout ce qui peut passer sur tes lèvres sans leur ôter ce sourire céleste que je respecte plus que ma vie.", r: "II, 3", w: "Perdican" } ] },
+      { a: "Camille manipule à son tour.", e: "Elle tend un piège à Perdican et le pousse, par défi, à un mariage qu’il ne veut pas.",
+        c: [ { t: "rentre derrière ce rideau", r: "III, 6", w: "Camille à Rosette" },
+             { t: "tu épouseras cette fille, ou tu n’es qu’un lâche !", r: "III, 6", w: "Camille" } ] },
+      { a: "Les adultes calomnient et intriguent.", e: "Le Baron veut faire briller son fils, Blazius ment pour nuire à Camille.",
+        c: [ { t: "faites-le parler un peu latin", r: "I, 2", w: "Le Baron" },
+             { t: "J’ai accusé faussement mademoiselle Camille d’avoir une correspondance secrète", r: "III, 2", w: "Blazius" } ] }
+    ]},
+    { t: "Une parole qui révèle malgré elle", s: [
+      { a: "Les répliques trahissent les sentiments.", e: "Sous l’ironie, Perdican avoue ; Camille elle-même dit que la langue ne dit pas tout.",
+        c: [ { t: "Il ne m’est point indifférent, Camille.", r: "II, 1", w: "Perdican" },
+             { t: "êtes-vous sûr que tout mente dans une femme, lorsque sa langue ment ?", r: "III, 6", w: "Camille" } ] },
+      { a: "La tirade de Perdican, profession de foi sincère.", e: "Au milieu du duel, il dit ce qu’il croit vraiment de l’amour.",
+        c: [ { t: "mais il y a au monde une chose sainte et sublime, c’est l’union de deux de ces êtres si imparfaits et si affreux", r: "II, 5", w: "Perdican" } ] }
+    ]},
+    { t: "Une parole qui finit par avouer et prier", s: [
+      { a: "L’aveu réciproque.", e: "Les masques tombent : la parole dit enfin le cœur.",
+        c: [ { t: "Oui, nous nous aimons, Perdican ; laisse-moi le sentir sur ton cœur.", r: "III, 8", w: "Camille" } ] },
+      { a: "La prière, parole sans calcul.", e: "Seuls face à Dieu, les personnages parlent sans chercher à agir sur l’autre.",
+        c: [ { t: "M’avez-vous abandonnée, ô mon Dieu ?", r: "III, 8", w: "Camille" },
+             { t: "Je vous en supplie, mon Dieu ! ne faites pas de moi un meurtrier !", r: "III, 8", w: "Perdican" } ] }
+    ]}
+  ],
+  ouverture: "Laclos, Les Liaisons dangereuses (1782) : la parole et la lettre comme armes de séduction et de domination.",
+  intro: {
+    acc: "« Je t’aime, Rosette ! » Perdican prononce ces mots « à haute voix, de manière que Camille l’entende ». La déclaration d’amour devient une arme.",
+    suj: "Dans On ne badine pas avec l’amour (1834), Musset montre des personnages qui se servent des mots pour se blesser, se piéger et se faire avouer leurs sentiments. La parole n’y est-elle qu’un instrument de manipulation ?",
+    mots: "Manipuler, c’est agir sur quelqu’un à son insu pour obtenir ce que l’on veut ; le mot « uniquement » invite à chercher d’autres fonctions de la parole.",
+    pb: "La parole ne sert-elle qu’à tromper et dominer l’autre, ou permet-elle aussi de dire la vérité du cœur ?",
+    ann: "Nous verrons que la parole sert à ⟨1|manipuler⟩, mais qu’elle ⟨2|révèle⟩ aussi, souvent malgré les personnages, leurs vrais sentiments, et qu’à la fin elle permet d’⟨3|avouer⟩ et de prier."
+  }
+},
+{
+  id: "s7", fam: "parole", type: "T",
+  src: "Sujet d’entraînement · fiche-de-revision.fr, Studocu",
+  enonce: "Comment les jeux de la parole révèlent-ils les véritables sentiments des personnages et font-ils évoluer l’intrigue ?",
+  mots: [
+    ["jeux de la parole", "ironie, sous-entendus, mensonges, défis : la manière dont les personnages s’affrontent par les mots."],
+    ["deux questions", "révéler les sentiments ET faire avancer l’action : le plan doit traiter les deux."]
+  ],
+  piege: "Le sujet a deux volets : n’oublie pas l’intrigue. Suis l’ordre des scènes clés pour la troisième partie.",
+  pb: "Comment la parole, qui devait cacher les sentiments, finit-elle par les trahir, et comment devient-elle le moteur de l’action ?",
+  fil: ["Cacher", "Trahir", "Agir"],
+  parties: [
+    { t: "Des jeux qui cachent… et laissent deviner", s: [
+      { a: "Les négations de Camille.", e: "Ses refus répétés masquent un amour qu’elle avouera plus tard.",
+        c: [ { t: "Je n’en ai nulle envie.", r: "I, 3", w: "Camille" },
+             { t: "En vérité, je vous ai aimé, Perdican.", r: "II, 5", w: "Camille" } ] },
+      { a: "L’ironie protectrice de Perdican.", e: "Il sauve son amour-propre par une boutade qui laisse pourtant voir sa blessure.",
+        c: [ { t: "Ton amour m’eût donné la vie, mais ton amitié m’en consolera.", r: "II, 1", w: "Perdican" },
+             { t: "Pauvre enfant ! Je te plains sincèrement.", r: "I, 3", w: "Perdican" } ] }
+    ]},
+    { t: "Des paroles qui trahissent les cœurs", s: [
+      { a: "Monologues et apartés disent ce que le dialogue tait.", e: "Seuls, les personnages laissent échapper la vérité.",
+        c: [ { t: "Suis-je donc amoureux ?", r: "III, 2", w: "Perdican, seul" },
+             { t: "Moi qui croyais faire un acte de vengeance, ferais-je un acte d’humanité ?", r: "III, 6", w: "Camille, seule" } ] },
+      { a: "La jalousie se dit dans les questions.", e: "Perdican interroge la toilette et les changements de Camille : il cherche des signes d’amour.",
+        c: [ { t: "Quelle toilette, Camille ! À qui en voulez-vous ?", r: "III, 6", w: "Perdican" },
+             { t: "Pourquoi, d’une heure à l’autre, changes-tu d’apparence et de couleur, comme la pierre de cette bague à chaque rayon de soleil ?", r: "III, 6", w: "Perdican" } ] }
+    ]},
+    { t: "La parole, moteur de l’intrigue", s: [
+      { a: "Chaque étape naît d’une parole.", e: "Le refus (II, 1), l’entretien de la fontaine (II, 5), la lettre (III, 2), la fausse déclaration (III, 3), le défi (III, 6) : l’action progresse par des mots.",
+        c: [ { t: "tu épouseras cette fille, ou tu n’es qu’un lâche !", r: "III, 6", w: "Camille" },
+             { t: "Oui, je l’épouserai.", r: "III, 6", w: "Perdican" } ] },
+      { a: "Le dénouement : un aveu entendu qui tue.", e: "La parole sincère, prononcée trop tard, provoque la mort de Rosette.",
+        c: [ { t: "Oui, nous nous aimons, Perdican ; laisse-moi le sentir sur ton cœur.", r: "III, 8", w: "Camille" },
+             { t: "on entend un grand cri derrière l’autel", r: "III, 8", w: "didascalie" } ] }
+    ]}
+  ],
+  intro: {
+    acc: "Une lettre ouverte en cachette, une bague jetée dans une fontaine, un aveu entendu derrière un autel : dans la pièce de Musset, l’action avance à coups de mots.",
+    suj: "Dans On ne badine pas avec l’amour (1834), Camille et Perdican s’aiment mais cachent leurs sentiments derrière des jeux de parole. Comment ces jeux révèlent-ils pourtant ce qu’ils éprouvent et font-ils avancer l’intrigue ?",
+    mots: "Les jeux de la parole désignent l’ironie, les sous-entendus, les mensonges et les défis par lesquels les personnages s’affrontent.",
+    pb: "Comment la parole, qui devait cacher les sentiments, finit-elle par les trahir, et comment devient-elle le moteur de l’action ?",
+    ann: "Nous verrons que ces jeux servent d’abord à ⟨1|cacher⟩, puis qu’ils finissent par ⟨2|trahir⟩ les cœurs, et enfin qu’ils font ⟨3|agir⟩ les personnages jusqu’au drame."
+  }
+},
+{
+  id: "s8", fam: "parole", type: "D",
+  src: "Sujet d’entraînement · recueil de sujets (Studocu)",
+  enonce: "« Quelles vaines paroles, quelles misérables folies ont passé comme un vent funeste entre nous deux ? » s’exclame Perdican (III, 8). Ne parle-t-on, dans la pièce, que pour semer le malheur ?",
+  variantes: [ "Dans quelle mesure le langage est-il un obstacle à l’amour dans la pièce ?" ],
+  mots: [
+    ["vaines", "vides, inutiles, sans vérité."],
+    ["vent funeste", "un souffle qui apporte la mort."],
+    ["ne… que", "le sujet suggère que la parole serait toujours destructrice : c’est ce qu’il faut nuancer."]
+  ],
+  piege: "Distingue la parole en général des « vaines paroles » : c’est la clé de la troisième partie.",
+  pb: "Les paroles de la pièce ne font-elles que séparer et détruire, ou peuvent-elles aussi rapprocher les êtres ?",
+  fil: ["Obstacle", "Lien", "Usage"],
+  parties: [
+    { t: "Des paroles qui séparent et détruisent", s: [
+      { a: "Paroles d’orgueil qui éloignent les amants.", e: "Refus catégorique, mise en garde blessante : chaque échange creuse la distance.",
+        c: [ { t: "mon parti est pris là-dessus", r: "II, 1", w: "Camille" },
+             { t: "Tu es une orgueilleuse ; prends garde à toi.", r: "II, 5", w: "Perdican" } ] },
+      { a: "Paroles qui tuent Rosette.", e: "Une promesse mensongère suffit à détruire une innocente.",
+        c: [ { t: "lève-toi, tu seras ma femme", r: "III, 3", w: "Perdican à Rosette" },
+             { t: "Il a bien fallu que nous nous fissions du mal, car nous sommes des hommes.", r: "III, 8", w: "Perdican" } ] },
+      { a: "Le bavardage des fantoches.", e: "Médisances et calomnies remplissent le château de paroles creuses.",
+        c: [ { t: "Le gouverneur de votre fils sent le vin à pleine bouche.", r: "I, 2", w: "Bridaine" },
+             { t: "J’ai accusé faussement mademoiselle Camille d’avoir une correspondance secrète", r: "III, 2", w: "Blazius" } ] }
+    ]},
+    { t: "Mais des paroles qui rapprochent", s: [
+      { a: "Le souvenir partagé de l’enfance.", e: "Perdican cherche à renouer le lien par l’évocation du passé commun.",
+        c: [ { t: "Te souviens-tu de nos parties sur le bateau ?", r: "I, 3", w: "Perdican" },
+             { t: "voilà le monde mystérieux des rêves de mon enfance !", r: "I, 4", w: "Perdican" } ] },
+      { a: "Le dialogue de la fontaine, un vrai échange.", e: "Camille interroge sincèrement, Perdican répond sincèrement : la parole devient recherche de la vérité.",
+        c: [ { t: "Je voudrais m’instruire, et savoir si j’ai tort ou raison de me faire religieuse.", r: "II, 5", w: "Camille" },
+             { t: "J’ai souffert souvent, je me suis trompé quelquefois, mais j’ai aimé.", r: "II, 5", w: "Perdican" } ] }
+    ]},
+    { t: "Le malheur vient de l’usage de la parole, non de la parole", s: [
+      { a: "Perdican nomme les vrais coupables.", e: "Vanité, bavardage, colère : ce sont les défauts de ceux qui parlent qui ont tout détruit.",
+        c: [ { t: "il a bien fallu que la vanité, le bavardage et la colère vinssent jeter leurs rochers informes sur cette route céleste", r: "III, 8", w: "Perdican" } ] },
+      { a: "Une parole vraie, mais trop tardive.", e: "La parole sincère existe, mais elle arrive quand il n’y a plus rien à sauver.",
+        c: [ { t: "Insensés que nous sommes ! nous nous aimons.", r: "III, 8", w: "Perdican" },
+             { t: "Elle est morte. Adieu, Perdican !", r: "III, 8", w: "Camille" } ] }
+    ]}
+  ],
+  ouverture: "Nathalie Sarraute, Pour un oui ou pour un non (1982) : une simple intonation suffit à briser une amitié.",
+  intro: {
+    acc: "« Quel songe avons-nous fait, Camille ? » Dans la dernière scène, Perdican regarde en arrière et ne voit plus qu’un enchaînement de mots qui les ont perdus.",
+    suj: "Dans On ne badine pas avec l’amour (1834), il s’écrie : « Quelles vaines paroles, quelles misérables folies ont passé comme un vent funeste entre nous deux ? » Faut-il en conclure qu’on ne parle, dans la pièce, que pour semer le malheur ?",
+    mots: "Des paroles vaines sont vides, sans vérité ; un vent funeste apporte la mort. Le sujet suggère que la parole serait toujours destructrice.",
+    pb: "Les paroles de la pièce ne font-elles que séparer et détruire, ou peuvent-elles aussi rapprocher les êtres ?",
+    ann: "Nous verrons que la parole est un ⟨1|obstacle⟩ qui sépare et détruit, mais qu’elle sait aussi créer un ⟨2|lien⟩, avant de montrer que le malheur vient surtout de l’⟨3|usage⟩ qu’en font les personnages."
+  }
+},
+
+/* ───────────── FAMILLE 3 : LE CŒUR CACHÉ ───────────── */
+{
+  id: "s9", fam: "coeur", type: "T",
+  src: "Sujet d’entraînement · Lelivrescolaire, Gloria Lauzanne",
+  enonce: "Roland Barthes écrit dans Fragments d’un discours amoureux : « Ce que cache mon langage, mon corps le dit. » Quel écho ces propos trouvent-ils dans votre lecture de On ne badine pas avec l’amour ?",
+  mots: [
+    ["le langage cache", "mensonge, ironie, silence, refus : les mots dissimulent les sentiments."],
+    ["le corps dit", "larmes, pâleur, gestes, évanouissement, cri : le corps trahit ce que la bouche tait."],
+    ["quel écho", "montrer comment la formule s’applique à la pièce, et jusqu’où."]
+  ],
+  piege: "Cherche des signes physiques précis dans les didascalies et dans ce que les personnages remarquent les uns chez les autres.",
+  pb: "Comment, dans la pièce, les corps trahissent-ils les sentiments que les mots dissimulent, et jusqu’où ce langage du corps conduit-il les personnages ?",
+  fil: ["Cacher", "Trahir", "S’effondrer"],
+  parties: [
+    { t: "Un langage qui cache", s: [
+      { a: "La froideur verbale de Camille.", e: "Dès son arrivée, elle refuse le baiser et formule des maximes glacées.",
+        c: [ { t: "Excusez-moi.", r: "I, 2", w: "Camille, refusant le baiser" },
+             { t: "L’amitié ni l’amour ne doivent recevoir que ce qu’ils peuvent rendre.", r: "I, 2", w: "Camille" } ] },
+      { a: "L’ironie de Perdican.", e: "Il masque sa blessure sous une boutade.",
+        c: [ { t: "Ton amour m’eût donné la vie, mais ton amitié m’en consolera.", r: "II, 1", w: "Perdican" } ] }
+    ]},
+    { t: "Des corps qui disent la vérité", s: [
+      { a: "Les larmes de Perdican.", e: "Avec Rosette, il pleure sans rien dire : son corps avoue le chagrin que Camille lui cause.",
+        c: [ { t: "voilà une goutte de pluie qui me tombe sur la main, et cependant le ciel est pur.", r: "II, 3", w: "Rosette" },
+             { t: "Que vous ai-je fait, pour que vous pleuriez ?", r: "II, 3", w: "Rosette" } ] },
+      { a: "Le corps changeant de Camille.", e: "Sa toilette, ses changements de couleur, sa pâleur : Perdican lit ses sentiments sur son corps.",
+        c: [ { t: "Quelle toilette, Camille ! À qui en voulez-vous ?", r: "III, 6", w: "Perdican" },
+             { t: "Pourquoi, d’une heure à l’autre, changes-tu d’apparence et de couleur, comme la pierre de cette bague à chaque rayon de soleil ?", r: "III, 6", w: "Perdican" } ] },
+      { a: "Camille énonce elle-même l’idée de Barthes.", e: "Elle affirme que la langue peut mentir sans que tout l’être mente.",
+        c: [ { t: "êtes-vous sûr que tout mente dans une femme, lorsque sa langue ment ?", r: "III, 6", w: "Camille" } ] }
+    ]},
+    { t: "Quand le corps parle trop tard : un langage tragique", s: [
+      { a: "Le corps de Rosette dit la vérité du jeu.", e: "Elle s’évanouit, puis meurt : son corps prouve le mensonge de Perdican.",
+        c: [ { t: "d’où vient donc qu’elle s’est évanouie en vous entendant dire que vous m’aimez ?", r: "III, 6", w: "Camille" },
+             { t: "on entend un grand cri derrière l’autel", r: "III, 8", w: "didascalie" } ] },
+      { a: "Les corps des amants s’effondrent.", e: "Camille prostrée, Perdican paralysé, les mains « couvertes de sang » : la culpabilité se lit dans le corps.",
+        c: [ { t: "La voilà pâle et effrayée, qui presse sur les dalles insensibles son cœur et son visage.", r: "III, 8", w: "Perdican" },
+             { t: "je sens un froid mortel qui me paralyse", r: "III, 8", w: "Perdican" } ] }
+    ]}
+  ],
+  intro: {
+    acc: "Une « goutte de pluie » tombe sur la main de Rosette alors que « le ciel est pur » : c’est une larme de Perdican. Ce qu’il ne dit pas, son corps le montre.",
+    suj: "Roland Barthes écrit dans Fragments d’un discours amoureux (1977) : « Ce que cache mon langage, mon corps le dit. » La formule éclaire On ne badine pas avec l’amour (1834), où Camille et Perdican s’aiment sans se l’avouer.",
+    mots: "Le langage cache quand il ment, se tait ou ironise ; le corps dit à travers les larmes, la pâleur, les gestes, les cris.",
+    pb: "Comment, dans la pièce, les corps trahissent-ils les sentiments que les mots dissimulent, et jusqu’où ce langage du corps conduit-il les personnages ?",
+    ann: "Nous verrons d’abord un langage qui ⟨1|cache⟩, puis des corps qui ⟨2|trahissent⟩ la vérité, avant de montrer que ces corps finissent par ⟨3|s’effondrer⟩ dans le dénouement tragique."
+  }
+},
+{
+  id: "s10", fam: "coeur", type: "T",
+  src: "Sujet d’entraînement · MyStudies, Studocu",
+  enonce: "Comment expliquer l’hermétisme des cœurs dans On ne badine pas avec l’amour ?",
+  mots: [
+    ["hermétisme", "fermeture totale : le cœur reste clos, illisible pour l’autre, impossible à ouvrir."],
+    ["comment expliquer", "le sujet demande des causes : le plan classe ces causes."]
+  ],
+  piege: "Chaque partie doit être une cause différente, et l’ordre doit aller des causes intimes aux causes générales.",
+  pb: "Pourquoi Camille et Perdican, qui s’aiment, ne parviennent-ils pas à ouvrir leur cœur l’un à l’autre ?",
+  fil: ["Peur", "Orgueil", "Monde"],
+  parties: [
+    { t: "La peur de souffrir", s: [
+      { a: "Le modèle des religieuses.", e: "Camille a fait siens les malheurs de sœur Louise : elle se protège d’avance.",
+        c: [ { t: "Son mari l’a trompée ; elle a aimé un autre homme, et elle se meurt de désespoir.", r: "II, 5", w: "Camille" },
+             { t: "ils sont presque devenus les miens", r: "II, 5", w: "Camille" } ] },
+      { a: "Un idéal d’amour absolu.", e: "Elle veut un amour sans risque ; seul Dieu le lui promet.",
+        c: [ { t: "Je veux aimer, mais je ne veux pas souffrir ; je veux aimer d’un amour éternel", r: "II, 5", w: "Camille" },
+             { t: "Voilà mon amant.", r: "II, 5", w: "Camille, montrant son crucifix" } ] }
+    ]},
+    { t: "L’orgueil", s: [
+      { a: "Ne pas avouer le premier.", e: "Chacun attend que l’autre cède ; la vanité de Camille la pousse même à se vanter.",
+        c: [ { t: "Je m’étais vantée de t’avoir inspiré quelque amour", r: "III, 6", w: "Camille" },
+             { t: "Tu es une orgueilleuse ; prends garde à toi.", r: "II, 5", w: "Perdican" } ] },
+      { a: "L’amour-propre blessé de Perdican.", e: "La lettre le blesse ; il riposte au lieu de parler.",
+        c: [ { t: "Cela t’a blessé dans ton noble orgueil ?", r: "III, 6", w: "Camille" },
+             { t: "Orgueil ! le plus fatal des conseillers humains, qu’es-tu venu faire entre cette fille et moi ?", r: "III, 8", w: "Perdican" } ] }
+    ]},
+    { t: "Un monde qui n’apprend pas à ouvrir son cœur", s: [
+      { a: "Une éducation qui ferme et des adultes qui s’enferment.", e: "Le couvent a appris la méfiance ; le Baron, au moment décisif, s’enferme au lieu de parler.",
+        c: [ { t: "ces récits hideux qui t’ont empoisonnée", r: "II, 5", w: "Perdican" },
+             { t: "Je vais m’enfermer pour m’abandonner à ma douleur", r: "III, 7", w: "Le Baron" } ] },
+      { a: "Une vision désenchantée de l’être humain.", e: "Le mal du siècle : on se méfie de tous, parce que tous trompent.",
+        c: [ { t: "Tous les hommes sont menteurs, inconstants, faux, bavards, hypocrites, orgueilleux ou lâches, méprisables et sensuels", r: "II, 5", w: "Perdican" },
+             { t: "cette vie est elle-même un si pénible rêve", r: "III, 8", w: "Perdican" } ] }
+    ]}
+  ],
+  ouverture: "La Rochefoucauld, Maximes (1665) : « L’amour-propre est le plus grand de tous les flatteurs. »",
+  intro: {
+    acc: "Au dénouement, le Baron annonce : « Je vais m’enfermer pour m’abandonner à ma douleur. » Toute la pièce semble faite de cœurs qui s’enferment.",
+    suj: "Dans On ne badine pas avec l’amour (1834), Camille et Perdican s’aiment depuis l’enfance, mais ne parviennent à se le dire qu’au moment où il est trop tard. Comment expliquer cet hermétisme des cœurs ?",
+    mots: "L’hermétisme désigne une fermeture totale : le cœur reste clos, impossible à lire ou à ouvrir pour l’autre.",
+    pb: "Pourquoi Camille et Perdican, qui s’aiment, ne parviennent-ils pas à ouvrir leur cœur l’un à l’autre ?",
+    ann: "Nous verrons que leurs cœurs sont fermés par la ⟨1|peur⟩ de souffrir, puis par l’⟨2|orgueil⟩, et enfin par un ⟨3|monde⟩ qui ne leur a pas appris à aimer."
+  }
+},
+{
+  id: "s11", fam: "coeur", type: "D",
+  src: "Sujet d’entraînement · recueil de sujets (Studocu)",
+  enonce: "« Sans doute, il nous faut souvent jouer un rôle, souvent mentir ; vous voyez que je suis franche ; mais êtes-vous sûr que tout mente dans une femme, lorsque sa langue ment ? » (Camille, III, 6). Dans quelle mesure cette réplique éclaire-t-elle votre lecture de la pièce ?",
+  mots: [
+    ["jouer un rôle, mentir", "le masque social et amoureux que portent les personnages."],
+    ["tout mente… lorsque sa langue ment", "derrière le mensonge des mots, le reste de l’être (le cœur, le corps) peut dire vrai."],
+    ["vous voyez que je suis franche", "paradoxe : Camille est sincère au moment où elle avoue mentir."]
+  ],
+  piege: "Ne réduis pas la réplique à « Camille ment » : son intérêt est le paradoxe d’un mensonge qui laisse voir la vérité.",
+  pb: "Le mensonge des personnages n’est-il qu’une tromperie, ou laisse-t-il paraître une vérité plus profonde ?",
+  fil: ["Mentir", "Laisser voir", "Payer"],
+  parties: [
+    { t: "Oui : les personnages jouent un rôle et mentent", s: [
+      { a: "Camille joue la future religieuse.", e: "Elle affiche une résolution que son cœur dément ; elle se vante dans sa lettre.",
+        c: [ { t: "je vais prendre le voile", r: "II, 5", w: "Camille" },
+             { t: "j’ai fait tout au monde pour le dégoûter de moi", r: "III, 2", w: "lettre de Camille" } ] },
+      { a: "Perdican ment à Rosette.", e: "Sa déclaration d’amour est un mensonge destiné à Camille.",
+        c: [ { t: "Je t’aime, Rosette ! toi seule au monde, tu n’as rien oublié de nos beaux jours passés", r: "III, 3", w: "Perdican" },
+             { t: "pour en faire un appât, un jouet", r: "III, 6", w: "Camille" } ] }
+    ]},
+    { t: "Mais le mensonge laisse voir la vérité", s: [
+      { a: "Les mensonges trahissent l’amour.", e: "Jalousie, dépit, curiosité : tout ce que font les personnages pour se tromper prouve qu’ils s’aiment.",
+        c: [ { t: "Je suis curieuse de savoir ce qu’il lui dit.", r: "III, 3", w: "Camille, cachée" },
+             { t: "Suis-je donc amoureux ?", r: "III, 2", w: "Perdican, seul" } ] },
+      { a: "La vérité finit par s’imposer.", e: "L’aveu final confirme ce que les mensonges cachaient depuis longtemps.",
+        c: [ { t: "En vérité, je vous ai aimé, Perdican.", r: "II, 5", w: "Camille" },
+             { t: "il veut bien que je t’aime ; il y a quinze ans qu’il le sait.", r: "III, 8", w: "Camille" } ] }
+    ]},
+    { t: "Ce que la réplique ne dit pas : le mensonge a un prix", s: [
+      { a: "Le mensonge détruit les innocents.", e: "Rosette, elle, ne sait pas lire sous les mots : elle croit tout.",
+        c: [ { t: "Comment n’y croirais-je pas ? il me tromperait donc ? Pour quoi faire ?", r: "III, 6", w: "Rosette" } ] },
+      { a: "Les personnages finissent par se mentir à eux-mêmes.", e: "Ils ne savent plus qui a trompé qui ; Camille accuse Dieu de faire mentir la vérité.",
+        c: [ { t: "Lequel de nous a voulu tromper l’autre ?", r: "III, 8", w: "Perdican" },
+             { t: "pourquoi faites-vous mentir la vérité elle-même ?", r: "III, 8", w: "Camille" } ] }
+    ]}
+  ],
+  ouverture: "Marivaux, Les Fausses Confidences (1737) : les mensonges y servent l’amour au lieu de le détruire.",
+  intro: {
+    acc: "« Vous voyez que je suis franche » : Camille dit cela au moment même où elle avoue qu’elle ment. Ce paradoxe résume la pièce.",
+    suj: "Dans On ne badine pas avec l’amour (1834), elle déclare à Perdican : « il nous faut souvent jouer un rôle, souvent mentir […] mais êtes-vous sûr que tout mente dans une femme, lorsque sa langue ment ? » (III, 6). Dans quelle mesure cette réplique éclaire-t-elle la pièce ?",
+    mots: "Jouer un rôle, c’est porter un masque ; mais Camille suggère que derrière les mots mensongers, le cœur continue de dire la vérité.",
+    pb: "Le mensonge des personnages n’est-il qu’une tromperie, ou laisse-t-il paraître une vérité plus profonde ?",
+    ann: "Nous verrons que les personnages savent ⟨1|mentir⟩, mais que leur mensonge ⟨2|laisse voir⟩ la vérité des cœurs, avant de montrer que ce jeu se ⟨3|paie⟩ cher, ce que la réplique ne dit pas."
+  }
+},
+
+/* ───────────── FAMILLE 4 : L’ORGUEIL ───────────── */
+{
+  id: "s12", fam: "orgueil", type: "D",
+  src: "Sujet d’entraînement · très fréquent (Annabac, commentairecompose.fr, Edith Lejet)",
+  enonce: "Dans le dénouement, Perdican s’exclame : « Orgueil ! le plus fatal des conseillers humains, qu’es-tu venu faire entre cette fille et moi ? » Dans quelle mesure cette citation éclaire-t-elle votre lecture de On ne badine pas avec l’amour ?",
+  variantes: [
+    "Peut-on dire de cette pièce qu’elle est un drame de l’orgueil ?",
+    "L’orgueil est-il le véritable vainqueur de la pièce ?",
+    "L’orgueil est-il le moteur principal du conflit amoureux ?",
+    "L’amour est-il victime de la fierté dans On ne badine pas avec l’amour ?"
+  ],
+  mots: [
+    ["orgueil", "amour excessif de soi qui empêche d’aimer l’autre et d’être sincère."],
+    ["conseiller", "personnification : l’orgueil parle à la place du cœur."],
+    ["fatal", "qui mène à la mort, comme un destin."]
+  ],
+  piege: "Toutes les variantes se traitent avec ce plan : oui l’orgueil, mais pas seulement lui, puis un dépassement.",
+  pb: "L’orgueil est-il le seul responsable du drame, ou cache-t-il des causes plus profondes ?",
+  fil: ["Orgueil", "Autres causes", "Condition humaine"],
+  parties: [
+    { t: "Oui : l’orgueil est le moteur du drame", s: [
+      { a: "L’orgueil de Camille.", e: "Elle refuse sans appel, puis se vante de l’effet produit.",
+        c: [ { t: "mon parti est pris là-dessus", r: "II, 1", w: "Camille" },
+             { t: "Je m’étais vantée de t’avoir inspiré quelque amour", r: "III, 6", w: "Camille" } ] },
+      { a: "L’orgueil de Perdican.", e: "Il prétend en être exempt, puis se venge par blessure d’amour-propre.",
+        c: [ { t: "L’orgueil n’est pas mon fait", r: "II, 1", w: "Perdican" },
+             { t: "Cela t’a blessé dans ton noble orgueil ?", r: "III, 6", w: "Camille" } ] },
+      { a: "Même les fantoches sont orgueilleux.", e: "Vanité de Bridaine pour sa place à table, orgueil de caste du Baron.",
+        c: [ { t: "Pourquoi un vain orgueil m’a-t-il éloigné de ce dîner", r: "III, 2", w: "Bridaine" },
+             { t: "C’est un mariage disproportionné.", r: "III, 7", w: "Le Baron" } ] }
+    ]},
+    { t: "Mais l’orgueil n’explique pas tout", s: [
+      { a: "La peur de souffrir, nourrie par le couvent.", e: "Le refus de Camille vient aussi de son éducation.",
+        c: [ { t: "Je veux aimer, mais je ne veux pas souffrir", r: "II, 5", w: "Camille" },
+             { t: "ces récits hideux qui t’ont empoisonnée", r: "II, 5", w: "Perdican" } ] },
+      { a: "Une société qui méprise Rosette.", e: "Le rang social et l’absence des adultes rendent le drame possible.",
+        c: [ { t: "une fille sans nom", r: "III, 7", w: "Le Baron" },
+             { t: "Je vais m’enfermer pour m’abandonner à ma douleur", r: "III, 7", w: "Le Baron" } ] }
+    ]},
+    { t: "Au-delà de l’orgueil : une faiblesse humaine", s: [
+      { a: "Perdican élargit la faute à tous les hommes.", e: "Vanité, bavardage, colère : la faute tient à la nature humaine.",
+        c: [ { t: "il a bien fallu que la vanité, le bavardage et la colère vinssent jeter leurs rochers informes sur cette route céleste", r: "III, 8", w: "Perdican" },
+             { t: "Il a bien fallu que nous nous fissions du mal, car nous sommes des hommes.", r: "III, 8", w: "Perdican" } ] },
+      { a: "Une fatalité tragique.", e: "Le cri survient au moment même du baiser ; Camille se demande si Dieu l’a abandonnée.",
+        c: [ { t: "on entend un grand cri derrière l’autel", r: "III, 8", w: "didascalie" },
+             { t: "pourquoi faites-vous mentir la vérité elle-même ?", r: "III, 8", w: "Camille" } ] }
+    ]}
+  ],
+  ouverture: "La Rochefoucauld, Maximes (1665) : les moralistes du XVIIe siècle voyaient déjà dans l’amour-propre la source cachée de nos actes.",
+  intro: {
+    acc: "Au dernier acte, Perdican s’adresse à l’orgueil comme à une personne : « Orgueil ! le plus fatal des conseillers humains, qu’es-tu venu faire entre cette fille et moi ? »",
+    suj: "Cette apostrophe, tirée de la scène finale d’On ne badine pas avec l’amour (1834), désigne un coupable : l’orgueil aurait séparé Camille et Perdican et causé la mort de Rosette. Dans quelle mesure éclaire-t-elle la pièce ?",
+    mots: "L’orgueil est un amour excessif de soi ; en faire un « conseiller », c’est dire qu’il parle à la place du cœur ; « fatal » signifie qu’il mène à la mort.",
+    pb: "L’orgueil est-il le seul responsable du drame, ou cache-t-il des causes plus profondes ?",
+    ann: "Nous verrons que l’⟨1|orgueil⟩ est bien le moteur de l’action, mais qu’il existe d’⟨2|autres causes⟩, avant de montrer que la pièce interroge plus largement la ⟨3|condition humaine⟩."
+  }
+},
+
+/* ───────────── FAMILLE 5 : RESPONSABILITÉ ET SOCIÉTÉ ───────────── */
+{
+  id: "s13", fam: "societe", type: "T",
+  src: "Sujet de cours · citation d’Yves Beaunesne, metteur en scène",
+  enonce: "Yves Beaunesne affirme : « L’engagement de Camille et Perdican pour aller jusqu’au bout de leurs sentiments est bouleversant. Cependant, ils font leurs armes sur le dos des autres et en sortent immanquablement marqués, ce qui remet la notion de responsabilité au cœur de l’apprentissage. » En quoi cette affirmation correspond-elle à votre lecture de On ne badine pas avec l’amour ?",
+  mots: [
+    ["engagement… bouleversant", "aller au bout de ses sentiments avec une intensité qui émeut."],
+    ["faire ses armes sur le dos des autres", "s’entraîner au combat aux dépens d’autrui (Rosette)."],
+    ["marqués", "blessés durablement : culpabilité, séparation."],
+    ["responsabilité, apprentissage", "répondre de ses actes ; apprendre la vie et l’amour."]
+  ],
+  piege: "« En quoi » : on ne réfute pas la citation, on montre comment elle éclaire la pièce. Suis ses trois temps.",
+  pb: "Dans quelle mesure Musset fait-il de la quête amoureuse de Camille et Perdican un apprentissage douloureux, où la sincérité de l’élan se paie du sacrifice d’autrui ?",
+  fil: ["Élan", "Victime", "Leçon"],
+  parties: [
+    { t: "Un engagement bouleversant", s: [
+      { a: "Un amour d’enfance ancien et sincère.", e: "Ce ne sont pas des séducteurs cyniques, mais deux êtres qui s’aiment depuis toujours.",
+        c: [ { t: "Ces enfants s’aimaient d’ailleurs fort tendrement dès le berceau.", r: "I, 2", w: "Le Baron" },
+             { t: "tous les récits de Louise, toutes les fictions de mes rêves portaient votre ressemblance", r: "II, 5", w: "Camille" } ] },
+      { a: "Deux exigences d’absolu.", e: "Des héros romantiques qui refusent les demi-mesures, chacun à sa manière.",
+        c: [ { t: "Je veux aimer, mais je ne veux pas souffrir ; je veux aimer d’un amour éternel", r: "II, 5", w: "Camille" },
+             { t: "C’est moi qui ai vécu, et non pas un être factice créé par mon orgueil et mon ennui.", r: "II, 5", w: "Perdican" } ] },
+      { a: "Un aveu final pathétique.", e: "Le lyrisme de l’aveu, aussitôt brisé par le cri de Rosette, bouleverse le spectateur.",
+        c: [ { t: "Oui, nous nous aimons, Perdican ; laisse-moi le sentir sur ton cœur.", r: "III, 8", w: "Camille" } ] }
+    ]},
+    { t: "« Sur le dos des autres » : Rosette sacrifiée", s: [
+      { a: "L’amour devient un combat.", e: "Lettre, vengeance, flèches : le vocabulaire est guerrier.",
+        c: [ { t: "tu comptais pour rien que ta flèche empoisonnée traversât cette enfant, pourvu qu’elle me frappât derrière elle", r: "III, 6", w: "Camille" } ] },
+      { a: "Rosette, instrument des deux cousins.", e: "Perdican se sert d’elle pour atteindre Camille ; Camille s’en sert pour confondre Perdican.",
+        c: [ { t: "à haute voix, de manière que Camille l’entende", r: "III, 3", w: "didascalie" },
+             { t: "rentre derrière ce rideau", r: "III, 6", w: "Camille à Rosette" } ] },
+      { a: "La plus faible paie pour les puissants.", e: "Paysanne, Rosette croit les mots au pied de la lettre et en meurt.",
+        c: [ { t: "Comment n’y croirais-je pas ? il me tromperait donc ? Pour quoi faire ?", r: "III, 6", w: "Rosette" },
+             { t: "c’est une fille de rien", r: "III, 7", w: "Camille" } ] }
+    ]},
+    { t: "Marqués à jamais : la responsabilité au cœur de l’apprentissage", s: [
+      { a: "La culpabilité.", e: "Perdican se découvre presque meurtrier ; le couple est brisé.",
+        c: [ { t: "il me semble que mes mains sont couvertes de sang", r: "III, 8", w: "Perdican" },
+             { t: "Je vous en supplie, mon Dieu ! ne faites pas de moi un meurtrier !", r: "III, 8", w: "Perdican" } ] },
+      { a: "La prise de conscience.", e: "Du jeu d’enfant à la responsabilité d’adulte, mais trop tard ; le mot « jouet » se retourne contre eux.",
+        c: [ { t: "nous sommes deux enfants insensés, et nous avons joué avec la vie et la mort", r: "III, 8", w: "Perdican" },
+             { t: "comme des enfants gâtés que nous sommes, nous en avons fait un jouet", r: "III, 8", w: "Perdican" } ] },
+      { a: "Un apprentissage sans maîtres, qui instruit le spectateur.", e: "Ni le couvent ni l’université ne leur ont appris à aimer ; la comédie-proverbe transmet la leçon au public.",
+        c: [ { t: "les religieuses t’ont donné leur expérience ; mais, crois-moi, ce n’est pas la tienne", r: "II, 5", w: "Perdican" },
+             { t: "l’oubli de ce qu’on sait", r: "I, 4", w: "Perdican" } ] }
+    ]}
+  ],
+  intro: {
+    acc: "Lorsqu’il publie On ne badine pas avec l’amour en 1834, Musset, à peine sorti de sa liaison orageuse avec George Sand, fait de l’amour une expérience aussi exaltante que dangereuse.",
+    suj: "Camille, élevée au couvent, et Perdican, jeune docteur, se retrouvent au château du Baron qui veut les marier ; mais l’orgueil les pousse à se défier, jusqu’à la mort de Rosette. Yves Beaunesne affirme que leur engagement « est bouleversant » mais qu’« ils font leurs armes sur le dos des autres et en sortent immanquablement marqués ».",
+    mots: "Selon lui, l’élan des deux jeunes gens émeut, mais leur apprentissage de l’amour, mené comme un combat, se fait aux dépens d’autrui et laisse des blessures qui les obligent à répondre de leurs actes.",
+    pb: "Dans quelle mesure Musset fait-il de cette quête amoureuse un apprentissage douloureux, où la sincérité de l’élan se paie du sacrifice d’autrui ?",
+    ann: "Nous verrons d’abord que leur ⟨1|élan⟩ amoureux a quelque chose de bouleversant, puis que ce combat fait une ⟨2|victime⟩, Rosette, avant de montrer qu’ils en sortent marqués, ce qui fait de la pièce une ⟨3|leçon⟩ sur la responsabilité."
+  }
+},
+{
+  id: "s14", fam: "societe", type: "D",
+  src: "Sujet de cours · citation d’Yves Beaunesne, metteur en scène",
+  enonce: "Yves Beaunesne affirme : « L’engagement de Camille et Perdican pour aller jusqu’au bout de leurs sentiments est bouleversant. Cependant, ils font leurs armes sur le dos des autres et en sortent immanquablement marqués, ce qui remet la notion de responsabilité au cœur de l’apprentissage. » Selon vous, cette comédie-proverbe de Musset ne vise-t-elle qu’à pointer du doigt la responsabilité des jeunes gens ?",
+  mots: [
+    ["ne… que", "le mot clé : il faut chercher d’autres responsables et d’autres visées."],
+    ["pointer du doigt", "désigner un coupable, accuser."],
+    ["comédie-proverbe", "une pièce qui illustre une vérité morale : la leçon s’adresse aussi au spectateur."]
+  ],
+  piege: "Fil rouge possible : un procès. Accusation (I), autres accusés et circonstances atténuantes (II), délibéré (III). L’image reste discrète dans la copie.",
+  pb: "Musset se contente-t-il de faire le procès de ses deux héros, ou instruit-il, à travers eux, celui de toute une époque et de l’amour même ?",
+  fil: ["Accusation", "Défense", "Verdict"],
+  parties: [
+    { t: "L’accusation : la responsabilité des jeunes gens", s: [
+      { a: "Le mobile : l’orgueil.", e: "La pièce désigne elle-même l’orgueil comme premier coupable, et les personnages l’avouent.",
+        c: [ { t: "il n’y a rien là dont votre orgueil puisse souffrir", r: "II, 1", w: "Camille" },
+             { t: "Orgueil ! le plus fatal des conseillers humains", r: "III, 8", w: "Perdican" } ] },
+      { a: "Circonstance aggravante : la préméditation.", e: "Les manipulations sont préparées et conscientes ; Rosette est engagée sans être consultée.",
+        c: [ { t: "à haute voix, de manière que Camille l’entende", r: "III, 3", w: "didascalie" },
+             { t: "Perdican ne t’épousera pas, mon enfant.", r: "III, 6", w: "Camille" } ] },
+      { a: "Les aveux des accusés.", e: "Camille dresse le réquisitoire de Perdican, puis Perdican plaide coupable devant Dieu.",
+        c: [ { t: "pour en faire un appât, un jouet", r: "III, 6", w: "Camille" },
+             { t: "nous sommes deux enfants insensés, et nous avons joué avec la vie et la mort", r: "III, 8", w: "Perdican" } ] }
+    ]},
+    { t: "La défense : d’autres responsables", s: [
+      { a: "Des adultes défaillants.", e: "Le Baron calcule et fuit ; Blazius calomnie ; les fantoches reproduisent en comique les fautes des héros.",
+        c: [ { t: "leur éducation me coûte six mille écus", r: "I, 2", w: "Le Baron" },
+             { t: "J’ai accusé faussement mademoiselle Camille d’avoir une correspondance secrète", r: "III, 2", w: "Blazius" },
+             { t: "Pourquoi une fatale curiosité m’a-t-elle poussé à écouter", r: "III, 2", w: "Blazius" } ] },
+      { a: "Une éducation qui déforme.", e: "Rigidité religieuse pour l’une, vie vide de garçon pour l’autre, comme le dit Beaunesne.",
+        c: [ { t: "les religieuses t’ont donné leur expérience ; mais, crois-moi, ce n’est pas la tienne", r: "II, 5", w: "Perdican" },
+             { t: "vous voilà courbé près de moi avec des genoux qui se sont usés sur les tapis de vos maîtresses", r: "II, 5", w: "Camille" } ] },
+      { a: "Une société de classes.", e: "Une paysanne ne compte pas : elle peut servir de monnaie d’échange.",
+        c: [ { t: "Mon fils vient-il ici pour débaucher mes vassales ?", r: "I, 5", w: "Le Baron" },
+             { t: "une fille sans nom", r: "III, 7", w: "Le Baron" } ] }
+    ]},
+    { t: "Le verdict : au-delà du procès", s: [
+      { a: "Musset ne condamne pas l’amour, mais le badinage.", e: "La tirade de Perdican fait de l’amour la seule valeur qui donne sens à la vie.",
+        c: [ { t: "J’ai souffert souvent, je me suis trompé quelquefois, mais j’ai aimé.", r: "II, 5", w: "Perdican" } ] },
+      { a: "Une faute qui tient à la condition humaine.", e: "La responsabilité dépasse les individus.",
+        c: [ { t: "Il a bien fallu que nous nous fissions du mal, car nous sommes des hommes.", r: "III, 8", w: "Perdican" } ] },
+      { a: "Le spectateur devient le juré.", e: "La comédie-proverbe ne rend pas de verdict simple : elle renvoie chacun à sa propre manière d’aimer. Beaunesne la rapproche des années 1960 et de notre époque.",
+        c: [] }
+    ]}
+  ],
+  intro: {
+    acc: "« Ne faites pas de moi un meurtrier ! » Dans la dernière scène, Perdican implore Dieu comme un accusé supplie son juge, tandis qu’un cri retentit derrière l’autel.",
+    suj: "La comédie-proverbe que Musset publie en 1834 s’achève comme un procès : une victime innocente, Rosette, et deux coupables qui se reconnaissent « deux enfants insensés ». Yves Beaunesne affirme qu’ils « font leurs armes sur le dos des autres ». La pièce ne vise-t-elle qu’à pointer du doigt la responsabilité des jeunes gens ?",
+    mots: "Pointer du doigt, c’est désigner un coupable. Or Camille et Perdican ne sont peut-être pas les seuls à devoir comparaître : autour d’eux gravitent des adultes défaillants, une éducation qui fausse le regard et une société qui fait d’une paysanne « une fille sans nom ».",
+    pb: "Musset se contente-t-il de faire le procès de ses deux héros, ou instruit-il, à travers eux, celui de toute une époque et de l’amour même ?",
+    ann: "Nous examinerons d’abord les charges de l’⟨1|accusation⟩, puis les arguments de la ⟨2|défense⟩ qui partagent la responsabilité, avant de montrer que, loin d’un ⟨3|verdict⟩ simple, la pièce fait du spectateur le juré d’un drame qui interroge l’amour."
+  }
+},
+{
+  id: "s15", fam: "societe", type: "T",
+  src: "Sujet d’entraînement · Gloria Lauzanne",
+  enonce: "Comment la pièce illustre-t-elle les tensions entre les idéaux romantiques et les réalités sociales du XIXe siècle ?",
+  mots: [
+    ["idéaux romantiques", "amour absolu, sincérité, quête d’infini, communion avec la nature, mal du siècle."],
+    ["réalités sociales", "mariage arrangé, argent, hiérarchie entre nobles et paysans, Église, convenances."],
+    ["tensions", "un conflit entre deux forces : c’est leur rencontre qu’il faut montrer."]
+  ],
+  piege: "Utilise le contexte (après 1830, désillusion d’une génération) sans faire un exposé d’histoire : chaque idée part du texte.",
+  pb: "Comment Musset confronte-t-il l’élan absolu de ses héros aux règles d’une société d’argent, de rang et de convenances ?",
+  fil: ["Idéal", "Société", "Collision"],
+  parties: [
+    { t: "Des héros animés par un idéal romantique", s: [
+      { a: "Une quête d’absolu et le mal du siècle.", e: "Perdican rêve d’infini ; Camille veut un amour éternel.",
+        c: [ { t: "l’homme n’est-il donc né que pour un coin de terre, pour y bâtir son nid et pour y vivre un jour ?", r: "I, 4", w: "Perdican" },
+             { t: "je veux aimer d’un amour éternel, et faire des serments qui ne se violent pas", r: "II, 5", w: "Camille" } ] },
+      { a: "L’amour et la nature comme valeurs suprêmes.", e: "L’union de deux êtres est « sainte » ; Perdican rêve de s’enraciner dans la nature.",
+        c: [ { t: "mais il y a au monde une chose sainte et sublime, c’est l’union de deux de ces êtres si imparfaits et si affreux", r: "II, 5", w: "Perdican" },
+             { t: "nous prendrons racine ensemble dans la sève du monde tout-puissant", r: "III, 3", w: "Perdican" } ] }
+    ]},
+    { t: "Une société d’argent, de rang et de convenances", s: [
+      { a: "Le mariage comme arrangement.", e: "Le Baron parle en comptable ; Camille vient recueillir un héritage.",
+        c: [ { t: "J’ai formé le dessein de marier mon fils avec ma nièce ; c’est un couple assorti : leur éducation me coûte six mille écus.", r: "I, 2", w: "Le Baron" },
+             { t: "Je suis venue ici pour recueillir le bien de ma mère", r: "II, 1", w: "Camille" } ] },
+      { a: "Une hiérarchie sociale rigide.", e: "Les paysans appartiennent au seigneur ; épouser l’un d’eux est impensable.",
+        c: [ { t: "Mon fils vient-il ici pour débaucher mes vassales ?", r: "I, 5", w: "Le Baron" },
+             { t: "C’est un mariage disproportionné.", r: "III, 7", w: "Le Baron" } ] },
+      { a: "Une Église et des convenances ridicules.", e: "Dame Pluche invoque les convenances, Bridaine pense surtout à manger.",
+        c: [ { t: "Les convenances défendent de tenir un gouvernail", r: "I, 3", w: "Dame Pluche" },
+             { t: "Je ne verrai plus fumer les plats", r: "III, 2", w: "Bridaine" } ] }
+    ]},
+    { t: "La collision de l’idéal et du réel", s: [
+      { a: "Rosette, victime du choc.", e: "Perdican veut l’élever par le mariage ; la société la renvoie à son rang.",
+        c: [ { t: "c’est une fille de rien", r: "III, 7", w: "Camille" },
+             { t: "Elle sera donc de quelque chose, lorsqu’elle sera ma femme.", r: "III, 7", w: "Perdican" } ] },
+      { a: "Un idéal brisé.", e: "Le rêve romantique se termine en désenchantement.",
+        c: [ { t: "cette vie est elle-même un si pénible rêve", r: "III, 8", w: "Perdican" },
+             { t: "Elle est morte. Adieu, Perdican !", r: "III, 8", w: "Camille" } ] }
+    ]}
+  ],
+  ouverture: "Musset, La Confession d’un enfant du siècle (1836) : le portrait d’une génération désenchantée après l’échec des révolutions.",
+  intro: {
+    acc: "« Leur éducation me coûte six mille écus » : pour le Baron, le mariage de son fils et de sa nièce est d’abord un placement.",
+    suj: "Face à ce monde d’argent et de rang, Musset place dans On ne badine pas avec l’amour (1834) deux jeunes gens assoiffés d’absolu. Comment la pièce illustre-t-elle les tensions entre idéaux romantiques et réalités sociales du XIXe siècle ?",
+    mots: "Les idéaux romantiques désignent la quête d’un amour absolu et sincère ; les réalités sociales, une société hiérarchisée, réglée par l’argent, le rang et les convenances.",
+    pb: "Comment Musset confronte-t-il l’élan absolu de ses héros aux règles d’une société d’argent, de rang et de convenances ?",
+    ann: "Nous verrons d’abord l’⟨1|idéal⟩ romantique qui anime les héros, puis la ⟨2|société⟩ qui les entoure, avant d’étudier la ⟨3|collision⟩ tragique entre les deux."
+  }
+},
+
+/* ───────────── FAMILLE 6 : ESTHÉTIQUE ───────────── */
+{
+  id: "s16", fam: "esthetique", type: "D",
+  src: "Sujet d’entraînement · Lelivrescolaire",
+  enonce: "Victor Hugo écrit dans la préface de Cromwell (1827) : « La poésie de notre temps est donc le drame ; le caractère du drame est le réel. » On ne badine pas avec l’amour s’inscrit-elle dans l’esthétique du drame romantique ?",
+  mots: [
+    ["drame romantique", "mélange des genres et des registres (grotesque et sublime), refus des règles classiques, héros en quête d’absolu, fin souvent tragique."],
+    ["le réel", "la vie dans toute sa diversité, où le rire côtoie les larmes."]
+  ],
+  piege: "Mobilise tes connaissances (préface de Cromwell, bataille d’Hernani) mais appuie chaque idée sur la pièce.",
+  pb: "On ne badine pas avec l’amour est-elle un drame romantique, ou Musset invente-t-il une forme qui n’appartient qu’à lui ?",
+  fil: ["Drame", "Écarts", "Liberté"],
+  parties: [
+    { t: "Oui : les traits du drame romantique", s: [
+      { a: "Le mélange du grotesque et du sublime.", e: "Les fantoches caricaturaux côtoient le lyrisme tragique des amants.",
+        c: [ { t: "il se ballotte sur son ventre rebondi", r: "I, 1", w: "le Chœur, sur Blazius" },
+             { t: "Orgueil ! le plus fatal des conseillers humains", r: "III, 8", w: "Perdican" } ] },
+      { a: "La liberté à l’égard des unités.", e: "Lieux multiples (place, salon, fontaine, oratoire), action sur plusieurs jours.",
+        c: [ { t: "Une fontaine dans un bois.", r: "II, 5", w: "didascalie" },
+             { t: "Un oratoire.", r: "III, 8", w: "didascalie" } ] },
+      { a: "Des héros romantiques et une fin tragique.", e: "Quête d’absolu, sensibilité exacerbée, incapacité à être heureux.",
+        c: [ { t: "J’ai souffert souvent, je me suis trompé quelquefois, mais j’ai aimé.", r: "II, 5", w: "Perdican" },
+             { t: "Elle est morte. Adieu, Perdican !", r: "III, 8", w: "Camille" } ] }
+    ]},
+    { t: "Mais une pièce qui s’écarte du drame hugolien", s: [
+      { a: "Une comédie-proverbe, avec un chœur antique.", e: "Le titre est un proverbe moral, genre de salon ; le Chœur emprunte à la tragédie grecque, non au drame.",
+        c: [ { t: "Doucement bercé sur sa mule fringante, messer Blazius s’avance dans les bluets fleuris", r: "I, 1", w: "le Chœur" } ] },
+      { a: "Un drame intime, sans histoire ni politique.", e: "Chez Hugo, l’Histoire (Cromwell, Hernani) ; chez Musset, l’action est faite de dialogues sur l’amour.",
+        c: [ { t: "Je voudrais m’instruire, et savoir si j’ai tort ou raison de me faire religieuse.", r: "II, 5", w: "Camille" } ] }
+    ]},
+    { t: "Une esthétique propre à Musset : un théâtre de la liberté", s: [
+      { a: "Un « spectacle dans un fauteuil ».", e: "Écrite pour être lue, publiée en 1834, la pièce n’est jouée qu’en 1861 : libéré de la scène, Musset écrit sans contrainte.",
+        c: [] },
+      { a: "Le réel selon Musset : la vérité intime, entre rêve et douleur.", e: "Le « réel » de Musset est celui du cœur, mêlant fantaisie et désespoir.",
+        c: [ { t: "cette vie est elle-même un si pénible rêve", r: "III, 8", w: "Perdican" } ] }
+    ]}
+  ],
+  ouverture: "Victor Hugo, Hernani (1830) : la bataille qui consacre le drame romantique, quatre ans avant la pièce de Musset.",
+  intro: {
+    acc: "En 1830, la bataille d’Hernani oppose les défenseurs du théâtre classique aux jeunes romantiques. Quatre ans plus tard, Musset publie On ne badine pas avec l’amour.",
+    suj: "Dans la préface de Cromwell (1827), Victor Hugo affirmait : « La poésie de notre temps est donc le drame ; le caractère du drame est le réel. » La pièce de Musset s’inscrit-elle dans cette esthétique du drame romantique ?",
+    mots: "Le drame romantique mêle les genres et les registres, le grotesque et le sublime, refuse les règles classiques et met en scène des héros en quête d’absolu ; « le réel » désigne la vie dans toute sa diversité.",
+    pb: "On ne badine pas avec l’amour est-elle un drame romantique, ou Musset invente-t-il une forme qui n’appartient qu’à lui ?",
+    ann: "Nous verrons que la pièce présente bien les traits du ⟨1|drame⟩ romantique, mais qu’elle s’en écarte sur plusieurs points (⟨2|écarts⟩), avant de montrer qu’elle invente un théâtre de la ⟨3|liberté⟩, propre à Musset."
+  }
+},
+{
+  id: "s17", fam: "esthetique", type: "D",
+  src: "Sujet d’entraînement · Lelivrescolaire, Gloria Lauzanne",
+  enonce: "Dans « De la tragédie » (1838), Musset écrit : « La passion est donc devenue la base, ou plutôt l’axe des tragédies modernes. » Dans quelle mesure ces propos s’appliquent-ils aux jeux du cœur et de la parole dans On ne badine pas avec l’amour ?",
+  mots: [
+    ["passion", "sentiment violent qui domine l’être et le fait souffrir (du latin pati, souffrir)."],
+    ["axe", "ce autour de quoi tout tourne."],
+    ["tragédies modernes", "des tragédies sans dieux antiques, où le malheur naît du cœur humain."]
+  ],
+  piege: "Relie la citation au parcours : il faut parler des jeux du cœur ET de la parole, pas seulement de passion.",
+  pb: "La passion est-elle vraiment l’axe de la pièce, ou l’orgueil et les jeux de la parole la font-ils dévier ?",
+  fil: ["Passion", "Détour", "Tragédie"],
+  parties: [
+    { t: "Oui : la passion est l’axe de la pièce", s: [
+      { a: "Un amour d’enfance qui structure l’intrigue.", e: "Du premier acte à la dernière scène, tout tourne autour de cet amour.",
+        c: [ { t: "Ces enfants s’aimaient d’ailleurs fort tendrement dès le berceau.", r: "I, 2", w: "Le Baron" },
+             { t: "il y a quinze ans qu’il le sait", r: "III, 8", w: "Camille" } ] },
+      { a: "La passion comme souffrance.", e: "Aimer, c’est accepter d’être blessé : c’est le sens même du mot passion.",
+        c: [ { t: "On est souvent trompé en amour, souvent blessé et souvent malheureux ; mais on aime", r: "II, 5", w: "Perdican" },
+             { t: "Ô Perdican ! ne raillez pas, tout cela est triste à mourir.", r: "II, 5", w: "Camille" } ] }
+    ]},
+    { t: "Mais la passion est détournée par l’orgueil et le jeu", s: [
+      { a: "L’orgueil prend la place de l’amour.", e: "La vanité et l’amour-propre commandent les actes.",
+        c: [ { t: "Je m’étais vantée de t’avoir inspiré quelque amour", r: "III, 6", w: "Camille" },
+             { t: "Cela t’a blessé dans ton noble orgueil ?", r: "III, 6", w: "Camille" } ] },
+      { a: "La parole joue au lieu d’aimer.", e: "Les personnages parlent pour l’emporter, non pour dire leur passion.",
+        c: [ { t: "Je suis bien aise que mon refus vous soit indifférent.", r: "II, 1", w: "Camille" },
+             { t: "à haute voix, de manière que Camille l’entende", r: "III, 3", w: "didascalie" } ] }
+    ]},
+    { t: "Une tragédie moderne : la passion contrariée devient fatale", s: [
+      { a: "Le destin vient de l’intérieur.", e: "Pas d’oracle ni de dieu vengeur : le malheur naît de la nature humaine.",
+        c: [ { t: "Il a bien fallu que nous nous fissions du mal, car nous sommes des hommes.", r: "III, 8", w: "Perdican" } ] },
+      { a: "La passion avouée trop tard tue.", e: "L’aveu enfin sincère provoque la mort de Rosette : la passion est bien l’axe de cette tragédie moderne.",
+        c: [ { t: "Oui, nous nous aimons, Perdican ; laisse-moi le sentir sur ton cœur.", r: "III, 8", w: "Camille" },
+             { t: "Elle est morte. Adieu, Perdican !", r: "III, 8", w: "Camille" } ] }
+    ]}
+  ],
+  ouverture: "Racine, Phèdre (1677) : la passion comme moteur tragique, modèle que Musset admirait.",
+  intro: {
+    acc: "Aucun oracle, aucun dieu vengeur : c’est un cri derrière un autel qui clôt la pièce, au moment même où deux cousins s’avouent enfin leur amour.",
+    suj: "Dans « De la tragédie » (1838), Musset écrit : « La passion est donc devenue la base, ou plutôt l’axe des tragédies modernes. » Dans quelle mesure ces propos s’appliquent-ils aux jeux du cœur et de la parole dans On ne badine pas avec l’amour (1834) ?",
+    mots: "La passion est un sentiment violent qui domine l’être et le fait souffrir ; en faire l’« axe » de la tragédie, c’est la placer au centre de toute l’action.",
+    pb: "La passion est-elle vraiment l’axe de la pièce, ou l’orgueil et les jeux de la parole la font-ils dévier ?",
+    ann: "Nous verrons que la ⟨1|passion⟩ est bien au centre de la pièce, mais qu’elle subit un ⟨2|détour⟩ par l’orgueil et le jeu, avant de montrer que cette passion contrariée fait de la pièce une ⟨3|tragédie⟩ moderne."
+  }
+}
+];
+
+
+const fx = s => s.replace(/« /g, "«\u00a0").replace(/ »/g, "\u00a0»").replace(/ ([?!:;])/g, "\u202f$1");
+  const walk = o => { if (Array.isArray(o)) o.forEach((v, i) => { if (typeof v === "string") o[i] = fx(v); else walk(v); });
+    else if (o && typeof o === "object") for (const k of Object.keys(o)) { if (k === "url" || k === "id" || k === "fam") continue; const v = o[k]; if (typeof v === "string") o[k] = fx(v); else walk(v); } };
+  walk(SUJETS); walk(FAMILIES); walk(LINKS);
+
+const { useState, useEffect, useMemo, useRef } = React;
+const html = htm.bind(React.createElement);
+
+/* ---------- utilitaires ---------- */
+function load(k, d) { try { const v = localStorage.getItem("musset-" + k); return v == null ? d : JSON.parse(v); } catch (e) { return d; } }
+function save(k, v) { try { localStorage.setItem("musset-" + k, JSON.stringify(v)); } catch (e) {} }
+function setHash(t) { try { history.replaceState(null, "", "#" + t); } catch (e) {} }
+
+const TITRES = {
+  s1: "S’affrontent-ils sérieusement ?",
+  s2: "Comédie de la parole, tragédie du cœur ?",
+  s3: "« Badiner, c’est jouer la comédie »",
+  s4: "En quoi badinent-ils avec l’amour ?",
+  s5: "« J’ai eu tort de parler »",
+  s6: "La parole, seulement manipulation ?",
+  s7: "Jeux de parole : sentiments et intrigue",
+  s8: "« Quelles vaines paroles… »",
+  s9: "Barthes : le corps dit ce que cache le langage",
+  s10: "L’hermétisme des cœurs",
+  s11: "« Tout ment-il quand la langue ment ? »",
+  s12: "« Orgueil, le plus fatal des conseillers »",
+  s13: "Beaunesne : l’apprentissage par la faute",
+  s14: "Beaunesne : seuls les jeunes gens sont-ils responsables ?",
+  s15: "Idéaux romantiques et réalités sociales",
+  s16: "Hugo : un drame romantique ?",
+  s17: "Musset : la passion, axe de la tragédie ?"
+};
+for (const k in TITRES) TITRES[k] = fx(TITRES[k]);
+const TYPE_NOM = { D: "Dialectique", T: "Thématique" };
+const ROMAN = ["I", "II", "III"];
+const LETTRES = ["A", "B", "C", "D"];
+const STEPS = ["Analyser", "Plan", "Introduction"];
+const INTRO_ROWS = [
+  ["acc", "Accroche"], ["suj", "Présenter le sujet"], ["mots", "Définir les mots-clés"], ["pb", "Problématique"], ["ann", "Annonce du plan"]
+];
+const famById = Object.fromEntries(FAMILIES.map(f => [f.id, f]));
+const sujById = Object.fromEntries(SUJETS.map(s => [s.id, s]));
+
+
+const OEUVRES = ["On ne badine pas avec l’amour", "Fragments d’un discours amoureux", "Le Jeu de l’amour et du hasard", "Les Liaisons dangereuses", "Pour un oui ou pour un non", "Les Fausses Confidences", "La Confession d’un enfant du siècle", "Cromwell", "Hernani", "Phèdre", "Maximes"];
+const OEUV_RE = new RegExp("(" + OEUVRES.map(t => t.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")).join("|") + ")", "g");
+const ital = t => typeof t !== "string" ? t : t.split(OEUV_RE).map((p, i) => i % 2 ? html`<i key=${i}>${p}</i>` : p);
+function parseAnn(t) {
+  const out = []; let last = 0;
+  for (const m of t.matchAll(/⟨(\d)\|([^⟩]+)⟩/g)) {
+    if (m.index > last) out.push(t.slice(last, m.index));
+    out.push({ n: +m[1], w: m[2] }); last = m.index + m[0].length;
+  }
+  if (last < t.length) out.push(t.slice(last));
+  return out;
+}
+const plain = t => t.replace(/⟨\d\|([^⟩]+)⟩/g, "$1");
+const cueOf = t => { const w = plain(t).split(/\s+/); return w.slice(0, 5).join(" ") + (w.length > 5 ? " …" : ""); };
+
+/* ---------- petites pièces ---------- */
+const TBadge = ({ type }) => html`<span class=${"tbadge " + type} title=${TYPE_NOM[type]} aria-label=${TYPE_NOM[type]}>${type}</span>`;
+
+const Fil = ({ fil }) => html`<div class="fil">
+  ${fil.map((w, i) => html`<${React.Fragment} key=${i}>
+    ${i > 0 && html`<span class="arrow" aria-hidden="true">→</span>`}
+    <span class=${"w c" + (i + 1) + " bg" + (i + 1)}>${ROMAN[i]}. ${w}</span>
+  </${React.Fragment}>`)}
+</div>`;
+
+const IconWarn = () => html`<svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 1.5 15 14H1z" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/><path d="M8 6v4M8 11.6v.4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>`;
+const IconSpeak = () => html`<svg width="15" height="15" viewBox="0 0 16 16" aria-hidden="true"><path d="M2 6h3l4-3v10L5 10H2z" fill="currentColor"/><path d="M11 5.5a3.5 3.5 0 0 1 0 5M12.8 3.5a6 6 0 0 1 0 9" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>`;
+
+/* ---------- barre d'outils ---------- */
+function Toolbar({ view, setView, done }) {
+  const tabs = [["carte", "Carte"], ["sujets", "Sujets et plans"], ["citations", "Citations"], ["methode", "Méthode"]];
+  const pct = Math.round(100 * done.length / SUJETS.length);
+  return html`<header class="toolbar"><div class="toolbar-row">
+    <div class="brand">
+      <svg width="30" height="30" viewBox="0 0 32 32" aria-hidden="true"><rect x="3" y="3" width="26" height="26" rx="4" fill="#3daee9"/><path d="M10 10h12M10 15h12M10 20h7" stroke="#fff" stroke-width="2.2" stroke-linecap="round"/></svg>
+      <div><h1>Disserter sur Musset</h1><small>On ne badine pas avec l’amour · parcours « Les jeux du cœur et de la parole »</small></div>
+    </div>
+    <nav class="tabs" role="tablist" aria-label="Vues">
+      ${tabs.map(([id, nom]) => html`<button key=${id} class="tab" role="tab" aria-selected=${view === id} onClick=${() => setView(id)}>${nom}</button>`)}
+    </nav>
+    <div class="progress" title="Sujets marqués comme maîtrisés">
+      <div class="meter"><i style=${{ width: pct + "%" }}></i></div>${done.length}/${SUJETS.length} maîtrisés
+    </div>
+  </div></header>`;
+}
+
+/* ---------- carte des familles ---------- */
+function MapView({ openSujet }) {
+  const [fam, setFam] = useState(() => load("fam", "jeu"));
+  useEffect(() => save("fam", fam), [fam]);
+  const cx = 320, cy = 250, R = 185;
+  const pos = Object.fromEntries(FAMILIES.map((f, i) => {
+    const a = -Math.PI / 2 + i * Math.PI / 3; return [f.id, [cx + R * Math.cos(a), cy + R * Math.sin(a)]];
+  }));
+  const F = famById[fam];
+  const list = SUJETS.filter(s => s.fam === fam);
+  return html`<div style=${{ display: "grid", gap: "16px" }}>
+    <div class="map-grid">
+      <section class="pane map-box" aria-label="Carte des familles de sujets">
+        <div class="label">Six familles de sujets, reliées par les notions qu’elles partagent</div>
+        <svg viewBox="0 0 640 500" role="img" aria-label="Carte des familles de sujets">
+          ${LINKS.map(([a, b, lab], i) => {
+            const [x1, y1] = pos[a], [x2, y2] = pos[b]; const mx = (x1 + x2) / 2, my = (y1 + y2) / 2; const w = lab.length * 5.9 + 12;
+            return html`<g key=${i}>
+              <line class="edge" x1=${x1} y1=${y1} x2=${x2} y2=${y2}/>
+              <rect class="edge-label-bg" x=${mx - w / 2} y=${my - 10} width=${w} height="19" rx="3"/>
+              <text class="edge-label" x=${mx} y=${my + 4} text-anchor="middle">${lab}</text>
+            </g>`;
+          })}
+          <text x=${cx} y=${cy - 6} text-anchor="middle" style=${{ fill: "var(--mute)", fontSize: "12px", fontFamily: "var(--read)", fontStyle: "italic" }}>On ne badine pas</text>
+          <text x=${cx} y=${cy + 12} text-anchor="middle" style=${{ fill: "var(--mute)", fontSize: "12px", fontFamily: "var(--read)", fontStyle: "italic" }}>avec l’amour</text>
+          ${FAMILIES.map(f => {
+            const [x, y] = pos[f.id]; const n = SUJETS.filter(s => s.fam === f.id).length;
+            return html`<g key=${f.id} class=${"node" + (f.id === fam ? " sel" : "")} tabindex="0" role="button" aria-label=${f.nom}
+              onClick=${() => setFam(f.id)} onKeyDown=${e => (e.key === "Enter" || e.key === " ") && (e.preventDefault(), setFam(f.id))}>
+              <rect class="under" x=${x - 78} y=${y - 28} width="156" height="56" rx="4"/><rect x=${x - 78} y=${y - 28} width="156" height="56" rx="4"/>
+              <text x=${x} y=${y - 3} text-anchor="middle" style=${{ fontSize: "14px", fontWeight: 600 }}>${f.court}</text>
+              <text class="cnt" x=${x} y=${y + 15} text-anchor="middle">${n} sujet${n > 1 ? "s" : ""}</text>
+            </g>`;
+          })}
+        </svg>
+        <div class="legend"><span><${TBadge} type="D"/> dialectique : oui / mais / dépassement</span><span><${TBadge} type="T"/> thématique : aspects ou causes</span></div>
+      </section>
+      <section class="pane fam-panel" aria-live="polite">
+        <div><div class="label">Famille sélectionnée</div><h2>${F.nom}</h2><p style=${{ color: "var(--mute)", fontSize: "14px", marginTop: "4px" }}>Notions : ${F.notions}</p></div>
+        <div class="list">
+          ${list.map(s => html`<button key=${s.id} class="row-link" onClick=${() => openSujet(s.id)}>
+            <${TBadge} type=${s.type}/>
+            <span><span>${TITRES[s.id]}</span><small>${s.src}</small></span>
+          </button>`)}
+        </div>
+        <p style=${{ fontSize: "13px", color: "var(--mute)" }}>Les sujets d’une même famille se préparent ensemble : mêmes citations, plans voisins.</p>
+      </section>
+    </div>
+    <section class="pane" style=${{ padding: "14px 16px" }}>
+      <div class="label">Tous les sujets, par famille et par type de plan</div>
+      <div class="matrix-wrap"><table class="matrix">
+        <thead><tr><th>Famille</th><th><${TBadge} type="D"/> Dialectique</th><th><${TBadge} type="T"/> Thématique</th></tr></thead>
+        <tbody>${FAMILIES.map(f => html`<tr key=${f.id}>
+          <th scope="row" style=${{ fontWeight: 600 }}>${f.nom}</th>
+          ${["D", "T"].map(t => html`<td key=${t}>${SUJETS.filter(s => s.fam === f.id && s.type === t).map(s => html`<button key=${s.id} class=${"chip" + (s.officiel ? " on" : "")} onClick=${() => openSujet(s.id)}>${TITRES[s.id]}</button>`)}</td>`)}
+        </tr>`)}</tbody>
+      </table></div>
+      <p style=${{ fontSize: "12.5px", color: "var(--mute)", marginTop: "8px" }}>En bleu : sujets réellement tombés au bac 2025.</p>
+    </section>
+  </div>`;
+}
+
+/* ---------- fiche sujet ---------- */
+function Sheet({ S, step, setStep, done, toggleDone }) {
+  const [memo, setMemo] = useState(false);
+  const [shown, setShown] = useState({});
+  const [speaking, setSpeaking] = useState(false);
+  useEffect(() => { setShown({}); }, [S.id, memo, step]);
+  useEffect(() => () => { try { speechSynthesis.cancel(); } catch (e) {} }, [S.id, step]);
+  useEffect(() => setSpeaking(false), [S.id, step]);
+  const reveal = k => setShown(o => ({ ...o, [k]: true }));
+  const isShown = k => !memo || shown[k];
+
+  function speak() {
+    try {
+      if (speaking) { speechSynthesis.cancel(); setSpeaking(false); return; }
+      const u = new SpeechSynthesisUtterance(INTRO_ROWS.map(([k]) => plain(S.intro[k])).join(" "));
+      u.lang = "fr-FR"; u.rate = 0.95;
+      const v = speechSynthesis.getVoices().find(v => v.lang && v.lang.startsWith("fr")); if (v) u.voice = v;
+      u.onend = () => setSpeaking(false); u.onerror = () => setSpeaking(false);
+      speechSynthesis.cancel(); speechSynthesis.speak(u); setSpeaking(true);
+    } catch (e) { setSpeaking(false); }
+  }
+
+  const memoSwitch = (hint) => html`<label class="switch" title=${hint}>
+    <input type="checkbox" id=${"memo-" + step} checked=${memo} onChange=${e => setMemo(e.target.checked)}/>
+    Mode mémorisation
+  </label>`;
+
+  const isDone = done.includes(S.id);
+  return html`<article class="pane sheet">
+    <div class="meta">
+      <span class="pill"><${TBadge} type=${S.type}/>${TYPE_NOM[S.type]}</span>
+      ${S.officiel && html`<span class="pill bac">Sujet du bac</span>`}
+      <span class="pill">${famById[S.fam].nom}</span>
+      <span style=${{ fontSize: "12.5px", color: "var(--mute)" }}>${S.src}</span>
+    </div>
+    <h2 class="enonce">${ital(S.enonce)}</h2>
+    ${S.variantes && html`<details class="var"><summary>Variantes qui se traitent avec le même plan (${S.variantes.length})</summary><ul>${S.variantes.map((v, i) => html`<li key=${i}>${v}</li>`)}</ul></details>`}
+
+    <div class="steps" role="tablist" aria-label="Étapes">
+      ${STEPS.map((nom, i) => html`<button key=${i} class="step" role="tab" aria-selected=${step === i} onClick=${() => setStep(i)}><b>${i + 1}</b>${nom}</button>`)}
+    </div>
+
+    ${step === 0 && html`<section style=${{ display: "grid", gap: "18px" }}>
+      <div><div class="label">Mots-clés à définir</div>
+        <dl class="kw" style=${{ margin: 0 }}>${S.mots.map(([m, d], i) => html`<div key=${i}><dt>${m}</dt><dd>${ital(d)}</dd></div>`)}</dl></div>
+      <div class="note" role="note"><${IconWarn}/><span><strong>Piège à éviter.</strong> ${ital(S.piege)}</span></div>
+      <div><div class="label">Problématique</div><p class="pb">${S.pb}</p></div>
+      <div><div class="label">Ton fil : trois mots, trois parties</div><${Fil} fil=${S.fil}/></div>
+    </section>`}
+
+    ${step === 1 && html`<section style=${{ display: "grid", gap: "14px" }}>
+      <div class="tools">
+        ${memoSwitch("Masque les arguments : essaie de les retrouver avant de cliquer")}
+        ${memo ? html`<span style=${{ fontSize: "13px", color: "var(--mute)" }}>Retrouve chaque argument de mémoire, puis clique pour vérifier.</span>` : html`<span style=${{ fontSize: "13px", color: "var(--mute)" }}>Chaque sous-partie = un paragraphe : argument, explication, citation, analyse.</span>`}
+      </div>
+      <div class="plan">
+        ${S.parties.map((P, pi) => html`<div key=${pi} class="part">
+          <div class=${"part-head bg" + (pi + 1)}><span class=${"num n" + (pi + 1)}>${ROMAN[pi]}</span><h3>${P.t}</h3></div>
+          <div class="subs">${P.s.map((s, si) => {
+            const k = pi + "-" + si;
+            return html`<div key=${si} class="sub"><span class="letter">${LETTRES[si]}.</span>
+              ${isShown(k) ? html`<div>
+                <p class="arg">${s.a}</p>
+                <p class="expl">${ital(s.e)}</p>
+                ${s.c.length > 0 && html`<div class="cits">${s.c.map((c, ci) => html`<p key=${ci} class="cit">« ${c.t} »<span class="ref">${c.r} · ${c.w}</span></p>`)}</div>`}
+              </div>` : html`<button class="hidden-slot" onClick=${() => reveal(k)}>Argument ${LETTRES[si]} : à toi de le retrouver. Cliquer pour vérifier.</button>`}
+            </div>`;
+          })}</div>
+        </div>`)}
+      </div>
+      ${S.ouverture && html`<p class="open"><strong style=${{ whiteSpace: "nowrap" }}>Pour enrichir</strong><span>${ital(S.ouverture)}</span></p>`}
+    </section>`}
+
+    ${step === 2 && html`<section style=${{ display: "grid", gap: "14px" }}>
+      <div class="tools">
+        ${memoSwitch("Ne montre que le début de chaque étape")}
+        <button class="btn" onClick=${speak} aria-pressed=${speaking}><${IconSpeak}/>${speaking ? "Arrêter la lecture" : "Écouter l’introduction"}</button>
+      </div>
+      <div><div class="label">À retenir : l’image de l’accroche et ce fil</div><${Fil} fil=${S.fil}/></div>
+      <div class="intro">
+        ${INTRO_ROWS.map(([k, lab], i) => html`<div key=${k} class="irow">
+          <div class="ilabel"><b>${i + 1}</b>${lab}</div>
+          ${isShown(k)
+            ? html`<p class="itext">${k === "ann" ? parseAnn(S.intro.ann).map((p, j) => typeof p === "string" ? ital(p) : html`<mark key=${j} class=${"c" + p.n}>${p.w}</mark>`) : ital(S.intro[k])}</p>`
+            : html`<button class="hidden-slot" onClick=${() => reveal(k)}><span class="cue">${cueOf(S.intro[k])}</span> Cliquer pour vérifier.</button>`}
+        </div>`)}
+      </div>
+      <p style=${{ fontSize: "13px", color: "var(--mute)" }}>Méthode : lis l’introduction une fois, active le mode mémorisation, récite-la à voix haute à partir des débuts de phrase, puis vérifie.</p>
+    </section>`}
+
+    <div class="footer-actions">
+      <div style=${{ display: "flex", gap: "8px" }}>
+        ${step > 0 && html`<button class="btn" onClick=${() => setStep(step - 1)}>← ${STEPS[step - 1]}</button>`}
+        ${step < 2 && html`<button class="btn primary" onClick=${() => setStep(step + 1)}>${STEPS[step + 1]} →</button>`}
+      </div>
+      <label class="switch"><input type="checkbox" id="done-toggle" checked=${isDone} onChange=${() => toggleDone(S.id)}/>Je maîtrise ce sujet</label>
+    </div>
+  </article>`;
+}
+
+function SujetsView({ cur, setCur, step, setStep, done, toggleDone }) {
+  const [ft, setFt] = useState(() => load("ft", "all"));
+  useEffect(() => save("ft", ft), [ft]);
+  const S = sujById[cur] || SUJETS[0];
+  const vis = s => ft === "all" || s.type === ft;
+  return html`<div class="split">
+    <aside class="pane sidebar" aria-label="Liste des sujets">
+      <div class="side-filter" role="group" aria-label="Filtrer par type">
+        ${[["all", "Tous"], ["D", "Dialectique"], ["T", "Thématique"]].map(([k, n]) => html`<button key=${k} class="seg" aria-pressed=${ft === k} onClick=${() => setFt(k)}>${n}</button>`)}
+      </div>
+      ${FAMILIES.map(f => {
+        const l = SUJETS.filter(s => s.fam === f.id && vis(s)); if (!l.length) return null;
+        return html`<div key=${f.id}><div class="group-title">${f.nom}</div>
+          ${l.map(s => html`<button key=${s.id} class="item" aria-current=${s.id === S.id} onClick=${() => setCur(s.id)}>
+            <${TBadge} type=${s.type}/><span>${TITRES[s.id]}</span>${done.includes(s.id) && html`<span class="done" aria-label="maîtrisé">✓</span>`}
+          </button>`)}
+        </div>`;
+      })}
+    </aside>
+    <div style=${{ display: "grid", gap: "12px", minWidth: 0 }}>
+      <label class="mobile-pick pane">
+        <span class="label" style=${{ margin: 0 }}>Choisir un sujet</span>
+        <select id="mobile-select" value=${S.id} onChange=${e => setCur(e.target.value)} style=${{ width: "100%", padding: "6px", border: "1px solid var(--line)", borderRadius: "3px", background: "var(--view)" }}>
+          ${FAMILIES.map(f => html`<optgroup key=${f.id} label=${f.nom}>${SUJETS.filter(s => s.fam === f.id).map(s => html`<option key=${s.id} value=${s.id}>${s.type} · ${TITRES[s.id]}${done.includes(s.id) ? " ✓" : ""}</option>`)}</optgroup>`)}
+        </select>
+      </label>
+      <${Sheet} S=${S} step=${step} setStep=${setStep} done=${done} toggleDone=${toggleDone}/>
+    </div>
+  </div>`;
+}
+
+/* ---------- banque de citations ---------- */
+function refKey(r) { const [a, s] = r.split(",").map(x => x.trim()); return ({ I: 1, II: 2, III: 3 }[a] || 0) * 100 + ({ I: 1, II: 2, III: 3, IV: 4, V: 5, VI: 6, VII: 7, VIII: 8 }[s] || +s || 0); }
+function CitationsView({ openSujet }) {
+  const [fam, setFam] = useState("all");
+  const [q, setQ] = useState("");
+  const bank = useMemo(() => {
+    const m = new Map();
+    for (const S of SUJETS) for (const P of S.parties) for (const s of P.s) for (const c of s.c) {
+      const k = c.t.toLowerCase();
+      if (!m.has(k)) m.set(k, { t: c.t, r: c.r, w: c.w, suj: new Set(), fam: new Set() });
+      const e = m.get(k); e.suj.add(S.id); e.fam.add(S.fam);
+    }
+    return [...m.values()].sort((a, b) => refKey(a.r) - refKey(b.r) || a.t.localeCompare(b.t));
+  }, []);
+  const ql = q.trim().toLowerCase();
+  const list = bank.filter(e => (fam === "all" || e.fam.has(fam)) && (!ql || (e.t + " " + e.w).toLowerCase().includes(ql)));
+  return html`<section class="pane">
+    <div class="cit-tools">
+      <input class="search" id="cit-search" type="search" placeholder="Chercher un mot, un personnage…" value=${q} onInput=${e => setQ(e.target.value)} aria-label="Chercher une citation"/>
+      <span style=${{ fontSize: "13px", color: "var(--mute)", fontVariantNumeric: "tabular-nums" }}>${list.length} citation${list.length > 1 ? "s" : ""}, dans l’ordre de la pièce</span>
+    </div>
+    <div class="cit-tools" role="group" aria-label="Filtrer par famille">
+      <button class=${"chip" + (fam === "all" ? " on" : "")} onClick=${() => setFam("all")}>Toutes</button>
+      ${FAMILIES.map(f => html`<button key=${f.id} class=${"chip" + (fam === f.id ? " on" : "")} onClick=${() => setFam(f.id)}>${f.court}</button>`)}
+    </div>
+    <div class="cit-list">
+      ${list.map((e, i) => html`<div key=${i} class="cit-row">
+        <q>${e.t}</q>
+        <div class="cit-meta"><strong style=${{ color: "var(--fg)" }}>${e.r}</strong><span>${e.w}</span><span aria-hidden="true">·</span><span>sert dans :</span>
+          ${[...e.suj].map(id => html`<button key=${id} class="chip" onClick=${() => openSujet(id, 1)}>${TITRES[id]}</button>`)}
+        </div>
+      </div>`)}
+      ${list.length === 0 && html`<p style=${{ padding: "16px", color: "var(--mute)" }}>Aucune citation ne correspond. Essaie un autre mot ou choisis « Toutes ».</p>`}
+    </div>
+  </section>`;
+}
+
+/* ---------- méthode ---------- */
+function MethodView() {
+  return html`<div style=${{ display: "grid", gap: "16px" }}>
+    <div class="method">
+      <section class="pane mcard">
+        <h2>1. Reconnaître le type de sujet</h2>
+        <table class="mtable">
+          <thead><tr><th>Indices dans l’énoncé</th><th>Type de plan</th></tr></thead>
+          <tbody>
+            <tr><td>Question fermée (oui / non), « ne… que », « uniquement », « seulement », « dans quelle mesure », « éclaire-t-elle », « partagez-vous »</td><td><${TBadge} type="D"/> <strong>Dialectique</strong><br/>I. Oui<br/>II. Mais<br/>III. Dépassement</td></tr>
+            <tr><td>« En quoi », « comment », « pourquoi », « comment expliquer », « quel écho »</td><td><${TBadge} type="T"/> <strong>Thématique</strong><br/>trois aspects ou trois causes, du plus visible au plus profond</td></tr>
+          </tbody>
+        </table>
+      </section>
+      <section class="pane mcard">
+        <h2>2. L’introduction en cinq temps</h2>
+        <ol>
+          <li><strong>Accroche</strong> : une image ou une réplique forte de la pièce.</li>
+          <li><strong>Présenter le sujet</strong> : œuvre, date, situation, puis l’énoncé.</li>
+          <li><strong>Définir les mots-clés</strong> : ce que le sujet veut dire exactement.</li>
+          <li><strong>Problématique</strong> : la question reformulée, qui contient une tension.</li>
+          <li><strong>Annonce du plan</strong> : les trois idées, dans l’ordre.</li>
+        </ol>
+        <p class="note" style=${{ background: "var(--accent-tint)" }}><span>Pour mémoriser, retiens seulement deux choses : l’image de l’accroche et le fil de trois mots. Le reste se reconstruit à partir d’eux.</span></p>
+      </section>
+      <section class="pane mcard">
+        <h2>3. Construire un paragraphe</h2>
+        <ol>
+          <li><strong>Argument</strong> : une phrase qui répond au sujet.</li>
+          <li><strong>Explication</strong> : pourquoi c’est vrai.</li>
+          <li><strong>Exemple</strong> : une scène, avec une citation courte (acte, scène).</li>
+          <li><strong>Analyse</strong> : ce que montre la citation (un mot, une image, un procédé).</li>
+          <li><strong>Mini-conclusion</strong> : retour au sujet, puis transition.</li>
+        </ol>
+      </section>
+      <section class="pane mcard">
+        <h2>4. Réviser avec l’application</h2>
+        <ul>
+          <li>Commence par la <strong>carte</strong> : les sujets proches se révisent ensemble.</li>
+          <li>Pour chaque sujet, suis les étapes <strong>Analyser → Plan → Introduction</strong>, une à la fois.</li>
+          <li>Active le <strong>mode mémorisation</strong> : essaie de retrouver avant de vérifier. C’est cet effort qui fixe le souvenir.</li>
+          <li>Écoute l’introduction, puis récite-la à voix haute.</li>
+          <li>Reviens plusieurs jours de suite sur les sujets non cochés.</li>
+        </ul>
+      </section>
+    </div>
+    <section class="pane sources">
+      <div class="label" style=${{ margin: 0 }}>Sources des énoncés</div>
+      <ul>${SOURCES.map((s, i) => html`<li key=${i}><a href=${s.url} target="_blank" rel="noopener">${s.nom}</a></li>`)}</ul>
+      <p style=${{ color: "var(--mute)" }}>Toutes les citations de la pièce ont été vérifiées sur le texte intégral (acte et scène). Les deux sujets Beaunesne viennent du cours.</p>
+    </section>
+  </div>`;
+}
+
+/* ---------- application ---------- */
+function App() {
+  const init = (() => { const h = (location.hash || "").slice(1); return h; })();
+  const [view, setViewRaw] = useState(() => sujById[init] ? "sujets" : (["carte", "sujets", "citations", "methode"].includes(init) ? init : load("view", "carte")));
+  const [cur, setCurRaw] = useState(() => sujById[init] ? init : load("cur", "s1"));
+  const [step, setStep] = useState(0);
+  const [done, setDone] = useState(() => { const d = load("done", []); return Array.isArray(d) ? d : []; });
+  useEffect(() => save("view", view), [view]);
+  useEffect(() => save("cur", cur), [cur]);
+  useEffect(() => save("done", done), [done]);
+  useEffect(() => setHash(view === "sujets" ? cur : view), [view, cur]);
+  const setView = v => { setViewRaw(v); window.scrollTo(0, 0); };
+  const setCur = id => { setCurRaw(id); setStep(0); window.scrollTo(0, 0); };
+  const openSujet = (id, st = 0) => { setCurRaw(id); setStep(st); setViewRaw("sujets"); window.scrollTo(0, 0); };
+  const toggleDone = id => setDone(d => d.includes(id) ? d.filter(x => x !== id) : [...d, id]);
+  return html`<div class="app">
+    <${Toolbar} view=${view} setView=${setView} done=${done}/>
+    <main class="main">
+      ${view === "carte" && html`<${MapView} openSujet=${openSujet}/>`}
+      ${view === "sujets" && html`<${SujetsView} cur=${cur} setCur=${setCur} step=${step} setStep=${setStep} done=${done} toggleDone=${toggleDone}/>`}
+      ${view === "citations" && html`<${CitationsView} openSujet=${openSujet}/>`}
+      ${view === "methode" && html`<${MethodView}/>`}
+    </main>
+  </div>`;
+}
+
+ReactDOM.createRoot(document.getElementById("root")).render(html`<${App}/>`);
+
+</script>
+
+</body></html>
