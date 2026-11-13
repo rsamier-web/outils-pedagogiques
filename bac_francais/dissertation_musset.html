@@ -1,0 +1,1633 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Disserter sur Musset · On ne badine pas avec l’amour</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;500;600;700&family=Noto+Serif:ital,wght@0,400;0,600;1,400&display=swap">
+<style>
+/* Layout : fenêtre KDE Plasma (Breeze) — barre d'en-tête, barre latérale, une seule vue de contenu, une tâche à la fois.
+   Couleurs : palette Breeze ; une couleur par pièce de dissertation (signalisation), identique partout. */
+:root{
+  --window:#eff0f1; --view:#fcfcfc; --alt:#f5f6f7; --text:#232629; --muted:#5d6873;
+  --line:#d4d7da; --line-strong:#b8bbbe; --btn:#fcfcfc; --btn-hover:#ffffff;
+  --accent:#3daee9; --accent-text:#1d6fa5; --accent-tint:rgba(61,174,233,.13); --accent-tint-strong:rgba(61,174,233,.26);
+  --pos:#1e8049; --pos-tint:rgba(39,174,96,.12); --neg:#b8323f; --neg-tint:rgba(218,68,83,.11);
+  --r-arg:#1d6fa5; --r-expl:#7a3b99; --r-ex:#a35200; --r-ana:#1e8049; --r-lien:#0d7766;
+  --r-acc:#3d5266; --r-pres:#4549b0; --r-def:#7a3b99; --r-pb:#1d6fa5; --r-ann:#b0306a; --r-bil:#0d7766; --r-ouv:#a35200; --r-trans:#6b737b;
+  --shadow:0 1px 2px rgba(35,38,41,.12); --scrim:rgba(35,38,41,.35);
+  --f-ui:"Noto Sans","Segoe UI",Cantarell,Ubuntu,system-ui,sans-serif;
+  --f-read:"Noto Serif",Georgia,"Times New Roman",serif;
+  --base:16px; --lh:1.55; --ls:0em; --ws:0em;
+}
+:root[data-theme="dark"]{
+  --window:#2a2e32; --view:#1b1e20; --alt:#232629; --text:#fcfcfc; --muted:#a3abb3;
+  --line:#3a3f44; --line-strong:#50565c; --btn:#31363b; --btn-hover:#383d42;
+  --accent-text:#5cc3f2; --accent-tint:rgba(61,174,233,.17); --accent-tint-strong:rgba(61,174,233,.32);
+  --pos:#4ccf7e; --pos-tint:rgba(39,174,96,.2); --neg:#f06b78; --neg-tint:rgba(218,68,83,.2);
+  --r-arg:#5cc3f2; --r-expl:#c792e0; --r-ex:#f8a14c; --r-ana:#4ccf7e; --r-lien:#3fd0b3;
+  --r-acc:#aab9c8; --r-pres:#a3a6f7; --r-def:#c792e0; --r-pb:#5cc3f2; --r-ann:#f27aab; --r-bil:#3fd0b3; --r-ouv:#f8a14c; --r-trans:#9aa3ab;
+  --shadow:0 1px 2px rgba(0,0,0,.45); --scrim:rgba(0,0,0,.5); color-scheme:dark;
+}
+html{height:100%;box-sizing:border-box;font-size:var(--base)}
+*,*::before,*::after{box-sizing:inherit}
+body{height:100%;margin:0;background:var(--window);color:var(--text);font-family:var(--f-ui);font-size:1rem;line-height:var(--lh);letter-spacing:var(--ls);word-spacing:var(--ws);-webkit-font-smoothing:antialiased}
+#root{height:100%}
+h1,h2,h3{text-wrap:balance;line-height:1.25;margin:0}
+h1{font-size:1.55rem;font-weight:600} h2{font-size:1.2rem;font-weight:600} h3{font-size:1.02rem;font-weight:600}
+p{margin:0}
+ul,ol{margin:0;padding-left:1.25rem;display:flex;flex-direction:column;gap:.35rem}
+:focus-visible{outline:2px solid var(--accent);outline-offset:1px}
+@media (prefers-reduced-motion: reduce){*{transition:none!important;animation:none!important}}
+
+.app{height:100%;display:grid;grid-template-rows:auto 1fr;grid-template-columns:minmax(0,1fr);min-height:0}
+.header{display:flex;align-items:center;gap:.5rem;padding:.35rem 1rem;background:var(--window);border-bottom:1px solid var(--line);min-height:3rem;position:relative}
+.header .app-name{font-size:.82rem;color:var(--muted);white-space:nowrap}
+.header .page-name{font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0}
+.header .sep{width:1px;height:1.2rem;background:var(--line)}
+.spacer{flex:1}
+.header .menu-btn{display:none}
+.main{display:grid;grid-template-columns:16rem minmax(0,1fr);min-height:0}
+.sidebar{background:var(--window);border-right:1px solid var(--line);overflow-y:auto;padding:.6rem .5rem;display:flex;flex-direction:column;gap:2px}
+.side-label{font-size:.75rem;font-weight:600;color:var(--muted);padding:.75rem .65rem .3rem;letter-spacing:.03em}
+.nav-item{display:flex;align-items:center;gap:.6rem;width:100%;padding:.42rem .6rem;border-radius:4px;border:1px solid transparent;background:none;color:var(--text);font:inherit;font-size:.93rem;text-align:left;cursor:pointer;letter-spacing:0;word-spacing:0}
+.nav-item:hover{background:var(--accent-tint)}
+.nav-item.active{background:var(--accent-tint-strong);border-color:color-mix(in srgb,var(--accent) 55%,transparent)}
+.nav-item .lbl{flex:1;min-width:0}
+.nav-item .num{font-size:.75rem;color:var(--muted);font-variant-numeric:tabular-nums;width:1rem;text-align:right}
+.nav-item .st{font-size:.72rem;color:var(--muted);font-variant-numeric:tabular-nums}
+.nav-item .st.done{color:var(--pos)}
+.content{background:var(--view);overflow-y:auto;min-width:0}
+.page{max-width:48rem;margin:0 auto;padding:1.5rem 1.25rem 3rem;display:flex;flex-direction:column;gap:1.2rem}
+.lead{color:var(--muted);max-width:64ch}
+.scrim{display:none}
+@media (max-width:800px){
+  .header .menu-btn{display:inline-flex}
+  .header .app-name,.header .sep,.header .hide-sm{display:none}
+  .main{grid-template-columns:minmax(0,1fr)}
+  .sidebar{position:fixed;top:0;bottom:0;left:0;width:min(18rem,86vw);z-index:30;transform:translateX(-102%);transition:transform .18s ease;box-shadow:0 0 18px rgba(0,0,0,.25)}
+  .sidebar.open{transform:none}
+  .scrim.open{display:block;position:fixed;inset:0;background:var(--scrim);z-index:25}
+  .page{padding:1.1rem 1rem 2.5rem}
+}
+
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:.45rem;font:inherit;font-size:.93rem;letter-spacing:0;word-spacing:0;color:var(--text);background:var(--btn);border:1px solid var(--line-strong);border-radius:4px;padding:.38rem .85rem;min-height:2.2rem;cursor:pointer;box-shadow:var(--shadow);transition:border-color .12s,background .12s;text-align:center}
+.btn:hover{border-color:var(--accent);background:var(--btn-hover)}
+.btn:disabled{opacity:.5;cursor:default;border-color:var(--line-strong)}
+.btn-primary{border-color:var(--accent);background:var(--accent-tint)}
+.btn-primary:hover{background:var(--accent-tint-strong)}
+.btn-flat{background:transparent;border-color:transparent;box-shadow:none}
+.btn-flat:hover{background:var(--accent-tint);border-color:transparent}
+.btn-sm{font-size:.84rem;padding:.18rem .55rem;min-height:1.9rem}
+.btn-icon{padding:.35rem;min-width:2.2rem}
+.btn.on{background:var(--accent-tint-strong);border-color:var(--accent)}
+.actions{display:flex;flex-wrap:wrap;gap:.5rem;align-items:center}
+
+.tabs{display:flex;border-bottom:1px solid var(--line);overflow-x:auto;scrollbar-width:thin}
+.tab{flex:none;font:inherit;font-size:.93rem;letter-spacing:0;word-spacing:0;padding:.55rem .95rem;border:none;border-bottom:2px solid transparent;background:none;color:var(--muted);cursor:pointer;white-space:nowrap;display:inline-flex;gap:.4rem;align-items:center}
+.tab:hover{color:var(--text);background:var(--accent-tint)}
+.tab.active{color:var(--text);border-bottom-color:var(--accent);font-weight:600}
+.tab .n{display:inline-grid;place-items:center;width:1.3rem;height:1.3rem;border-radius:50%;border:1px solid currentColor;font-size:.72rem}
+.tab .ok{color:var(--pos)}
+
+.frame{border:1px solid var(--line);border-radius:5px;background:var(--alt);padding:1rem 1.1rem;display:flex;flex-direction:column;gap:.7rem}
+.card{border:1px solid var(--line);border-radius:5px;background:var(--view);padding:1.1rem 1.2rem;box-shadow:var(--shadow);display:flex;flex-direction:column;gap:.9rem}
+.eyebrow{font-size:.74rem;font-weight:600;color:var(--muted);letter-spacing:.06em;text-transform:uppercase}
+.count{font-size:.85rem;color:var(--muted);font-variant-numeric:tabular-nums}
+.progress{height:4px;border-radius:2px;background:var(--line);overflow:hidden}
+.progress>span{display:block;height:100%;background:var(--accent);transition:width .25s}
+
+.msg{display:flex;gap:.6rem;align-items:flex-start;border:1px solid;border-radius:5px;padding:.7rem .9rem}
+.msg svg{flex:none;margin-top:.18rem}
+.msg .body{display:flex;flex-direction:column;gap:.4rem;min-width:0}
+.msg-pos{border-color:color-mix(in srgb,var(--pos) 60%,transparent);background:var(--pos-tint)} .msg-pos>svg{color:var(--pos)}
+.msg-neg{border-color:color-mix(in srgb,var(--neg) 60%,transparent);background:var(--neg-tint)} .msg-neg>svg{color:var(--neg)}
+.msg-info{border-color:color-mix(in srgb,var(--accent) 55%,transparent);background:var(--accent-tint)} .msg-info>svg{color:var(--accent-text)}
+
+details.more{border:1px solid var(--line);border-radius:4px;background:var(--view)}
+details.more>summary{cursor:pointer;padding:.45rem .75rem;font-size:.9rem;font-weight:600;color:var(--accent-text)}
+details.more>.inner{padding:0 .8rem .8rem;display:flex;flex-direction:column;gap:.5rem}
+
+.md{display:flex;flex-direction:column;gap:.6rem}
+.read{font-family:var(--f-read);font-size:1.06rem;line-height:calc(var(--lh) + .12)}
+.dl{display:grid;grid-template-columns:minmax(7rem,auto) minmax(0,1fr);gap:.5rem 1rem;margin:0}
+.dl dt{font-weight:600}
+.dl dd{margin:0}
+@media (max-width:540px){.dl{grid-template-columns:minmax(0,1fr);gap:.15rem} .dl dd{margin-bottom:.45rem}}
+
+/* Rôles (signalisation) */
+.k-arg{--c:var(--r-arg)} .k-expl{--c:var(--r-expl)} .k-ex{--c:var(--r-ex)} .k-ana{--c:var(--r-ana)} .k-lien{--c:var(--r-lien)}
+.k-acc{--c:var(--r-acc)} .k-pres{--c:var(--r-pres)} .k-def{--c:var(--r-def)} .k-pb{--c:var(--r-pb)} .k-ann{--c:var(--r-ann)}
+.k-bil{--c:var(--r-bil)} .k-ouv{--c:var(--r-ouv)} .k-trans{--c:var(--r-trans)}
+.chip{display:inline-flex;align-items:center;font-size:.7rem;font-weight:700;letter-spacing:.05em;text-transform:uppercase;padding:.06rem .45rem;border-radius:3px;color:var(--c);background:color-mix(in srgb,var(--c) 13%,transparent);border:1px solid color-mix(in srgb,var(--c) 35%,transparent);white-space:nowrap;line-height:1.5;word-spacing:0}
+.seg{border-left:3px solid var(--c);padding:.1rem 0 .1rem .7rem}
+.seg-inline{color:var(--c);background:color-mix(in srgb,var(--c) 10%,transparent);border-radius:3px;padding:.03em .15em;-webkit-box-decoration-break:clone;box-decoration-break:clone}
+.nocolor .chip{color:var(--text);background:transparent;border-color:var(--line-strong)}
+.nocolor .seg{border-left-color:var(--line-strong)}
+.nocolor .seg-inline{color:inherit;background:none}
+.legend{display:flex;flex-wrap:wrap;gap:.4rem}
+
+/* Accueil */
+.path{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;border:1px solid var(--line);border-radius:5px;overflow:hidden;background:var(--view);gap:0}
+.path li+li{border-top:1px solid var(--line)}
+.path button{display:grid;grid-template-columns:2rem minmax(0,1fr) auto;gap:.8rem;align-items:center;width:100%;padding:.75rem 1rem;background:none;border:none;font:inherit;color:var(--text);text-align:left;cursor:pointer;letter-spacing:0;word-spacing:0}
+.path button:hover{background:var(--accent-tint)}
+.path .n{width:2rem;height:2rem;border-radius:50%;display:grid;place-items:center;border:1px solid var(--line-strong);font-weight:600;color:var(--muted)}
+.path .n.done{border-color:var(--pos);color:var(--pos);background:var(--pos-tint)}
+.path .t{font-weight:600}
+.path .d{font-size:.86rem;color:var(--muted)}
+.status{font-size:.76rem;padding:.08rem .5rem;border-radius:10px;border:1px solid var(--line-strong);color:var(--muted);white-space:nowrap;font-variant-numeric:tabular-nums}
+.status.done{border-color:var(--pos);color:var(--pos)}
+.status.started{border-color:var(--accent);color:var(--accent-text)}
+.tips{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:.75rem}
+@media (max-width:640px){.tips{grid-template-columns:minmax(0,1fr)}}
+.tip{display:flex;flex-direction:column;gap:.3rem}
+.tip svg{color:var(--accent-text)}
+.tip p{font-size:.9rem;color:var(--muted)}
+
+/* Pas à pas */
+.dots{display:flex;gap:.35rem;flex-wrap:wrap}
+.dot{width:1.7rem;height:1.7rem;border-radius:50%;display:grid;place-items:center;border:1px solid var(--line-strong);font-size:.78rem;font-weight:600;background:var(--view);color:var(--muted);cursor:pointer;font-family:inherit;padding:0}
+.dot.cur{border-color:var(--accent);background:var(--accent);color:#fff}
+.dot.past{border-color:var(--pos);color:var(--pos)}
+.dot:disabled{cursor:default;opacity:.6}
+.task{font-family:var(--f-read);font-size:1.12rem}
+.selfq{display:flex;gap:.55rem;align-items:flex-start;color:var(--muted);font-style:italic}
+.answer{display:flex;flex-direction:column;gap:.35rem;align-items:flex-start}
+.why{border-top:1px dashed var(--line-strong);padding-top:.7rem;display:flex;flex-direction:column;gap:.35rem}
+.why p{color:var(--muted);font-size:.95rem}
+.done-list{list-style:none;padding:0;display:flex;flex-direction:column;gap:.5rem}
+.done-list li{display:flex;flex-direction:column;gap:.15rem}
+.done-list .h{font-size:.8rem;font-weight:600;color:var(--muted)}
+
+/* Familles d'exercices */
+.fams{display:grid;gap:.6rem}
+.fam{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:.8rem;align-items:center;width:100%;text-align:left;font:inherit;color:var(--text);background:var(--view);border:1px solid var(--line);border-radius:5px;padding:.75rem .9rem;cursor:pointer;letter-spacing:0;word-spacing:0}
+.fam:hover{border-color:var(--accent);background:var(--accent-tint)}
+.lvl{display:flex;flex-direction:column;align-items:center;justify-content:center;width:3.6rem;height:3.2rem;border-radius:4px;background:var(--alt);border:1px solid var(--line);font-size:.68rem;color:var(--muted);text-transform:uppercase;letter-spacing:.04em}
+.lvl b{font-size:1.15rem;color:var(--text);letter-spacing:0}
+.bars{display:flex;gap:2px}
+.bars i{width:6px;height:10px;border-radius:1px;background:var(--line)}
+.bars i.on{background:var(--accent)}
+
+/* Exercices */
+.prompt{font-size:1.05rem;font-weight:500}
+.choices{display:flex;flex-direction:column;gap:.5rem}
+.choice{display:flex;gap:.7rem;align-items:flex-start;width:100%;text-align:left;font:inherit;line-height:var(--lh);letter-spacing:var(--ls);word-spacing:var(--ws);color:var(--text);background:var(--btn);border:1px solid var(--line-strong);border-radius:4px;padding:.65rem .85rem;cursor:pointer;box-shadow:var(--shadow)}
+.choice:hover:not(:disabled){border-color:var(--accent)}
+.choice:disabled{cursor:default}
+.choice .mark{flex:none;width:1.4rem;height:1.4rem;border-radius:50%;border:1px solid var(--line-strong);display:grid;place-items:center;font-size:.75rem;font-weight:700;color:var(--muted);margin-top:.1rem}
+.choice.ok{border-color:var(--pos);background:var(--pos-tint)} .choice.ok .mark{border-color:var(--pos);color:var(--pos)}
+.choice.no{border-color:var(--neg);background:var(--neg-tint)} .choice.no .mark{border-color:var(--neg);color:var(--neg)}
+.choice.dim{opacity:.55}
+.mrow{display:grid;grid-template-columns:minmax(0,1.4fr) minmax(0,1fr) 1.4rem;gap:.6rem;align-items:center;padding:.5rem 0;border-top:1px solid var(--line)}
+.mrow:first-child{border-top:none}
+.mrow .ic{display:grid;place-items:center}
+.mrow .ic.ok{color:var(--pos)} .mrow .ic.no{color:var(--neg)}
+@media (max-width:560px){.mrow{grid-template-columns:minmax(0,1fr) 1.4rem}.mrow select{grid-column:1}}
+select,textarea,input[type=text],input[type=search]{font:inherit;color:var(--text);background:var(--view);border:1px solid var(--line-strong);border-radius:4px;padding:.45rem .6rem;width:100%;line-height:var(--lh);letter-spacing:var(--ls);word-spacing:var(--ws)}
+textarea{resize:vertical;min-height:7rem}
+textarea:focus,select:focus,input:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 1px var(--accent)}
+.zone{display:flex;flex-direction:column;gap:.45rem}
+.zone-label{font-size:.8rem;font-weight:600;color:var(--muted)}
+.slot{display:flex;gap:.7rem;align-items:flex-start;width:100%;text-align:left;font:inherit;line-height:var(--lh);letter-spacing:var(--ls);word-spacing:var(--ws);color:var(--text);background:var(--btn);border:1px solid var(--line-strong);border-radius:4px;padding:.55rem .8rem;cursor:pointer;box-shadow:var(--shadow)}
+.slot:hover:not(:disabled){border-color:var(--accent)}
+.slot:disabled{cursor:default}
+.slot .pos{flex:none;width:1.5rem;height:1.5rem;border-radius:3px;background:var(--accent-tint-strong);color:var(--accent-text);display:grid;place-items:center;font-size:.8rem;font-weight:700;margin-top:.1rem}
+.slot.ok{border-color:var(--pos);background:var(--pos-tint)} .slot.ok .pos{background:var(--pos);color:var(--view)}
+.slot.no{border-color:var(--neg);background:var(--neg-tint)} .slot.no .pos{background:var(--neg);color:var(--view)}
+.empty{border:1px dashed var(--line-strong);border-radius:4px;padding:.75rem;color:var(--muted);font-size:.9rem;text-align:center}
+.checks{display:flex;flex-direction:column;gap:.4rem}
+.checks label{display:flex;gap:.6rem;align-items:flex-start;cursor:pointer}
+.checks input{width:1.1rem;height:1.1rem;margin-top:.22rem;accent-color:var(--accent);flex:none}
+.model{font-family:var(--f-read);font-size:1.02rem;line-height:calc(var(--lh) + .1);border-left:3px solid var(--pos);padding-left:.8rem}
+.stage{display:flex;flex-direction:column;gap:.6rem;border-top:1px solid var(--line);padding-top:.9rem}
+.stage-h{display:flex;gap:.5rem;align-items:center;font-weight:600}
+.stage-h .n{display:inline-grid;place-items:center;width:1.4rem;height:1.4rem;border-radius:50%;background:var(--accent-tint-strong);color:var(--accent-text);font-size:.75rem}
+.prompt-box{font-family:ui-monospace,"Noto Sans Mono",monospace;font-size:.82rem;min-height:12rem;background:var(--alt)}
+
+/* Plans */
+.outline{display:flex;flex-direction:column;gap:.55rem}
+.ol-part{border:1px solid var(--line);border-radius:5px;background:var(--view);overflow:hidden}
+.ol-head{display:flex;gap:.6rem;align-items:center;padding:.5rem .8rem;background:var(--alt);font-weight:600}
+.ol-head .rn{flex:none;width:1.7rem;height:1.7rem;border-radius:3px;display:grid;place-items:center;background:var(--accent);color:#fff;font-size:.85rem}
+.ol-sub{display:grid;grid-template-columns:1.4rem minmax(0,1fr);gap:.4rem;padding:.45rem .8rem;border-top:1px solid var(--line);font-size:.95rem}
+.ol-sub b{color:var(--muted)}
+.pbox{font-family:var(--f-read);font-size:1.05rem;padding:.7rem .9rem;border:1px solid var(--accent);border-radius:4px;background:var(--accent-tint)}
+
+/* Mémo */
+.cit-row{display:flex;flex-direction:column;gap:.3rem;padding:.8rem 0;border-top:1px solid var(--line)}
+.cit-row:first-child{border-top:none}
+.cit-row q{font-family:var(--f-read);font-size:1.03rem;quotes:"« " " »"}
+.cit-meta{display:flex;flex-wrap:wrap;gap:.4rem;align-items:center;font-size:.82rem;color:var(--muted)}
+.pill{display:inline-flex;font-size:.75rem;padding:.05rem .5rem;border:1px solid var(--line-strong);border-radius:999px;color:var(--muted);background:var(--alt)}
+.pill.on{border-color:var(--accent);color:var(--accent-text);background:var(--accent-tint);font-weight:600}
+button.pill{cursor:pointer;font-family:inherit}
+
+/* Atelier */
+.field{display:flex;flex-direction:column;gap:.3rem}
+.field label{font-size:.88rem;font-weight:600;display:flex;gap:.5rem;align-items:center;flex-wrap:wrap}
+.field .hint{font-weight:400;color:var(--muted);font-size:.82rem}
+.field textarea{min-height:4rem}
+.group{display:flex;flex-direction:column;gap:.75rem;border-left:3px solid var(--c,var(--line-strong));padding-left:.9rem}
+.subbox{border:1px solid var(--line);border-radius:4px;background:var(--alt);padding:.6rem .75rem;display:flex;flex-direction:column;gap:.45rem}
+.assembled{display:flex;flex-direction:column;gap:.9rem}
+.assembled .apara{display:flex;flex-direction:column;gap:.2rem}
+.para-label{font-size:.72rem;font-weight:600;color:var(--muted);letter-spacing:.06em;text-transform:uppercase}
+.seg-ctl{display:flex;max-width:30rem}
+.seg-ctl .btn{border-radius:0;flex:1;box-shadow:none}
+.seg-ctl .btn:first-child{border-radius:4px 0 0 4px}
+.seg-ctl .btn:last-child{border-radius:0 4px 4px 0}
+.seg-ctl .btn+.btn{margin-left:-1px}
+
+/* Réglages */
+.pop{position:absolute;right:.75rem;top:calc(100% + 4px);z-index:40;width:min(19rem,calc(100vw - 1.5rem));background:var(--view);border:1px solid var(--line-strong);border-radius:5px;box-shadow:0 4px 16px rgba(0,0,0,.18);padding:.9rem;display:flex;flex-direction:column;gap:.85rem}
+.pop .lbl{font-size:.8rem;font-weight:600;color:var(--muted);margin-bottom:.3rem}
+.switch{display:flex;justify-content:space-between;align-items:center;gap:.8rem;cursor:pointer;font-size:.93rem}
+.switch input{appearance:none;-webkit-appearance:none;width:2.4rem;height:1.3rem;border-radius:.65rem;background:var(--line-strong);position:relative;cursor:pointer;flex:none;transition:background .15s;margin:0}
+.switch input::after{content:"";position:absolute;top:2px;left:2px;width:calc(1.3rem - 4px);height:calc(1.3rem - 4px);border-radius:50%;background:var(--view);transition:transform .15s;box-shadow:var(--shadow)}
+.switch input:checked{background:var(--accent)}
+.switch input:checked::after{transform:translateX(1.1rem)}
+.pop-scrim{position:fixed;inset:0;z-index:35}
+.big-score{font-size:2.2rem;font-weight:600;font-variant-numeric:tabular-nums;line-height:1.1}
+.notes{display:flex;flex-direction:column;gap:1.1rem;max-width:68ch}
+.notes .ref{color:var(--muted);font-size:.86rem}
+
+</style>
+</head>
+<body>
+<div id="root"><p style="padding:2rem;font-family:sans-serif">Chargement…</p></div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.3.1/umd/react.production.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.3.1/umd/react-dom.production.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/htm@3.1.1/dist/htm.umd.js"></script>
+<script>
+/* ===== Données générales : sujets, familles, plans, citations ===== */
+const FAMS = {
+  1: { t: 'Jeu ou sérieux ?', q: 'À quel moment, et pourquoi, le jeu devient-il mortel ?' },
+  2: { t: 'Dire ou ne pas dire ?', q: 'La parole cache-t-elle le cœur, le révèle-t-elle, ou le tue-t-elle ?' },
+  3: { t: 'Pourquoi ça tourne mal ?', q: 'Qui ou quoi est responsable : l’orgueil, la peur, l’éducation, la société, Dieu ?' },
+  4: { t: 'Comédie, tragédie, destin ?', q: 'La catastrophe est-elle programmée, ou fabriquée par les personnages ?' }
+};
+
+const SUJETS = [
+  { id: 'A', off: true, s: 'Métropole 2025', fam: 1, q: 'Les personnages s’affrontent-ils sérieusement dans *On ne badine pas avec l’amour* ?' },
+  { id: 'B', off: true, s: 'Polynésie 2026', fam: 1, q: 'Dans quelle mesure les personnages de *On ne badine pas avec l’amour* se laissent-ils piéger par leur propre badinage ?' },
+  { id: 'C', off: true, s: 'Asie 2025', fam: 2, q: '« J’ai eu tort de parler », dit Camille à Perdican (acte II, scène 5). Cette réplique éclaire-t-elle votre lecture de *On ne badine pas avec l’amour* ?' },
+  { id: 'D', off: true, s: 'Polynésie 2025', fam: 2, q: 'Dans quelle mesure le jeu de la parole nuit-il à l’expression sincère des sentiments dans *On ne badine pas avec l’amour* ?' },
+  { id: 'E', off: true, s: 'Polynésie 2025 (remplacement)', fam: 2, q: 'Selon un critique, la parole, chez Musset, « tire toujours à conséquence : il n’y a pas de parole gratuite. » En quoi cette citation éclaire-t-elle votre lecture de *On ne badine pas avec l’amour* ?' },
+  { id: 'F', off: true, s: 'Métropole 2026 (secours)', fam: 3, q: 'Dans *On ne badine pas avec l’amour*, les personnages ne sont-ils animés que par la peur de perdre ?' },
+  { id: 'G', off: true, s: 'Amérique du Sud 2025', fam: 4, q: 'Selon vous, tout est-il déjà joué quand commence *On ne badine pas avec l’amour* ?' },
+  { id: 'T1', off: false, s: 'Entraînement', fam: 3, q: 'Rosette n’est-elle qu’une victime dans *On ne badine pas avec l’amour* ?' },
+  { id: 'T2', off: false, s: 'Entraînement', fam: 3, q: 'Peut-on voir dans *On ne badine pas avec l’amour* un drame de l’orgueil ?' },
+  { id: 'T3', off: false, s: 'Entraînement', fam: 4, q: '*On ne badine pas avec l’amour* est-elle une comédie qui tourne mal ou une tragédie déguisée ?' },
+  { id: 'T4', off: false, s: 'Entraînement', fam: 4, q: '*On ne badine pas avec l’amour* s’inscrit-elle dans l’esthétique du drame romantique ?' },
+  { id: 'T5', off: false, s: 'Entraînement', fam: 4, q: 'Le titre *On ne badine pas avec l’amour* est-il une morale ou un constat ?' },
+  { id: 'T6', off: false, s: 'Entraînement', fam: 4, q: 'Le Chœur n’est-il qu’un témoin comique dans *On ne badine pas avec l’amour* ?' },
+  { id: 'T7', off: false, s: 'Entraînement', fam: 2, q: 'Dans *On ne badine pas avec l’amour*, la parole peut-elle jamais dire le cœur ?' },
+  { id: 'T8', off: false, s: 'Entraînement', fam: 2, q: 'La parole n’est-elle qu’un instrument de manipulation dans *On ne badine pas avec l’amour* ?' }
+];
+const SUJET = id => SUJETS.find(x => x.id === id);
+
+/* Plans modèles : pb = problématique, rep = réponse en une phrase, parts = [titre, [sous-parties]] */
+const PLANS = {
+  A: { pb: 'L’affrontement de Camille et Perdican n’est-il qu’une joute de comédie amoureuse, ou un combat dont l’enjeu dépasse ceux qui le mènent ?',
+    rep: 'Ils s’affrontent avec sérieux tout en croyant jouer : ils prennent leur orgueil au sérieux, mais pas l’amour.',
+    parts: [
+      ['En apparence, un affrontement de comédie', ['Une joute verbale en miroir : « l’amour peut voler un baiser, mais non pas l’amitié » (I, 2) ; « Ton amour m’eût donné la vie, mais ton amitié m’en consolera » (II, 1).', 'Le plaisir de la dispute : « J’aime la discussion » ; « Le plaisir des disputes, c’est de faire la paix » (III, 6).', 'Un cadre comique qui désamorce : le concert faux du Baron (I, 3), la rivalité de table de Blazius et Bridaine (II, 2). Parcours : Marivaux.']],
+      ['En réalité, un combat aux enjeux graves', ['Deux visions du monde : « Je veux aimer, mais je ne veux pas souffrir » face à « J’ai souffert souvent, je me suis trompé quelquefois, mais j’ai aimé » (II, 5).', 'Une guerre d’orgueil : « je te le prouverai » (III, 2) ; « quelque trait qui pût m’atteindre », « ta flèche empoisonnée » (III, 6).', 'Des coups qui portent : la bague jetée dans la fontaine (III, 3) ; « Oui, je l’épouserai » (III, 6).']],
+      ['Leur faute : ne pas prendre au sérieux ce qu’ils mettent en jeu', ['Un jeu d’enfants avec la mort : « nous avons joué avec la vie et la mort » (III, 8).', 'La seule qui ne joue pas meurt : « Comment n’y croirais-je pas ? il me tromperait donc ? Pour quoi faire ? » (Rosette, III, 6).', 'La pièce bascule du Chœur bouffon (I, 1) à l’oratoire : « Elle est morte. Adieu, Perdican ! » Parcours : Laclos, *Les Liaisons dangereuses*.']]
+    ] },
+  B: { pb: 'Les personnages sont-ils seulement victimes de leurs propres jeux, ou d’autres pièges, plus profonds, se referment-ils sur eux ?',
+    rep: 'Chaque piège se retourne contre celui qui l’a tendu, mais ce badinage n’est que la surface d’autres pièges : l’éducation, la société, la condition humaine.',
+    parts: [
+      ['Des pièges qui se retournent contre leurs auteurs', ['Camille, piégée par sa vanité : « Je m’étais vantée de t’avoir inspiré quelque amour » (III, 6).', 'Perdican, piégé par sa mise en scène : fiancé à Rosette, « c’est une idée que je vous dois, et je m’y tiens » (III, 7).', 'Trois écoutes cachées se répondent : Camille derrière un arbre (III, 3), Rosette derrière le rideau (III, 6), puis derrière l’autel (III, 8).']],
+      ['Ils se laissent piéger : lucidité et complaisance', ['Ils voient le piège et y entrent : « je l’ai vue derrière un arbre écouter la conversation » (Perdican, à part, III, 6).', 'Le premier piège est intérieur : « Je voudrais bien savoir si je suis amoureux » (III, 1).', 'Les grotesques font de même en comique : « Pourquoi un vain orgueil m’a-t-il éloigné de ce dîner honorable » (III, 2).']],
+      ['Un piège plus vaste que leur badinage', ['L’éducation : « les religieuses t’ont donné leur expérience ; mais, crois-moi, ce n’est pas la tienne » (II, 5).', 'La société : Rosette, « une fille de rien » pour Camille (III, 7).', 'La condition humaine : « car nous sommes des hommes » (III, 8). Parcours : Shakespeare, *Beaucoup de bruit pour rien*.']]
+    ] },
+  C: { pb: 'Parler est-il, dans la pièce, une faute qui expose et qui blesse, ou bien le vrai tort des personnages est-il de mal parler, ou de se taire ?',
+    rep: 'La réplique éclaire la pièce à condition de la retourner : le tort de Camille est moins d’avoir parlé que d’avoir laissé l’orgueil parler à sa place.',
+    parts: [
+      ['La parole expose, blesse et finit par tuer', ['Parler, c’est se livrer : « En vérité, je vous ai aimé, Perdican » (II, 5).', 'Les paroles deviennent des armes : la lettre lue (III, 2), la déclaration « à haute voix, de manière que Camille l’entende » (III, 3).', 'Le bilan : « Quelles vaines paroles, quelles misérables folies ont passé comme un vent funeste entre nous deux ? » (III, 8).']],
+      ['Mais le vrai tort est de taire ou de travestir', ['Les refus sont aussi des fautes : « Je n’en ai nulle envie » (I, 3).', 'Parler pour masquer : « il nous faut souvent jouer un rôle, souvent mentir » (III, 6).', 'La parole vraie arrive trop tard : « Insensés que nous sommes ! nous nous aimons » (III, 8).']],
+      ['Une parole à double tranchant, seul chemin vers le cœur', ['Quand elle est vraie, elle est sublime : la tirade de Perdican (II, 5).', 'Ce qui tue, c’est l’orgueil sur les lèvres : « qu’es-tu venu faire sur nos lèvres, orgueil, lorsque nos mains allaient se joindre ? » (III, 8).', 'Parcours : *Les Caprices de Marianne*, *Cyrano de Bergerac*, Sarraute (« C’est bien… ça »).']]
+    ] },
+  D: { pb: 'Le jeu de la parole empêche-t-il le cœur de se dire, ou le laisse-t-il affleurer malgré tout ?',
+    rep: 'Le jeu fait obstacle à la sincérité mais la trahit aussi ; le vrai ennemi est l’orgueil, et la sincérité finale ne sauve rien.',
+    parts: [
+      ['Le jeu de la parole fait obstacle au cœur', ['La parole-masque : « Je suis comme cela ; c’est ma manière » (I, 3).', 'La parole-arme : la déclaration à Rosette destinée à Camille (III, 3).', 'La parole apprise : Rosette démasque la galanterie, « vous ne respectez guère mes lèvres » (II, 3).']],
+      ['Pourtant, le jeu laisse affleurer la vérité', ['La boutade avoue : « Ton amour m’eût donné la vie » (II, 1).', 'Le cœur dit vrai quand la langue ment : « êtes-vous sûr que tout mente dans une femme, lorsque sa langue ment ? » (III, 6).', 'Le jeu sert d’enquête : Camille veut voir le cœur de Perdican « à nu » (II, 5).']],
+      ['Le vrai ennemi est l’orgueil, et la sincérité peut tuer', ['« Orgueil ! le plus fatal des conseillers humains » (III, 8).', 'C’est l’aveu sincère de l’oratoire qui tue Rosette : sincérité ne veut pas dire innocence.', 'Parcours : Marivaux (le jeu mène à la vérité) ; Molière, Alceste (la sincérité absolue est impossible).']]
+    ] },
+  E: { pb: 'Toute parole, même la plus légère, engage-t-elle vraiment celui qui la prononce ?',
+    rep: 'Oui : l’intrigue est une chaîne de paroles, et même les paroles qui semblent gratuites finissent par produire des effets.',
+    parts: [
+      ['Chaque parole agit', ['Les paroles-actes : « tu seras ma femme » (III, 3) ; « Oui, je l’épouserai » (III, 6).', 'Une intrigue en chaîne : billet (II, 5), lettre (III, 2), déclaration écoutée (III, 3), rideau (III, 6).', 'La conséquence ultime : le grand cri derrière l’autel (III, 8).']],
+      ['Des paroles qui semblent gratuites', ['Le bavardage des grotesques : « Cela est impossible » (le Baron).', 'Le badinage pour le plaisir : « J’aime la discussion » (III, 6).', 'Même ces paroles ont des suites : la fausse accusation de Blazius le fait chasser (III, 2).']],
+      ['Une morale de la parole', ['Le titre est une parole de sagesse que l’action vérifie.', 'La responsabilité : « ne faites pas de moi un meurtrier ! » (III, 8).', 'Parcours : Marivaux, *Les Fausses Confidences* : des mots calculés, pour une issue heureuse.']]
+    ] },
+  F: { pb: 'La peur de perdre est-elle le seul ressort des personnages, ou cache-t-elle un désir plus profond, celui d’aimer absolument ?',
+    rep: 'La peur de perdre est partout, mais elle masque un désir d’absolu ; et à force de ne pas vouloir perdre, ils perdent tout.',
+    parts: [
+      ['Une peur de perdre omniprésente', ['Camille a peur de souffrir : « Je veux aimer, mais je ne veux pas souffrir » (II, 5).', 'Perdican a peur de perdre la face : « je te le prouverai » (III, 2).', 'Les grotesques en version comique : « Tout est perdu ! perdu sans ressources ! » (le Baron, I, 5) ; « Adieu bouteilles cachetées » (Bridaine, II, 2).']],
+      ['D’autres forces les animent', ['Le désir de savoir : « Je voudrais bien savoir si je suis amoureux » (III, 1).', 'Le désir de gagner et de dominer : la vengeance de Perdican (III, 3), le triomphe de Camille (III, 6).', 'L’amour et la nostalgie de l’enfance : « le monde mystérieux des rêves de mon enfance » (I, 4).']],
+      ['À force de ne pas vouloir perdre, ils perdent tout', ['Le bilan : « je ne puis plus prier ! » (Camille, III, 8).', 'Le contre-modèle : Rosette ne calcule pas, « je vous aimerai comme je pourrai » (III, 3), et perd tout.', 'La leçon de la tirade : « On est souvent trompé en amour […] mais on aime » (II, 5). Parcours : Hermione, *Andromaque*.']]
+    ] },
+  G: { pb: 'La catastrophe est-elle inscrite dès l’ouverture, ou naît-elle des choix et des jeux des personnages ?',
+    rep: 'L’ouverture multiplie les signes du destin, mais l’intrigue reste ouverte : si tout est « joué », c’est surtout au sens théâtral.',
+    parts: [
+      ['Beaucoup de signes annoncent la fin', ['Le titre-proverbe annonce la leçon.', 'Une exposition verrouillée : « J’ai disposé les choses de manière à tout prévoir » ; « Voilà un commencement de mauvais augure » (le Baron, I, 2).', 'L’ironie tragique : « Monseigneur, elle veut mourir fille » (le Chœur, I, 4).']],
+      ['Rien n’est joué tant que les personnages jouent', ['Des portes restent ouvertes : « laisse-moi espérer que notre vie passée n’est pas morte à jamais dans ton cœur » (II, 1) ; la bague retrouvée (III, 6).', 'Le hasard : le cachet de la lettre saute pendant une querelle (III, 2) ; « Il faut donc qu’elle m’ait suivi sans que je m’en sois aperçu » (III, 8).', 'Des choix : lire la lettre, monter la scène de la fontaine, cacher Rosette.']],
+      ['« Joué » au sens théâtral : tout se joue dans le jeu', ['Des rôles appris : Camille rejoue sœur Louise ; Perdican joue le séducteur.', 'Une composition en *accelerando* : la comédie glisse vers le tragique (drame romantique).', 'Pour le spectateur, la question n’est pas « si », mais « comment ».']]
+    ] },
+  T1: { pb: 'Rosette n’est-elle que la victime des jeux des deux cousins, ou est-elle aussi celle qui révèle la vérité de ces jeux ?',
+    rep: 'Victime, oui, mais aussi révélatrice et figure sacrificielle qui donne son sens au proverbe.',
+    parts: [
+      ['Une victime instrumentalisée', ['Un « appât », un « jouet » (Camille, III, 6).', 'Une « fille de rien », « une fille sans nom » (III, 7).', 'Elle meurt de ce qu’elle entend (III, 8).']],
+      ['Une révélatrice lucide', ['La seule qui ne joue pas : « Comment n’y croirais-je pas ? » (III, 6).', 'Elle démasque la galanterie : « vous ne respectez guère mes lèvres » (II, 3).', 'Sa sincérité simple : « je vous aimerai comme je pourrai » (III, 3).']],
+      ['Une figure sacrificielle', ['Sa mort vérifie le proverbe du titre.', 'Le cri derrière l’autel juge les deux autres (III, 8).', 'Parcours : Mme de Tourvel chez Laclos ; Silvia dans *La Double Inconstance*.']]
+    ] },
+  T2: { pb: 'L’orgueil est-il le vrai moteur de la catastrophe, ou le symptôme d’un mal plus profond ?',
+    rep: 'L’orgueil est le moteur visible, mais il s’appuie sur une éducation, une société et une parole qui ne savent plus dire le cœur.',
+    parts: [
+      ['L’orgueil, moteur avoué', ['« Tu es une orgueilleuse » (II, 5).', '« Orgueil ! le plus fatal des conseillers humains » (III, 8).', 'Les grotesques : « un vain orgueil » (Bridaine, III, 2).']],
+      ['D’autres causes', ['L’éducation du couvent : « ce n’est pas la tienne » (II, 5).', 'La société : « un mariage disproportionné » (le Baron, III, 7).', 'Le hasard : la lettre décachetée (III, 2).']],
+      ['Un drame de la parole et de la condition humaine', ['« Quelles vaines paroles » (III, 8).', '« car nous sommes des hommes » (III, 8).', 'Parcours : La Rochefoucauld, l’amour-propre.']]
+    ] },
+  T3: { pb: '*On ne badine pas avec l’amour* commence-t-elle comme une comédie que le hasard ferait mal tourner, ou la tragédie est-elle inscrite dès l’ouverture ?',
+    rep: 'Ni l’une ni l’autre tout à fait : c’est un drame romantique qui mêle le grotesque et le sublime.',
+    parts: [
+      ['Une comédie', ['Les grotesques et le Chœur (I, 1).', 'Le proverbe dramatique, genre léger.', 'Le badinage : « Le plaisir des disputes, c’est de faire la paix » (III, 6).']],
+      ['Une tragédie', ['L’ironie tragique : « elle veut mourir fille » (I, 4).', 'L’oratoire et la prière (III, 8).', 'La mort de Rosette.']],
+      ['Un drame romantique', ['Le mélange des registres (préface de *Cromwell*).', 'Une pièce écrite pour être lue, libre de toute règle.', 'Le mal du siècle : des héros en quête d’absolu.']]
+    ] },
+  T4: { pb: 'La pièce applique-t-elle l’esthétique du drame romantique, ou la réinvente-t-elle dans une forme plus intime ?',
+    rep: 'Elle en a la liberté et le mélange des registres, mais elle les met au service d’un drame intime de la parole.',
+    parts: [
+      ['Oui, un drame romantique', ['Liberté formelle : lieux multiples, pas d’unités, pièce écrite pour être lue.', 'Mélange des registres : les grotesques et la tirade.', 'Des héros en quête d’absolu : « un amour éternel » (II, 5).']],
+      ['Mais un héritage du XVIIIe siècle', ['Le proverbe dramatique, genre de salon (Carmontelle).', 'Le marivaudage.', 'Une forme brève, sans histoire ni politique, à la différence d’*Hernani* ou de *Lorenzaccio*.']],
+      ['Un drame romantique intime', ['Le tragique passe par la parole.', 'L’ironie de Musset : un romantique lucide.', 'La présence de Sand dans la tirade.']]
+    ] },
+  T5: { pb: 'Le titre est-il une leçon adressée au lecteur, ou le constat d’une fatalité humaine ?',
+    rep: 'C’est une morale vérifiée à la lettre, mais aussi un constat désenchanté, adressé au lecteur comme un avertissement.',
+    parts: [
+      ['Une morale', ['Le proverbe dramatique illustre une maxime.', 'Le proverbe est vérifié à la lettre : quelqu’un meurt.', 'Les personnages sont punis.']],
+      ['Un constat', ['« car nous sommes des hommes » (III, 8).', 'Le mal du siècle.', 'Personne n’apprend vraiment : séparation finale.']],
+      ['Un avertissement au lecteur', ['*Un spectacle dans un fauteuil* : une pièce à lire et à méditer.', 'Le lecteur devient juge.', 'Ouverture : *Les Caprices de Marianne*.']]
+    ] },
+  T6: { pb: 'Le Chœur n’est-il qu’un témoin comique, ou une conscience qui éclaire l’action ?',
+    rep: 'Il commence comme un témoin comique, devient la voix de la mémoire, puis une conscience tragique.',
+    parts: [
+      ['Un témoin comique', ['Les portraits burlesques de Blazius et de Pluche (I, 1).', '« vous arrivez comme la fièvre » (I, 1).', 'La querelle de Blazius et Bridaine.']],
+      ['La voix de la mémoire', ['« Puissions-nous retrouver l’enfant dans le cœur de l’homme ! » (I, 1).', 'Le dialogue avec Perdican au village (I, 4).', 'Le lien avec l’enfance perdue.']],
+      ['Une conscience tragique', ['« elle veut mourir fille » (I, 4).', '« la pauvre fille ne sait pas quel danger elle court » (III, 4).', 'Héritage antique : voir sans pouvoir agir.']]
+    ] },
+  T7: { pb: 'Dans la pièce, la parole est-elle condamnée à masquer le cœur, ou peut-elle encore le dire ?',
+    rep: 'La parole masque et blesse, mais elle dit vrai à deux moments, la tirade et l’aveu final, toujours trop tard ou par emprunt.',
+    parts: [
+      ['Une parole qui masque', ['« Je suis comme cela ; c’est ma manière » (I, 3).', 'La déclaration calculée (III, 3).', '« il nous faut souvent jouer un rôle, souvent mentir » (III, 6).']],
+      ['Le cœur perce sous la parole', ['« Ton amour m’eût donné la vie » (II, 1).', '« tout mente dans une femme, lorsque sa langue ment ? » (III, 6).', 'Les gestes : la bague retrouvée.']],
+      ['Deux moments de vérité, trop tard', ['La tirade de II, 5, empruntée à une lettre de George Sand.', '« nous nous aimons » (III, 8).', 'Le dernier mot revient au cri de Rosette.']]
+    ] },
+  T8: { pb: 'La parole n’est-elle qu’un instrument de manipulation, ou échappe-t-elle à ceux qui la manient ?',
+    rep: 'Elle manipule, mais elle exprime aussi le cœur, et surtout elle échappe à ceux qui croient la maîtriser.',
+    parts: [
+      ['Une parole qui manipule', ['La déclaration à double destinataire (III, 3).', 'Le piège du rideau (III, 6).', 'L’interrogatoire de la fontaine (II, 5).']],
+      ['Une parole qui exprime', ['La tirade (II, 5).', 'La boutade qui avoue (II, 1).', 'L’aveu final (III, 8).']],
+      ['Une parole qui échappe', ['Les conséquences dépassent les intentions : Rosette meurt.', '« Lequel de nous a voulu tromper l’autre ? » (III, 8).', 'Parcours : *Les Fausses Confidences*.']]
+    ] }
+};
+
+/* Boîte à citations : q = citation, who, ref, ctx = contexte, ana = analyse, fam = familles, use = usage */
+const CITS = [
+  { q: 'Puissions-nous retrouver l’enfant dans le cœur de l’homme !', who: 'Le Chœur', ref: 'I, 1', ctx: 'Les villageois apprennent le retour de Perdican, devenu docteur.', ana: 'Un vœu inquiet : le savoir et l’âge adulte vont-ils tuer l’enfance ? Un présage.', fam: [4], use: 'G, Chœur' },
+  { q: 'leur éducation me coûte six mille écus', who: 'Le Baron', ref: 'I, 2', ctx: 'Le Baron présente son projet de mariage.', ana: 'Le mariage pensé comme un investissement : l’amour n’y a aucune place.', fam: [3], use: 'F, H, B' },
+  { q: 'J’ai disposé les choses de manière à tout prévoir.', who: 'Le Baron', ref: 'I, 2', ctx: 'Il a réglé l’entrée des deux jeunes gens, par deux portes.', ana: 'Le Baron se croit metteur en scène : ironie, rien ne se passera comme prévu.', fam: [4], use: 'G' },
+  { q: 'l’amour peut voler un baiser, mais non pas l’amitié.', who: 'Perdican', ref: 'I, 2', ctx: 'Camille vient de refuser le baiser des retrouvailles.', ana: 'Une maxime qui répond à un refus : on échange des formules au lieu de se parler.', fam: [1, 2], use: 'A, D' },
+  { q: 'Voilà un commencement de mauvais augure', who: 'Le Baron', ref: 'I, 2', ctx: 'Juste après le refus du baiser.', ana: 'Un mot de divination dans la bouche d’un grotesque : ironie tragique.', fam: [4], use: 'G' },
+  { q: 'Je ne suis pas assez jeune pour m’amuser de mes poupées, ni assez vieille pour aimer le passé.', who: 'Camille', ref: 'I, 3', ctx: 'Perdican lui propose de revoir les lieux de leur enfance.', ana: 'Une antithèse construite en parallèle (« ni… ni… ») : une phrase-bouclier, trop bien faite pour être spontanée.', fam: [2, 1], use: 'D, C, A' },
+  { q: 'Je suis comme cela ; c’est ma manière.', who: 'Camille', ref: 'I, 3', ctx: 'Perdican lui reproche d’avoir refusé un baiser.', ana: 'Une justification qui ne justifie rien : la parole ferme le dialogue.', fam: [2], use: 'D, T7' },
+  { q: 'Monseigneur, elle veut mourir fille.', who: 'Le Chœur', ref: 'I, 4', ctx: 'Perdican promet à Rosette de la marier.', ana: 'Ironie tragique : « mourir fille » (sans se marier) prendra un sens littéral.', fam: [4], use: 'G, E, T6' },
+  { q: 'L’orgueil n’est pas mon fait', who: 'Perdican', ref: 'II, 1', ctx: 'Camille lui annonce qu’elle refuse le mariage.', ana: 'Ironie dramatique : celui qui nie être orgueilleux en deviendra l’esclave.', fam: [3], use: 'T2' },
+  { q: 'Ton amour m’eût donné la vie, mais ton amitié m’en consolera.', who: 'Perdican', ref: 'II, 1', ctx: 'Camille le sonde : « Je suis bien aise que mon refus vous soit indifférent. »', ana: 'Antithèse et conditionnel d’irréel : il avoue l’essentiel, puis le reprend par une pirouette.', fam: [2, 1], use: 'D, A' },
+  { q: 'Vous respectez mon sourire, mais vous ne respectez guère mes lèvres', who: 'Rosette', ref: 'II, 3', ctx: 'Perdican la courtise avec des galanteries et l’embrasse.', ana: 'Rosette confronte les mots au geste : elle n’est pas dupe de la galanterie.', fam: [2, 3], use: 'D, T1' },
+  { q: 'En vérité, je vous ai aimé, Perdican.', who: 'Camille', ref: 'II, 5', ctx: 'Elle raconte qu’au couvent, ses rêves portaient le visage de Perdican.', ana: 'Un aveu au passé composé : l’amour est rejeté dans un temps révolu, mais il est dit.', fam: [2, 4], use: 'C, G' },
+  { q: 'J’ai eu tort de parler ; j’ai ma vie entière sur les lèvres.', who: 'Camille', ref: 'II, 5', ctx: 'Elle vient de décrire avec emportement sa future prise de voile.', ana: 'Le regret d’avoir parlé ; l’image des lèvres reviendra en III, 8.', fam: [2], use: 'C, D, E' },
+  { q: 'les religieuses t’ont donné leur expérience ; mais, crois-moi, ce n’est pas la tienne', who: 'Perdican', ref: 'II, 5', ctx: 'Il répond au récit des malheurs de sœur Louise.', ana: 'Opposition des possessifs « leur » / « la tienne » : l’expérience ne se transmet pas.', fam: [3], use: 'B, F, H' },
+  { q: 'Je veux aimer, mais je ne veux pas souffrir', who: 'Camille', ref: 'II, 5', ctx: 'Elle répond : « tu ne mourras pas sans aimer ».', ana: 'Anaphore de « je veux » et conjonction « mais » : le désir arrêté par la peur.', fam: [3, 1], use: 'F, A' },
+  { q: 'Tu es une orgueilleuse ; prends garde à toi.', who: 'Perdican', ref: 'II, 5', ctx: 'Camille vient de lui dire qu’elle priera pour lui.', ana: 'Un avertissement qui sonne comme une prophétie.', fam: [3], use: 'T2' },
+  { q: 'On est souvent trompé en amour, souvent blessé et souvent malheureux ; mais on aime', who: 'Perdican', ref: 'II, 5', ctx: 'Fin de la tirade qui clôt l’acte II.', ana: 'Le « mais » oppose la lucidité à la foi : l’amour vaut malgré la souffrance. Phrase reprise d’une lettre de George Sand.', fam: [2, 3], use: 'A, C, F' },
+  { q: 'J’ai souffert souvent, je me suis trompé quelquefois, mais j’ai aimé.', who: 'Perdican', ref: 'II, 5', ctx: 'Dernière phrase de la tirade, empruntée mot pour mot à une lettre de George Sand (12 mai 1834).', ana: 'Une épitaphe imaginaire : la parole la plus sincère de la pièce est une citation.', fam: [2, 1], use: 'A, C, D' },
+  { q: 'Je voudrais bien savoir si je suis amoureux.', who: 'Perdican', ref: 'III, 1', ctx: 'Monologue, le lendemain de la scène de la fontaine.', ana: 'Le cœur est opaque à lui-même : ses certitudes se contredisent.', fam: [1, 3], use: 'B, F' },
+  { q: 'Pourquoi un vain orgueil m’a-t-il éloigné de ce dîner honorable, où j’étais si bien accueilli ?', who: 'Bridaine', ref: 'III, 2', ctx: 'Les deux grotesques se lamentent ensemble.', ana: 'Les fautes des héros, en version burlesque.', fam: [3, 1], use: 'B, H, T2' },
+  { q: 'je n’ai pas le poignard dans le cœur, et je te le prouverai.', who: 'Perdican', ref: 'III, 2', ctx: 'Il vient de lire la lettre de Camille à sœur Louise.', ana: 'La négation reprend l’image de la lettre pour la démentir ; le futur fait de la parole un défi.', fam: [1, 3], use: 'A, F, E' },
+  { q: 'à haute voix, de manière que Camille l’entende', who: 'Didascalie', ref: 'III, 3', ctx: 'Perdican déclare son amour à Rosette ; Camille est cachée derrière un arbre.', ana: 'Une parole à double destinataire : la déclaration devient une arme.', fam: [2, 1], use: 'C, D, E, A' },
+  { q: 'Hélas ! monsieur le docteur, je vous aimerai comme je pourrai.', who: 'Rosette', ref: 'III, 3', ctx: 'Perdican lui demande si elle sait ce qu’est l’amour.', ana: 'Une réponse simple, sans calcul ; « monsieur le docteur » rappelle la distance sociale.', fam: [3], use: 'F, T1' },
+  { q: 'la pauvre fille ne sait pas quel danger elle court en écoutant les discours d’un jeune et galant seigneur', who: 'Le Chœur', ref: 'III, 4', ctx: 'Le Chœur commente la cour faite à Rosette.', ana: 'Prolepse tragique : le danger vient des « discours ».', fam: [4, 2], use: 'T6, E, G' },
+  { q: 'Comment n’y croirais-je pas ? il me tromperait donc ? Pour quoi faire ?', who: 'Rosette', ref: 'III, 6', ctx: 'Camille lui dit que Perdican ne l’épousera pas.', ana: 'Trois questions qui disent une confiance totale dans la parole donnée.', fam: [1, 3], use: 'A, T1' },
+  { q: 'je l’ai vue derrière un arbre écouter la conversation', who: 'Perdican (à part)', ref: 'III, 6', ctx: 'Camille prétend ne pas être venue à la fontaine.', ana: 'L’aparté prouve que Perdican voit le jeu, et y entre quand même.', fam: [1], use: 'B' },
+  { q: 'Le plaisir des disputes, c’est de faire la paix.', who: 'Perdican', ref: 'III, 6', ctx: 'Camille revient, apprêtée ; Rosette est cachée derrière le rideau.', ana: 'Une maxime de comédie amoureuse, rendue dangereuse par la présence cachée de Rosette.', fam: [1], use: 'A, B' },
+  { q: 'il nous faut souvent jouer un rôle, souvent mentir ; vous voyez que je suis franche ; mais êtes-vous sûr que tout mente dans une femme, lorsque sa langue ment ?', who: 'Camille', ref: 'III, 6', ctx: 'Perdican lui reproche de changer sans cesse.', ana: 'Question rhétorique qui sépare la langue du cœur ; l’aveu du mensonge est un acte de franchise.', fam: [2], use: 'D, C, T7' },
+  { q: 'pour en faire un appât, un jouet', who: 'Camille', ref: 'III, 6', ctx: 'Rosette s’est évanouie derrière le rideau ; Camille accuse Perdican.', ana: 'Rosette réduite à un objet du jeu.', fam: [3, 1], use: 'T1, H' },
+  { q: 'tu épouseras cette fille, ou tu n’es qu’un lâche !', who: 'Camille', ref: 'III, 6', ctx: 'Fin de la querelle ; Perdican répond « Oui, je l’épouserai. »', ana: 'Une parole-acte : un défi qui engage la vie d’une autre.', fam: [1, 2], use: 'A, E' },
+  { q: 'c’est une fille de rien', who: 'Camille', ref: 'III, 7', ctx: 'Elle tente d’empêcher le mariage avec Rosette.', ana: 'La valeur d’une personne mesurée à son rang.', fam: [3], use: 'B, H, T1' },
+  { q: 'Pourquoi faites-vous mentir la vérité elle-même ?', who: 'Camille', ref: 'III, 8', ctx: 'Seule dans l’oratoire, elle prie.', ana: 'Paradoxe : elle a cru être sincère en choisissant Dieu, et son cœur la dément.', fam: [3, 4], use: 'B, F' },
+  { q: 'Orgueil ! le plus fatal des conseillers humains, qu’es-tu venu faire entre cette fille et moi ?', who: 'Perdican', ref: 'III, 8', ctx: 'Il entre dans l’oratoire et voit Camille prostrée.', ana: 'Apostrophe et personnification : l’orgueil devient un personnage qui s’interpose.', fam: [3, 2], use: 'T2, C, D' },
+  { q: 'Quelles vaines paroles, quelles misérables folies ont passé comme un vent funeste entre nous deux ?', who: 'Perdican', ref: 'III, 8', ctx: 'L’aveu réciproque commence.', ana: 'Les paroles jugées « vaines » ont pourtant tout détruit.', fam: [2], use: 'C, E, D' },
+  { q: 'nous sommes deux enfants insensés, et nous avons joué avec la vie et la mort', who: 'Perdican', ref: 'III, 8', ctx: 'Il prie, pendant que Camille court vers Rosette.', ana: 'La formule-somme de la pièce : « jouer » relie le titre et le parcours.', fam: [1], use: 'A, B, H' },
+  { q: 'Elle est morte. Adieu, Perdican !', who: 'Camille', ref: 'III, 8', ctx: 'Dernière réplique de la pièce.', ana: 'Deux phrases sèches : la seule parole qui coïncide exactement avec le réel.', fam: [1, 4], use: 'A, F, G' }
+];
+
+/* Citations extérieures (culture du parcours) */
+const CULTURE = [
+  { q: 'Ah, je vois clair dans mon cœur.', who: 'Silvia, à part', src: 'Marivaux, *Le Jeu de l’amour et du hasard* (1730), II, 12', use: 'Chez Marivaux, le jeu des masques mène à la lucidité et au mariage. Chez Musset, il tue.' },
+  { q: 'Quand l’amour parle, il est le maître, et il parlera.', who: 'Dubois', src: 'Marivaux, *Les Fausses Confidences* (1737), I, 2', use: 'Une parole calculée, mais aux conséquences heureuses (sujet E).' },
+  { q: 'Je veux qu’on soit sincère, et qu’en homme d’honneur, / On ne lâche aucun mot qui ne parte du cœur.', who: 'Alceste', src: 'Molière, *Le Misanthrope* (1666), I, 1', use: 'L’idéal d’une parole transparente, qui échoue lui aussi (sujet D).' },
+  { q: 'Ah ! ne puis-je savoir si j’aime ou si je hais ?', who: 'Hermione', src: 'Racine, *Andromaque* (1667), V, 1', use: 'Un cœur opaque à lui-même ; l’amour-propre blessé tue (sujet F).' },
+  { q: 'Je ne vous aime pas, Marianne ; c’était Cœlio qui vous aimait !', who: 'Octave', src: 'Musset, *Les Caprices de Marianne* (1833)', use: 'La parole déléguée tue Cœlio (sujets C, E).' },
+  { q: 'Non, non, mon cher amour, je ne vous aimais pas.', who: 'Cyrano', src: 'Rostand, *Cyrano de Bergerac* (1897), V, 5', use: 'La parole prêtée, l’aveu qui arrive trop tard (sujets C, D).' },
+  { q: 'Si on juge de l’amour par la plupart de ses effets, il ressemble plus à la haine qu’à l’amitié.', who: '', src: 'La Rochefoucauld, *Maximes*, 72', use: 'L’amour produit des effets de guerre (sujet A).' },
+  { q: 'L’homme est un apprenti, la douleur est son maître, / Et nul ne se connaît tant qu’il n’a pas souffert.', who: '', src: 'Musset, *La Nuit d’octobre* (1837)', use: 'L’apprentissage par la souffrance, à l’opposé de Camille (sujets F, H).' },
+  { q: 'Tout ce qui était n’est plus ; tout ce qui sera n’est pas encore.', who: '', src: 'Musset, *La Confession d’un enfant du siècle* (1836), I, 2', use: 'Le mal du siècle : une jeunesse entre deux mondes, comme Camille (T4).' },
+  { q: 'C’est bien… ça', who: 'H. 1', src: 'Sarraute, *Pour un oui ou pour un non* (1982)', use: 'Une intonation suffit à briser une amitié : il n’y a pas de parole gratuite (sujet E).' }
+];
+
+/* ===== Grilles d'autoévaluation communes ===== */
+const GRIDS = {
+  cit: ['J’ai situé la citation : qui parle, à qui, à quel moment.', 'La citation est exacte, entre guillemets, suivie de sa référence (acte, scène).', 'J’ai nommé un procédé précis.', 'J’ai dit ce que ce procédé montre.', 'J’ai relié mon analyse aux mots du sujet.'],
+  sujet: ['J’ai relevé tous les mots-clés.', 'J’ai défini chaque mot et cherché un deuxième sens.', 'J’ai repéré la forme du sujet et ce qu’elle impose au plan.', 'J’ai nommé la famille du sujet et sa question cachée.', 'J’ai signalé le piège à éviter.'],
+  pb: ['Ma problématique est une question.', 'Elle ne répète pas le sujet mot pour mot.', 'Elle oppose deux lectures possibles de la pièce (une tension).', 'Elle nomme l’œuvre ou ses personnages.', 'Chaque moitié de la question peut devenir une partie du plan.'],
+  plan: ['Chaque partie répond au sujet par une phrase-idée.', 'Les parties progressent du plus évident au plus fin.', 'La troisième partie dépasse les deux autres, elle ne fait pas « un peu des deux ».', 'Chaque sous-partie a sa preuve précise (citation et référence).', 'Mon plan ne suit ni les personnages ni les actes.'],
+  para: ['Ma première phrase annonce l’argument.', 'J’explique l’argument avant de citer.', 'Ma citation est située, exacte et référencée.', 'J’analyse un procédé et je dis ce qu’il montre.', 'Ma dernière phrase revient aux mots du sujet.'],
+  intro: ['Mon accroche est liée au sujet (citation, fait, image).', 'Je présente l’auteur, l’œuvre, la date et l’enjeu.', 'Je cite le sujet et je définis ses mots-clés.', 'Ma problématique fait apparaître une tension.', 'J’annonce les trois parties, dans l’ordre.'],
+  concl: ['Mon bilan répond clairement à la problématique.', 'Il rappelle les trois étapes de mon raisonnement.', 'Je n’ajoute pas d’argument nouveau dans le bilan.', 'Mon ouverture est précise : une œuvre, un auteur, une mise en scène.'],
+  diss: ['Mon introduction contient les cinq étapes (accroche, présentation, analyse du sujet, problématique, annonce).', 'Ma problématique fait apparaître une tension.', 'Chaque partie commence par une phrase-idée qui répond au sujet.', 'Chaque paragraphe suit l’ordre : argument, explication, citation, analyse, lien au sujet.', 'Mes citations sont exactes et référencées.', 'J’utilise au moins un texte ou une œuvre du parcours.', 'Mes transitions font le bilan et annoncent la suite.', 'Ma conclusion répond nettement, puis ouvre.', 'Je me suis relu : orthographe, accords, ponctuation des citations.']
+};
+
+/* ===== Modules 1 à 4 ===== */
+const MODS_A = [
+/* ---------------- MODULE 1 ---------------- */
+{ id: 'oeuvre', t: 'Connaître l’œuvre', icon: 'book', goal: 'Connaître l’intrigue, les personnages et les scènes-clés assez bien pour situer n’importe quelle citation.',
+  learn: [
+    { t: 'La pièce en cinq repères', b: `- **1834** : la pièce paraît dans la *Revue des Deux Mondes*, puis dans le recueil *Un spectacle dans un fauteuil*.
+- **Une pièce écrite pour être lue.** Elle n’est jouée pour la première fois qu’en 1861, à la Comédie-Française, après la mort de Musset. D’où sa grande liberté : lieux multiples, scènes courtes, mélange des tons.
+- **Un proverbe dramatique.** Le titre est un proverbe, et l’action le vérifie. Ici, à la lettre : quelqu’un meurt d’avoir « badiné » avec l’amour.
+- **Trois actes**, et un **Chœur** de villageois hérité du théâtre grec.
+- **Le contexte** : le romantisme, le « mal du siècle », la rupture de Musset avec George Sand.`, key: 'Une pièce qui commence comme une comédie et finit comme une tragédie.' },
+    { t: 'Les personnages', b: 'Huit personnages à connaître. Les quatre derniers sont des **grotesques** : ils reprennent en comique les défauts des héros.', terms: [
+      ['Perdican', 'Fils du Baron, 21 ans. Il revient de Paris, reçu docteur.'],
+      ['Camille', 'Nièce du Baron, 18 ans. Elle sort du couvent pour recueillir l’héritage de sa mère.'],
+      ['Rosette', 'Jeune paysanne, sœur de lait de Camille.'],
+      ['Le Baron', 'Père de Perdican, oncle de Camille. Il veut marier les deux cousins.'],
+      ['Maître Blazius', 'Gouverneur (précepteur) de Perdican. Il aime trop le vin.'],
+      ['Maître Bridaine', 'Le curé de la paroisse. Il aime trop la table.'],
+      ['Dame Pluche', 'Gouvernante de Camille. Une dévote sèche.'],
+      ['Le Chœur', 'Les villageois. Il commente l’action, avec humour puis avec inquiétude.']
+    ] },
+    { t: 'L’intrigue en trois actes', b: `**Acte I · Retours et refus.** Perdican et Camille reviennent au château. Le Baron veut les marier. Camille refuse le baiser des retrouvailles, puis refuse de revoir les lieux de leur enfance. Perdican va au village et retrouve Rosette.
+
+**Acte II · Explications.** Camille annonce qu’elle repart au couvent. Perdican courtise Rosette. À la fontaine (II, 5), Camille raconte les malheurs de sœur Louise ; Perdican lui répond par une grande tirade sur l’amour.
+
+**Acte III · Vengeance et catastrophe.** Perdican lit une lettre de Camille à Louise (III, 2). Pour la blesser, il déclare son amour à Rosette sous ses yeux (III, 3). Camille riposte : elle cache Rosette derrière un rideau et obtient de Perdican l’aveu qu’il l’aime (III, 6). Rosette s’évanouit. Dans l’oratoire, Camille et Perdican s’avouent leur amour ; Rosette, cachée, pousse un cri et meurt (III, 8).` },
+    { t: 'Six scènes à connaître', b: 'Ces six scènes fournissent la plupart de tes citations.', terms: [
+      ['I, 2', 'Les retrouvailles : Camille refuse le baiser.'],
+      ['I, 3', 'Les refus de Camille : « ni assez jeune… ni assez vieille… ».'],
+      ['II, 5', 'La fontaine : sœur Louise, « Je veux aimer, mais je ne veux pas souffrir », la tirade de Perdican.'],
+      ['III, 3', 'La déclaration à Rosette, faite pour être entendue par Camille ; la bague jetée dans la fontaine.'],
+      ['III, 6', 'Le rideau : Rosette entend Perdican avouer qu’il aime Camille.'],
+      ['III, 8', 'L’oratoire : l’aveu réciproque, le cri, la mort de Rosette.']
+    ] }
+  ],
+  worked: { t: 'Situer une citation dans la pièce', task: '« Je veux aimer, mais je ne veux pas souffrir ; je veux aimer d’un amour éternel » : où et quand ?', steps: [
+    { t: 'Qui parle ?', q: 'Quel indice, dans la phrase, te le dit ?', a: 'Camille. Elle refuse la souffrance amoureuse et parle d’« amour éternel » : c’est le langage de la jeune fille formée au couvent.', w: 'On commence par le locuteur, parce que chaque personnage a son lexique : Camille parle d’éternité et de serments, Perdican de vie et de nature, Rosette parle simplement.' },
+    { t: 'À qui ?', q: 'À qui cette phrase répond-elle ?', a: 'À Perdican, qui vient de lui dire : « tu ne mourras pas sans aimer ».', w: 'Au théâtre, une réplique répond toujours à une autre. Retrouver la réplique d’avant aide à comprendre le sens.' },
+    { t: 'Que vient-il de se passer ?', q: 'Qu’a raconté Camille juste avant ?', a: 'L’histoire de sœur Louise, trompée et désespérée. Camille en tire sa conclusion : aimer, c’est souffrir.', w: 'Le contexte immédiat explique la réplique : ici, la peur de Camille est apprise, elle vient d’une autre.' },
+    { t: 'Où en est l’intrigue ?', q: 'Quelle scène, quel acte ?', a: 'La scène de la fontaine, acte II, scène 5 : le dernier vrai tête-à-tête avant la vengeance. Juste après, Camille montre son crucifix : « Voilà mon amant ».', w: 'Situer précisément, c’est pouvoir dire ce qui vient avant et après. C’est ce que le correcteur attend derrière la référence (II, 5).' }
+  ] },
+  fams: [
+    { t: 'Qui est qui ?', lvl: 1, d: 'Reconnaître les personnages et leurs liens.', items: [
+      { t: 'match', p: 'Associe chaque personnage à son rôle.', pairs: [['Maître Blazius', 'Gouverneur de Perdican'], ['Maître Bridaine', 'Curé de la paroisse'], ['Dame Pluche', 'Gouvernante de Camille'], ['Rosette', 'Sœur de lait de Camille'], ['Le Baron', 'Père de Perdican, oncle de Camille']],
+        s: 'Blazius instruit Perdican, Pluche accompagne Camille, Bridaine est le curé, Rosette est la sœur de lait de Camille.', d: 'Retiens les paires : chaque jeune a son « éducateur » grotesque. Blazius (le vin) pour Perdican, Pluche (la dévotion sèche) pour Camille. Ils caricaturent l’éducation que les deux héros ont reçue, l’université et le couvent.' },
+      { t: 'mcq', p: 'Pourquoi Camille revient-elle au château ?', o: ['Pour épouser Perdican', 'Pour recueillir l’héritage de sa mère', 'Pour fuir le couvent', 'Pour revoir Rosette'], a: 1,
+        s: 'Pour recueillir le bien de sa mère : « Je suis venue ici pour recueillir le bien de ma mère ; je retourne demain au couvent » (II, 1).', d: 'Le Baron profite de ce retour pour arranger le mariage, mais Camille n’a jamais eu l’intention de rester. Le projet du père est fragile dès le départ.' },
+      { t: 'mcq', p: 'Qu’est-ce que le Chœur dans la pièce ?', o: ['Un groupe de religieuses', 'Les villageois, qui commentent l’action', 'Les domestiques du Baron', 'La voix de l’auteur'], a: 1,
+        s: 'Ce sont les villageois : ils commentent l’action.', d: 'Le Chœur vient du théâtre grec. Chez Musset, il est d’abord comique (les portraits de Blazius et de Pluche, I, 1), puis mélancolique (I, 4), enfin inquiet : « la pauvre fille ne sait pas quel danger elle court » (III, 4).' }
+    ] },
+    { t: 'Remettre l’intrigue dans l’ordre', lvl: 2, d: 'Retrouver l’enchaînement des événements.', items: [
+      { t: 'order', p: 'Remets ces événements dans l’ordre de la pièce.', items: ['Camille refuse d’embrasser Perdican.', 'Camille refuse de revoir les lieux de leur enfance.', 'À la fontaine, Camille raconte l’histoire de sœur Louise.', 'Perdican lit la lettre de Camille à Louise.', 'Perdican jette la bague de Camille dans la fontaine.', 'Rosette, cachée derrière un rideau, entend Perdican avouer qu’il aime Camille.', 'Dans l’oratoire, Camille et Perdican s’avouent leur amour.', 'Rosette pousse un cri et meurt.'],
+        s: 'I, 2 : le baiser refusé ; I, 3 : les refus ; II, 5 : la fontaine ; III, 2 : la lettre ; III, 3 : la bague ; III, 6 : le rideau ; III, 8 : l’aveu, puis le cri.', d: 'Remarque l’accélération : l’acte III enchaîne la lettre, la vengeance, le piège et la mort. C’est la « composition en *accelerando* » : le rythme s’accélère jusqu’à la catastrophe.' },
+      { t: 'order', p: 'Remets dans l’ordre la chaîne des paroles qui mène au drame.', items: ['Camille fait remettre un billet : « Trouvez-vous à midi à la petite fontaine ».', 'Blazius et Pluche se disputent une lettre ; le cachet saute.', 'Perdican lit la lettre et décide de faire la cour à Rosette devant Camille.', 'Perdican parle « à haute voix, de manière que Camille l’entende ».', 'Camille cache Rosette derrière un rideau.', 'Perdican s’engage : « Oui, je l’épouserai ».'],
+        s: 'Le billet (II, 5), la lettre décachetée et lue (III, 2), la déclaration (III, 3), le rideau puis l’engagement (III, 6).', d: 'Chaque parole provoque la suivante. Cette chaîne est un argument tout prêt pour les sujets sur la parole (sujet E : « il n’y a pas de parole gratuite »).' }
+    ] },
+    { t: 'Qui dit quoi ?', lvl: 3, d: 'Attribuer une réplique à son personnage.', items: [
+      { t: 'mcq', p: '« Ton amour m’eût donné la vie, mais ton amitié m’en consolera. »', o: ['Camille', 'Perdican', 'Le Baron', 'Rosette'], a: 1, s: 'Perdican, à Camille (II, 1).', d: 'Camille vient de lui dire, pour le sonder : « Je suis bien aise que mon refus vous soit indifférent. » Perdican avoue son amour, puis se reprend par une pirouette pour sauver son amour-propre.' },
+      { t: 'mcq', p: '« Vous respectez mon sourire, mais vous ne respectez guère mes lèvres. »', o: ['Camille', 'Dame Pluche', 'Rosette', 'Le Chœur'], a: 2, s: 'Rosette, à Perdican (II, 3).', d: 'Perdican vient de parler de son « sourire céleste » et de l’embrasser. Rosette, avec humour, relève l’écart entre les belles paroles et le geste.' },
+      { t: 'mcq', p: '« êtes-vous sûr que tout mente dans une femme, lorsque sa langue ment ? »', o: ['Rosette', 'Camille', 'Dame Pluche', 'Perdican'], a: 1, s: 'Camille, à Perdican (III, 6).', d: 'C’est la réplique-clé du parcours : Camille distingue ce que dit la langue et ce que ressent le cœur.' },
+      { t: 'mcq', p: '« Voilà un commencement de mauvais augure. »', o: ['Maître Bridaine', 'Le Chœur', 'Le Baron', 'Maître Blazius'], a: 2, s: 'Le Baron, à Bridaine (I, 2).', d: 'Il réagit au refus du baiser. Un personnage comique annonce sans le savoir une fin tragique : c’est de l’ironie tragique.' },
+      { t: 'mcq', p: '« Monseigneur, elle veut mourir fille. »', o: ['Rosette', 'Le Chœur', 'Camille', 'Dame Pluche'], a: 1, s: 'Le Chœur, à Perdican, à propos de Rosette (I, 4).', d: '« Mourir fille », c’est mourir sans être mariée. Rosette répond aussitôt « Oh ! non » : elle espère. La formule prendra un sens littéral et sinistre.' }
+    ] },
+    { t: 'Situer une scène', lvl: 4, d: 'Retrouver l’acte et la scène à partir d’un indice.', items: [
+      { t: 'mcq', p: 'Perdican lit une lettre qui ne lui est pas destinée. Dans quelle scène ?', o: ['I, 4', 'II, 5', 'III, 2', 'III, 6'], a: 2, s: 'Acte III, scène 2.', d: 'Le cachet a sauté pendant la querelle de Blazius et de Pluche. Perdican hésite (« Que ce soit un crime d’ouvrir une lettre, je le sais trop bien pour le faire »), puis lit. C’est le point de départ de la vengeance.' },
+      { t: 'mcq', p: '« Elle est morte. Adieu, Perdican ! » Que s’est-il passé juste avant ?', o: ['Rosette s’est évanouie derrière un rideau', 'Camille et Perdican se sont avoué leur amour, et un cri a retenti derrière l’autel', 'Le Baron a refusé le mariage avec Rosette', 'Perdican a jeté la bague dans la fontaine'], a: 1, s: 'L’aveu dans l’oratoire, puis le cri derrière l’autel (III, 8).', d: 'L’évanouissement a lieu en III, 6 : ne confonds pas les deux scènes d’écoute de Rosette. En III, 8, c’est un cri, et Rosette meurt.' },
+      { t: 'mcq', p: 'Quelle scène se termine par « J’ai souffert souvent, je me suis trompé quelquefois, mais j’ai aimé » ?', o: ['I, 3', 'II, 5', 'III, 3', 'III, 8'], a: 1, s: 'II, 5 : la fin de la scène de la fontaine, et de l’acte II.', d: 'C’est la fin de la tirade de Perdican. Musset a repris cette phrase mot pour mot d’une lettre de George Sand (12 mai 1834).' },
+      { t: 'mcq', p: 'Camille est cachée derrière un arbre et entend Perdican déclarer son amour à Rosette. Quelle scène ?', o: ['II, 3', 'III, 3', 'III, 6', 'III, 8'], a: 1, s: 'III, 3.', d: 'Première scène d’écoute cachée. Il y en a trois : Camille derrière un arbre (III, 3), Rosette derrière le rideau (III, 6), Rosette derrière l’autel (III, 8).' }
+    ] }
+  ],
+  quiz: [
+    { t: 'mcq', p: 'Pourquoi la forme de la pièce est-elle si libre ?', o: ['Musset ignorait les règles du théâtre', 'La pièce a été écrite pour être lue', 'Elle a été écrite pour le cinéma', 'Elle imite la tragédie classique'], a: 1, s: 'Elle a été écrite pour être lue (*Un spectacle dans un fauteuil*).', d: 'Sans contrainte de mise en scène, Musset multiplie les lieux et mêle les tons. La première représentation n’a lieu qu’en 1861.' },
+    { t: 'mcq', p: 'Qu’est-ce qu’un proverbe dramatique ?', o: ['Une pièce en vers', 'Une courte pièce qui illustre un proverbe', 'Une tragédie en cinq actes', 'Un recueil de maximes'], a: 1, s: 'Une courte pièce qui illustre le proverbe de son titre.', d: 'Genre de salon du XVIIIe siècle. Musset le détourne : le proverbe est vérifié tragiquement.' },
+    { t: 'mcq', p: 'Qui est sœur Louise ?', o: ['La mère de Camille', 'Une religieuse du couvent, malheureuse en amour', 'La sœur de Rosette', 'La gouvernante de Camille'], a: 1, s: 'Une religieuse amie de Camille, trompée et désespérée.', d: 'Camille lui écrit une lettre (III, 2). Son histoire nourrit la peur d’aimer de Camille.' },
+    { t: 'mcq', p: 'Où se passe la dernière scène ?', o: ['À la fontaine', 'Dans un oratoire', 'Au village', 'Dans la chambre de Camille'], a: 1, s: 'Dans un oratoire.', d: 'Un lieu de prière : la mort de Rosette prend la forme d’un sacrifice.' },
+    { t: 'mcq', p: 'Que fait Rosette lorsqu’elle entend Perdican, derrière le rideau (III, 6) ?', o: ['Elle s’enfuit', 'Elle s’évanouit', 'Elle crie et meurt', 'Elle interrompt la scène'], a: 1, s: 'Elle s’évanouit.', d: 'Elle mourra en III, 8, après un cri derrière l’autel.' },
+    { t: 'mcq', p: 'Qu’advient-il de la bague jetée dans la fontaine ?', o: ['Elle est perdue', 'Camille la retrouve et la rend à Perdican', 'Rosette la garde', 'Le Baron la récupère'], a: 1, s: 'Camille la retrouve : « C’est pour cela que je l’ai trouvée ; tenez, Perdican, la voilà » (III, 6).', d: 'Le geste dit ce que les mots taisent : Camille tient encore à Perdican.' },
+    { t: 'mcq', p: 'Quand la pièce est-elle jouée pour la première fois ?', o: ['1834', '1847', '1861', '1900'], a: 2, s: 'En 1861, à la Comédie-Française.', d: 'Musset est mort en 1857 : il n’a jamais vu sa pièce jouée.' },
+    { t: 'mcq', p: 'Quel lien unit Camille et Rosette ?', o: ['Elles sont cousines', 'Elles sont sœurs de lait', 'Rosette est sa servante', 'Aucun'], a: 1, s: 'Elles sont sœurs de lait.', d: 'La mère de Rosette a nourri Camille. Ce lien d’enfance rend la manœuvre de Camille en III, 6 encore plus cruelle.' }
+  ] },
+
+/* ---------------- MODULE 2 ---------------- */
+{ id: 'citations', t: 'Exploiter une citation', icon: 'quote', goal: 'Transformer une citation en preuve : la situer, l’analyser, la relier au sujet.',
+  learn: [
+    { t: 'Une citation est une preuve', b: `Dans une dissertation, une citation sert à **prouver** un argument. Elle ne le remplace pas, et elle ne se suffit pas à elle-même.
+
+Trois gestes, toujours dans cet ordre :
+- **Situer** : qui parle, à qui, à quel moment.
+- **Analyser** : un procédé précis, et ce qu’il montre.
+- **Relier** : en quoi cela répond au sujet.`, key: 'Une citation sans commentaire est une citation perdue.' },
+    { t: 'Les règles d’or', b: `- **Courte** : moins d’une ligne en général. Coupe avec […] si besoin.
+- **Exacte** : mot pour mot, entre guillemets.
+- **Référencée** : acte et scène, entre parenthèses : (II, 5).
+- **Intégrée** : ta phrase reste correcte avec la citation.
+- **Commentée** : au moins une phrase d’analyse après.
+
+Une citation inexacte coûte plus cher qu’une citation absente. Si tu hésites, **reformule** sans guillemets.` },
+    { t: 'Les procédés à reconnaître', b: 'Les procédés qui reviennent le plus souvent dans la pièce.', terms: [
+      ['Antithèse', 'Deux idées opposées dans la même phrase : « ni assez jeune… ni assez vieille… » (I, 3).'],
+      ['Anaphore', 'Un mot répété en début de segment : « je veux aimer… je veux aimer… » (II, 5).'],
+      ['Question rhétorique', 'Une question qui n’attend pas de réponse : « Lequel de nous a voulu tromper l’autre ? » (III, 8).'],
+      ['Apostrophe', 'On s’adresse à quelqu’un ou à quelque chose d’absent : « Orgueil ! » (III, 8).'],
+      ['Personnification', 'Une idée devient un personnage : l’orgueil, « le plus fatal des conseillers humains ».'],
+      ['Maxime', 'Une phrase générale, au présent de vérité générale : « Le plaisir des disputes, c’est de faire la paix » (III, 6).'],
+      ['Champ lexical', 'Des mots du même thème : la guerre en III, 6 (« trait », « flèche empoisonnée »).'],
+      ['Ironie tragique', 'Une parole prend après coup un sens funeste : « elle veut mourir fille » (I, 4).'],
+      ['Double destinataire', 'On parle à quelqu’un pour toucher quelqu’un d’autre : Perdican parle à Rosette pour Camille (III, 3).'],
+      ['Aparté', 'Une réplique dite « à part », que les autres personnages n’entendent pas.'],
+      ['Didascalie', 'Une indication de l’auteur, en italique : « à haute voix, de manière que Camille l’entende ».']
+    ] }
+  ],
+  worked: { t: 'Exploiter « Le plaisir des disputes, c’est de faire la paix »', task: 'Sujet A : Les personnages s’affrontent-ils sérieusement dans *On ne badine pas avec l’amour* ?', steps: [
+    { t: 'Situer', q: 'Qui parle, et que se passe-t-il autour ?', a: 'Perdican, en III, 6. Camille est revenue, apprêtée, pour le reconquérir. Rosette est cachée derrière le rideau ; Perdican ne le sait pas.', w: 'Le contexte change le sens : sans Rosette cachée, ce serait une simple phrase de comédie.' },
+    { t: 'Analyser', q: 'Quel procédé, et que montre-t-il ?', a: 'C’est une maxime : présent de vérité générale, tournure impersonnelle. Elle énonce la règle de la comédie amoureuse : on se dispute pour le plaisir de se réconcilier.', w: 'Nommer le procédé ne suffit pas : il faut toujours dire ce qu’il montre.' },
+    { t: 'Relier', q: 'À quelle partie du plan de A cette citation sert-elle ?', a: 'À la partie I : elle prouve que l’affrontement ressemble à un jeu, qu’ils ne se disputent pas « sérieusement ».', w: 'La citation est rangée sous un argument précis, pas sous un thème vague.' },
+    { t: 'Retourner', q: 'Peut-elle servir ailleurs ?', a: 'Oui, en partie III : le spectateur sait que Rosette écoute. La légèreté de la maxime devient mortelle.', w: 'Une bonne citation travaille deux fois. C’est très utile quand on manque de temps pour mémoriser.' },
+    { t: 'Rédiger', q: 'Comment l’intégrer dans une phrase ?', a: 'Le duel des deux jeunes gens obéit aux règles de la comédie amoureuse : Perdican le résume par une maxime, « Le plaisir des disputes, c’est de faire la paix » (III, 6), dont le présent de vérité générale fait de la querelle un jeu, simple prélude à la réconciliation.', w: 'La citation est annoncée, référencée, puis commentée dans la même phrase.' }
+  ] },
+  fams: [
+    { t: 'Reconnaître le procédé', lvl: 1, d: 'Nommer le procédé d’une citation.', items: [
+      { t: 'mcq', p: '« Je ne suis pas assez jeune pour m’amuser de mes poupées, ni assez vieille pour aimer le passé. » (I, 3)', o: ['Une antithèse construite en parallèle', 'Une métaphore filée', 'Une question rhétorique', 'Une apostrophe'], a: 0, s: 'Une antithèse (jeune / vieille) dans une construction parallèle (ni… ni…).', d: 'La symétrie est presque trop parfaite : Camille parle par formules. C’est une parole-bouclier, utile pour les sujets sur la sincérité (D).' },
+      { t: 'mcq', p: '« Orgueil ! le plus fatal des conseillers humains » (III, 8)', o: ['Une maxime', 'Une apostrophe et une personnification', 'Une litote', 'Un aparté'], a: 1, s: 'Une apostrophe (« Orgueil ! ») et une personnification (l’orgueil devient un « conseiller »).', d: 'L’orgueil devient un personnage qui s’interpose entre les amants. « Fatal » a son sens fort : qui apporte la mort.' },
+      { t: 'mcq', p: '« PERDICAN, *à haute voix, de manière que Camille l’entende*. Je t’aime, Rosette ! » (III, 3)', o: ['Un aparté', 'Une didascalie qui crée un double destinataire', 'Une ironie tragique', 'Une prosopopée'], a: 1, s: 'La didascalie crée un double destinataire.', d: 'Ce n’est pas un aparté : un aparté n’est pas entendu des autres, alors qu’ici Perdican veut être entendu. La déclaration vise Camille à travers Rosette.' },
+      { t: 'mcq', p: '« Monseigneur, elle veut mourir fille. » (I, 4)', o: ['Une ironie tragique', 'Une antithèse', 'Une anaphore', 'Une maxime'], a: 0, s: 'Une ironie tragique.', d: 'Formule courante (« mourir sans être mariée ») qui prend après coup un sens littéral : Rosette mourra sans mari.' },
+      { t: 'mcq', p: '« Lequel de nous a voulu tromper l’autre ? » (III, 8)', o: ['Une question rhétorique', 'Une vraie question qui attend une réponse', 'Une apostrophe', 'Une hyperbole'], a: 0, s: 'Une question rhétorique.', d: 'Personne ne répond : la responsabilité reste indécidable. Utile pour le sujet de bac blanc sur la responsabilité.' }
+    ] },
+    { t: 'La bonne preuve', lvl: 2, d: 'Choisir la citation qui prouve vraiment l’argument.', items: [
+      { t: 'mcq', p: 'Argument : « Camille refuse d’aimer par peur de souffrir. » Quelle citation le prouve ?', o: ['« Je n’aime pas les attouchements » (II, 1)', '« Je veux aimer, mais je ne veux pas souffrir » (II, 5)', '« Tu es une orgueilleuse » (II, 5)', '« Je suis venue ici pour recueillir le bien de ma mère » (II, 1)'], a: 1, s: '« Je veux aimer, mais je ne veux pas souffrir » : la peur de souffrir est dite en toutes lettres.', d: 'Les autres parlent du même thème (le refus de Camille) mais ne prouvent pas la **cause**. « Je n’aime pas les attouchements » montre la froideur ; « Tu es une orgueilleuse » est le jugement de Perdican, pas l’aveu de Camille. C’est l’erreur la plus fréquente : une citation sur le bon thème, mais pas sur le bon argument.' },
+      { t: 'mcq', p: 'Argument : « Les personnages savent qu’ils jouent. » Quelle citation le prouve ?', o: ['« Je voudrais bien savoir si je suis amoureux » (III, 1)', '« Ton amour m’eût donné la vie » (II, 1)', '« je l’ai vue derrière un arbre écouter la conversation » (III, 6, à part)', '« Il a jeté ma bague dans l’eau ! » (III, 3)'], a: 2, s: 'L’aparté de Perdican : il sait que Camille l’a espionné et continue le jeu.', d: 'L’aparté montre la lucidité : il voit le piège et y entre. « Je voudrais bien savoir si je suis amoureux » montre au contraire l’incertitude.' },
+      { t: 'mcq', p: 'Argument : « La parole devient une arme. » Quelle citation le prouve ?', o: ['« J’ai eu tort de parler » (II, 5)', '« à haute voix, de manière que Camille l’entende » (III, 3)', '« Puissions-nous retrouver l’enfant dans le cœur de l’homme ! » (I, 1)', '« Le plaisir des disputes, c’est de faire la paix » (III, 6)'], a: 1, s: 'La didascalie de III, 3 : la déclaration vise à blesser Camille.', d: '« J’ai eu tort de parler » montre la parole comme faiblesse, pas comme arme. La maxime de III, 6 parle de jeu, pas d’attaque.' },
+      { t: 'mcq', p: 'Argument : « Rosette est la seule à ne pas jouer. » Quelle citation le prouve ?', o: ['« Monseigneur, elle veut mourir fille » (I, 4)', '« c’est une fille de rien » (III, 7)', '« Comment n’y croirais-je pas ? il me tromperait donc ? Pour quoi faire ? » (III, 6)', '« Je t’aime, Rosette ! » (III, 3)'], a: 2, s: 'Les trois questions de Rosette : elle croit à la parole donnée.', d: 'Les autres citations parlent de Rosette, mais ce sont d’autres qui parlent : le Chœur, Camille, Perdican. Pour prouver ce que pense un personnage, cite-le lui.' },
+      { t: 'mcq', p: 'Argument : « Les grotesques reprennent en comique les fautes des héros. » Quelle citation le prouve ?', o: ['« Pourquoi un vain orgueil m’a-t-il éloigné de ce dîner honorable » (Bridaine, III, 2)', '« Voilà un commencement de mauvais augure » (le Baron, I, 2)', '« Orgueil ! le plus fatal des conseillers humains » (Perdican, III, 8)', '« leur éducation me coûte six mille écus » (le Baron, I, 2)'], a: 0, s: 'Bridaine avoue un « vain orgueil » : la faute des héros, mais pour une place à table.', d: 'Le parallèle est parfait avec l’apostrophe de Perdican en III, 8 : même vice, à deux hauteurs. C’est le mélange du grotesque et du sublime.' }
+    ] },
+    { t: 'Intégrer une citation', lvl: 3, d: 'Citer correctement, au bon format.', items: [
+      { t: 'mcq', p: 'Quelle phrase intègre correctement la citation ?', o: ['Camille a peur. « Je veux aimer, mais je ne veux pas souffrir. »', 'Camille refuse l’amour par peur de souffrir : « je veux aimer, mais je ne veux pas souffrir » (II, 5) ; la conjonction « mais » oppose le désir et la peur.', 'Comme le dit Camille, il ne faut pas souffrir en amour.', 'Camille dit « je veux aimer, mais je ne veux pas souffrir », ce qui montre qu’elle veut aimer.'], a: 1, s: 'La deuxième : annoncée, référencée, analysée.', d: 'La première est « plaquée » : ni référence ni commentaire. La troisième déforme la citation. La quatrième commente par une répétition qui n’apprend rien (une paraphrase).' },
+      { t: 'mcq', p: 'Qu’est-ce qui ne va pas ? « Perdican s’écrie : « Orgueil ! qu’as-tu fait de nous ? » (II, 5). »', o: ['Rien', 'La citation est déformée et mal située', 'Le verbe « s’écrie » est interdit', 'Il manque le nom de l’auteur'], a: 1, s: 'La citation est inexacte et la scène est fausse : c’est en III, 8, « qu’es-tu venu faire entre cette fille et moi ? ».', d: 'Une citation inventée ou mal située fait perdre la confiance du correcteur. Si tu n’es pas sûr des mots, reformule sans guillemets.' },
+      { t: 'mcq', p: 'Pour prouver que « l’amour vaut malgré la souffrance », quelle coupe de la tirade (II, 5) choisir ?', o: ['« Tous les hommes sont menteurs, inconstants, faux, bavards, hypocrites, orgueilleux ou lâches »', '« On est souvent trompé en amour, souvent blessé et souvent malheureux ; mais on aime »', '« Adieu, Camille »', 'Toute la tirade'], a: 1, s: 'La phrase qui contient l’argument : la souffrance (« trompé », « blessé ») puis le « mais » qui la dépasse.', d: 'Le début de la tirade prouverait le pessimisme, pas la valeur de l’amour. Toute la tirade serait trop longue : on cite le passage utile.' },
+      { t: 'order', p: 'Remets dans l’ordre les étapes de l’exploitation d’une citation.', items: ['Annoncer l’argument.', 'Situer la citation : qui parle, à qui, quand.', 'Citer exactement, avec la référence.', 'Analyser un procédé et ce qu’il montre.', 'Relier au sujet.'], s: 'Argument, situation, citation, analyse, lien.', d: 'On ne commence jamais par la citation : elle vient prouver une idée déjà annoncée.' }
+    ] },
+    { t: 'Commenter une citation', lvl: 4, d: 'Rédiger l’exploitation complète.', items: [
+      { t: 'write', task: 'Exploitation d’une citation', sujet: 'D', p: 'Exploite cette citation pour le sujet D, en 3 ou 4 phrases (situer, citer, analyser, relier) : « il nous faut souvent jouer un rôle, souvent mentir ; […] mais êtes-vous sûr que tout mente dans une femme, lorsque sa langue ment ? » (III, 6).', grid: 'cit',
+        model: 'Lorsque Perdican lui reproche de changer sans cesse, Camille retourne l’accusation (III, 6) : « il nous faut souvent jouer un rôle, souvent mentir ; […] mais êtes-vous sûr que tout mente dans une femme, lorsque sa langue ment ? ». La question rhétorique sépare la langue et le cœur : le mensonge des mots n’empêche pas la vérité des sentiments. Le jeu de la parole nuit donc à l’expression sincère, mais sans l’abolir : sous le masque, le cœur continue de parler.' },
+      { t: 'write', task: 'Exploitation d’une citation', sujet: 'E', p: 'Exploite cette didascalie pour le sujet E, en 3 ou 4 phrases : « à haute voix, de manière que Camille l’entende » (III, 3).', grid: 'cit',
+        model: 'Lorsque Perdican déclare son amour à Rosette, une didascalie précise qu’il parle « à haute voix, de manière que Camille l’entende » (III, 3). Sa réplique a donc deux destinataires : Rosette, à qui il parle, et Camille, qu’il veut blesser. Cette parole n’a rien de gratuit : elle est calculée comme une arme, et ses conséquences seront mortelles, puisque Rosette prendra au sérieux une déclaration qui ne lui était pas vraiment destinée.' }
+    ] }
+  ],
+  quiz: [
+    { t: 'mcq', p: 'Dans quel ordre exploite-t-on une citation ?', o: ['Citer, puis situer, puis relier', 'Situer, citer, analyser, relier', 'Analyser, puis citer', 'Citer, puis passer à l’argument suivant'], a: 1, s: 'Situer, citer, analyser, relier.', d: 'Toujours après avoir annoncé l’argument.' },
+    { t: 'mcq', p: 'Tu hésites sur les mots exacts d’une citation. Que fais-tu ?', o: ['Je l’écris quand même entre guillemets', 'Je la reformule sans guillemets', 'Je l’invente', 'Je ne parle pas de cette scène'], a: 1, s: 'Tu reformules, sans guillemets, en gardant la référence.', d: 'Une paraphrase exacte vaut mieux qu’une citation fausse.' },
+    { t: 'mcq', p: 'Comment s’écrit la référence de la scène 5 de l’acte II ?', o: ['(2-5)', '(II, 5)', '(page 5)', '(scène II)'], a: 1, s: '(II, 5) : l’acte en chiffres romains, la scène en chiffres arabes.', d: 'C’est l’usage le plus courant. Sois constant dans toute ta copie.' },
+    { t: 'mcq', p: 'Qu’est-ce qu’un aparté ?', o: ['Une indication de l’auteur', 'Une réplique que les autres personnages n’entendent pas', 'Une longue réplique', 'Un monologue'], a: 1, s: 'Une réplique dite « à part », que les autres personnages ne sont pas censés entendre.', d: 'Exemple : Perdican, en III, 6, révèle au spectateur qu’il a vu Camille cachée.' },
+    { t: 'mcq', p: '« Le plaisir des disputes, c’est de faire la paix. » Quel procédé ?', o: ['Une maxime', 'Une métaphore', 'Une anaphore', 'Une ironie tragique'], a: 0, s: 'Une maxime, au présent de vérité générale.', d: 'Une phrase générale qui énonce une règle : ici, la règle de la comédie amoureuse.' },
+    { t: 'mcq', p: 'Après une citation, combien de phrases d’analyse au minimum ?', o: ['Aucune', 'Une', 'Cinq', 'Cela dépend de la longueur de la copie'], a: 1, s: 'Au moins une.', d: 'Une citation non commentée ne prouve rien aux yeux du correcteur.' }
+  ] },
+
+/* ---------------- MODULE 3 ---------------- */
+{ id: 'sujet', t: 'Analyser le sujet', icon: 'search', goal: 'Lire un sujet inédit, repérer ses mots-clés, sa forme et sa famille, et éviter le hors-sujet.',
+  learn: [
+    { t: 'Pourquoi analyser le sujet ?', b: `Le **hors-sujet** est l’erreur qui coûte le plus cher. Un sujet n’est jamais « Parlez-moi de la pièce » : il pose une question précise, avec des mots choisis.
+
+Prends **15 minutes** au brouillon pour l’analyser. C’est du temps gagné ensuite.` },
+    { t: 'Les quatre gestes', b: `1. **Souligner** les mots-clés.
+2. **Définir** chaque mot, et chercher ses sens : il y en a souvent deux.
+3. **Repérer la forme** du sujet : elle impose le type de plan.
+4. **Reconnaître la famille** : elle te donne la question cachée et les citations utiles.`, key: 'Un mot-clé à deux sens est presque toujours la clé du sujet.' },
+    { t: 'Les formes de sujet', b: 'La forme du sujet dit ce que le correcteur attend.', terms: [
+      ['Question fermée', '« Les personnages s’affrontent-ils sérieusement ? » On peut répondre oui ou non : plan dialectique (oui, mais, dépassement).'],
+      ['« Dans quelle mesure… ? »', 'Une question de degré : jusqu’où, à quelles conditions ? Oui en partie, puis les limites, puis un dépassement.'],
+      ['« ne… que », « seulement »', 'Une restriction : montrer que c’est vrai, puis tout ce que la formule oublie.'],
+      ['Citation à discuter', '« J’ai eu tort de parler » : expliquer la citation, la confirmer, puis la nuancer ou la retourner.'],
+      ['« Selon vous »', 'On attend une position argumentée, pas un avis sans preuves.']
+    ] },
+    { t: 'Les quatre familles', b: 'Tous les sujets sur la pièce reviennent à quatre questions.', terms: [
+      ['1 · Jeu ou sérieux ?', FAMS[1].q],
+      ['2 · Dire ou ne pas dire ?', FAMS[2].q],
+      ['3 · Pourquoi ça tourne mal ?', FAMS[3].q],
+      ['4 · Comédie, tragédie, destin ?', FAMS[4].q]
+    ] }
+  ],
+  worked: { t: 'Analyser le sujet G', task: 'Selon vous, tout est-il déjà joué quand commence *On ne badine pas avec l’amour* ?', steps: [
+    { t: 'Les mots-clés', q: 'Quels mots porte la question ?', a: '« tout », « déjà joué », « quand commence ». Et « Selon vous » : on attend une position.', w: 'On souligne aussi les petits mots : « tout » et « déjà » rendent la thèse très forte, donc facile à nuancer.' },
+    { t: 'Les sens', q: 'Quel mot a deux sens ?', a: '« Joué » : décidé d’avance (le destin, la fatalité) et mis en jeu (jouer, jouer un rôle, comme au théâtre).', w: 'Le double sens donne la troisième partie : tout se joue… dans le jeu.' },
+    { t: 'La forme', q: 'Quelle forme, quel plan ?', a: 'Une question fermée : plan dialectique. Oui, beaucoup de signes annoncent la fin ; mais rien n’est joué tant que les personnages choisissent ; en fait, tout se joue dans le jeu.', w: '« Tout » est absolu : un seul moment où l’intrigue aurait pu basculer suffit à nuancer.' },
+    { t: 'La famille', q: 'À quelle famille appartient ce sujet ?', a: 'Famille 4, comédie, tragédie, destin ? Question cachée : la catastrophe est-elle programmée ou fabriquée ?', w: 'La famille te donne aussitôt les citations utiles : « mauvais augure », « elle veut mourir fille ».' },
+    { t: 'Le piège', q: 'Quelle erreur éviter ?', a: 'Raconter l’acte I. Il faut au contraire chercher des indices : le titre-proverbe, « Voilà un commencement de mauvais augure », « elle veut mourir fille ».', w: 'Nommer le piège au brouillon aide à l’éviter pendant la rédaction.' }
+  ] },
+  fams: [
+    { t: 'Reconnaître la forme', lvl: 1, d: 'Repérer ce que la forme du sujet impose.', items: [
+      { t: 'mcq', p: 'Sujet F : « les personnages ne sont-ils animés que par la peur de perdre ? » Que t’impose la forme ?', o: ['Raconter les peurs de chaque personnage', 'Montrer que c’est vrai, puis tout ce que la formule oublie', 'Répondre seulement oui', 'Parler de la peur en général'], a: 1, s: '« ne… que » est une restriction : on confirme, puis on montre ce qu’elle oublie.', d: 'Le plan suit : I. une peur omniprésente ; II. d’autres forces (savoir, gagner, aimer) ; III. à force de ne pas vouloir perdre, ils perdent tout.' },
+      { t: 'mcq', p: 'Sujet D : « Dans quelle mesure le jeu de la parole nuit-il… ? » Quelle forme ?', o: ['Une question de degré', 'Une citation à discuter', 'Une restriction', 'Une question sur l’auteur'], a: 0, s: 'Une question de degré : jusqu’où le jeu nuit-il ?', d: 'On montre que le jeu nuit, puis où il ne nuit pas, puis on explique ce qui nuit vraiment (l’orgueil).' },
+      { t: 'mcq', p: 'Sujet C : « J’ai eu tort de parler »… Cette réplique éclaire-t-elle votre lecture ? Que fais-tu d’abord ?', o: ['Je raconte la scène II, 5', 'J’explique ce que veut dire la réplique dans son contexte', 'Je dis que Camille a raison', 'Je parle de Musset'], a: 1, s: 'On explique d’abord la citation, dans son contexte.', d: 'Ensuite on la confirme, puis on la nuance ou on la retourne. Ici : le vrai tort est peut-être de ne pas parler.' },
+      { t: 'mcq', p: 'Sujet A : « Les personnages s’affrontent-ils sérieusement ? » Quel plan ?', o: ['Un plan par personnage', 'Un plan dialectique : oui… mais… dépassement', 'Un plan par acte', 'Un plan en deux parties'], a: 1, s: 'Une question fermée appelle un plan dialectique.', d: 'Le dépassement : ils s’affrontent avec sérieux tout en croyant jouer.' }
+    ] },
+    { t: 'Trouver la famille', lvl: 2, d: 'Ranger un sujet dans sa famille.', items: [
+      { t: 'mcq', p: '« La sincérité est-elle possible dans la pièce ? »', o: ['1 · Jeu ou sérieux ?', '2 · Dire ou ne pas dire ?', '3 · Pourquoi ça tourne mal ?', '4 · Comédie, tragédie, destin ?'], a: 1, s: 'Famille 2 : la parole et le cœur.', d: 'La sincérité, c’est l’accord entre ce qu’on dit et ce qu’on ressent : c’est le cœur du parcours « jeux du cœur et de la parole ».' },
+      { t: 'mcq', p: '« Camille et Perdican badinent-ils avec l’amour ? »', o: ['1 · Jeu ou sérieux ?', '2 · Dire ou ne pas dire ?', '3 · Pourquoi ça tourne mal ?', '4 · Comédie, tragédie, destin ?'], a: 0, s: 'Famille 1 : badiner, c’est jouer.', d: 'Question cachée : à quel moment le jeu devient-il mortel ?' },
+      { t: 'mcq', p: '« Peut-on voir dans la pièce un drame de l’orgueil ? »', o: ['1 · Jeu ou sérieux ?', '2 · Dire ou ne pas dire ?', '3 · Pourquoi ça tourne mal ?', '4 · Comédie, tragédie, destin ?'], a: 2, s: 'Famille 3 : la cause du malheur.', d: 'Le sujet demande si l’orgueil est la cause, ou s’il y en a d’autres (éducation, société, hasard).' },
+      { t: 'mcq', p: '« La pièce s’inscrit-elle dans l’esthétique du drame romantique ? »', o: ['1 · Jeu ou sérieux ?', '2 · Dire ou ne pas dire ?', '3 · Pourquoi ça tourne mal ?', '4 · Comédie, tragédie, destin ?'], a: 3, s: 'Famille 4 : le genre.', d: 'Mobilise : mélange des registres, préface de *Cromwell*, pièce à lire, proverbe dramatique.' },
+      { t: 'mcq', p: '« Rosette n’est-elle qu’une victime ? »', o: ['1 · Jeu ou sérieux ?', '2 · Dire ou ne pas dire ?', '3 · Pourquoi ça tourne mal ?', '4 · Comédie, tragédie, destin ?'], a: 2, s: 'Famille 3 : les responsabilités.', d: 'Qui est coupable, qui est victime ? Le sujet touche aussi la famille 1 (Rosette est la seule qui ne joue pas) : c’est normal, les familles se croisent.' }
+    ] },
+    { t: 'Les mots qui piègent', lvl: 3, d: 'Repérer les doubles sens des mots-clés.', items: [
+      { t: 'mcq', p: 'Dans le sujet A, « sérieusement » peut vouloir dire…', o: ['Seulement « avec colère »', '« Pour de vrai, hors du jeu » et « avec gravité, parce que l’enjeu est réel »', '« Longuement »', '« Poliment »'], a: 1, s: 'Deux sens : pour de vrai, et avec gravité.', d: 'Le plan joue sur les deux : ils croient jouer (pas « pour de vrai »), mais l’enjeu est grave.' },
+      { t: 'mcq', p: 'Dans le sujet E, une parole « gratuite » est une parole…', o: ['Qui ne coûte rien en argent', 'Sans effet, sans conséquence', 'Polie', 'Écrite'], a: 1, s: 'Sans effet, sans conséquence.', d: 'Le critique affirme qu’aucune parole n’est légère chez Musset : chacune agit.' },
+      { t: 'mcq', p: 'Dans le sujet B, « se laissent piéger » suggère que…', o: ['Les personnages sont seulement victimes', 'Ils ont une part de complaisance : ils pourraient éviter le piège', 'Ils piègent les autres', 'Rien de particulier'], a: 1, s: 'Ils consentent en partie au piège.', d: 'D’où la partie II du plan : lucidité et complaisance (l’aparté de Perdican en III, 6).' },
+      { t: 'mcq', p: 'Que signifie « badiner » ?', o: ['Se disputer violemment', 'Plaisanter, jouer avec légèreté', 'Mentir', 'Prier'], a: 1, s: 'Plaisanter, jouer avec légèreté.', d: 'Le titre dit qu’on ne doit pas traiter l’amour comme un jeu léger.' }
+    ] },
+    { t: 'Analyser un sujet inédit', lvl: 4, d: 'Faire seul l’analyse complète.', items: [
+      { t: 'write', task: 'Analyse d’un sujet', sujet: 'T8', p: 'Analyse ce sujet : mots-clés et définitions, deuxième sens, forme du sujet et plan attendu, famille, piège à éviter.', grid: 'sujet',
+        model: 'Mots-clés : « parole », « ne… que », « instrument », « manipulation ». La manipulation, c’est agir sur quelqu’un à son insu ; un instrument est un simple moyen, au service d’une intention. Forme : une restriction (« ne… que ») : il faut montrer que la parole manipule, puis ce que la formule oublie. Plan : I. la parole manipule (III, 3 ; III, 6) ; II. elle exprime aussi le cœur (la tirade, l’aveu de III, 8) ; III. elle échappe à ceux qui croient la manier (ses conséquences les dépassent). Famille 2, dire ou ne pas dire. Piège : faire seulement la liste des mensonges.' },
+      { t: 'write', task: 'Analyse d’un sujet', sujet: 'T6', p: 'Analyse ce sujet : mots-clés et définitions, deuxième sens, forme du sujet et plan attendu, famille, piège à éviter.', grid: 'sujet',
+        model: 'Mots-clés : « Chœur », « ne… que », « témoin », « comique ». Le Chœur, ce sont les villageois, héritage du théâtre grec. Un témoin voit sans agir ; « comique » renvoie à ses portraits burlesques. Forme : une restriction : montrer qu’il est un témoin comique, puis ce qu’il est d’autre. Plan : I. un témoin comique (I, 1) ; II. la voix de la mémoire et de l’enfance (I, 4) ; III. une conscience tragique qui annonce le danger (III, 4). Famille 4. Piège : raconter ses interventions sans dire leur fonction.' }
+    ] }
+  ],
+  quiz: [
+    { t: 'mcq', p: 'Combien de temps consacrer à l’analyse du sujet ?', o: ['2 minutes', 'Environ 15 minutes', '1 heure', 'On peut s’en passer'], a: 1, s: 'Environ 15 minutes.', d: 'C’est la meilleure protection contre le hors-sujet.' },
+    { t: 'mcq', p: 'Un sujet avec « seulement » appelle…', o: ['Un plan par personnage', 'Confirmer, puis montrer ce que la formule oublie', 'Répondre oui', 'Une seule partie'], a: 1, s: 'Une restriction : on confirme, puis on élargit.', d: 'Comme « ne… que » dans le sujet F.' },
+    { t: 'mcq', p: 'Le sujet G joue sur le double sens de…', o: ['« commence »', '« joué »', '« tout »', '« selon vous »'], a: 1, s: '« Joué » : décidé d’avance, et mis en jeu.', d: 'Ce double sens donne la troisième partie.' },
+    { t: 'mcq', p: 'Quelle est la question cachée de la famille 2 ?', o: ['Le jeu devient-il mortel ?', 'La parole cache-t-elle le cœur, le révèle-t-elle ou le tue-t-elle ?', 'Qui est responsable ?', 'La catastrophe est-elle programmée ?'], a: 1, s: 'La parole face au cœur.', d: 'Famille 1 : jeu ou sérieux ; 3 : responsabilités ; 4 : genre et destin.' },
+    { t: 'mcq', p: 'Quelle est l’erreur la plus coûteuse en dissertation ?', o: ['Une faute d’orthographe', 'Le hors-sujet', 'Une introduction courte', 'Un plan en trois parties'], a: 1, s: 'Le hors-sujet.', d: 'Un devoir brillant mais hors-sujet ne répond pas à la question posée.' }
+  ] },
+
+/* ---------------- MODULE 4 ---------------- */
+{ id: 'pb', t: 'Problématiser', icon: 'question', goal: 'Transformer le sujet en une vraie question qui fait apparaître une tension.',
+  learn: [
+    { t: 'Qu’est-ce qu’une problématique ?', b: `C’est la question qui guide toute la dissertation. Elle **reformule le sujet** en faisant apparaître une **tension** entre deux lectures possibles de la pièce.
+
+Elle prend souvent cette forme :
+- « … n’est-il que…, ou bien… ? »
+- « … est-ce…, ou au contraire… ? »`, key: 'Une bonne problématique contient déjà ton plan.' },
+    { t: 'Quatre défauts à éviter', b: 'Les quatre erreurs les plus fréquentes.', terms: [
+      ['Répéter le sujet', 'Recopier la question mot pour mot n’ajoute rien.'],
+      ['Trop large', '« Qu’est-ce que l’amour ? » : on quitte la pièce.'],
+      ['Réponse évidente', '« Rosette meurt-elle ? » : il n’y a rien à discuter.'],
+      ['Hors œuvre ou hors sujet', '« Comment Perdican séduit-il Rosette ? » : on pousse à raconter, et on oublie le sujet.']
+    ] },
+    { t: 'La méthode en trois temps', b: `1. **Ce que le sujet affirme ou suggère** : la thèse.
+2. **Ce qui lui résiste** dans la pièce : l’objection.
+3. **Mettre les deux en tension** dans une seule question, avec le titre de l’œuvre ou le nom des personnages.` }
+  ],
+  worked: { t: 'Problématiser le sujet F', task: 'Dans *On ne badine pas avec l’amour*, les personnages ne sont-ils animés que par la peur de perdre ?', steps: [
+    { t: 'Ce que le sujet suggère', q: 'Quelle thèse le sujet propose-t-il ?', a: 'Les personnages agiraient tous par peur de perdre : Camille a peur de souffrir, Perdican de perdre la face, le Baron son argent, Bridaine sa place à table.', w: 'On prend d’abord la thèse au sérieux, avec des exemples.' },
+    { t: 'Ce qui résiste', q: 'Qu’est-ce que la thèse oublie ?', a: 'Ils agissent aussi par désir : désir de savoir, désir de vaincre, et surtout désir d’un amour absolu.', w: 'L’objection doit venir de la pièce, pas d’une opinion générale.' },
+    { t: 'La tension', q: 'Comment réunir les deux dans une question ?', a: 'La peur de perdre est-elle le seul ressort des personnages, ou cache-t-elle un désir plus profond, celui d’aimer absolument ?', w: 'Les deux moitiés de la question opposent deux lectures de la pièce.' },
+    { t: 'Vérifier', q: 'La problématique est-elle bonne ?', a: 'Elle reprend l’idée du sujet sans le répéter, elle oppose deux lectures, et chaque moitié pourra devenir une partie.', w: 'Ce test rapide évite les quatre défauts.' }
+  ] },
+  fams: [
+    { t: 'Repérer le défaut', lvl: 1, d: 'Dire ce qui ne va pas dans une problématique.', items: [
+      { t: 'mcq', p: 'Sujet A. Problématique proposée : « Les personnages s’affrontent-ils sérieusement dans la pièce ? »', o: ['Elle répète le sujet', 'Elle est trop large', 'Elle a une réponse évidente', 'Elle est parfaite'], a: 0, s: 'Elle recopie le sujet.', d: 'Il faut faire apparaître la tension : « L’affrontement n’est-il qu’une joute de comédie, ou un combat dont l’enjeu dépasse ceux qui le mènent ? »' },
+      { t: 'mcq', p: 'Sujet D. Problématique proposée : « Qu’est-ce que la sincérité ? »', o: ['Elle répète le sujet', 'Elle est trop large et oublie l’œuvre', 'Elle a une réponse évidente', 'Elle est parfaite'], a: 1, s: 'Trop large, et la pièce a disparu.', d: 'Une problématique de dissertation sur œuvre parle de l’œuvre.' },
+      { t: 'mcq', p: 'Sujet G. Problématique proposée : « La pièce finit-elle mal ? »', o: ['Elle répète le sujet', 'Elle est trop large', 'Elle a une réponse évidente', 'Elle est parfaite'], a: 2, s: 'Réponse évidente : oui, Rosette meurt.', d: 'Rien à discuter, donc pas de dissertation possible.' },
+      { t: 'mcq', p: 'Sujet B. Problématique proposée : « Comment Perdican séduit-il Rosette ? »', o: ['Elle répète le sujet', 'Elle pousse à raconter et sort du sujet', 'Elle a une réponse évidente', 'Elle est parfaite'], a: 1, s: 'Elle pousse à raconter, et oublie le « piège » du badinage.', d: 'Le sujet porte sur tous les personnages et sur le piège, pas sur la seule séduction de Rosette.' }
+    ] },
+    { t: 'Choisir la meilleure', lvl: 2, d: 'Comparer plusieurs problématiques.', items: [
+      { t: 'mcq', p: 'Sujet C (« J’ai eu tort de parler »). Quelle est la meilleure problématique ?', o: ['Camille a-t-elle eu tort de parler ?', 'Pourquoi Camille parle-t-elle à Perdican en II, 5 ?', 'Parler est-il, dans la pièce, une faute qui expose et qui blesse, ou bien le vrai tort des personnages est-il de mal parler, ou de se taire ?', 'Qu’est-ce que la parole ?'], a: 2, s: 'La troisième : elle oppose deux lectures et élargit à toute la pièce.', d: 'La première répète le sujet, la deuxième pousse à raconter, la quatrième est trop large.' },
+      { t: 'mcq', p: 'Sujet E (« pas de parole gratuite »). Quelle est la meilleure problématique ?', o: ['Toute parole, même la plus légère, engage-t-elle vraiment celui qui la prononce ?', 'Les personnages parlent-ils beaucoup ?', 'Qu’est-ce qu’une parole gratuite ?', 'Le critique a-t-il raison ?'], a: 0, s: 'La première : elle met en tension « légère » et « engage ».', d: 'La deuxième a une réponse évidente, la troisième reste une définition, la quatrième est vide.' },
+      { t: 'mcq', p: 'Sujet B (« piéger par leur propre badinage »). Quelle est la meilleure problématique ?', o: ['Les personnages sont-ils piégés ?', 'Les personnages sont-ils seulement victimes de leurs propres jeux, ou d’autres pièges, plus profonds, se referment-ils sur eux ?', 'Qu’est-ce qu’un piège ?', 'Qui piège qui dans la pièce ?'], a: 1, s: 'La deuxième : tension entre leurs propres pièges et des pièges plus vastes.', d: 'La quatrième mène à un catalogue de manœuvres, sans tension.' }
+    ] },
+    { t: 'Compléter la tension', lvl: 3, d: 'Trouver le second pôle de la question.', items: [
+      { t: 'mcq', p: '« Le badinage de Camille et Perdican n’est-il qu’un jeu léger… »', o: ['« …ou bien une comédie amusante ? »', '« …ou bien un combat dont l’enjeu les dépasse ? »', '« …ou bien un jeu très léger ? »', '« …ou bien un dialogue ? »'], a: 1, s: '« …ou bien un combat dont l’enjeu les dépasse ? »', d: 'Les autres ne s’opposent pas au premier pôle : il n’y a pas de tension.' },
+      { t: 'mcq', p: '« Rosette n’est-elle que la victime des jeux des deux cousins… »', o: ['« …ou bien est-elle aussi celle qui révèle la vérité de ces jeux ? »', '« …ou bien est-elle une paysanne ? »', '« …ou bien meurt-elle à la fin ? »', '« …ou bien aime-t-elle Perdican ? »'], a: 0, s: '« …ou bien est-elle aussi celle qui révèle la vérité de ces jeux ? »', d: 'Les autres réponses sont des faits, pas une lecture opposée.' },
+      { t: 'mcq', p: '« Le titre de la pièce est-il une leçon de morale adressée au lecteur… »', o: ['« …ou un proverbe ? »', '« …ou le constat désenchanté d’une fatalité humaine ? »', '« …ou un titre long ? »', '« …ou une phrase de Musset ? »'], a: 1, s: '« …ou le constat désenchanté d’une fatalité humaine ? »', d: 'Morale (on peut éviter l’erreur) face à constat (on ne peut pas l’éviter, « car nous sommes des hommes »).' }
+    ] },
+    { t: 'Rédiger une problématique', lvl: 4, d: 'Écrire seul une problématique.', items: [
+      { t: 'write', task: 'Problématique', sujet: 'T2', p: 'Rédige une problématique pour ce sujet.', grid: 'pb',
+        model: 'L’orgueil est-il le vrai moteur de la catastrophe, ou n’est-il que le symptôme d’un mal plus profond : une éducation qui apprend à craindre l’amour et une parole qui ne sait plus dire le cœur ?' },
+      { t: 'write', task: 'Problématique', sujet: 'T3', p: 'Rédige une problématique pour ce sujet.', grid: 'pb',
+        model: '*On ne badine pas avec l’amour* commence-t-elle vraiment comme une comédie que le hasard ferait mal tourner, ou la tragédie est-elle inscrite dès l’ouverture, dans le titre et dans le jeu même des personnages ?' }
+    ] }
+  ],
+  quiz: [
+    { t: 'mcq', p: 'Une bonne problématique…', o: ['Recopie le sujet', 'Fait apparaître une tension entre deux lectures', 'Pose une question générale sur l’amour', 'Se termine par un point'], a: 1, s: 'Elle fait apparaître une tension.', d: 'Elle contient déjà les grandes lignes du plan.' },
+    { t: 'mcq', p: 'Par quoi commence la méthode en trois temps ?', o: ['Par l’objection', 'Par la thèse du sujet', 'Par l’ouverture', 'Par une citation'], a: 1, s: 'Par la thèse : ce que le sujet affirme ou suggère.', d: 'Puis l’objection, puis la question qui réunit les deux.' },
+    { t: 'mcq', p: '« Rosette meurt-elle ? » Quel défaut ?', o: ['Trop large', 'Réponse évidente', 'Répète le sujet', 'Aucun'], a: 1, s: 'Réponse évidente.', d: 'Il n’y a rien à démontrer.' },
+    { t: 'mcq', p: 'Où place-t-on la problématique ?', o: ['En conclusion', 'Dans l’introduction, avant l’annonce du plan', 'Au début de chaque partie', 'Dans le titre'], a: 1, s: 'Dans l’introduction, juste avant l’annonce du plan.', d: 'La conclusion y répondra nettement.' }
+  ] }
+];
+
+/* ===== Modules 5 à 8 ===== */
+const ROLES = {
+  arg: 'Argument', expl: 'Explication', ex: 'Citation', ana: 'Analyse', lien: 'Lien au sujet',
+  acc: 'Accroche', pres: 'Présentation', def: 'Analyse du sujet', pb: 'Problématique', ann: 'Annonce du plan',
+  bil: 'Bilan', ouv: 'Ouverture', trans: 'Transition'
+};
+
+const MODS_B = [
+/* ---------------- MODULE 5 ---------------- */
+{ id: 'plan', t: 'Construire le plan', icon: 'plan', goal: 'Bâtir un plan en trois parties qui répond au sujet et progresse.',
+  learn: [
+    { t: 'Deux types de plans', b: 'Le type de plan dépend de la forme du sujet.', terms: [
+      ['Plan dialectique', 'I. Oui : la thèse du sujet, avec ses preuves. II. Mais : les limites, les objections. III. Dépassement : une réponse plus fine, qui explique pourquoi les deux sont vrais. Pour les questions fermées, « dans quelle mesure », les citations à discuter.'],
+      ['Plan thématique', 'Trois aspects d’une même réponse. Pour les sujets « En quoi… ? » ou « Comment… ? ».']
+    ], key: 'Au bac, sur cette pièce, la plupart des sujets appellent un plan dialectique.' },
+    { t: 'Les règles d’un bon plan', b: `- Chaque partie **répond au sujet** par une phrase-idée.
+- Chaque partie a **deux ou trois sous-parties** : ce sont les arguments.
+- Chaque argument a **sa preuve** : une citation et sa référence.
+- Le plan **progresse** du plus évident au plus fin.
+- La troisième partie **dépasse** les deux autres : elle n’est pas « un peu des deux ».` },
+    { t: 'Trois plans qui font perdre des points', b: 'À reconnaître pour les éviter.', terms: [
+      ['Le plan par personnage', 'I. Camille, II. Perdican, III. Rosette : on décrit sans répondre.'],
+      ['Le plan chronologique', 'I. Acte I, II. Acte II, III. Acte III : on raconte.'],
+      ['Le plan « oui / non / un peu des deux »', 'La troisième partie n’apporte rien de nouveau.']
+    ] }
+  ],
+  worked: { t: 'Construire le plan du sujet A', task: 'Les personnages s’affrontent-ils sérieusement dans *On ne badine pas avec l’amour* ?', steps: [
+    { t: 'Répondre en une phrase', q: 'Quelle est ta réponse au sujet, avant tout plan ?', a: 'Ils s’affrontent avec sérieux tout en croyant jouer.', w: 'Le plan sert à démontrer une réponse. Sans réponse, le plan devient une liste.' },
+    { t: 'Partie I : accorder', q: 'Qu’est-ce qui donne raison à l’idée d’un simple jeu ?', a: 'En apparence, un affrontement de comédie : A. une joute verbale en miroir ; B. le plaisir de la dispute ; C. un cadre comique qui désamorce.', w: 'On commence par ce qui est le plus visible à la lecture.' },
+    { t: 'Partie II : objecter', q: 'Qu’est-ce qui montre que l’enjeu est grave ?', a: 'En réalité, un combat aux enjeux graves : A. deux visions du monde ; B. une guerre d’orgueil ; C. des coups qui portent.', w: 'L’objection vient de la pièce elle-même, avec des preuves.' },
+    { t: 'Partie III : dépasser', q: 'Comment expliquer que les deux soient vrais ?', a: 'Leur faute : ne pas prendre au sérieux ce qu’ils mettent en jeu. A. un jeu d’enfants avec la mort ; B. la seule qui ne joue pas meurt ; C. la pièce elle-même bascule.', w: 'La III ne fait pas la moyenne de I et II : elle explique leur contradiction.' },
+    { t: 'Vérifier la progression', q: 'Le plan va-t-il du plus évident au plus fin ?', a: 'Oui : du ton de comédie (I), à l’enjeu caché (II), à ce que la pièce dit du jeu lui-même (III).', w: 'Relis seulement les trois titres : ils doivent former une réponse complète.' }
+  ] },
+  fams: [
+    { t: 'Repérer le défaut', lvl: 1, d: 'Reconnaître un plan qui fait perdre des points.', items: [
+      { t: 'mcq', p: 'Sujet F. Plan proposé : I. Camille ; II. Perdican ; III. Rosette.', o: ['Un plan par personnage : il décrit sans répondre', 'Un bon plan dialectique', 'Un plan chronologique', 'Un plan trop court'], a: 0, s: 'Un plan par personnage.', d: 'Chaque partie ferait le portrait d’un personnage, sans jamais discuter la « peur de perdre ». Le plan doit suivre les étapes de la réponse.' },
+      { t: 'mcq', p: 'Sujet G. Plan proposé : I. L’acte I ; II. L’acte II ; III. L’acte III.', o: ['Un bon plan', 'Un plan chronologique : il raconte', 'Un plan par personnage', 'Un plan thématique'], a: 1, s: 'Un plan chronologique.', d: 'Suivre les actes pousse à raconter. Même pour un sujet sur le déroulement (« tout est-il joué ? »), on organise par idées.' },
+      { t: 'mcq', p: 'Sujet C. Plan proposé : I. Camille a eu tort de parler. II. Camille n’a pas eu tort de parler. III. Elle a eu un peu tort et un peu raison.', o: ['Un plan parfait', 'Une troisième partie qui n’apporte rien', 'Un plan par personnage', 'Un plan trop long'], a: 1, s: 'La III est une moyenne molle.', d: 'Un vrai dépassement explique : le tort n’est pas de parler, mais de laisser l’orgueil parler à sa place.' }
+    ] },
+    { t: 'Ordonner les parties', lvl: 2, d: 'Retrouver la progression d’un plan.', items: [
+      { t: 'order', p: 'Sujet F : remets les trois parties dans l’ordre.', items: ['Une peur de perdre omniprésente', 'D’autres forces les animent : savoir, gagner, aimer', 'À force de ne pas vouloir perdre, ils perdent tout'], s: 'Accorder, objecter, dépasser.', d: 'La III renverse la thèse : la peur de perdre fait tout perdre. Elle dépasse les deux premières parties.' },
+      { t: 'order', p: 'Sujet D : remets les trois parties dans l’ordre.', items: ['Le jeu de la parole fait obstacle au cœur', 'Pourtant, le jeu laisse affleurer la vérité', 'Le vrai ennemi est l’orgueil, et la sincérité peut tuer'], s: 'Le jeu nuit ; il ne nuit pas toujours ; ce qui nuit vraiment.', d: 'La III déplace la question : la cause n’est pas le jeu, c’est l’orgueil.' }
+    ] },
+    { t: 'Ranger les arguments', lvl: 3, d: 'Placer chaque argument dans la bonne partie.', items: [
+      { t: 'match', p: 'Sujet B. Range chaque argument dans sa partie. I : des pièges qui se retournent contre leurs auteurs. II : ils se laissent piéger. III : un piège plus vaste.', pairs: [['La lettre de Camille déclenche la vengeance de Perdican', 'Partie I'], ['Trois scènes d’écoute cachée se répondent', 'Partie I'], ['Perdican voit Camille cachée et continue (aparté, III, 6)', 'Partie II'], ['Le monologue de Perdican se contredit (III, 1)', 'Partie II'], ['« les religieuses t’ont donné leur expérience »', 'Partie III'], ['Rosette, « une fille de rien »', 'Partie III']], same: true,
+        s: 'I : les pièges se retournent ; II : la complaisance ; III : éducation et société.', d: 'Le critère : en I, le piège revient sur son auteur ; en II, le personnage voit le piège et l’accepte ; en III, le piège ne vient pas des personnages mais de ce qui les a formés.' },
+      { t: 'match', p: 'Sujet G. Range chaque argument. I : des signes annoncent la fin. II : rien n’est joué tant qu’ils jouent. III : « joué » au sens théâtral.', pairs: [['Le titre-proverbe annonce la leçon', 'Partie I'], ['« elle veut mourir fille » (I, 4)', 'Partie I'], ['La bague retrouvée relance l’espoir (III, 6)', 'Partie II'], ['Le cachet de la lettre saute par accident (III, 2)', 'Partie II'], ['Camille rejoue le rôle appris de sœur Louise', 'Partie III'], ['Le mélange des registres fait glisser la comédie vers le tragique', 'Partie III']], same: true,
+        s: 'I : le destin ; II : la liberté et le hasard ; III : le théâtre.', d: 'Le double sens de « joué » organise tout le plan.' }
+    ] },
+    { t: 'Construire un plan', lvl: 4, d: 'Bâtir seul un plan détaillé.', items: [
+      { t: 'write', task: 'Plan détaillé', sujet: 'T1', p: 'Construis un plan détaillé : trois parties avec leur titre, deux ou trois sous-parties chacune, une preuve par sous-partie.', grid: 'plan', plan: 'T1' },
+      { t: 'write', task: 'Plan détaillé', sujet: 'T4', p: 'Construis un plan détaillé : trois parties avec leur titre, deux ou trois sous-parties chacune, une preuve par sous-partie.', grid: 'plan', plan: 'T4' }
+    ] }
+  ],
+  quiz: [
+    { t: 'mcq', p: 'Quel plan pour une question fermée ?', o: ['Thématique', 'Dialectique', 'Par personnage', 'Chronologique'], a: 1, s: 'Dialectique.', d: 'Oui, mais, dépassement.' },
+    { t: 'mcq', p: 'Combien de sous-parties par partie ?', o: ['Une', 'Deux ou trois', 'Cinq', 'Autant que de scènes'], a: 1, s: 'Deux ou trois.', d: 'Chacune correspond à un argument, avec sa preuve.' },
+    { t: 'mcq', p: 'La troisième partie d’un plan dialectique…', o: ['Résume les deux premières', 'Dépasse la contradiction en l’expliquant', 'Ajoute des exemples', 'Raconte la fin'], a: 1, s: 'Elle dépasse la contradiction.', d: 'Elle donne une réponse plus fine, pas une moyenne.' },
+    { t: 'mcq', p: 'Comment vérifier rapidement un plan ?', o: ['Compter les citations', 'Relire les trois titres : ils doivent former une réponse', 'Vérifier la longueur', 'Le recopier'], a: 1, s: 'Les trois titres forment une réponse complète.', d: 'Si les titres seuls ne répondent pas au sujet, le plan est à revoir.' }
+  ] },
+
+/* ---------------- MODULE 6 ---------------- */
+{ id: 'paragraphe', t: 'Le paragraphe argumentatif', icon: 'para', goal: 'Rédiger un paragraphe complet : argument, explication, citation, analyse, lien au sujet.',
+  learn: [
+    { t: 'Les cinq pièces du paragraphe', b: 'Chaque sous-partie du plan devient un paragraphe. Il contient toujours cinq pièces, dans cet ordre. Chaque pièce garde la même couleur dans toute l’application.', roles: ['arg', 'expl', 'ex', 'ana', 'lien'], terms: [
+      ['Argument', 'Une phrase qui annonce l’idée.'],
+      ['Explication', 'Pourquoi c’est vrai, comment ça fonctionne.'],
+      ['Citation', 'La preuve, située et référencée.'],
+      ['Analyse', 'Un procédé, et ce qu’il montre.'],
+      ['Lien au sujet', 'Une phrase qui revient aux mots du sujet.']
+    ], key: 'Moyen de retenir l’ordre : A, E, C, A, L.' },
+    { t: 'Les mots pour enchaîner', b: 'Des connecteurs utiles, pièce par pièce.', terms: [
+      ['Expliquer', 'en effet, car, c’est que, puisque'],
+      ['Introduire la citation', 'ainsi, c’est le cas lorsque, comme le montre'],
+      ['Analyser', 'le verbe…, la question rhétorique…, souligne, met en valeur'],
+      ['Revenir au sujet', 'dès lors, on le voit, ainsi, c’est pourquoi']
+    ] }
+  ],
+  worked: { t: 'Un paragraphe pour le sujet D (partie II, B)', task: 'Dans quelle mesure le jeu de la parole nuit-il à l’expression sincère des sentiments ?', steps: [
+    { t: 'Argument', role: 'arg', q: 'Quelle idée le paragraphe défend-il ?', a: 'Pourtant, le jeu de la parole n’étouffe pas complètement le cœur : il le laisse parfois affleurer.', w: '« Pourtant » situe le paragraphe dans la partie II, celle de l’objection.' },
+    { t: 'Explication', role: 'expl', q: 'Pourquoi est-ce vrai ?', a: 'Même quand les personnages mentent, leurs mots trahissent malgré eux ce qu’ils ressentent, si bien que le mensonge porte en lui une part de vérité.', w: 'On explique l’idée avant de la prouver : le correcteur sait quoi chercher dans la citation.' },
+    { t: 'Citation', role: 'ex', q: 'Quelle preuve, et où ?', a: 'Camille le revendique elle-même lorsque Perdican lui reproche ses changements, à l’acte III, scène 6 : « il nous faut souvent jouer un rôle, souvent mentir ; […] mais êtes-vous sûr que tout mente dans une femme, lorsque sa langue ment ? »', w: 'La citation est située (qui, quand) et coupée avec […].' },
+    { t: 'Analyse', role: 'ana', q: 'Quel procédé, et que montre-t-il ?', a: 'La question rhétorique sépare la « langue » et le reste de la personne : le masque verbal n’empêche pas la vérité intérieure. Et l’aveu même du mensonge, « vous voyez que je suis franche », devient un acte de sincérité.', w: 'C’est la pièce qui rapporte le plus de points, et celle qu’on oublie le plus.' },
+    { t: 'Lien au sujet', role: 'lien', q: 'Comment revenir au sujet ?', a: 'Le jeu de la parole nuit donc à l’expression sincère des sentiments, mais il ne l’abolit pas : sous le jeu, le cœur continue de parler.', w: 'On reprend les mots du sujet (« jeu de la parole », « expression sincère ») : le correcteur voit que tu réponds.' }
+  ] },
+  fams: [
+    { t: 'Nommer les pièces', lvl: 1, d: 'Reconnaître le rôle de chaque phrase.', items: [
+      { t: 'match', p: 'Sujet A, partie II. Associe chaque phrase à son rôle.', pairs: [['L’affrontement devient ensuite une véritable guerre d’orgueil.', 'Argument'], ['Blessé dans son amour-propre, chacun veut vaincre l’autre plutôt que le comprendre.', 'Explication'], ['Après avoir lu la lettre de Camille, Perdican se promet : « je n’ai pas le poignard dans le cœur, et je te le prouverai » (III, 2).', 'Citation'], ['La négation reprend l’image de la lettre pour la démentir, et le futur « je te le prouverai » transforme la parole en défi.', 'Analyse'], ['Les personnages ne s’affrontent donc plus pour jouer : l’enjeu, désormais, est de ne pas perdre la face.', 'Lien au sujet']],
+        s: 'Argument, explication, citation, analyse, lien.', d: 'Repère les indices : « ensuite » (argument qui s’insère dans un plan), « Blessé… » (cause), les guillemets (citation), « la négation… le futur » (analyse des procédés), « donc » (lien).' },
+      { t: 'mcq', p: 'Quelle phrase est une analyse ?', o: ['Camille a peur de souffrir.', 'La conjonction « mais » oppose le désir et la peur.', 'Elle le dit à Perdican en II, 5.', 'C’est un argument important.'], a: 1, s: 'Celle qui nomme un procédé (« la conjonction mais ») et dit ce qu’il montre.', d: 'Une analyse porte toujours sur la forme d’une citation : un mot, une construction, une figure.' },
+      { t: 'mcq', p: 'Quelle phrase est un lien au sujet (sujet F) ?', o: ['Camille parle de sœur Louise.', 'La peur de perdre est donc réelle chez Camille, mais elle est apprise : elle vient du couvent plus que de son cœur.', '« Je veux aimer, mais je ne veux pas souffrir » (II, 5).', 'L’anaphore de « je veux » marque la volonté.'], a: 1, s: 'Celle qui reprend les mots du sujet (« peur de perdre ») et conclut.', d: 'Le lien répond au sujet à l’échelle du paragraphe, et prépare souvent le suivant.' }
+    ] },
+    { t: 'Remettre dans l’ordre', lvl: 2, d: 'Reconstruire un paragraphe.', items: [
+      { t: 'order', p: 'Sujet F, partie I, A : remets le paragraphe dans l’ordre.', items: ['Camille est d’abord animée par la peur de souffrir en aimant.', 'Le récit des malheurs de sœur Louise lui a appris que l’amour humain trompe et détruit.', 'Elle le dit sans détour à Perdican : « Je veux aimer, mais je ne veux pas souffrir » (II, 5).', 'La conjonction « mais » oppose le désir et la peur : Camille veut l’amour sans son risque, et c’est pourquoi elle choisit Dieu, le seul amant qui ne trahit pas.', 'Sa peur de perdre est donc réelle, mais elle est apprise : elle vient du couvent plus que de son cœur.'], roles: ['arg', 'expl', 'ex', 'ana', 'lien'], s: 'Argument, explication, citation, analyse, lien.', d: 'L’explication (sœur Louise) prépare la citation : le lecteur comprend d’où vient la peur avant de l’entendre.' },
+      { t: 'order', p: 'Sujet E, partie I, B : remets le paragraphe dans l’ordre.', items: ['Dans la pièce, chaque parole déclenche une action.', 'L’intrigue avance comme une chaîne : un mot entendu provoque une riposte, qui provoque à son tour un nouveau mot.', 'Ainsi, la lettre de Camille, lue par Perdican (III, 2), le pousse à déclarer son amour à Rosette « à haute voix, de manière que Camille l’entende » (III, 3).', 'La didascalie montre que cette déclaration est calculée : elle n’est pas adressée à Rosette, mais à Camille, qu’elle doit blesser.', 'Aucune parole n’est donc gratuite : chacune est un acte qui appelle une réponse.'], roles: ['arg', 'expl', 'ex', 'ana', 'lien'], s: 'Argument, explication, citation, analyse, lien.', d: 'Le lien reprend le mot du sujet, « gratuite ».' }
+    ] },
+    { t: 'Ce qui manque', lvl: 3, d: 'Diagnostiquer un paragraphe incomplet.', items: [
+      { t: 'mcq', p: '« Rosette est la seule à ne pas jouer. Elle croit tout ce qu’on lui dit. Elle répond à Camille : « Comment n’y croirais-je pas ? il me tromperait donc ? Pour quoi faire ? » (III, 6). Rosette est donc la victime des jeux des autres. » Que manque-t-il ?', o: ['L’argument', 'La citation', 'L’analyse de la citation', 'Rien'], a: 2, s: 'L’analyse : la citation n’est pas commentée.', d: 'Il faudrait dire par exemple : les trois questions s’enchaînent sans laisser place au doute ; pour Rosette, une parole veut dire ce qu’elle dit.' },
+      { t: 'mcq', p: '« Les personnages savent qu’ils jouent. Ils ne sont pas dupes de leurs propres manœuvres. Ainsi, Camille avoue : « J’ai eu tort de parler » (II, 5). Ce regret montre sa lucidité. Ils jouent donc en connaissance de cause. » Quel est le problème ?', o: ['Il manque l’explication', 'La citation ne prouve pas l’argument', 'Il manque le lien', 'Rien'], a: 1, s: 'La citation ne prouve pas que Camille sait qu’elle joue.', d: '« J’ai eu tort de parler » montre un regret, pas la conscience du jeu. La bonne preuve : l’aparté de Perdican, « je l’ai vue derrière un arbre écouter la conversation » (III, 6).' },
+      { t: 'mcq', p: '« L’affrontement passe par des gestes. Les mots ne suffisent plus : il faut blesser. Perdican jette dans la fontaine la bague de Camille (III, 3), et Camille s’écrie en aparté : « Il a jeté ma bague dans l’eau ! ». L’exclamation montre que le coup a porté. » Que manque-t-il ?', o: ['L’analyse', 'Le lien au sujet', 'La citation', 'L’argument'], a: 1, s: 'Le lien au sujet.', d: 'Il faudrait finir par exemple : « L’affrontement n’a donc plus rien d’un jeu : il est devenu sérieux. »' }
+    ] },
+    { t: 'Rédiger un paragraphe', lvl: 4, d: 'Écrire seul un paragraphe complet.', items: [
+      { t: 'write', task: 'Paragraphe argumentatif', sujet: 'F', p: 'Rédige le paragraphe de la partie III, B : « Rosette, contre-modèle : elle ne calcule pas, et elle perd tout. »', grid: 'para',
+        model: 'Face aux calculs des deux cousins, Rosette apparaît comme un contre-modèle. Elle n’a pas peur de perdre, parce qu’elle ne joue pas : elle accueille la parole de Perdican sans méfiance. À sa question « sais-tu ce que c’est que l’amour ? », elle répond simplement : « Hélas ! monsieur le docteur, je vous aimerai comme je pourrai » (III, 3). La formule « comme je pourrai » reconnaît ses limites au lieu de les cacher, et l’apostrophe « monsieur le docteur » rappelle la distance sociale qui la rend vulnérable. Paradoxalement, c’est celle qui ne craint pas de perdre qui perd tout : la peur de perdre n’est donc pas le seul ressort de la pièce, puisque l’absence de peur conduit, elle aussi, au malheur.' },
+      { t: 'write', task: 'Paragraphe argumentatif', sujet: 'C', p: 'Rédige le paragraphe de la partie I, B : « Les paroles deviennent des armes. »', grid: 'para',
+        model: 'Plus encore, la parole devient une arme. Les personnages ne parlent plus pour dire ce qu’ils ressentent, mais pour atteindre l’autre. Lorsque Perdican déclare son amour à Rosette, une didascalie précise qu’il parle « à haute voix, de manière que Camille l’entende » (III, 3). Cette indication crée un double destinataire : Rosette reçoit les mots, Camille en reçoit le coup. Camille avait donc raison de se méfier de la parole : dans la pièce, parler peut blesser, et finira par tuer.' }
+    ] }
+  ],
+  quiz: [
+    { t: 'mcq', p: 'Dans quel ordre viennent les cinq pièces ?', o: ['Citation, argument, analyse, explication, lien', 'Argument, explication, citation, analyse, lien', 'Lien, argument, citation, analyse, explication', 'Argument, citation, lien'], a: 1, s: 'A, E, C, A, L.', d: 'Argument, explication, citation, analyse, lien au sujet.' },
+    { t: 'mcq', p: 'Quelle pièce est la plus souvent oubliée ?', o: ['L’argument', 'L’analyse', 'La citation', 'Le premier mot'], a: 1, s: 'L’analyse.', d: 'Or c’est elle qui montre ta compréhension de l’œuvre.' },
+    { t: 'mcq', p: 'À quoi sert le lien au sujet ?', o: ['À raconter la suite', 'À montrer au correcteur que le paragraphe répond au sujet', 'À ajouter une citation', 'À rien'], a: 1, s: 'À montrer que tu réponds au sujet.', d: 'Reprends ses mots-clés.' },
+    { t: 'mcq', p: '« le futur « je te le prouverai » transforme la parole en défi » : quelle pièce ?', o: ['Argument', 'Explication', 'Analyse', 'Lien'], a: 2, s: 'Une analyse : un procédé (le futur) et ce qu’il montre.', d: 'Elle porte sur la forme de la citation.' }
+  ] },
+
+/* ---------------- MODULE 7 ---------------- */
+{ id: 'introconcl', t: 'Introduction et conclusion', icon: 'frame', goal: 'Ouvrir et fermer la dissertation : accroche, présentation, sujet, problématique, annonce ; bilan et ouverture.',
+  learn: [
+    { t: 'L’introduction en cinq temps', b: 'Un seul paragraphe, de dix à quinze lignes. Rédige-le au brouillon, après le plan.', roles: ['acc', 'pres', 'def', 'pb', 'ann'], terms: [
+      ['Accroche', 'Une citation, un fait, une image, liés au sujet.'],
+      ['Présentation', 'L’auteur, l’œuvre, la date, l’enjeu, en une ou deux phrases.'],
+      ['Analyse du sujet', 'On cite le sujet et on définit ses mots-clés.'],
+      ['Problématique', 'La question qui fait apparaître la tension.'],
+      ['Annonce du plan', 'Les trois parties, dans l’ordre.']
+    ] },
+    { t: 'La conclusion en deux temps', b: 'Rédige-la aussi au brouillon : en fin d’épreuve, on manque de temps.', roles: ['bil', 'ouv'], terms: [
+      ['Bilan', 'Il répond nettement à la problématique en rappelant les trois étapes. Aucun argument nouveau.'],
+      ['Ouverture', 'Une autre œuvre du parcours, une autre pièce de Musset, une mise en scène. Pas de question vague du type « Et vous ? ».']
+    ] },
+    { t: 'Les transitions', b: `Entre deux parties, une ou deux phrases :
+- **un bilan** de la partie qui se termine ;
+- **une annonce** de la suivante, souvent par une question ou un « mais ».
+
+Exemple : « Ainsi, l’affrontement de Camille et Perdican a toutes les apparences d’une joute de comédie. Mais derrière ces répliques brillantes, l’enjeu est-il vraiment léger ? »`, roles: ['trans'] }
+  ],
+  worked: { t: 'L’introduction et la conclusion du sujet C', task: '« J’ai eu tort de parler », dit Camille à Perdican (II, 5). Cette réplique éclaire-t-elle votre lecture de la pièce ?', steps: [
+    { t: 'Accroche', role: 'acc', q: 'Comment entrer dans le sujet de la parole ?', a: '« J’ai souffert souvent, je me suis trompé quelquefois, mais j’ai aimé » : cette phrase de Perdican, Musset l’a empruntée mot pour mot à une lettre de George Sand.', w: 'L’accroche touche déjà au sujet : même la parole la plus sincère de la pièce est une parole empruntée.' },
+    { t: 'Présentation', role: 'pres', q: 'Que faut-il dire de l’œuvre ?', a: 'Dans *On ne badine pas avec l’amour*, proverbe dramatique publié en 1834, Musset met en scène deux cousins, Camille et Perdican, qui s’aiment depuis l’enfance mais transforment leurs retrouvailles en un jeu cruel dont Rosette, une jeune paysanne, sera la victime.', w: 'Auteur, titre, genre, date, enjeu : en une phrase.' },
+    { t: 'Analyse du sujet', role: 'def', q: 'Comment présenter la citation du sujet ?', a: 'À l’acte II, scène 5, après avoir confié sa vie au couvent, Camille se reprend : « J’ai eu tort de parler ». Elle voit alors la parole comme une faute, parce qu’elle expose celui qui se livre.', w: 'On situe la citation et on dit ce qu’elle signifie.' },
+    { t: 'Problématique', role: 'pb', q: 'Quelle tension ?', a: 'Parler est-il, dans la pièce, une faute qui expose et qui blesse, ou bien le vrai tort des personnages est-il de mal parler, ou de se taire ?', w: 'La question oppose deux lectures de la réplique.' },
+    { t: 'Annonce du plan', role: 'ann', q: 'Comment annoncer les trois parties ?', a: 'Nous verrons d’abord que la parole expose, blesse et finit par tuer ; puis que le vrai tort est plutôt de taire ou de travestir ce qu’on ressent ; enfin que, pour Musset, la parole est à double tranchant, mais reste le seul chemin vers le cœur.', w: '« D’abord, puis, enfin » : le correcteur suit la progression.' },
+    { t: 'Bilan', role: 'bil', q: 'Comment répondre en conclusion ?', a: 'La réplique de Camille éclaire donc la pièce, à condition d’être retournée. La parole expose et blesse, elle devient même une arme qui tue Rosette ; mais le vrai tort des personnages est de taire leurs sentiments ou de les travestir, si bien que l’aveu arrive trop tard. Ce n’est pas la parole qui condamne Camille et Perdican, c’est l’orgueil qui s’empare de leurs lèvres.', w: 'Le bilan répond nettement (« donc ») et rappelle les trois étapes.' },
+    { t: 'Ouverture', role: 'ouv', q: 'Vers quelle œuvre ouvrir ?', a: 'Chez Marivaux, dans *Le Jeu de l’amour et du hasard*, le jeu des masques conduit au contraire Silvia à « voir clair dans [son] cœur » : Musset reprend le badinage du XVIIIe siècle pour en montrer le versant tragique.', w: 'Une ouverture précise, liée au parcours, qui éclaire la pièce par contraste.' }
+  ] },
+  fams: [
+    { t: 'Reconnaître les étapes', lvl: 1, d: 'Nommer les cinq temps d’une introduction.', items: [
+      { t: 'match', p: 'Sujet F. Associe chaque phrase de l’introduction à son étape.', pairs: [['« Je veux aimer, mais je ne veux pas souffrir » : la formule de Camille résume la peur qui traverse toute la pièce.', 'Accroche'], ['Dans *On ne badine pas avec l’amour* (1834), Musset fait de retrouvailles amoureuses un affrontement d’orgueil qui s’achève par la mort de Rosette.', 'Présentation'], ['On peut se demander si les personnages ne sont animés que par la peur de perdre : perdre la face, perdre l’autre, ou, pour les personnages comiques, perdre leur place et leur argent.', 'Analyse du sujet'], ['La peur de perdre est-elle le seul ressort des personnages, ou cache-t-elle un désir plus profond, celui d’aimer absolument ?', 'Problématique'], ['Nous montrerons que cette peur est omniprésente, avant de voir que d’autres forces animent les personnages, puis qu’à force de ne pas vouloir perdre, ils perdent tout.', 'Annonce du plan']],
+        s: 'Accroche, présentation, analyse du sujet, problématique, annonce.', d: 'L’analyse du sujet déplie les sens du mot « perdre » : c’est elle qui rend le plan possible.' }
+    ] },
+    { t: 'Remettre dans l’ordre', lvl: 2, d: 'Reconstruire une introduction.', items: [
+      { t: 'order', p: 'Sujet E : remets l’introduction dans l’ordre.', items: ['Une lettre ouverte par hasard, une déclaration prononcée « à haute voix », un cri derrière un autel : dans *On ne badine pas avec l’amour*, tout commence et tout finit par des paroles.', 'Dans ce proverbe dramatique publié en 1834, Musset montre deux cousins, Camille et Perdican, qui se blessent par jeu jusqu’à causer la mort de Rosette.', 'Selon un critique, la parole, chez Musset, « tire toujours à conséquence » : aucun mot ne serait léger ou sans effet.', 'Toute parole, même la plus légère, engage-t-elle vraiment celui qui la prononce ?', 'Nous verrons que chaque parole agit, puis qu’il existe des paroles qui semblent gratuites, avant de montrer que la pièce construit une véritable morale de la parole.'], roles: ['acc', 'pres', 'def', 'pb', 'ann'], s: 'Accroche, présentation, analyse du sujet, problématique, annonce.', d: 'L’accroche fait la liste des paroles qui font avancer l’intrigue : elle prépare déjà la partie I.' }
+    ] },
+    { t: 'Choisir la meilleure', lvl: 3, d: 'Comparer des accroches, des ouvertures, des transitions.', items: [
+      { t: 'mcq', p: 'Quelle est la meilleure accroche pour le sujet A ?', o: ['Depuis toujours, l’amour fait souffrir les hommes.', 'Musset est né en 1810.', 'Le Baron croyait assister à un concert où « le violon joue *Mon cœur soupire*, pendant que la flûte joue *Vive Henri IV* » : sans le savoir, il décrit un duo amoureux qui sonne comme un combat.', 'Dans cette dissertation, nous allons parler de la pièce de Musset.'], a: 2, s: 'La troisième : précise, tirée de l’œuvre, liée à l’affrontement.', d: 'La première est une banalité, la deuxième une date sans lien, la quatrième ne dit rien.' },
+      { t: 'mcq', p: 'Quelle est la meilleure ouverture pour le sujet D ?', o: ['Et vous, êtes-vous sincère ?', 'Molière montrait déjà, avec Alceste, qu’une sincérité absolue rend la vie sociale impossible : le Misanthrope finit seul, comme Camille.', 'Musset est mort en 1857.', 'En conclusion, la pièce est très intéressante.'], a: 1, s: 'La deuxième : une œuvre précise, un lien clair avec le sujet.', d: 'Une question au lecteur ou un fait biographique n’ouvre rien.' },
+      { t: 'mcq', p: 'Quelle est la meilleure transition entre les parties I et II du sujet A ?', o: ['Passons maintenant à la deuxième partie.', 'Ainsi, l’affrontement de Camille et Perdican a toutes les apparences d’une joute de comédie. Mais derrière ces répliques brillantes, l’enjeu est-il vraiment léger ?', 'Nous avons vu beaucoup de choses.', 'II. En réalité, un combat aux enjeux graves.'], a: 1, s: 'La deuxième : un bilan, puis une annonce.', d: 'Les titres de parties n’apparaissent pas dans la copie : ce sont les transitions qui montrent le plan.' },
+      { t: 'mcq', p: 'Quel est le meilleur bilan pour le sujet G ?', o: ['Tout est joué d’avance, comme on l’a vu.', 'Les signes du destin abondent dès l’ouverture, mais l’intrigue reste ouverte jusqu’au bout ; si tout est « joué », c’est surtout au sens théâtral : le malheur naît du jeu même des personnages.', 'La pièce est une tragédie.', 'Musset a écrit beaucoup de pièces.'], a: 1, s: 'Le deuxième : il rappelle les trois étapes et répond nettement.', d: 'Le premier ne tient pas compte des parties II et III.' }
+    ] },
+    { t: 'Rédiger', lvl: 4, d: 'Écrire une introduction et une conclusion.', items: [
+      { t: 'write', task: 'Introduction', sujet: 'B', p: 'Rédige l’introduction complète du sujet B (cinq étapes).', grid: 'intro',
+        model: 'Une lettre lue en cachette, une déclaration faite pour être entendue, un rideau derrière lequel on cache une rivale : *On ne badine pas avec l’amour* multiplie les pièges. Dans ce proverbe dramatique publié en 1834, Musset met en scène deux cousins, Camille et Perdican, qui transforment leurs retrouvailles en un jeu cruel. Le sujet invite à se demander dans quelle mesure ils se laissent piéger par leur propre badinage, c’est-à-dire par ce jeu léger et galant qu’ils croient maîtriser, et auquel ils semblent consentir. Les personnages sont-ils seulement victimes de leurs propres jeux, ou d’autres pièges, plus profonds, se referment-ils sur eux ? Nous verrons d’abord que leurs pièges se retournent contre eux, puis qu’ils s’y laissent prendre en connaissance de cause, avant de montrer qu’un piège plus vaste, fait d’éducation, de société et de condition humaine, les enferme.' },
+      { t: 'write', task: 'Conclusion', sujet: 'F', p: 'Rédige la conclusion du sujet F (bilan et ouverture).', grid: 'concl',
+        model: 'La peur de perdre anime bien les personnages, des héros aux grotesques : Camille craint de souffrir, Perdican de perdre la face, le Baron et Bridaine de perdre leur argent ou leur place. Mais cette peur cache d’autres forces, le désir de savoir, de vaincre et surtout d’aimer absolument. Le paradoxe tragique de la pièce est qu’à force de ne pas vouloir perdre, ils perdent tout : Rosette, l’autre, et jusqu’à la possibilité de prier. Racine montrait déjà, avec Hermione dans *Andromaque*, comment l’amour-propre blessé conduit à la mort de ce qu’on aime.' }
+    ] }
+  ],
+  quiz: [
+    { t: 'mcq', p: 'Combien d’étapes dans une introduction ?', o: ['Deux', 'Trois', 'Cinq', 'Sept'], a: 2, s: 'Cinq : accroche, présentation, analyse du sujet, problématique, annonce.', d: 'Un seul paragraphe.' },
+    { t: 'mcq', p: 'Quand rédiger l’introduction ?', o: ['En premier, avant le plan', 'Au brouillon, après le plan', 'À la fin, au propre directement', 'On peut s’en passer'], a: 1, s: 'Au brouillon, après le plan.', d: 'On ne peut pas annoncer un plan qu’on n’a pas encore construit.' },
+    { t: 'mcq', p: 'Que ne doit pas contenir le bilan ?', o: ['Une réponse', 'Un argument nouveau', 'Le rappel des étapes', 'Le mot « donc »'], a: 1, s: 'Un argument nouveau.', d: 'Tout argument doit avoir été démontré dans le développement.' },
+    { t: 'mcq', p: 'Une bonne ouverture…', o: ['Pose une question vague au lecteur', 'Rapproche une autre œuvre précise', 'Résume la pièce', 'Donne la biographie de Musset'], a: 1, s: 'Elle rapproche une œuvre précise.', d: 'De préférence une œuvre du parcours : Marivaux, Molière, Rostand, Racine.' }
+  ] },
+
+/* ---------------- MODULE 8 ---------------- */
+{ id: 'dissertation', t: 'La dissertation complète', icon: 'pen', goal: 'Mener seul la dissertation entière, en 4 heures, sur un sujet officiel puis sur un sujet inédit.',
+  learn: [
+    { t: 'Les quatre heures', b: 'Un découpage à respecter, montre en main.', terms: [
+      ['0:00 – 0:15', 'Analyser le sujet : mots-clés, sens, forme, famille.'],
+      ['0:15 – 0:30', 'Trouver la problématique.'],
+      ['0:30 – 1:00', 'Le plan détaillé au brouillon, avec une citation par sous-partie.'],
+      ['1:00 – 1:15', 'L’introduction et la conclusion au brouillon.'],
+      ['1:15 – 3:30', 'La rédaction au propre.'],
+      ['3:30 – 4:00', 'La relecture : orthographe, accords, citations et références.']
+    ], key: 'Ne rédige jamais tout au brouillon : tu n’aurais pas le temps de recopier.' },
+    { t: 'Ce que regarde le correcteur', b: `- La **compréhension du sujet** : pas de hors-sujet, des mots-clés définis.
+- Une **problématique** et un **plan** cohérents, qui progressent.
+- Une **connaissance précise** de l’œuvre : citations exactes, références.
+- Des **paragraphes complets** : argument, explication, citation, analyse, lien.
+- La **culture du parcours** : au moins une autre œuvre.
+- L’**expression** : syntaxe, orthographe, vocabulaire.` },
+    { t: 'Comment utiliser l’atelier', b: `Trois niveaux d’aide, à réduire au fil des séances :
+- **Niveau 1** : sujet officiel, le plan modèle est visible pendant que tu écris.
+- **Niveau 2** : sujet officiel, seule la problématique modèle est visible.
+- **Niveau 3** : sujet d’entraînement, sans aide. Le plan modèle n’apparaît qu’à la correction.
+
+Commence par la problématique et les trois idées de parties, avant les arguments. Au début, deux sous-parties par partie suffisent.` }
+  ],
+  worked: { t: 'Le sujet B, du brouillon au plan', task: 'Dans quelle mesure les personnages de *On ne badine pas avec l’amour* se laissent-ils piéger par leur propre badinage ?', steps: [
+    { t: 'Analyse du sujet', q: 'Quels mots, quels sens, quelle forme ?', a: '« Dans quelle mesure » : une question de degré. « Piéger » : être pris dans son propre piège. « Se laissent » : une part de complaisance. « Propre badinage » : leur jeu à eux. Famille 1, jeu ou sérieux.', w: 'Quinze minutes : on ne commence rien d’autre avant.' },
+    { t: 'Problématique', role: 'pb', q: 'Quelle tension ?', a: PLANS.B.pb, w: 'Leur propre piège face à des pièges plus vastes.' },
+    { t: 'Plan', q: 'Quelles trois parties ?', a: 'I. ' + PLANS.B.parts[0][0] + '. II. ' + PLANS.B.parts[1][0] + '. III. ' + PLANS.B.parts[2][0] + '.', w: 'Relis les titres seuls : ils forment une réponse.' },
+    { t: 'Preuves', q: 'Une citation par sous-partie : lesquelles pour la partie I ?', a: 'A. « Je m’étais vantée de t’avoir inspiré quelque amour » (III, 6). B. « c’est une idée que je vous dois, et je m’y tiens » (III, 7). C. Les trois écoutes cachées (III, 3 ; III, 6 ; III, 8).', w: 'Au brouillon, note la citation et sa référence sous chaque sous-partie.' },
+    { t: 'Rédaction', q: 'Par quoi commencer au propre ?', a: 'Par l’introduction, recopiée du brouillon, puis la partie I, paragraphe par paragraphe, avec une transition à la fin de chaque partie.', w: 'La conclusion est déjà prête au brouillon : elle sera recopiée même si le temps presse.' }
+  ] },
+  atelier: true,
+  fams: [],
+  quiz: [
+    { t: 'mcq', p: 'Combien de temps pour le brouillon (analyse, problématique, plan, introduction, conclusion) ?', o: ['15 minutes', 'Environ 1 h 15', '3 heures', 'Aucun'], a: 1, s: 'Environ 1 h 15.', d: 'Il reste 2 h 15 de rédaction et 30 minutes de relecture.' },
+    { t: 'mcq', p: 'Que faut-il rédiger entièrement au brouillon ?', o: ['Toute la dissertation', 'L’introduction et la conclusion', 'Rien', 'Seulement les citations'], a: 1, s: 'L’introduction et la conclusion.', d: 'Le développement se rédige directement au propre, à partir du plan détaillé.' },
+    { t: 'mcq', p: 'Que vérifier en priorité à la relecture ?', o: ['La couleur de l’encre', 'Les citations, les références, l’orthographe et les accords', 'Le nombre de pages', 'Le titre'], a: 1, s: 'Citations, références, orthographe.', d: 'Une citation fausse ou une faute d’accord répétée coûtent cher.' }
+  ] }
+];
+
+const MODULES = MODS_A.concat(MODS_B);
+
+const { useState, useEffect, useMemo, useContext, createContext, Fragment } = React;
+const html = htm.bind(React.createElement);
+
+/* ---------- Utilitaires ---------- */
+const NB = ' ';
+const fr = s => String(s == null ? '' : s).replace(/ ([?!:;»])/g, NB + '$1').replace(/« /g, '«' + NB);
+const esc = s => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+function inline(s) {
+  return fr(esc(s)).replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>').replace(/\*(.+?)\*/g, '<em>$1</em>');
+}
+function mdHtml(s) {
+  const blocks = String(s).split(/\n\s*\n/);
+  return blocks.map(b => {
+    const lines = b.split('\n');
+    if (lines.every(l => /^- /.test(l))) return '<ul>' + lines.map(l => '<li>' + inline(l.slice(2)) + '</li>').join('') + '</ul>';
+    if (lines.every(l => /^\d+\. /.test(l))) return '<ol>' + lines.map(l => '<li>' + inline(l.replace(/^\d+\. /, '')) + '</li>').join('') + '</ol>';
+    return '<p>' + lines.map(inline).join('<br>') + '</p>';
+  }).join('');
+}
+function Md({ s, cls }) { return html`<div className=${'md ' + (cls || '')} dangerouslySetInnerHTML=${{ __html: mdHtml(s) }}></div>`; }
+function T({ s }) { return html`<span dangerouslySetInnerHTML=${{ __html: inline(s) }}></span>`; }
+const plain = s => fr(String(s).replace(/\*\*/g, '').replace(/\*/g, ''));
+const shuffle = a => { const b = a.slice(); for (let i = b.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [b[i], b[j]] = [b[j], b[i]]; } return b; };
+const KEY = 'badine-dissertation-v1';
+const loadStore = () => { try { const r = localStorage.getItem(KEY); return r ? JSON.parse(r) : {}; } catch (e) { return {}; } };
+const saveStore = o => { try { localStorage.setItem(KEY, JSON.stringify(o)); } catch (e) {} };
+const CAN_SPEAK = typeof window !== 'undefined' && 'speechSynthesis' in window && typeof SpeechSynthesisUtterance !== 'undefined';
+function speak(text) {
+  try {
+    const s = window.speechSynthesis; s.cancel();
+    const u = new SpeechSynthesisUtterance(plain(text)); u.lang = 'fr-FR'; u.rate = 0.9;
+    const v = (s.getVoices() || []).find(v => v.lang && v.lang.toLowerCase().startsWith('fr')); if (v) u.voice = v;
+    s.speak(u);
+  } catch (e) {}
+}
+async function copyText(t) {
+  try { await navigator.clipboard.writeText(t); return true; } catch (e) {
+    try { const ta = document.createElement('textarea'); ta.value = t; document.body.appendChild(ta); ta.select(); const ok = document.execCommand('copy'); ta.remove(); return ok; } catch (e2) { return false; }
+  }
+}
+
+const ICONS = {
+  home: 'M3 11 12 4l9 7M5 9.5V20h5v-6h4v6h5V9.5',
+  book: 'M4 5.5A2.5 2.5 0 0 1 6.5 3H20v15H6.5A2.5 2.5 0 0 0 4 20.5zM4 20.5A2.5 2.5 0 0 0 6.5 23H20v-5',
+  quote: 'M5 11h4v6H4v-5c0-3 1.5-5 4-6M15 11h4v6h-5v-5c0-3 1.5-5 4-6',
+  search: 'M10.5 17a6.5 6.5 0 1 0 0-13 6.5 6.5 0 0 0 0 13zM15.5 15.5 20 20',
+  question: 'M12 21a9 9 0 1 0 0-18 9 9 0 0 0 0 18zM9.5 9.3a2.6 2.6 0 0 1 5 .9c0 1.7-2.5 2.3-2.5 3.8M12 17v.4',
+  plan: 'M4 5h16M8 10h12M8 15h12M4 10h.01M4 15h.01M4 20h16',
+  para: 'M5 6h14M5 10h14M5 14h14M5 18h9',
+  frame: 'M4 4h16v4H4zM4 16h16v4H4zM7 11h10M7 13h6',
+  pen: 'M4 20h4L19 9l-4-4L4 16zM13.5 6.5l4 4',
+  shuffle: 'M4 7h3c4 0 6 10 10 10h3M17 14l3 3-3 3M4 17h3c1.5 0 2.6-1.3 3.5-3M14 8.5c.9-1 1.8-1.5 3-1.5h3M17 4l3 3-3 3',
+  memo: 'M5 3h11l3 3v15H5zM9 9h6M9 13h6M9 17h4',
+  info: 'M12 21a9 9 0 1 0 0-18 9 9 0 0 0 0 18zM12 11v5.5M12 7.6v.4',
+  menu: 'M4 7h16M4 12h16M4 17h16',
+  speaker: 'M4 9.5v5h3.5L12 18V6L7.5 9.5zM15.5 9.5a3.5 3.5 0 0 1 0 5M18 7a7 7 0 0 1 0 10',
+  sliders: 'M4 7h9M17 7h3M15 5v4M4 17h3M11 17h9M9 15v4',
+  check: 'M5 12.5 10 17.5 19 7',
+  x: 'M6.5 6.5l11 11M17.5 6.5l-11 11',
+  left: 'M14.5 6l-6 6 6 6',
+  right: 'M9.5 6l6 6-6 6',
+  reset: 'M4.5 12a7.5 7.5 0 1 0 2.3-5.4M4.5 4v4h4',
+  copy: 'M9 9h11v11H9zM5 15H4V4h11v1',
+  eye: 'M2.5 12S6 5.5 12 5.5 21.5 12 21.5 12 18 18.5 12 18.5 2.5 12 2.5 12zM12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6z',
+  chat: 'M4 5h16v11H9l-5 4zM8 9.5h8M8 12.5h5',
+  bulb: 'M9.5 18h5M10.5 21h3M12 3a6 6 0 0 0-3.8 10.6c.6.6.8 1.3.8 2.4h6c0-1.1.2-1.8.8-2.4A6 6 0 0 0 12 3z',
+  think: 'M12 3a7 7 0 0 0-7 7c0 2 1 3.5 2 4.5V18h10v-3.5c1-1 2-2.5 2-4.5a7 7 0 0 0-7-7zM9 21h6'
+};
+function Icon({ n, s = 18 }) {
+  return html`<svg width=${s} height=${s} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d=${ICONS[n] || ICONS.info} /></svg>`;
+}
+function Msg({ kind, children }) {
+  const ic = kind === 'pos' ? 'check' : kind === 'neg' ? 'x' : 'info';
+  return html`<div className=${'msg msg-' + kind} role=${kind === 'info' ? undefined : 'status'}><${Icon} n=${ic} /><div className="body">${children}</div></div>`;
+}
+function Progress({ value, max }) { return html`<div className="progress" role="progressbar" aria-valuemin="0" aria-valuemax=${max} aria-valuenow=${value}><span style=${{ width: (max ? Math.round(100 * value / max) : 0) + '%' }}></span></div>`; }
+function Chip({ k, children }) { return html`<span className=${'chip k-' + k}>${children || ROLES[k]}</span>`; }
+
+/* ---------- Contexte ---------- */
+const Ctx = createContext(null);
+const useApp = () => useContext(Ctx);
+function SpeakBtn({ text, label }) {
+  const { store } = useApp();
+  if (!CAN_SPEAK || store.settings.tts === false) return null;
+  return html`<button className="btn btn-sm btn-flat" onClick=${() => speak(text)}><${Icon} n="speaker" s=${16} />${label || 'Écouter'}</button>`;
+}
+
+/* ---------- Progression ---------- */
+const exIds = m => m.fams.flatMap((f, fi) => f.items.map((_, i) => m.id + '-f' + fi + '-' + i));
+function modStatus(m, prog) {
+  const ids = exIds(m);
+  const steps = [prog['learn-' + m.id] ? 1 : 0, prog['worked-' + m.id] ? 1 : 0, prog['quiz-' + m.id] != null ? 1 : 0];
+  const exDone = ids.filter(id => prog[id]).length;
+  const atelier = m.atelier ? (prog['atelier-done'] ? 1 : 0) : 0;
+  const n = steps.reduce((a, b) => a + b, 0) + exDone + atelier;
+  const max = 3 + ids.length + (m.atelier ? 1 : 0);
+  return { n, max };
+}
+
+/* ---------- Correction (simple + détaillée) ---------- */
+function Correction({ ok, item, extra }) {
+  return html`<${Msg} kind=${ok ? 'pos' : 'neg'}>
+    <strong>${ok ? 'Bonne réponse.' : 'Pas tout à fait.'}</strong>
+    <div><span className="eyebrow">Correction simple</span><div><${T} s=${item.s} /></div></div>
+    ${extra || null}
+    <details className="more"><summary>Correction détaillée</summary><div className="inner"><${Md} s=${item.d} /></div></details>
+  </${Msg}>`;
+}
+
+/* ---------- QCM ---------- */
+function MCQ({ item, id, onAnswer }) {
+  const { setProg } = useApp();
+  const order = useMemo(() => shuffle(item.o.map((_, i) => i)), [item]);
+  const [pick, setPick] = useState(null);
+  const answered = pick != null;
+  const choose = i => { if (answered) return; setPick(i); const ok = i === item.a; if (id) setProg(id, ok ? 'ok' : 'ko'); if (onAnswer) onAnswer(ok); };
+  return html`<div className="card">
+    <p className="prompt"><${T} s=${item.p} /></p>
+    <div className="choices">${order.map((oi, k) => {
+      let cls = 'choice';
+      if (answered) cls += oi === item.a ? ' ok' : oi === pick ? ' no' : ' dim';
+      return html`<button key=${oi} className=${cls} disabled=${answered} onClick=${() => choose(oi)}><span className="mark">${answered && oi === item.a ? html`<${Icon} n="check" s=${13} />` : answered && oi === pick ? html`<${Icon} n="x" s=${13} />` : String.fromCharCode(65 + k)}</span><span><${T} s=${item.o[oi]} /></span></button>`;
+    })}</div>
+    ${answered ? html`<${Correction} ok=${pick === item.a} item=${item} />` : null}
+    ${answered && !onAnswer ? html`<div className="actions"><button className="btn btn-sm" onClick=${() => setPick(null)}><${Icon} n="reset" s=${15} />Recommencer</button></div>` : null}
+  </div>`;
+}
+
+/* ---------- Association ---------- */
+function Match({ item, id }) {
+  const { setProg } = useApp();
+  const opts = useMemo(() => shuffle(Array.from(new Set(item.pairs.map(p => p[1])))), [item]);
+  const [sel, setSel] = useState({});
+  const [checked, setChecked] = useState(false);
+  const all = item.pairs.every((_, i) => sel[i]);
+  const okAll = item.pairs.every((p, i) => sel[i] === p[1]);
+  const check = () => { setChecked(true); setProg(id, okAll ? 'ok' : 'ko'); };
+  return html`<div className="card">
+    <p className="prompt"><${T} s=${item.p} /></p>
+    <div>${item.pairs.map((p, i) => {
+      const st = checked ? (sel[i] === p[1] ? 'ok' : 'no') : '';
+      return html`<div key=${i} className="mrow"><span><${T} s=${p[0]} /></span>
+        <select aria-label=${'Réponse ' + (i + 1)} value=${sel[i] || ''} disabled=${checked} onChange=${e => setSel({ ...sel, [i]: e.target.value })}>
+          <option value="">Choisir…</option>${opts.map(o => html`<option key=${o} value=${o}>${plain(o)}</option>`)}
+        </select>
+        <span className=${'ic ' + st}>${checked ? html`<${Icon} n=${st === 'ok' ? 'check' : 'x'} s=${16} />` : null}</span></div>`;
+    })}</div>
+    ${!checked ? html`<div className="actions"><button className="btn btn-primary" disabled=${!all} onClick=${check}>Vérifier</button>${!all ? html`<span className="count">Choisis une réponse pour chaque ligne.</span>` : null}</div>` : null}
+    ${checked ? html`<${Correction} ok=${okAll} item=${item} extra=${okAll ? null : html`<div><span className="eyebrow">Les bonnes associations</span><ul>${item.pairs.map((p, i) => html`<li key=${i}><${T} s=${p[0]} /> → <strong><${T} s=${p[1]} /></strong></li>`)}</ul></div>`} />
+      <div className="actions"><button className="btn btn-sm" onClick=${() => { setSel({}); setChecked(false); }}><${Icon} n="reset" s=${15} />Recommencer</button></div>` : null}
+  </div>`;
+}
+
+/* ---------- Remise en ordre ---------- */
+function Order({ item, id }) {
+  const { setProg } = useApp();
+  const [pool, setPool] = useState(() => { let s = shuffle(item.items.map((_, i) => i)); if (s.every((v, i) => v === i) && s.length > 1) s = s.reverse(); return s; });
+  const [ans, setAns] = useState([]);
+  const [checked, setChecked] = useState(false);
+  const add = i => { if (checked) return; setAns([...ans, i]); setPool(pool.filter(x => x !== i)); };
+  const rem = i => { if (checked) return; setPool([...pool, i]); setAns(ans.filter(x => x !== i)); };
+  const okAll = ans.length === item.items.length && ans.every((v, k) => v === k);
+  const check = () => { setChecked(true); setProg(id, okAll ? 'ok' : 'ko'); };
+  const reset = () => { setPool(shuffle(item.items.map((_, i) => i))); setAns([]); setChecked(false); };
+  return html`<div className="card">
+    <p className="prompt"><${T} s=${item.p} /></p>
+    <div className="zone"><span className="zone-label">Ton ordre (clique pour retirer)</span>
+      ${ans.length ? ans.map((i, k) => {
+        const st = checked ? (i === k ? ' ok' : ' no') : '';
+        const role = checked && item.roles ? item.roles[i] : null;
+        return html`<button key=${i} className=${'slot' + st} disabled=${checked} onClick=${() => rem(i)}><span className="pos">${k + 1}</span><span>${role ? html`<${Chip} k=${role} /> ` : null}<${T} s=${item.items[i]} /></span></button>`;
+      }) : html`<div className="empty">Clique sur les éléments ci-dessous, dans l’ordre.</div>`}
+    </div>
+    ${pool.length ? html`<div className="zone"><span className="zone-label">Éléments à placer</span>
+      ${pool.map(i => html`<button key=${i} className="slot" onClick=${() => add(i)}><span className="pos">+</span><span><${T} s=${item.items[i]} /></span></button>`)}</div>` : null}
+    ${!checked ? html`<div className="actions"><button className="btn btn-primary" disabled=${pool.length > 0} onClick=${check}>Vérifier</button>${ans.length ? html`<button className="btn btn-sm btn-flat" onClick=${reset}><${Icon} n="reset" s=${15} />Tout reprendre</button>` : null}</div>` : null}
+    ${checked ? html`<${Correction} ok=${okAll} item=${item} extra=${okAll ? null : html`<div><span className="eyebrow">Le bon ordre</span><ol>${item.items.map((t, i) => html`<li key=${i}>${item.roles ? html`<${Chip} k=${item.roles[i]} /> ` : null}<${T} s=${t} /></li>`)}</ol></div>`} />
+      <div className="actions"><button className="btn btn-sm" onClick=${reset}><${Icon} n="reset" s=${15} />Recommencer</button></div>` : null}
+  </div>`;
+}
+
+/* ---------- Plan modèle ---------- */
+function Outline({ plan, titlesOnly, pbOnly }) {
+  if (!plan) return null;
+  return html`<div className="outline">
+    <div className="pbox"><span className="eyebrow">Problématique</span><div><${T} s=${plan.pb} /></div></div>
+    ${pbOnly ? null : html`<${Fragment}>
+      <p className="count"><strong>Réponse en une phrase :</strong> <${T} s=${plan.rep} /></p>
+      ${plan.parts.map((p, i) => html`<div key=${i} className="ol-part"><div className="ol-head"><span className="rn">${['I', 'II', 'III'][i]}</span><span><${T} s=${p[0]} /></span></div>
+        ${titlesOnly ? null : p[1].map((s, j) => html`<div key=${j} className="ol-sub"><b>${'ABC'[j]}.</b><span><${T} s=${s} /></span></div>`)}</div>`)}
+    <//>`}
+  </div>`;
+}
+
+/* ---------- Prompt pour une IA ---------- */
+function buildPrompt({ task, sujet, consigne, text, grid, full }) {
+  const crit = grid.map((g, i) => (i + 1) + '. ' + g).join('\n');
+  return `Tu es professeur de français et correcteur de l’épreuve écrite du baccalauréat de français (classe de première, France). Je suis élève de première.
+
+J’étudie *On ne badine pas avec l’amour* d’Alfred de Musset (1834), dans le parcours « Les jeux du cœur et de la parole ».
+
+Exercice : ${task}
+Sujet : ${plain(sujet)}
+Consigne : ${plain(consigne)}
+
+Ma production :
+"""
+${text.trim()}
+"""
+
+Évalue ma production à l’aide de ces critères :
+${crit}
+
+Règles pour ton retour :
+1. Ne réécris pas ma production et ne me donne pas de corrigé complet : je veux progresser en la reprenant moi-même.
+2. Commence par deux points forts précis, en citant mes propres mots.
+3. Donne ensuite au plus trois points à améliorer, du plus important au moins important. Pour chacun : ce qui ne va pas, pourquoi, et une piste concrète pour le corriger.
+4. Vérifie l’exactitude de mes citations de la pièce et de leurs références (acte, scène, personnage). Si tu n’es pas certain qu’une citation soit exacte, dis-le clairement au lieu de la corriger de mémoire ou d’en inventer une.
+5. Termine par une question qui m’aide à approfondir ma réflexion.
+6. Écris en français, simplement, avec des phrases courtes.${full ? '\n7. Donne enfin une estimation de note sur 20, en précisant qu’elle est indicative.' : ''}`;
+}
+function AIPanel(props) {
+  const [show, setShow] = useState(false);
+  const [msg, setMsg] = useState('');
+  const text = buildPrompt(props);
+  return html`<div className="stage">
+    <div className="stage-h"><span className="n">4</span>Demander un retour à une IA (facultatif)</div>
+    <p className="count">Ton texte est placé dans une consigne prête à l’emploi. Colle-la dans l’IA de ton choix. L’IA ne réécrira pas ton travail : elle te donnera des pistes.</p>
+    ${!show ? html`<div className="actions"><button className="btn" onClick=${() => setShow(true)}><${Icon} n="chat" s=${16} />Préparer la consigne</button></div>` : html`<${Fragment}>
+      <textarea className="prompt-box" readOnly value=${text} aria-label="Consigne pour l’IA"></textarea>
+      <div className="actions"><button className="btn btn-primary" onClick=${async () => setMsg((await copyText(text)) ? 'Consigne copiée. Colle-la dans ton IA.' : 'Copie impossible : sélectionne le texte et copie-le à la main.')}><${Icon} n="copy" s=${16} />Copier la consigne</button>${msg ? html`<span className="count" role="status">${msg}</span>` : null}</div>
+      <${Msg} kind="info"><span>Les IA se trompent souvent sur les citations exactes. Vérifie toujours dans ton édition de la pièce. N’ajoute aucune information personnelle (nom, école) dans la consigne.</span></${Msg}>
+    <//>`}
+  </div>`;
+}
+
+/* ---------- Production écrite ---------- */
+function Write({ item, id }) {
+  const { store, setStore, setProg } = useApp();
+  const d = (store.drafts && store.drafts[id]) || {};
+  const upd = patch => setStore(s => ({ ...s, drafts: { ...(s.drafts || {}), [id]: { ...((s.drafts || {})[id] || {}), ...patch } } }));
+  const text = d.text || '';
+  const stage = d.stage || 0;
+  const grid = GRIDS[item.grid];
+  const checks = d.checks || {};
+  const suj = SUJET(item.sujet);
+  const model = item.plan ? null : item.model;
+  return html`<div className="card">
+    <div><span className="eyebrow">Sujet${suj && suj.off ? ' · ' + suj.s : ''}</span><p className="task"><${T} s=${suj ? suj.q : ''} /></p></div>
+    <p className="prompt"><${T} s=${item.p} /></p>
+    <div className="stage" style=${{ borderTop: 'none', paddingTop: 0 }}>
+      <div className="stage-h"><span className="n">1</span>J’écris</div>
+      <textarea aria-label="Ma production" value=${text} onChange=${e => upd({ text: e.target.value })} placeholder="Écris ici. Ton texte reste enregistré dans ce navigateur."></textarea>
+      ${stage < 1 ? html`<div className="actions"><button className="btn btn-primary" disabled=${text.trim().length < 20} onClick=${() => upd({ stage: 1 })}>Je m’autoévalue<${Icon} n="right" s=${16} /></button>${text.trim().length < 20 ? html`<span className="count">Écris au moins une phrase.</span>` : null}</div>` : null}
+    </div>
+    ${stage >= 1 ? html`<div className="stage"><div className="stage-h"><span className="n">2</span>Je m’autoévalue</div>
+      <p className="count">Relis ton texte, puis coche chaque point quand il est vrai.</p>
+      <div className="checks">${grid.map((g, i) => html`<label key=${i}><input type="checkbox" checked=${!!checks[i]} onChange=${e => upd({ checks: { ...checks, [i]: e.target.checked } })} /><span>${fr(g)}</span></label>`)}</div>
+      ${stage < 2 ? html`<div className="actions"><button className="btn btn-primary" onClick=${() => { upd({ stage: 2 }); setProg(id, 'done'); }}><${Icon} n="eye" s=${16} />Voir le corrigé modèle</button></div>` : null}
+    </div>` : null}
+    ${stage >= 2 ? html`<div className="stage"><div className="stage-h"><span className="n">3</span>Je compare avec le corrigé modèle</div>
+      ${model ? html`<div className="model"><${T} s=${model} /></div>` : html`<${Outline} plan=${PLANS[item.plan]} />`}
+      <p className="count">Un corrigé modèle n’est pas la seule réponse possible. Compare la structure : est-ce que tu as les mêmes pièces, dans le même ordre ?</p>
+      <div className="actions"><button className="btn btn-sm" onClick=${() => upd({ stage: 0 })}><${Icon} n="pen" s=${15} />Reprendre mon texte</button></div>
+    </div>` : null}
+    ${stage >= 2 ? html`<${AIPanel} task=${item.task} sujet=${suj ? suj.q : ''} consigne=${item.p} text=${text} grid=${grid} />` : null}
+  </div>`;
+}
+
+function Exercise({ item, id }) {
+  if (item.t === 'mcq') return html`<${MCQ} key=${id} item=${item} id=${id} />`;
+  if (item.t === 'match') return html`<${Match} key=${id} item=${item} id=${id} />`;
+  if (item.t === 'order') return html`<${Order} key=${id} item=${item} id=${id} />`;
+  if (item.t === 'write') return html`<${Write} key=${id} item=${item} id=${id} />`;
+  return null;
+}
+const TYPE_LBL = { mcq: 'QCM', match: 'Associer', order: 'Remettre en ordre', write: 'Rédiger' };
+const LVL_LBL = { 1: 'Reconnaître', 2: 'Organiser', 3: 'Choisir', 4: 'Produire' };
+
+/* ---------- Comprendre (pré-apprentissage) ---------- */
+function Learn({ m }) {
+  const { setProg } = useApp();
+  const [i, setI] = useState(0);
+  const sc = m.learn[i];
+  useEffect(() => { if (i === m.learn.length - 1) setProg('learn-' + m.id, 1); }, [i]);
+  const spoken = sc.t + '. ' + sc.b + (sc.terms ? ' ' + sc.terms.map(t => t[0] + ' : ' + t[1]).join('. ') : '');
+  return html`<div className="card">
+    <div className="actions"><span className="count">Écran ${i + 1} sur ${m.learn.length}</span><span className="spacer"></span><${SpeakBtn} text=${spoken} /></div>
+    <${Progress} value=${i + 1} max=${m.learn.length} />
+    <h2><${T} s=${sc.t} /></h2>
+    <${Md} s=${sc.b} />
+    ${sc.terms ? html`<dl className="dl">${sc.terms.map((t, k) => html`<${Fragment} key=${k}><dt>${sc.roles ? html`<${Chip} k=${sc.roles[k]}>${t[0]}</${Chip}>` : html`<${T} s=${t[0]} />`}</dt><dd><${T} s=${t[1]} /></dd><//>`)}</dl>` : null}
+    ${sc.roles && !sc.terms ? html`<div className="legend">${sc.roles.map(r => html`<${Chip} key=${r} k=${r} />`)}</div>` : null}
+    ${sc.key ? html`<${Msg} kind="info"><strong>À retenir</strong><span><${T} s=${sc.key} /></span></${Msg}>` : null}
+    <div className="actions"><button className="btn" disabled=${i === 0} onClick=${() => setI(i - 1)}><${Icon} n="left" s=${16} />Précédent</button><span className="spacer"></span>
+      ${i < m.learn.length - 1 ? html`<button className="btn btn-primary" onClick=${() => setI(i + 1)}>Suivant<${Icon} n="right" s=${16} /></button>` : html`<span className="count">Fin de la notion. Passe à l’exemple résolu.</span>`}</div>
+  </div>`;
+}
+
+/* ---------- Exemple résolu ---------- */
+function Worked({ m }) {
+  const { setProg } = useApp();
+  const w = m.worked;
+  const [i, setI] = useState(0);
+  const [shown, setShown] = useState(false);
+  const st = w.steps[i];
+  const next = () => { if (i < w.steps.length - 1) { setI(i + 1); setShown(false); } };
+  useEffect(() => { if (shown && i === w.steps.length - 1) setProg('worked-' + m.id, 1); }, [shown, i]);
+  return html`<div className="card">
+    <div><span className="eyebrow">Exemple résolu</span><h2><${T} s=${w.t} /></h2></div>
+    <div className="frame"><span className="eyebrow">Consigne</span><p className="task"><${T} s=${w.task} /></p></div>
+    <div className="dots" aria-label="Étapes">${w.steps.map((s, k) => html`<button key=${k} className=${'dot' + (k === i ? ' cur' : k < i ? ' past' : '')} disabled=${k > i} aria-label=${'Étape ' + (k + 1) + ' : ' + s.t} onClick=${() => { setI(k); setShown(true); }}>${k + 1}</button>`)}</div>
+    <h3>Étape ${i + 1} · <${T} s=${st.t} /></h3>
+    <div className="selfq"><${Icon} n="think" /><span>Avant de dévoiler, réponds dans ta tête : <${T} s=${st.q} /></span></div>
+    ${!shown ? html`<div className="actions"><button className="btn btn-primary" onClick=${() => setShown(true)}><${Icon} n="eye" s=${16} />Voir la réponse</button></div>` : html`<${Fragment}>
+      <div className=${'answer' + (st.role ? ' seg k-' + st.role : '')}>${st.role ? html`<${Chip} k=${st.role} />` : null}<div className="read"><${T} s=${st.a} /></div></div>
+      <div className="why"><span className="eyebrow">Pourquoi cette étape ?</span><p><${T} s=${st.w} /></p></div>
+      <div className="actions"><${SpeakBtn} text=${st.a} /><span className="spacer"></span>${i < w.steps.length - 1 ? html`<button className="btn btn-primary" onClick=${next}>Étape suivante<${Icon} n="right" s=${16} /></button>` : html`<span className="count">Exemple terminé. Entraîne-toi maintenant.</span>`}</div>
+    <//>`}
+    ${i > 0 ? html`<details className="more"><summary>Étapes déjà vues</summary><div className="inner"><ul className="done-list">${w.steps.slice(0, i).map((s, k) => html`<li key=${k}><span className="h">${k + 1}. ${plain(s.t)}</span><span><${T} s=${s.a} /></span></li>`)}</ul></div></details>` : null}
+  </div>`;
+}
+
+/* ---------- S'entraîner ---------- */
+function Train({ m }) {
+  const { store } = useApp();
+  const [fam, setFam] = useState(null);
+  const [k, setK] = useState(0);
+  if (fam == null) return html`<${Fragment}>
+    <p className="lead">Les familles vont du plus simple (reconnaître) au plus complexe (produire). Fais-les dans l’ordre. Chaque exercice donne une correction simple et une correction détaillée.</p>
+    <div className="fams">${m.fams.map((f, fi) => {
+      const ids = f.items.map((_, i) => m.id + '-f' + fi + '-' + i);
+      const done = ids.filter(id => store.prog[id]).length;
+      return html`<button key=${fi} className="fam" onClick=${() => { setFam(fi); setK(0); }}>
+        <span className="lvl">Niveau<b>${f.lvl}</b></span>
+        <span><strong><${T} s=${f.t} /></strong><br/><span className="count">${LVL_LBL[f.lvl]} · <${T} s=${f.d} /></span></span>
+        <span className="bars" aria-label=${done + ' sur ' + ids.length}>${ids.map(id => html`<i key=${id} className=${store.prog[id] ? 'on' : ''}></i>`)}</span>
+      </button>`;
+    })}</div>
+  <//>`;
+  const f = m.fams[fam];
+  const id = m.id + '-f' + fam + '-' + k;
+  const it = f.items[k];
+  return html`<${Fragment}>
+    <div className="actions"><button className="btn btn-sm btn-flat" onClick=${() => setFam(null)}><${Icon} n="left" s=${15} />Toutes les familles</button><span className="spacer"></span><span className="count">Niveau ${f.lvl} · ${plain(f.t)}</span></div>
+    <div className="actions"><span className="count">Exercice ${k + 1} sur ${f.items.length} · ${TYPE_LBL[it.t]}</span></div>
+    <${Progress} value=${k + 1} max=${f.items.length} />
+    <${Exercise} key=${id} item=${it} id=${id} />
+    <div className="actions"><button className="btn" disabled=${k === 0} onClick=${() => setK(k - 1)}><${Icon} n="left" s=${16} />Précédent</button><span className="spacer"></span>
+      ${k < f.items.length - 1 ? html`<button className="btn btn-primary" onClick=${() => setK(k + 1)}>Exercice suivant<${Icon} n="right" s=${16} /></button>`
+        : fam < m.fams.length - 1 ? html`<button className="btn btn-primary" onClick=${() => { setFam(fam + 1); setK(0); }}>Famille suivante<${Icon} n="right" s=${16} /></button>`
+        : html`<span className="count">Dernière famille terminée : passe au quiz.</span>`}</div>
+  <//>`;
+}
+
+/* ---------- Quiz ---------- */
+function QuizRun({ items, onEnd, title }) {
+  const [k, setK] = useState(0);
+  const [score, setScore] = useState(0);
+  const [answered, setAnswered] = useState(false);
+  const [end, setEnd] = useState(false);
+  if (end) return html`<div className="card"><span className="eyebrow">${title || 'Quiz'}</span><div className="big-score">${score} / ${items.length}</div>
+    <p>${score === items.length ? 'Parfait. Tu maîtrises ce module.' : score >= items.length * 0.7 ? 'Bien. Relis les corrections détaillées des questions manquées.' : 'Reprends l’exemple résolu, puis les familles d’exercices, avant de refaire le quiz.'}</p>
+    <div className="actions"><button className="btn" onClick=${() => { setK(0); setScore(0); setAnswered(false); setEnd(false); }}><${Icon} n="reset" s=${16} />Refaire le quiz</button></div></div>`;
+  return html`<${Fragment}>
+    <div className="actions"><span className="count">Question ${k + 1} sur ${items.length}</span><span className="spacer"></span><span className="count">Score : ${score}</span></div>
+    <${Progress} value=${k + (answered ? 1 : 0)} max=${items.length} />
+    <${MCQ} key=${k + '-' + items[k].p} item=${items[k]} onAnswer=${ok => { setAnswered(true); if (ok) setScore(s => s + 1); }} />
+    ${answered ? html`<div className="actions"><span className="spacer"></span><button className="btn btn-primary" onClick=${() => { if (k < items.length - 1) { setK(k + 1); setAnswered(false); } else { setEnd(true); if (onEnd) onEnd(score); } }}>${k < items.length - 1 ? 'Question suivante' : 'Voir mon score'}<${Icon} n="right" s=${16} /></button></div>` : null}
+  <//>`;
+}
+function Quiz({ m }) {
+  const { setProg, store } = useApp();
+  const best = store.prog['quiz-' + m.id];
+  return html`<${Fragment}>
+    <p className="lead">Un quiz court pour vérifier ce que tu retiens.${best != null ? ' Meilleur score : ' + best + ' / ' + m.quiz.length + '.' : ''}</p>
+    <${QuizRun} items=${m.quiz} onEnd=${sc => setProg('quiz-' + m.id, Math.max(sc, best || 0))} />
+  <//>`;
+}
+
+/* ---------- Atelier de dissertation (module 8) ---------- */
+const FIELDS = (() => {
+  const f = [['acc', 'intro', 'Accroche', 'acc', 'Une citation, un fait, une image, liés au sujet.'], ['pres', 'intro', 'Présentation', 'pres', 'Auteur, œuvre, date, enjeu.'], ['def', 'intro', 'Analyse du sujet', 'def', 'On cite le sujet, on définit ses mots-clés.'], ['pb', 'intro', 'Problématique', 'pb', 'La question qui fait apparaître la tension.'], ['ann', 'intro', 'Annonce du plan', 'ann', 'Les trois parties, dans l’ordre.']];
+  for (let p = 0; p < 3; p++) {
+    f.push(['p' + p + 'i', 'p' + p, 'Idée de la partie', 'arg', 'Une phrase qui répond au sujet.']);
+    for (let s = 0; s < 3; s++) f.push(['p' + p + 's' + s, 'p' + p, 'Paragraphe ' + 'ABC'[s] + (s === 2 ? ' (facultatif)' : ''), 'ex', 'Argument, explication, citation (acte, scène), analyse, lien au sujet.']);
+    if (p < 2) f.push(['t' + p, 't' + p, 'Transition', 'trans', 'Bilan de la partie, annonce de la suivante.']);
+  }
+  f.push(['bil', 'concl', 'Bilan', 'bil', 'Une réponse nette, qui rappelle les trois étapes.'], ['ouv', 'concl', 'Ouverture', 'ouv', 'Une œuvre précise du parcours ou de Musset.']);
+  return f;
+})();
+function Atelier() {
+  const { store, setStore, setProg } = useApp();
+  const [sid, setSid] = useState(store.atelierSujet || 'A');
+  const suj = SUJET(sid);
+  const [aide, setAide] = useState(suj.off ? 1 : 3);
+  const [view, setView] = useState('write');
+  const dd = ((store.diss || {})[sid]) || {};
+  const f = dd.f || {};
+  const checks = dd.checks || {};
+  const upd = patch => setStore(s => ({ ...s, diss: { ...(s.diss || {}), [sid]: { ...((s.diss || {})[sid] || {}), ...patch } } }));
+  const setF = (k, v) => upd({ f: { ...f, [k]: v } });
+  const choose = v => { setSid(v); setStore(s => ({ ...s, atelierSujet: v })); setAide(SUJET(v).off ? 1 : 3); setView('write'); };
+  const filled = FIELDS.filter(x => (f[x[0]] || '').trim()).length;
+  const plan = PLANS[sid];
+  const field = x => html`<div key=${x[0]} className="field"><label htmlFor=${'f-' + x[0]}><${Chip} k=${x[3]}>${x[2]}</${Chip}><span className="hint">${fr(x[4])}</span></label><textarea id=${'f-' + x[0]} value=${f[x[0]] || ''} onChange=${e => setF(x[0], e.target.value)}></textarea></div>`;
+  const paras = [];
+  const intro = ['acc', 'pres', 'def', 'pb', 'ann'].map(k => f[k]).filter(Boolean).join(' ');
+  if (intro.trim()) paras.push(['Introduction', intro, 'pb']);
+  for (let p = 0; p < 3; p++) {
+    const idea = f['p' + p + 'i']; const subs = [0, 1, 2].map(s => f['p' + p + 's' + s]).filter(x => x && x.trim());
+    subs.forEach((s, j) => paras.push([['Partie I', 'Partie II', 'Partie III'][p] + ' · ' + 'ABC'[j], (j === 0 && idea ? idea + ' ' : '') + s, 'arg']));
+    if (!subs.length && idea) paras.push([['Partie I', 'Partie II', 'Partie III'][p], idea, 'arg']);
+    if (p < 2 && f['t' + p]) paras.push(['Transition', f['t' + p], 'trans']);
+  }
+  const concl = [f.bil, f.ouv].filter(Boolean).join(' ');
+  if (concl.trim()) paras.push(['Conclusion', concl, 'bil']);
+  const full = paras.map(p => p[1].trim()).join('\n\n');
+  return html`<div className="card">
+    <div className="field"><label htmlFor="at-sujet">Choisis un sujet</label>
+      <select id="at-sujet" value=${sid} onChange=${e => choose(e.target.value)}>
+        <optgroup label="Sujets officiels (bac 2025-2026)">${SUJETS.filter(s => s.off).map(s => html`<option key=${s.id} value=${s.id}>${s.id} · ${s.s} · ${plain(s.q).slice(0, 80)}${plain(s.q).length > 80 ? '…' : ''}</option>`)}</optgroup>
+        <optgroup label="Sujets d’entraînement (inédits)">${SUJETS.filter(s => !s.off).map(s => html`<option key=${s.id} value=${s.id}>${plain(s.q)}</option>`)}</optgroup>
+      </select></div>
+    <p className="task"><${T} s=${suj.q} /></p>
+    <div><div className="eyebrow" style=${{ marginBottom: '.3rem' }}>Niveau d’aide</div>
+      <div className="seg-ctl">${[[1, 'Plan visible'], [2, 'Problématique visible'], [3, 'Sans aide']].map(([n, l]) => html`<button key=${n} className=${'btn btn-sm' + (aide === n ? ' on' : '')} aria-pressed=${aide === n} onClick=${() => setAide(n)}>${n} · ${l}</button>`)}</div></div>
+    <div className="tabs" role="tablist">${[['write', 'Préparer'], ['read', 'Ma dissertation'], ['check', 'Je vérifie'], ['model', 'Corrigé et retour IA']].map(([v, l]) => html`<button key=${v} role="tab" aria-selected=${view === v} className=${'tab' + (view === v ? ' active' : '')} onClick=${() => setView(v)}>${l}</button>`)}</div>
+    ${view === 'write' ? html`<${Fragment}>
+      ${aide < 3 ? html`<details className="more" open=${aide === 1}><summary>${aide === 1 ? 'Aide : le plan modèle' : 'Aide : la problématique modèle'}</summary><div className="inner"><${Outline} plan=${plan} pbOnly=${aide === 2} /></div></details>` : null}
+      <span className="count">${filled} case${filled > 1 ? 's' : ''} remplie${filled > 1 ? 's' : ''} sur ${FIELDS.length}</span>
+      <${Progress} value=${filled} max=${FIELDS.length} />
+      <section className="group k-pb"><h3>Introduction</h3>${FIELDS.filter(x => x[1] === 'intro').map(field)}</section>
+      ${[0, 1, 2].map(p => html`<${Fragment} key=${p}>
+        <section className="group k-arg"><h3>Partie ${['I', 'II', 'III'][p]}</h3>${FIELDS.filter(x => x[1] === 'p' + p).map(field)}</section>
+        ${p < 2 ? html`<section className="group k-trans">${FIELDS.filter(x => x[1] === 't' + p).map(field)}</section>` : null}
+      <//>`)}
+      <section className="group k-bil"><h3>Conclusion</h3>${FIELDS.filter(x => x[1] === 'concl').map(field)}</section>
+      <div className="actions"><button className="btn btn-sm" onClick=${() => upd({ f: {}, checks: {} })}><${Icon} n="reset" s=${15} />Tout effacer</button><span className="spacer"></span><button className="btn btn-primary" onClick=${() => setView('read')}>Assembler ma dissertation<${Icon} n="right" s=${16} /></button></div>
+      <p className="count">Ton brouillon reste enregistré dans ce navigateur, sujet par sujet.</p>
+    <//>` : null}
+    ${view === 'read' ? html`<${Fragment}>
+      ${paras.length ? html`<div className="assembled">${paras.map((p, i) => html`<div key=${i} className=${'apara seg k-' + p[2]}><span className="para-label">${p[0]}</span><p className="read"><${T} s=${p[1]} /></p></div>`)}</div>
+        <div className="actions"><${SpeakBtn} text=${full} label="Écouter ma dissertation" /><span className="spacer"></span><button className="btn" onClick=${() => copyText(full)}><${Icon} n="copy" s=${16} />Copier le texte</button></div>`
+        : html`<${Msg} kind="info">Ta dissertation est vide. Remplis quelques cases dans « Préparer ».</${Msg}>`}
+      <div className="actions"><button className="btn" onClick=${() => setView('write')}><${Icon} n="left" s=${16} />Modifier</button><span className="spacer"></span><button className="btn btn-primary" onClick=${() => setView('check')}>Vérifier<${Icon} n="right" s=${16} /></button></div>
+    <//>` : null}
+    ${view === 'check' ? html`<${Fragment}>
+      <p className="count">Relis ta dissertation, puis coche chaque point quand il est vrai.</p>
+      <div className="checks">${GRIDS.diss.map((c, i) => html`<label key=${i}><input type="checkbox" checked=${!!checks[i]} onChange=${e => upd({ checks: { ...checks, [i]: e.target.checked } })} /><span>${fr(c)}</span></label>`)}</div>
+      ${GRIDS.diss.every((_, i) => checks[i]) ? html`<${Msg} kind="pos">Tout est vérifié. Compare maintenant avec le corrigé.</${Msg}>` : null}
+      <div className="actions"><span className="spacer"></span><button className="btn btn-primary" onClick=${() => { setView('model'); setProg('atelier-done', 1); }}>Voir le corrigé<${Icon} n="right" s=${16} /></button></div>
+    <//>` : null}
+    ${view === 'model' ? html`<${Fragment}>
+      <span className="eyebrow">Plan modèle</span>
+      <${Outline} plan=${plan} />
+      <p className="count">Ton plan peut être différent et réussi. Vérifie surtout : une tension dans la problématique, une progression entre les parties, une preuve exacte par sous-partie.</p>
+      ${full.trim().length > 50 ? html`<${AIPanel} task="Dissertation complète (ou partielle)" sujet=${suj.q} consigne="Rédiger une dissertation en prenant appui sur l’œuvre, sur les textes du parcours et sur ma culture personnelle." text=${full} grid=${GRIDS.diss} full=${true} />` : html`<${Msg} kind="info">Rédige au moins une partie pour pouvoir demander un retour à une IA.</${Msg}>`}
+    <//>` : null}
+  </div>`;
+}
+
+/* ---------- Page module ---------- */
+function ModulePage({ m }) {
+  const { store } = useApp();
+  const [tab, setTab] = useState(store.prog['learn-' + m.id] ? (store.prog['worked-' + m.id] ? 'train' : 'worked') : 'learn');
+  const p = store.prog;
+  const tabs = [['learn', 'Comprendre', p['learn-' + m.id]], ['worked', 'Exemple résolu', p['worked-' + m.id]], ['train', m.atelier ? 'Atelier' : 'S’entraîner', m.atelier ? p['atelier-done'] : exIds(m).every(id => p[id])], ['quiz', 'Quiz', p['quiz-' + m.id] != null]];
+  return html`<div className="page">
+    <div><span className="eyebrow">Module ${MODULES.indexOf(m) + 1}</span><h1>${plain(m.t)}</h1><p className="lead"><${T} s=${m.goal} /></p></div>
+    <div className="tabs" role="tablist">${tabs.map(([v, l, ok], i) => html`<button key=${v} role="tab" aria-selected=${tab === v} className=${'tab' + (tab === v ? ' active' : '')} onClick=${() => setTab(v)}><span className=${'n' + (ok ? ' ok' : '')}>${ok ? html`<${Icon} n="check" s=${12} />` : i + 1}</span>${l}</button>`)}</div>
+    ${tab === 'learn' ? html`<${Learn} m=${m} />` : null}
+    ${tab === 'worked' ? html`<${Worked} m=${m} />` : null}
+    ${tab === 'train' ? (m.atelier ? html`<${Atelier} />` : html`<${Train} m=${m} />`) : null}
+    ${tab === 'quiz' ? html`<${Quiz} m=${m} />` : null}
+    ${tab === 'learn' && !p['learn-' + m.id] ? html`<p className="count">Déjà à l’aise avec cette notion ? Tu peux passer directement au quiz : si tu obtiens tout juste, l’exemple résolu n’est pas nécessaire.</p>` : null}
+  </div>`;
+}
+
+/* ---------- Accueil ---------- */
+function Home() {
+  const { store, go } = useApp();
+  return html`<div className="page">
+    <div><span className="eyebrow">Bac de français · Dissertation</span><h1>Disserter sur <em>On ne badine pas avec l’amour</em></h1>
+      <p className="lead">${fr('Musset, 1834 · parcours « Les jeux du cœur et de la parole ». Huit modules pour apprendre, étape par étape, à rédiger seul une dissertation sur un sujet que tu n’as jamais vu.')}</p></div>
+    <ol className="path">${MODULES.map((m, i) => {
+      const st = modStatus(m, store.prog);
+      const done = st.n >= st.max;
+      return html`<li key=${m.id}><button onClick=${() => go(m.id)}><span className=${'n' + (done ? ' done' : '')}>${done ? html`<${Icon} n="check" s=${16} />` : i + 1}</span>
+        <span><span className="t">${plain(m.t)}</span><br/><span className="d"><${T} s=${m.goal} /></span></span>
+        <span className=${'status' + (done ? ' done' : st.n ? ' started' : '')}>${done ? 'Terminé' : st.n ? st.n + ' / ' + st.max : 'À faire'}</span></button></li>`;
+    })}</ol>
+    <div className="tips">
+      <div className="frame tip"><${Icon} n="eye" /><h3>Une étape à la fois</h3><p>Dans chaque module : comprendre, regarder un exemple résolu, s’entraîner, puis le quiz.</p></div>
+      <div className="frame tip"><${Icon} n="think" /><h3>Réponds avant de regarder</h3><p>Dans les exemples résolus, essaie toujours de répondre dans ta tête avant de dévoiler.</p></div>
+      <div className="frame tip"><${Icon} n="shuffle" /><h3>Révise en mélangeant</h3><p>La révision mélangée et le mémo t’aident à retenir sur la durée.</p></div>
+    </div>
+  </div>`;
+}
+
+/* ---------- Révision mélangée ---------- */
+function Revision() {
+  const [seed, setSeed] = useState(0);
+  const items = useMemo(() => {
+    const all = MODULES.flatMap(m => m.quiz.concat(m.fams.flatMap(f => f.items.filter(it => it.t === 'mcq'))));
+    return shuffle(all).slice(0, 12);
+  }, [seed]);
+  return html`<div className="page">
+    <div><h1>Révision mélangée</h1><p className="lead">Douze questions tirées au hasard dans tous les modules. Mélanger les notions aide à les retenir et à reconnaître ce qu’un sujet demande.</p></div>
+    <${QuizRun} key=${seed} items=${items} title="Révision mélangée" />
+    <div className="actions"><button className="btn btn-sm" onClick=${() => setSeed(seed + 1)}><${Icon} n="shuffle" s=${15} />Nouveau tirage</button></div>
+  </div>`;
+}
+
+/* ---------- Mémo ---------- */
+function Memo() {
+  const [tab, setTab] = useState('cits');
+  const [q, setQ] = useState('');
+  const [fam, setFam] = useState(0);
+  const [pid, setPid] = useState('A');
+  const norm = s => plain(s).toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '');
+  const list = CITS.filter(c => (!fam || c.fam.includes(fam)) && (!q || norm(c.q + ' ' + c.who + ' ' + c.ref + ' ' + c.ctx + ' ' + c.ana).includes(norm(q))));
+  return html`<div className="page">
+    <div><h1>Mémo</h1><p className="lead">Les citations vérifiées, la culture du parcours, les plans modèles et les quatre familles de sujets.</p></div>
+    <div className="tabs" role="tablist">${[['cits', 'Citations de la pièce'], ['cult', 'Culture du parcours'], ['plans', 'Plans modèles'], ['fams', 'Familles de sujets']].map(([v, l]) => html`<button key=${v} role="tab" aria-selected=${tab === v} className=${'tab' + (tab === v ? ' active' : '')} onClick=${() => setTab(v)}>${l}</button>`)}</div>
+    ${tab === 'cits' ? html`<${Fragment}>
+      <input type="search" aria-label="Chercher une citation" placeholder="Chercher : un mot, un personnage, une scène…" value=${q} onChange=${e => setQ(e.target.value)} />
+      <div className="actions">${[0, 1, 2, 3, 4].map(n => html`<button key=${n} className=${'pill' + (fam === n ? ' on' : '')} aria-pressed=${fam === n} onClick=${() => setFam(n)}>${n ? 'Famille ' + n + ' · ' + FAMS[n].t : 'Toutes'}</button>`)}</div>
+      <span className="count">${list.length} citation${list.length > 1 ? 's' : ''}</span>
+      <div>${list.map((c, i) => html`<div key=${i} className="cit-row">
+        <q>${fr(c.q)}</q>
+        <div className="cit-meta"><strong>${c.who}</strong><span>(${c.ref})</span>${c.fam.map(n => html`<span key=${n} className="pill">Famille ${n}</span>`)}<span className="pill">Sujets : ${c.use}</span></div>
+        <p><strong>Contexte. </strong><${T} s=${c.ctx} /></p>
+        <p><strong>Analyse. </strong><${T} s=${c.ana} /></p>
+      </div>`)}</div>
+    <//>` : null}
+    ${tab === 'cult' ? html`<div>${CULTURE.map((c, i) => html`<div key=${i} className="cit-row"><q>${fr(c.q)}</q><div className="cit-meta">${c.who ? html`<strong>${c.who}</strong>` : null}<span><${T} s=${c.src} /></span></div><p><${T} s=${c.use} /></p></div>`)}</div>` : null}
+    ${tab === 'plans' ? html`<${Fragment}>
+      <select aria-label="Sujet" value=${pid} onChange=${e => setPid(e.target.value)}>${SUJETS.map(s => html`<option key=${s.id} value=${s.id}>${s.off ? s.id + ' · ' + s.s : 'Entraînement'} · ${plain(s.q).slice(0, 70)}…</option>`)}</select>
+      <p className="task"><${T} s=${SUJET(pid).q} /></p>
+      <${Outline} plan=${PLANS[pid]} />
+    <//>` : null}
+    ${tab === 'fams' ? html`<div className="fams">${[1, 2, 3, 4].map(n => html`<div key=${n} className="frame"><h3>Famille ${n} · ${FAMS[n].t}</h3><p className="lead">Question cachée : ${fr(FAMS[n].q)}</p>
+      <ul>${SUJETS.filter(s => s.fam === n).map(s => html`<li key=${s.id}><${T} s=${s.q} /> <span className="count">(${s.off ? s.s : 'entraînement'})</span></li>`)}</ul></div>`)}</div>` : null}
+  </div>`;
+}
+
+/* ---------- Notes pour l'adulte ---------- */
+function Notes() {
+  return html`<div className="page"><div className="notes">
+    <div><h1>Notes pour l’adulte</h1><p className="lead">Pour l’enseignant, l’orthophoniste ou le parent qui accompagne l’élève.</p></div>
+    <section><h2>Principes de conception</h2><ul>
+      <li><strong>Pré-entraînement.</strong> L’onglet « Comprendre » nomme chaque notion avant de l’utiliser. <span className="ref">Mayer, principe de pré-entraînement.</span></li>
+      <li><strong>Segmentation.</strong> Un écran, une idée ; une étape d’exemple, une question. <span className="ref">Mayer, principe de segmentation.</span></li>
+      <li><strong>Exemple résolu avant l’exercice.</strong> Chaque module montre la démarche experte pas à pas, avec une question d’auto-explication avant chaque réponse. <span className="ref">Sweller, effet de l’exemple résolu ; Renkl, auto-explication.</span></li>
+      <li><strong>Complexité croissante et estompage.</strong> Quatre niveaux par module : reconnaître, organiser, choisir, produire. Dans l’atelier final, l’aide passe du plan visible à aucune aide. <span className="ref">Renkl et Atkinson, estompage ; Kalyuga, renversement de l’expertise.</span></li>
+      <li><strong>Signalisation.</strong> Une couleur et une étiquette par pièce de dissertation, identiques partout ; elles peuvent être désactivées. <span className="ref">Mayer, principe de signalisation.</span></li>
+      <li><strong>Contiguïté et cohérence.</strong> La citation est toujours à côté de son analyse ; aucune image décorative. <span className="ref">Mayer, principes de contiguïté et de cohérence.</span></li>
+      <li><strong>Récupération et pratique mélangée.</strong> Quiz de fin de module et révision mélangée tirée de tous les modules. <span className="ref">Roediger et Karpicke, effet de test ; Rohrer, pratique entrelacée.</span></li>
+      <li><strong>Distracteurs ciblés.</strong> Les mauvaises réponses reprennent des erreurs réelles : citation sur le bon thème mais pas sur le bon argument, plan par personnage, troisième partie molle, analyse absente.</li>
+    </ul></section>
+    <section><h2>Le retour par une IA</h2><ul>
+      <li>Il n’est proposé qu’après l’écriture, l’autoévaluation et la comparaison avec le corrigé, pour que l’élève fasse d’abord l’effort lui-même.</li>
+      <li>La consigne interdit à l’IA de réécrire la production, limite le retour à deux points forts et trois axes de progrès, et lui demande de signaler toute citation dont elle n’est pas sûre.</li>
+      <li>Les IA grand public ont des conditions d’âge (souvent 13 ans minimum, parfois 18 ans ou un accord parental). Vérifiez-les avant de proposer cet usage à un élève mineur.</li>
+      <li>La consigne ne contient aucune donnée personnelle. Rappelez à l’élève de ne pas en ajouter.</li>
+    </ul></section>
+    <section><h2>Sur les contenus</h2><ul>
+      <li>Les sept sujets officiels viennent des sessions 2025 et 2026 (Métropole, Asie, Amérique du Sud, Polynésie, sujet de secours de Métropole 2026). Les sujets d’entraînement viennent de manuels et de sites de révision.</li>
+      <li>Toutes les citations de la pièce ont été vérifiées mot pour mot sur le texte intégral (édition de 1834, Bibliothèque électronique du Québec). Certaines éditions présentent de petites variantes : faites citer d’après l’édition de la classe.</li>
+      <li>La phrase « J’ai souffert souvent, je me suis trompé quelquefois, mais j’ai aimé » est empruntée à une lettre de George Sand à Musset (12 mai 1834).</li>
+    </ul></section>
+    <section><h2>Conseils d’utilisation</h2><ul>
+      <li>Faire le premier exemple résolu ensemble, en pensant à voix haute.</li>
+      <li>Séances courtes : un module, ou une famille d’exercices, par séance.</li>
+      <li>Dans l’atelier, exiger d’abord la problématique et les trois idées de parties ; deux paragraphes par partie suffisent au début.</li>
+      <li>Autoriser le clavier, la dictée vocale et le bouton « Écouter » si la lecture ou l’écriture coûtent trop.</li>
+    </ul></section>
+    <p className="count">Les progrès et les brouillons sont enregistrés uniquement dans le navigateur utilisé.</p>
+  </div></div>`;
+}
+
+/* ---------- Réglages ---------- */
+function Settings({ onClose }) {
+  const { store, setSettings, setStore } = useApp();
+  const [sure, setSure] = useState(false);
+  const s = store.settings;
+  return html`<${Fragment}>
+    <div className="pop-scrim" onClick=${onClose}></div>
+    <div className="pop" role="dialog" aria-label="Affichage">
+      <div><div className="lbl">Taille du texte</div><div className="seg-ctl">${[['m', 'Normal'], ['l', 'Grand'], ['xl', 'Très grand']].map(([k, l]) => html`<button key=${k} className=${'btn btn-sm' + (s.size === k ? ' on' : '')} aria-pressed=${s.size === k} onClick=${() => setSettings({ size: k })}>${l}</button>`)}</div></div>
+      <div><div className="lbl">Thème</div><div className="seg-ctl">${[['auto', 'Auto'], ['light', 'Clair'], ['dark', 'Sombre']].map(([k, l]) => html`<button key=${k} className=${'btn btn-sm' + (s.theme === k ? ' on' : '')} aria-pressed=${s.theme === k} onClick=${() => setSettings({ theme: k })}>${l}</button>`)}</div></div>
+      <label className="switch"><span>Texte aéré</span><input type="checkbox" checked=${!!s.airy} onChange=${e => setSettings({ airy: e.target.checked })} /></label>
+      <label className="switch"><span>Couleurs des pièces</span><input type="checkbox" checked=${s.colors !== false} onChange=${e => setSettings({ colors: e.target.checked })} /></label>
+      ${CAN_SPEAK ? html`<label className="switch"><span>Boutons « Écouter »</span><input type="checkbox" checked=${s.tts !== false} onChange=${e => setSettings({ tts: e.target.checked })} /></label>` : null}
+      ${!sure ? html`<button className="btn btn-sm" onClick=${() => setSure(true)}><${Icon} n="reset" s=${15} />Effacer ma progression</button>`
+        : html`<div className="frame"><span>Effacer toute ta progression et tes brouillons ?</span><div className="actions"><button className="btn btn-sm" onClick=${() => setSure(false)}>Annuler</button><button className="btn btn-sm btn-primary" onClick=${() => { setStore({ settings: store.settings, prog: {}, drafts: {}, diss: {} }); setSure(false); onClose(); }}>Oui, effacer</button></div></div>`}
+    </div>
+  <//>`;
+}
+
+/* ---------- Application ---------- */
+const PAGES = Object.assign({ home: { t: 'Accueil', icon: 'home' } },
+  Object.fromEntries(MODULES.map(m => [m.id, { t: m.t, icon: m.icon, m }])),
+  { revision: { t: 'Révision mélangée', icon: 'shuffle' }, memo: { t: 'Mémo', icon: 'memo' }, notes: { t: 'Notes pour l’adulte', icon: 'info' } });
+
+function App() {
+  const [store, setStore] = useState(() => {
+    const s = loadStore();
+    return { settings: { size: 'm', airy: false, colors: true, tts: true, theme: 'auto', ...(s.settings || {}) }, prog: s.prog || {}, drafts: s.drafts || {}, diss: s.diss || {}, atelierSujet: s.atelierSujet };
+  });
+  const initial = (() => { const h = (location.hash || '').slice(1); return PAGES[h] ? h : 'home'; })();
+  const [page, setPage] = useState(initial);
+  const [drawer, setDrawer] = useState(false);
+  const [pop, setPop] = useState(false);
+  useEffect(() => { saveStore(store); }, [store]);
+  useEffect(() => { const h = () => { const k = (location.hash || '').slice(1); if (PAGES[k]) setPage(k); }; window.addEventListener('hashchange', h); return () => window.removeEventListener('hashchange', h); }, []);
+  useEffect(() => {
+    const r = document.documentElement; const s = store.settings;
+    r.style.setProperty('--base', s.size === 'xl' ? '20px' : s.size === 'l' ? '18px' : '16px');
+    r.style.setProperty('--lh', s.airy ? '1.85' : '1.55');
+    r.style.setProperty('--ls', s.airy ? '.025em' : '0em');
+    r.style.setProperty('--ws', s.airy ? '.12em' : '0em');
+    const dark = s.theme === 'dark' || (s.theme === 'auto' && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches);
+    r.setAttribute('data-theme', dark ? 'dark' : 'light');
+  }, [store.settings]);
+  const go = p => { setPage(p); setDrawer(false); try { history.replaceState(null, '', '#' + p); } catch (e) {} const c = document.querySelector('.content'); if (c) c.scrollTop = 0; };
+  const setProg = (k, v) => setStore(s => ({ ...s, prog: { ...s.prog, [k]: v } }));
+  const setSettings = patch => setStore(s => ({ ...s, settings: { ...s.settings, ...patch } }));
+  const ctx = { store, setStore, setProg, setSettings, go };
+  const P = PAGES[page];
+  const navItem = (id, num) => {
+    const p = PAGES[id]; const st = p.m ? modStatus(p.m, store.prog) : null;
+    return html`<button key=${id} className=${'nav-item' + (page === id ? ' active' : '')} aria-current=${page === id ? 'page' : undefined} onClick=${() => go(id)}>
+      ${num ? html`<span className="num">${num}</span>` : null}<${Icon} n=${p.icon} /><span className="lbl">${plain(p.t)}</span>
+      ${st ? html`<span className=${'st' + (st.n >= st.max ? ' done' : '')}>${st.n >= st.max ? html`<${Icon} n="check" s=${14} />` : st.n > 0 ? Math.round(100 * st.n / st.max) + ' %' : ''}</span>` : null}
+    </button>`;
+  };
+  let body;
+  if (page === 'home') body = html`<${Home} />`;
+  else if (P.m) body = html`<${ModulePage} key=${page} m=${P.m} />`;
+  else if (page === 'revision') body = html`<${Revision} />`;
+  else if (page === 'memo') body = html`<${Memo} />`;
+  else body = html`<${Notes} />`;
+  return html`<${Ctx.Provider} value=${ctx}>
+    <div className=${'app' + (store.settings.colors === false ? ' nocolor' : '')}>
+      <header className="header">
+        <button className="btn btn-flat btn-icon menu-btn" aria-label="Ouvrir le menu" onClick=${() => setDrawer(true)}><${Icon} n="menu" /></button>
+        <span className="app-name">Disserter sur Musset</span><span className="sep"></span>
+        <span className="page-name">${plain(P.t)}</span>
+        <span className="spacer"></span>
+        <button className=${'btn btn-flat' + (pop ? ' on' : '')} aria-expanded=${pop} aria-label="Affichage" onClick=${() => setPop(!pop)}><${Icon} n="sliders" /><span className="hide-sm">Affichage</span></button>
+        ${pop ? html`<${Settings} onClose=${() => setPop(false)} />` : null}
+      </header>
+      <div className="main">
+        <div className=${'scrim' + (drawer ? ' open' : '')} onClick=${() => setDrawer(false)}></div>
+        <nav className=${'sidebar' + (drawer ? ' open' : '')} aria-label="Navigation">
+          ${navItem('home')}
+          <div className="side-label">Parcours</div>
+          ${MODULES.map((m, i) => navItem(m.id, i + 1))}
+          <div className="side-label">Réviser</div>
+          ${navItem('revision')}${navItem('memo')}
+          <div className="side-label">Aide</div>
+          ${navItem('notes')}
+        </nav>
+        <main className="content">${body}</main>
+      </div>
+    </div>
+  <//>`;
+}
+
+ReactDOM.createRoot(document.getElementById('root')).render(html`<${App} />`);
+
+</script>
+</body>
+</html>

@@ -1,0 +1,1342 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Atelier de dissertation</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;500;600;700&display=swap">
+<style>
+/* Layout: fenêtre façon KDE Plasma (Breeze) — barre d'en-tête, barre latérale des pages, une seule vue de contenu ; une tâche à la fois à l'écran */
+:root{
+  --window:#eff0f1; --view:#fcfcfc; --alt:#f5f6f7; --text:#232629; --muted:#5d6873;
+  --line:#d4d7da; --line-strong:#b8bbbe; --btn:#fcfcfc; --btn-hover:#ffffff;
+  --accent:#3daee9; --accent-text:#1d6fa5; --accent-tint:rgba(61,174,233,.13); --accent-tint-strong:rgba(61,174,233,.26);
+  --pos:#1e8049; --pos-tint:rgba(39,174,96,.12); --neg:#b8323f; --neg-tint:rgba(218,68,83,.11); --neu:#a35200;
+  --c-these:#1d6fa5; --c-arg:#1e8049; --c-expl:#7a3b99; --c-ex:#a35200; --c-conn:#0d7766; --c-hs:#6b737b; --c-concl:#3d5266; --c-intro:#3d5266;
+  --shadow:0 1px 2px rgba(35,38,41,.12);
+  --scrim:rgba(35,38,41,.35);
+  --f-ui:"Noto Sans","Segoe UI",Cantarell,Ubuntu,system-ui,sans-serif;
+  --base:16px; --lh:1.55; --ls:0em; --ws:0em;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --window:#2a2e32; --view:#1b1e20; --alt:#232629; --text:#fcfcfc; --muted:#a3abb3;
+    --line:#3a3f44; --line-strong:#50565c; --btn:#31363b; --btn-hover:#383d42;
+    --accent-text:#5cc3f2; --accent-tint:rgba(61,174,233,.17); --accent-tint-strong:rgba(61,174,233,.32);
+    --pos:#4ccf7e; --pos-tint:rgba(39,174,96,.2); --neg:#f06b78; --neg-tint:rgba(218,68,83,.2); --neu:#f8a14c;
+    --c-these:#5cc3f2; --c-arg:#4ccf7e; --c-expl:#c792e0; --c-ex:#f8a14c; --c-conn:#3fd0b3; --c-hs:#9aa3ab; --c-concl:#aab9c8; --c-intro:#aab9c8;
+    --shadow:0 1px 2px rgba(0,0,0,.45); --scrim:rgba(0,0,0,.5);
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --window:#2a2e32; --view:#1b1e20; --alt:#232629; --text:#fcfcfc; --muted:#a3abb3;
+  --line:#3a3f44; --line-strong:#50565c; --btn:#31363b; --btn-hover:#383d42;
+  --accent-text:#5cc3f2; --accent-tint:rgba(61,174,233,.17); --accent-tint-strong:rgba(61,174,233,.32);
+  --pos:#4ccf7e; --pos-tint:rgba(39,174,96,.2); --neg:#f06b78; --neg-tint:rgba(218,68,83,.2); --neu:#f8a14c;
+  --c-these:#5cc3f2; --c-arg:#4ccf7e; --c-expl:#c792e0; --c-ex:#f8a14c; --c-conn:#3fd0b3; --c-hs:#9aa3ab; --c-concl:#aab9c8; --c-intro:#aab9c8;
+  --shadow:0 1px 2px rgba(0,0,0,.45); --scrim:rgba(0,0,0,.5);
+  color-scheme:dark;
+}
+html{height:100%;box-sizing:border-box;font-size:var(--base)}
+*,*::before,*::after{box-sizing:inherit}
+body{height:100%;margin:0;background:var(--window);color:var(--text);font-family:var(--f-ui);font-size:1rem;line-height:var(--lh);letter-spacing:var(--ls);word-spacing:var(--ws);-webkit-font-smoothing:antialiased}
+#root{height:100%}
+h1,h2,h3{text-wrap:balance;line-height:1.25;margin:0}
+h1{font-size:1.6rem;font-weight:600}
+h2{font-size:1.25rem;font-weight:600}
+h3{font-size:1.05rem;font-weight:600}
+p{margin:0}
+:focus-visible{outline:2px solid var(--accent);outline-offset:1px}
+@media (prefers-reduced-motion: reduce){*{transition:none!important;animation:none!important}}
+
+/* Fenêtre */
+.app{height:100%;display:grid;grid-template-rows:auto 1fr;min-height:0}
+.header{display:flex;align-items:center;gap:.5rem;padding-block:.35rem;padding-inline:1rem;background:var(--window);border-bottom:1px solid var(--line);min-height:3rem;position:relative}
+.header .app-name{font-size:.82rem;color:var(--muted);white-space:nowrap}
+.header .page-name{font-weight:600;font-size:1rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0}
+.header .sep{width:1px;height:1.2rem;background:var(--line)}
+.header .spacer{flex:1}
+.menu-btn{display:none}
+.main{display:grid;grid-template-columns:15.5rem minmax(0,1fr);min-height:0}
+.sidebar{background:var(--window);border-right:1px solid var(--line);overflow-y:auto;padding:.6rem .5rem;display:flex;flex-direction:column;gap:2px}
+.side-label{font-size:.75rem;font-weight:600;color:var(--muted);padding:.75rem .65rem .3rem;letter-spacing:.03em}
+.side-label:first-child{padding-top:.25rem}
+.nav-item{display:flex;align-items:center;gap:.65rem;width:100%;padding:.45rem .6rem;border-radius:4px;border:1px solid transparent;background:none;color:var(--text);font:inherit;font-size:.95rem;text-align:left;cursor:pointer;letter-spacing:0;word-spacing:0}
+.nav-item:hover{background:var(--accent-tint)}
+.nav-item.active{background:var(--accent-tint-strong);border-color:color-mix(in srgb,var(--accent) 55%,transparent)}
+.nav-item .lbl{flex:1;min-width:0}
+.nav-item .num{font-size:.75rem;color:var(--muted);font-variant-numeric:tabular-nums;width:1rem;text-align:right}
+.nav-item .st{font-size:.72rem;color:var(--muted);font-variant-numeric:tabular-nums}
+.nav-item .st.done{color:var(--pos)}
+.content{background:var(--view);overflow-y:auto;min-width:0}
+.page{max-width:47rem;margin:0 auto;padding-block:1.5rem 3rem;padding-inline:1.25rem;display:flex;flex-direction:column;gap:1.25rem}
+.lead{color:var(--muted);max-width:62ch}
+.scrim{display:none}
+@media (max-width:780px){
+  .menu-btn{display:inline-flex}
+  .header .app-name,.header .sep{display:none}
+  .main{grid-template-columns:minmax(0,1fr)}
+  .sidebar{position:fixed;top:0;bottom:0;left:0;width:min(18rem,86vw);z-index:30;transform:translateX(-102%);transition:transform .18s ease;box-shadow:0 0 18px rgba(0,0,0,.25);padding-top:calc(.75rem + env(safe-area-inset-top,0px));padding-bottom:calc(.75rem + env(safe-area-inset-bottom,0px))}
+  .sidebar.open{transform:none}
+  .scrim.open{display:block;position:fixed;inset:0;background:var(--scrim);z-index:25}
+  .page{padding-block:1.1rem 2.5rem;padding-inline:1rem}
+}
+
+/* Contrôles Breeze */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:.45rem;font:inherit;font-size:.95rem;letter-spacing:0;word-spacing:0;color:var(--text);background:var(--btn);border:1px solid var(--line-strong);border-radius:4px;padding:.4rem .9rem;min-height:2.25rem;cursor:pointer;box-shadow:var(--shadow);transition:border-color .12s,background .12s}
+.btn:hover{border-color:var(--accent);background:var(--btn-hover)}
+.btn:active{background:var(--accent-tint-strong)}
+.btn:disabled{opacity:.5;cursor:default;border-color:var(--line-strong);background:var(--btn)}
+.btn-primary{border-color:var(--accent);background:var(--accent-tint)}
+.btn-primary:hover{background:var(--accent-tint-strong)}
+.btn-flat{background:transparent;border-color:transparent;box-shadow:none}
+.btn-flat:hover{background:var(--accent-tint);border-color:transparent}
+.btn-sm{font-size:.85rem;padding:.2rem .55rem;min-height:1.9rem}
+.btn-icon{padding:.35rem;min-width:2.25rem}
+.btn.on{background:var(--accent-tint-strong);border-color:var(--accent)}
+.actions{display:flex;flex-wrap:wrap;gap:.5rem;align-items:center}
+.actions .spacer{flex:1}
+
+.tabs{display:flex;border-bottom:1px solid var(--line);overflow-x:auto;scrollbar-width:thin}
+.tab{flex:none;font:inherit;font-size:.93rem;letter-spacing:0;word-spacing:0;padding:.55rem 1rem;border:none;border-bottom:2px solid transparent;background:none;color:var(--muted);cursor:pointer;white-space:nowrap;display:inline-flex;gap:.4rem;align-items:center}
+.tab:hover{color:var(--text);background:var(--accent-tint)}
+.tab.active{color:var(--text);border-bottom-color:var(--accent);font-weight:600}
+.tab .ok{color:var(--pos)}
+
+.frame{border:1px solid var(--line);border-radius:5px;background:var(--alt);padding:1rem 1.1rem}
+.card{border:1px solid var(--line);border-radius:5px;background:var(--view);padding:1.1rem 1.2rem;box-shadow:var(--shadow);display:flex;flex-direction:column;gap:.9rem}
+.eyebrow{font-size:.75rem;font-weight:600;color:var(--muted);letter-spacing:.06em;text-transform:uppercase}
+
+.msg{display:flex;gap:.6rem;align-items:flex-start;border:1px solid;border-radius:5px;padding:.7rem .9rem}
+.msg svg{flex:none;margin-top:.15rem}
+.msg-pos{border-color:color-mix(in srgb,var(--pos) 60%,transparent);background:var(--pos-tint)}
+.msg-pos svg{color:var(--pos)}
+.msg-neg{border-color:color-mix(in srgb,var(--neg) 60%,transparent);background:var(--neg-tint)}
+.msg-neg svg{color:var(--neg)}
+.msg-info{border-color:color-mix(in srgb,var(--accent) 55%,transparent);background:var(--accent-tint)}
+.msg-info svg{color:var(--accent-text)}
+.msg .body{display:flex;flex-direction:column;gap:.35rem;min-width:0}
+
+.progress{height:4px;border-radius:2px;background:var(--line);overflow:hidden}
+.progress>span{display:block;height:100%;background:var(--accent);transition:width .25s}
+.count{font-size:.85rem;color:var(--muted);font-variant-numeric:tabular-nums}
+
+/* Rôles (signalisation) */
+.k-these{--c:var(--c-these)} .k-arg{--c:var(--c-arg)} .k-expl{--c:var(--c-expl)} .k-ex{--c:var(--c-ex)}
+.k-conn{--c:var(--c-conn)} .k-hs{--c:var(--c-hs)} .k-concl{--c:var(--c-concl)} .k-intro{--c:var(--c-intro)}
+.chip{display:inline-flex;align-items:center;font-size:.7rem;font-weight:700;letter-spacing:.05em;text-transform:uppercase;word-spacing:0;padding:.08rem .45rem;border-radius:3px;color:var(--c);background:color-mix(in srgb,var(--c) 13%,transparent);border:1px solid color-mix(in srgb,var(--c) 35%,transparent);white-space:nowrap;line-height:1.5}
+.seg{color:var(--c);background:color-mix(in srgb,var(--c) 11%,transparent);border-radius:3px;padding:.04em .18em;-webkit-box-decoration-break:clone;box-decoration-break:clone}
+.seg.k-conn{background:none;font-weight:700;padding:0}
+.seg.k-blank{display:inline-block;min-width:5.5rem;border-bottom:2px dashed var(--accent);color:var(--accent-text);background:none;text-align:center;font-weight:600}
+.nocolor .seg:not(.k-blank){color:inherit;background:none}
+.nocolor .chip{color:var(--text);background:transparent;border-color:var(--line-strong)}
+.legend{display:flex;flex-wrap:wrap;gap:.4rem}
+
+.para{display:flex;flex-direction:column;gap:.5rem;align-items:flex-start}
+.para p{font-size:1.06rem;line-height:calc(var(--lh) + .2)}
+.rows{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:.45rem}
+.row{display:grid;grid-template-columns:7.5rem minmax(0,1fr);gap:.6rem;align-items:baseline}
+.row .chip{justify-self:start}
+@media (max-width:520px){.row{grid-template-columns:minmax(0,1fr);gap:.2rem}}
+.keys{display:flex;flex-wrap:wrap;gap:.4rem}
+.key{border:1px solid var(--line-strong);border-radius:3px;padding:.1rem .55rem;background:var(--view);font-weight:600;font-size:.95rem}
+
+.choices{display:flex;flex-direction:column;gap:.5rem}
+.choice{display:flex;gap:.7rem;align-items:flex-start;width:100%;text-align:left;font:inherit;line-height:var(--lh);letter-spacing:var(--ls);word-spacing:var(--ws);color:var(--text);background:var(--btn);border:1px solid var(--line-strong);border-radius:4px;padding:.7rem .9rem;cursor:pointer;box-shadow:var(--shadow)}
+.choice:hover:not(:disabled){border-color:var(--accent)}
+.choice:disabled{cursor:default}
+.choice .mark{flex:none;width:1.4rem;height:1.4rem;border-radius:50%;border:1px solid var(--line-strong);display:grid;place-items:center;font-size:.75rem;font-weight:700;color:var(--muted);margin-top:.1rem}
+.choice.ok{border-color:var(--pos);background:var(--pos-tint)}
+.choice.ok .mark{border-color:var(--pos);color:var(--pos)}
+.choice.no{border-color:var(--neg);background:var(--neg-tint)}
+.choice.no .mark{border-color:var(--neg);color:var(--neg)}
+.choice.dim{opacity:.55}
+.trio{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:.6rem}
+@media (max-width:520px){.trio{grid-template-columns:minmax(0,1fr)}}
+.trio .btn{min-height:3rem;font-weight:600;flex-direction:column;gap:.1rem}
+.trio .btn small{font-weight:400;font-size:.78rem;color:var(--muted)}
+
+/* Accueil */
+.path{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;border:1px solid var(--line);border-radius:5px;overflow:hidden;background:var(--view)}
+.path li+li{border-top:1px solid var(--line)}
+.path button{display:grid;grid-template-columns:2rem minmax(0,1fr) auto;gap:.8rem;align-items:center;width:100%;padding:.8rem 1rem;background:none;border:none;font:inherit;color:var(--text);text-align:left;cursor:pointer;letter-spacing:0;word-spacing:0}
+.path button:hover{background:var(--accent-tint)}
+.path .n{width:2rem;height:2rem;border-radius:50%;display:grid;place-items:center;border:1px solid var(--line-strong);font-weight:600;font-variant-numeric:tabular-nums;color:var(--muted)}
+.path .n.done{border-color:var(--pos);color:var(--pos);background:var(--pos-tint)}
+.path .t{font-weight:600}
+.path .d{font-size:.88rem;color:var(--muted)}
+.status{font-size:.78rem;padding:.1rem .5rem;border-radius:10px;border:1px solid var(--line-strong);color:var(--muted);white-space:nowrap;font-variant-numeric:tabular-nums}
+.status.done{border-color:var(--pos);color:var(--pos)}
+.status.started{border-color:var(--accent);color:var(--accent-text)}
+.tips{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:.75rem}
+@media (max-width:640px){.tips{grid-template-columns:minmax(0,1fr)}}
+.tip{display:flex;flex-direction:column;gap:.35rem}
+.tip svg{color:var(--accent-text)}
+.tip p{font-size:.92rem;color:var(--muted)}
+
+/* Vocabulaire */
+.word{display:flex;flex-direction:column;gap:.3rem;align-items:flex-start}
+.word .w{font-size:2rem;font-weight:600;line-height:1.2}
+.word .syl{font-size:1.15rem;letter-spacing:.06em;color:var(--accent-text);font-weight:500}
+.word .nat{font-size:.85rem;color:var(--muted);font-style:italic}
+.def{font-size:1.1rem}
+.dl{display:grid;grid-template-columns:auto minmax(0,1fr);gap:.4rem .9rem;margin:0}
+.dl dt{font-size:.8rem;font-weight:600;color:var(--muted);padding-top:.15rem}
+.dl dd{margin:0}
+@media (max-width:520px){.dl{grid-template-columns:minmax(0,1fr)} .dl dd{margin-bottom:.4rem}}
+
+/* Exemples résolus */
+.subject{display:flex;flex-direction:column;gap:.35rem}
+.subject .q{font-size:1.2rem;font-weight:600}
+.stepper{display:flex;gap:.3rem;flex-wrap:wrap}
+.stepper button{display:flex;align-items:center;gap:.4rem;font:inherit;font-size:.82rem;letter-spacing:0;word-spacing:0;background:none;border:1px solid transparent;border-radius:14px;padding:.15rem .6rem .15rem .2rem;color:var(--muted);cursor:pointer}
+.stepper button:disabled{cursor:default}
+.stepper .dot{width:1.5rem;height:1.5rem;border-radius:50%;display:grid;place-items:center;border:1px solid var(--line-strong);font-weight:600;font-variant-numeric:tabular-nums}
+.stepper .cur{color:var(--text);border-color:var(--accent);background:var(--accent-tint)}
+.stepper .cur .dot{border-color:var(--accent);background:var(--accent);color:#fff}
+.stepper .past .dot{border-color:var(--pos);color:var(--pos)}
+.stepper .ttl{display:inline}
+@media (max-width:640px){.stepper .ttl{display:none} .stepper .cur .ttl{display:inline}}
+.done-list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:.3rem;font-size:.9rem;color:var(--muted)}
+.done-list li{display:flex;gap:.5rem;align-items:baseline}
+.done-list svg{color:var(--pos);flex:none;position:relative;top:.2rem}
+.badge{font-size:.72rem;font-weight:600;padding:.05rem .5rem;border-radius:3px;border:1px solid var(--accent);color:var(--accent-text);background:var(--accent-tint);white-space:nowrap}
+.why{border-top:1px dashed var(--line-strong);padding-top:.75rem;display:flex;flex-direction:column;gap:.5rem;align-items:flex-start}
+.why p{color:var(--muted)}
+
+/* Relier */
+.kernels{display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);gap:.6rem;align-items:center}
+.kernel{border:1px solid var(--line);background:var(--alt);border-radius:4px;padding:.7rem .85rem;font-size:1.05rem}
+.plus{color:var(--muted);font-weight:600}
+@media (max-width:560px){.kernels{grid-template-columns:minmax(0,1fr)} .plus{justify-self:center}}
+details.box{border:1px solid var(--line);border-radius:5px;background:var(--alt)}
+details.box summary{cursor:pointer;padding:.6rem .9rem;font-weight:600;font-size:.93rem}
+details.box .inner{padding:0 .9rem .9rem;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.6rem 1.2rem}
+@media (max-width:560px){details.box .inner{grid-template-columns:minmax(0,1fr)}}
+.cgroup h3{font-size:.85rem;color:var(--muted);font-weight:600;margin-bottom:.15rem}
+.cgroup p{font-size:.95rem}
+
+/* Ordonner */
+.zone{display:flex;flex-direction:column;gap:.45rem;min-height:3rem}
+.zone-label{font-size:.8rem;font-weight:600;color:var(--muted)}
+.slot{display:flex;gap:.7rem;align-items:flex-start;width:100%;text-align:left;font:inherit;line-height:var(--lh);letter-spacing:var(--ls);word-spacing:var(--ws);color:var(--text);background:var(--btn);border:1px solid var(--line-strong);border-radius:4px;padding:.6rem .8rem;cursor:pointer;box-shadow:var(--shadow)}
+.slot:hover{border-color:var(--accent)}
+.slot .pos{flex:none;width:1.5rem;height:1.5rem;border-radius:3px;background:var(--accent-tint-strong);color:var(--accent-text);display:grid;place-items:center;font-size:.8rem;font-weight:700;font-variant-numeric:tabular-nums;margin-top:.1rem}
+.slot.ok{border-color:var(--pos);background:var(--pos-tint)}
+.slot.ok .pos{background:var(--pos);color:var(--view)}
+.slot.no{border-color:var(--neg);background:var(--neg-tint)}
+.slot.no .pos{background:var(--neg);color:var(--view)}
+.slot .tx{min-width:0}
+.empty{border:1px dashed var(--line-strong);border-radius:4px;padding:.8rem;color:var(--muted);font-size:.9rem;text-align:center}
+.hl{font-weight:700;color:var(--c-conn);background:color-mix(in srgb,var(--c-conn) 14%,transparent);border-radius:3px;padding:0 .15em}
+
+/* Plan */
+.field{display:flex;flex-direction:column;gap:.3rem}
+.field label{font-size:.88rem;font-weight:600;display:flex;gap:.5rem;align-items:center;flex-wrap:wrap}
+.field .hint{font-weight:400;color:var(--muted);font-size:.82rem}
+textarea,select,input[type=text]{font:inherit;color:var(--text);background:var(--view);border:1px solid var(--line-strong);border-radius:4px;padding:.5rem .65rem;width:100%;line-height:var(--lh);letter-spacing:var(--ls);word-spacing:var(--ws)}
+textarea{resize:vertical;min-height:4.2rem}
+textarea:focus,select:focus,input:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 1px var(--accent)}
+.group{display:flex;flex-direction:column;gap:.75rem;border-left:3px solid var(--c);padding-left:.9rem}
+.assembled{display:flex;flex-direction:column;gap:.8rem;font-size:1.04rem}
+.checks{display:flex;flex-direction:column;gap:.35rem}
+.checks label{display:flex;gap:.6rem;align-items:flex-start;cursor:pointer}
+.checks input{width:1.1rem;height:1.1rem;margin-top:.2rem;accent-color:var(--accent);flex:none}
+
+/* Réglages */
+.pop{position:absolute;right:.75rem;top:calc(100% + 4px);z-index:40;width:min(19rem,calc(100vw - 1.5rem));background:var(--view);border:1px solid var(--line-strong);border-radius:5px;box-shadow:0 4px 16px rgba(0,0,0,.18);padding:.9rem;display:flex;flex-direction:column;gap:.85rem}
+.pop .lbl{font-size:.8rem;font-weight:600;color:var(--muted);margin-bottom:.3rem}
+.seg-ctl{display:flex}
+.seg-ctl .btn{border-radius:0;flex:1;box-shadow:none}
+.seg-ctl .btn:first-child{border-radius:4px 0 0 4px}
+.seg-ctl .btn:last-child{border-radius:0 4px 4px 0}
+.seg-ctl .btn+.btn{margin-left:-1px}
+.switch{display:flex;justify-content:space-between;align-items:center;gap:.8rem;cursor:pointer;font-size:.93rem}
+.switch input{appearance:none;-webkit-appearance:none;width:2.4rem;height:1.3rem;border-radius:.65rem;background:var(--line-strong);position:relative;cursor:pointer;flex:none;transition:background .15s;margin:0}
+.switch input::after{content:"";position:absolute;top:2px;left:2px;width:calc(1.3rem - 4px);height:calc(1.3rem - 4px);border-radius:50%;background:var(--view);transition:transform .15s;box-shadow:var(--shadow)}
+.switch input:checked{background:var(--accent)}
+.switch input:checked::after{transform:translateX(1.1rem)}
+.pop-scrim{position:fixed;inset:0;z-index:35}
+
+.notes{display:flex;flex-direction:column;gap:1rem;max-width:66ch}
+.notes ul{margin:0;padding-left:1.2rem;display:flex;flex-direction:column;gap:.45rem}
+.notes .ref{color:var(--muted);font-size:.88rem}
+.big-score{font-size:2.2rem;font-weight:600;font-variant-numeric:tabular-nums;line-height:1.1}
+
+/* ---- Atelier de dissertation : pièces supplémentaires ---- */
+:root{--c-pb:#1d6fa5; --c-annonce:#b0306a; --c-idee:#4549b0; --c-trans:#6b737b}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--c-pb:#5cc3f2; --c-annonce:#f27aab; --c-idee:#a3a6f7; --c-trans:#9aa3ab}}
+:root[data-theme="dark"]{--c-pb:#5cc3f2; --c-annonce:#f27aab; --c-idee:#a3a6f7; --c-trans:#9aa3ab}
+.k-accroche,.k-pres{--c:var(--c-intro)} .k-pb{--c:var(--c-pb)} .k-annonce{--c:var(--c-annonce)} .k-idee{--c:var(--c-idee)}
+.k-trans{--c:var(--c-trans)} .k-bilan,.k-ouv{--c:var(--c-concl)}
+.row{grid-template-columns:9.5rem minmax(0,1fr)}
+@media (max-width:520px){.row{grid-template-columns:minmax(0,1fr)}}
+.btn.res-ok,.btn.res-ok:disabled{border-color:var(--pos);background:var(--pos-tint);opacity:1}
+.btn.res-no,.btn.res-no:disabled{border-color:var(--neg);background:var(--neg-tint);opacity:1}
+.grid2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.6rem}
+.grid2 .btn{min-height:2.8rem;font-weight:600}
+@media (max-width:520px){.grid2{grid-template-columns:minmax(0,1fr)}}
+.assembled .apara{display:flex;flex-direction:column;gap:.2rem}
+.para-label{font-size:.72rem;font-weight:600;color:var(--muted);letter-spacing:.06em;text-transform:uppercase}
+.part-block{display:flex;flex-direction:column;gap:.65rem}
+.arg-box{border:1px solid var(--line);border-radius:4px;background:var(--alt);padding:.65rem .8rem;display:flex;flex-direction:column;gap:.45rem}
+.argfs{display:flex;flex-direction:column;gap:.6rem;border:1px solid var(--line);border-radius:5px;padding:.75rem .85rem;background:var(--alt)}
+.outline{display:flex;flex-direction:column;gap:.45rem}
+.ol-sec{border:1px solid var(--line);border-radius:5px;background:var(--alt);padding:.6rem .8rem;display:flex;flex-direction:column;gap:.4rem}
+.ol-title{font-weight:600;font-size:.92rem}
+.ol-row{display:flex;flex-wrap:wrap;gap:.35rem;align-items:center}
+.ol-arg{display:flex;flex-wrap:wrap;gap:.35rem;align-items:center;padding-left:.75rem;border-left:2px solid var(--line-strong)}
+.ol-arg .count{min-width:7.5rem}
+.ol-trans{padding-left:1.2rem}
+.rows-method .row{align-items:start}
+.mcell{display:flex;flex-direction:column;gap:.15rem}
+.starter{font-size:.88rem;color:var(--muted)}
+.lbl-plain{font-size:.88rem;font-weight:600}
+.seg-ctl{max-width:26rem}
+details.course{background:var(--view)}
+details.course summary{line-height:1.4}
+.course-inner{padding:0 .9rem .9rem;display:flex;flex-direction:column;gap:.75rem}
+.course-part{display:flex;flex-direction:column;gap:.3rem}
+.course-part p{color:var(--muted);font-size:.95rem}
+.subject .actions .eyebrow{flex:1}
+.sujet-full{font-weight:600;font-size:1.02rem;padding:.2rem .1rem}
+</style>
+</head>
+<body>
+
+
+<div id="root"><p style="padding:2rem;font-family:sans-serif">Chargement de l’atelier…</p></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.3.1/umd/react.production.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.3.1/umd/react-dom.production.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/htm@3.1.1/dist/htm.umd.js"></script>
+<script>
+const { useState, useEffect, useMemo, useContext, createContext, Fragment } = React;
+const html = htm.bind(React.createElement);
+
+/* ---------- Utilitaires ---------- */
+const NB = ' ';
+const fr = s => String(s).replace(/ ([?!:;»])/g, NB + '$1').replace(/« /g, '«' + NB);
+const shuffle = a => { const b = a.slice(); for (let i = b.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [b[i], b[j]] = [b[j], b[i]]; } return b; };
+const KEY = 'atelier-dissertation-v1';
+const loadStore = () => { try { const r = localStorage.getItem(KEY); return r ? JSON.parse(r) : {}; } catch (e) { return {}; } };
+const saveStore = o => { try { localStorage.setItem(KEY, JSON.stringify(o)); } catch (e) {} };
+const CAN_SPEAK = typeof window !== 'undefined' && 'speechSynthesis' in window && typeof SpeechSynthesisUtterance !== 'undefined';
+function speak(text) {
+  try {
+    const s = window.speechSynthesis; s.cancel();
+    const u = new SpeechSynthesisUtterance(text); u.lang = 'fr-FR'; u.rate = 0.88;
+    const v = (s.getVoices() || []).find(v => v.lang && v.lang.toLowerCase().startsWith('fr')); if (v) u.voice = v;
+    s.speak(u);
+  } catch (e) {}
+}
+const segsText = segs => segs.map(s => s[1]).join(' ');
+
+const ICONS = {
+  home: 'M3 11 12 4l9 7M5 9.5V20h5v-6h4v6h5V9.5',
+  words: 'M5 4.5A1.5 1.5 0 0 1 6.5 3H19v15H6.5A1.5 1.5 0 0 0 5 19.5zM5 19.5A1.5 1.5 0 0 0 6.5 21H19v-3M9 7h6M9 10.5h6',
+  bulb: 'M9.5 18h5M10.5 21h3M12 3a6 6 0 0 0-3.8 10.6c.6.6.8 1.3.8 2.4h6c0-1.1.2-1.8.8-2.4A6 6 0 0 0 12 3z',
+  sort: 'M4 3.5h16v5H4zM12 8.5v3M6 11.5h12M6 11.5V15M12 11.5V15M18 11.5V15M3.5 15h5v5.5h-5zM9.5 15h5v5.5h-5zM15.5 15h5v5.5h-5z',
+  link: 'M10 14a4 4 0 0 0 5.7 0l3-3a4 4 0 0 0-5.7-5.7l-1 1M14 10a4 4 0 0 0-5.7 0l-3 3a4 4 0 0 0 5.7 5.7l1-1',
+  order: 'M9 6h11M9 12h11M9 18h11M4 4.5 5.5 3.5V8.5M3.8 10.8a1.3 1.3 0 0 1 2.4.6c0 .9-2.4 2.1-2.4 2.6h2.4M3.8 16.3h2.3l-1.3 1.6a1.2 1.2 0 1 1-1 2',
+  plan: 'M4 20h4L19 9l-4-4L4 16zM13.5 6.5l4 4',
+  info: 'M12 21a9 9 0 1 0 0-18 9 9 0 0 0 0 18zM12 11v5.5M12 7.6v.4',
+  menu: 'M4 7h16M4 12h16M4 17h16',
+  speaker: 'M4 9.5v5h3.5L12 18V6L7.5 9.5zM15.5 9.5a3.5 3.5 0 0 1 0 5M18 7a7 7 0 0 1 0 10',
+  sliders: 'M4 7h9M17 7h3M15 5v4M4 17h3M11 17h9M9 15v4',
+  check: 'M5 12.5 10 17.5 19 7',
+  x: 'M6.5 6.5l11 11M17.5 6.5l-11 11',
+  left: 'M14.5 6l-6 6 6 6',
+  right: 'M9.5 6l6 6-6 6',
+  reset: 'M4.5 12a7.5 7.5 0 1 0 2.3-5.4M4.5 4v4h4',
+  copy: 'M9 9h11v11H9zM5 15H4V4h11v1',
+  plus: 'M12 5v14M5 12h14',
+  eye: 'M2.5 12S6 5.5 12 5.5 21.5 12 21.5 12 18 18.5 12 18.5 2.5 12 2.5 12zM12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6z'
+};
+function Icon({ n, s = 18 }) {
+  return html`<svg width=${s} height=${s} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d=${ICONS[n]} /></svg>`;
+}
+
+/* ---------- Données ---------- */
+
+/* ---------- Données ---------- */
+const CATS = {
+  accroche: 'Accroche', pres: 'Présentation', pb: 'Problématique', annonce: 'Annonce du plan',
+  idee: 'Idée de la partie', arg: 'Argument', expl: 'Explication', ex: 'Exemple',
+  trans: 'Transition', bilan: 'Bilan', ouv: 'Ouverture', conn: 'Connecteur'
+};
+const ROLE_DESC = {
+  accroche: 'Elle attire l’attention du lecteur avec une citation, un fait ou une date en lien avec le sujet.',
+  pres: 'Elle présente l’œuvre ou la période, et définit les mots importants du sujet.',
+  pb: 'C’est la question à laquelle toute la dissertation va répondre.',
+  annonce: 'Elle annonce les trois parties de la dissertation, dans l’ordre.',
+  idee: 'Elle donne, en une phrase, la grande réponse de la partie à la problématique.',
+  arg: 'C’est une raison générale qui soutient l’idée de la partie.',
+  expl: 'Elle explique pourquoi l’argument est vrai : comment ça se passe, pour quelle cause.',
+  ex: 'C’est un fait précis qui prouve l’argument : une citation, une date, un nom, un cas.',
+  trans: 'Elle fait le bilan de la partie qui se termine et annonce la suivante.',
+  bilan: 'Il répond clairement à la problématique en rappelant les trois parties.',
+  ouv: 'Elle élargit vers une autre œuvre, une autre période ou une autre question.'
+};
+const ROLES_QUIZ = ['accroche', 'pres', 'pb', 'annonce', 'idee', 'arg', 'expl', 'ex', 'trans', 'bilan', 'ouv'];
+
+const MATS = {
+  fr: { label: 'Français', long: 'Français · dissertation sur œuvre', exHint: 'Une citation courte entre guillemets, avec le titre du poème, ou l’acte et la scène.' },
+  hist: { label: 'Histoire', long: 'Histoire · la Révolution et l’Empire', exHint: 'Un fait daté : une date, un acteur, un lieu, un chiffre ou un document.' },
+  hggsp: { label: 'HGGSP', long: 'HGGSP · la démocratie', exHint: 'Un cas d’étude précis : un pays, une date, un acteur, un texte.' }
+};
+
+const SUBJECTS = {
+  fr: [
+    { g: 'Rimbaud, Cahiers de Douai · Émancipations créatrices', s: [
+      'Dans les Cahiers de Douai, la poésie est-elle avant tout un moyen de se libérer ?',
+      'Les Cahiers de Douai : une poésie de la révolte ?',
+      'Peut-on dire que les Cahiers de Douai sont le recueil d’un poète adolescent ?',
+      'En quoi les Cahiers de Douai racontent-ils une émancipation ?'
+    ] },
+    { g: 'Musset, On ne badine pas avec l’amour · Les jeux du cœur et de la parole', s: [
+      'On ne badine pas avec l’amour : comédie ou tragédie ?',
+      'Dans On ne badine pas avec l’amour, la parole permet-elle d’exprimer ses sentiments ?',
+      'Les personnages d’On ne badine pas avec l’amour sont-ils victimes de leur orgueil ?',
+      'On ne badine pas avec l’amour : une pièce sur le jeu ou sur la souffrance ?'
+    ] }
+  ],
+  hist: [
+    { g: 'La Révolution française et l’Empire : une nouvelle conception de la nation', s: [
+      'Napoléon Bonaparte : fossoyeur ou continuateur de la Révolution ?',
+      'Dans quelle mesure la Révolution française et l’Empire ont-ils construit une nouvelle conception de la nation ?',
+      'Pourquoi la monarchie constitutionnelle a-t-elle échoué en France (1791-1792) ?',
+      'La République peut-elle se défendre sans se renier ? (1792-1799)',
+      'Comment la Révolution et l’Empire ont-ils diffusé une nouvelle conception de la nation en Europe ?'
+    ] }
+  ],
+  hggsp: [
+    { g: 'Comprendre un régime politique : la démocratie', s: [
+      'La démocratie est-elle un régime fragile ?',
+      'La démocratie athénienne était-elle vraiment une démocratie ?',
+      'La démocratie directe est-elle plus démocratique que la démocratie représentative ?',
+      'La démocratie représentative est-elle en crise ?',
+      'L’Union européenne est-elle démocratique ?'
+    ] }
+  ]
+};
+
+/* Une dissertation = { intro:{accroche,pres,pb,annonce}, parts:[{idee,args:[{a,e,x}]}], trans:[t1,t2], concl:{bilan,ouv} } */
+const WHY = {
+  analyse: 'Définir les mots du sujet évite le hors-sujet. Le type de question indique déjà la forme de la réponse.',
+  pb: 'La problématique est la question à laquelle toute la dissertation répond. Elle reprend le sujet avec d’autres mots et montre qu’il y a un vrai débat.',
+  intro: 'L’introduction présente le sujet, pose la question et annonce le chemin. Le correcteur doit savoir où tu vas avant de lire la suite.',
+  part1: 'Chaque partie donne une grande réponse à la problématique. Chaque argument est développé avec une explication et un exemple précis.',
+  trans: 'La transition fait le bilan de la partie qui se termine et annonce la suivante. Elle montre que le raisonnement avance.',
+  part3: 'La troisième partie ne répète pas les deux autres : elle dépasse l’opposition, ou elle élargit le point de vue.',
+  concl: 'La conclusion répond clairement à la problématique. L’ouverture élargit vers une autre œuvre, une autre période ou une autre question.'
+};
+
+const WE = [
+  { id: 'hist', mat: 'hist', label: 'Histoire', mode: 'Guidé',
+    sujet: 'Napoléon Bonaparte : fossoyeur ou continuateur de la Révolution ?',
+    analyse: {
+      keys: ['Napoléon Bonaparte', 'fossoyeur', 'continuateur', 'la Révolution'],
+      defs: [
+        ['fossoyeur', 'Celui qui creuse les tombes. Ici : celui qui détruit, qui « enterre » la Révolution.'],
+        ['continuateur', 'Celui qui continue l’œuvre de quelqu’un d’autre.'],
+        ['les acquis', 'Ce que la Révolution a obtenu : l’égalité devant la loi, la souveraineté nationale, les libertés.'],
+        ['les dates', 'De 1799 (prise du pouvoir) à 1815 (défaite de Waterloo).']
+      ],
+      type: 'Le sujet propose deux réponses opposées (« A ou B ? »). Il faut examiner les deux, puis nuancer.'
+    },
+    d: {
+      intro: {
+        accroche: '« Citoyens, la Révolution est fixée aux principes qui l’ont commencée. Elle est finie. » C’est ce qu’annoncent les consuls dans leur proclamation du 15 décembre 1799.',
+        pres: 'Un mois plus tôt, le 9 novembre 1799, le général Bonaparte a pris le pouvoir par un coup d’État. Il gouverne la France comme Premier consul, puis comme empereur, jusqu’en 1815. Un continuateur prolonge l’œuvre d’un autre ; un fossoyeur, au contraire, l’enterre.',
+        pb: 'On peut donc se demander dans quelle mesure Napoléon Bonaparte a conservé ou détruit les acquis de la Révolution.',
+        annonce: 'Nous verrons d’abord qu’il consolide plusieurs acquis de la Révolution, puis qu’il en détruit les acquis politiques. Enfin, nous montrerons que son héritage reste ambigu à l’échelle de l’Europe.'
+      },
+      parts: [
+        { idee: 'Napoléon apparaît d’abord comme un continuateur, car il consolide plusieurs acquis de la Révolution.', args: [
+          { a: 'Tout d’abord, il garantit l’égalité de tous devant la loi.', e: 'En effet, il fait rédiger un code unique pour toute la France, qui confirme la fin des privilèges de naissance.', x: 'Par exemple, le Code civil de 1804 s’applique à tous les Français, qu’ils soient nés nobles ou roturiers.' },
+          { a: 'De plus, il construit un État moderne et organisé.', e: 'En effet, il crée des institutions solides qui structurent le pays pour longtemps.', x: 'Par exemple, il crée la Banque de France en 1800, les lycées en 1802 et le franc germinal en 1803.' },
+          { a: 'Enfin, il réconcilie les Français divisés par la Révolution.', e: 'En effet, la Constitution civile du clergé avait opposé les catholiques et les révolutionnaires.', x: 'Par exemple, le Concordat, signé avec le pape en 1801, met fin à cette fracture religieuse.' }
+        ] },
+        { idee: 'Mais Napoléon est aussi un fossoyeur, car il détruit les acquis politiques de la Révolution.', args: [
+          { a: 'Tout d’abord, il concentre tous les pouvoirs entre ses mains.', e: 'En effet, la constitution de 1799 ne prévoit aucun contre-pouvoir : le Premier consul nomme les ministres et commande l’armée.', x: 'Par exemple, les deux autres consuls, Cambacérès et Lebrun, n’ont qu’un rôle consultatif.' },
+          { a: 'De plus, le vote des citoyens devient une illusion.', e: 'En effet, le suffrage universel masculin sert surtout à approuver les décisions de Bonaparte, sans véritable choix.', x: 'Par exemple, les plébiscites demandent aux Français de répondre oui ou non à un projet déjà décidé.' },
+          { a: 'Enfin, il revient sur des conquêtes essentielles de la Révolution.', e: 'En effet, le pouvoir redevient héréditaire, et certaines libertés obtenues après 1789 disparaissent.', x: 'Par exemple, il rétablit l’esclavage dans les colonies en 1802, alors que la Convention l’avait aboli en 1794, puis il se fait sacrer empereur le 2 décembre 1804.' }
+        ] },
+        { idee: 'Enfin, à l’échelle de l’Europe, l’héritage de Napoléon est ambigu.', args: [
+          { a: 'Tout d’abord, il diffuse le modèle français en Europe.', e: 'En effet, les territoires conquis reçoivent les institutions et les lois de la France.', x: 'Par exemple, en 1811, l’Empire compte 130 départements, de Hambourg à Rome, et des codes civils sont imposés aux États vassaux.' },
+          { a: 'Mais cette diffusion se fait par la conquête, ce qui provoque la révolte des peuples.', e: 'En effet, les peuples occupés reprennent l’idée de nation pour se libérer de la domination française.', x: 'Par exemple, en 1808, la population espagnole se soulève et mène une guérilla contre les troupes françaises.' }
+        ] }
+      ],
+      trans: [
+        'Ainsi, Bonaparte conserve l’égalité et organise la nation. Cependant, il prive les Français de leur liberté politique.',
+        'Napoléon est donc à la fois continuateur et fossoyeur en France. Il faut maintenant regarder les effets de son action au-delà des frontières.'
+      ],
+      concl: {
+        bilan: 'En conclusion, Napoléon est à la fois continuateur et fossoyeur de la Révolution : il garde l’égalité et l’unité de la nation, mais il supprime la liberté et le choix des citoyens.',
+        ouv: 'Lorsque Louis XVIII revient sur le trône en 1814, il conserve le Code civil : certains acquis de la Révolution sont devenus impossibles à effacer.'
+      }
+    },
+    choose: {}
+  },
+  { id: 'hggsp', mat: 'hggsp', label: 'HGGSP', mode: 'À compléter',
+    sujet: 'La démocratie est-elle un régime fragile ?',
+    analyse: {
+      keys: ['la démocratie', 'un régime', 'fragile'],
+      defs: [
+        ['la démocratie', 'Un régime où le pouvoir appartient au peuple, qui l’exerce directement ou par des représentants élus.'],
+        ['un régime', 'La façon dont le pouvoir est organisé dans un État.'],
+        ['fragile', 'Qui peut se briser facilement. Ici : qui peut reculer, ou même disparaître.']
+      ],
+      type: 'Question fermée : on peut répondre oui, mais il faut nuancer. Pense aux avancées et aux reculs des démocraties.'
+    },
+    d: {
+      intro: {
+        accroche: 'Le 3 décembre 2024, le président de la Corée du Sud, Yoon Suk-yeol, proclame la loi martiale. Quelques heures plus tard, les députés votent pour l’annuler.',
+        pres: 'La démocratie est un régime où le pouvoir appartient au peuple, qui l’exerce directement ou par ses représentants. Un régime fragile est un régime qui peut reculer, ou même disparaître.',
+        pb: 'Nous nous demanderons dans quelle mesure la démocratie peut reculer, et comment elle parvient à se défendre.',
+        annonce: 'Nous verrons d’abord que la démocratie peut être renversée ou détruite, puis qu’elle peut aussi progresser et se reconstruire. Enfin, nous montrerons qu’elle possède ses propres moyens de défense.'
+      },
+      parts: [
+        { idee: 'La démocratie est un régime fragile, car elle peut reculer ou disparaître.', args: [
+          { a: 'Tout d’abord, elle peut être renversée par la force.', e: 'En effet, une armée peut prendre le pouvoir et chasser un gouvernement élu.', x: 'Par exemple, le 11 septembre 1973, au Chili, le général Pinochet renverse le président élu Salvador Allende et installe une dictature jusqu’en 1990.' },
+          { a: 'De plus, elle peut être détruite de l’intérieur par un dirigeant élu.', e: 'En effet, un dirigeant peut se servir du vote pour concentrer tous les pouvoirs.', x: 'Par exemple, Louis-Napoléon Bonaparte, élu président de la République en 1848, fait un coup d’État le 2 décembre 1851, puis devient l’empereur Napoléon III.' }
+        ] },
+        { idee: 'Mais la démocratie n’est pas seulement fragile : elle peut aussi progresser et se reconstruire.', args: [
+          { a: 'Tout d’abord, des peuples ont conquis la démocratie contre des dictatures.', e: 'En effet, la pression des citoyens peut forcer un régime autoritaire à céder.', x: 'Par exemple, au Portugal, la révolution des Œillets met fin à la dictature le 25 avril 1974 ; en Espagne, une Constitution démocratique est adoptée en 1978, après la mort de Franco.' },
+          { a: 'De plus, la démocratie s’élargit au fil du temps.', e: 'En effet, le droit de vote est accordé à des groupes qui en étaient exclus.', x: 'Par exemple, en France, le suffrage universel masculin est établi en 1848, et les femmes obtiennent le droit de vote en 1944.' },
+          { a: 'Enfin, une démocratie peut naître après une longue dictature.', e: 'En effet, des mobilisations citoyennes peuvent imposer des élections libres.', x: 'Par exemple, en Corée du Sud, les grandes manifestations de juin 1987 obtiennent l’élection du président au suffrage universel direct.' }
+        ] },
+        { idee: 'Enfin, la démocratie possède ses propres moyens de défense.', args: [
+          { a: 'Tout d’abord, la séparation des pouvoirs limite les abus.', e: 'En effet, comme l’écrit Montesquieu en 1748, « le pouvoir arrête le pouvoir » : le Parlement et la justice peuvent contrôler le chef de l’État.', x: 'Par exemple, en Corée du Sud, les députés annulent la loi martiale en décembre 2024, puis la Cour constitutionnelle destitue le président Yoon Suk-yeol en avril 2025.' },
+          { a: 'De plus, les citoyens peuvent se mobiliser pour défendre leurs droits.', e: 'En effet, dans une démocratie, on peut manifester, s’associer et s’informer librement.', x: 'Par exemple, en 2016 et 2017, des millions de Sud-Coréens manifestent avec des bougies, et la présidente Park Geun-hye est destituée en mars 2017.' }
+        ] }
+      ],
+      trans: [
+        'La démocratie peut donc reculer. Pourtant, l’histoire montre aussi qu’elle peut progresser.',
+        'La démocratie avance donc grâce aux citoyens. Il reste à comprendre comment elle se protège elle-même.'
+      ],
+      concl: {
+        bilan: 'En conclusion, la démocratie est un régime fragile, car elle peut être renversée par la force ou détruite par ses propres dirigeants. Mais elle sait aussi progresser et se défendre, grâce à ses institutions et à ses citoyens.',
+        ouv: 'On peut alors se demander si l’Union européenne, qui exige de ses membres le respect de la démocratie, peut aider à la protéger.'
+      }
+    },
+    choose: {
+      part0: { prompt: 'Quel exemple prouve l’argument « La démocratie peut être renversée par la force » ?', options: [
+        { text: 'Le 25 avril 1974, la révolution des Œillets met fin à la dictature au Portugal.', ok: false, fb: 'Cet exemple est précis, mais il montre une avancée de la démocratie, pas un recul. Il servira dans la partie II.' },
+        { text: 'Le 11 septembre 1973, au Chili, le général Pinochet renverse le président élu Salvador Allende.', ok: true, fb: 'Oui. Une armée chasse un président élu : c’est exactement l’argument.' },
+        { text: 'À Athènes, au Ve siècle avant J.-C., les citoyens votent les lois à l’Ecclésia.', ok: false, fb: 'Cet exemple parle bien de démocratie, mais pas de sa fragilité. Il ne prouve pas l’argument.' }
+      ] },
+      part2: { prompt: 'Quelle transition peut relier la partie II et la partie III ?', options: [
+        { text: 'Par exemple, en 1944, les femmes obtiennent le droit de vote en France.', ok: false, fb: 'C’est un exemple, pas une transition. Une transition fait un bilan et annonce la suite.' },
+        { text: 'En conclusion, la démocratie est un régime fragile.', ok: false, fb: 'C’est une phrase de conclusion. Elle arrive trop tôt et n’annonce pas la partie III.' },
+        { text: 'La démocratie avance donc grâce aux citoyens. Il reste à comprendre comment elle se protège elle-même.', ok: true, fb: 'Oui. La première phrase résume la partie II, la seconde annonce la partie III.' }
+      ] }
+    }
+  },
+  { id: 'rimbaud', mat: 'fr', label: 'Rimbaud', mode: 'À compléter',
+    sujet: 'Dans les Cahiers de Douai, la poésie est-elle avant tout un moyen de se libérer ?',
+    analyse: {
+      keys: ['la poésie', 'avant tout', 'un moyen', 'se libérer'],
+      defs: [
+        ['se libérer', 'Se débarrasser de ce qui enferme : la famille, la société, les règles.'],
+        ['avant tout', 'Plus que tout le reste. Le sujet demande si c’est le rôle le plus important de la poésie.'],
+        ['le parcours', '« Émancipations créatrices » : s’émanciper, c’est devenir libre ; « créatrices » veut dire que cette liberté passe par la création.']
+      ],
+      type: 'Question fermée avec « avant tout » : tu peux répondre oui, puis chercher ce que la poésie fait d’autre, ou de plus.'
+    },
+    d: {
+      intro: {
+        accroche: '« On n’est pas sérieux, quand on a dix-sept ans », écrit Rimbaud dans le poème « Roman ».',
+        pres: 'En 1870, Arthur Rimbaud a seize ans. Il recopie vingt-deux poèmes dans des cahiers qu’il confie au poète Paul Demeny, à Douai. Se libérer, c’est se débarrasser de ce qui nous enferme : la famille, la société, les règles.',
+        pb: 'On peut se demander si la poésie sert seulement à Rimbaud à fuir un monde qui l’étouffe, ou si elle lui permet aussi d’inventer une nouvelle liberté.',
+        annonce: 'Nous verrons d’abord que la poésie permet à Rimbaud de se révolter contre le monde qui l’entoure, puis qu’elle lui fait vivre la liberté de la fugue et de la nature. Enfin, nous montrerons qu’elle libère surtout la poésie elle-même.'
+      },
+      parts: [
+        { idee: 'Dans les Cahiers de Douai, la poésie permet d’abord à Rimbaud de se révolter contre le monde qui l’entoure.', args: [
+          { a: 'Tout d’abord, il dénonce la guerre et ceux qui la décident.', e: 'En effet, Rimbaud écrit pendant la guerre de 1870 entre la France et la Prusse, et il montre la mort des soldats.', x: 'Par exemple, dans « Le Dormeur du val », le soldat semble dormir dans une nature paisible, mais le dernier vers révèle qu’il a « deux trous rouges au côté droit ».' },
+          { a: 'De plus, il se moque des bourgeois et de leur hypocrisie.', e: 'En effet, la satire lui permet de rejeter la société étroite de Charleville, sa ville natale.', x: 'Par exemple, dans « À la musique », il décrit avec ironie les bourgeois qui se promènent sur la place de la Gare, à Charleville.' }
+        ] },
+        { idee: 'La poésie lui permet aussi de vivre et de raconter une liberté concrète : celle de la fugue et de la nature.', args: [
+          { a: 'Tout d’abord, le poète part sur les routes.', e: 'En effet, Rimbaud a fugué plusieurs fois en 1870, et ses poèmes célèbrent le vagabondage.', x: 'Par exemple, dans « Ma Bohème », il écrit : « Je m’en allais, les poings dans mes poches crevées ».' },
+          { a: 'De plus, la nature devient un espace de liberté et de bonheur.', e: 'En effet, le poète s’y sent libre de ressentir, sans contrainte.', x: 'Par exemple, dans « Sensation », il imagine : « Et j’irai loin, bien loin, comme un bohémien, / Par la Nature, — heureux comme avec une femme. »' }
+        ] },
+        { idee: 'Enfin, la poésie n’est pas seulement un moyen de se libérer : Rimbaud libère la poésie elle-même.', args: [
+          { a: 'Tout d’abord, il détourne les formes classiques.', e: 'En effet, il utilise le sonnet, une forme ancienne et très réglée, mais il y introduit des mots familiers ou choquants.', x: 'Par exemple, le sonnet « Vénus Anadyomène » reprend la naissance de Vénus, déesse de la beauté, mais montre une femme laide qui sort d’une baignoire.' },
+          { a: 'De plus, il transforme sa vie ordinaire en poésie.', e: 'En effet, le poète fait de la marche et de la pauvreté une source de création.', x: 'Par exemple, dans « Ma Bohème », il se décrit en « Petit-Poucet rêveur » qui sème des rimes sur son chemin.' }
+        ] }
+      ],
+      trans: [
+        'Ainsi, la poésie permet à Rimbaud de dénoncer ce qui l’enferme. Mais il ne fait pas que refuser : il cherche aussi à vivre librement.',
+        'La liberté se vit donc sur les routes et dans la nature. Pourtant, la plus grande liberté de Rimbaud se trouve peut-être dans sa manière d’écrire.'
+      ],
+      concl: {
+        bilan: 'En conclusion, dans les Cahiers de Douai, la poésie est bien un moyen de se libérer : elle permet à Rimbaud de dénoncer, de fuguer et de rêver. Mais surtout, il libère la poésie elle-même en transformant les règles qu’il a apprises.',
+        ouv: 'Quelques mois plus tard, dans ses lettres dites « du Voyant » (mai 1871), Rimbaud voudra aller encore plus loin dans cette liberté.'
+      }
+    },
+    choose: {
+      pb: { prompt: 'Quelle problématique convient le mieux à ce sujet ?', options: [
+        { text: 'Qui était Arthur Rimbaud ?', ok: false, fb: 'Cette question est trop large et ne parle pas de liberté. Elle mène à une biographie, pas à une dissertation.' },
+        { text: 'La poésie sert-elle seulement à Rimbaud à fuir un monde qui l’étouffe, ou lui permet-elle aussi d’inventer une nouvelle liberté ?', ok: true, fb: 'Oui. Elle reprend l’idée de se libérer et ouvre deux pistes : fuir le monde, ou inventer.' },
+        { text: 'Rimbaud aime-t-il la nature ?', ok: false, fb: 'Cette question est trop étroite : la nature n’est qu’une petite partie du sujet.' }
+      ] },
+      part1: { prompt: 'Quel exemple prouve l’argument « le poète part sur les routes » ?', options: [
+        { text: 'Dans « Ma Bohème », il écrit : « Je m’en allais, les poings dans mes poches crevées ».', ok: true, fb: 'Oui. Le poète marche, libre, sur les routes : la citation prouve l’argument.' },
+        { text: 'Dans « Le Dormeur du val », le soldat a « deux trous rouges au côté droit ».', ok: false, fb: 'Ce poème parle de la guerre, pas de la fugue. Il prouve l’argument de la partie I.' },
+        { text: 'Arthur Rimbaud est né à Charleville en 1854.', ok: false, fb: 'C’est vrai, mais c’est un fait biographique : il ne prouve pas que le poète part sur les routes. En français, l’exemple vient de l’œuvre.' }
+      ] }
+    }
+  },
+  { id: 'musset', mat: 'fr', label: 'Musset', mode: 'À toi',
+    sujet: 'On ne badine pas avec l’amour : comédie ou tragédie ?',
+    analyse: {
+      keys: ['badiner', 'comédie', 'tragédie'],
+      defs: [
+        ['badiner', 'Plaisanter, jouer avec légèreté.'],
+        ['une comédie', 'Une pièce qui fait rire, avec des personnages ordinaires, et qui finit bien.'],
+        ['une tragédie', 'Une pièce où les personnages sont pris dans un destin malheureux, et qui finit souvent par une mort.'],
+        ['le parcours', '« Les jeux du cœur et de la parole » : les personnages jouent avec les mots et avec les sentiments.']
+      ],
+      type: 'Sujet « A ou B ? » : il faut montrer les deux aspects, puis expliquer pourquoi Musset les mélange.'
+    },
+    d: {
+      intro: {
+        accroche: 'Le titre de la pièce ressemble à un proverbe : une petite phrase de sagesse qui donne une leçon. Musset appelle d’ailleurs cette pièce, publiée en 1834, un « proverbe ».',
+        pres: 'Le Baron veut marier son fils Perdican à sa nièce Camille. Mais Camille, élevée au couvent, refuse d’aimer. Une comédie fait rire et finit bien ; une tragédie montre des personnages pris dans un destin malheureux, et finit souvent par une mort.',
+        pb: 'Nous nous demanderons comment Musset fait passer sa pièce du rire aux larmes, et ce que ce mélange nous apprend sur l’amour.',
+        annonce: 'Nous verrons d’abord que la pièce commence comme une comédie, puis qu’elle bascule peu à peu dans le drame. Enfin, nous montrerons que ce mélange donne une leçon sur l’amour.'
+      },
+      parts: [
+        { idee: 'La pièce commence comme une comédie.', args: [
+          { a: 'Tout d’abord, certains personnages sont ridicules.', e: 'En effet, Musset crée des personnages caricaturaux, appelés « fantoches », qui font rire le spectateur.', x: 'Par exemple, Maître Blazius, le précepteur de Perdican, et Maître Bridaine, le curé, pensent surtout à bien manger et à bien boire.' },
+          { a: 'De plus, les héros s’affrontent dans un jeu de séduction.', e: 'En effet, comme dans une comédie, Camille et Perdican se cherchent et se provoquent avec les mots.', x: 'Par exemple, à l’acte III, Perdican fait la cour à Rosette devant Camille cachée, pour la rendre jalouse.' }
+        ] },
+        { idee: 'Mais la pièce bascule peu à peu dans le drame.', args: [
+          { a: 'Tout d’abord, l’orgueil empêche les héros de s’avouer leur amour.', e: 'En effet, ni Camille ni Perdican ne veut céder le premier, et chacun blesse l’autre pour se protéger.', x: 'Par exemple, à l’acte II, Camille explique qu’elle veut « aimer d’un amour éternel » sans souffrir, et elle repousse Perdican.' },
+          { a: 'De plus, une innocente est sacrifiée.', e: 'En effet, Rosette, une jeune paysanne sincère, est utilisée par Perdican dans son jeu avec Camille.', x: 'Par exemple, à la fin de la pièce, Rosette meurt, et Camille dit : « Elle est morte. Adieu, Perdican ! »' }
+        ] },
+        { idee: 'Enfin, ce mélange du rire et des larmes donne une leçon sur l’amour.', args: [
+          { a: 'Tout d’abord, Musset mélange volontairement les tons, comme dans la vie.', e: 'En effet, le drame romantique refuse de séparer le comique et le tragique.', x: 'Par exemple, à l’acte III, les scènes comiques des fantoches alternent avec les scènes douloureuses entre Camille et Perdican.' },
+          { a: 'De plus, la pièce montre que l’amour vaut la peine d’être vécu, malgré la souffrance.', e: 'En effet, même blessé, Perdican affirme que seul l’amour donne du sens à la vie.', x: 'Par exemple, dans sa grande tirade de l’acte II, Perdican déclare : « J’ai souffert souvent, je me suis trompé quelquefois, mais j’ai aimé. »' }
+        ] }
+      ],
+      trans: [
+        'Ainsi, la pièce commence dans le rire et le jeu. Cependant, ce jeu devient de plus en plus cruel.',
+        'La comédie s’est donc transformée en drame. Il faut alors comprendre pourquoi Musset mélange les deux.'
+      ],
+      concl: {
+        bilan: 'En conclusion, On ne badine pas avec l’amour est à la fois une comédie et une tragédie : la pièce commence dans le rire, puis elle bascule dans le drame. Ce mélange montre, comme le titre l’annonce, que l’on ne joue pas avec les sentiments sans conséquences.',
+        ouv: 'On peut penser au Jeu de l’amour et du hasard de Marivaux (1730), où le jeu amoureux se termine au contraire par un mariage heureux.'
+      }
+    },
+    choose: {
+      intro: { prompt: 'Quelle annonce du plan convient à ce sujet ?', options: [
+        { text: 'Nous verrons d’abord Perdican, puis Camille, enfin Rosette.', ok: false, fb: 'Ce plan suit les personnages, pas les réponses à la problématique. Il conduit à faire des portraits au lieu d’argumenter.' },
+        { text: 'Nous verrons que la pièce est drôle.', ok: false, fb: 'Cette annonce ne présente qu’une seule partie, et elle ne répond pas à la question « comédie ou tragédie ? ».' },
+        { text: 'Nous verrons d’abord que la pièce commence comme une comédie, puis qu’elle bascule peu à peu dans le drame. Enfin, nous montrerons que ce mélange donne une leçon sur l’amour.', ok: true, fb: 'Oui. Les trois parties répondent chacune à la problématique, et elles avancent : comédie, puis drame, puis sens du mélange.' }
+      ] },
+      part0: { prompt: 'Quelle explication justifie l’argument « certains personnages sont ridicules » ?', options: [
+        { text: 'En effet, Musset est né en 1810.', ok: false, fb: 'C’est un fait biographique : il n’explique pas pourquoi ces personnages font rire.' },
+        { text: 'En effet, Musset crée des personnages caricaturaux, appelés « fantoches », qui font rire le spectateur.', ok: true, fb: 'Oui. L’explication dit pourquoi l’argument est vrai : ces personnages sont des caricatures.' },
+        { text: 'En effet, Rosette meurt à la fin de la pièce.', ok: false, fb: 'Cette phrase ne parle pas des personnages ridicules. Elle montre plutôt le côté tragique de la pièce.' }
+      ] },
+      concl: { prompt: 'Quelle phrase peut servir d’ouverture ?', options: [
+        { text: 'On peut penser au Jeu de l’amour et du hasard de Marivaux (1730), où le jeu amoureux se termine au contraire par un mariage heureux.', ok: true, fb: 'Oui. L’ouverture élargit vers une autre œuvre qui traite du même thème.' },
+        { text: 'Musset est mort en 1857.', ok: false, fb: 'C’est un fait biographique sans lien avec la question. L’ouverture élargit vers une autre œuvre ou une autre question.' },
+        { text: 'En conclusion, la pièce est une comédie.', ok: false, fb: 'Cette phrase redit une partie de la réponse et oublie le côté tragique. Ce n’est pas une ouverture.' }
+      ] }
+    }
+  }
+];
+
+/* Plans du cours d'histoire de Noor (partie 3), présentés comme exemples résolus courts */
+const COURSE_PLANS = [
+  { sujet: 'Dans quelle mesure la Révolution française et l’Empire ont-ils construit une nouvelle conception de la nation ?', note: 'C’est la problématique même du chapitre : le sujet le plus probable.', parts: [
+    ['La Révolution fait naître la nation souveraine (1789-1792).', 'Serment du Jeu de Paume (20 juin 1789) ; DDHC (26 août 1789) : la souveraineté passe du roi au peuple ; la société d’ordres devient une nation de citoyens égaux. Mais la Constitution de 1791 exclut les femmes et 2,7 millions de citoyens passifs.'],
+    ['La République radicalise la nation, mais la divise (1792-1799).', 'La Convention, première assemblée élue au suffrage universel masculin ; abolition de l’esclavage (1794). Mais levée en masse (2 mars 1793), guerres de Vendée, Terreur (35 000 à 40 000 victimes). Le Directoire revient au suffrage censitaire.'],
+    ['Napoléon organise la nation, mais lui reprend sa liberté (1799-1815).', 'Code civil (1804), Concordat (1801), lycées (1802), franc germinal (1803). Mais pouvoir personnel, plébiscites, sacre du 2 décembre 1804.']
+  ], concl: 'La nouvelle conception de la nation est construite (égalité devant la loi, unité, souveraineté nationale), mais la révolution reste inachevée en 1815.' },
+  { sujet: 'Pourquoi la monarchie constitutionnelle a-t-elle échoué en France (1791-1792) ?', parts: [
+    ['Un régime fragile dès sa naissance.', 'La Constitution du 3 septembre 1791 donne au roi un veto suspensif ; l’Assemblée ne peut pas le destituer. Tout dépend de la bonne volonté du roi.'],
+    ['Un roi qui ne joue pas le jeu.', 'Il abuse de son veto ; il tente de fuir à Varennes (20-21 juin 1791). La confiance du peuple est perdue.'],
+    ['Une crise qui emporte le régime.', 'Fusillade du Champ-de-Mars (17 juillet 1791) ; manifeste de Brunswick (25 juillet 1792) ; guerre (20 avril 1792) ; prise des Tuileries (10 août 1792).']
+  ], concl: 'Une monarchie constitutionnelle ne survit que si le roi accepte d’être le premier serviteur de la nation. Louis XVI en est resté l’adversaire.' },
+  { sujet: 'La République peut-elle se défendre sans se renier ? (1792-1799)', parts: [
+    ['Une République menacée de toutes parts.', 'Coalition extérieure, guerres de Vendée (1793-1796), insurrections contre la levée en masse du 2 mars 1793.'],
+    ['Une défense par l’exception : la Terreur.', 'Comité de salut public (avril 1793) ; de septembre 1793 à juillet 1794, les libertés sont suspendues. La République se défend en suspendant ce qui la définit.'],
+    ['Après Thermidor, une République qui se renie autrement.', 'Chute de Robespierre (28 juillet 1794) ; retour du suffrage censitaire ; fin de l’encadrement des prix. Le Directoire, instable, s’appuie sur les militaires jusqu’au coup d’État du 9 novembre 1799.']
+  ], concl: 'La République s’est reniée deux fois : par la violence, puis par l’exclusion. Cet échec ouvre la voie à Bonaparte.' },
+  { sujet: 'Comment la Révolution et l’Empire ont-ils diffusé une nouvelle conception de la nation en Europe ?', parts: [
+    ['La diffusion par les républiques sœurs (1795-1799).', 'Sous le Directoire, la France soutient des républiques sœurs en Suisse, aux Pays-Bas et en Italie.'],
+    ['La diffusion par la conquête impériale (1804-1812).', 'Austerlitz (2 décembre 1805), Iéna (1806), Wagram (1809) ; un Empire de 130 départements, de Hambourg à Rome ; des États vassaux dirigés par la famille de Napoléon.'],
+    ['Le retournement : les peuples s’approprient l’idée de nation.', 'Guérilla en Espagne dès 1808 ; révoltes en Allemagne ; campagne de Russie (1812), Leipzig (1813), Waterloo (18 juin 1815).']
+  ], concl: 'La France a diffusé l’idée de nation avec une telle force que les peuples européens s’en sont servis pour la chasser.' }
+];
+
+const CHECKS = [
+  'Mon accroche a un lien avec le sujet.',
+  'J’ai défini les mots importants du sujet.',
+  'Ma problématique reprend le sujet sous forme de question.',
+  'Mon annonce du plan présente mes trois parties.',
+  'Chaque partie donne une réponse différente à la problématique.',
+  'Chaque explication dit pourquoi l’argument est vrai.',
+  'Chaque exemple est précis : une citation, une date, un nom ou un cas d’étude.',
+  'Chaque exemple prouve bien son argument.',
+  'J’ai écrit une transition entre les parties.',
+  'Ma conclusion répond à la problématique et se termine par une ouverture.',
+  'J’utilise toujours la même personne (« nous » ou « on »).',
+  'J’ai relu mon texte à voix haute.'
+];
+
+const ARG_START = ['Tout d’abord, ', 'De plus, ', 'Enfin, '];
+const ROMAN = ['I', 'II', 'III'];
+
+const Ctx = createContext(null);
+const useApp = () => useContext(Ctx);
+
+/* ---------- Petits composants ---------- */
+function SpeakBtn({ text, label = 'Écouter' }) {
+  const { store } = useApp();
+  if (!CAN_SPEAK || store.settings.tts === false) return null;
+  return html`<button className="btn btn-flat btn-sm" onClick=${() => speak(text)} title="Lire à voix haute"><${Icon} n="speaker" s=${16} /><span>${label}</span></button>`;
+}
+function Segs({ segs }) {
+  return html`<span>${segs.map(([k, t], i) => html`<${Fragment} key=${i}>${i > 0 ? ' ' : ''}<span className=${k ? 'seg k-' + k : ''}>${fr(t)}</span><//>`)}</span>`;
+}
+const Chip = ({ k }) => html`<span className=${'chip k-' + k}>${CATS[k]}</span>`;
+function Legend({ keys = ['these', 'arg', 'expl', 'ex', 'conn'] }) {
+  return html`<div className="legend" aria-label="Légende des couleurs">${keys.map(k => html`<${Chip} key=${k} k=${k} />`)}</div>`;
+}
+function Msg({ kind, title, children }) {
+  return html`<div className=${'msg msg-' + kind} role="status"><${Icon} n=${kind === 'pos' ? 'check' : kind === 'neg' ? 'x' : 'info'} /><div className="body">${title ? html`<strong>${title}</strong>` : null}${children}</div></div>`;
+}
+function Progress({ value, max }) {
+  return html`<div className="progress" role="progressbar" aria-valuemin="0" aria-valuemax=${max} aria-valuenow=${value}><span style=${{ width: (max ? (value / max) * 100 : 0) + '%' }}></span></div>`;
+}
+function Block({ b }) {
+  if (b.p) return html`<p>${fr(b.p)}</p>`;
+  if (b.keys) return html`<div className="keys">${b.keys.map(k => html`<span key=${k} className="key">${k}</span>`)}</div>`;
+  if (b.seg) return html`<div className="para"><p><${Segs} segs=${b.seg} /></p><${SpeakBtn} text=${segsText(b.seg)} /></div>`;
+  if (b.list) return html`<ul className="rows">${b.list.map(([k, t], i) => html`<li key=${i} className="row"><${Chip} k=${k} /><span>${fr(t)}</span></li>`)}</ul>`;
+  return null;
+}
+function Tabs({ items, value, onChange }) {
+  return html`<div className="tabs" role="tablist">${items.map(it => html`<button key=${it.id} role="tab" aria-selected=${value === it.id} className=${'tab' + (value === it.id ? ' active' : '')} onClick=${() => onChange(it.id)}>${it.label}${it.done ? html`<span className="ok" aria-label="terminé"><${Icon} n="check" s=${14} /></span>` : null}</button>`)}</div>`;
+}
+
+
+/* ---------- Mise en forme d'une dissertation ---------- */
+function dissParas(d) {
+  const out = [];
+  const intro = ['accroche', 'pres', 'pb', 'annonce'].filter(k => d.intro && d.intro[k]).map(k => [k, d.intro[k]]);
+  if (intro.length) out.push({ label: 'Introduction', segs: intro });
+  (d.parts || []).forEach((p, i) => {
+    if (p.idee) out.push({ label: 'Partie ' + ROMAN[i], segs: [['idee', p.idee]] });
+    else if (p.args && p.args.length) out.push({ label: 'Partie ' + ROMAN[i], segs: [] });
+    (p.args || []).forEach(a => {
+      const s = [['arg', a.a], ['expl', a.e], ['ex', a.x]].filter(x => x[1]);
+      if (s.length) out.push({ segs: s });
+    });
+    if (d.trans && d.trans[i]) out.push({ label: 'Transition', segs: [['trans', d.trans[i]]] });
+  });
+  const c = ['bilan', 'ouv'].filter(k => d.concl && d.concl[k]).map(k => [k, d.concl[k]]);
+  if (c.length) out.push({ label: 'Conclusion', segs: c });
+  return out.filter(p => p.segs.length);
+}
+const parasText = ps => ps.map(p => segsText(p.segs)).join('\n\n');
+
+function DissText({ d, showLabels = true }) {
+  const ps = dissParas(d);
+  return html`<div className="assembled">${ps.map((p, i) => html`<div key=${i} className="apara">
+    ${showLabels && p.label ? html`<span className="para-label">${p.label}</span>` : null}
+    <p><${Segs} segs=${p.segs} /></p>
+  </div>`)}</div>`;
+}
+function Rows({ items }) {
+  return html`<ul className="rows">${items.map(([k, t], i) => html`<li key=${i} className="row"><${Chip} k=${k} /><span>${fr(t)}</span></li>`)}</ul>`;
+}
+function PartView({ part, i }) {
+  return html`<div className="part-block">
+    <div className="row"><${Chip} k="idee" /><strong>${fr(part.idee)}</strong></div>
+    ${part.args.map((a, j) => html`<div key=${j} className="arg-box">
+      <span className="eyebrow">Argument ${j + 1}</span>
+      <${Rows} items=${[['arg', a.a], ['expl', a.e], ['ex', a.x]]} />
+    </div>`)}
+    <div className="actions"><${SpeakBtn} text=${[part.idee].concat(...part.args.map(a => [a.a, a.e, a.x])).join(' ')} label=${'Écouter la partie ' + ROMAN[i]} /></div>
+  </div>`;
+}
+
+/* ---------- Pages ---------- */
+const PATH = [
+  { id: 'methode', n: 'La méthode', d: 'Les parties d’une dissertation, à quoi elles servent, et comment les reconnaître.' },
+  { id: 'ex', n: 'Exemples résolus', d: 'Observer une dissertation construite étape par étape, en histoire, en HGGSP et en français.' },
+  { id: 'plan', n: 'Ma dissertation', d: 'Préparer ta propre dissertation dans le canevas, puis la relire assemblée.' }
+];
+function statusOf(id, p) {
+  p = p || {};
+  if (id === 'methode') { const m = p.methode || {}; return { n: (m.learn ? 1 : 0) + (m.quiz != null ? 1 : 0), max: 2 }; }
+  if (id === 'ex') { const e = p.ex || {}; return { n: WE.filter(w => e[w.id]).length, max: WE.length }; }
+  if (id === 'plan') return { n: p.plan ? 1 : 0, max: 1 };
+  return { n: 0, max: 1 };
+}
+function StatusPill({ id }) {
+  const { store } = useApp();
+  const s = statusOf(id, store.prog);
+  if (s.n >= s.max) return html`<span className="status done">Terminé</span>`;
+  if (s.n > 0) return html`<span className="status started">${s.n} / ${s.max}</span>`;
+  return html`<span className="status">À faire</span>`;
+}
+
+function Home() {
+  const { go, store } = useApp();
+  return html`<div className="page">
+    <div style=${{ display: 'flex', flexDirection: 'column', gap: '.5rem' }}>
+      <h1>Construire une dissertation, pièce par pièce</h1>
+      <p className="lead">Une dissertation répond à une question en trois grandes parties. Chaque partie s’appuie sur des arguments, expliqués et prouvés par des exemples. Ici, tu apprends chaque pièce, tu observes des dissertations construites, puis tu écris la tienne.</p>
+    </div>
+    <section style=${{ display: 'flex', flexDirection: 'column', gap: '.6rem' }}>
+      <h2>Ton parcours</h2>
+      <ol className="path">${PATH.map((it, i) => {
+        const s = statusOf(it.id, store.prog);
+        return html`<li key=${it.id}><button onClick=${() => go(it.id)}>
+          <span className=${'n' + (s.n >= s.max ? ' done' : '')}>${s.n >= s.max ? html`<${Icon} n="check" s=${16} />` : i + 1}</span>
+          <span><span className="t">${it.n}</span><br /><span className="d">${fr(it.d)}</span></span>
+          <${StatusPill} id=${it.id} />
+        </button></li>`;
+      })}</ol>
+    </section>
+    <section className="frame" style=${{ display: 'flex', flexDirection: 'column', gap: '.9rem' }}>
+      <h2>Trois matières</h2>
+      <ul className="rows">
+        <li className="row"><span className="badge">Français</span><span>${fr('Dissertation sur œuvre : Rimbaud, Cahiers de Douai ; Musset, On ne badine pas avec l’amour.')}</span></li>
+        <li className="row"><span className="badge">Histoire</span><span>${fr('La Révolution française et l’Empire : une nouvelle conception de la nation.')}</span></li>
+        <li className="row"><span className="badge">HGGSP</span><span>${fr('Comprendre un régime politique : la démocratie.')}</span></li>
+      </ul>
+    </section>
+    <section className="frame" style=${{ display: 'flex', flexDirection: 'column', gap: '.9rem' }}>
+      <h2>Comment ça marche</h2>
+      <div className="tips">
+        <div className="tip"><${Icon} n="right" /><strong>Une étape à la fois</strong><p>Chaque écran te montre une seule partie de la dissertation.</p></div>
+        <div className="tip"><${Icon} n="eye" /><strong>Les couleurs t’aident</strong><p>Chaque pièce a sa couleur et son étiquette, partout dans l’atelier.</p></div>
+        <div className="tip"><${Icon} n="speaker" /><strong>Dis-le d’abord</strong><p>Dis ta phrase à voix haute avant de l’écrire.</p></div>
+      </div>
+      <${Legend} keys=${['accroche', 'pb', 'annonce', 'idee', 'arg', 'expl', 'ex', 'trans', 'bilan']} />
+    </section>
+  </div>`;
+}
+
+/* -- Méthode -- */
+const METHOD = [
+  { t: 'L’introduction', items: [
+    ['accroche', 'Commence par une citation, un fait ou une date.'],
+    ['pres', 'Présente l’œuvre ou la période, puis définis les mots du sujet.'],
+    ['pb', '« Nous nous demanderons… » ou « On peut se demander dans quelle mesure… »'],
+    ['annonce', '« Nous verrons d’abord que…, puis que… Enfin, nous montrerons que… »']
+  ] },
+  { t: 'Le développement : trois parties', items: [
+    ['idee', 'Une phrase au début de chaque partie.'],
+    ['arg', '« Tout d’abord, … », « De plus, … », « Enfin, … »'],
+    ['expl', '« En effet, … »'],
+    ['ex', '« Par exemple, … »'],
+    ['trans', '« Ainsi, … Cependant, … »']
+  ] },
+  { t: 'La conclusion', items: [
+    ['bilan', '« En conclusion, … »'],
+    ['ouv', '« On peut alors se demander… »']
+  ] }
+];
+const SUBJECT_TYPES = [
+  ['« Dans quelle mesure… ? »', 'On attend une réponse nuancée : oui, en partie, mais…'],
+  ['« A ou B ? »', 'On examine A, puis B, puis on dépasse l’opposition ou on montre le lien entre les deux.'],
+  ['Question fermée « … ? »', 'On répond oui, puis on nuance : dans quels cas non ? Qu’est-ce qui va plus loin ?'],
+  ['« Comment… ? », « Pourquoi… ? »', 'On cherche les moyens ou les causes, regroupés en trois grandes réponses.']
+];
+function Methode() {
+  const [tab, setTab] = useState('learn');
+  const { store, setProg } = useApp();
+  const m = (store.prog && store.prog.methode) || {};
+  useEffect(() => { if (tab === 'learn' && !m.learn) setProg('methode', { learn: true }); }, [tab]);
+  return html`<div className="page">
+    <div><h1>La méthode</h1><p className="lead">Une dissertation a toujours la même structure. Si tu connais chaque pièce et son rôle, tu sais quoi écrire et dans quel ordre.</p></div>
+    <${Tabs} value=${tab} onChange=${setTab} items=${[{ id: 'learn', label: 'Apprendre', done: m.learn }, { id: 'quiz', label: 'Reconnaître les pièces', done: m.quiz != null }]} />
+    ${tab === 'learn' ? html`<${MethodeLearn} />` : html`<${MethodeQuiz} />`}
+  </div>`;
+}
+function MethodeLearn() {
+  return html`<${Fragment}>
+    <section className="card">
+      <h2>1. Analyser le sujet</h2>
+      <p>Avant d’écrire, lis le sujet deux fois. Repère les mots-clés et définis-les. Puis regarde la forme de la question : elle indique déjà comment répondre.</p>
+      <dl className="dl">${SUBJECT_TYPES.map(([a, b]) => html`<${Fragment} key=${a}><dt>${fr(a)}</dt><dd>${fr(b)}</dd><//>`)}</dl>
+    </section>
+    <section className="card">
+      <h2>2. Le plan de la dissertation</h2>
+      <p>Chaque partie donne une grande réponse à la problématique. Les trois réponses sont différentes et elles avancent.</p>
+      <div className="outline" aria-label="Schéma de la dissertation">
+        <div className="ol-sec"><span className="ol-title">Introduction</span><div className="ol-row">${['accroche', 'pres', 'pb', 'annonce'].map(k => html`<${Chip} key=${k} k=${k} />`)}</div></div>
+        ${ROMAN.map((r, i) => html`<${Fragment} key=${r}>
+          <div className="ol-sec"><span className="ol-title">Partie ${r}</span>
+            <div className="ol-row"><${Chip} k="idee" /></div>
+            ${[1, 2, 3].map(n => html`<div key=${n} className="ol-arg"><span className="count">${n === 3 ? 'Argument 3 (si besoin)' : 'Argument ' + n}</span><${Chip} k="arg" /><${Chip} k="expl" /><${Chip} k="ex" /></div>`)}
+          </div>
+          ${i < 2 ? html`<div className="ol-trans"><${Chip} k="trans" /></div>` : null}
+        <//>`)}
+        <div className="ol-sec"><span className="ol-title">Conclusion</span><div className="ol-row"><${Chip} k="bilan" /><${Chip} k="ouv" /></div></div>
+      </div>
+    </section>
+    ${METHOD.map((sec, i) => html`<section key=${i} className="card">
+      <h2>${i + 3}. ${sec.t}</h2>
+      <ul className="rows rows-method">${sec.items.map(([k, start]) => html`<li key=${k} className="row">
+        <${Chip} k=${k} />
+        <span className="mcell"><span>${fr(ROLE_DESC[k])}</span><span className="starter">Pour commencer : ${fr(start)}</span></span>
+      </li>`)}</ul>
+    </section>`)}
+  </${Fragment}>`;
+}
+function quizPool() {
+  const pool = [];
+  WE.forEach(w => {
+    const d = w.d;
+    ['accroche', 'pres', 'pb', 'annonce'].forEach(k => pool.push({ r: k, t: d.intro[k], s: w.sujet }));
+    d.parts.forEach(p => { pool.push({ r: 'idee', t: p.idee, s: w.sujet }); p.args.forEach(a => { pool.push({ r: 'arg', t: a.a, s: w.sujet }); pool.push({ r: 'expl', t: a.e, s: w.sujet }); pool.push({ r: 'ex', t: a.x, s: w.sujet }); }); });
+    d.trans.forEach(t => pool.push({ r: 'trans', t, s: w.sujet }));
+    pool.push({ r: 'bilan', t: d.concl.bilan, s: w.sujet });
+    pool.push({ r: 'ouv', t: d.concl.ouv, s: w.sujet });
+  });
+  return pool;
+}
+function MethodeQuiz() {
+  const { store, setProg } = useApp();
+  const N = 10;
+  const make = () => {
+    const pool = shuffle(quizPool());
+    const picked = []; const seen = {};
+    for (const it of pool) { if ((seen[it.r] || 0) >= 2) continue; seen[it.r] = (seen[it.r] || 0) + 1; picked.push(it); if (picked.length >= N) break; }
+    return shuffle(picked).map(it => ({ ...it, opts: shuffle([it.r].concat(shuffle(ROLES_QUIZ.filter(r => r !== it.r)).slice(0, 3))) }));
+  };
+  const [qs, setQs] = useState(make);
+  const [k, setK] = useState(0);
+  const [pick, setPick] = useState(null);
+  const [score, setScore] = useState(0);
+  if (k >= N) {
+    const best = (store.prog.methode || {}).quiz;
+    return html`<div className="card">
+      <span className="eyebrow">Résultat</span><span className="big-score">${score} / ${N}</span>
+      ${score >= 8 ? html`<${Msg} kind="pos">Très bien. Tu reconnais le rôle de chaque pièce d’une dissertation.</${Msg}>` : html`<${Msg} kind="info">Relis l’onglet « Apprendre », puis réessaie.</${Msg}>`}
+      ${best != null ? html`<p className="count">Meilleur score : ${best} / ${N}</p>` : null}
+      <div className="actions"><button className="btn btn-primary" onClick=${() => { setQs(make()); setK(0); setPick(null); setScore(0); }}><${Icon} n="reset" s=${16} />Nouvelle série</button></div>
+    </div>`;
+  }
+  const q = qs[k];
+  const answer = r => { if (pick) return; setPick(r); if (r === q.r) setScore(score + 1); };
+  const next = () => {
+    const nk = k + 1; setK(nk); setPick(null);
+    if (nk >= N) { const prev = (store.prog.methode || {}).quiz; setProg('methode', { quiz: prev != null ? Math.max(prev, score) : score }); }
+  };
+  return html`<div style=${{ display: 'flex', flexDirection: 'column', gap: '.75rem' }}>
+    <div className="actions"><span className="count">Phrase ${k + 1} sur ${N}</span><span className="spacer"></span><span className="count">Score : ${score}</span></div>
+    <${Progress} value=${k} max=${N} />
+    <div className="card">
+      <span className="eyebrow">Sujet : ${fr(q.s)}</span>
+      <p style=${{ fontSize: '1.1rem' }}>${fr(q.t)}</p>
+      <div className="actions"><${SpeakBtn} text=${q.t} /></div>
+      <p><strong>Quel est le rôle de cette phrase dans la dissertation ?</strong></p>
+      <div className="grid2">${q.opts.map(r => {
+        let cls = 'btn';
+        if (pick) { if (r === q.r) cls += ' res-ok'; else if (r === pick) cls += ' res-no'; }
+        return html`<button key=${r} className=${cls} disabled=${!!pick && r !== q.r && r !== pick} onClick=${() => answer(r)}>${CATS[r]}</button>`;
+      })}</div>
+      ${pick ? html`<${Fragment}>
+        <${Msg} kind=${pick === q.r ? 'pos' : 'neg'} title=${pick === q.r ? 'Bonne réponse.' : 'Réponse attendue : ' + CATS[q.r] + '.'}>${fr(ROLE_DESC[q.r])}</${Msg}>
+        <div className="actions"><span className="spacer"></span><button className="btn btn-primary" onClick=${next}>${k + 1 < N ? 'Phrase suivante' : 'Voir le résultat'}<${Icon} n="right" s=${16} /></button></div>
+      <//>` : null}
+    </div>
+  </div>`;
+}
+
+/* -- Exemples résolus -- */
+function stepsOf(we) {
+  return [
+    { k: 'analyse', t: 'Analyser le sujet', sum: 'Mots-clés définis, type de sujet repéré.', why: WHY.analyse },
+    { k: 'pb', t: 'Trouver la problématique', sum: 'Problématique trouvée.', why: WHY.pb },
+    { k: 'intro', t: 'L’introduction', sum: 'Introduction rédigée : accroche, présentation, problématique, annonce du plan.', why: WHY.intro },
+    { k: 'part0', t: 'Partie I', sum: 'Partie I : ' + we.d.parts[0].idee, why: WHY.part1 },
+    { k: 'part1', t: 'Transition et partie II', sum: 'Partie II : ' + we.d.parts[1].idee, why: WHY.trans },
+    { k: 'part2', t: 'Transition et partie III', sum: 'Partie III : ' + we.d.parts[2].idee, why: WHY.part3 },
+    { k: 'concl', t: 'La conclusion', sum: 'Conclusion : bilan et ouverture.', why: WHY.concl }
+  ];
+}
+function StepBody({ we, k }) {
+  const d = we.d;
+  if (k === 'analyse') return html`<${Fragment}>
+    <p>Je lis le sujet deux fois et je repère les mots-clés :</p>
+    <div className="keys">${we.analyse.keys.map(x => html`<span key=${x} className="key">${x}</span>`)}</div>
+    <p>Je définis les mots importants :</p>
+    <dl className="dl">${we.analyse.defs.map(([a, b]) => html`<${Fragment} key=${a}><dt>${a}</dt><dd>${fr(b)}</dd><//>`)}</dl>
+    <${Msg} kind="info" title="Le type de sujet">${fr(we.analyse.type)}</${Msg}>
+  <//>`;
+  if (k === 'pb') return html`<${Fragment}>
+    <p>Je transforme le sujet en une vraie question, qui montre le débat :</p>
+    <div className="para"><p><${Segs} segs=${[['pb', d.intro.pb]]} /></p><${SpeakBtn} text=${d.intro.pb} /></div>
+  <//>`;
+  if (k === 'intro') return html`<${Fragment}>
+    <p>L’introduction suit quatre étapes, dans cet ordre :</p>
+    <${Rows} items=${['accroche', 'pres', 'pb', 'annonce'].map(x => [x, d.intro[x]])} />
+    <div className="actions"><${SpeakBtn} text=${['accroche', 'pres', 'pb', 'annonce'].map(x => d.intro[x]).join(' ')} label="Écouter l’introduction" /></div>
+  <//>`;
+  if (k === 'part0') return html`<${PartView} part=${d.parts[0]} i=${0} />`;
+  if (k === 'part1' || k === 'part2') {
+    const i = k === 'part1' ? 1 : 2;
+    return html`<${Fragment}>
+      <p>La transition fait le lien avec la partie précédente :</p>
+      <${Rows} items=${[['trans', d.trans[i - 1]]]} />
+      <${PartView} part=${d.parts[i]} i=${i} />
+    <//>`;
+  }
+  if (k === 'concl') return html`<${Fragment}>
+    <${Rows} items=${[['bilan', d.concl.bilan], ['ouv', d.concl.ouv]]} />
+    <div className="actions"><${SpeakBtn} text=${d.concl.bilan + ' ' + d.concl.ouv} label="Écouter la conclusion" /></div>
+  <//>`;
+  return null;
+}
+function Examples() {
+  const { store, setProg } = useApp();
+  const exDone = (store.prog && store.prog.ex) || {};
+  const [tab, setTab] = useState(WE[0].id);
+  const tabs = WE.map(w => ({ id: w.id, label: w.label + ' · ' + w.mode, done: exDone[w.id] })).concat([{ id: 'course', label: 'Plans du cours' }]);
+  return html`<div className="page">
+    <div><h1>Exemples résolus</h1><p className="lead">Observe comment on construit une dissertation, étape par étape. Le premier exemple est entièrement guidé. Dans les suivants, c’est toi qui choisis certaines pièces.</p></div>
+    <${Tabs} value=${tab} onChange=${setTab} items=${tabs} />
+    ${tab === 'course' ? html`<${CoursePlans} />` : html`<${WorkedExample} key=${tab} we=${WE.find(w => w.id === tab)} onDone=${id => setProg('ex', { [id]: true })} next=${() => { const i = WE.findIndex(w => w.id === tab); setTab(i < WE.length - 1 ? WE[i + 1].id : 'course'); }} />`}
+  </div>`;
+}
+function WorkedExample({ we, onDone, next }) {
+  const steps = stepsOf(we);
+  const n = steps.length;
+  const [si, setSi] = useState(0);
+  const [picked, setPicked] = useState({});
+  const [whyOpen, setWhyOpen] = useState(false);
+  const [labels, setLabels] = useState(true);
+  const finished = si >= n;
+  const st = finished ? null : steps[si];
+  const ch = st && we.choose[st.k];
+  const pk = st ? picked[st.k] : null;
+  const solved = st && (!ch || (pk != null && ch.options[pk].ok));
+  const go = i => { setSi(i); setWhyOpen(false); };
+  const advance = () => { if (si < n - 1) go(si + 1); else { setSi(n); onDone(we.id); } };
+  const full = dissParas(we.d);
+  return html`<${Fragment}>
+    <div className="frame subject"><div className="actions"><span className="eyebrow">Sujet · ${MATS[we.mat].label}</span></div><span className="q">${fr(we.sujet)}</span><div className="actions"><${SpeakBtn} text=${we.sujet} /></div></div>
+    <div className="stepper" aria-label="Étapes">${steps.map((s, i) => {
+      const c = i === si ? 'cur' : i < si ? 'past' : '';
+      return html`<button key=${i} className=${c} disabled=${i > si} onClick=${() => { if (i <= si) go(i); }} aria-current=${i === si ? 'step' : undefined}>
+        <span className="dot">${i < si ? html`<${Icon} n="check" s=${13} />` : i + 1}</span><span className="ttl">${s.t}</span></button>`;
+    })}</div>
+    ${si > 0 && !finished ? html`<ul className="done-list" aria-label="Étapes déjà faites">${steps.slice(0, si).map((s, i) => html`<li key=${i}><${Icon} n="check" s=${14} /><span>${fr(s.sum)}</span></li>`)}</ul>` : null}
+    ${finished ? html`<div className="card">
+      <${Msg} kind="pos" title="Exemple terminé.">Voici la dissertation complète. Relis-la à voix haute en suivant les couleurs.</${Msg}>
+      <label className="switch" htmlFor=${'lbl-' + we.id} style=${{ maxWidth: '22rem' }}><span>Afficher le nom des parties</span><input id=${'lbl-' + we.id} type="checkbox" checked=${labels} onChange=${e => setLabels(e.target.checked)} /></label>
+      <${DissText} d=${we.d} showLabels=${labels} />
+      <${Legend} keys=${['accroche', 'pres', 'pb', 'annonce', 'idee', 'arg', 'expl', 'ex', 'trans', 'bilan', 'ouv']} />
+      <p className="count">Le jour de l’examen, on n’écrit pas les titres des parties : on saute une ligne entre l’introduction, chaque partie et la conclusion.</p>
+      <div className="actions">
+        <${SpeakBtn} text=${parasText(full)} label="Écouter la dissertation" />
+        <button className="btn" onClick=${() => { setSi(0); setPicked({}); }}><${Icon} n="reset" s=${16} />Revoir</button>
+        <span className="spacer"></span>
+        <button className="btn btn-primary" onClick=${next}>Exemple suivant<${Icon} n="right" s=${16} /></button>
+      </div>
+    </div>` : html`<div className="card">
+      <div className="actions"><span className="eyebrow">Étape ${si + 1} sur ${n}</span>${ch ? html`<span className="badge">À toi</span>` : null}</div>
+      <h2>${st.t}</h2>
+      ${ch ? html`<${Fragment}>
+        <p><strong>${fr(ch.prompt)}</strong></p>
+        <div className="choices">${ch.options.map((o, j) => {
+          let cls = 'choice';
+          if (pk != null) { if (j === pk) cls += o.ok ? ' ok' : ' no'; else if (solved) cls += ' dim'; }
+          return html`<button key=${j} className=${cls} disabled=${solved} onClick=${() => setPicked({ ...picked, [st.k]: j })}><span className="mark">${'ABC'[j]}</span><span>${fr(o.text)}</span></button>`;
+        })}</div>
+        ${pk != null ? html`<${Msg} kind=${ch.options[pk].ok ? 'pos' : 'neg'}>${fr(ch.options[pk].fb)}${!ch.options[pk].ok ? ' Essaie une autre réponse.' : ''}</${Msg}>` : null}
+        ${solved ? html`<p className="count">Voici l’étape complète :</p>` : null}
+      <//>` : null}
+      ${solved ? html`<${StepBody} we=${we} k=${st.k} />` : null}
+      ${solved ? html`<div className="why">
+        ${whyOpen ? html`<${Fragment}><strong>Pourquoi cette étape ?</strong><p>${fr(st.why)}</p><//>` : html`<${Fragment}><p>Avant de continuer : à ton avis, à quoi sert cette étape ? Réponds dans ta tête, puis vérifie.</p><button className="btn btn-sm" onClick=${() => setWhyOpen(true)}>Vérifier ma réponse</button><//>`}
+      </div>` : null}
+      <div className="actions">
+        <button className="btn" disabled=${si === 0} onClick=${() => go(si - 1)}><${Icon} n="left" s=${16} />Étape précédente</button>
+        <span className="spacer"></span>
+        <button className="btn btn-primary" disabled=${!solved} onClick=${advance}>${si < n - 1 ? 'Étape suivante' : 'Voir la dissertation'}<${Icon} n="right" s=${16} /></button>
+      </div>
+    </div>`}
+  <//>`;
+}
+function CoursePlans() {
+  return html`<${Fragment}>
+    <${Msg} kind="info">Ces plans viennent de ton cours d’histoire. Pour chacun, essaie de retrouver un argument, une explication et un exemple dans chaque partie.</${Msg}>
+    ${COURSE_PLANS.map((c, i) => html`<details key=${i} className="box course" open=${i === 0}>
+      <summary>${fr(c.sujet)}</summary>
+      <div className="course-inner">
+        ${c.note ? html`<p className="count">${fr(c.note)}</p>` : null}
+        ${c.parts.map(([idee, detail], j) => html`<div key=${j} className="course-part">
+          <div className="row"><span className="chip k-idee">Partie ${ROMAN[j]}</span><strong>${fr(idee)}</strong></div>
+          <p>${fr(detail)}</p>
+        </div>`)}
+        <div className="row"><${Chip} k="bilan" /><span>${fr(c.concl)}</span></div>
+      </div>
+    </details>`)}
+  <//>`;
+}
+
+/* -- Ma dissertation (canevas) -- */
+function fieldDefs(mat, three) {
+  const F = [
+    { g: 'intro', k: 'accroche', role: 'accroche', start: '', hint: 'Une citation, un fait ou une date en lien avec le sujet.' },
+    { g: 'intro', k: 'pres', role: 'pres', start: '', hint: 'Présente l’œuvre ou la période, puis définis les mots du sujet.' },
+    { g: 'intro', k: 'pb', role: 'pb', start: 'Nous nous demanderons ', hint: 'La question à laquelle ta dissertation répond.' },
+    { g: 'intro', k: 'annonce', role: 'annonce', start: 'Nous verrons d’abord que ', hint: 'Annonce tes trois parties : d’abord…, puis… Enfin…' }
+  ];
+  [0, 1, 2].forEach(p => {
+    F.push({ g: 'p' + p, k: 'idee' + p, role: 'idee', start: '', hint: 'La grande réponse de cette partie, en une phrase.' });
+    const nA = three[p] ? 3 : 2;
+    for (let a = 0; a < nA; a++) {
+      F.push({ g: 'p' + p, sub: a, k: `a${p}_${a}`, role: 'arg', start: ARG_START[a], hint: 'Une raison générale. Elle répond à « Pourquoi ? ».' });
+      F.push({ g: 'p' + p, sub: a, k: `e${p}_${a}`, role: 'expl', start: 'En effet, ', hint: 'Pourquoi cet argument est-il vrai ? Comment ça se passe ?' });
+      F.push({ g: 'p' + p, sub: a, k: `x${p}_${a}`, role: 'ex', start: 'Par exemple, ', hint: MATS[mat].exHint });
+    }
+    if (p < 2) F.push({ g: 't' + p, k: 'trans' + p, role: 'trans', start: 'Ainsi, ', hint: 'Résume la partie, puis annonce la suivante avec « Cependant » ou « Mais ».' });
+  });
+  F.push({ g: 'concl', k: 'bilan', role: 'bilan', start: 'En conclusion, ', hint: 'Réponds à la problématique en rappelant tes trois parties.' });
+  F.push({ g: 'concl', k: 'ouv', role: 'ouv', start: '', hint: 'Élargis vers une autre œuvre, une autre période ou une autre question.' });
+  return F;
+}
+function Plan() {
+  const { store, setStore, setProg } = useApp();
+  const sel = store.sel || {};
+  const mat = sel.mat || 'hist';
+  const firstSubj = SUBJECTS[mat][0].s[0];
+  const sujet = sel.sujet && (sel.sujet === '__custom' || SUBJECTS[mat].some(g => g.s.includes(sel.sujet))) ? sel.sujet : firstSubj;
+  const custom = sel.custom || '';
+  const key = mat + '|' + (sujet === '__custom' ? '__custom' : sujet);
+  const plan = (store.plans || {})[key] || {};
+  const f = plan.f || {};
+  const three = plan.three || {};
+  const checks = plan.checks || {};
+  const [view, setView] = useState('write');
+  const [copied, setCopied] = useState('');
+  const updSel = patch => setStore(s => ({ ...s, sel: { ...(s.sel || {}), ...patch } }));
+  const updPlan = patch => setStore(s => { const ps = s.plans || {}; return { ...s, plans: { ...ps, [key]: { ...(ps[key] || {}), ...patch } } }; });
+  const FD = fieldDefs(mat, three);
+  const val = fd => (f[fd.k] != null ? f[fd.k] : fd.start);
+  const filled = fd => val(fd).trim().length > fd.start.trim().length + 3;
+  const nFilled = FD.filter(filled).length;
+  const get = k => { const fd = FD.find(x => x.k === k); return fd && filled(fd) ? val(fd).trim() : ''; };
+  const d = {
+    intro: { accroche: get('accroche'), pres: get('pres'), pb: get('pb'), annonce: get('annonce') },
+    parts: [0, 1, 2].map(p => ({ idee: get('idee' + p), args: [0, 1, 2].slice(0, three[p] ? 3 : 2).map(a => ({ a: get(`a${p}_${a}`), e: get(`e${p}_${a}`), x: get(`x${p}_${a}`) })).filter(a => a.a || a.e || a.x) })),
+    trans: [get('trans0'), get('trans1')],
+    concl: { bilan: get('bilan'), ouv: get('ouv') }
+  };
+  const paras = dissParas(d);
+  const plain = paras.map(p => segsText(p.segs)).join('\n\n');
+  const realSujet = sujet === '__custom' ? custom : sujet;
+  const openRead = () => { setView('read'); if (nFilled >= 10) setProg('plan', true); };
+  const copy = () => {
+    const ok = () => { setCopied('Texte copié.'); setTimeout(() => setCopied(''), 2500); };
+    const fail = () => setCopied('Sélectionne le texte et copie-le à la main.');
+    try { navigator.clipboard.writeText(realSujet + '\n\n' + plain).then(ok, fail); } catch (e) { fail(); }
+  };
+  const field = fd => html`<div key=${fd.k} className="field">
+    <label htmlFor=${'f-' + fd.k}><${Chip} k=${fd.role} /><span className="hint">${fr(fd.hint)}</span></label>
+    <textarea id=${'f-' + fd.k} rows="2" value=${val(fd)} onChange=${e => updPlan({ f: { ...f, [fd.k]: e.target.value } })}></textarea>
+  </div>`;
+  const partSection = p => {
+    const fs = FD.filter(x => x.g === 'p' + p);
+    const nA = three[p] ? 3 : 2;
+    return html`<section key=${'p' + p} className="group k-idee">
+      <h2>Partie ${ROMAN[p]}</h2>
+      ${field(fs.find(x => x.role === 'idee'))}
+      ${[0, 1, 2].slice(0, nA).map(a => html`<div key=${a} className="argfs">
+        <span className="eyebrow">Argument ${a + 1}</span>
+        ${fs.filter(x => x.sub === a).map(field)}
+      </div>`)}
+      <div className="actions">${three[p]
+        ? html`<button className="btn btn-sm" onClick=${() => updPlan({ three: { ...three, [p]: false } })}><${Icon} n="x" s=${15} />Retirer l’argument 3</button>`
+        : html`<button className="btn btn-sm" onClick=${() => updPlan({ three: { ...three, [p]: true } })}><${Icon} n="plus" s=${15} />Ajouter un argument 3</button>`}</div>
+    </section>`;
+  };
+  const matTabs = Object.keys(MATS);
+  return html`<div className="page">
+    <div><h1>Ma dissertation</h1><p className="lead">Remplis le canevas pièce par pièce. Pour chaque case : dis ta phrase à voix haute, puis écris-la. Les débuts de phrase sont déjà là ; tu peux les changer.</p></div>
+    <div className="field">
+      <span className="lbl-plain">Matière</span>
+      <div className="seg-ctl" role="group" aria-label="Matière">${matTabs.map(m => html`<button key=${m} className=${'btn btn-sm' + (mat === m ? ' on' : '')} aria-pressed=${mat === m} onClick=${() => updSel({ mat: m, sujet: SUBJECTS[m][0].s[0] })}>${MATS[m].label}</button>`)}</div>
+    </div>
+    <div className="field">
+      <label htmlFor="plan-sujet">Sujet</label>
+      <select id="plan-sujet" value=${sujet} onChange=${e => updSel({ sujet: e.target.value })}>
+        ${SUBJECTS[mat].map(g => html`<optgroup key=${g.g} label=${g.g}>${g.s.map(s => html`<option key=${s} value=${s}>${s}</option>`)}</optgroup>`)}
+        <option value="__custom">Un autre sujet (je l’écris)</option>
+      </select>
+      ${sujet === '__custom' ? html`<input id="plan-custom" type="text" placeholder="Écris ton sujet ici" value=${custom} onChange=${e => updSel({ custom: e.target.value })} />` : html`<p className="sujet-full">${fr(sujet)}</p>`}
+    </div>
+    <${Tabs} value=${view} onChange=${v => (v === 'read' ? openRead() : setView(v))} items=${[{ id: 'write', label: 'Préparer' }, { id: 'read', label: 'Ma dissertation' }, { id: 'check', label: 'Je vérifie' }]} />
+    ${view === 'write' ? html`<${Fragment}>
+      <div className="actions"><span className="count">${nFilled} case${nFilled > 1 ? 's' : ''} remplie${nFilled > 1 ? 's' : ''} sur ${FD.length}</span></div>
+      <${Progress} value=${nFilled} max=${FD.length} />
+      <section className="group k-pb"><h2>Introduction</h2>${FD.filter(x => x.g === 'intro').map(field)}</section>
+      ${partSection(0)}
+      <section className="group k-trans"><h2>Transition</h2>${FD.filter(x => x.g === 't0').map(field)}</section>
+      ${partSection(1)}
+      <section className="group k-trans"><h2>Transition</h2>${FD.filter(x => x.g === 't1').map(field)}</section>
+      ${partSection(2)}
+      <section className="group k-bilan"><h2>Conclusion</h2>${FD.filter(x => x.g === 'concl').map(field)}</section>
+      <div className="actions"><button className="btn" onClick=${() => updPlan({ f: {}, checks: {}, three: {} })}><${Icon} n="reset" s=${16} />Tout effacer</button><span className="spacer"></span>
+        <button className="btn btn-primary" onClick=${openRead}>Assembler ma dissertation<${Icon} n="right" s=${16} /></button></div>
+      <p className="count">Ton brouillon reste enregistré dans ce navigateur, sujet par sujet.</p>
+    <//>` : null}
+    ${view === 'read' ? html`<${Fragment}>
+      ${realSujet ? html`<div className="frame subject"><span className="eyebrow">Sujet</span><span className="q">${fr(realSujet)}</span></div>` : null}
+      ${paras.length ? html`<div className="card">
+        <${DissText} d=${d} />
+        <${Legend} keys=${['accroche', 'pres', 'pb', 'annonce', 'idee', 'arg', 'expl', 'ex', 'trans', 'bilan', 'ouv']} />
+        <div className="actions"><${SpeakBtn} text=${plain} label="Écouter ma dissertation" /><span className="spacer"></span>
+          <button className="btn" onClick=${copy}><${Icon} n="copy" s=${16} />Copier le texte</button></div>
+        ${copied ? html`<p className="count" role="status">${copied}</p>` : null}
+        <p className="count">Le texte copié ne contient pas les noms des parties : une ligne vide sépare chaque paragraphe.</p>
+      </div>` : html`<${Msg} kind="info">Ta dissertation est vide pour l’instant. Remplis quelques cases dans « Préparer ».</${Msg}>`}
+      <div className="actions"><button className="btn" onClick=${() => setView('write')}><${Icon} n="left" s=${16} />Modifier</button><span className="spacer"></span><button className="btn btn-primary" onClick=${() => setView('check')}>Vérifier ma dissertation<${Icon} n="right" s=${16} /></button></div>
+    <//>` : null}
+    ${view === 'check' ? html`<section className="frame" style=${{ display: 'flex', flexDirection: 'column', gap: '.6rem' }}>
+      <h2>Je vérifie ma dissertation</h2>
+      <p className="count">Relis ta dissertation, puis coche chaque point quand il est vrai.</p>
+      <div className="checks">${CHECKS.map((c, i) => html`<label key=${i}><input id=${'check-' + i} type="checkbox" checked=${!!checks[i]} onChange=${e => updPlan({ checks: { ...checks, [i]: e.target.checked } })} /><span>${fr(c)}</span></label>`)}</div>
+      ${CHECKS.every((_, i) => checks[i]) ? html`<${Msg} kind="pos">Tout est vérifié. Ta dissertation a toutes ses pièces.</${Msg}>` : null}
+      <div className="actions"><button className="btn" onClick=${() => setView('read')}><${Icon} n="left" s=${16} />Relire ma dissertation</button></div>
+    </section>` : null}
+  </div>`;
+}
+
+/* -- Notes pour l'adulte -- */
+function Notes() {
+  return html`<div className="page"><div className="notes">
+    <div><h1>Notes pour l’adulte</h1><p className="lead">Pour l’orthophoniste, l’enseignant ou le parent qui accompagne l’élève.</p></div>
+    <section><h2>Principes de conception</h2><ul>
+      <li><strong>Pré-apprentissage.</strong> La page « La méthode » nomme chaque pièce de la dissertation et son rôle avant tout exercice, puis les fait reconnaître dans des phrases réelles. <span className="ref">Mayer, principe de pré-entraînement.</span></li>
+      <li><strong>Exemples résolus, puis estompage.</strong> L’exemple d’histoire est entièrement guidé ; les exemples d’HGGSP et de français demandent de choisir certaines pièces (problématique, exemple, explication, annonce, transition, ouverture). <span className="ref">Renkl et Atkinson ; effet de renversement de l’expertise, Kalyuga.</span></li>
+      <li><strong>Auto-explication.</strong> À chaque étape, l’élève se demande à quoi sert l’étape avant de voir la réponse.</li>
+      <li><strong>Segmentation et signalisation.</strong> Une étape par écran ; une couleur et une étiquette par pièce, identiques dans toute l’application. <span className="ref">Mayer, principes de segmentation et de signalisation.</span></li>
+      <li><strong>Organisateur graphique et autorégulation.</strong> Le canevas suit la structure attendue, avec des amorces de phrases, puis une liste d’autovérification. <span className="ref">Inspiré du modèle SRSD, Harris et Graham.</span></li>
+      <li><strong>Distracteurs ciblés.</strong> Les mauvaises réponses reprennent des erreurs fréquentes : exemple qui prouve un autre argument, explication sans lien de cause, fait biographique au lieu d’une référence à l’œuvre, plan par personnages.</li>
+    </ul></section>
+    <section><h2>Sur les contenus</h2><ul>
+      <li>Les sujets et les plans d’histoire viennent du cours de l’élève (partie 3), avec deux ajustements factuels : l’esclavage, aboli en 1794, est rétabli par Bonaparte en 1802 (et non par le Directoire) ; le bilan de la Terreur est donné en victimes (35 000 à 40 000), dont environ 17 000 condamnations à mort officielles.</li>
+      <li>Les contenus d’HGGSP suivent la structure du thème « Comprendre un régime politique : la démocratie » (Athènes, Benjamin Constant, 1848, suffragettes, transitions portugaise et espagnole, Chili 1973, Union européenne) et le cas de la Corée du Sud. À ajuster selon le cours de l’élève.</li>
+      <li>En français, les sujets reprennent les parcours associés aux œuvres : « Émancipations créatrices » pour Rimbaud, « Les jeux du cœur et de la parole » pour Musset.</li>
+    </ul></section>
+    <section><h2>Conseils d’utilisation</h2><ul>
+      <li>Faire l’exemple d’histoire ensemble, en pensant à voix haute.</li>
+      <li>Commencer le canevas par la problématique et les trois idées de parties, avant les arguments.</li>
+      <li>Au début, n’exiger que deux arguments par partie ; ajouter le troisième quand la structure est installée.</li>
+      <li>Séances courtes : une introduction, ou une partie, par séance.</li>
+      <li>Autoriser le clavier ou la dictée vocale si l’écriture manuscrite coûte trop.</li>
+    </ul></section>
+    <p className="count">Les progrès et les brouillons sont enregistrés uniquement dans le navigateur utilisé.</p>
+  </div></div>`;
+}
+
+/* -- Réglages -- */
+function Settings({ onClose }) {
+  const { store, setSettings } = useApp();
+  const s = store.settings;
+  return html`<${Fragment}>
+    <div className="pop-scrim" onClick=${onClose}></div>
+    <div className="pop" role="dialog" aria-label="Affichage">
+      <div><div className="lbl">Taille du texte</div>
+        <div className="seg-ctl">${[['m', 'Normal'], ['l', 'Grand'], ['xl', 'Très grand']].map(([k, l]) => html`<button key=${k} className=${'btn btn-sm' + (s.size === k ? ' on' : '')} aria-pressed=${s.size === k} onClick=${() => setSettings({ size: k })}>${l}</button>`)}</div></div>
+      <label className="switch" htmlFor="set-airy"><span>Texte aéré</span><input id="set-airy" type="checkbox" checked=${!!s.airy} onChange=${e => setSettings({ airy: e.target.checked })} /></label>
+      <label className="switch" htmlFor="set-colors"><span>Couleurs des pièces</span><input id="set-colors" type="checkbox" checked=${s.colors !== false} onChange=${e => setSettings({ colors: e.target.checked })} /></label>
+      ${CAN_SPEAK ? html`<label className="switch" htmlFor="set-tts"><span>Boutons « Écouter »</span><input id="set-tts" type="checkbox" checked=${s.tts !== false} onChange=${e => setSettings({ tts: e.target.checked })} /></label>` : null}
+    </div>
+  <//>`;
+}
+
+/* ---------- Application ---------- */
+const PAGES = {
+  home: { t: 'Accueil', icon: 'home', C: Home },
+  methode: { t: 'La méthode', icon: 'words', C: Methode },
+  ex: { t: 'Exemples résolus', icon: 'bulb', C: Examples },
+  plan: { t: 'Ma dissertation', icon: 'plan', C: Plan },
+  notes: { t: 'Notes pour l’adulte', icon: 'info', C: Notes }
+};
+
+function App() {
+  const [store, setStore] = useState(() => {
+    const s = loadStore();
+    return { settings: { size: 'm', airy: false, colors: true, tts: true, ...(s.settings || {}) }, prog: s.prog || {}, plans: s.plans || {}, sel: s.sel || {} };
+  });
+  const initial = (() => { const h = (location.hash || '').slice(1); return PAGES[h] ? h : 'home'; })();
+  const [page, setPage] = useState(initial);
+  const [drawer, setDrawer] = useState(false);
+  const [pop, setPop] = useState(false);
+
+  useEffect(() => { saveStore(store); }, [store]);
+  useEffect(() => {
+    const r = document.documentElement.style; const s = store.settings;
+    r.setProperty('--base', s.size === 'xl' ? '20px' : s.size === 'l' ? '18px' : '16px');
+    r.setProperty('--lh', s.airy ? '1.85' : '1.55');
+    r.setProperty('--ls', s.airy ? '.025em' : '0em');
+    r.setProperty('--ws', s.airy ? '.12em' : '0em');
+  }, [store.settings]);
+
+  const go = p => { setPage(p); setDrawer(false); try { history.replaceState(null, '', '#' + p); } catch (e) {} const c = document.querySelector('.content'); if (c) c.scrollTop = 0; };
+  const setProg = (k, v) => setStore(s => {
+    const cur = s.prog[k];
+    const nv = (v && typeof v === 'object' && !Array.isArray(v)) ? { ...(cur && typeof cur === 'object' ? cur : {}), ...v } : v;
+    return { ...s, prog: { ...s.prog, [k]: nv } };
+  });
+  const setSettings = patch => setStore(s => ({ ...s, settings: { ...s.settings, ...patch } }));
+  const ctx = { store, setStore, setProg, setSettings, go };
+  const P = PAGES[page];
+
+  const navItem = (id, num) => {
+    const p = PAGES[id]; const st = num ? statusOf(id, store.prog) : null;
+    return html`<button key=${id} className=${'nav-item' + (page === id ? ' active' : '')} aria-current=${page === id ? 'page' : undefined} onClick=${() => go(id)}>
+      ${num ? html`<span className="num">${num}</span>` : null}<${Icon} n=${p.icon} /><span className="lbl">${p.t}</span>
+      ${st ? html`<span className=${'st' + (st.n >= st.max ? ' done' : '')}>${st.n >= st.max ? html`<${Icon} n="check" s=${14} />` : st.max > 1 && st.n > 0 ? st.n + '/' + st.max : ''}</span>` : null}
+    </button>`;
+  };
+
+  return html`<${Ctx.Provider} value=${ctx}>
+    <div className=${'app' + (store.settings.colors === false ? ' nocolor' : '')}>
+      <header className="header">
+        <button className="btn btn-flat btn-icon menu-btn" aria-label="Ouvrir le menu" onClick=${() => setDrawer(true)}><${Icon} n="menu" /></button>
+        <span className="app-name">Atelier de dissertation</span><span className="sep"></span>
+        <span className="page-name">${P.t}</span>
+        <span className="spacer"></span>
+        <button className=${'btn btn-flat' + (pop ? ' on' : '')} aria-expanded=${pop} onClick=${() => setPop(!pop)}><${Icon} n="sliders" /><span>Affichage</span></button>
+        ${pop ? html`<${Settings} onClose=${() => setPop(false)} />` : null}
+      </header>
+      <div className="main">
+        <div className=${'scrim' + (drawer ? ' open' : '')} onClick=${() => setDrawer(false)}></div>
+        <nav className=${'sidebar' + (drawer ? ' open' : '')} aria-label="Activités">
+          ${navItem('home')}
+          <div className="side-label">Parcours</div>
+          ${PATH.map((it, i) => navItem(it.id, i + 1))}
+          <div className="side-label">Aide</div>
+          ${navItem('notes')}
+        </nav>
+        <main className="content"><${P.C} key=${page} /></main>
+      </div>
+    </div>
+  <//>`;
+}
+
+ReactDOM.createRoot(document.getElementById('root')).render(html`<${App} />`);
+
+</script>
+</body>
+</html>
