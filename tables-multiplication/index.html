@@ -168,6 +168,12 @@
   }
   @media (prefers-reduced-motion:reduce){*{transition:none!important}}
 
+  .row{flex-wrap:wrap}
+  .row > div:first-child{flex:1 1 200px;min-width:0}
+  .small-seg button{white-space:nowrap}
+  .voice-pick{display:flex;gap:8px;align-items:center;flex-wrap:wrap;justify-content:flex-end}
+  .voice-pick select{max-width:300px}
+  @media (max-width:620px){ .row-wrap{flex-direction:column;align-items:stretch} .row-wrap > div:first-child{flex:none} .voice-pick{justify-content:flex-start;width:100%} .voice-pick select{flex:1;max-width:none;min-width:0} }
   /* Série */
   .streak{display:flex;flex-direction:column;gap:6px;padding:16px 20px}
   .streak-main{display:flex;align-items:center;gap:22px;flex-wrap:wrap}
@@ -575,11 +581,45 @@ function hint(x, y) {
 /* =====================================================================
    2. Voix (canal auditif : modalité verbale)
    ===================================================================== */
-let frVoice = null;
-function pickVoice() {
-  try { const vs = speechSynthesis.getVoices(); frVoice = vs.find(v => /^fr(-|_)FR/i.test(v.lang)) || vs.find(v => /^fr/i.test(v.lang)) || null; } catch (e) {}
+let allVoices = [];
+let voicePrefURI = null; // voix choisie dans les réglages (null = automatique)
+const isFr = v => /^fr/i.test(v.lang);
+const isGoogle = v => /google/i.test(v.name) || /google/i.test(v.voiceURI || "");
+/* Ordre de préférence : Google français (France), Google français, français (France), français, puis les autres langues */
+function rankVoice(v) {
+  const fr = isFr(v), frFR = /^fr[-_]FR/i.test(v.lang), g = isGoogle(v);
+  if (fr && g && frFR) return 0; if (fr && g) return 1; if (frFR) return 2; if (fr) return 3; if (g) return 4; return 5;
 }
-try { if (window.speechSynthesis) { pickVoice(); speechSynthesis.onvoiceschanged = pickVoice; } } catch (e) {}
+function sortedVoices() {
+  return allVoices.slice().sort((a, b) => rankVoice(a) - rankVoice(b) || a.lang.localeCompare(b.lang) || a.name.localeCompare(b.name, "fr"));
+}
+const offline = () => { try { return navigator.onLine === false; } catch (e) { return false; } };
+/* Voix automatique : la meilleure voix française ; hors connexion, une voix installée sur l'appareil */
+function autoVoice() {
+  const fr = sortedVoices().filter(isFr);
+  if (offline()) return fr.find(v => v.localService !== false) || fr[0] || null;
+  return fr[0] || null;
+}
+function currentVoice() {
+  if (voicePrefURI) {
+    const v = allVoices.find(x => x.voiceURI === voicePrefURI);
+    // Une voix en ligne (Google) ne fonctionne pas sans connexion : on passe alors à une voix de l'appareil
+    if (v && !(offline() && v.localService === false)) return v;
+  }
+  return autoVoice();
+}
+function loadVoices() {
+  try { allVoices = (speechSynthesis.getVoices() || []).slice(); } catch (e) { allVoices = []; }
+  window.dispatchEvent(new Event("voices-changed"));
+}
+try {
+  if (window.speechSynthesis) {
+    loadVoices();
+    if (speechSynthesis.addEventListener) speechSynthesis.addEventListener("voiceschanged", loadVoices);
+    else speechSynthesis.onvoiceschanged = loadVoices;
+    setTimeout(loadVoices, 600); setTimeout(loadVoices, 2500); // certains téléphones chargent les voix tardivement
+  }
+} catch (e) {}
 let currentUtt = null; // référence gardée : évite que Chrome perde l'événement onend
 /* onDone(true) est appelé quand la lecture est terminée (pas si elle est interrompue). */
 function speak(text, on, onDone) {
@@ -589,7 +629,8 @@ function speak(text, on, onDone) {
     if (!window.speechSynthesis) return skip();
     speechSynthesis.cancel();
     const u = new SpeechSynthesisUtterance(text);
-    u.lang = "fr-FR"; u.rate = 0.85; if (frVoice) u.voice = frVoice;
+    const v = currentVoice();
+    u.lang = v ? v.lang : "fr-FR"; u.rate = 0.85; if (v) u.voice = v;
     if (onDone) {
       u.onend = () => onDone(true);
       u.onerror = ev => { if (ev.error !== "interrupted" && ev.error !== "canceled") onDone(false); };
@@ -607,7 +648,7 @@ const sayQuestion = tr => tr.dir === "p" ? `${tr.a} fois ${tr.b} ?` : `${tr.p} �
 const LS_KEY = "tables-multiplication-app-v1";
 const WEEK_GOAL = 5;          // jours d'entraînement visés par semaine
 const REST_PER_WEEK = 7 - WEEK_GOAL; // jours de repos possibles sans perdre la série
-const defaultSettings = () => ({ len: 20, maxNew: 3, voice: true, readQ: true, size: 1, auto: true });
+const defaultSettings = () => ({ len: 20, maxNew: 3, voice: true, readQ: true, size: 1, auto: true, voiceURI: null });
 const newData = () => ({ items: {}, session: 0, lastDay: null, days: [], best: 0, level: 5, mode: "p", settings: defaultSettings() });
 function loadData() {
   try {
@@ -1160,6 +1201,24 @@ function Seg({ value, options, onChange }) {
   return html`<div class="small-seg">${options.map(o => html`<button key=${o.v} class=${value === o.v ? "sel" : ""} onClick=${() => onChange(o.v)}>${o.l}</button>`)}</div>`;
 }
 
+function VoicePicker({ value, onChange }) {
+  const [voices, setVoices] = useState(sortedVoices());
+  useEffect(() => { const h = () => setVoices(sortedVoices()); window.addEventListener("voices-changed", h); loadVoices(); return () => window.removeEventListener("voices-changed", h); }, []);
+  if (!window.speechSynthesis) return html`<p class="muted" style=${{ fontSize: ".85rem" }}>La synthèse vocale n’est pas disponible sur ce navigateur.</p>`;
+  const fr = voices.filter(isFr), other = voices.filter(v => !isFr(v));
+  const auto = autoVoice();
+  const label = v => `${v.name}${isFr(v) ? "" : " – " + v.lang}${v.localService === false ? " (en ligne)" : ""}`;
+  const missing = value && voices.length && !voices.some(v => v.voiceURI === value);
+  return html`<div class="voice-pick">
+    <select value=${missing ? "" : (value || "")} onChange=${e => onChange(e.target.value || null)} aria-label="Choix de la voix">
+      <option value="">Automatique${auto ? " : " + auto.name : ""}</option>
+      ${fr.length > 0 && html`<optgroup label="Français">${fr.map(v => html`<option key=${v.voiceURI} value=${v.voiceURI}>${label(v)}</option>`)}</optgroup>`}
+      ${other.length > 0 && html`<optgroup label="Autres langues">${other.map(v => html`<option key=${v.voiceURI} value=${v.voiceURI}>${label(v)}</option>`)}</optgroup>`}
+    </select>
+    <button class="btn" onClick=${() => speak("3 fois 5 égale 15", true)}>${Icon.sound} Essayer</button>
+  </div>`;
+}
+
 function Settings({ data, update, onReset }) {
   const s = data.settings;
   const [confirm, setConfirm] = useState(false);
@@ -1180,6 +1239,9 @@ function Settings({ data, update, onReset }) {
       <${Seg} value=${s.size} onChange=${x => setS("size", x)} options=${[{ v: 1, l: "Normale" }, { v: 1.2, l: "Grande" }, { v: 1.4, l: "Très grande" }]} /></div>
     <div class="row"><div><div class="lbl">Voix</div><div class="sub">Le fait est lu à voix haute (« trois fois cinq égale quinze »).</div></div>
       <${Toggle} on=${s.voice} onClick=${() => setS("voice", !s.voice)} label="Voix" /></div>
+    ${s.voice && html`<div class="row row-wrap"><div><div class="lbl">Choix de la voix</div>
+        <div class="sub">Les voix Google en français sont proposées en premier. Une voix « en ligne » a besoin d’internet : sans connexion, une voix de l’appareil la remplace.</div></div>
+      <${VoicePicker} value=${s.voiceURI} onChange=${x => setS("voiceURI", x)} /></div>`}
     <div class="row"><div><div class="lbl">Lire aussi les questions</div></div>
       <${Toggle} on=${s.readQ} onClick=${() => setS("readQ", !s.readQ)} label="Lire les questions" /></div>
 
@@ -1245,6 +1307,7 @@ function App() {
 
   useEffect(() => { saveData(data); }, [data]);
   useEffect(() => { document.documentElement.style.setProperty("--scale", data.settings.size || 1); }, [data.settings.size]);
+  voicePrefURI = data.settings.voiceURI || null; // appliqué dès le rendu, avant toute lecture
   useEffect(() => {
     const h = () => setCanInstall(!!installEvt && !isStandalone());
     window.addEventListener("can-install", h); return () => window.removeEventListener("can-install", h);

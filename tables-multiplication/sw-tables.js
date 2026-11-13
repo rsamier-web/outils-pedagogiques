@@ -1,6 +1,6 @@
 // Service worker des Tables de multiplication : fonctionne hors ligne après la première visite.
 // Changez VERSION à chaque mise à jour de index.html pour forcer le rafraîchissement.
-const VERSION = 'tables-v1';
+const VERSION = 'tables-v2';
 const CORE = ['./', './index.html', './manifest-tables.webmanifest', './icon-192.png', './icon-512.png', './icon-maskable-512.png', './apple-touch-icon.png'];
 
 self.addEventListener('install', e => {
