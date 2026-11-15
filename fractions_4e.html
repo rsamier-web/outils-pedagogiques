@@ -1,0 +1,1792 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Les fractions — 4e</title>
+<meta name="description" content="Comprendre, mémoriser et utiliser les fractions en 4e : écritures, comparaison, opérations, priorités, problèmes.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;500;600;700&family=Noto+Sans+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+/* Fenêtre KDE Breeze : barre de titre, panneau latéral « Chapitres », vue principale à onglets */
+:root{
+  --window:#eff0f1; --view:#fcfcfc; --header:#e3e5e7; --alt:#f4f5f6; --btn:#f7f8f8; --field:#ffffff;
+  --text:#232629; --muted:#5b646d; --border:#c2c7cb; --line:#dde0e3; --hover:rgba(61,174,233,.09);
+  --accent:#3daee9; --accent-ink:#1a6c9c; --accent-soft:rgba(61,174,233,.15);
+  --good:#1e8a4f; --good-soft:rgba(39,174,96,.11); --bad:#c0364a; --bad-soft:rgba(218,68,83,.09);
+  --warn:#b85900; --warn-soft:rgba(246,116,0,.11);
+  /* une couleur fixe par nombre premier (signalement) */
+  --p2:#1d6fb8; --p3:#c25e00; --p5:#1e8a4f; --p7:#8a3fb0; --p11:#b8344a; --p13:#13808a; --pX:#5b646d;
+  --setN:#1d6fb8; --setZ:#13808a; --setD:#8a3fb0; --setQ:#c25e00;
+  --font:"Noto Sans",ui-sans-serif,system-ui,"Segoe UI",Roboto,Arial,sans-serif;
+  --mono:"Noto Sans Mono",ui-monospace,Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme: dark){:root{
+  --window:#232629; --view:#1b1e20; --header:#2a2e32; --alt:#202326; --btn:#2c3136; --field:#141618;
+  --text:#eff0f1; --muted:#a2aab2; --border:#434a51; --line:#33383d; --hover:rgba(61,174,233,.11);
+  --accent:#3daee9; --accent-ink:#72c6f0; --accent-soft:rgba(61,174,233,.2);
+  --good:#41c77f; --good-soft:rgba(39,174,96,.16); --bad:#f26b7d; --bad-soft:rgba(218,68,83,.16);
+  --warn:#ff9d45; --warn-soft:rgba(246,116,0,.16);
+  --p2:#6cb8f0; --p3:#ff9d45; --p5:#41c77f; --p7:#c690e6; --p11:#f26b7d; --p13:#4fd1d9; --pX:#a2aab2;
+  --setN:#6cb8f0; --setZ:#4fd1d9; --setD:#c690e6; --setQ:#ff9d45;
+  color-scheme:dark }}
+
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-padding-top:calc(env(safe-area-inset-top,0px) + 100px)}
+body{margin:0;background:var(--window);color:var(--text);font-family:var(--font);padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+.app{font-size:15px;line-height:1.55;min-height:100vh;display:flex;flex-direction:column}
+.app.big{font-size:18px;line-height:1.75;letter-spacing:.015em;word-spacing:.06em}
+button,input,select{font:inherit;color:inherit;letter-spacing:inherit}
+h2,h3,h4{text-wrap:balance;margin:0;line-height:1.3}
+p{margin:0}
+b{font-weight:600}
+:focus-visible{outline:2px solid var(--accent);outline-offset:1px;border-radius:3px}
+sup{font-size:.7em;line-height:0}
+.muted{color:var(--muted)}
+.num{font-variant-numeric:tabular-nums}
+.nowrap{white-space:nowrap}
+
+/* Écriture mathématique */
+.mx{font-variant-numeric:tabular-nums;white-space:normal}
+.fr{display:inline-flex;flex-direction:column;align-items:stretch;vertical-align:middle;text-align:center;margin:0 .12em;line-height:1.15}
+.fr>span{padding:0 .2em;white-space:nowrap}
+.fr>span:first-child{border-bottom:1.5px solid currentColor;padding-bottom:.08em}
+.fr>span:last-child{padding-top:.08em}
+.c-a{color:var(--accent-ink);font-weight:600}.c-g{color:var(--good);font-weight:600}.c-b{color:var(--bad);font-weight:600}.c-w{color:var(--warn);font-weight:600}
+.c-m{color:var(--muted)}
+.c-2{color:var(--p2);font-weight:600}.c-3{color:var(--p3);font-weight:600}.c-5{color:var(--p5);font-weight:600}.c-7{color:var(--p7);font-weight:600}.c-11{color:var(--p11);font-weight:600}.c-13{color:var(--p13);font-weight:600}
+.c-s{text-decoration:line-through;text-decoration-thickness:2px;opacity:.5}
+.strike{text-decoration:line-through;text-decoration-thickness:2px;opacity:.55}
+.big-mx{font-size:1.2em}
+
+/* Barre de titre */
+.titlebar{position:sticky;top:env(safe-area-inset-top,0px);z-index:10;display:flex;align-items:center;gap:.7em;padding:.4em 16px;background:var(--header);border-bottom:1px solid var(--border);min-height:46px}
+.titlebar svg{flex:none}
+.tb-name{font-weight:600}
+.tb-sub{color:var(--muted);font-size:.87em}
+.spacer{flex:1}
+.prog{display:flex;align-items:center;gap:.55em;font-size:.85em;color:var(--muted);font-variant-numeric:tabular-nums}
+.bar{width:110px;height:6px;border-radius:3px;background:var(--line);overflow:hidden}
+.bar>span{display:block;height:100%;background:var(--accent);transition:width .3s}
+.switch{display:inline-flex;align-items:center;gap:.45em;font-size:.87em;cursor:pointer;background:none;border:0;padding:.3em .2em}
+.switch .track{width:30px;height:16px;border-radius:8px;border:1px solid var(--border);background:var(--field);position:relative;transition:background .2s}
+.switch .track::after{content:"";position:absolute;top:2px;left:2px;width:10px;height:10px;border-radius:50%;background:var(--muted);transition:transform .2s,background .2s}
+.switch[aria-checked="true"] .track{background:var(--accent-soft);border-color:var(--accent)}
+.switch[aria-checked="true"] .track::after{transform:translateX(14px);background:var(--accent)}
+
+/* Structure */
+.layout{flex:1;display:grid;grid-template-columns:240px minmax(0,1fr)}
+.sidebar{border-right:1px solid var(--border);padding:12px 8px;display:flex;flex-direction:column;gap:2px}
+.side-cap{font-size:.74em;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;padding:.5em .75em .35em}
+.side-item{display:flex;align-items:center;gap:.65em;width:100%;padding:.45em .7em;border:1px solid transparent;border-radius:4px;background:none;text-align:left;cursor:pointer}
+.side-item:hover{background:var(--hover)}
+.side-item[aria-current="page"]{background:var(--accent-soft);border-color:var(--accent)}
+.side-item .ic{width:22px;height:22px;flex:none;display:grid;place-items:center;border-radius:4px;font-size:.78em;font-weight:700;color:var(--muted);border:1px solid var(--border);background:var(--field)}
+.side-item[aria-current="page"] .ic{color:var(--accent-ink);border-color:var(--accent)}
+.side-item .cnt{margin-left:auto;font-size:.8em;color:var(--muted);font-variant-numeric:tabular-nums}
+.side-foot{margin-top:auto;padding:1em .5em .3em;display:grid;gap:.4em;font-size:.85em}
+.linkbtn{background:none;border:0;padding:0;color:var(--muted);text-decoration:underline;cursor:pointer;text-align:left}
+.main{background:var(--view);min-width:0;display:flex;flex-direction:column}
+.wrap{max-width:900px;width:100%;margin:0 auto;padding-inline:28px}
+.mod-head{padding-block:1.5em 1em}
+.mod-head h2{font-size:1.5em;font-weight:600}
+.mod-head p{color:var(--muted);margin-top:.25em;max-width:64ch}
+.tabs-bar{border-bottom:1px solid var(--border);background:var(--view);position:sticky;top:calc(env(safe-area-inset-top,0px) + 46px);z-index:5}
+.tabs{display:flex;overflow-x:auto;scrollbar-width:none}
+.tab{flex:none;padding:.6em 1em;border:0;border-bottom:2px solid transparent;background:none;cursor:pointer;color:var(--muted);display:flex;align-items:center;gap:.45em}
+.tab:hover{color:var(--text);background:var(--hover)}
+.tab[aria-selected="true"]{color:var(--text);border-bottom-color:var(--accent);font-weight:600}
+.tab .tn{font-size:.75em;width:1.6em;height:1.6em;border-radius:50%;border:1px solid currentColor;display:grid;place-items:center;font-weight:600}
+.page{padding-block:1.6em 4em;display:grid;gap:1.4em}
+.lead{color:var(--muted);font-size:.93em;max-width:66ch}
+
+/* Cadres */
+.frame{background:var(--view);border:1px solid var(--line);border-radius:5px;padding:1em 1.1em}
+.sec{display:grid;gap:.75em}
+.sec h3{font-size:1.12em;font-weight:600;display:flex;gap:.55em;align-items:baseline}
+.sec h3 .sn{color:var(--accent-ink);font-variant-numeric:tabular-nums}
+.sec p{max-width:68ch}
+.two{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,240px),1fr));gap:.8em}
+.two>.frame{display:grid;gap:.45em;align-content:start;background:var(--alt)}
+.two h4{font-size:.98em;font-weight:600}
+.ex{font-size:1.12em;font-variant-numeric:tabular-nums;padding:.4em .75em;background:var(--alt);border-left:3px solid var(--accent);border-radius:0 3px 3px 0;justify-self:start;line-height:1.9}
+.two .ex{background:var(--view)}
+.keep{border:1px solid var(--accent);background:var(--accent-soft);border-radius:5px;padding:.9em 1.1em;display:grid;gap:.5em}
+.keep h4{font-size:.8em;text-transform:uppercase;letter-spacing:.08em;color:var(--accent-ink)}
+.keep ul,.plain{margin:0;padding-left:1.2em;display:grid;gap:.35em}
+.trap{border:1px solid var(--warn);background:var(--warn-soft);border-radius:5px;padding:.8em 1.1em;display:grid;gap:.4em}
+.trap h4{font-size:.8em;text-transform:uppercase;letter-spacing:.08em;color:var(--warn)}
+.steps{margin:0;padding-left:1.5em;display:grid;gap:.5em}
+.steps li{padding-left:.2em}
+.steps li::marker{color:var(--accent-ink);font-weight:600}
+table.tbl{border-collapse:collapse;font-variant-numeric:tabular-nums}
+table.tbl th,table.tbl td{border:1px solid var(--line);padding:.35em .8em;text-align:center}
+table.tbl th{background:var(--alt);font-weight:600}
+.scroll-x{overflow-x:auto}
+
+/* Boutons, champs */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:.4em;padding:.35em .95em;border:1px solid var(--border);border-radius:3px;background:var(--btn);cursor:pointer;min-height:2.2em}
+.btn:hover{border-color:var(--accent)}
+.btn.primary{border-color:var(--accent);background:var(--accent-soft)}
+.btn.small{min-height:1.9em;padding:.2em .7em;font-size:.88em}
+.btn:disabled{opacity:.5;cursor:default}
+.btn[aria-pressed="true"]{background:var(--accent-soft);border-color:var(--accent);color:var(--accent-ink);font-weight:600}
+.btn.ok{border-color:var(--good);background:var(--good-soft)}
+.btn.ko{border-color:var(--bad);background:var(--bad-soft)}
+.row{display:flex;flex-wrap:wrap;gap:.5em;align-items:center}
+.field{padding:.35em .6em;border:1px solid var(--border);border-radius:3px;background:var(--field);width:8em;min-height:2.2em;font-variant-numeric:tabular-nums}
+.field:focus{border-color:var(--accent);outline:none;box-shadow:0 0 0 1px var(--accent)}
+.field.sm{width:4.2em;text-align:center;padding:.15em .3em;min-height:1.9em}
+.field.wide{width:16em}
+.field.okf{border-color:var(--good);background:var(--good-soft)}
+.field.kof{border-color:var(--bad);background:var(--bad-soft)}
+.seg{display:inline-flex;border:1px solid var(--border);border-radius:3px;overflow:hidden;flex-wrap:wrap}
+.seg button{border:0;background:var(--btn);padding:.35em .9em;cursor:pointer}
+.seg button+button{border-left:1px solid var(--border)}
+.seg button[aria-pressed="true"]{background:var(--accent-soft);color:var(--accent-ink);font-weight:600}
+input[type=range]{accent-color:var(--accent);width:100%;min-width:0}
+.ctrl{display:grid;gap:.15em}
+.ctrl label{font-size:.88em;color:var(--muted);display:flex;justify-content:space-between;gap:1em}
+.ctrl output{color:var(--text);font-weight:600;font-variant-numeric:tabular-nums}
+.chk{display:inline-flex;align-items:center;gap:.45em;padding:.3em .75em;border:1px solid var(--border);border-radius:3px;background:var(--btn);cursor:pointer}
+.chk input{accent-color:var(--accent);margin:0}
+.chk.on{border-color:var(--accent);background:var(--accent-soft)}
+
+/* Messages */
+.msg{border-radius:4px;padding:.55em .85em;border:1px solid;display:grid;gap:.25em}
+.msg.ok{border-color:var(--good);background:var(--good-soft)}
+.msg.ko{border-color:var(--bad);background:var(--bad-soft)}
+.msg.info{border-color:var(--accent);background:var(--accent-soft)}
+.msg.warn{border-color:var(--warn);background:var(--warn-soft)}
+
+/* Familles d'exercices */
+.fam{border:1px solid var(--line);border-radius:5px;overflow:hidden}
+.fam-head{display:flex;align-items:center;gap:.7em;padding:.7em 1em;background:var(--alt);border-bottom:1px solid var(--line)}
+.fam-head h3{font-size:1.05em;font-weight:600}
+.lvl{display:inline-flex;gap:3px;align-items:center}
+.lvl i{width:7px;height:12px;border-radius:2px;background:var(--line);display:block}
+.lvl i.on{background:var(--accent)}
+.fam-body{padding:1em;display:grid;gap:1em}
+.worked{border:1px dashed var(--accent);border-radius:5px;padding:.9em 1em;display:grid;gap:.6em;background:var(--accent-soft)}
+.worked .tag,.exo .tag{font-size:.74em;font-weight:600;text-transform:uppercase;letter-spacing:.08em;color:var(--accent-ink)}
+.exo{border:1px solid var(--line);border-radius:5px;padding:.9em 1em;display:grid;gap:.7em}
+.exo.done{border-color:var(--good)}
+.exo .tag{color:var(--muted)}
+.exo.done .tag{color:var(--good)}
+.exo-q{line-height:2}
+.corr{border-top:1px solid var(--line);padding-top:.7em;display:grid;gap:.5em}
+.corr h4{font-size:.85em;color:var(--muted);font-weight:600}
+.hint{font-size:.93em;color:var(--muted);border-left:3px solid var(--line);padding-left:.7em}
+.choices{display:flex;flex-wrap:wrap;gap:.5em}
+.order-pool,.order-out{display:flex;flex-wrap:wrap;gap:.5em;align-items:center;min-height:2.8em}
+.order-out{border:1px dashed var(--border);border-radius:4px;padding:.4em .6em;background:var(--alt)}
+.token{border:1px solid var(--border);border-radius:4px;background:var(--btn);padding:.15em .6em;cursor:pointer;line-height:1.9}
+.token:hover{border-color:var(--accent)}
+.token.used{opacity:.35;cursor:default}
+.sym{color:var(--muted);padding:0 .1em}
+
+/* Pyramide */
+.pyr{display:grid;gap:4px;justify-items:center;padding:.5em 0}
+.pyr-row{display:flex;gap:4px}
+.pyr-cell{width:7.2em;min-height:3.6em;border:1px solid var(--border);border-radius:3px;display:grid;place-items:center;background:var(--alt);padding:.2em}
+.pyr-cell.base{background:var(--view)}
+.pyr-cell input{width:5.8em}
+
+/* Quiz */
+.quiz-q{display:grid;gap:.7em}
+.quiz-opts{display:grid;gap:.45em}
+.quiz-opt{text-align:left;padding:.55em .9em;border:1px solid var(--border);border-radius:4px;background:var(--btn);cursor:pointer;line-height:1.9}
+.quiz-opt:hover:not(:disabled){border-color:var(--accent)}
+.quiz-opt.ok{border-color:var(--good);background:var(--good-soft)}
+.quiz-opt.ko{border-color:var(--bad);background:var(--bad-soft)}
+.quiz-opt:disabled{cursor:default}
+.dots{display:flex;gap:5px;flex-wrap:wrap}
+.dots i{width:10px;height:10px;border-radius:50%;background:var(--line);display:block}
+.dots i.ok{background:var(--good)}.dots i.ko{background:var(--bad)}.dots i.cur{outline:2px solid var(--accent);outline-offset:1px}
+
+/* Labos */
+.lab{display:grid;gap:.9em}
+.lab-head{display:flex;flex-wrap:wrap;gap:.6em 1em;align-items:center}
+.svgbox{width:100%;overflow-x:auto}
+.svgbox svg{display:block;max-width:100%;height:auto}
+.sieve{display:grid;grid-template-columns:repeat(10,minmax(0,1fr));gap:3px;max-width:520px}
+.sieve button{aspect-ratio:1;border:1px solid var(--line);border-radius:3px;background:var(--view);cursor:pointer;font-variant-numeric:tabular-nums;font-size:.9em;padding:0}
+.sieve button.out{color:var(--muted);background:var(--alt);text-decoration:line-through;opacity:.6}
+.sieve button.prime{border-color:var(--accent);background:var(--accent-soft);color:var(--accent-ink);font-weight:700}
+.sieve button.one{color:var(--muted);background:var(--alt)}
+.ladder{border-collapse:collapse;font-variant-numeric:tabular-nums;font-size:1.1em}
+.ladder td{padding:.2em .8em;text-align:right}
+.ladder td:first-child{border-right:2px solid var(--text)}
+.chip{display:inline-flex;align-items:center;justify-content:center;min-width:2em;padding:.05em .45em;border-radius:4px;border:1.5px solid currentColor;font-weight:600;cursor:pointer;background:var(--view);margin:.1em}
+.chip.gone{opacity:.35;text-decoration:line-through;cursor:default}
+.chip.static{cursor:default}
+.dotgrid{display:inline-grid;gap:4px;padding:6px;border:1px solid var(--line);border-radius:4px;background:var(--alt)}
+.dotgrid i{width:12px;height:12px;border-radius:50%;background:var(--accent);display:block}
+.rects{display:flex;flex-wrap:wrap;gap:1em;align-items:flex-start}
+.rects figure{margin:0;display:grid;gap:.3em;justify-items:center;font-size:.88em;color:var(--muted)}
+.fbar{display:flex;height:34px;border:1.5px solid var(--text);border-radius:2px;overflow:hidden}
+.fbar span{flex:1;border-right:1px solid var(--border)}
+.fbar span:last-child{border-right:0}
+.fbar span.on{background:var(--accent-soft)}
+.fbar span.on.k{background:rgba(61,174,233,.32)}
+.bars{display:grid;gap:.55em}
+.bars .lbl{font-size:.95em}
+.mult-list{display:flex;flex-wrap:wrap;gap:.3em;align-items:center}
+.mult-list span{border:1px solid var(--line);border-radius:3px;padding:0 .45em;font-variant-numeric:tabular-nums}
+.mult-list span.hit{border-color:var(--good);background:var(--good-soft);font-weight:700}
+
+/* Cartes mémoire */
+.card{border:1px solid var(--border);border-radius:6px;min-height:12em;padding:1.4em;display:grid;place-items:center;text-align:center;background:var(--view);cursor:pointer;font-size:1.08em;line-height:1.9}
+.card.back{background:var(--accent-soft);border-color:var(--accent)}
+.card-meta{font-size:.85em;color:var(--muted)}
+.next-row{display:flex;justify-content:flex-end;border-top:1px solid var(--line);padding-top:1em;gap:.5em}
+
+@media (max-width:820px){
+  .layout{grid-template-columns:1fr}
+  .sidebar{flex-direction:row;overflow-x:auto;border-right:0;border-bottom:1px solid var(--border);padding:8px 16px;gap:6px;background:var(--window)}
+  .side-cap,.side-foot{display:none}
+  .side-item{flex:none;width:auto}
+  .side-item .cnt{display:none}
+  .wrap{padding-inline:16px}
+  .tb-sub{display:none}
+  .bar{width:56px}
+  .tabs-bar{position:static}
+  .pyr-cell{width:5.6em}
+  .pyr-cell input{width:4.6em}
+}
+
+/* ---------- Ajouts propres à l'outil « Fractions 4e » ---------- */
+.fbar span.on{background:rgba(61,174,233,.38)}
+.fbar.t-w span.on{background:rgba(246,116,0,.32)}
+.fbar.t-g span.on{background:rgba(39,174,96,.32)}
+.fbar span.minor{border-right:1px dashed var(--border)}
+.fbar span.major{border-right:1.5px solid var(--text)}
+.fbar span:last-child{border-right:0}
+.fbars{display:flex;gap:6px;flex-wrap:wrap}
+.fbars>.fbar{flex:1 1 160px;min-width:120px}
+.barrow{display:grid;grid-template-columns:7.5em minmax(0,1fr);gap:.8em;align-items:center}
+.barrow .lbl{text-align:right}
+.anat{display:flex;align-items:center;gap:1.4em;flex-wrap:wrap}
+.anat .bigf{font-size:2.3em}
+.anat dl{margin:0;display:grid;grid-template-columns:auto 1fr;gap:.3em .9em;align-items:baseline}
+.anat dt{font-weight:600}
+.anat dd{margin:0;color:var(--muted)}
+.gloss{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,230px),1fr));gap:.6em}
+.gloss .frame{background:var(--alt);display:grid;gap:.3em;align-content:start}
+.gloss h4{font-size:.98em;font-weight:600;color:var(--accent-ink)}
+.cc{display:flex;flex-wrap:wrap;gap:.4em 1.3em;font-size:.92em;align-items:center}
+.cc .muted{font-size:.95em}
+.grid100{display:grid;grid-template-columns:repeat(10,1fr);gap:2px;width:min(100%,240px);flex:none}
+.grid100 i{aspect-ratio:1;border:1px solid var(--line);border-radius:2px;background:var(--view);display:block}
+.grid100 i.on{background:var(--accent);border-color:var(--accent)}
+.labgrid{display:flex;flex-wrap:wrap;gap:1.2em;align-items:flex-start}
+.labgrid>div{flex:1 1 220px;min-width:0;display:grid;gap:.6em;align-content:start}
+.expr{font-size:1.25em;line-height:2.5;display:flex;flex-wrap:wrap;align-items:center;column-gap:.25em}
+.opbtn{border:1px solid var(--accent);background:var(--accent-soft);color:var(--accent-ink);border-radius:4px;min-width:1.9em;padding:0 .4em;cursor:pointer;font:inherit;font-weight:600;line-height:1.7}
+.opbtn:hover{background:rgba(61,174,233,.3)}
+.histo{margin:0;padding-left:1.4em;display:grid;gap:.35em;line-height:2.1}
+.selfexp{border-left:3px solid var(--accent);padding:.55em .85em;background:var(--view);border-radius:0 4px 4px 0;display:grid;gap:.45em}
+.selfexp .tag{color:var(--accent-ink)}
+.memo{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:.8em}
+.memo .frame{display:grid;gap:.45em;align-content:start;line-height:1.9}
+.memo h4{font-size:.98em;font-weight:600;display:flex;gap:.5em;align-items:center}
+.memo h4 .ic{width:22px;height:22px;display:grid;place-items:center;border-radius:4px;border:1px solid var(--accent);color:var(--accent-ink);font-size:.8em;flex:none}
+.memo ul{margin:0;padding-left:1.1em;display:grid;gap:.2em}
+.unit{color:var(--muted)}
+.am-0{fill:var(--view)}.am-b{fill:rgba(61,174,233,.32)}.am-o{fill:rgba(246,116,0,.28)}.am-x{fill:rgba(26,108,156,.82)}
+.svg-ink{stroke:var(--text)}.svg-line{stroke:var(--line)}.svg-txt{fill:var(--text);font:600 13px var(--font)}.svg-mut{fill:var(--muted);font:12px var(--font)}
+.cap{font-size:.9em;color:var(--muted)}
+.howto{display:grid;gap:.4em}
+@media (max-width:820px){ .barrow{grid-template-columns:1fr} .barrow .lbl{text-align:left} }
+@media print{
+  .titlebar,.sidebar,.tabs-bar,.next-row,.noprint{display:none!important}
+  .layout{display:block} body,.main,.app{background:#fff!important;color:#000}
+  .memo .frame{break-inside:avoid}
+}
+.ex{white-space:pre-wrap}
+a.btn{color:inherit;text-decoration:none}
+</style>
+</head>
+<body>
+<div id="root"></div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.3.1/umd/react.production.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.3.1/umd/react-dom.production.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/htm@3.1.1/dist/htm.umd.js"></script>
+<script>
+"use strict";
+const { useState, useEffect, useMemo, Fragment } = React;
+const html = htm.bind(React.createElement);
+
+/* ---------- Stockage local (facultatif) ---------- */
+const store = {
+  get(k, d) { try { const v = localStorage.getItem("frac4e:" + k); return v == null ? d : JSON.parse(v); } catch (e) { return d; } },
+  set(k, v) { try { localStorage.setItem("frac4e:" + k, JSON.stringify(v)); } catch (e) {} }
+};
+
+/* ---------- Arithmétique des fractions ---------- */
+const gcd = (a, b) => { a = Math.abs(a); b = Math.abs(b); while (b) { [a, b] = [b, a % b]; } return a; };
+const lcm = (a, b) => Math.abs(a * b) / gcd(a, b);
+function R(n, d = 1) { if (d < 0) { n = -n; d = -d; } const g = gcd(n, d) || 1; return { n: n / g, d: d / g }; }
+const add = (a, b) => R(a.n * b.d + b.n * a.d, a.d * b.d);
+const sub = (a, b) => R(a.n * b.d - b.n * a.d, a.d * b.d);
+const mul = (a, b) => R(a.n * b.n, a.d * b.d);
+const div = (a, b) => R(a.n * b.d, a.d * b.n);
+const cmp = (a, b) => Math.sign(a.n * b.d - b.n * a.d);
+const eqR = (a, b) => a.n === b.n && a.d === b.d;
+const isDecR = a => { let d = a.d; while (d % 2 === 0) d /= 2; while (d % 5 === 0) d /= 5; return d === 1; };
+const val = r => r.n / r.d;
+const neg = x => (x < 0 ? "−" + Math.abs(x) : String(x));                 // vrai signe moins
+const dec = x => neg(+x.toFixed(10)).replace(".", ",");                      // décimal à la française
+const fr = (n, d) => `[[${neg(n)}~${neg(d)}]]`;                              // quotient tel qu'il est écrit
+const fn = (n, d) => d === 1 ? neg(n) : `[[${neg(n)}~${d}]]`;               // signe au numérateur
+const fm = r => r.d === 1 ? neg(r.n) : (r.n < 0 ? "−" : "") + `[[${Math.abs(r.n)}~${r.d}]]`; // forme réduite, signe devant
+const nice = r => isDecR(r) && r.d !== 1 && r.d <= 1000 ? dec(val(r)) : fm(r);           // décimal si possible
+
+/* ---------- Lecture de ce que tape l'élève ---------- */
+const clean = s => String(s).replace(/[−–—]/g, "-").replace(/\s+/g, "").replace(/,/g, ".").replace(/[÷:]/g, "/").replace(/%$/, "");
+function parseDec(t) {
+  t = t.replace(/^\((.*)\)$/, "$1");
+  if (!/^[+-]?(\d+\.?\d*|\.\d+)$/.test(t)) return null;
+  const sgn = t.startsWith("-") ? -1 : 1; t = t.replace(/^[+-]/, "");
+  const [i, f = ""] = t.split(".");
+  return { n: sgn * parseInt((i || "0") + f, 10), d: Math.pow(10, f.length), int: f.length === 0 };
+}
+function parseInput(s) {
+  let t = clean(s); if (!t) return null;
+  let sg = 1;
+  const mm = t.match(/^-\((.*)\)$/); if (mm) { sg = -1; t = mm[1]; }
+  const parts = t.replace(/^\((.*)\)$/, "$1").split("/");
+  if (parts.length > 2) return null;
+  const a = parseDec(parts[0]); if (!a) return null;
+  if (sg < 0) a.n = -a.n;
+  if (parts.length === 1) return { r: R(a.n, a.d), frac: false, a };
+  const b = parseDec(parts[1]); if (!b || b.n === 0) return null;
+  return { r: div(R(a.n, a.d), R(b.n, b.d)), frac: true, a, b };
+}
+/* Vérifie une fraction. opt.irr : forme irréductible exigée */
+function checkFrac(input, ans, opt = {}) {
+  const p = parseInput(input);
+  if (!p) return { st: "ko", msg: "Je ne comprends pas cette écriture. Exemples acceptés : -7/12   ou   5   ou   2,5" };
+  if (!eqR(p.r, ans)) return { st: "ko", msg: "Ce n'est pas la bonne valeur. Utilise l'indice ou refais le calcul étape par étape." };
+  if (opt.irr) {
+    if (p.frac) {
+      if (!p.a.int || !p.b.int) return { st: "part", msg: "La valeur est juste, mais écris une fraction avec des nombres entiers (sans virgule)." };
+      if (p.b.n < 0) return { st: "part", msg: "La valeur est juste. Écris maintenant le dénominateur positif : le signe « − » va au numérateur." };
+      if (gcd(p.a.n, p.b.n) !== 1) return { st: "part", msg: `La valeur est juste, mais la fraction n'est pas irréductible : ${Math.abs(p.a.n)} et ${p.b.n} se divisent encore par ${gcd(p.a.n, p.b.n)}.` };
+    } else if (!p.a.int && ans.d !== 1) {
+      return { st: "part", msg: "La valeur est juste, mais on attend une fraction irréductible plutôt qu'un nombre décimal." };
+    }
+  }
+  return { st: "ok", msg: "Bravo, c'est juste !" };
+}
+
+/* ---------- Mini-langage d'écriture mathématique ----------
+   [[a~b]] fraction    {{c:texte}} couleur (a bleu, b rouge, w orange, g vert, m gris, s barré)
+   **texte** gras      ^n exposant      #0 #1 case à compléter */
+const RE = /\[\[(.*?)~(.*?)\]\]|\{\{(\w+):(.*?)\}\}|\*\*(.*?)\*\*|\^(\d+)|#(\d)/g;
+function parse(s, ctx, kp = "k") {
+  const out = []; let last = 0, m, i = 0;
+  const str = String(s);
+  const re = new RegExp(RE.source, "g");
+  while ((m = re.exec(str))) {
+    if (m.index > last) out.push(str.slice(last, m.index));
+    const k = kp + "-" + (i++);
+    if (m[1] !== undefined) out.push(html`<span className="fr" key=${k}><span>${parse(m[1], ctx, k + "n")}</span><span>${parse(m[2], ctx, k + "d")}</span></span>`);
+    else if (m[3] !== undefined) out.push(html`<span className=${"c-" + m[3]} key=${k}>${parse(m[4], ctx, k + "c")}</span>`);
+    else if (m[5] !== undefined) out.push(html`<b key=${k}>${parse(m[5], ctx, k + "b")}</b>`);
+    else if (m[6] !== undefined) out.push(html`<sup key=${k}>${m[6]}</sup>`);
+    else if (m[7] !== undefined) out.push(ctx && ctx.blank ? html`<${Fragment} key=${k}>${ctx.blank(+m[7])}</${Fragment}>` : "…");
+    last = re.lastIndex;
+  }
+  if (last < str.length) out.push(str.slice(last));
+  return out;
+}
+const m = (s, cls = "") => html`<span className=${"mx " + cls}>${parse(s)}</span>`;
+
+/* ---------- Lecture à voix haute (principe de modalité, facultatif) ---------- */
+const canSpeak = typeof window !== "undefined" && "speechSynthesis" in window && typeof SpeechSynthesisUtterance !== "undefined";
+const speakable = s => String(s)
+  .replace(/\[\[(.*?)~(.*?)\]\]/g, " $1 sur $2 ")
+  .replace(/\{\{\w+:(.*?)\}\}/g, "$1").replace(/\*\*/g, "").replace(/#\d/g, " … ")
+  .replace(/−/g, " moins ").replace(/×/g, " fois ").replace(/÷/g, " divisé par ").replace(/=/g, " égale ")
+  .replace(/</g, " est plus petit que ").replace(/>/g, " est plus grand que ").replace(/≠/g, " n'est pas égal à ")
+  .replace(/→/g, ", ").replace(/%/g, " pour cent").replace(/\(/g, " ").replace(/\)/g, " ");
+function speak(s) { try { const u = new SpeechSynthesisUtterance(speakable(s)); u.lang = "fr-FR"; u.rate = 0.92; window.speechSynthesis.cancel(); window.speechSynthesis.speak(u); } catch (e) {} }
+
+/* ---------- Termes écrits comme dans les manuels ----------
+   "a/b" fraction (signes laissés en place), "-(a/b)" signe devant, "n" entier */
+function T(spec) {
+  const s = String(spec).replace(/\s+/g, "").replace(/[−–]/g, "-");
+  let mm;
+  if ((mm = s.match(/^-\((-?\d+)\/(-?\d+)\)$/))) {
+    const n = +mm[1], d = +mm[2];
+    return { v: R(-n, d), s: "−" + fr(n, d), lead: true, rn: -(d < 0 ? -n : n), rd: Math.abs(d) };
+  }
+  if ((mm = s.match(/^(-?\d+)\/(-?\d+)$/))) {
+    const n = +mm[1], d = +mm[2];
+    return { v: R(n, d), s: fr(n, d), lead: false, rn: d < 0 ? -n : n, rd: Math.abs(d) };
+  }
+  if ((mm = s.match(/^(-?\d+)$/))) { const n = +mm[1]; return { v: R(n), s: neg(n), lead: n < 0, rn: n, rd: 1 }; }
+  throw new Error("Terme illisible : " + spec);
+}
+const Tv = v => ({ v, s: fm(v), lead: v.n < 0, rn: v.n, rd: v.d });
+const wrap = t => t.lead ? "(" + t.s + ")" : t.s;
+const inv = t => Tv(R(t.v.d, t.v.n));
+
+/* Expressions : termes entre accolades, opérateurs + − × ÷, parenthèses.
+   ex. "{-(2/3)} + {5/6} × {4/5} − {1/2}" */
+function parseExpr(src) {
+  const toks = src.match(/\{[^}]+\}|[()+\-−×÷*:]/g).map(t => t === "*" ? "×" : t === ":" ? "÷" : t === "-" ? "−" : t);
+  let i = 0;
+  const peek = () => toks[i], next = () => toks[i++];
+  function prim() { const t = next(); if (t === "(") { const e = sum(); next(); return { ...e, par: true }; } return { t: "n", term: T(t.slice(1, -1)) }; }
+  function prod() { let a = prim(); while (peek() === "×" || peek() === "÷") { const op = next(); a = { t: "o", op, a, b: prim() }; } return a; }
+  function sum() { let a = prod(); while (peek() === "+" || peek() === "−") { const op = next(); a = { t: "o", op, a, b: prod() }; } return a; }
+  return sum();
+}
+function render(n, first = true) {
+  if (n.t === "n") return !first && n.term.lead ? "(" + n.term.s + ")" : n.term.s;
+  const inner = `${render(n.a, n.par ? true : first)} ${n.op} ${render(n.b, false)}`;
+  return n.par ? "(" + inner + ")" : inner;
+}
+const OPF = { "+": add, "−": sub, "×": mul, "÷": div };
+const evalT = n => n.t === "n" ? n.term.v : OPF[n.op](evalT(n.a), evalT(n.b));
+const anyNode = (n, f) => f(n) || (n.t === "o" && (anyNode(n.a, f) || anyNode(n.b, f)));
+const hasPar = n => anyNode(n, x => x.t === "o" && x.par);
+const hasAddSub = n => anyNode(n, x => x.t === "o" && (x.op === "+" || x.op === "−"));
+const onlyOps = (n, ops) => !anyNode(n, x => x.t === "o" && !ops.includes(x.op));
+function flat(n) { if (n.t === "n") return { ts: [n.term], os: [] }; const A = flat(n.a), B = flat(n.b); return { ts: [...A.ts, ...B.ts], os: [...A.os, n.op, ...B.os] }; }
+function comps(n, p = []) { if (n.t === "n") return []; const here = n.a.t === "n" && n.b.t === "n" ? [{ p, n }] : []; return [...comps(n.a, [...p, "a"]), ...here, ...comps(n.b, [...p, "b"])]; }
+function pickNext(t) { const cs = comps(t); return cs.find(c => c.n.par) || cs.find(c => c.n.op === "×" || c.n.op === "÷") || cs[0]; }
+const getAt = (t, p) => p.reduce((x, k) => x[k], t);
+const setAt = (t, p, leaf) => p.length === 0 ? leaf : { ...t, [p[0]]: setAt(t[p[0]], p.slice(1), leaf) };
+
+/* ---------- Corrections détaillées générées automatiquement ---------- */
+const prodTxt = (sg, A, B) => B.length ? `${sg}[[${A.join(" × ")}~${B.join(" × ")}]]` : `${sg}${A.join(" × ")}`;
+
+/* Une seule opération : la ligne de calcul */
+function opLine(a, op, b) {
+  let res, line = `${a.s} ${op} ${wrap(b)} = `;
+  if (op === "+" || op === "−") {
+    res = op === "+" ? add(a.v, b.v) : sub(a.v, b.v);
+    const D = lcm(a.rd, b.rd), n1 = a.rn * D / a.rd, n2 = b.rn * D / b.rd, N = op === "+" ? n1 + n2 : n1 - n2;
+    if (D === 1) line += neg(N);
+    else if (a.v.n === 0 || b.v.n === 0) line += fm(res);
+    else {
+      if (a.rd !== D || b.rd !== D) line += `${fn(n1, D)} ${op} ${fn(n2, D)} = `;
+      line += fn(N, D);
+      if (N === 0) line += " = 0"; else if (gcd(N, D) > 1 || N < 0) line += ` = ${fm(res)}`;
+    }
+  } else {
+    let B = b;
+    if (op === "÷") { B = inv(b); line += `${a.s} × ${wrap(B)} = `; }
+    res = mul(a.v, B.v);
+    if (res.n === 0) line += "0";
+    else {
+      const sg = res.n < 0 ? "−" : "";
+      const A2 = [Math.abs(a.rn), Math.abs(B.rn)], D2 = [a.rd, B.rd].filter(x => x !== 1);
+      line += prodTxt(sg, A2, D2);
+      const raw = prodTxt(sg, [A2[0] * A2[1]], D2.length ? [D2.reduce((x, y) => x * y, 1)] : []);
+      line += " = " + raw;
+      if (fm(res) !== raw) line += " = " + fm(res);
+    }
+  }
+  return { res, line };
+}
+
+/* Somme algébrique : tout au même dénominateur */
+function sumSteps(ts, os) {
+  const st = [];
+  const w = ts.map((t, i) => ({ n: i && os[i - 1] === "−" ? -t.rn : t.rn, d: t.rd }));
+  const changed = os.includes("−") || ts.some(t => t.s !== fn(t.rn, t.rd));
+  const sumTxt = arr => arr.map((x, i) => (i ? " + " : "") + fn(x.n, x.d)).join("");
+  if (changed) st.push(`On transforme les soustractions en additions de l'opposé et on place chaque signe {{b:−}} au numérateur (dénominateurs positifs) : ${sumTxt(w)}`);
+  const dens = [...new Set(w.map(x => x.d))];
+  const D = dens.reduce(lcm, 1);
+  let w2 = w;
+  if (dens.length === 1) st.push(D === 1 ? "Ce sont des nombres entiers." : `Les dénominateurs sont tous égaux à ${D} : on peut additionner directement les numérateurs.`);
+  else {
+    st.push(`Dénominateur commun : **${D}**, le plus petit multiple commun de ${dens.slice(0, -1).join(", ")} et ${dens[dens.length - 1]}.`);
+    st.push(`On transforme chaque fraction (même nombre en haut et en bas) : ${w.map((x, i) => (i ? " + " : "") + (x.d === D ? fn(x.n, D) : x.d === 1 ? `[[${neg(x.n)} × {{a:${D}}}~{{a:${D}}}]]` : `[[${neg(x.n)} × {{a:${D / x.d}}}~${x.d} × {{a:${D / x.d}}}]]`)).join("")} = ${sumTxt(w.map(x => ({ n: x.n * D / x.d, d: D })))}`);
+    w2 = w.map(x => ({ n: x.n * D / x.d, d: D }));
+  }
+  const N = w2.reduce((s, x) => s + x.n, 0);
+  if (ts.length > 1) st.push(D === 1 ? `${w2.map((x, i) => (i ? " + " : "") + (i && x.n < 0 ? "(" + neg(x.n) + ")" : neg(x.n))).join("")} = ${neg(N)}`
+    : `On additionne les numérateurs et on garde le dénominateur : [[${w2.map((x, i) => (i ? " + " : "") + (i && x.n < 0 ? "(" + neg(x.n) + ")" : neg(x.n))).join("")}~${D}]] = ${fn(N, D)}`);
+  if (D > 1) {
+    if (N === 0) st.push("Le numérateur est nul : le résultat est 0.");
+    else if (gcd(N, D) > 1) st.push(`On simplifie par ${gcd(N, D)} : ${fn(N, D)} = ${fm(R(N, D))}`);
+    else st.push(`${Math.abs(N)} et ${D} n'ont pas de diviseur commun : la fraction est irréductible. Résultat : ${fm(R(N, D))}`);
+  }
+  return st;
+}
+
+/* Produit : signe, un seul quotient, simplification avant de calculer */
+function prodSteps(ts, pre = []) {
+  const st = [...pre];
+  if (ts.some(t => t.v.n === 0)) { st.push("Un des facteurs est égal à 0 : **le produit est nul**, inutile de calculer le reste !"); return st; }
+  const k = ts.filter(t => t.v.n < 0).length, sg = k % 2 ? "−" : "";
+  st.push(k === 0 ? "Signe : aucun facteur négatif, le produit est {{g:positif}}."
+    : `Signe : ${k} facteur${k > 1 ? "s" : ""} négatif${k > 1 ? "s" : ""}, c'est un nombre ${k % 2 ? "impair" : "pair"} de signes {{b:−}} : le produit est ${k % 2 ? "{{b:négatif}}" : "{{g:positif}}"}.`);
+  const A = ts.map(t => Math.abs(t.rn)), B = ts.map(t => t.rd).filter(x => x !== 1);
+  st.push(`On multiplie les numérateurs entre eux et les dénominateurs entre eux : ${prodTxt(sg, A, B)}`);
+  const pairs = []; let ch = true;
+  while (ch) { ch = false; for (let i = 0; i < A.length; i++) for (let j = 0; j < B.length; j++) { const g = gcd(A[i], B[j]); if (g > 1) { pairs.push([A[i], B[j], g]); A[i] /= g; B[j] /= g; ch = true; } } }
+  const A2 = A.filter(x => x !== 1), B2 = B.filter(x => x !== 1);
+  const res = ts.reduce((p, t) => mul(p, t.v), R(1));
+  if (pairs.length) st.push(`On simplifie **avant** de calculer : ${pairs.map(([a, b, g]) => `{{w:${a}}} et {{w:${b}}} se divisent par ${g}`).join(" ; ")}. Il reste ${prodTxt(sg, A2.length ? A2 : [1], B2)}`);
+  else if (B.length) st.push("Pas de facteur commun entre le haut et le bas : on calcule directement.");
+  st.push(`On calcule : ${fm(res)}`);
+  return st;
+}
+function divSteps(a, b) {
+  const ib = inv(b);
+  return prodSteps([a, ib], [`Diviser par ${wrap(b)}, c'est multiplier par son **inverse** ${ib.s} : ${a.s} ÷ ${wrap(b)} = ${a.s} × ${wrap(ib)}`]);
+}
+/* Enchaînement d'opérations : une priorité à la fois */
+function exprSteps(tree) {
+  const st = ["Ordre des calculs : d'abord les **parenthèses**, puis **× et ÷**, enfin **+ et −** (à priorité égale, de gauche à droite)."];
+  let t = tree, guard = 0;
+  while (t.t === "o" && guard++ < 30) {
+    const c = pickNext(t), nd = c.n;
+    const { res, line } = opLine(nd.a.term, nd.op, nd.b.term);
+    const why = nd.par ? "Parenthèse d'abord" : (nd.op === "×" || nd.op === "÷") ? (hasAddSub(t) ? (nd.op === "×" ? "Multiplication prioritaire" : "Division prioritaire") : "De gauche à droite") : "Additions et soustractions, de gauche à droite";
+    t = setAt(t, c.p, { t: "n", term: Tv(res) });
+    st.push(`{{a:${why}}} : ${line}` + (t.t === "o" ? ` — on recopie : ${render(t)}` : ""));
+  }
+  return st;
+}
+function autoSteps(tree) {
+  if (tree.t === "n") return [];
+  if (!hasPar(tree) && onlyOps(tree, ["+", "−"])) { const f = flat(tree); return sumSteps(f.ts, f.os); }
+  if (!hasPar(tree) && onlyOps(tree, ["×"])) return prodSteps(flat(tree).ts);
+  if (tree.op === "÷" && tree.a.t === "n" && tree.b.t === "n") return divSteps(tree.a.term, tree.b.term);
+  return exprSteps(tree);
+}
+/* Fabrique un exercice de calcul à partir d'une expression */
+function X(src, opt = {}) {
+  const tree = parseExpr(src);
+  const ans = evalT(tree);
+  const head = opt.q || "Calcule et donne le résultat sous forme irréductible :";
+  return { kind: "frac", irr: true, q: `${head} ${opt.name ? opt.name + " = " : ""}${render(tree)}`, ans, steps: opt.steps || autoSteps(tree), hint: opt.hint, src };
+}
+
+/* Simplification pas à pas, avec les critères de divisibilité */
+function simpSteps(n, d) {
+  const st = [];
+  if (d < 0) { st.push(`On rend le dénominateur positif : ${fr(n, d)} = ${fr(-n, -d)}`); n = -n; d = -d; }
+  const g0 = gcd(n, d);
+  const crit = { 2: "sont pairs", 3: "ont une somme des chiffres divisible par 3", 5: "se terminent par 0 ou 5" };
+  let k = 0;
+  for (const p of [2, 3, 5, 7, 11, 13]) {
+    while (n % p === 0 && d % p === 0 && d > 1) {
+      st.push(`${Math.abs(n)} et ${d} ${crit[p] || "sont dans la table de " + p} : on divise en haut et en bas par {{a:${p}}} → [[${neg(n)} ÷ {{a:${p}}}~${d} ÷ {{a:${p}}}]] = ${fn(n / p, d / p)}`);
+      n /= p; d /= p; k++;
+    }
+  }
+  if (d === 1) st.push(`Le dénominateur vaut 1 : le résultat est l'entier ${neg(n)}.`);
+  else st.push(`${Math.abs(n)} et ${d} n'ont plus de diviseur commun (autre que 1) : ${fm(R(n, d))} est **irréductible**.`);
+  if (k > 1) st.push(`Plus rapide : diviser directement par ${g0}, le plus grand diviseur commun.`);
+  return st;
+}
+/* Comparaison de deux nombres */
+function cmpSteps(a, b) {
+  const st = [];
+  if ((a.n < 0) !== (b.n < 0) && a.n !== 0 && b.n !== 0) { st.push("Un nombre **négatif** est toujours plus petit qu'un nombre **positif**."); return st; }
+  const D = lcm(a.d, b.d);
+  if (a.d === b.d) st.push(`Même dénominateur positif (${D}) : on compare les numérateurs.`);
+  else st.push(`On écrit les deux nombres avec le dénominateur commun **${D}** : ${fm(a)} = ${fn(a.n * D / a.d, D)} et ${fm(b)} = ${fn(b.n * D / b.d, D)}.`);
+  const x = a.n * D / a.d, y = b.n * D / b.d, c = Math.sign(x - y);
+  st.push(`${neg(x)} ${c < 0 ? "<" : c > 0 ? ">" : "="} ${neg(y)}, donc ${fm(a)} ${c < 0 ? "<" : c > 0 ? ">" : "="} ${fm(b)}.` + (a.n < 0 && b.n < 0 ? " (Pour les négatifs : le plus éloigné de 0 est le plus petit.)" : ""));
+  return st;
+}
+const CMP_SYM = ["<", "=", ">"];
+function CMP(sa, sb) {
+  const a = T(sa), b = T(sb), c = cmp(a.v, b.v), ans = c < 0 ? 0 : c === 0 ? 1 : 2;
+  const opts = CMP_SYM.map(s => `${a.s} ${s} ${b.s}`);
+  return { kind: "choice", q: `Compare ${a.s} et ${b.s}.`, opts, ans, sol: opts[ans], steps: cmpSteps(a.v, b.v) };
+}
+function ORD(specs, dir = "asc") {
+  const ts = specs.map(T), vals = ts.map(t => t.v);
+  const D = vals.reduce((x, v) => lcm(x, v.d), 1);
+  const idx = ts.map((_, i) => i).sort((i, j) => cmp(vals[i], vals[j]) * (dir === "desc" ? -1 : 1));
+  const sy = dir === "desc" ? " > " : " < ";
+  return { kind: "order", dir, q: `Range dans l'ordre ${dir === "desc" ? "décroissant" : "croissant"} : ${ts.map(t => t.s).join(" ; ")}`, items: ts.map(t => t.s), vals,
+    sol: idx.map(i => ts[i].s).join(sy),
+    steps: [`Dénominateur commun : **${D}**. ${ts.map((t, i) => `${t.s} = ${fn(vals[i].n * D / vals[i].d, D)}`).join(" ; ")}`,
+      `On range les numérateurs : ${idx.map(i => neg(vals[i].n * D / vals[i].d)).join(sy)}`,
+      `D'où : ${idx.map(i => ts[i].s).join(sy)}`] };
+}
+/* Fraction d'une quantité */
+function QTY(text, fSpec, Q, unit, isPct) {
+  const f = isPct ? R(fSpec, 100) : T(fSpec).v;
+  const fT = isPct ? `[[${fSpec}~100]]` : fm(f);
+  const ans = mul(f, R(Q));
+  const st = [`« Les ${isPct ? fSpec + " %" : fm(f)} de ${Q} » se traduit par une **multiplication** : ${fT} × ${Q}.`];
+  if (isPct) st.push(`${fSpec} % = [[${fSpec}~100]]` + (fm(f) !== `[[${fSpec}~100]]` ? ` = ${fm(f)}` : ""));
+  if (f.d !== 1 && Q % f.d === 0) st.push(`Le plus simple : on divise d'abord par le dénominateur, puis on multiplie par le numérateur : ${Q} ÷ ${f.d} = ${Q / f.d}, puis ${Q / f.d} × ${f.n} = ${nice(ans)}.`);
+  else st.push(`${fm(f)} × ${Q} = [[${f.n} × ${Q}~${f.d}]] = [[${f.n * Q}~${f.d}]] = ${nice(ans)}`);
+  return { kind: "num", q: text, ans, unit, steps: st, sol: `${nice(ans)} ${unit || ""}` };
+}
+
+/* ---------- Petits composants ---------- */
+function Level({ n }) { return html`<span className="lvl" title=${"Niveau " + n + " sur 3"} aria-label=${"Niveau " + n + " sur 3"}>${[1, 2, 3].map(i => html`<i key=${i} className=${i <= n ? "on" : ""}></i>`)}</span>`; }
+function Msg({ st, children }) { if (!st) return null; const c = st === "ok" ? "ok" : st === "part" ? "warn" : st === "info" ? "info" : "ko"; return html`<div className=${"msg " + c} role="status"><div>${children}</div></div>`; }
+function FBar({ parts, on, sub = 1, tone = "a", label }) {
+  const cells = [];
+  for (let i = 0; i < parts * sub; i++) {
+    const last = i === parts * sub - 1;
+    const cls = (i < on * sub ? "on " : "") + (last ? "" : sub > 1 && (i + 1) % sub !== 0 ? "minor" : sub > 1 ? "major" : "");
+    cells.push(html`<span key=${i} className=${cls}></span>`);
+  }
+  return html`<div className=${"fbar t-" + tone} role="img" aria-label=${label || `${on} parts coloriées sur ${parts}`}>${cells}</div>`;
+}
+/* Plusieurs unités si la fraction dépasse 1 */
+function FBars({ n, d, sub = 1, tone = "a" }) {
+  const k = Math.max(1, Math.ceil(n / d));
+  return html`<div className="fbars">${Array.from({ length: k }, (_, i) => html`<${FBar} key=${i} parts=${d} sub=${sub} tone=${tone} on=${Math.max(0, Math.min(d, n - i * d))}/>`)}</div>`;
+}
+/* Code couleur (principe de signalement) */
+function ColorCode() {
+  return html`<div className="cc" aria-label="Code couleur">
+    <span className="muted">Code couleur :</span>
+    <span><span className="c-a">bleu</span> = ce qu'on fait en haut et en bas</span>
+    <span><span className="c-b">rouge</span> = les signes</span>
+    <span><span className="c-w">orange</span> = ce qui se simplifie</span>
+    <span><span className="c-g">vert</span> = le résultat</span>
+  </div>`;
+}
+
+/* Exemple résolu : étapes dévoilées une à une (segmentation), lecture audio, auto-explication */
+function Worked({ w }) {
+  const [k, setK] = useState(1);
+  const [see, setSee] = useState(false);
+  const n = w.steps.length;
+  return html`<div className="worked">
+    <div className="row"><span className="tag">Exemple résolu — lis-le avant de t'entraîner</span><span className="spacer"></span>
+      ${canSpeak ? html`<button className="btn small" onClick=${() => speak(k === 1 ? w.q + ". " + w.steps[0] : w.steps[k - 1])} title="Lire l'étape à voix haute">Écouter l'étape</button>` : null}</div>
+    <div className="exo-q">${parse(w.q)}</div>
+    <ol className="steps">${w.steps.slice(0, k).map((s, i) => html`<li key=${i}>${parse(s)}</li>`)}</ol>
+    ${k < n ? html`<div className="row"><button className="btn small primary" onClick=${() => setK(k + 1)}>Étape suivante (${k}/${n})</button><button className="btn small" onClick=${() => setK(n)}>Tout afficher</button></div>`
+      : html`<${Fragment}>
+        ${w.end ? html`<div className="msg info">${parse(w.end)}</div>` : null}
+        ${w.ask ? html`<div className="selfexp"><span className="tag">À toi de t'expliquer</span><p>${parse(w.ask[0])}</p>
+          <p className="muted" style=${{ fontSize: ".9em" }}>Réponds dans ta tête (ou à voix haute), puis compare.</p>
+          ${see ? html`<div className="msg ok">${parse(w.ask[1])}</div>` : html`<div><button className="btn small" onClick=${() => setSee(true)}>Comparer avec ma réponse</button></div>`}</div>` : null}
+      </${Fragment}>`}
+  </div>`;
+}
+
+/* Un exercice, quel que soit son type */
+function Exo({ e, num, solved, onSolved }) {
+  const [v, setV] = useState("");
+  const [vals, setVals] = useState({});
+  const [sel, setSel] = useState([]);
+  const [res, setRes] = useState(null);
+  const [cells, setCells] = useState({});
+  const [hint, setHint] = useState(false);
+  const [corr, setCorr] = useState(0);
+  const done = solved.has(e.id);
+  const win = r => { setRes(r); if (r.st === "ok") onSolved(e.id); };
+  const check = () => {
+    if (e.kind === "frac") win(checkFrac(v, e.ans, { irr: e.irr !== false }));
+    else if (e.kind === "num") { const p = parseInput(v); win(!p ? { st: "ko", msg: "Écris un nombre, par exemple 21 ou 0,8 ou 7/20." } : eqR(p.r, e.ans) ? { st: "ok", msg: "Bravo, c'est juste !" } : { st: "ko", msg: "Ce n'est pas ça. Repère bien la quantité de départ, puis utilise l'indice si besoin." }); }
+    else if (e.kind === "blanks") {
+      const st = e.ans.map((a, i) => { const p = parseInput(vals[i] || ""); return !!p && eqR(p.r, typeof a === "number" ? R(a) : a); });
+      setCells(st);
+      win(st.every(Boolean) ? { st: "ok", msg: "Bravo, toutes les cases sont justes !" } : { st: "ko", msg: "Les cases en rouge sont à revoir." });
+    }
+    else if (e.kind === "multi") {
+      const a = [...e.ans].sort().join(","), b = [...sel].sort().join(",");
+      win(a === b ? { st: "ok", msg: "Bravo, c'est juste !" } : { st: "ko", msg: sel.some(i => !e.ans.includes(i)) ? "Au moins une case cochée ne convient pas." : "Il en manque : regarde encore chaque écriture." });
+    }
+    else if (e.kind === "order") {
+      const ok = sel.length === e.items.length && sel.every((x, i) => i === 0 || cmp(e.vals[sel[i - 1]], e.vals[x]) * (e.dir === "desc" ? -1 : 1) <= 0);
+      win(ok ? { st: "ok", msg: "Bravo, l'ordre est juste !" } : { st: "ko", msg: "L'ordre n'est pas encore le bon. Mets tout au même dénominateur positif, puis compare les numérateurs." });
+    }
+  };
+  const choose = i => { setSel([i]); win(i === e.ans ? { st: "ok", msg: "Bravo, c'est juste !" } : { st: "ko", msg: e.why && e.why[i] ? e.why[i] : "Ce n'est pas la bonne réponse. Regarde l'indice ou la correction." }); };
+  const key = ev => { if (ev.key === "Enter") check(); };
+
+  let body = null;
+  if (e.kind === "frac" || e.kind === "num") {
+    body = html`<div className="row">
+      <input className="field" value=${v} onInput=${ev => { setV(ev.target.value); setRes(null); }} onKeyDown=${key}
+        placeholder=${e.kind === "num" ? "nombre" : "ex. -7/12"} aria-label="Ta réponse" autoComplete="off" spellCheck="false"/>
+      ${e.unit ? html`<span className="unit">${e.unit}</span>` : null}
+      <button className="btn primary" onClick=${check}>Vérifier</button>
+    </div>`;
+  } else if (e.kind === "blanks") {
+    body = html`<div className="row"><button className="btn primary" onClick=${check}>Vérifier</button></div>`;
+  } else if (e.kind === "choice") {
+    body = html`<div className="choices">${e.opts.map((o, i) => html`<button key=${i} className=${"btn" + (sel[0] === i ? (i === e.ans ? " ok" : " ko") : "")} onClick=${() => choose(i)}>${m(o)}</button>`)}</div>`;
+  } else if (e.kind === "multi") {
+    body = html`<div style=${{ display: "grid", gap: ".6em" }}>
+      <div className="choices">${e.opts.map((o, i) => { const on = sel.includes(i); return html`<label key=${i} className=${"chk" + (on ? " on" : "")}><input type="checkbox" checked=${on} onChange=${() => { setRes(null); setSel(on ? sel.filter(x => x !== i) : [...sel, i]); }}/>${m(o)}</label>`; })}</div>
+      <div className="row"><button className="btn primary" onClick=${check}>Vérifier</button></div></div>`;
+  } else if (e.kind === "order") {
+    const s = e.dir === "desc" ? ">" : "<";
+    body = html`<div style=${{ display: "grid", gap: ".6em" }}>
+      <div className="order-pool">${e.items.map((it, i) => html`<button key=${i} className=${"token" + (sel.includes(i) ? " used" : "")} disabled=${sel.includes(i)} onClick=${() => { setRes(null); setSel([...sel, i]); }}>${m(it)}</button>`)}</div>
+      <div className="order-out" aria-label="Ton rangement">${sel.length ? sel.map((x, j) => html`<${Fragment} key=${j}>${j ? html`<span className="sym">${s}</span>` : null}<span className="token" style=${{ cursor: "default" }}>${m(e.items[x])}</span></${Fragment}>`) : html`<span className="muted">Clique les nombres dans l'ordre ${e.dir === "desc" ? "décroissant (du plus grand au plus petit)" : "croissant (du plus petit au plus grand)"}.</span>`}</div>
+      <div className="row"><button className="btn primary" disabled=${sel.length !== e.items.length} onClick=${check}>Vérifier</button><button className="btn" onClick=${() => { setSel([]); setRes(null); }}>Recommencer</button></div></div>`;
+  }
+  const ctx = e.kind === "blanks" ? { blank: i => html`<input className=${"field sm" + (cells[i] === true ? " okf" : cells[i] === false ? " kof" : "")} value=${vals[i] || ""} onInput=${ev => { setVals({ ...vals, [i]: ev.target.value }); setRes(null); setCells({}); }} onKeyDown=${key} aria-label=${"Case " + (i + 1)} autoComplete="off"/>` } : null;
+  const steps = e.steps || [];
+  const sol = e.sol || (e.kind === "frac" ? fm(e.ans) : "");
+  return html`<div className=${"exo" + (done ? " done" : "")}>
+    <span className="tag">Exercice ${num}${done ? " — réussi ✓" : ""}</span>
+    <div className="exo-q">${parse(e.q, ctx)}</div>
+    ${body}
+    ${res ? html`<${Msg} st=${res.st}>${res.msg}</${Msg}>` : null}
+    <div className="row">
+      ${e.hint ? html`<button className="btn small" aria-pressed=${hint} onClick=${() => setHint(!hint)}>Indice</button>` : null}
+      <button className="btn small" aria-pressed=${corr === 1} onClick=${() => setCorr(corr === 1 ? 0 : 1)}>Correction simple</button>
+      ${steps.length ? html`<button className="btn small" aria-pressed=${corr === 2} onClick=${() => setCorr(corr === 2 ? 0 : 2)}>Correction détaillée</button>` : null}
+    </div>
+    ${hint && e.hint ? html`<div className="hint">${parse(e.hint)}</div>` : null}
+    ${corr === 1 ? html`<div className="corr"><h4>Réponse</h4><div className="exo-q">${parse(sol)}</div></div>` : null}
+    ${corr === 2 ? html`<div className="corr"><h4>Correction détaillée</h4><ol className="steps">${steps.map((s, i) => html`<li key=${i}>${parse(s)}</li>`)}</ol><div className="exo-q"><b>Réponse :</b> ${parse(sol)}</div></div>` : null}
+  </div>`;
+}
+
+/* Famille d'exercices : exemple résolu puis exercices de difficulté croissante */
+function Family({ f, idx, solved, onSolved }) {
+  const d = f.exos.filter(e => solved.has(e.id)).length;
+  return html`<section className="fam" id=${"fam-" + idx}>
+    <div className="fam-head"><h3>${idx + 1}. ${f.title}</h3><${Level} n=${f.level}/><span className="spacer"></span><span className="muted num" style=${{ fontSize: ".85em" }}>${d}/${f.exos.length}</span></div>
+    <div className="fam-body">
+      ${f.intro ? html`<p className="lead">${parse(f.intro)}</p>` : null}
+      ${f.worked ? html`<${Worked} w=${f.worked}/>` : null}
+      ${f.exos.map((e, i) => html`<${Exo} key=${e.id} e=${e} num=${i + 1} solved=${solved} onSolved=${onSolved}/>`)}
+    </div>
+  </section>`;
+}
+
+/* Quiz : une question à la fois, explication après chaque réponse */
+function shuffle(a) { const b = a.slice(); for (let i = b.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [b[i], b[j]] = [b[j], b[i]]; } return b; }
+function Quiz({ qs, title }) {
+  const [order, setOrder] = useState(() => qs.map((_, i) => i));
+  const [i, setI] = useState(0);
+  const [pick, setPick] = useState(null);
+  const [hist, setHist] = useState([]);
+  const end = i >= order.length;
+  const q = end ? null : qs[order[i]];
+  const restart = () => { setOrder(shuffle(qs.map((_, k) => k))); setI(0); setPick(null); setHist([]); };
+  const score = hist.filter(Boolean).length;
+  return html`<div className="frame quiz-q">
+    <div className="row"><b>${title || "Quiz"}</b><span className="spacer"></span>
+      <div className="dots" aria-hidden="true">${order.map((_, k) => html`<i key=${k} className=${k < hist.length ? (hist[k] ? "ok" : "ko") : k === i ? "cur" : ""}></i>`)}</div></div>
+    ${end ? html`<div style=${{ display: "grid", gap: ".7em" }}>
+        <p className="big-mx"><b>Score : ${score} / ${order.length}</b></p>
+        <p className="muted">${score === order.length ? "Parfait : tu maîtrises ces notions." : score >= order.length * 0.6 ? "Bien ! Relis les explications des questions ratées, puis recommence." : "Retourne dans « Comprendre », puis refais le quiz : les questions changent d'ordre."}</p>
+        <div className="row"><button className="btn primary" onClick=${restart}>Recommencer le quiz</button></div></div>`
+    : html`<div style=${{ display: "grid", gap: ".7em" }}>
+        <span className="muted" style=${{ fontSize: ".85em" }}>Question ${i + 1} sur ${order.length}</span>
+        <div className="exo-q big-mx">${parse(q.q)}</div>
+        <div className="quiz-opts">${q.opts.map((o, k) => html`<button key=${k} className=${"quiz-opt" + (pick !== null ? (k === q.ans ? " ok" : k === pick ? " ko" : "") : "")} disabled=${pick !== null} onClick=${() => { setPick(k); setHist([...hist, k === q.ans]); }}>${m(o)}</button>`)}</div>
+        ${pick !== null ? html`<${Msg} st=${pick === q.ans ? "ok" : "ko"}><b>${pick === q.ans ? "Juste !" : "Pas tout à fait."}</b> <span>${parse(q.why)}</span></${Msg}>
+          <div className="row"><button className="btn primary" onClick=${() => { setI(i + 1); setPick(null); }}>${i + 1 < order.length ? "Question suivante" : "Voir mon score"}</button></div>` : null}
+      </div>`}
+  </div>`;
+}
+
+/* ---------- Mise en page des leçons ---------- */
+const Sec = ({ n, t, children }) => html`<section className="sec"><h3><span className="sn">${n}</span>${t}</h3>${children}</section>`;
+const Keep = ({ items, t = "À retenir" }) => html`<div className="keep"><h4>${t}</h4><ul>${items.map((s, i) => html`<li key=${i}>${parse(s)}</li>`)}</ul></div>`;
+const Trap = ({ items, t = "Piège à éviter" }) => html`<div className="trap"><h4>${t}</h4>${items.map((s, i) => html`<p key=${i}>${parse(s)}</p>`)}</div>`;
+const Ex = ({ s }) => html`<div className="ex">${parse(s)}</div>`;
+const Pp = ({ s }) => html`<p>${parse(s)}</p>`;
+const VF = ["Vrai", "Faux"];
+const Range = ({ label, value, min, max, set, out }) => html`<div className="ctrl"><label><span>${label}</span><output>${out !== undefined ? out : value}</output></label>
+  <input type="range" min=${min} max=${max} value=${value} onInput=${e => set(+e.target.value)} aria-label=${label}/></div>`;
+/* Champ « fraction » des laboratoires */
+function FracField({ value, set, label, w = "6em" }) {
+  const ok = !!parseInput(value);
+  return html`<input className=${"field sm" + (value && !ok ? " kof" : "")} style=${{ width: w }} value=${value} onInput=${e => set(e.target.value)} aria-label=${label} autoComplete="off" spellCheck="false"/>`;
+}
+/* Terme saisi dans un labo → terme de calcul */
+function fieldTerm(s) {
+  const t = clean(s).replace(/^\((.*)\)$/, "$1");
+  if (/^-?\d+(\/-?\d+)?$/.test(t) && !/\/-?0+$/.test(t)) return T(t);
+  const p = parseInput(s); return p && p.r.d !== 0 ? Tv(p.r) : null;
+}
+
+/* =====================================================================
+   CHAPITRE 1 — Écrire une fraction autrement
+   ===================================================================== */
+function EqLab() {
+  const [d, setD] = useState(4), [n, setN] = useState(3), [k, setK] = useState(2);
+  const nn = Math.min(n, 2 * d);
+  return html`<div className="frame lab">
+    <h4>Le laboratoire des fractions égales</h4>
+    <p className="lead">Choisis une fraction, puis découpe chaque part en ${k} morceaux. La longueur coloriée ne change pas : les deux fractions sont <b>égales</b>.</p>
+    <div className="labgrid">
+      <div><${Range} label="Dénominateur (nombre de parts)" value=${d} min=${2} max=${10} set=${x => { setD(x); if (n > 2 * x) setN(x); }}/>
+        <${Range} label="Numérateur (parts coloriées)" value=${nn} min=${0} max=${2 * d} set=${setN}/>
+        <${Range} label="On multiplie en haut et en bas par" value=${k} min=${1} max=${6} set=${setK}/></div>
+      <div className="bars">
+        <span className="lbl">${m(fn(nn, d), "big-mx")}</span><${FBars} n=${nn} d=${d}/>
+        <span className="lbl">${m(`[[${nn} × {{a:${k}}}~${d} × {{a:${k}}}]] = [[${nn * k}~${d * k}]]`, "big-mx")}</span><${FBars} n=${nn} d=${d} sub=${k}/>
+      </div>
+    </div>
+    <${Msg} st="info">${m(`${fn(nn, d)} = [[${nn * k}~${d * k}]]`)} : on a ${k} fois plus de parts, mais chaque part est ${k} fois plus petite.${gcd(nn, d) > 1 ? html` Et dans l'autre sens : ${m(`${fn(nn, d)} se simplifie en ${fm(R(nn, d))}`)}.` : ""}</${Msg}>
+  </div>`;
+}
+function PctLab() {
+  const [s, setS] = useState("3/8");
+  const p = parseInput(s);
+  const r = p ? p.r : null;
+  const pct = r ? val(r) * 100 : 0;
+  const show = r && val(r) >= 0 && val(r) <= 1;
+  const full = Math.floor(pct + 1e-9), part = pct - full;
+  return html`<div className="frame lab">
+    <h4>Le convertisseur fraction → décimal → pourcentage</h4>
+    <p className="lead">Écris une fraction (par exemple 3/8, 7/20, 2/3, -5/4). La grille compte 100 carreaux : le pourcentage, c'est le nombre de carreaux colorés.</p>
+    <div className="row"><span>Fraction :</span><${FracField} value=${s} set=${setS} label="Fraction à convertir"/></div>
+    ${!r ? html`<${Msg} st="ko">Écris une fraction comme 3/8.</${Msg}>` : html`<div className="labgrid">
+      ${show ? html`<div style=${{ flex: "0 0 auto" }}><div className="grid100" aria-label=${dec(pct) + " carreaux sur 100"}>${Array.from({ length: 100 }, (_, i) => html`<i key=${i} className=${i < full ? "on" : ""} style=${i === full && part > 0.001 ? { background: `linear-gradient(90deg,var(--accent) ${part * 100}%,var(--view) ${part * 100}%)` } : null}></i>`)}</div></div>` : null}
+      <div>
+        <table className="tbl"><tbody>
+          <tr><th>Fraction</th><td>${m(fm(r), "big-mx")}</td></tr>
+          <tr><th>Quotient</th><td>${m(`${neg(r.n)} ÷ ${r.d}`)}</td></tr>
+          <tr><th>Décimal</th><td>${isDecR(r) ? dec(val(r)) : html`≈ ${dec(+val(r).toFixed(4))} <span className="muted">(la division ne s'arrête pas)</span>`}</td></tr>
+          <tr><th>Pourcentage</th><td>${isDecR(R(r.n * 100, r.d)) ? dec(pct) : "≈ " + dec(+pct.toFixed(2))} %</td></tr>
+        </tbody></table>
+        ${!show ? html`<p className="cap">La grille n'est dessinée que pour les nombres entre 0 et 1.</p>` : null}
+      </div></div>`}
+  </div>`;
+}
+function Learn1() {
+  return html`<${Fragment}>
+    <${Sec} n="0" t="Les mots du chapitre">
+      <div className="anat">
+        <span className="bigf">${m("[[3~4]]")}</span>
+        <dl><dt>3</dt><dd>le <b>numérateur</b> : le nombre de parts que l'on prend</dd>
+          <dt>4</dt><dd>le <b>dénominateur</b> : en combien de parts égales on partage l'unité</dd>
+          <dt>—</dt><dd>le <b>trait de fraction</b> veut dire « divisé par »</dd></dl>
+      </div>
+      <div className="gloss">
+        <div className="frame"><h4>Quotient</h4><p>${parse("Le résultat d'une division : [[3~4]] = 3 ÷ 4.")}</p></div>
+        <div className="frame"><h4>Fractions égales</h4><p>${parse("Deux écritures du même nombre : [[3~4]] = [[6~8]].")}</p></div>
+        <div className="frame"><h4>Fraction irréductible</h4><p>${parse("Une fraction qu'on ne peut plus simplifier : [[2~3]].")}</p></div>
+        <div className="frame"><h4>Opposé / inverse</h4><p>${parse("Opposé de [[2~3]] : −[[2~3]]. Inverse de [[2~3]] : [[3~2]] (chapitre 5).")}</p></div>
+      </div>
+      <${ColorCode}/>
+    </${Sec}>
+    <${Sec} n="1" t="Une fraction est un quotient">
+      <${Ex} s="[[a~b]] = a ÷ b   (avec b ≠ 0)"/>
+      <${Pp} s="Exemple : [[3~4]] = 3 ÷ 4 = 0,75. C'est aussi le nombre qui, multiplié par 4, donne 3 : 4 × [[3~4]] = 3."/>
+    </${Sec}>
+    <${Sec} n="2" t="Fractions égales : même opération en haut et en bas">
+      <${Ex} s="[[a~b]] = [[a × {{a:k}}~b × {{a:k}}]] = [[a ÷ {{a:k}}~b ÷ {{a:k}}]]   (k ≠ 0)"/>
+      <div className="bars" style=${{ maxWidth: "460px" }}>
+        <span className="lbl">${m("[[3~4]]")}</span><${FBar} parts=${4} on=${3}/>
+        <span className="lbl">${m("[[3 × {{a:2}}~4 × {{a:2}}]] = [[6~8]]")}</span><${FBar} parts=${4} on=${3} sub=${2}/>
+      </div>
+      <p className="cap">Même longueur coloriée : ${m("[[3~4]] = [[6~8]]")}.</p>
+    </${Sec}>
+    <${Sec} n="3" t="Simplifier une fraction">
+      <${Pp} s="Simplifier, c'est **diviser** le numérateur et le dénominateur par un même diviseur commun. On s'arrête quand la fraction est **irréductible**."/>
+      <${Ex} s="[[12~18]] = [[2 × {{w:6}}~3 × {{w:6}}]] = {{g:[[2~3]]}}"/>
+      <${Pp} s="Pour trouver un diviseur commun, pense aux critères de divisibilité : 2 (nombre pair), 3 (somme des chiffres divisible par 3), 5 (se termine par 0 ou 5)."/>
+    </${Sec}>
+    <${Sec} n="4" t="Où mettre le signe −  ?">
+      <${Ex} s="[[{{b:−}}a~b]] = [[a~{{b:−}}b]] = {{b:−}}[[a~b]]        [[{{b:−}}a~{{b:−}}b]] = [[a~b]]"/>
+      <${Pp} s="Comme pour la division : deux signes {{b:−}} donnent un résultat positif. On écrit toujours le résultat avec un **dénominateur positif** : [[5~−8]] = −[[5~8]]."/>
+    </${Sec}>
+    <${Sec} n="5" t="Fraction, décimal, pourcentage">
+      <${Pp} s="Un pourcentage est une fraction de dénominateur 100 : t % = [[t~100]]."/>
+      <div className="scroll-x"><table className="tbl"><thead><tr><th>Fraction</th><th>Décimal</th><th>Pourcentage</th></tr></thead><tbody>
+        ${[["[[1~2]]", "0,5", "50 %"], ["[[1~4]]", "0,25", "25 %"], ["[[3~4]]", "0,75", "75 %"], ["[[1~5]]", "0,2", "20 %"], ["[[1~8]]", "0,125", "12,5 %"], ["[[1~10]]", "0,1", "10 %"]].map((r, i) => html`<tr key=${i}><td>${m(r[0])}</td><td>${r[1]}</td><td>${r[2]}</td></tr>`)}
+      </tbody></table></div>
+    </${Sec}>
+    <${Trap} items=${["[[2~3]] n'est **pas** 2,3 : c'est 2 ÷ 3 ≈ 0,67.", "On simplifie un **produit**, jamais une somme : [[2 + 3~2 + 5]] ≠ [[3~5]]."]}/>
+    <${Keep} items=${["[[a~b]] = a ÷ b, avec b ≠ 0.", "On peut multiplier ou diviser le haut et le bas par un même nombre (non nul) : la fraction ne change pas.", "Une fraction irréductible ne se simplifie plus.", "Le résultat s'écrit avec un dénominateur positif.", "t % = [[t~100]]."]}/>
+  </${Fragment}>`;
+}
+const MOD1 = {
+  id: "ecr", ic: "=", name: "Écrire autrement",
+  intro: "Une même quantité peut s'écrire de plusieurs façons : fractions égales, fraction irréductible, nombre décimal, pourcentage.",
+  Learn: Learn1, Lab: () => html`<${Fragment}><${EqLab}/><${PctLab}/></${Fragment}>`,
+  fams: [
+    { title: "Compléter des égalités", level: 1,
+      worked: { q: "Compléter : [[5~6]] = [[…~42]]", steps: ["On regarde les dénominateurs : 42 = 6 × {{a:7}}.", "On fait la même chose en haut : 5 × {{a:7}} = 35.", "Donc [[5~6]] = {{g:[[35~42]]}}."], ask: ["Pourquoi a-t-on le droit de multiplier en haut ET en bas par 7 ?", "Parce qu'on multiplie la fraction par [[7~7]] = 1 : sa valeur ne change pas."] },
+      exos: [
+        { kind: "blanks", q: "[[3~4]] = [[#0~20]]", ans: [15], sol: "[[3~4]] = [[15~20]]", steps: ["20 = 4 × {{a:5}}.", "3 × {{a:5}} = 15."] },
+        { kind: "blanks", q: "[[7~5]] = [[28~#0]]", ans: [20], sol: "[[7~5]] = [[28~20]]", steps: ["28 = 7 × {{a:4}}.", "5 × {{a:4}} = 20."] },
+        { kind: "blanks", q: "[[−2~9]] = [[#0~45]]", ans: [-10], sol: "[[−2~9]] = [[−10~45]]", steps: ["45 = 9 × {{a:5}}.", "−2 × {{a:5}} = −10 : le signe {{b:−}} reste au numérateur."] },
+        { kind: "blanks", q: "[[12~16]] = [[#0~4]]", ans: [3], sol: "[[12~16]] = [[3~4]]", steps: ["Ici on divise : 16 ÷ {{a:4}} = 4.", "12 ÷ {{a:4}} = 3."] },
+        { kind: "blanks", q: "[[3~8]] = [[#0~24]] = [[#1~40]]", ans: [9, 15], sol: "[[3~8]] = [[9~24]] = [[15~40]]", steps: ["24 = 8 × 3, donc 3 × 3 = 9.", "40 = 8 × 5, donc 3 × 5 = 15."] }
+      ] },
+    { title: "Simplifier jusqu'à la fraction irréductible", level: 2,
+      worked: { q: "Simplifier [[42~60]].", steps: simpSteps(42, 60), ask: ["Comment être sûr que [[7~10]] est irréductible ?", "Les diviseurs de 7 sont 1 et 7 ; 7 ne divise pas 10. Le seul diviseur commun est 1."] },
+      exos: [
+        { kind: "frac", q: "Simplifie : [[12~18]]", ans: R(12, 18), steps: simpSteps(12, 18) },
+        { kind: "frac", q: "Simplifie : −[[25~40]]", ans: R(-25, 40), steps: ["Le signe {{b:−}} devant reste devant.", ...simpSteps(25, 40)], sol: "−[[5~8]]" },
+        { kind: "frac", q: "Simplifie : [[35~63]]", ans: R(35, 63), steps: simpSteps(35, 63), hint: "35 et 63 sont tous les deux dans la table de 7." },
+        { kind: "frac", q: "Simplifie : −[[48~36]]", ans: R(-48, 36), steps: ["Le signe {{b:−}} devant reste devant.", ...simpSteps(48, 36)], sol: "−[[4~3]]" },
+        { kind: "frac", q: "Simplifie : [[84~120]]", ans: R(84, 120), steps: simpSteps(84, 120) }
+      ] },
+    { title: "Le bon signe", level: 2,
+      intro: "Rappel : on écrit le résultat avec un dénominateur **positif**.",
+      worked: { q: "Écrire [[−12~−18]] sous forme irréductible.", steps: ["Deux signes {{b:−}} : le quotient est positif. [[−12~−18]] = [[12~18]].", "[[12~18]] = [[2 × {{w:6}}~3 × {{w:6}}]] = {{g:[[2~3]]}}."] },
+      exos: [
+        { kind: "choice", q: "[[−3~−7]] est égal à :", opts: ["[[3~7]]", "−[[3~7]]"], ans: 0, sol: "[[−3~−7]] = [[3~7]]", steps: ["Deux signes {{b:−}} : le quotient est positif."] },
+        { kind: "frac", q: "Écris avec un dénominateur positif : [[5~−8]]", ans: R(-5, 8), steps: ["Un seul signe {{b:−}} : le quotient est négatif.", "[[5~−8]] = −[[5~8]] (on peut aussi écrire [[−5~8]])."] },
+        { kind: "frac", q: "Écris sous forme irréductible : [[−14~−21]]", ans: R(2, 3), steps: ["Deux signes {{b:−}} : positif. [[−14~−21]] = [[14~21]].", "14 = 2 × 7 et 21 = 3 × 7 : on simplifie par 7 → [[2~3]]."] },
+        { kind: "multi", q: "Coche toutes les écritures égales à −[[2~5]] :", opts: ["[[−2~5]]", "[[2~−5]]", "[[−2~−5]]", "−[[−2~−5]]", "[[2~5]]"], ans: [0, 1, 3], sol: "[[−2~5]] ; [[2~−5]] ; −[[−2~−5]]", steps: ["[[−2~5]] et [[2~−5]] ont un seul signe {{b:−}} : ils valent −[[2~5]].", "[[−2~−5]] = [[2~5]] (deux signes), donc −[[−2~−5]] = −[[2~5]].", "[[2~5]] et [[−2~−5]] sont positifs : ils ne conviennent pas."] }
+      ] },
+    { title: "Fraction, décimal, pourcentage", level: 2,
+      worked: { q: "Écrire [[7~8]] sous forme décimale, puis en pourcentage.", steps: ["[[7~8]] = 7 ÷ 8 = 0,875.", "0,875 = [[87,5~100]].", "Donc [[7~8]] = 0,875 = {{g:87,5 %}}."], ask: ["Pourquoi [[1~3]] n'a-t-il pas d'écriture décimale exacte ?", "Parce que la division 1 ÷ 3 ne s'arrête jamais : 0,333…"] },
+      exos: [
+        { kind: "blanks", q: "[[3~4]] = #0 = #1 %", ans: [R(3, 4), 75], sol: "[[3~4]] = 0,75 = 75 %", steps: ["3 ÷ 4 = 0,75.", "0,75 = [[75~100]] = 75 %."] },
+        { kind: "blanks", q: "−1,25 = −[[#0~4]]", ans: [5], sol: "−1,25 = −[[5~4]]", steps: ["1,25 = [[125~100]].", "On simplifie par 25 : [[125~100]] = [[5~4]]. Donc −1,25 = −[[5~4]]."] },
+        { kind: "blanks", q: "60 % = [[#0~5]] = #1", ans: [3, R(3, 5)], sol: "60 % = [[3~5]] = 0,6", steps: ["60 % = [[60~100]].", "On simplifie par 20 : [[3~5]].", "3 ÷ 5 = 0,6."] },
+        { kind: "blanks", q: "−[[5~2]] = #0", ans: [R(-5, 2)], sol: "−[[5~2]] = −2,5", steps: ["5 ÷ 2 = 2,5, donc −[[5~2]] = −2,5."] },
+        { kind: "blanks", q: "0,875 = [[#0~8]] = #1 %", ans: [7, R(175, 2)], sol: "0,875 = [[7~8]] = 87,5 %", steps: ["0,875 = [[875~1000]] = [[7~8]] (on simplifie par 125).", "0,875 = [[87,5~100]] = 87,5 %."] },
+        { kind: "blanks", q: "12,5 % = [[1~#0]] = #1", ans: [8, R(1, 8)], sol: "12,5 % = [[1~8]] = 0,125", steps: ["12,5 % = [[12,5~100]] = [[125~1000]].", "On simplifie par 125 : [[1~8]].", "1 ÷ 8 = 0,125."] }
+      ] }
+  ],
+  quiz: [
+    { q: "Dans [[7~12]], le nombre 12 est…", opts: ["le numérateur", "le dénominateur"], ans: 1, why: "Le dénominateur est en bas : il indique en combien de parts on partage l'unité." },
+    { q: "[[3~4]] est égal à :", opts: ["[[6~8]]", "[[4~5]]", "[[3~8]]"], ans: 0, why: "On multiplie en haut et en bas par 2. Ajouter 1 en haut et en bas ([[4~5]]) change la valeur." },
+    { q: "La forme irréductible de [[15~25]] est :", opts: ["[[3~5]]", "[[5~3]]", "[[1~5]]"], ans: 0, why: "15 et 25 se divisent par 5 : [[15~25]] = [[3~5]]." },
+    { q: "[[−4~−9]] est un nombre…", opts: ["positif", "négatif"], ans: 0, why: "Deux signes − : le quotient est positif." },
+    { q: "[[2~5]] = ?", opts: ["0,25", "0,4", "2,5"], ans: 1, why: "2 ÷ 5 = 0,4. Attention : [[2~5]] n'est pas 2,5." },
+    { q: "35 % = ?", opts: ["[[7~20]]", "[[3~5]]", "3,5"], ans: 0, why: "35 % = [[35~100]] = [[7~20]] (on simplifie par 5)." },
+    { q: "Laquelle de ces fractions est irréductible ?", opts: ["[[9~12]]", "[[14~21]]", "[[8~15]]"], ans: 2, why: "8 = 2 × 2 × 2 et 15 = 3 × 5 : aucun diviseur commun. [[9~12]] se simplifie par 3, [[14~21]] par 7." }
+  ]
+};
+
+/* =====================================================================
+   CHAPITRE 2 — Comparer et ranger
+   ===================================================================== */
+const PT_COL = ["#1d6fb8", "#c25e00", "#1e8a4f", "#8a3fb0", "#b8344a"];
+/* Droite graduée : points nommés A, B, C… */
+function NumLine({ vals }) {
+  const ok = vals.filter(Boolean);
+  if (!ok.length) return null;
+  const vs = ok.map(val);
+  const lo = Math.min(0, Math.floor(Math.min(...vs))), hi = Math.max(1, Math.ceil(Math.max(...vs)));
+  const L = ok.reduce((x, v) => lcm(x, v.d), 1);
+  const W = 660, pad = 28, y = 70;
+  const X = v => pad + (v - lo) / (hi - lo) * (W - 2 * pad);
+  const minor = L <= 24 && (hi - lo) * L <= 160 ? L : 0;
+  const ticks = [];
+  if (minor) for (let i = lo * minor; i <= hi * minor; i++) if (i % minor) ticks.push(html`<line key=${"m" + i} x1=${X(i / minor)} x2=${X(i / minor)} y1=${y - 4} y2=${y + 4} className="svg-line" strokeWidth="1"/>`);
+  for (let k = lo; k <= hi; k++) ticks.push(html`<g key=${"M" + k}><line x1=${X(k)} x2=${X(k)} y1=${y - 9} y2=${y + 9} className="svg-ink" strokeWidth="1.6"/><text x=${X(k)} y=${y + 26} textAnchor="middle" className="svg-txt">${neg(k)}</text></g>`);
+  return html`<div className="svgbox"><svg viewBox=${`0 0 ${W} 110`} width=${W} role="img" aria-label="Droite graduée">
+    <line x1=${pad - 10} x2=${W - pad + 10} y1=${y} y2=${y} className="svg-ink" strokeWidth="1.6"/>
+    ${ticks}
+    ${vals.map((v, i) => v ? html`<g key=${"p" + i}><circle cx=${X(val(v))} cy=${y} r="6" fill=${PT_COL[i % 5]}/>
+      <text x=${X(val(v))} y=${y - 16 - (i % 2) * 18} textAnchor="middle" style=${{ font: "700 14px var(--font)" }} fill=${PT_COL[i % 5]}>${"ABCDE"[i]}</text></g>` : null)}
+  </svg>${minor ? html`<p className="cap">Chaque unité est partagée en ${minor} (dénominateur commun).</p>` : null}</div>`;
+}
+function LineLab() {
+  const [xs, setXs] = useState(["2/3", "-1/2", "5/6", "-3/4"]);
+  const rs = xs.map(s => { const p = parseInput(s); return p ? p.r : null; });
+  const ok = rs.map((r, i) => r ? i : -1).filter(i => i >= 0);
+  const sorted = ok.slice().sort((i, j) => cmp(rs[i], rs[j]));
+  return html`<div className="frame lab">
+    <h4>La droite graduée</h4>
+    <p className="lead">Écris jusqu'à quatre nombres (fractions, entiers, négatifs…) : ils se placent sur la droite. Plus un nombre est à droite, plus il est grand.</p>
+    <div className="row">${xs.map((s, i) => html`<span key=${i} className="row" style=${{ gap: ".3em" }}><b style=${{ color: PT_COL[i] }}>${"ABCD"[i]}</b><${FracField} value=${s} set=${v => setXs(xs.map((x, j) => j === i ? v : x))} label=${"Nombre " + "ABCD"[i]}/></span>`)}</div>
+    <${NumLine} vals=${rs}/>
+    ${sorted.length > 1 ? html`<${Msg} st="info">Ordre croissant : ${m(sorted.map(i => `{{m:${"ABCD"[i]}}} ${fm(rs[i])}`).join("  <  "))}</${Msg}>` : null}
+  </div>`;
+}
+function Learn2() {
+  return html`<${Fragment}>
+    <${Sec} n="1" t="Même dénominateur positif : on compare les numérateurs">
+      <${Ex} s="[[2~5]] < [[3~5]]   car 2 < 3"/>
+      <div className="bars" style=${{ maxWidth: "420px" }}>
+        <span className="lbl">${m("[[2~5]]")}</span><${FBar} parts=${5} on=${2}/>
+        <span className="lbl">${m("[[3~5]]")}</span><${FBar} parts=${5} on=${3}/>
+      </div>
+    </${Sec}>
+    <${Sec} n="2" t="Comparer à 1">
+      <${Pp} s="Si le numérateur est **plus petit** que le dénominateur, la fraction est **plus petite que 1** : [[6~7]] < 1. Sinon elle est plus grande (ou égale) : [[3~2]] > 1."/>
+    </${Sec}>
+    <${Sec} n="3" t="Dénominateurs différents : d'abord le même dénominateur">
+      <${Ex} s="[[5~8]] et [[7~12]] :   [[5 × {{a:3}}~8 × {{a:3}}]] = [[15~24]]   et   [[7 × {{a:2}}~12 × {{a:2}}]] = [[14~24]]   donc   [[5~8]] > [[7~12]]"/>
+    </${Sec}>
+    <${Sec} n="4" t="Avec des nombres négatifs">
+      <${Pp} s="Un nombre négatif est plus petit qu'un nombre positif. Entre deux négatifs, **le plus éloigné de 0 est le plus petit** : −[[7~6]] < −[[5~6]]."/>
+      <${NumLine} vals=${[R(-7, 6), R(-5, 6)]}/>
+      <p className="cap">${m("A = −[[7~6]] et B = −[[5~6]] : A est plus à gauche, donc plus petit.")}</p>
+    </${Sec}>
+    <${Sec} n="5" t="Ranger une liste">
+      <${Pp} s="**Croissant** : du plus petit au plus grand (symbole <). **Décroissant** : du plus grand au plus petit (symbole >)."/>
+      <${Ex} s="[[2~3]] ; −[[1~2]] ; [[5~6]] ; −[[3~4]]   →   [[8~12]] ; [[−6~12]] ; [[10~12]] ; [[−9~12]]"/>
+      <${Ex} s="Ordre croissant :   −[[3~4]] < −[[1~2]] < [[2~3]] < [[5~6]]"/>
+    </${Sec}>
+    <${Trap} items=${["Un dénominateur plus grand ne donne pas une fraction plus grande : [[1~4]] < [[1~3]] (un quart est plus petit qu'un tiers).", "Avec des négatifs, l'ordre s'inverse : 5 > 3 mais −5 < −3."]}/>
+    <${Keep} items=${["Même dénominateur positif : on compare les numérateurs.", "Sinon, on écrit d'abord les fractions avec un dénominateur commun.", "Négatif < positif ; entre deux négatifs, le plus éloigné de 0 est le plus petit.", "Croissant = du plus petit au plus grand."]}/>
+  </${Fragment}>`;
+}
+const MOD2 = {
+  id: "comp", ic: "<", name: "Comparer et ranger",
+  intro: "Savoir quelle fraction est la plus grande, et ranger une liste de nombres, même négatifs.",
+  Learn: Learn2, Lab: () => html`<${LineLab}/>`,
+  fams: [
+    { title: "Même dénominateur, ou comparer à 1", level: 1,
+      worked: { q: "Comparer [[13~10]] et 1.", steps: ["1 = [[10~10]].", "Même dénominateur : 13 > 10.", "Donc {{g:[[13~10]] > 1}}."], ask: ["Comment voir tout de suite que [[13~10]] > 1, sans calcul ?", "Le numérateur est plus grand que le dénominateur : on a pris plus de parts qu'il n'y en a dans une unité."] },
+      exos: [CMP("4/7", "6/7"), CMP("13/3", "10/3"), CMP("1", "5/6"), CMP("3/2", "1"), CMP("16/4", "3"), CMP("2", "7/2")] },
+    { title: "Dénominateurs différents", level: 2,
+      worked: { q: "Comparer [[5~8]] et [[7~12]].", steps: cmpSteps(R(5, 8), R(7, 12)), ask: ["Pourquoi choisir 24 plutôt que 96 = 8 × 12 ?", "96 marche aussi, mais 24 est le plus petit multiple commun : les nombres restent petits."] },
+      exos: [CMP("2/3", "5/6"), CMP("5/4", "12/8"), CMP("5/10", "2/5"), CMP("22/9", "7/3"), CMP("3/4", "17/24"), CMP("9/4", "21/9")] },
+    { title: "Avec des nombres négatifs", level: 2,
+      worked: { q: "Comparer −[[3~4]] et −[[5~8]].", steps: cmpSteps(R(-3, 4), R(-5, 8)) },
+      exos: [CMP("-(7/6)", "-(5/6)"), CMP("-(2/3)", "1/5"), CMP("-9/10", "4/-5"), CMP("-(1/2)", "-3/-6"), CMP("-(5/4)", "-(7/6)")] },
+    { title: "Ranger une liste", level: 3,
+      worked: { q: "Ranger dans l'ordre croissant : [[2~3]] ; −[[1~2]] ; [[5~6]] ; −[[3~4]]", steps: ORD(["2/3", "-(1/2)", "5/6", "-(3/4)"]).steps },
+      exos: [ORD(["7/4", "3/2", "2", "13/8"]), ORD(["4/5", "-(3/10)", "1/2", "-(2/5)"]), ORD(["-(5/6)", "1/3", "-1", "-(2/3)", "1/2"], "desc")] },
+    { title: "Vrai ou faux express", level: 3,
+      intro: "Inspiré du jeu « cadenas » : pour chaque affirmation, décide si elle est vraie ou fausse. Justifie avec un dénominateur commun.",
+      exos: [
+        ["2/6", ">", "1/6"], ["14/10", "<", "20/10"], ["6/10", "<", "4/7"], ["14/6", ">", "22/9"], ["4/10", ">", "42/100"], ["7/5", ">", "11/8"]
+      ].map(([a, s, b]) => { const A = T(a), B = T(b), c = cmp(A.v, B.v), truth = s === "<" ? c < 0 : c > 0;
+        return { kind: "choice", q: `${A.s} ${s} ${B.s}`, opts: VF, ans: truth ? 0 : 1, sol: `${truth ? "Vrai" : "Faux"} : ${A.s} ${CMP_SYM[c + 1]} ${B.s}.`, steps: cmpSteps(A.v, B.v) }; }) }
+  ],
+  quiz: [
+    { q: "Quelle fraction est la plus grande ?", opts: ["[[3~7]]", "[[5~7]]"], ans: 1, why: "Même dénominateur : 5 > 3." },
+    { q: "[[9~8]] est…", opts: ["plus petit que 1", "plus grand que 1"], ans: 1, why: "9 > 8 : on a pris plus de huitièmes qu'il n'en faut pour faire une unité." },
+    { q: "Pour comparer [[2~3]] et [[3~4]], on peut tout écrire en…", opts: ["septièmes", "douzièmes"], ans: 1, why: "12 est un multiple de 3 et de 4. Ajouter les dénominateurs (7) n'a pas de sens." },
+    { q: "Lequel est le plus petit ?", opts: ["−[[1~2]]", "−[[3~4]]"], ans: 1, why: "−[[3~4]] est plus éloigné de 0 que −[[1~2]] : il est plus petit." },
+    { q: "Ordre croissant signifie…", opts: ["du plus petit au plus grand", "du plus grand au plus petit"], ans: 0, why: "On « croît » : on monte du plus petit au plus grand, avec le symbole <." },
+    { q: "Quel nombre est plus petit que [[1~3]] ?", opts: ["[[1~4]]", "[[1~2]]"], ans: 0, why: "Un quart est plus petit qu'un tiers : plus on partage, plus les parts sont petites." }
+  ]
+};
+
+/* =====================================================================
+   CHAPITRE 3 — Additionner et soustraire
+   ===================================================================== */
+/* Calcul guidé commun aux chapitres 3, 4 et 5 */
+function CalcLab({ ops, init, title, lead }) {
+  const [a, setA] = useState(init[0]), [op, setOp] = useState(init[1]), [b, setB] = useState(init[2]);
+  const ta = fieldTerm(a), tb = fieldTerm(b);
+  const bad = !ta || !tb || (op === "÷" && tb.v.n === 0);
+  let steps = [], res = null, expr = "";
+  if (!bad) {
+    const tree = { t: "o", op, a: { t: "n", term: ta }, b: { t: "n", term: tb } };
+    steps = autoSteps(tree); res = evalT(tree); expr = render(tree);
+  }
+  return html`<div className="frame lab">
+    <h4>${title}</h4>
+    <p className="lead">${lead}</p>
+    <div className="row"><${FracField} value=${a} set=${setA} label="Premier nombre"/>
+      <div className="seg">${ops.map(o => html`<button key=${o} aria-pressed=${op === o} onClick=${() => setOp(o)}>${o}</button>`)}</div>
+      <${FracField} value=${b} set=${setB} label="Deuxième nombre"/></div>
+    ${bad ? html`<${Msg} st="ko">Écris deux nombres comme -7/12, 3 ou 5/-6${op === "÷" ? " (et on ne divise jamais par 0)" : ""}.</${Msg}>` : html`<div style=${{ display: "grid", gap: ".6em" }}>
+      <p className="big-mx">${m(expr)}</p>
+      <ol className="steps">${steps.map((s, i) => html`<li key=${i}>${parse(s)}</li>`)}</ol>
+      <${Msg} st="ok">Résultat : ${m(fm(res))}${res.d !== 1 ? html` <span className="muted">(≈ ${dec(+val(res).toFixed(3))})</span>` : null}</${Msg}>
+    </div>`}
+  </div>`;
+}
+function AddBars() {
+  const [a, setA] = useState(1), [b, setB] = useState(2), [c, setC] = useState(1), [d, setD] = useState(3);
+  const [cut, setCut] = useState(false);
+  const L = lcm(b, d), A = a * L / b, C = c * L / d;
+  return html`<div className="frame lab">
+    <h4>Additionner avec des barres</h4>
+    <p className="lead">Les parts n'ont pas la même taille : on ne peut pas les compter ensemble. On redécoupe les deux barres en parts identiques (le dénominateur commun), puis on compte.</p>
+    <div className="labgrid">
+      <div><${Range} label="Numérateur de la 1re fraction" value=${a} min=${1} max=${b} set=${setA}/><${Range} label="Dénominateur de la 1re fraction" value=${b} min=${2} max=${12} set=${x => { setB(x); if (a > x) setA(x); }}/>
+        <${Range} label="Numérateur de la 2e fraction" value=${c} min=${1} max=${d} set=${setC}/><${Range} label="Dénominateur de la 2e fraction" value=${d} min=${2} max=${12} set=${x => { setD(x); if (c > x) setC(x); }}/></div>
+      <div className="bars">
+        <span className="lbl">${m(cut ? `[[${a} × {{a:${L / b}}}~${b} × {{a:${L / b}}}]] = [[${A}~${L}]]` : `[[${a}~${b}]]`)}</span><${FBar} parts=${b} on=${a} sub=${cut ? L / b : 1}/>
+        <span className="lbl">${m(cut ? `[[${c} × {{a:${L / d}}}~${d} × {{a:${L / d}}}]] = [[${C}~${L}]]` : `[[${c}~${d}]]`)}</span><${FBar} parts=${d} on=${c} sub=${cut ? L / d : 1} tone="w"/>
+        <div className="row"><button className="btn primary" aria-pressed=${cut} onClick=${() => setCut(!cut)}>${cut ? "Revenir aux parts de départ" : `Découper en ${L} parts égales`}</button></div>
+        ${cut ? html`<span className="lbl">${m(`[[${A}~${L}]] + [[${C}~${L}]] = [[${A + C}~${L}]]` + (gcd(A + C, L) > 1 ? ` = ${fm(R(A + C, L))}` : ""))}</span><${FBars} n=${A + C} d=${L} tone="g"/>` : null}
+      </div>
+    </div>
+  </div>`;
+}
+function Learn3() {
+  return html`<${Fragment}>
+    <${Sec} n="1" t="Même dénominateur : on additionne les numérateurs">
+      <${Ex} s="[[a~c]] + [[b~c]] = [[a + b~c]]        [[a~c]] − [[b~c]] = [[a − b~c]]"/>
+      <div className="bars" style=${{ maxWidth: "420px" }}><span className="lbl">${m("[[1~5]] + [[2~5]] = [[3~5]]")}</span><${FBar} parts=${5} on=${3}/></div>
+    </${Sec}>
+    <${Trap} items=${["On n'additionne **jamais** les dénominateurs ! [[1~2]] + [[1~2]] = [[2~2]] = 1 (deux moitiés font un entier), et pas [[2~4]]."]}/>
+    <${Sec} n="2" t="Dénominateurs différents : d'abord les rendre égaux">
+      <div className="two">
+        <div className="frame"><h4>Un dénominateur est multiple de l'autre</h4><${Pp} s="[[3~4]] + [[5~12]] : 12 = 4 × {{a:3}}."/><${Pp} s="= [[9~12]] + [[5~12]] = [[14~12]] = {{g:[[7~6]]}}"/></div>
+        <div className="frame"><h4>On cherche un multiple commun</h4><${Pp} s="[[3~5]] + [[1~4]] : multiples de 5 → 5, 10, 15, **20**."/><${Pp} s="= [[12~20]] + [[5~20]] = {{g:[[17~20]]}}"/></div>
+      </div>
+    </${Sec}>
+    <${Sec} n="3" t="Avec un nombre entier">
+      <${Pp} s="Un entier est une fraction de dénominateur 1 : 3 = [[3~1]] = [[12~4]]."/>
+      <${Ex} s="3 − [[7~4]] = [[12~4]] − [[7~4]] = {{g:[[5~4]]}}"/>
+    </${Sec}>
+    <${Sec} n="4" t="Avec des nombres négatifs : soustraire, c'est ajouter l'opposé">
+      <${Ex} s="[[1~3]] − ({{b:−}}[[2~3]]) = [[1~3]] + [[2~3]] = [[3~3]] = {{g:1}}"/>
+      <${Pp} s="Astuce : place chaque signe {{b:−}} au numérateur, puis calcule les numérateurs avec les règles des nombres relatifs : −[[5~6]] − [[1~3]] = [[−5~6]] + [[−2~6]] = [[−7~6]]."/>
+    </${Sec}>
+    <${Sec} n="5" t="Ma check-list">
+      <ol className="steps">
+        <li>Les dénominateurs sont-ils <b>positifs</b> ? Les signes <span className="c-b">−</span> sont-ils au numérateur ?</li>
+        <li>Les dénominateurs sont-ils <b>égaux</b> ? Sinon, je cherche le plus petit multiple commun.</li>
+        <li>Je transforme chaque fraction : <span className="c-a">× k en haut et en bas</span>.</li>
+        <li>J'additionne les numérateurs et je <b>garde</b> le dénominateur.</li>
+        <li>Je <b>simplifie</b> le résultat, puis je contrôle avec un ordre de grandeur.</li>
+      </ol>
+    </${Sec}>
+    <${Keep} items=${["Même dénominateur : on additionne (ou soustrait) les numérateurs, on garde le dénominateur.", "Jamais d'addition des dénominateurs.", "Dénominateurs différents : on les rend égaux avec le plus petit multiple commun.", "Soustraire un nombre, c'est ajouter son opposé.", "On simplifie toujours le résultat."]}/>
+  </${Fragment}>`;
+}
+const MOD3 = {
+  id: "add", ic: "+", name: "Additionner, soustraire",
+  intro: "Additionner et soustraire des fractions, des entiers et des nombres négatifs : tout se ramène au même dénominateur.",
+  Learn: Learn3,
+  Lab: () => html`<${Fragment}><${AddBars}/><${CalcLab} ops=${["+", "−"]} init=${["-1/3", "−", "4/5"]} title="Le calcul guidé" lead="Écris deux nombres : la machine détaille le calcul étape par étape. Vérifie que tu aurais fait pareil !"/></${Fragment}>`,
+  fams: [
+    { title: "Même dénominateur", level: 1,
+      worked: { q: "Calculer [[7~15]] + [[−2~15]].", steps: sumSteps([T("7/15"), T("-2/15")], ["+"]), ask: ["Pourquoi ne touche-t-on pas au dénominateur 15 ?", "Le dénominateur dit la taille des parts (des quinzièmes) : on compte des quinzièmes, la taille ne change pas."] },
+      exos: [X("{2/5} + {4/5}"), X("{9/11} − {4/11}"), X("{-3/7} + {5/7}"), X("{7/8} − {3/8}"), X("{1/3} − {-(2/3)}")] },
+    { title: "Un dénominateur multiple de l'autre", level: 1,
+      worked: { q: "Calculer [[3~4]] + [[5~12]].", steps: sumSteps([T("3/4"), T("5/12")], ["+"]) },
+      exos: [
+        { kind: "blanks", q: "Complète : [[2~5]] + [[3~20]] = [[#0~20]] + [[3~20]] = [[#1~20]]", ans: [8, 11], sol: "[[8~20]] + [[3~20]] = [[11~20]]", steps: ["20 = 5 × {{a:4}}, donc [[2~5]] = [[8~20]].", "8 + 3 = 11 : le résultat est [[11~20]]."] },
+        X("{7/4} − {3/8}"), X("{-(2/3)} + {5/6}"), X("{-(5/6)} − {1/3}"), X("{1/4} − {7/8}")] },
+    { title: "Dénominateurs quelconques", level: 2,
+      worked: { q: "Calculer [[3~5]] + [[1~4]].", steps: sumSteps([T("3/5"), T("1/4")], ["+"]), ask: ["Comment contrôler le résultat [[17~20]] avec un ordre de grandeur ?", "[[3~5]] = 0,6 et [[1~4]] = 0,25 : 0,6 + 0,25 = 0,85 = [[17~20]]. C'est cohérent."] },
+      exos: [X("{1/2} + {2/3}"), X("{3/5} − {2/7}"), X("{-(5/7)} − {2/3}"), X("{19/20} − {-4/30}", { hint: "Le plus petit multiple commun de 20 et 30 est 60." }), X("{-9/2} + {-2/11}")] },
+    { title: "Avec des entiers et plusieurs termes", level: 3,
+      worked: { q: "Calculer −[[1~3]] − [[4~5]] + [[7~−2]].", steps: sumSteps([T("-(1/3)"), T("4/5"), T("7/-2")], ["−", "+"]) },
+      exos: [X("{-(6/7)} + {3}"), X("{5} − {14/24}", { hint: "Commence par simplifier [[14~24]] : c'est plus facile !" }), X("{1/2} + {1/3} + {1/5}"), X("{3} − {7/4}"), X("{-(5/6)} + {3/4} − {1/3}")] },
+    { title: "Trouve l'erreur", level: 3,
+      intro: "Une affirmation est vraie, ou contient une erreur classique. À toi de juger.",
+      exos: [
+        { kind: "choice", q: "[[2~3]] + [[1~5]] = [[3~8]]", opts: VF, ans: 1, sol: "Faux : [[2~3]] + [[1~5]] = [[13~15]].", steps: ["Erreur classique : on a additionné les numérateurs **et** les dénominateurs.", ...sumSteps([T("2/3"), T("1/5")], ["+"])] },
+        { kind: "choice", q: "[[1~2]] + [[1~3]] + [[1~6]] = 1", opts: VF, ans: 0, sol: "Vrai.", steps: sumSteps([T("1/2"), T("1/3"), T("1/6")], ["+", "+"]) },
+        { kind: "choice", q: "3 + [[1~4]] = [[4~4]]", opts: VF, ans: 1, sol: "Faux : 3 + [[1~4]] = [[13~4]].", steps: ["Erreur : 3 n'est pas 3 quarts ! 3 = [[12~4]].", "[[12~4]] + [[1~4]] = [[13~4]]."] },
+        { kind: "choice", q: "[[3~4]] − [[5~6]] = −[[1~12]]", opts: VF, ans: 0, sol: "Vrai.", steps: sumSteps([T("3/4"), T("5/6")], ["−"]) }
+      ] }
+  ],
+  quiz: [
+    { q: "[[2~7]] + [[3~7]] = ?", opts: ["[[5~14]]", "[[5~7]]", "[[6~7]]"], ans: 1, why: "Même dénominateur : on garde 7 et on additionne 2 + 3." },
+    { q: "[[1~2]] + [[1~2]] = ?", opts: ["[[2~4]]", "1"], ans: 1, why: "Deux moitiés font un entier. [[2~4]] ne vaut qu'une moitié." },
+    { q: "Pour calculer [[1~6]] + [[1~4]], le plus petit dénominateur commun est :", opts: ["10", "12", "24"], ans: 1, why: "12 = 6 × 2 = 4 × 3. 24 marche aussi mais n'est pas le plus petit." },
+    { q: "[[3~5]] − [[−1~5]] = ?", opts: ["[[2~5]]", "[[4~5]]", "−[[4~5]]"], ans: 1, why: "Soustraire −1, c'est ajouter 1 : 3 + 1 = 4." },
+    { q: "2 + [[1~3]] = ?", opts: ["[[3~3]]", "[[7~3]]", "[[3~5]]"], ans: 1, why: "2 = [[6~3]], donc [[6~3]] + [[1~3]] = [[7~3]]." },
+    { q: "Quel résultat est impossible pour [[3~5]] + [[7~8]] ?", opts: ["[[59~40]]", "[[10~13]]"], ans: 1, why: "0,6 + 0,875 ≈ 1,5 : le résultat est plus grand que 1. Or [[10~13]] < 1." }
+  ]
+};
+
+/* =====================================================================
+   CHAPITRE 4 — Multiplier
+   ===================================================================== */
+function AreaSvg({ a, b, c, d, size = 240 }) {
+  const cw = size / b, rh = size / d, cells = [];
+  for (let i = 0; i < b; i++) for (let j = 0; j < d; j++) {
+    const inA = i < a, inC = j < c;
+    cells.push(html`<rect key=${i + "-" + j} x=${i * cw} y=${j * rh} width=${cw} height=${rh} className=${(inA && inC ? "am-x" : inA ? "am-b" : inC ? "am-o" : "am-0") + " svg-line"} strokeWidth="1"/>`);
+  }
+  return html`<svg viewBox=${`-2 -2 ${size + 4} ${size + 4}`} width=${size + 4} role="img" aria-label=${`Carré unité : ${a * c} petits rectangles foncés sur ${b * d}`}>
+    ${cells}<rect x="0" y="0" width=${size} height=${size} fill="none" className="svg-ink" strokeWidth="2"/></svg>`;
+}
+function AreaLab() {
+  const [a, setA] = useState(2), [b, setB] = useState(3), [c, setC] = useState(3), [d, setD] = useState(4);
+  const res = R(a * c, b * d);
+  return html`<div className="frame lab">
+    <h4>Le modèle de l'aire</h4>
+    <p className="lead">Le grand carré vaut 1. On colorie en bleu ${m(`[[${a}~${b}]]`)} des colonnes, en orange ${m(`[[${c}~${d}]]`)} des lignes. La partie <b>foncée</b>, c'est « les ${m(`[[${c}~${d}]]`)} de ${m(`[[${a}~${b}]]`)} », c'est-à-dire le produit.</p>
+    <div className="labgrid">
+      <div><${Range} label="Numérateur bleu" value=${a} min=${1} max=${b} set=${setA}/><${Range} label="Dénominateur bleu (colonnes)" value=${b} min=${2} max=${10} set=${x => { setB(x); if (a > x) setA(x); }}/>
+        <${Range} label="Numérateur orange" value=${c} min=${1} max=${d} set=${setC}/><${Range} label="Dénominateur orange (lignes)" value=${d} min=${2} max=${10} set=${x => { setD(x); if (c > x) setC(x); }}/></div>
+      <div style=${{ justifyItems: "start" }}><div className="svgbox"><${AreaSvg} a=${a} b=${b} c=${c} d=${d}/></div></div>
+    </div>
+    <${Msg} st="info">${m(`[[${a}~${b}]] × [[${c}~${d}]] = [[${a} × ${c}~${b} × ${d}]] = [[${a * c}~${b * d}]]` + (gcd(a * c, b * d) > 1 ? ` = ${fm(res)}` : ""))} : ${a * c} petits rectangles foncés sur ${b * d} en tout. On multiplie les numérateurs (les foncés) et les dénominateurs (tous les petits rectangles).</${Msg}>
+  </div>`;
+}
+function Learn4() {
+  return html`<${Fragment}>
+    <${Sec} n="1" t="La règle : en haut avec en haut, en bas avec en bas">
+      <${Ex} s="[[a~b]] × [[c~d]] = [[a × c~b × d]]"/>
+      <${Pp} s="Exemple : [[2~7]] × [[4~3]] = [[2 × 4~7 × 3]] = {{g:[[8~21]]}}. **Pas besoin** de dénominateur commun !"/>
+    </${Sec}>
+    <${Sec} n="2" t="Ce que ça veut dire : « les … de … »">
+      <div className="labgrid"><div style=${{ flex: "0 0 auto" }}><${AreaSvg} a=${2} b=${3} c=${3} d=${4} size=${180}/></div>
+        <div><${Pp} s="Les [[3~4]] de [[2~3]] : on prend [[2~3]] (colonnes bleues), puis les [[3~4]] de cette partie (lignes orange)."/>
+          <${Pp} s="On obtient 6 petits rectangles foncés sur 12 : [[3~4]] × [[2~3]] = [[6~12]] = [[1~2]]."/></div></div>
+    </${Sec}>
+    <${Sec} n="3" t="Le signe du produit">
+      <${Pp} s="Même règle que pour les nombres relatifs : on compte les facteurs négatifs. **Nombre pair** de signes {{b:−}} → produit positif ; **nombre impair** → produit négatif."/>
+      <${Ex} s="[[2~3]] × ({{b:−}}[[5~4]]) = {{b:−}}[[10~12]] = {{g:−[[5~6]]}}"/>
+    </${Sec}>
+    <${Sec} n="4" t="Avec un nombre entier">
+      <${Ex} s="n × [[a~b]] = [[n × a~b]]        9 × [[−4~5]] = [[−36~5]]"/>
+    </${Sec}>
+    <${Sec} n="5" t="Simplifier AVANT de calculer">
+      <${Pp} s="On écrit tout dans un seul quotient, puis on barre les facteurs communs en haut et en bas. Les nombres restent petits !"/>
+      <${Ex} s="[[−4~5]] × [[5~−3]] × [[2~7]] = [[4 × {{s:5}} × 2~{{s:5}} × 3 × 7]] = {{g:[[8~21]]}}   (deux signes {{b:−}} : positif)"/>
+    </${Sec}>
+    <${Sec} n="6" t="Prendre une fraction d'une quantité">
+      <${Pp} s="« Les [[3~4]] de 28 kg » = [[3~4]] × 28 = (28 ÷ 4) × 3 = **21 kg**. Le mot « de » se traduit par **×**."/>
+      <${Pp} s="Avec un pourcentage : 20 % de 50 = [[20~100]] × 50 = 10."/>
+    </${Sec}>
+    <${Trap} items=${["Pas de dénominateur commun pour multiplier : [[1~2]] × [[1~3]] = [[1~6]] directement.", "n × [[a~b]] : l'entier ne multiplie que le numérateur. [[2~3]] × 5 = [[10~3]], et pas [[10~15]]."]}/>
+    <${Keep} items=${["[[a~b]] × [[c~d]] = [[a × c~b × d]].", "Le signe : on compte les facteurs négatifs (pair → +, impair → −).", "On simplifie avant de calculer.", "« Les [[a~b]] de Q » = [[a~b]] × Q.", "Si un facteur vaut 0, le produit vaut 0."]}/>
+  </${Fragment}>`;
+}
+const MOD4 = {
+  id: "mul", ic: "×", name: "Multiplier",
+  intro: "Multiplier des fractions, gérer les signes, simplifier avant de calculer, et prendre une fraction d'une quantité.",
+  Learn: Learn4,
+  Lab: () => html`<${Fragment}><${AreaLab}/><${CalcLab} ops=${["×"]} init=${["-4/15", "×", "-5"]} title="Le calcul guidé" lead="Écris deux nombres : la machine détermine le signe, simplifie avant de calculer, puis donne le produit."/></${Fragment}>`,
+  fams: [
+    { title: "Multiplier deux fractions", level: 1,
+      worked: { q: "Calculer [[2~7]] × [[4~3]].", steps: prodSteps([T("2/7"), T("4/3")]), ask: ["Pourquoi ne cherche-t-on pas de dénominateur commun ?", "Parce que la règle du produit multiplie directement les dénominateurs entre eux : le dénominateur commun ne sert que pour + et −."] },
+      exos: [X("{4/7} × {2/3}"), X("{7/11} × {4}"), X("{3/4} × {8/9}"), X("{2/3} × {-(5/4)}"), X("{9} × {-4/5}")] },
+    { title: "Les signes", level: 2,
+      worked: { q: "Calculer [[−4~15]] × (−5).", steps: prodSteps([T("-4/15"), T("-5")]) },
+      exos: [X("{-2/5} × {9/5}"), X("{-7/6} × {5/-9}"), X("{-5/2} × {2/-3}"), X("{-(-2/-3)} × {-(-3/-7)}", { hint: "Commence par trouver le signe de chaque facteur : −([[−2~−3]]) est négatif." }), X("{-12} × {-(7/-6)}")] },
+    { title: "Simplifier avant de calculer", level: 3,
+      worked: { q: "Calculer X = [[−4~5]] × [[5~−3]] × [[2~7]].", steps: prodSteps([T("-4/5"), T("5/-3"), T("2/7")]), ask: ["Pourquoi est-ce plus malin de simplifier avant de multiplier ?", "Sinon on calcule [[40~105]] puis on doit simplifier de grands nombres. En barrant d'abord, on garde de petits nombres."] },
+      exos: [X("{2/5} × {5/3}"), X("{3/7} × {4/-3}"), X("{6/-5} × {-7/-6}"), X("{9/-11} × {-7/18}"), X("{-21/-2} × {-5/-28}"), X("{2/-3} × {-11/5} × {-5/7}"),
+        X("{23/51} × {-13/-19} × {-7/9} × {0/34}", { hint: "Regarde bien tous les facteurs avant de te lancer dans les calculs…" })] },
+    { title: "Prendre une fraction d'une quantité", level: 2,
+      worked: { q: "Calculer les [[3~4]] de 28 kg.", steps: ["« Les [[3~4]] de 28 » se traduit par [[3~4]] × 28.", "On divise d'abord par le dénominateur : 28 ÷ 4 = 7 (un quart).", "Puis on multiplie par le numérateur : 7 × 3 = 21 (trois quarts).", "Les [[3~4]] de 28 kg font {{g:21 kg}}."] },
+      exos: [QTY("Les [[5~6]] de 42 élèves = ?", "5/6", 42, "élèves"), QTY("20 % de 50 billes = ?", 20, 50, "billes", true), QTY("Les [[7~6]] de 18 = ?", "7/6", 18, ""),
+        QTY("30 % de 70 = ?", 30, 70, "", true), QTY("125 % de 36 € = ?", 125, 36, "€", true)] },
+    { title: "Le facteur manquant", level: 3,
+      intro: "Inspiré du jeu « cadenas » : trouve le nombre qui manque.",
+      exos: [
+        { kind: "blanks", q: "5 × [[17~5]] = #0", ans: [17], sol: "5 × [[17~5]] = 17", steps: ["5 × [[17~5]] = [[5 × 17~5]] : on simplifie par 5, il reste 17.", "C'est la définition du quotient : b × [[a~b]] = a."] },
+        { kind: "blanks", q: "4 × [[#0~4]] = 1", ans: [1], sol: "4 × [[1~4]] = 1", steps: ["4 × [[a~4]] = a. Pour obtenir 1, il faut a = 1."] },
+        { kind: "blanks", q: "#0 × [[7~20]] = 7", ans: [20], sol: "20 × [[7~20]] = 7", steps: ["b × [[a~b]] = a : ici a = 7 et b = 20."] },
+        { kind: "blanks", q: "18 × [[3~#0]] = 3", ans: [18], sol: "18 × [[3~18]] = 3", steps: ["b × [[a~b]] = a : pour obtenir 3 avec 18 ×, il faut le dénominateur 18."] }
+      ] }
+  ],
+  quiz: [
+    { q: "[[2~3]] × [[4~5]] = ?", opts: ["[[8~15]]", "[[6~8]]", "[[8~5]]"], ans: 0, why: "En haut 2 × 4 = 8, en bas 3 × 5 = 15." },
+    { q: "Pour multiplier deux fractions, faut-il un dénominateur commun ?", opts: ["Oui", "Non"], ans: 1, why: "Non : le dénominateur commun sert pour additionner et soustraire." },
+    { q: "(−[[2~3]]) × (−[[3~5]]) est…", opts: ["positif", "négatif"], ans: 0, why: "Deux facteurs négatifs (nombre pair) : le produit est positif." },
+    { q: "[[2~3]] × 6 = ?", opts: ["[[12~18]]", "4", "[[2~18]]"], ans: 1, why: "[[2 × 6~3]] = [[12~3]] = 4. L'entier ne multiplie que le numérateur." },
+    { q: "Les [[3~4]] de 20 = ?", opts: ["15", "5", "[[60~80]]"], ans: 0, why: "20 ÷ 4 = 5, puis 5 × 3 = 15." },
+    { q: "[[7~9]] × [[−3~7]] × 0 × [[5~2]] = ?", opts: ["0", "−[[15~18]]"], ans: 0, why: "Un facteur est nul : le produit est nul." }
+  ]
+};
+
+/* =====================================================================
+   CHAPITRE 5 — Inverse et division
+   ===================================================================== */
+function DivSvg({ x, y }) {
+  // x ÷ y avec x, y > 0 : combien de fois y dans x ?
+  const q = val(div(x, y)), X = val(x), Y = val(y);
+  const hi = Math.max(1, Math.ceil(Math.max(X, Y) - 1e-9));
+  const W = 640, pad = 24, sc = v => pad + v / hi * (W - 2 * pad);
+  const nFull = Math.floor(q + 1e-9), rest = q - nFull;
+  const segs = [];
+  for (let i = 0; i < nFull && i < 40; i++) segs.push(html`<g key=${i}><rect x=${sc(i * Y)} y="62" width=${sc(Y) - pad} height="24" rx="2" fill=${i % 2 ? "rgba(246,116,0,.35)" : "rgba(246,116,0,.6)"} className="svg-ink" strokeWidth="1"/>
+    ${sc(Y) - pad > 18 ? html`<text x=${sc(i * Y + Y / 2)} y="79" textAnchor="middle" className="svg-txt">${i + 1}</text>` : null}</g>`);
+  if (rest > 1e-9) segs.push(html`<rect key="r" x=${sc(nFull * Y)} y="62" width=${sc(Y) - pad} height="24" rx="2" fill="none" className="svg-ink" strokeWidth="1" strokeDasharray="4 3"/>`);
+  const ticks = [];
+  for (let k = 0; k <= hi; k++) ticks.push(html`<g key=${k}><line x1=${sc(k)} x2=${sc(k)} y1="96" y2="106" className="svg-ink" strokeWidth="1.5"/><text x=${sc(k)} y="122" textAnchor="middle" className="svg-mut">${k}</text></g>`);
+  return html`<svg viewBox=${`0 0 ${W} 130`} width=${W} role="img" aria-label="Barres de division">
+    <rect x=${pad} y="20" width=${sc(X) - pad} height="26" rx="2" fill="rgba(61,174,233,.45)" className="svg-ink" strokeWidth="1"/>
+    ${segs}
+    <line x1=${pad} x2=${W - pad} y1="101" y2="101" className="svg-ink" strokeWidth="1.5"/>${ticks}
+    <line x1=${sc(X)} x2=${sc(X)} y1="14" y2="92" stroke="var(--accent-ink)" strokeWidth="1.5" strokeDasharray="3 3"/>
+  </svg>`;
+}
+function DivLab() {
+  const [a, setA] = useState("3/2"), [b, setB] = useState("1/4");
+  const pa = parseInput(a), pb = parseInput(b);
+  const ok = pa && pb && val(pa.r) > 0 && val(pb.r) > 0 && val(div(pa.r, pb.r)) <= 24 && val(pa.r) <= 4 && val(pb.r) <= 4;
+  return html`<div className="frame lab">
+    <h4>Diviser, c'est chercher « combien de fois ? »</h4>
+    <p className="lead">${m("[[3~2]] ÷ [[1~4]]")} répond à la question : combien de fois ${m("[[1~4]]")} tient dans ${m("[[3~2]]")} ? Change les nombres (positifs, jusqu'à 4).</p>
+    <div className="row"><${FracField} value=${a} set=${setA} label="Nombre à partager"/><span className="big-mx">÷</span><${FracField} value=${b} set=${setB} label="Diviseur"/></div>
+    ${!ok ? html`<${Msg} st="ko">Écris deux nombres positifs, au plus 4, et pas trop petits (par exemple 3/2 et 1/4).</${Msg}>` : html`<${Fragment}>
+      <div className="svgbox"><${DivSvg} x=${pa.r} y=${pb.r}/></div>
+      <p className="cap">Barre bleue : ${m(fm(pa.r))}. Morceaux orange : ${m(fm(pb.r))} chacun.</p>
+      <${Msg} st="info">${m(`${fm(pa.r)} ÷ ${fm(pb.r)} = ${fm(pa.r)} × ${fm(R(pb.r.d, pb.r.n))} = ${fm(div(pa.r, pb.r))}`)} : ${m(fm(pb.r))} tient ${m(fm(div(pa.r, pb.r)))} fois dans ${m(fm(pa.r))}.</${Msg}>
+    </${Fragment}>`}
+  </div>`;
+}
+function InvLab() {
+  const [s, setS] = useState("-7/4");
+  const t = fieldTerm(s);
+  return html`<div className="frame lab">
+    <h4>Inverse ou opposé ?</h4>
+    <p className="lead">Écris un nombre : compare son opposé et son inverse.</p>
+    <div className="row"><span>Nombre :</span><${FracField} value=${s} set=${setS} label="Nombre"/></div>
+    ${!t ? html`<${Msg} st="ko">Écris un nombre comme -7/4 ou 5.</${Msg}>` : html`<div className="two">
+      <div className="frame"><h4>Opposé</h4><p className="big-mx">${m(fm(R(-t.v.n, t.v.d)))}</p><p className="cap">${m(`${fm(t.v)} + (${fm(R(-t.v.n, t.v.d))}) = 0`)}</p><p className="cap">On change le signe.</p></div>
+      <div className="frame"><h4>Inverse</h4>${t.v.n === 0 ? html`<p><b>0 n'a pas d'inverse</b> : aucun nombre multiplié par 0 ne donne 1.</p>` : html`<${Fragment}>
+        <p className="big-mx">${m(fm(R(t.v.d, t.v.n)))}</p><p className="cap">${m(`${fm(t.v)} × ${t.v.n < 0 ? "(" : ""}${fm(R(t.v.d, t.v.n))}${t.v.n < 0 ? ")" : ""} = 1`)}</p><p className="cap">On échange numérateur et dénominateur. Le signe reste le même.</p></${Fragment}>`}</div>
+    </div>`}
+  </div>`;
+}
+function Learn5() {
+  return html`<${Fragment}>
+    <${Sec} n="1" t="L'inverse d'un nombre">
+      <${Pp} s="Deux nombres sont **inverses** quand leur produit est égal à **1**. Pour une fraction, on **échange** le numérateur et le dénominateur."/>
+      <${Ex} s="L'inverse de [[a~b]] est [[b~a]]   (a ≠ 0 et b ≠ 0)        [[3~5]] × [[5~3]] = [[15~15]] = 1"/>
+      <div className="scroll-x"><table className="tbl"><thead><tr><th>Nombre</th><th>${m("[[3~5]]")}</th><th>2</th><th>−5</th><th>${m("[[−7~4]]")}</th><th>0</th></tr></thead>
+        <tbody><tr><th>Inverse</th><td>${m("[[5~3]]")}</td><td>${m("[[1~2]]")}</td><td>${m("−[[1~5]]")}</td><td>${m("−[[4~7]]")}</td><td>aucun</td></tr></tbody></table></div>
+    </${Sec}>
+    <${Trap} items=${["Inverse ≠ opposé. L'opposé de [[2~3]] est −[[2~3]] (la somme fait 0). L'inverse de [[2~3]] est [[3~2]] (le produit fait 1).", "L'inverse garde le **même signe** : l'inverse de −5 est −[[1~5]], pas [[1~5]]."]}/>
+    <${Sec} n="2" t="Diviser, c'est multiplier par l'inverse">
+      <${Ex} s="[[a~b]] ÷ [[c~d]] = [[a~b]] × {{a:[[d~c]]}}"/>
+      <${Pp} s="Exemple : [[7~11]] ÷ [[4~5]] = [[7~11]] × [[5~4]] = {{g:[[35~44]]}}."/>
+    </${Sec}>
+    <${Sec} n="3" t="Pourquoi ça marche ?">
+      <${Pp} s="[[3~2]] ÷ [[1~4]] : combien de quarts dans un et demi ? Il y a 4 quarts dans 1, donc 6 quarts dans [[3~2]]. Et justement : [[3~2]] × 4 = 6. Diviser par [[1~4]], c'est multiplier par 4, son inverse."/>
+      <div className="svgbox"><${DivSvg} x=${R(3, 2)} y=${R(1, 4)}/></div>
+    </${Sec}>
+    <${Sec} n="4" t="Diviser par un entier">
+      <${Ex} s="[[a~b]] ÷ n = [[a~b]] × [[1~n]]        [[4~5]] ÷ 2 = [[4~5]] × [[1~2]] = [[4~10]] = [[2~5]]"/>
+    </${Sec}>
+    <${Keep} items=${["L'inverse de [[a~b]] est [[b~a]] ; leur produit vaut 1.", "L'inverse garde le signe. 0 n'a pas d'inverse.", "Diviser par un nombre, c'est multiplier par son inverse.", "Puis on applique les règles de la multiplication (signe, simplification)."]}/>
+  </${Fragment}>`;
+}
+const INV = (spec) => { const t = T(spec), iv = inv(t); return { kind: "frac", q: `Donne l'inverse de ${t.s}.`, ans: iv.v, steps: [
+  t.rd === 1 ? `${t.s} = [[${neg(t.rn)}~1]] : on échange le haut et le bas → [[1~${neg(t.rn)}]].`
+    : t.s !== fm(t.v) ? `On écrit d'abord ${t.s} = ${fm(t.v)}, puis on échange le numérateur et le dénominateur.` : "On échange le numérateur et le dénominateur.",
+  `L'inverse garde le signe : ${fm(iv.v)}.`, `Vérification : ${fm(t.v)} × ${wrap(iv)} = 1.`] }; };
+const MOD5 = {
+  id: "div", ic: "÷", name: "Inverse et division",
+  intro: "L'inverse d'un nombre, puis la division : diviser par une fraction, c'est multiplier par son inverse.",
+  Learn: Learn5,
+  Lab: () => html`<${Fragment}><${DivLab}/><${InvLab}/><${CalcLab} ops=${["÷"]} init=${["5/8", "÷", "-(3/4)"]} title="Le calcul guidé" lead="Écris deux nombres : la machine transforme la division en multiplication par l'inverse, puis calcule."/></${Fragment}>`,
+  fams: [
+    { title: "Trouver l'inverse", level: 1,
+      worked: { q: "Donner l'inverse de [[−7~4]].", steps: ["On échange le numérateur et le dénominateur : [[4~−7]].", "On écrit le dénominateur positif : [[4~−7]] = −[[4~7]].", "Vérification : [[−7~4]] × (−[[4~7]]) = [[28~28]] = 1 (deux signes {{b:−}})."], ask: ["L'inverse d'un nombre négatif peut-il être positif ?", "Non : le produit doit faire 1 (positif), donc les deux nombres ont le même signe."] },
+      exos: [INV("3/5"), INV("2"), INV("3/-2"), INV("-5"), INV("9/-11"),
+        { kind: "choice", q: "Quel est l'inverse de 0 ?", opts: ["0", "1", "0 n'a pas d'inverse"], ans: 2, sol: "0 n'a pas d'inverse.", steps: ["Il faudrait un nombre x tel que 0 × x = 1.", "Or 0 × x = 0 pour tout x : c'est impossible."] }] },
+    { title: "Diviser deux fractions", level: 2,
+      worked: { q: "Calculer [[5~8]] ÷ (−[[3~4]]).", steps: divSteps(T("5/8"), T("-(3/4)")), ask: ["Pourquoi le résultat est-il négatif ?", "On divise un positif par un négatif : un seul signe −, donc le quotient est négatif."] },
+      exos: [X("{-9/10} ÷ {6/5}"), X("{7/11} ÷ {4/5}"), X("{4/5} ÷ {2/3}"), X("{2/3} ÷ {4/9}"), X("{-(3/4)} ÷ {9/2}")] },
+    { title: "Avec des nombres entiers", level: 2,
+      worked: { q: "Calculer [[−8~−7]] ÷ (−6).", steps: divSteps(T("-8/-7"), T("-6")) },
+      exos: [X("{4/5} ÷ {2}"), X("{6} ÷ {3/4}"), X("{-(7/2)} ÷ {-7}"), X("{-10} ÷ {5/3}"), X("{9/4} ÷ {-3}")] },
+    { title: "Trouve l'erreur", level: 3,
+      exos: [
+        { kind: "choice", q: "Diviser par [[2~3]], c'est multiplier par −[[2~3]].", opts: VF, ans: 1, sol: "Faux : c'est multiplier par [[3~2]], l'inverse.", steps: ["−[[2~3]] est l'**opposé** de [[2~3]], pas son inverse.", "L'inverse de [[2~3]] est [[3~2]]."] },
+        { kind: "choice", q: "[[3~5]] ÷ [[3~5]] = 1", opts: VF, ans: 0, sol: "Vrai.", steps: ["[[3~5]] × [[5~3]] = [[15~15]] = 1 : un nombre (non nul) divisé par lui-même donne 1."] },
+        { kind: "choice", q: "L'inverse de −4 est 4.", opts: VF, ans: 1, sol: "Faux : l'inverse de −4 est −[[1~4]].", steps: ["−4 × 4 = −16, pas 1.", "−4 × (−[[1~4]]) = 1 : l'inverse est −[[1~4]]."] },
+        { kind: "choice", q: "[[1~2]] ÷ 2 = 1", opts: VF, ans: 1, sol: "Faux : [[1~2]] ÷ 2 = [[1~4]].", steps: ["Partager une moitié en deux donne un quart.", "[[1~2]] × [[1~2]] = [[1~4]]."] },
+        { kind: "choice", q: "Diviser par 0,5, c'est multiplier par 2.", opts: VF, ans: 0, sol: "Vrai.", steps: ["0,5 = [[1~2]], dont l'inverse est 2."] }
+      ] }
+  ],
+  quiz: [
+    { q: "L'inverse de [[4~9]] est :", opts: ["[[9~4]]", "−[[4~9]]", "[[−9~4]]"], ans: 0, why: "On échange le numérateur et le dénominateur. −[[4~9]] est l'opposé." },
+    { q: "L'inverse de −3 est :", opts: ["3", "[[1~3]]", "−[[1~3]]"], ans: 2, why: "−3 × (−[[1~3]]) = 1. L'inverse garde le signe." },
+    { q: "[[2~5]] ÷ [[3~7]] = ?", opts: ["[[2~5]] × [[7~3]]", "[[5~2]] × [[3~7]]", "[[6~35]]"], ans: 0, why: "On garde la première fraction et on multiplie par l'inverse de la seconde." },
+    { q: "[[3~4]] ÷ [[3~8]] = ?", opts: ["2", "[[9~32]]", "[[1~2]]"], ans: 0, why: "[[3~4]] × [[8~3]] = [[24~12]] = 2. Il y a bien 2 fois trois huitièmes dans trois quarts." },
+    { q: "(−[[2~3]]) ÷ (−[[1~3]]) est…", opts: ["positif", "négatif"], ans: 0, why: "Deux signes − : le quotient est positif (il vaut 2)." },
+    { q: "Le produit d'un nombre et de son inverse vaut…", opts: ["0", "1"], ans: 1, why: "Par définition. Un nombre plus son opposé vaut 0." }
+  ]
+};
+
+/* =====================================================================
+   CHAPITRE 6 — Enchaîner les calculs (priorités)
+   ===================================================================== */
+const PRIO_LIST = [
+  "{1/2} + {1/3} × {-6}",
+  "{3/4} − {1/2} × {1/3}",
+  "{-(2/3)} + {5/6} × {4/5} − {1/2}",
+  "({7/4} − {3/2}) × {-(5/6)} + {1/3}",
+  "{-(3/5)} ÷ {6/5} + ({1} − {2/3}) × {-(9/4)}",
+  "{5/2} − ({1/3} + {1/2}) × {6/5}",
+  "{-(2/3)} ÷ {4/9} × {-(3/2)}"
+];
+/* Rend l'expression avec des opérateurs cliquables */
+function ExprView({ node, onOp, first = true, path = [] }) {
+  if (node.t === "n") return m(!first && node.term.lead ? "(" + node.term.s + ")" : node.term.s);
+  const inner = html`<${ExprView} node=${node.a} onOp=${onOp} first=${node.par ? true : first} path=${[...path, "a"]}/>
+    <button className="opbtn" onClick=${() => onOp(path)} aria-label=${"Calculer cette opération : " + ({ "+": "addition", "−": "soustraction", "×": "multiplication", "÷": "division" })[node.op]}>${node.op}</button>
+    <${ExprView} node=${node.b} onOp=${onOp} first=${false} path=${[...path, "b"]}/>`;
+  return node.par ? html`<${Fragment}><span>(</span>${inner}<span>)</span></${Fragment}>` : inner;
+}
+function whyNot(nd) {
+  const kids = [nd.a, nd.b].filter(k => k.t === "o");
+  if (kids.some(k => k.par)) return "Il faut d'abord calculer ce qu'il y a entre parenthèses.";
+  if ((nd.op === "+" || nd.op === "−") && kids.some(k => k.op === "×" || k.op === "÷")) return "La multiplication et la division passent avant l'addition et la soustraction.";
+  return "À priorité égale, on calcule de gauche à droite.";
+}
+function PrioGame() {
+  const [k, setK] = useState(0);
+  const [tree, setTree] = useState(() => parseExpr(PRIO_LIST[0]));
+  const [hist, setHist] = useState([]);
+  const [msg, setMsg] = useState(null);
+  const load = i => { setK(i); setTree(parseExpr(PRIO_LIST[i])); setHist([]); setMsg(null); };
+  const onOp = p => {
+    const nd = getAt(tree, p);
+    if (nd.a.t !== "n" || nd.b.t !== "n") { setMsg({ st: "ko", t: whyNot(nd) }); return; }
+    const { res, line } = opLine(nd.a.term, nd.op, nd.b.term);
+    const nt = setAt(tree, p, { t: "n", term: Tv(res) });
+    setTree(nt); setHist([...hist, line]); setMsg({ st: "ok", t: "Bien vu, c'était un calcul prioritaire." });
+  };
+  return html`<div className="frame lab">
+    <h4>Le jeu des priorités</h4>
+    <p className="lead">Clique sur l'opération à faire <b>en premier</b>. Si c'est la bonne, le calcul est effectué et l'expression se raccourcit. Continue jusqu'au résultat.</p>
+    <div className="row"><span className="muted">Expression :</span><div className="seg">${PRIO_LIST.map((_, i) => html`<button key=${i} aria-pressed=${k === i} onClick=${() => load(i)}>${i + 1}</button>`)}</div></div>
+    <div className="expr" aria-live="polite">${tree.t === "n" ? m(render(parseExpr(PRIO_LIST[k])) + " = {{g:" + tree.term.s + "}}") : html`<${ExprView} node=${tree} onOp=${onOp}/>`}</div>
+    ${msg ? html`<${Msg} st=${msg.st}>${msg.t}</${Msg}>` : null}
+    ${hist.length ? html`<ol className="histo">${hist.map((h, i) => html`<li key=${i}>${parse(h)}</li>`)}</ol>` : null}
+    ${tree.t === "n" ? html`<${Msg} st="ok"><b>Terminé !</b> Résultat : ${m(tree.term.s)}. ${k < PRIO_LIST.length - 1 ? html`<button className="btn small" style=${{ marginLeft: ".5em" }} onClick=${() => load(k + 1)}>Expression suivante</button>` : null}</${Msg}>`
+      : html`<div className="row"><button className="btn small" onClick=${() => load(k)}>Recommencer</button></div>`}
+  </div>`;
+}
+function Learn6() {
+  const A = parseExpr("{-(2/3)} + {5/6} × {4/5} − {1/2}");
+  return html`<${Fragment}>
+    <${Sec} n="1" t="L'ordre des opérations">
+      <ol className="steps">
+        <li>Les calculs entre <b>parenthèses</b> (en commençant par les plus intérieures).</li>
+        <li>Les <b>multiplications et divisions</b>, de gauche à droite.</li>
+        <li>Les <b>additions et soustractions</b>, de gauche à droite.</li>
+      </ol>
+    </${Sec}>
+    <${Sec} n="2" t="La méthode : une priorité par ligne">
+      <${Pp} s="À chaque ligne, je repère le calcul prioritaire, je le fais, et je **recopie tout le reste** sans le changer."/>
+      <div className="frame" style=${{ background: "var(--alt)" }}>
+        <p className="big-mx">${m("A = " + render(A))}</p>
+        <ol className="steps">${exprSteps(A).slice(1).map((s, i) => html`<li key=${i}>${parse(s)}</li>`)}</ol>
+      </div>
+    </${Sec}>
+    <${Sec} n="3" t="Des astuces qui font gagner du temps">
+      <ul className="plain">
+        <li>${parse("Simplifie dès que possible : [[5~6]] × [[4~5]] = [[{{s:5}} × 4~6 × {{s:5}}]] = [[4~6]] = [[2~3]].")}</li>
+        <li>${parse("Le résultat final se donne sous forme **irréductible**, avec un dénominateur positif.")}</li>
+      </ul>
+    </${Sec}>
+    <${Trap} items=${["[[1~2]] + [[1~3]] × 6 ≠ ([[1~2]] + [[1~3]]) × 6. Sans parenthèses, la multiplication passe d'abord : [[1~2]] + 2 = [[5~2]].", "a ÷ b × c se calcule de gauche à droite : (a ÷ b) × c, et non a ÷ (b × c)."]}/>
+    <${Keep} items=${["Parenthèses, puis × et ÷, puis + et −.", "À priorité égale : de gauche à droite.", "Une seule priorité par ligne, on recopie le reste.", "Résultat sous forme irréductible."]}/>
+  </${Fragment}>`;
+}
+const MOD6 = {
+  id: "prio", ic: "( )", name: "Enchaîner les calculs",
+  intro: "Plusieurs opérations dans un même calcul : dans quel ordre les faire ?",
+  Learn: Learn6, Lab: () => html`<${PrioGame}/>`,
+  fams: [
+    { title: "Quelle opération en premier ?", level: 1,
+      worked: { q: "Dans [[1~2]] + [[1~3]] × (−6), par quoi commence-t-on ?", steps: ["Il n'y a pas de parenthèses.", "Il y a une multiplication et une addition : la **multiplication est prioritaire**.", "On calcule d'abord [[1~3]] × (−6) = −2, puis [[1~2]] + (−2) = −[[3~2]]."] },
+      exos: [
+        { kind: "choice", q: "[[3~4]] − [[1~2]] × [[1~3]] : on commence par…", opts: ["la soustraction", "la multiplication"], ans: 1, sol: "la multiplication", steps: ["× passe avant − ."] },
+        { kind: "choice", q: "([[3~4]] − [[1~2]]) × [[1~3]] : on commence par…", opts: ["la soustraction", "la multiplication"], ans: 0, sol: "la soustraction (entre parenthèses)", steps: ["Les parenthèses passent avant tout."] },
+        { kind: "choice", q: "[[2~3]] ÷ [[4~9]] × [[3~2]] : on commence par…", opts: ["la division", "la multiplication"], ans: 0, sol: "la division", steps: ["× et ÷ ont la même priorité : on calcule de gauche à droite."] },
+        { kind: "choice", q: "[[1~5]] + [[2~5]] − [[4~5]] : on commence par…", opts: ["l'addition", "la soustraction"], ans: 0, sol: "l'addition", steps: ["+ et − ont la même priorité : de gauche à droite."] }
+      ] },
+    { title: "Deux opérations", level: 2,
+      worked: { q: "Calculer [[3~4]] − [[1~2]] × [[1~3]].", steps: exprSteps(parseExpr("{3/4} − {1/2} × {1/3}")) },
+      exos: [X("{1/2} + {1/3} × {-6}"), X("{-(2/3)} + {5/6} ÷ {5/2}"), X("{-(5/6)} ÷ {5/3} + {3/4}"), X("{-2} × {3/5} − {-(4/5)}"), X("{1/4} − {3/8} ÷ {3/2}")] },
+    { title: "Avec des parenthèses", level: 3,
+      worked: { q: "Calculer ([[−3~4]] + [[1~2]]) × (−4).", steps: exprSteps(parseExpr("({-3/4} + {1/2}) × {-4}")) },
+      exos: [X("({1} − {2/3}) × {-(9/4)}"), X("({2/3} − {1/6}) ÷ ({3/4} + {1/2})"), X("{5/2} − ({1/3} + {1/2}) × {6/5}"), X("{-(1/2)} × ({4/3} − {2})"), X("({1/2} − {3}) ÷ ({5/4} − {5/2})")] },
+    { title: "Les calculs de la fiche", level: 3,
+      intro: "Les expressions de l'exercice 7 de ta fiche. Donne le résultat sous forme irréductible.",
+      worked: { q: "Calculer D = (−[[2~3]]) ÷ [[4~9]] × (−[[3~2]]).", steps: exprSteps(parseExpr("{-(2/3)} ÷ {4/9} × {-(3/2)}")) },
+      exos: [X("{-(2/3)} + {5/6} × {4/5} − {1/2}", { name: "A", q: "Calcule :" }), X("({7/4} − {3/2}) × {-(5/6)} + {1/3}", { name: "B", q: "Calcule :" }),
+        X("{-(3/5)} ÷ {6/5} + ({1} − {2/3}) × {-(9/4)}", { name: "C", q: "Calcule :" })] }
+  ],
+  quiz: [
+    { q: "Dans [[1~2]] + [[1~3]] × 6, on calcule d'abord…", opts: ["[[1~2]] + [[1~3]]", "[[1~3]] × 6"], ans: 1, why: "La multiplication est prioritaire sur l'addition." },
+    { q: "[[1~2]] + [[1~3]] × 6 = ?", opts: ["5", "[[5~2]]"], ans: 1, why: "[[1~3]] × 6 = 2, puis [[1~2]] + 2 = [[5~2]]." },
+    { q: "(2 − [[1~2]]) × [[2~3]] = ?", opts: ["1", "[[5~3]]"], ans: 0, why: "Parenthèse : [[3~2]], puis [[3~2]] × [[2~3]] = 1." },
+    { q: "[[3~4]] ÷ [[3~2]] × 2 = ?", opts: ["1", "[[1~4]]"], ans: 0, why: "De gauche à droite : [[3~4]] ÷ [[3~2]] = [[1~2]], puis [[1~2]] × 2 = 1." },
+    { q: "À priorité égale, on calcule…", opts: ["de gauche à droite", "de droite à gauche"], ans: 0, why: "Comme on lit : de gauche à droite." },
+    { q: "Dans 1 − [[2~3]] × ([[1~4]] + [[1~2]]), on commence par…", opts: ["1 − [[2~3]]", "[[1~4]] + [[1~2]]", "[[2~3]] × [[1~4]]"], ans: 1, why: "Les parenthèses d'abord, puis la multiplication, et enfin la soustraction." }
+  ]
+};
+
+/* =====================================================================
+   CHAPITRE 7 — Résoudre des problèmes
+   ===================================================================== */
+function BarSvg({ parts, total }) {
+  // parts : [{ v (rationnel), label, fill }]
+  const W = 640, pad = 4, H = 46;
+  const T0 = val(total);
+  let x = pad;
+  const segs = parts.map((p, i) => {
+    const w = Math.max(0, val(p.v) / T0 * (W - 2 * pad));
+    const g = html`<g key=${i}><rect x=${x} y="8" width=${w} height=${H} fill=${p.fill} className="svg-ink" strokeWidth="1"/>
+      ${w > 54 ? html`<text x=${x + w / 2} y=${8 + H / 2 + 5} textAnchor="middle" className="svg-txt">${p.label}</text>` : null}</g>`;
+    x += w; return g;
+  });
+  return html`<svg viewBox=${`0 0 ${W} ${H + 40}`} width=${W} role="img" aria-label="Modèle en barre">
+    ${segs}<rect x=${pad} y="8" width=${W - 2 * pad} height=${H} fill="none" className="svg-ink" strokeWidth="2"/>
+    <path d=${`M${pad} ${H + 18} v6 H${W - pad} v-6`} fill="none" className="svg-ink" strokeWidth="1.2"/>
+    <text x=${W / 2} y=${H + 38} textAnchor="middle" className="svg-mut">le tout</text>
+  </svg>`;
+}
+const fmtQ = r => isDecR(r) ? dec(val(r)) : fm(r);
+function BarLab() {
+  const [q, setQ] = useState("2"), [u, setU] = useState("L");
+  const [f1, setF1] = useState("2/5"), [f2, setF2] = useState("1/4");
+  const [mode, setMode] = useState("total");
+  const Q = parseInput(q), a = parseInput(f1), b = parseInput(f2);
+  const ok = Q && a && b && val(Q.r) > 0 && val(a.r) >= 0 && val(b.r) >= 0;
+  let p1, p2, rest, base2;
+  if (ok) {
+    p1 = mul(a.r, Q.r);
+    base2 = mode === "total" ? Q.r : sub(Q.r, p1);
+    p2 = mul(b.r, base2);
+    rest = sub(sub(Q.r, p1), p2);
+  }
+  const over = ok && val(rest) < -1e-12;
+  return html`<div className="frame lab">
+    <h4>Le modèle en barre</h4>
+    <p className="lead">Dessiner le problème aide à repérer <b>le tout</b>. Exemple de la fiche : un flacon de 2 L ; Tom boit les ${m("[[2~5]]")}, puis sa sœur le quart… du volume initial, ou du reste ?</p>
+    <div className="row"><span>Le tout :</span><input className="field sm" style=${{ width: "5em" }} value=${q} onInput=${e => setQ(e.target.value)} aria-label="Quantité totale"/>
+      <input className="field sm" style=${{ width: "5em" }} value=${u} onInput=${e => setU(e.target.value)} aria-label="Unité"/></div>
+    <div className="row"><span>1re part :</span><${FracField} value=${f1} set=${setF1} label="Première fraction"/><span>du tout</span></div>
+    <div className="row"><span>2e part :</span><${FracField} value=${f2} set=${setF2} label="Deuxième fraction"/>
+      <div className="seg"><button aria-pressed=${mode === "total"} onClick=${() => setMode("total")}>du tout</button><button aria-pressed=${mode === "reste"} onClick=${() => setMode("reste")}>de ce qui reste</button></div></div>
+    ${!ok ? html`<${Msg} st="ko">Écris une quantité positive (ex. 2 ou 2,5) et deux fractions positives.</${Msg}>`
+      : over ? html`<${Msg} st="ko">Les deux parts dépassent le tout : c'est impossible avec ces nombres.</${Msg}>`
+      : html`<${Fragment}>
+        <div className="svgbox"><${BarSvg} total=${Q.r} parts=${[{ v: p1, label: "1re part", fill: "rgba(61,174,233,.45)" }, { v: p2, label: "2e part", fill: "rgba(246,116,0,.4)" }, { v: rest, label: "reste", fill: "rgba(39,174,96,.18)" }]}/></div>
+        <ol className="steps">
+          <li>${parse(`1re part : ${fm(a.r)} × ${fmtQ(Q.r)} = **${fmtQ(p1)} ${u}**`)}</li>
+          ${mode === "reste" ? html`<li>${parse(`Ce qui reste après la 1re part : ${fmtQ(Q.r)} − ${fmtQ(p1)} = ${fmtQ(base2)} ${u}`)}</li>` : null}
+          <li>${parse(`2e part : ${fm(b.r)} × ${fmtQ(base2)} = **${fmtQ(p2)} ${u}**` + (mode === "reste" ? " (on prend la fraction **du reste**, pas du tout)" : ""))}</li>
+          <li>${parse(`Reste final : ${fmtQ(Q.r)} − ${fmtQ(p1)} − ${fmtQ(p2)} = **${fmtQ(rest)} ${u}**, soit ${fm(div(rest, Q.r))} du tout.`)}</li>
+        </ol>
+      </${Fragment}>`}
+  </div>`;
+}
+function Learn7() {
+  return html`<${Fragment}>
+    <${Sec} n="1" t="La méthode en 4 étapes">
+      <ol className="steps">
+        <li><b>Repérer le tout</b> : de quelle quantité parle-t-on ? (28 élèves, 2 L, 120 €…)</li>
+        <li><b>Traduire</b> : « les ${m("[[a~b]]")} de Q » devient ${m("[[a~b]] × Q")}.</li>
+        <li><b>Calculer</b>, en simplifiant si possible.</li>
+        <li><b>Répondre</b> par une phrase, avec l'unité, et vérifier que c'est vraisemblable.</li>
+      </ol>
+    </${Sec}>
+    <${Sec} n="2" t="La partie et le reste">
+      <${Pp} s="Si les [[3~4]] des élèves font du sport, ceux qui n'en font pas représentent 1 − [[3~4]] = [[1~4]] de la classe, soit 25 %."/>
+      <div className="bars" style=${{ maxWidth: "460px" }}><span className="lbl">${m("[[3~4]] sport, [[1~4]] sans")}</span><${FBar} parts=${4} on=${3}/></div>
+    </${Sec}>
+    <${Sec} n="3" t="« Du tout » ou « du reste » ?">
+      <div className="two">
+        <div className="frame"><h4>Le quart du volume initial</h4><${Pp} s="Tom : [[2~5]] × 2 = 0,8 L. Sœur : [[1~4]] × **2** = 0,5 L. Reste : 2 − 0,8 − 0,5 = 0,7 L."/></div>
+        <div className="frame"><h4>Le quart de ce qui reste</h4><${Pp} s="Tom : 0,8 L. Il reste 1,2 L. Sœur : [[1~4]] × **1,2** = 0,3 L. Reste : 1,2 − 0,3 = 0,9 L."/></div>
+      </div>
+      <${Pp} s="Lis bien l'énoncé : la fraction s'applique à la quantité dont on parle juste après « de »."/>
+    </${Sec}>
+    <${Keep} items=${["Je repère le tout avant de calculer.", "« de » se traduit par × .", "Le reste = le tout − les parts (ou 1 − les fractions).", "« Du reste » : la fraction s'applique à ce qui reste, pas au tout.", "Je réponds par une phrase avec l'unité."]}/>
+  </${Fragment}>`;
+}
+const PB = (q, ans, unit, steps, hint) => ({ kind: "num", q, ans, unit, steps, hint, sol: `${fmtQ(ans)} ${unit}` });
+const MOD7 = {
+  id: "pb", ic: "?", name: "Résoudre des problèmes",
+  intro: "Utiliser les fractions dans des situations concrètes : partager, prendre une part, calculer ce qui reste.",
+  Learn: Learn7, Lab: () => html`<${BarLab}/>`,
+  fams: [
+    { title: "Une fraction d'une quantité", level: 1,
+      worked: { q: "Dans une classe de 28 élèves, les [[3~4]] pratiquent un sport. Combien d'élèves pratiquent un sport ?", steps: ["Le tout : 28 élèves.", "« Les [[3~4]] de 28 » : [[3~4]] × 28.", "28 ÷ 4 = 7, puis 7 × 3 = 21.", "**21 élèves** pratiquent un sport."], ask: ["Quel pourcentage d'élèves ne pratique pas de sport ?", "1 − [[3~4]] = [[1~4]] = [[25~100]] : 25 % (soit 7 élèves sur 28)."] },
+      exos: [
+        PB("Dans la classe de 28 élèves, les [[3~4]] pratiquent un sport. Quel pourcentage d'élèves ne pratique **pas** de sport ?", R(25), "%", ["Ne pratiquent pas : 1 − [[3~4]] = [[1~4]] de la classe.", "[[1~4]] = [[25~100]] = 25 %."]),
+        PB("Un livre a 240 pages. Lina en a lu les [[5~8]]. Combien de pages a-t-elle lues ?", R(150), "pages", ["[[5~8]] × 240 : 240 ÷ 8 = 30, puis 30 × 5 = 150."]),
+        PB("Dans un collège de 650 élèves, 40 % sont demi-pensionnaires. Combien sont-ils ?", R(260), "élèves", ["40 % = [[40~100]] = [[2~5]].", "[[2~5]] × 650 : 650 ÷ 5 = 130, puis 130 × 2 = 260."]),
+        PB("Un trajet de 45 km est fait aux [[2~3]] à vélo. Combien de kilomètres à vélo ?", R(30), "km", ["[[2~3]] × 45 : 45 ÷ 3 = 15, puis 15 × 2 = 30."])
+      ] },
+    { title: "Deux parts du même tout", level: 2,
+      worked: { q: "Un flacon contient 2 L de jus. Tom en boit les [[2~5]], puis sa sœur boit le quart du volume initial. Quelle fraction du flacon reste-t-il ?", steps: ["Les deux fractions portent sur le **même tout** (le volume initial).", "Bu en tout : [[2~5]] + [[1~4]] = [[8~20]] + [[5~20]] = [[13~20]] du flacon.", "Reste : 1 − [[13~20]] = {{g:[[7~20]]}} du flacon."] },
+      exos: [
+        PB("Le flacon contient 2 L. Quelle quantité de jus Tom a-t-il bue (les [[2~5]]) ?", R(4, 5), "L", ["[[2~5]] × 2 = [[4~5]] = 0,8 L."]),
+        PB("Quelle quantité sa sœur a-t-elle bue (le quart du volume initial) ?", R(1, 2), "L", ["Le volume initial est 2 L.", "[[1~4]] × 2 = [[2~4]] = 0,5 L."]),
+        PB("Quelle quantité de jus reste-t-il dans le flacon ?", R(7, 10), "L", ["2 − 0,8 − 0,5 = 0,7 L.", "Vérification : [[7~20]] × 2 = [[14~20]] = 0,7 L."]),
+        { kind: "frac", q: "Un jardin est planté pour [[2~5]] de tomates et pour [[1~3]] de salades. Le reste est en fleurs. Quelle fraction du jardin est en fleurs ?", ans: R(4, 15), steps: ["Légumes : [[2~5]] + [[1~3]] = [[6~15]] + [[5~15]] = [[11~15]].", "Fleurs : 1 − [[11~15]] = [[15~15]] − [[11~15]] = [[4~15]]."] },
+        PB("Ce jardin mesure 450 m². Quelle est l'aire plantée de fleurs ?", R(120), "m²", ["Les fleurs occupent [[4~15]] du jardin.", "[[4~15]] × 450 : 450 ÷ 15 = 30, puis 30 × 4 = 120 m²."], "Utilise la réponse de l'exercice précédent : [[4~15]] du jardin.")
+      ] },
+    { title: "Une fraction de ce qui reste", level: 3,
+      worked: { q: "Inès a 120 €. Elle dépense le [[1~3]] de son argent, puis le [[1~4]] de ce qui lui reste. Combien lui reste-t-il ?", steps: ["1re dépense : [[1~3]] × 120 = 40 €. Il reste 120 − 40 = 80 €.", "2e dépense : le [[1~4]] **de ce qui reste**, donc de 80 € : [[1~4]] × 80 = 20 €.", "Il reste 80 − 20 = {{g:60 €}}."], ask: ["Quelle fraction de ses 120 € lui reste-t-il ?", "[[60~120]] = [[1~2]] : la moitié. Autre méthode : [[2~3]] × [[3~4]] = [[1~2]]."] },
+      exos: [
+        PB("Un réservoir de 60 L est rempli aux [[3~4]]. On utilise les [[2~5]] de son contenu. Combien de litres reste-t-il ?", R(27), "L", ["Contenu : [[3~4]] × 60 = 45 L.", "Utilisé : [[2~5]] × 45 = 18 L.", "Reste : 45 − 18 = 27 L."], "Le tout de la 2e étape, c'est le contenu (45 L), pas les 60 L."),
+        PB("Le flacon de 2 L : Tom boit les [[2~5]], puis sa sœur le quart **de ce qui reste**. Quelle quantité la sœur boit-elle ?", R(3, 10), "L", ["Tom boit 0,8 L, il reste 2 − 0,8 = 1,2 L.", "La sœur boit [[1~4]] × 1,2 = 0,3 L."]),
+        { kind: "frac", q: "Un gâteau : Léo en mange le [[1~4]], puis Sami mange les [[2~3]] de ce qui reste. Quelle fraction du gâteau reste-t-il ?", ans: R(1, 4), steps: ["Après Léo, il reste 1 − [[1~4]] = [[3~4]] du gâteau.", "Sami mange [[2~3]] × [[3~4]] = [[6~12]] = [[1~2]] du gâteau.", "Il reste [[3~4]] − [[1~2]] = [[1~4]] du gâteau."] },
+        PB("Une randonnée de 24 km : le matin, on parcourt les [[3~8]] du trajet ; l'après-midi, les [[3~5]] de ce qui reste. Combien de km reste-t-il à faire ?", R(6), "km", ["Matin : [[3~8]] × 24 = 9 km. Il reste 15 km.", "Après-midi : [[3~5]] × 15 = 9 km.", "Il reste 15 − 9 = 6 km."])
+      ] }
+  ],
+  quiz: [
+    { q: "« Les [[2~3]] de 30 » se calcule avec…", opts: ["[[2~3]] + 30", "[[2~3]] × 30", "30 ÷ [[2~3]]"], ans: 1, why: "Le mot « de » se traduit par une multiplication." },
+    { q: "Si [[3~5]] d'une classe sont des filles, les garçons représentent…", opts: ["[[2~5]]", "[[3~5]]", "[[5~3]]"], ans: 0, why: "1 − [[3~5]] = [[2~5]]." },
+    { q: "25 % d'une quantité, c'est…", opts: ["le quart", "le tiers", "la moitié"], ans: 0, why: "25 % = [[25~100]] = [[1~4]]." },
+    { q: "On dépense [[1~2]] de 40 €, puis [[1~2]] de ce qui reste. Il reste…", opts: ["0 €", "10 €", "20 €"], ans: 1, why: "Après la 1re dépense : 20 €. Puis on dépense la moitié de 20 € : il reste 10 €." },
+    { q: "Avant de calculer, la première chose à repérer est…", opts: ["le tout", "le résultat"], ans: 0, why: "La fraction s'applique toujours à une quantité de référence : le tout." }
+  ]
+};
+
+/* =====================================================================
+   Révision : cartes mémoire, quiz bilan, fiche mémo
+   ===================================================================== */
+const CARDS = [
+  ["ecr", "Que veut dire [[a~b]] ?", "a ÷ b (avec b ≠ 0). Exemple : [[3~4]] = 3 ÷ 4 = 0,75."],
+  ["ecr", "Comment obtenir une fraction égale à [[a~b]] ?", "Multiplier (ou diviser) le haut et le bas par le même nombre non nul : [[a × k~b × k]]."],
+  ["ecr", "Qu'est-ce qu'une fraction irréductible ?", "Une fraction dont le numérateur et le dénominateur n'ont pas d'autre diviseur commun que 1."],
+  ["ecr", "[[−a~b]] = ?   et   [[−a~−b]] = ?", "[[−a~b]] = [[a~−b]] = −[[a~b]]   et   [[−a~−b]] = [[a~b]]."],
+  ["ecr", "t % s'écrit…", "[[t~100]]. Exemple : 35 % = [[35~100]] = [[7~20]]."],
+  ["ecr", "[[1~4]], [[1~2]], [[3~4]] en pourcentage ?", "25 % ; 50 % ; 75 %."],
+  ["comp", "Comment comparer deux fractions ?", "Les écrire avec le même dénominateur positif, puis comparer les numérateurs."],
+  ["comp", "Comment savoir si [[a~b]] > 1 (a, b positifs) ?", "Si le numérateur est plus grand que le dénominateur."],
+  ["comp", "Entre deux nombres négatifs, lequel est le plus petit ?", "Celui qui est le plus éloigné de 0. Exemple : −[[7~6]] < −[[5~6]]."],
+  ["add", "[[a~c]] + [[b~c]] = ?", "[[a + b~c]] : on additionne les numérateurs, on garde le dénominateur."],
+  ["add", "Que faire si les dénominateurs sont différents ?", "Les rendre égaux avec le plus petit multiple commun, puis additionner les numérateurs."],
+  ["add", "Soustraire un nombre, c'est…", "… ajouter son opposé."],
+  ["add", "Comment ajouter un entier et une fraction ?", "Écrire l'entier avec le même dénominateur : 3 + [[1~4]] = [[12~4]] + [[1~4]] = [[13~4]]."],
+  ["mul", "[[a~b]] × [[c~d]] = ?", "[[a × c~b × d]] : en haut avec en haut, en bas avec en bas."],
+  ["mul", "Comment trouver le signe d'un produit ?", "On compte les facteurs négatifs : pair → positif, impair → négatif."],
+  ["mul", "Pourquoi simplifier avant de calculer ?", "Pour garder de petits nombres : on barre les facteurs communs en haut et en bas."],
+  ["mul", "« Les [[a~b]] de Q » se calcule…", "[[a~b]] × Q, par exemple (Q ÷ b) × a."],
+  ["div", "Qu'est-ce que l'inverse d'un nombre ?", "Le nombre qui, multiplié par lui, donne 1. L'inverse de [[a~b]] est [[b~a]]."],
+  ["div", "Quel est l'inverse de −5 ?", "−[[1~5]] : l'inverse garde le signe."],
+  ["div", "0 a-t-il un inverse ?", "Non : 0 × x = 0, jamais 1."],
+  ["div", "[[a~b]] ÷ [[c~d]] = ?", "[[a~b]] × [[d~c]] : on multiplie par l'inverse."],
+  ["prio", "Dans quel ordre calcule-t-on ?", "Parenthèses, puis × et ÷, puis + et − ; à priorité égale, de gauche à droite."],
+  ["prio", "[[1~2]] + [[1~3]] × 6 = ?", "La multiplication d'abord : [[1~2]] + 2 = [[5~2]]."],
+  ["pb", "Que faut-il repérer en premier dans un problème ?", "Le tout : la quantité à laquelle s'applique la fraction."],
+  ["pb", "« Le [[1~4]] de ce qui reste » : de quoi prend-on le quart ?", "De ce qui reste après la première part, pas de la quantité de départ."]
+];
+function Cards({ mods }) {
+  const [filter, setFilter] = useState("all");
+  const ids = f => CARDS.map((c, i) => [c, i]).filter(([c]) => f === "all" || c[0] === f).map(([, i]) => i);
+  const [deck, setDeck] = useState(() => shuffle(ids("all")));
+  const [back, setBack] = useState(false);
+  const [known, setKnown] = useState(0);
+  const [total, setTotal] = useState(CARDS.length);
+  const reset = f => { const d = shuffle(ids(f)); setDeck(d); setTotal(d.length); setBack(false); setKnown(0); };
+  useEffect(() => reset(filter), [filter]);
+  const cur = deck[0];
+  const c = cur !== undefined ? CARDS[cur] : null;
+  return html`<div className="wrap page">
+    <div className="mod-head" style=${{ paddingBlock: "0" }}><h2>Cartes mémoire</h2><p>Se tester, c'est la meilleure façon de retenir. Lis la question, réponds dans ta tête, puis retourne la carte. Les cartes « À revoir » reviennent plus tard dans le paquet.</p></div>
+    <div className="row"><span className="muted">Thème :</span>
+      <div className="seg"><button aria-pressed=${filter === "all"} onClick=${() => setFilter("all")}>Tout</button>${mods.map(md => html`<button key=${md.id} aria-pressed=${filter === md.id} onClick=${() => setFilter(md.id)} title=${md.name}>${md.ic}</button>`)}</div></div>
+    ${c ? html`<${Fragment}>
+      <div className="row card-meta"><span>Cartes restantes : ${deck.length}</span><span className="spacer"></span><span>Sues : ${known} / ${total}</span></div>
+      <button className=${"card" + (back ? " back" : "")} onClick=${() => setBack(!back)} aria-live="polite">
+        <div style=${{ display: "grid", gap: ".5em" }}><span className="card-meta">${back ? "Réponse" : "Question — clique pour retourner"}</span><div>${parse(back ? c[2] : c[1])}</div></div>
+      </button>
+      ${back ? html`<div className="row" style=${{ justifyContent: "center" }}><button className="btn ok" onClick=${() => { setDeck(deck.slice(1)); setKnown(known + 1); setBack(false); }}>Je savais</button><button className="btn ko" onClick=${() => { setDeck([...deck.slice(1), cur]); setBack(false); }}>À revoir</button></div>`
+        : html`<div className="row" style=${{ justifyContent: "center" }}><button className="btn primary" onClick=${() => setBack(true)}>Voir la réponse</button>${canSpeak ? html`<button className="btn" onClick=${() => speak(c[1])}>Écouter</button>` : null}</div>`}
+    </${Fragment}>` : html`<div className="msg ok"><b>Paquet terminé !</b> Tu as revu les ${total} cartes. Reviens demain : réviser à plusieurs jours d'intervalle aide à retenir longtemps. <div className="row" style=${{ marginTop: ".5em" }}><button className="btn" onClick=${() => reset(filter)}>Recommencer</button></div></div>`}
+  </div>`;
+}
+function Bilan({ mods }) {
+  const [seed, setSeed] = useState(0);
+  const qs = useMemo(() => shuffle(mods.flatMap(md => md.quiz)).slice(0, 14), [seed]);
+  return html`<div className="wrap page">
+    <div className="mod-head" style=${{ paddingBlock: "0" }}><h2>Quiz bilan</h2><p>14 questions mélangées, tirées de tous les chapitres. Mélanger les types de questions oblige à choisir la bonne méthode : c'est ce qui se passe en contrôle.</p></div>
+    <${Quiz} key=${seed} qs=${qs} title="Quiz bilan"/>
+    <div className="row"><button className="btn" onClick=${() => setSeed(seed + 1)}>Nouveau tirage</button></div>
+  </div>`;
+}
+const MEMO = [
+  ["=", "Écrire autrement", ["[[a~b]] = a ÷ b (b ≠ 0)", "[[a~b]] = [[a × k~b × k]] = [[a ÷ k~b ÷ k]]", "Irréductible : plus de diviseur commun", "[[−a~b]] = [[a~−b]] = −[[a~b]] ; [[−a~−b]] = [[a~b]]", "t % = [[t~100]]"]],
+  ["<", "Comparer", ["Même dénominateur positif → on compare les numérateurs", "Sinon : dénominateur commun d'abord", "Négatif < positif ; −[[7~6]] < −[[5~6]]"]],
+  ["+", "Additionner, soustraire", ["[[a~c]] + [[b~c]] = [[a + b~c]]", "Dénominateurs différents → plus petit multiple commun", "Jamais d'addition des dénominateurs", "Soustraire = ajouter l'opposé"]],
+  ["×", "Multiplier", ["[[a~b]] × [[c~d]] = [[a × c~b × d]]", "Signe : nombre de facteurs négatifs pair → + ; impair → −", "Simplifier avant de calculer", "« les [[a~b]] de Q » = [[a~b]] × Q"]],
+  ["÷", "Inverse et division", ["Inverse de [[a~b]] : [[b~a]] (produit = 1)", "L'inverse garde le signe ; 0 n'a pas d'inverse", "[[a~b]] ÷ [[c~d]] = [[a~b]] × [[d~c]]"]],
+  ["( )", "Priorités", ["1. Parenthèses", "2. × et ÷ (de gauche à droite)", "3. + et − (de gauche à droite)", "Résultat irréductible, dénominateur positif"]],
+  ["?", "Problèmes", ["Repérer le tout", "« de » → ×", "Reste = tout − parts (ou 1 − fractions)", "« du reste » ≠ « du tout »"]]
+];
+function Memo() {
+  return html`<div className="wrap page">
+    <div className="mod-head" style=${{ paddingBlock: "0" }}><h2>Fiche mémo</h2><p>Toutes les règles sur une page. À relire avant un contrôle, ou à imprimer.</p></div>
+    <div className="row noprint"><button className="btn primary" onClick=${() => window.print()}>Imprimer la fiche</button></div>
+    <${ColorCode}/>
+    <div className="memo">${MEMO.map(([ic, t, items], i) => html`<div className="frame" key=${i}><h4><span className="ic">${ic}</span>${t}</h4><ul>${items.map((s, j) => html`<li key=${j}>${parse(s)}</li>`)}</ul></div>`)}</div>
+  </div>`;
+}
+
+/* =====================================================================
+   Vue d'un chapitre
+   ===================================================================== */
+const TABS = [["comprendre", "Comprendre"], ["manipuler", "Manipuler"], ["entrainer", "S'entraîner"], ["quiz", "Quiz"]];
+function ModuleView({ md, tab, setTab, solved, onSolved, next }) {
+  const Learn = md.Learn, Lab = md.Lab;
+  const ti = TABS.findIndex(t => t[0] === tab);
+  const go = t => { setTab(t); window.scrollTo({ top: 0 }); };
+  return html`<${Fragment}>
+    <div className="wrap mod-head"><h2>${md.name}</h2><p>${md.intro}</p></div>
+    <div className="tabs-bar"><div className="wrap"><div className="tabs" role="tablist">
+      ${TABS.map(([id, t], i) => html`<button key=${id} role="tab" className="tab" aria-selected=${tab === id} onClick=${() => go(id)}><span className="tn">${i + 1}</span>${t}</button>`)}
+    </div></div></div>
+    <div className="wrap page">
+      ${tab === "comprendre" ? html`<${Learn}/>` : null}
+      ${tab === "manipuler" ? html`<${Fragment}><p className="lead">Expérimente librement : change les nombres, observe ce qui se passe, puis essaie de prévoir le résultat avant de regarder.</p><${Lab}/></${Fragment}>` : null}
+      ${tab === "entrainer" ? html`<${Fragment}>
+        <p className="lead">Chaque famille commence par un <b>exemple résolu</b> : lis-le étape par étape, puis fais les exercices. Les familles vont de la plus facile (une barre) à la plus difficile (trois barres). Écris tes réponses sous forme de fraction : <b>-7/12</b>, <b>5</b>, <b>2,5</b>…</p>
+        <div className="row">${md.fams.map((f, i) => html`<a key=${i} className="btn small" href=${"#fam-" + i} onClick=${ev => { ev.preventDefault(); document.getElementById("fam-" + i).scrollIntoView({ behavior: "smooth" }); }}>${i + 1}. ${f.title}</a>`)}</div>
+        ${md.fams.map((f, i) => html`<${Family} key=${i} f=${f} idx=${i} solved=${solved} onSolved=${onSolved}/>`)}
+      </${Fragment}>` : null}
+      ${tab === "quiz" ? html`<${Quiz} key=${md.id} qs=${md.quiz} title=${"Quiz — " + md.name}/>` : null}
+      <div className="next-row">
+        ${ti > 0 ? html`<button className="btn" onClick=${() => go(TABS[ti - 1][0])}>← ${TABS[ti - 1][1]}</button>` : null}
+        ${ti < TABS.length - 1 ? html`<button className="btn primary" onClick=${() => go(TABS[ti + 1][0])}>${TABS[ti + 1][1]} →</button>`
+          : next ? html`<button className="btn primary" onClick=${next.go}>Chapitre suivant : ${next.name} →</button>` : null}
+      </div>
+    </div>
+  </${Fragment}>`;
+}
+
+/* =====================================================================
+   Application
+   ===================================================================== */
+const MODULES = [MOD1, MOD2, MOD3, MOD4, MOD5, MOD6, MOD7];
+MODULES.forEach(md => md.fams.forEach((f, fi) => f.exos.forEach((e, ei) => { e.id = `${md.id}-${fi}-${ei}`; })));
+const ALL_EX = MODULES.reduce((s, md) => s + md.fams.reduce((t, f) => t + f.exos.length, 0), 0);
+
+function App() {
+  const [mod, setMod] = useState(() => store.get("mod", "ecr"));
+  const [tab, setTab] = useState(() => store.get("tab", "comprendre"));
+  const [solved, setSolved] = useState(() => new Set(store.get("solved", [])));
+  const [big, setBig] = useState(() => store.get("big", false));
+  const [confirmReset, setConfirmReset] = useState(false);
+  useEffect(() => store.set("mod", mod), [mod]);
+  useEffect(() => store.set("tab", tab), [tab]);
+  useEffect(() => store.set("big", big), [big]);
+  useEffect(() => store.set("solved", [...solved]), [solved]);
+  const onSolved = id => setSolved(s => s.has(id) ? s : new Set([...s, id]));
+  const md = MODULES.find(x => x.id === mod);
+  const count = x => { let d = 0, t = 0; x.fams.forEach(f => f.exos.forEach(e => { t++; if (solved.has(e.id)) d++; })); return [d, t]; };
+  const pick = id => { setMod(id); if (MODULES.some(x => x.id === id)) setTab("comprendre"); window.scrollTo({ top: 0 }); };
+  const mi = MODULES.findIndex(x => x.id === mod);
+  const next = mi >= 0 && mi < MODULES.length - 1 ? { name: MODULES[mi + 1].name, go: () => pick(MODULES[mi + 1].id) } : null;
+  const nSolved = [...solved].filter(id => MODULES.some(x => id.startsWith(x.id + "-"))).length;
+  return html`<div className=${"app" + (big ? " big" : "")}>
+    <header className="titlebar">
+      <svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true"><rect x="1" y="1" width="22" height="22" rx="4" fill="var(--accent)"/><text x="12" y="10.5" textAnchor="middle" fill="#fff" style=${{ font: "700 8px var(--font)" }}>3</text><line x1="7" y1="12.5" x2="17" y2="12.5" stroke="#fff" strokeWidth="1.6"/><text x="12" y="20" textAnchor="middle" fill="#fff" style=${{ font: "700 8px var(--font)" }}>4</text></svg>
+      <span className="tb-name">Les fractions</span><span className="tb-sub">Mathématiques 4e</span>
+      <span className="spacer"></span>
+      <button className="switch" role="switch" aria-checked=${big} onClick=${() => setBig(!big)}><span className="track"></span>Texte agrandi</button>
+      <span className="prog" title="Exercices réussis"><span className="bar"><span style=${{ width: (nSolved / ALL_EX * 100) + "%" }}></span></span>${nSolved}/${ALL_EX}</span>
+    </header>
+    <div className="layout">
+      <nav className="sidebar" aria-label="Chapitres">
+        <div className="side-cap">Chapitres</div>
+        ${MODULES.map((x, i) => { const [d, t] = count(x); return html`<button key=${x.id} className="side-item" aria-current=${mod === x.id ? "page" : undefined} onClick=${() => pick(x.id)}><span className="ic">${x.ic}</span><span>${i + 1}. ${x.name}</span><span className="cnt">${d}/${t}</span></button>`; })}
+        <div className="side-cap" style=${{ marginTop: ".8em" }}>Révision</div>
+        <button className="side-item" aria-current=${mod === "memo" ? "page" : undefined} onClick=${() => pick("memo")}><span className="ic">≡</span><span>Fiche mémo</span></button>
+        <button className="side-item" aria-current=${mod === "cartes" ? "page" : undefined} onClick=${() => pick("cartes")}><span className="ic">★</span><span>Cartes mémoire</span></button>
+        <button className="side-item" aria-current=${mod === "bilan" ? "page" : undefined} onClick=${() => pick("bilan")}><span className="ic">✓</span><span>Quiz bilan</span></button>
+        <div className="side-foot">
+          <span className="muted">Ta progression reste dans ce navigateur.</span>
+          ${confirmReset
+            ? html`<div className="row"><button className="btn small" onClick=${() => { setSolved(new Set()); setConfirmReset(false); }}>Oui, tout effacer</button><button className="btn small" onClick=${() => setConfirmReset(false)}>Annuler</button></div>`
+            : html`<button className="linkbtn" onClick=${() => setConfirmReset(true)}>Effacer ma progression</button>`}
+        </div>
+      </nav>
+      <main className="main">
+        ${mod === "cartes" ? html`<${Cards} mods=${MODULES}/>` : mod === "bilan" ? html`<${Bilan} mods=${MODULES}/>` : mod === "memo" ? html`<${Memo}/>`
+          : html`<${ModuleView} key=${mod} md=${md || MODULES[0]} tab=${tab} setTab=${setTab} solved=${solved} onSolved=${onSolved} next=${next}/>`}
+      </main>
+    </div>
+  </div>`;
+}
+
+ReactDOM.createRoot(document.getElementById("root")).render(html`<${App}/>`);
+</script>
+</body>
+</html>
