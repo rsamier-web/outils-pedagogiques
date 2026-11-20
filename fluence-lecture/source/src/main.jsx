@@ -176,7 +176,7 @@ function SettingsPanel({ data, update, speaker, voices, onClose }) {
         <button className="btn" onClick={() => speaker.say("Bonjour ! Je vais t’aider à lire. Clique sur un mot pour l’entendre.")} disabled={!voices.list.length}>
           {Ico.ear}<span>Tester la voix</span>
         </button>
-        <Switch label="Surligner la phrase et le mot lus" checked={s.highlight} onChange={v => set({ highlight: v })} />
+        <Switch label="Surligner la ligne lue" checked={s.highlight} onChange={v => set({ highlight: v })} />
         <div className="field">
           <span className="field-label" id="click-lbl">Un clic sur un mot lit…</span>
           <div className="seg" role="radiogroup" aria-labelledby="click-lbl">
@@ -236,7 +236,7 @@ function Help({ onClose }) {
           <li>Cohérence : aucune image décorative, un seul texte à l’écran, réglages rangés à part.</li>
           <li>Segmentation : le texte est découpé en pages courtes, par unités de sens ; l’élève avance à son rythme.</li>
           <li>Pré-entraînement : les mots difficiles sont écoutés avant la lecture.</li>
-          <li>Signalement et contiguïté temporelle : la phrase et le mot prononcés sont surlignés au moment où la voix les dit.</li>
+          <li>Signalement et contiguïté temporelle : la voix lit ligne par ligne et la ligne lue est surlignée pendant toute sa lecture (synchronisation exacte, quelle que soit la voix).</li>
           <li>Modalité : la voix sert de modèle à l’écoute, puis disparaît pendant la lecture chronométrée (seule l’aide « mot par mot » reste).</li>
           <li>Pression temporelle réduite : le chrono tourne sans afficher les secondes (réglable) ; le temps et le véhicule s’affichent à la fin, comparés aux propres temps de l’élève.</li>
         </ul>
@@ -474,7 +474,7 @@ function Reader({ ti, mode, data, update, speaker, voices, go, openSettings }) {
     const iv = setInterval(() => setNow(performance.now()), 500); return () => clearInterval(iv);
   }, [chrono, s.showTimer]);
 
-  const pageQueue = p => P.pages[p].sentences.map(si => P.sentences[si].item);
+  const pageQueue = p => P.pages[p].lineIdx.map(l => P.lineItems[l].item);
   const playPage = useCallback((p = page, from = 0) => {
     speaker.play(pageQueue(p), from, {
       mode: "page",
@@ -554,7 +554,7 @@ function Reader({ ti, mode, data, update, speaker, voices, go, openSettings }) {
     const el = e.target.closest && e.target.closest("[data-t]"); if (!el) return;
     const id = Number(el.dataset.t); const tok = P.tokens[id]; if (!tok.word) return;
     if (!voices.list.length) { setToast("Aucune voix française n’est disponible."); return; }
-    if (s.clickMode === "sentence") speaker.play([P.sentences[tok.s].item], 0, { mode: "single" });
+    if (s.clickMode === "sentence") speaker.play([{ ...P.sentences[tok.s].item, s: tok.l }], 0, { mode: "single" });
     else { const w = cleanWord(tok.t); speaker.play([{ text: w, s: -1, toks: [{ tok: id, start: 0, w: 1 }], chars: w.length }], 0, { mode: "single" }); }
   };
 
@@ -595,26 +595,16 @@ function Reader({ ti, mode, data, update, speaker, voices, go, openSettings }) {
           onClick={onTextClick} onPointerDown={onPointerDown} onPointerUp={onPointerUp} onPointerCancel={() => (swipe.current = null)}
           aria-describedby="text-hint">
           {P.pages[page].lines.map((ids, li) => {
-            // Regroupe les mots par phrase : le surlignage de la phrase est continu.
-            const groups = [];
-            ids.forEach((id, k) => {
-              const tok = P.tokens[id]; const nx = ids[k + 1] != null ? P.tokens[ids[k + 1]] : null;
-              const sep = !nx ? "" : (NBSP_BEFORE.test(nx.t) || tok.t === "—" || tok.t === "«") ? " " : " ";
-              let cls = tok.word ? "w" : "p";
-              if (hlOn && snap.w === id) cls += " hw";
-              const el = <span key={id} data-t={id} className={cls}>{tok.t}</span>;
-              const g = groups[groups.length - 1];
-              if (g && g.s === tok.s) { g.items.push(el); } else groups.push({ s: tok.s, items: [el], seps: [] });
-              const cur = groups[groups.length - 1];
-              if (sep && nx && nx.s === tok.s) cur.items.push(sep); else cur.after = sep;
-            });
+            const gl = P.pages[page].lineIdx[li];
             return (
-              <p className="line" key={li}>
-                {groups.map((g, gi) => (
-                  <React.Fragment key={gi}>
-                    <span className={"sent" + (hlOn && snap.s >= 0 && g.s === snap.s ? " hs" : "")}>{g.items}</span>{g.after || ""}
-                  </React.Fragment>
-                ))}
+              <p className={"line" + (hlOn && snap.s === gl ? " hl" : "")} key={li}>
+                {ids.map((id, k) => {
+                  const tok = P.tokens[id]; const nx = ids[k + 1] != null ? P.tokens[ids[k + 1]].t : null;
+                  const sep = nx == null ? "" : (NBSP_BEFORE.test(nx) || tok.t === "—" || tok.t === "«") ? "\u00A0" : " ";
+                  // Seul le mot touché par l'élève est surligné (lecture d'un mot isolé).
+                  const cls = (tok.word ? "w" : "p") + (hlOn && snap.mode === "single" && snap.w === id ? " hw" : "");
+                  return <React.Fragment key={id}><span data-t={id} className={cls}>{tok.t}</span>{sep}</React.Fragment>;
+                })}
               </p>
             );
           })}

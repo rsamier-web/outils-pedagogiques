@@ -6,35 +6,30 @@ const silentTok = s => /^[—–«»"]+$/.test(s);
 const sentenceEnd = (tok, next) => /[.!?…]["»]?$/.test(tok) && (!next || /^[\p{Lu}—«]/u.test(next));
 
 function prepare(t, index) {
-  const tokens = []; const sentences = [];
+  const tokens = []; const sentences = []; const lineItems = [];
   const pages = t.pages.map((lines, p) => {
-    const pageSent = [];
+    const pageSent = []; const pageLines = [];
     const lineToks = lines.map(line => {
+      const l = lineItems.length; lineItems.push(null); pageLines.push(l);
       const parts = line.split(/\s+/).filter(Boolean); const ids = []; let cur = null;
       parts.forEach((part, i) => {
         if (!cur) { cur = { page: p, ids: [] }; sentences.push(cur); pageSent.push(sentences.length - 1); }
         const id = tokens.length;
-        tokens.push({ t: part, word: isWord(part), s: sentences.length - 1, page: p });
+        tokens.push({ t: part, word: isWord(part), s: sentences.length - 1, l, page: p });
         cur.ids.push(id); ids.push(id);
         if (sentenceEnd(part, parts[i + 1])) cur = null;
       });
+      lineItems[l] = { ids };
       return ids;
     });
-    return { lines: lineToks, sentences: pageSent };
+    return { lines: lineToks, lineIdx: pageLines, sentences: pageSent };
   });
-  // Texte prononcé de chaque phrase + position de chaque mot (pour le surlignage).
-  sentences.forEach((s, si) => {
-    let text = ""; const toks = [];
-    for (const id of s.ids) {
-      const tk = tokens[id]; if (silentTok(tk.t)) continue;
-      if (text) text += " ";
-      if (tk.word) toks.push({ tok: id, start: text.length, w: tk.t.replace(/[^\p{L}\d]/gu, "").length + 2 });
-      text += tk.t;
-    }
-    s.item = { text, s: si, toks, chars: text.length };
-  });
+  const speakText = ids => ids.map(id => tokens[id].t).filter(x => !silentTok(x)).join(" ");
+  lineItems.forEach((li, l) => { const text = speakText(li.ids); li.item = { text, s: l, toks: [], chars: text.length }; });
+  // Texte prononcé de chaque phrase (clic « la phrase »).
+  sentences.forEach(s => { const text = speakText(s.ids); s.item = { text, s: -1, toks: [], chars: text.length }; });
   const words = tokens.filter(x => x.word).length;
-  return { ...t, index, tokens, sentences, pages, words };
+  return { ...t, index, tokens, sentences, lineItems, pages, words };
 }
 export const PREP = TEXTS.map(prepare);
 export const cleanWord = s => s.replace(/^[^\p{L}\d]+|[^\p{L}\d]+$/gu, "");

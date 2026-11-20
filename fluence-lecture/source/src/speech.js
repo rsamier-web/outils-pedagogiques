@@ -1,6 +1,6 @@
-// Synthèse vocale : Web Speech API, lecture phrase par phrase.
-// Pause = on mémorise la phrase en cours et on coupe ; Reprendre = on relit
-// cette phrase depuis son début (fiable dans Chrome, Android compris).
+// Synthèse vocale : Web Speech API, lecture ligne par ligne.
+// Pause = on mémorise la ligne en cours et on coupe ; Reprendre = on relit
+// cette ligne depuis son début (fiable dans Chrome, Android compris).
 
 export const ttsSupported = () =>
   typeof window !== "undefined" && "speechSynthesis" in window && typeof window.SpeechSynthesisUtterance !== "undefined";
@@ -46,7 +46,7 @@ export class Speaker {
     return v;
   }
   halt() {
-    this.gen++; clearInterval(this.timer); clearTimeout(this.watchdog);
+    this.gen++; clearTimeout(this.watchdog);
     if (ttsSupported()) { try { window.speechSynthesis.cancel(); } catch (e) {} }
   }
   // item : { text, s, toks: [{ tok, start, w }], chars }
@@ -66,29 +66,10 @@ export class Speaker {
     const v = this.pickVoice();
     if (v) { u.voice = v; u.lang = v.lang.replace("_", "-"); } else u.lang = "fr-FR";
     u.rate = st.rate; u.pitch = st.pitch; u.volume = st.volume;
-    this.utter = u; let boundary = false;
+    this.utter = u;
     const first = item.toks[0] ? item.toks[0].tok : -1;
-    u.onstart = () => {
-      if (g !== this.gen) return;
-      this.setSnap({ s: item.s, w: first });
-      // Estimation du mot prononcé quand la voix n'envoie pas d'événements « boundary »
-      // (cas des voix Google en ligne dans Chrome).
-      const total = item.toks.reduce((a, t) => a + t.w, 0) || 1;
-      const dur = (item.chars / (13 * (st.rate || 1))) * 1000; const t0 = performance.now();
-      clearInterval(this.timer);
-      this.timer = setInterval(() => {
-        if (g !== this.gen || boundary) { clearInterval(this.timer); return; }
-        const target = Math.min(0.999, (performance.now() - t0) / dur) * total; let acc = 0, tok = first;
-        for (const t of item.toks) { acc += t.w; tok = t.tok; if (acc > target) break; }
-        if (tok !== this.snap.w) this.setSnap({ w: tok });
-      }, 60);
-    };
-    u.onboundary = e => {
-      if (g !== this.gen || (e.name && e.name !== "word")) return;
-      boundary = true; clearInterval(this.timer);
-      let tok = first; for (const t of item.toks) { if (t.start <= e.charIndex) tok = t.tok; else break; }
-      if (tok !== this.snap.w) this.setSnap({ w: tok });
-    };
+    // Surlignage : l'unité lue (ligne) est surlignée du début à la fin de l'énoncé.
+    u.onstart = () => { if (g === this.gen) this.setSnap({ s: item.s, w: first }); };
     u.onend = () => { if (g === this.gen) this.advance(); };
     u.onerror = e => {
       if (g !== this.gen || e.error === "interrupted" || e.error === "canceled") return;
@@ -105,7 +86,7 @@ export class Speaker {
     window.speechSynthesis.speak(u);
   }
   advance() {
-    clearInterval(this.timer); clearTimeout(this.watchdog);
+    clearTimeout(this.watchdog);
     if (this.idx + 1 < this.queue.length) {
       this.halt(); this.idx++; const g = this.gen;
       setTimeout(() => { if (g === this.gen) this.speakCurrent(); }, 40);

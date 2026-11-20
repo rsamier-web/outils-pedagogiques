@@ -170,10 +170,10 @@ h3.h-small{margin-top:16px}
 .reading{max-width:62ch;touch-action:pan-y;user-select:none;-webkit-user-select:none;-webkit-tap-highlight-color:transparent;min-height:40vh}
 .reading:focus{outline:none}
 .reading.wide,.preview.wide{letter-spacing:.12em;word-spacing:.16em}
-.reading .line{margin:0 0 .35em}
+.reading .line{margin:0 0 .35em -8px;padding:0 8px;border-radius:4px}
 .reading .w{cursor:pointer;border-radius:4px;padding:0 1px;transition:background-color .1s}
 .reading .w:hover{text-decoration:underline;text-decoration-color:var(--hl);text-underline-offset:4px}
-.reading .sent.hs{background:var(--sent);border-radius:4px;box-shadow:0 0 0 3px var(--sent);-webkit-box-decoration-break:clone;box-decoration-break:clone}
+.reading .line.hl{background:var(--sent);box-shadow:-4px 0 0 0 var(--hl)}
 .reading .hw{background:var(--word);color:var(--word-text);box-shadow:0 0 0 2px var(--word)}
 .preview{margin-top:10px;padding:12px 14px;border:1px dashed var(--border);border-radius:6px;background:var(--view)}
 .pager{position:sticky;bottom:0;display:flex;align-items:center;justify-content:space-between;gap:10px;
