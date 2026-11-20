@@ -1,6 +1,6 @@
 // Service worker de Fluence de lecture : fonctionne hors ligne après la première visite.
 // Changez VERSION à chaque mise à jour de index.html pour forcer le rafraîchissement.
-const VERSION = 'fluence-v2';
+const VERSION = 'fluence-v3';
 const CORE = ['./', './index.html', './manifest-fluence.webmanifest', './icon-192.png', './icon-512.png', './icon-maskable-512.png', './apple-touch-icon.png'];
 
 self.addEventListener('install', e => {
@@ -9,7 +9,7 @@ self.addEventListener('install', e => {
 
 self.addEventListener('activate', e => {
   e.waitUntil(caches.keys()
-    .then(keys => Promise.all(keys.filter(k => k.startsWith('fluence-') && k !== VERSION).map(k => caches.delete(k))))
+    .then(keys => Promise.all(keys.filter(k => /^fluence-v\d+$/.test(k) && k !== VERSION).map(k => caches.delete(k))))
     .then(() => self.clients.claim()));
 });
 

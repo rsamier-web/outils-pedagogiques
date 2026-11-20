@@ -1,0 +1,19 @@
+{
+  "id": "fluence-college",
+  "name": "Carnets du monde · Fluence de lecture",
+  "short_name": "Carnets du monde",
+  "description": "Fluence de lecture pour le collège : textes sur l’art, les voyages et les cultures du monde, lecture chronométrée et synthèse vocale.",
+  "lang": "fr",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#eff0f1",
+  "theme_color": "#fcfcfc",
+  "categories": ["education"],
+  "icons": [
+    { "src": "icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}
