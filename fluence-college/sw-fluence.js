@@ -1,6 +1,6 @@
 // Service worker de Carnets du monde (fluence collège) : fonctionne hors ligne après la première visite.
 // Changez VERSION à chaque mise à jour de index.html pour forcer le rafraîchissement.
-const VERSION = 'fluence-college-v1';
+const VERSION = 'fluence-college-v2';
 const CORE = ['./', './index.html', './manifest-fluence.webmanifest', './icon-192.png', './icon-512.png', './icon-maskable-512.png', './apple-touch-icon.png'];
 
 self.addEventListener('install', e => {

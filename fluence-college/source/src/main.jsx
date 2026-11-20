@@ -216,7 +216,8 @@ function Help({ onClose }) {
       <h3>Comment ça marche ?</h3>
       <ul className="help-list">
         <li>Tu travailles <b>un texte par semaine</b>. Lis-le à voix haute <b>au moins {WEEK_GOAL} jours</b> dans la semaine.</li>
-        <li><b>Écouter le texte</b> : la voix lit le texte pendant que tu suis des yeux.</li>
+        <li><b>Lire page par page</b> : la voix lit une page, puis s’arrête. À toi de relire cette page à voix haute, juste après. Ensuite, passe à la page suivante.</li>
+        <li><b>Écouter le texte</b> : la voix lit tout le texte pendant que tu suis des yeux.</li>
         <li><b>Mots à préparer</b> : écoute les mots difficiles avant de lire.</li>
         <li><b>Lire avec le chrono</b> : lis le texte en entier, puis clique sur « J’ai fini ». Ton temps s’affiche à la fin, avec ton tempo.</li>
         <li>Les <b>paliers</b> portent les noms des tempos musicaux, du plus lent (largo) au plus rapide (presto). Tu te compares seulement à toi-même : chaque semaine, vise le palier suivant.</li>
@@ -357,14 +358,15 @@ function Home({ data, update, go }) {
         </div>
 
         <ol className="steps">
+          <li><button className="btn step" onClick={() => go("reader", { ti, mode: "echo" })}>
+            <span className="num">1</span>{Ico.book}<span className="st-txt"><b>Lire page par page</b><small>Écoute une page, puis relis-la à voix haute.</small></span></button></li>
           <li><button className="btn step" onClick={() => go("reader", { ti, mode: "listen" })}>
-            <span className="num">1</span>{Ico.ear}<span className="st-txt"><b>Écouter le texte</b><small>Suis des yeux pendant que la voix lit.</small></span></button></li>
+            <span className="num">2</span>{Ico.ear}<span className="st-txt"><b>Écouter le texte</b><small>Suis des yeux pendant que la voix lit.</small></span></button></li>
           <li><button className="btn step" onClick={() => go("words", { ti })}>
-            <span className="num">2</span>{Ico.words}<span className="st-txt"><b>Mots à préparer</b><small>Écoute les mots difficiles.</small></span></button></li>
+            <span className="num">3</span>{Ico.words}<span className="st-txt"><b>Mots à préparer</b><small>Écoute les mots difficiles.</small></span></button></li>
           <li><button className="btn step primary" onClick={() => go("reader", { ti, mode: "chrono" })}>
-            <span className="num">3</span>{Ico.timer}<span className="st-txt"><b>Lire avec le chrono</b><small>Lis tout le texte à voix haute.</small></span></button></li>
+            <span className="num">4</span>{Ico.timer}<span className="st-txt"><b>Lire avec le chrono</b><small>Lis tout le texte à voix haute.</small></span></button></li>
         </ol>
-        <button className="btn flat" onClick={() => go("reader", { ti, mode: "read" })}>{Ico.book}<span>Ouvrir le texte sans chrono</span></button>
       </section>
 
       <section className="card" aria-labelledby="times-title">
@@ -467,6 +469,8 @@ function Reader({ ti, mode, data, update, speaker, voices, go, openSettings }) {
   const isCurrent = ti === Math.min(data.cur, PREP.length - 1);
   const [page, setPage] = useState(() => mode === "read" ? Math.min(textState(data, P.id).page || 0, last) : 0);
   const [chrono, setChrono] = useState(mode === "chrono" ? "ready" : "off"); // off | ready | run
+  const chronoRef = useRef(chrono); chronoRef.current = chrono;
+  const echo = mode === "echo"; const [echoTurn, setEchoTurn] = useState(false);
   const [t0, setT0] = useState(0); const [now, setNow] = useState(0);
   const [result, setResult] = useState(null);
   const [toast, setToast] = useState("");
@@ -492,12 +496,20 @@ function Reader({ ti, mode, data, update, speaker, voices, go, openSettings }) {
     speaker.play(pageQueue(p), from, {
       mode: "page",
       onEnd: () => {
+        // Lecture page par page : la voix s'arrête à la fin de la page, c'est au tour de l'élève.
+        if (echo && chronoRef.current === "off") { setEchoTurn(true); return; }
         const cont = listenAll.current || settingsRef.current.autoNext;
         if (cont) setPage(cur => { if (cur < last) { autoPlay.current = true; return cur + 1; } listenAll.current = false; return cur; });
       },
     });
   }, [page, last]);
   useEffect(() => { if (autoPlay.current) { autoPlay.current = false; playPage(page); } }, [page]);
+  // Mode « page par page » : chaque page est lue dès qu'on y arrive.
+  useEffect(() => {
+    if (!echo || chronoRef.current !== "off" || !voices.list.length) return;
+    setEchoTurn(false); const t = setTimeout(() => playPage(page), 300); return () => clearTimeout(t);
+  }, [page, voices.list.length > 0]);
+  useEffect(() => { if (snap.status === "playing" && snap.mode === "page") setEchoTurn(false); }, [snap.status, snap.mode]);
   // Mode « Écouter le texte » : démarre tout de suite à la page 1.
   useEffect(() => { if (mode === "listen" && voices.list.length) { const t = setTimeout(() => playPage(0), 250); return () => clearTimeout(t); } }, [voices.list.length > 0]);
 
@@ -625,6 +637,16 @@ function Reader({ ti, mode, data, update, speaker, voices, go, openSettings }) {
         <p id="text-hint" className="sr">Clique sur un mot pour l’entendre.</p>
       </article>
 
+      <div className="pager-wrap">
+      {echo && echoTurn && chrono === "off" && snap.status === "idle" && (
+        <div className="echo-prompt" role="status">
+          <p><b>À toi !</b> Relis cette page à voix haute{page < last ? ", puis passe à la page suivante." : ". C’était la dernière page : bravo !"}</p>
+          <div className="echo-actions">
+            <button className="btn" onClick={() => playPage(page)}>{Ico.ear}<span>Réécouter la page</span></button>
+            {page === last && <button className="btn" onClick={() => go("home")}>{Ico.home}<span>Retour à l’accueil</span></button>}
+          </div>
+        </div>
+      )}
       <nav className="pager" aria-label="Pages">
         <button className="btn big" onClick={() => goto(page - 1)} disabled={page === 0} aria-keyshortcuts="ArrowLeft">{Ico.prev}<span>Précédente</span></button>
         <span className="page-dots" aria-hidden="true">{P.pages.map((_, i) => <i key={i} className={i === page ? "on" : ""} />)}</span>
@@ -634,6 +656,7 @@ function Reader({ ti, mode, data, update, speaker, voices, go, openSettings }) {
             ? <button className="btn big success" onClick={finish}>{Ico.flag}<span>J’ai fini</span></button>
             : <button className="btn big" onClick={() => goto(0)}>{Ico.again}<span>Recommencer</span></button>}
       </nav>
+      </div>
 
       {toast && <div className="toast" role="status">{toast}</div>}
 

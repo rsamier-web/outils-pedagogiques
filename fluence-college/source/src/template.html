@@ -116,7 +116,7 @@ h3.h-small{margin-top:16px}
 .pip.on{background:var(--pos);border-color:var(--pos)}
 .pip svg{width:15px;height:15px}
 .pips-lbl{margin-left:6px;font-size:.9rem;color:var(--muted)}
-.steps{list-style:none;padding:0;margin:14px 0 6px;display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.steps{list-style:none;padding:0;margin:14px 0 6px;display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
 .btn.step{width:100%;height:100%;justify-content:flex-start;align-items:center;padding:12px;gap:10px}
 .step .num{flex:none;width:26px;height:26px;border-radius:50%;display:grid;place-items:center;font-weight:700;font-size:.9rem;background:var(--view);border:1px solid var(--border);color:var(--text)}
 .step.primary .num{background:#fff;color:var(--hl-dark);border-color:#fff}
@@ -186,8 +186,12 @@ h3.h-small{margin-top:16px}
 .reading .line.hl{background:var(--sent);box-shadow:-4px 0 0 0 var(--hl)}
 .reading .hw{background:var(--word);color:var(--word-text);box-shadow:0 0 0 2px var(--word)}
 .preview{margin-top:10px;padding:12px 14px;border:1px dashed var(--border);border-radius:6px;background:var(--view)}
-.pager{position:sticky;bottom:0;display:flex;align-items:center;justify-content:space-between;gap:10px;
-  padding:10px 0 calc(10px + env(safe-area-inset-bottom));background:linear-gradient(to top,var(--bg) 75%,transparent)}
+.pager-wrap{position:sticky;bottom:0;padding:10px 0 calc(10px + env(safe-area-inset-bottom));background:linear-gradient(to top,var(--bg) 80%,transparent)}
+.pager{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.echo-prompt{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-bottom:10px;padding:10px 14px;
+  background:var(--view);border:1px solid var(--hl);border-left:4px solid var(--hl);border-radius:6px;box-shadow:var(--shadow)}
+.echo-prompt p{margin:0;font-size:1.05rem}
+.echo-actions{display:flex;gap:8px;flex-wrap:wrap}
 .page-dots{display:flex;gap:6px}
 .page-dots i{width:9px;height:9px;border-radius:50%;background:var(--border)}
 .page-dots i.on{background:var(--hl);transform:scale(1.25)}
