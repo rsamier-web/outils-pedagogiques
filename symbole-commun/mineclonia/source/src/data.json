@@ -1,0 +1,344 @@
+[
+ {
+  "id": 0,
+  "img": "img/epee-diamant.webp",
+  "mot": "Épée en diamant",
+  "cat": "Outils et armes"
+ },
+ {
+  "id": 1,
+  "img": "img/pioche-fer.webp",
+  "mot": "Pioche en fer",
+  "cat": "Outils et armes"
+ },
+ {
+  "id": 2,
+  "img": "img/hache-or.webp",
+  "mot": "Hache en or",
+  "cat": "Outils et armes"
+ },
+ {
+  "id": 3,
+  "img": "img/pelle-pierre.webp",
+  "mot": "Pelle en pierre",
+  "cat": "Outils et armes"
+ },
+ {
+  "id": 4,
+  "img": "img/arc.webp",
+  "mot": "Arc",
+  "cat": "Outils et armes"
+ },
+ {
+  "id": 5,
+  "img": "img/fleche.webp",
+  "mot": "Flèche",
+  "cat": "Outils et armes"
+ },
+ {
+  "id": 6,
+  "img": "img/canne-a-peche.webp",
+  "mot": "Canne à pêche",
+  "cat": "Outils et armes"
+ },
+ {
+  "id": 7,
+  "img": "img/trident.webp",
+  "mot": "Trident",
+  "cat": "Outils et armes"
+ },
+ {
+  "id": 8,
+  "img": "img/pomme.webp",
+  "mot": "Pomme",
+  "cat": "Nourriture"
+ },
+ {
+  "id": 9,
+  "img": "img/carotte.webp",
+  "mot": "Carotte",
+  "cat": "Nourriture"
+ },
+ {
+  "id": 10,
+  "img": "img/pain.webp",
+  "mot": "Pain",
+  "cat": "Nourriture"
+ },
+ {
+  "id": 11,
+  "img": "img/cookie.webp",
+  "mot": "Cookie",
+  "cat": "Nourriture"
+ },
+ {
+  "id": 12,
+  "img": "img/tarte-citrouille.webp",
+  "mot": "Tarte à la citrouille",
+  "cat": "Nourriture"
+ },
+ {
+  "id": 13,
+  "img": "img/pasteque.webp",
+  "mot": "Tranche de pastèque",
+  "cat": "Nourriture"
+ },
+ {
+  "id": 14,
+  "img": "img/gateau.webp",
+  "mot": "Gâteau",
+  "cat": "Nourriture"
+ },
+ {
+  "id": 15,
+  "img": "img/poisson.webp",
+  "mot": "Poisson cru",
+  "cat": "Nourriture"
+ },
+ {
+  "id": 16,
+  "img": "img/poisson-clown.webp",
+  "mot": "Poisson-clown",
+  "cat": "Nourriture"
+ },
+ {
+  "id": 17,
+  "img": "img/poisson-globe.webp",
+  "mot": "Poisson-globe",
+  "cat": "Nourriture"
+ },
+ {
+  "id": 18,
+  "img": "img/poulet.webp",
+  "mot": "Poulet rôti",
+  "cat": "Nourriture"
+ },
+ {
+  "id": 19,
+  "img": "img/oeuf.webp",
+  "mot": "Œuf",
+  "cat": "Nourriture"
+ },
+ {
+  "id": 20,
+  "img": "img/seau-eau.webp",
+  "mot": "Seau d'eau",
+  "cat": "Objets"
+ },
+ {
+  "id": 21,
+  "img": "img/seau-lave.webp",
+  "mot": "Seau de lave",
+  "cat": "Objets"
+ },
+ {
+  "id": 22,
+  "img": "img/os.webp",
+  "mot": "Os",
+  "cat": "Objets"
+ },
+ {
+  "id": 23,
+  "img": "img/plume.webp",
+  "mot": "Plume",
+  "cat": "Objets"
+ },
+ {
+  "id": 24,
+  "img": "img/boule-de-neige.webp",
+  "mot": "Boule de neige",
+  "cat": "Objets"
+ },
+ {
+  "id": 25,
+  "img": "img/perle-ender.webp",
+  "mot": "Perle de l'Ender",
+  "cat": "Objets"
+ },
+ {
+  "id": 26,
+  "img": "img/livre.webp",
+  "mot": "Livre",
+  "cat": "Objets"
+ },
+ {
+  "id": 27,
+  "img": "img/boussole.webp",
+  "mot": "Boussole",
+  "cat": "Objets"
+ },
+ {
+  "id": 28,
+  "img": "img/montre.webp",
+  "mot": "Montre",
+  "cat": "Objets"
+ },
+ {
+  "id": 29,
+  "img": "img/torche.webp",
+  "mot": "Torche",
+  "cat": "Objets"
+ },
+ {
+  "id": 30,
+  "img": "img/lanterne.webp",
+  "mot": "Lanterne",
+  "cat": "Objets"
+ },
+ {
+  "id": 31,
+  "img": "img/totem.webp",
+  "mot": "Totem d'immortalité",
+  "cat": "Objets"
+ },
+ {
+  "id": 32,
+  "img": "img/selle.webp",
+  "mot": "Selle",
+  "cat": "Objets"
+ },
+ {
+  "id": 33,
+  "img": "img/lit.webp",
+  "mot": "Lit rouge",
+  "cat": "Objets"
+ },
+ {
+  "id": 34,
+  "img": "img/porte.webp",
+  "mot": "Porte en chêne",
+  "cat": "Objets"
+ },
+ {
+  "id": 35,
+  "img": "img/plastron.webp",
+  "mot": "Plastron en diamant",
+  "cat": "Objets"
+ },
+ {
+  "id": 36,
+  "img": "img/diamant.webp",
+  "mot": "Diamant",
+  "cat": "Minerais et trésors"
+ },
+ {
+  "id": 37,
+  "img": "img/emeraude.webp",
+  "mot": "Émeraude",
+  "cat": "Minerais et trésors"
+ },
+ {
+  "id": 38,
+  "img": "img/lingot-or.webp",
+  "mot": "Lingot d'or",
+  "cat": "Minerais et trésors"
+ },
+ {
+  "id": 39,
+  "img": "img/charbon.webp",
+  "mot": "Charbon",
+  "cat": "Minerais et trésors"
+ },
+ {
+  "id": 40,
+  "img": "img/amethyste.webp",
+  "mot": "Éclat d'améthyste",
+  "cat": "Minerais et trésors"
+ },
+ {
+  "id": 41,
+  "img": "img/tnt.webp",
+  "mot": "TNT",
+  "cat": "Blocs et nature"
+ },
+ {
+  "id": 42,
+  "img": "img/bloc-herbe.webp",
+  "mot": "Bloc d'herbe",
+  "cat": "Blocs et nature"
+ },
+ {
+  "id": 43,
+  "img": "img/etabli.webp",
+  "mot": "Établi",
+  "cat": "Blocs et nature"
+ },
+ {
+  "id": 44,
+  "img": "img/fourneau.webp",
+  "mot": "Fourneau",
+  "cat": "Blocs et nature"
+ },
+ {
+  "id": 45,
+  "img": "img/citrouille-lanterne.webp",
+  "mot": "Citrouille-lanterne",
+  "cat": "Blocs et nature"
+ },
+ {
+  "id": 46,
+  "img": "img/bibliotheque.webp",
+  "mot": "Bibliothèque",
+  "cat": "Blocs et nature"
+ },
+ {
+  "id": 47,
+  "img": "img/minerai-diamant.webp",
+  "mot": "Minerai de diamant",
+  "cat": "Blocs et nature"
+ },
+ {
+  "id": 48,
+  "img": "img/coquelicot.webp",
+  "mot": "Coquelicot",
+  "cat": "Blocs et nature"
+ },
+ {
+  "id": 49,
+  "img": "img/champignon.webp",
+  "mot": "Champignon rouge",
+  "cat": "Blocs et nature"
+ },
+ {
+  "id": 50,
+  "img": "img/creeper.webp",
+  "mot": "Creeper",
+  "cat": "Créatures"
+ },
+ {
+  "id": 51,
+  "img": "img/zombie.webp",
+  "mot": "Zombie",
+  "cat": "Créatures"
+ },
+ {
+  "id": 52,
+  "img": "img/squelette.webp",
+  "mot": "Squelette",
+  "cat": "Créatures"
+ },
+ {
+  "id": 53,
+  "img": "img/cochon.webp",
+  "mot": "Cochon",
+  "cat": "Créatures"
+ },
+ {
+  "id": 54,
+  "img": "img/vache.webp",
+  "mot": "Vache",
+  "cat": "Créatures"
+ },
+ {
+  "id": 55,
+  "img": "img/enderman.webp",
+  "mot": "Enderman",
+  "cat": "Créatures"
+ },
+ {
+  "id": 56,
+  "img": "img/araignee.webp",
+  "mot": "Araignée",
+  "cat": "Créatures"
+ }
+]

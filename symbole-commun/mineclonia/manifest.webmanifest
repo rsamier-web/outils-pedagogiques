@@ -1,0 +1,19 @@
+{
+  "id": "symbole-commun-mineclonia",
+  "name": "Symbole commun · Mineclonia",
+  "short_name": "Symbole Mineclonia",
+  "description": "Jeu du symbole commun avec les objets, blocs et créatures de Mineclonia.",
+  "lang": "fr",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#eff0f1",
+  "theme_color": "#eff0f1",
+  "categories": ["education", "games"],
+  "icons": [
+    { "src": "icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}
