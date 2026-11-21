@@ -225,7 +225,10 @@ function useTailleCartes(ref) {
     const el = ref.current;
     if (!el) return;
     const calc = () => {
-      const w = el.clientWidth, h = el.clientHeight, gap = 16;
+      const cs = getComputedStyle(el);
+      const w = el.clientWidth - parseFloat(cs.paddingLeft) - parseFloat(cs.paddingRight);
+      const h = el.clientHeight - parseFloat(cs.paddingTop) - parseFloat(cs.paddingBottom);
+      const gap = 16;
       const ligne = Math.min((w - gap) / 2, h);
       const colonne = Math.min(w, (h - gap) / 2);
       const sens = ligne >= colonne ? "ligne" : "colonne";

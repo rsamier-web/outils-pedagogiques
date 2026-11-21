@@ -1,6 +1,6 @@
 // Service worker de « Symbole commun · Mineclonia » : l'application fonctionne hors ligne
 // après la première visite. Fichier généré par source/build.mjs (ne pas modifier à la main).
-const VERSION = 'sc-mineclonia-mwqbutc7';
+const VERSION = 'sc-mineclonia-mwqd0oar';
 const FICHIERS = [
   './', './index.html', './manifest.webmanifest',
   './icon-192.png', './icon-512.png', './icon-maskable-512.png', './apple-touch-icon.png',

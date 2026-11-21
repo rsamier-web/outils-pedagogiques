@@ -1,6 +1,6 @@
 // Service worker de « Symbole commun · Halloween » : l'application fonctionne hors ligne
 // après la première visite. Fichier généré par source/build.mjs (ne pas modifier à la main).
-const VERSION = 'sc-halloween-mwp5nwp3';
+const VERSION = 'sc-halloween-mwqd0ouq';
 const FICHIERS = [
   './', './index.html', './manifest.webmanifest',
   './icon-192.png', './icon-512.png', './icon-maskable-512.png', './apple-touch-icon.png',
