@@ -1,6 +1,6 @@
 // Service worker de Fluence de lecture : fonctionne hors ligne après la première visite.
 // Changez VERSION à chaque mise à jour de index.html pour forcer le rafraîchissement.
-const VERSION = 'fluence-v5';
+const VERSION = 'fluence-v6';
 const CORE = ['./', './index.html', './manifest-fluence.webmanifest', './icon-192.png', './icon-512.png', './icon-maskable-512.png', './apple-touch-icon.png'];
 
 self.addEventListener('install', e => {

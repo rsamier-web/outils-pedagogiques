@@ -38,6 +38,7 @@ const Ico = {
   lock: <I size={18} d={<><rect x="5" y="11" width="14" height="9" rx="2" /><path d="M8 11V8a4 4 0 0 1 8 0v3" /></>} />,
   book: <I d={<><path d="M4 5.5C6.5 4.5 9.5 4.5 12 6c2.5-1.5 5.5-1.5 8-.5V19c-2.5-1-5.5-1-8 .5-2.5-1.5-5.5-1.5-8-.5z" /><path d="M12 6v13.5" /></>} />,
   flag: <I d={<><path d="M5 21V4" /><path d="M5 4h11l-2 4 2 4H5" /></>} />,
+  voice: <I d={<><path d="M4 5h16v11H10l-4 4v-4H4z" /><path d="M8 9h8M8 12h5" /></>} />,
 };
 
 /* ---------- Installation (Chrome ordinateur / Android) ---------- */
@@ -219,6 +220,7 @@ function Help({ onClose }) {
         <li><b>Lire page par page</b> : la voix lit une page, puis s’arrête. À toi de relire cette page à voix haute, juste après. Ensuite, passe à la page suivante.</li>
         <li><b>Écouter le texte</b> : la voix lit tout le texte pendant que tu suis des yeux.</li>
         <li><b>Mots à préparer</b> : écoute les mots difficiles avant de lire.</li>
+        <li><b>Lire sans chrono</b> : entraîne-toi à lire tout le texte à voix haute, sans être chronométré. Le texte s’ouvre à la dernière page lue.</li>
         <li><b>Lire avec le chrono</b> : lis le texte en entier, puis clique sur « J’ai fini ». Ton temps s’affiche à la fin, avec ton tempo.</li>
         <li>Les <b>paliers</b> portent les noms des tempos musicaux, du plus lent (largo) au plus rapide (presto). Tu te compares seulement à toi-même : chaque semaine, vise le palier suivant.</li>
         <li>Si un mot est difficile, <b>clique dessus</b> (ou touche-le) : la voix le lit.</li>
@@ -364,8 +366,10 @@ function Home({ data, update, go }) {
             <span className="num">2</span>{Ico.ear}<span className="st-txt"><b>Écouter le texte</b><small>Suis des yeux pendant que la voix lit.</small></span></button></li>
           <li><button className="btn step" onClick={() => go("words", { ti })}>
             <span className="num">3</span>{Ico.words}<span className="st-txt"><b>Mots à préparer</b><small>Écoute les mots difficiles.</small></span></button></li>
+          <li><button className="btn step" onClick={() => go("reader", { ti, mode: "read" })}>
+            <span className="num">4</span>{Ico.voice}<span className="st-txt"><b>Lire sans chrono</b><small>Lis le texte à voix haute, à ton rythme.</small></span></button></li>
           <li><button className="btn step primary" onClick={() => go("reader", { ti, mode: "chrono" })}>
-            <span className="num">4</span>{Ico.timer}<span className="st-txt"><b>Lire avec le chrono</b><small>Lis tout le texte à voix haute.</small></span></button></li>
+            <span className="num">5</span>{Ico.timer}<span className="st-txt"><b>Lire avec le chrono</b><small>Lis tout le texte à voix haute.</small></span></button></li>
         </ol>
       </section>
 
