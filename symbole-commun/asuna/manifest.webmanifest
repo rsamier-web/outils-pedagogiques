@@ -1,0 +1,19 @@
+{
+  "id": "symbole-commun-asuna",
+  "name": "Symbole commun · Asuna",
+  "short_name": "Symbole Asuna",
+  "description": "Jeu du symbole commun avec les images du jeu Asuna : fruits, cuisine, nature et objets.",
+  "lang": "fr",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#eff0f1",
+  "theme_color": "#eff0f1",
+  "categories": ["education", "games"],
+  "icons": [
+    { "src": "icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}
