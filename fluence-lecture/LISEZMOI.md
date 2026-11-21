@@ -4,7 +4,7 @@ Adresse : https://rsamier-web.github.io/outils-pedagogiques/fluence-lecture/
 
 Entraînement à la fluence avec 8 textes inspirés de l'univers des jeux de blocs (un texte par semaine,
 au moins 5 lectures chronométrées), synthèse vocale ligne par ligne (Web Speech API), affichage réglable
-(Andika, Atkinson Hyperlegible, Lexend), série de jours d'entraînement (5 jours par semaine, 2 jours de repos tolérés).
+(Andika, Atkinson Hyperlegible, Lexend), paliers de vitesse en tempos musicaux (largo → presto) sur un dégradé bleu → indigo, série de jours d'entraînement (5 jours par semaine, 2 jours de repos tolérés).
 
 Installation dans Chrome :
 - Ordinateur : bouton « Installer » dans la barre d'outils de l'application, ou icône d'installation dans la barre d'adresse.

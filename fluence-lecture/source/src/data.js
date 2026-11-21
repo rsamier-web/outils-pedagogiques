@@ -34,20 +34,21 @@ function prepare(t, index) {
 export const PREP = TEXTS.map(prepare);
 export const cleanWord = s => s.replace(/^[^\p{L}\d]+|[^\p{L}\d]+$/gu, "");
 
-/* ---------- Objectifs de vitesse (mêmes paliers que les fiches papier) ---------- */
+/* ---------- Paliers de vitesse : les tempos musicaux (du plus rapide au plus lent) ----------
+   Mêmes temps cibles que les fiches papier. Couleurs : dégradé bleu ciel → indigo. */
 export const LEVELS = [
-  { e: "🚀", n: "la fusée", wpm: 108 },
-  { e: "✈️", n: "l’avion", wpm: 99 },
-  { e: "🏎️", n: "la voiture de course", wpm: 91 },
-  { e: "🏍️", n: "la moto", wpm: 83 },
-  { e: "🚗", n: "la voiture", wpm: 75 },
-  { e: "🛵", n: "le scooter", wpm: 66 },
-  { e: "🚲", n: "le vélo", wpm: 58 },
-  { e: "🛼", n: "les rollers", wpm: 50 },
-  { e: "🛴", n: "la trottinette", wpm: 41 },
+  { n: "Presto", c: "#4a2d85", wpm: 108 },
+  { n: "Vivace", c: "#4c47a3", wpm: 99 },
+  { n: "Allegro", c: "#4561bb", wpm: 91 },
+  { n: "Allegretto", c: "#3a7ccf", wpm: 83 },
+  { n: "Moderato", c: "#3d9ae0", wpm: 75 },
+  { n: "Andante", c: "#62b2e6", wpm: 66 },
+  { n: "Adagio", c: "#8dc8ee", wpm: 58 },
+  { n: "Lento", c: "#b4dbf4", wpm: 50 },
+  { n: "Largo", c: "#d6ecfa", wpm: 41 },
 ];
 export const thresholds = words => LEVELS.map(l => Math.round((words / l.wpm) * 60));
-// Indice du palier atteint (0 = fusée), ou -1 si plus lent que la trottinette.
+// Indice du palier atteint (0 = presto), ou -1 si plus lent que largo.
 export function levelOf(words, ms) {
   const sec = ms / 1000; const th = thresholds(words);
   for (let i = 0; i < th.length; i++) if (sec < th[i]) return i;

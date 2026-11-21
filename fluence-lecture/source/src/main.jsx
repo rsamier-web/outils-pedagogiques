@@ -219,7 +219,8 @@ function Help({ onClose }) {
         <li><b>Lire page par page</b> : la voix lit une page, puis s’arrête. À toi de relire cette page à voix haute, juste après. Ensuite, passe à la page suivante.</li>
         <li><b>Écouter le texte</b> : la voix lit tout le texte pendant que tu suis des yeux.</li>
         <li><b>Mots à préparer</b> : écoute les mots difficiles avant de lire.</li>
-        <li><b>Lire avec le chrono</b> : lis le texte en entier, puis clique sur « J’ai fini ». Ton temps s’affiche à la fin, avec ton véhicule.</li>
+        <li><b>Lire avec le chrono</b> : lis le texte en entier, puis clique sur « J’ai fini ». Ton temps s’affiche à la fin, avec ton tempo.</li>
+        <li>Les <b>paliers</b> portent les noms des tempos musicaux, du plus lent (largo) au plus rapide (presto). Tu te compares seulement à toi-même : chaque semaine, vise le palier suivant.</li>
         <li>Si un mot est difficile, <b>clique dessus</b> (ou touche-le) : la voix le lit.</li>
         <li>Ta <b>série</b> compte tes jours de lecture. Tu peux prendre {REST_PER_WEEK} jours de repos par semaine (du lundi au dimanche) sans la perdre.</li>
       </ul>
@@ -239,10 +240,10 @@ function Help({ onClose }) {
           <li>Pré-entraînement : les mots difficiles sont écoutés avant la lecture.</li>
           <li>Signalement et contiguïté temporelle : la voix lit ligne par ligne et la ligne lue est surlignée pendant toute sa lecture (synchronisation exacte, quelle que soit la voix).</li>
           <li>Modalité : la voix sert de modèle à l’écoute, puis disparaît pendant la lecture chronométrée (seule l’aide « mot par mot » reste).</li>
-          <li>Pression temporelle réduite : le chrono tourne sans afficher les secondes (réglable) ; le temps et le véhicule s’affichent à la fin, comparés aux propres temps de l’élève.</li>
+          <li>Pression temporelle réduite : le chrono tourne sans afficher les secondes (réglable) ; le temps et le palier s’affichent à la fin, comparés aux propres temps de l’élève.</li>
         </ul>
         <p><b>Déroulé conseillé.</b> Jour 1 : écouter le texte en suivant des yeux, préparer les mots, puis lire avec le chrono. Jours suivants : une lecture chronométrée, avec réécoute des mots difficiles au besoin. L’application ne note pas les erreurs : écoutez l’élève lire de temps en temps.</p>
-        <p><b>Véhicules.</b> Les paliers reprennent ceux des fiches papier (de la trottinette à la fusée) et s’ajustent à la longueur de chaque texte.</p>
+        <p><b>Paliers de vitesse.</b> Neuf tempos musicaux, du largo au presto, sur un dégradé bleu → indigo, sans code vert / orange / rouge. Les temps cibles sont ceux des fiches papier (environ 41 à 108 mots par minute) et s’ajustent à la longueur de chaque texte.</p>
         <p><b>Installer l’application.</b> Dans Chrome sur ordinateur : bouton « Installer » en haut, ou icône d’installation dans la barre d’adresse. Sur Android : menu ⋮ › « Installer l’application » ou « Ajouter à l’écran d’accueil ». Les réglages et la progression restent sur l’appareil.</p>
       </details>
     </Modal>
@@ -283,18 +284,30 @@ function StreakCard({ data, compact }) {
   );
 }
 
-/* ---------- Échelle des véhicules ---------- */
-function Vehicles({ P, bestMs, small }) {
+/* ---------- Échelle des tempos : dégradé du plus lent (gauche) au plus rapide (droite) ---------- */
+const Chip = ({ i }) => <span className="tchip" style={{ background: LEVELS[i].c }} aria-hidden="true" />;
+function TempoScale({ P, bestMs, small, label = "ton meilleur temps" }) {
   const th = thresholds(P.words); const lvl = bestMs != null ? levelOf(P.words, bestMs) : -2;
+  const next = lvl === -1 ? LEVELS.length - 1 : lvl > 0 ? lvl - 1 : -1;
+  const order = LEVELS.map((_, i) => i).reverse();
   return (
-    <div className={"vehicles" + (small ? " small" : "")} role="list" aria-label="Objectifs de vitesse">
-      {LEVELS.map((l, i) => (
-        <div role="listitem" key={i} className={"veh" + (i === lvl ? " on" : "") + (lvl >= 0 && i > lvl ? " passed" : "")}>
-          <span className="emo" aria-hidden="true">{l.e}</span>
-          <span className="vt">moins de<br /><b>{fmtSec(th[i])}</b></span>
-          <span className="sr">{l.n}{i === lvl ? " : ton niveau" : ""}</span>
-        </div>
-      ))}
+    <div className={"tempo" + (small ? " small" : "")}>
+      <div className="tempo-bar" aria-hidden="true">
+        {order.map(i => (
+          <span key={i} className={"seg" + (i === lvl ? " on" : "") + (i === next ? " next" : "")} style={{ background: LEVELS[i].c }}>
+            {i === lvl && <b className="mark">{label}</b>}
+          </span>
+        ))}
+      </div>
+      <div className="tempo-ends" aria-hidden="true"><span>plus lent</span><span>plus rapide</span></div>
+      <ol className="tempo-legend" aria-label="Paliers de vitesse, du plus lent au plus rapide">
+        {order.map(i => (
+          <li key={i} className={(i === lvl ? "on" : "") + (i === next ? " next" : "")}>
+            <Chip i={i} /><span className="tn">{LEVELS[i].n}</span><span className="tt">&lt; {fmtSec(th[i])}</span>
+            {i === lvl && <span className="sr"> : ton palier</span>}{i === next && <span className="sr"> : prochain palier</span>}
+          </li>
+        ))}
+      </ol>
     </div>
   );
 }
@@ -366,16 +379,16 @@ function Home({ data, update, go }) {
                 <span className="dname">Jour {c.i + 1}</span>
                 {c.k && <span className="ddate">{parseKey(c.k).toLocaleDateString("fr-FR", { weekday: "short", day: "numeric" })}</span>}
                 <span className="dtime">{c.best != null ? fmtTime(c.best) : c.future ? "" : "—"}</span>
-                <span className="demo" aria-hidden="true">{l != null && l >= 0 ? LEVELS[l].e : ""}</span>
+                <span className="dtempo">{l != null && l >= 0 ? <><Chip i={l} />{LEVELS[l].n}</> : ""}</span>
               </div>
             );
           })}
         </div>
         {wk.after > 0 && <p className="muted small">+ {wk.after} lecture{wk.after > 1 ? "s" : ""} après la semaine.</p>}
         <h3 className="h-small">Objectifs de vitesse</h3>
-        <Vehicles P={P} bestMs={wk.best} />
+        <TempoScale P={P} bestMs={wk.best} />
         <p className="muted small">{wk.best != null
-          ? <>Ton meilleur temps : <b>{fmtTime(wk.best)}</b>{lvlBest >= 0 ? <> — {LEVELS[lvlBest].n} {LEVELS[lvlBest].e}</> : null}.</>
+          ? <>Ton meilleur temps : <b>{fmtTime(wk.best)}</b>{lvlBest >= 0 ? <> — palier {LEVELS[lvlBest].n}</> : null}.</>
           : "Ton meilleur temps s’affichera ici."}</p>
       </section>
 
@@ -401,7 +414,7 @@ function Library({ data, update, go }) {
           return (
             <li key={P.id} className={"lib-item" + (isCur ? " cur" : "") + (!past && !isCur && !canSwitch ? " locked" : "")}>
               <span className="lib-n">{i + 1}</span>
-              <span className="lib-t"><b>{P.title}</b><small>{status}{best != null ? ` · meilleur temps ${fmtTime(best)}` : ""}{lv != null && lv >= 0 ? " " + LEVELS[lv].e : ""}</small></span>
+              <span className="lib-t"><b>{P.title}</b><small>{status}{best != null ? ` · meilleur temps ${fmtTime(best)}` : ""}{lv != null && lv >= 0 ? " · " + LEVELS[lv].n : ""}</small></span>
               {past && <button className="btn" onClick={() => go("reader", { ti: i, mode: "read" })}>Relire</button>}
               {canSwitch && <button className="btn" onClick={() => update(d => { d.texts[PREP[cur].id] = { ...textState(d, PREP[cur].id), done: i > cur || textState(d, PREP[cur].id).done }; d.cur = i; })}>Choisir</button>}
               {!past && !isCur && !canSwitch && <span className="lock" title="Disponible après une semaine sur le texte en cours">{Ico.lock}</span>}
@@ -684,12 +697,12 @@ function ResultDialog({ P, r, data, onClose, onHome, onAgain }) {
   return (
     <Modal title="Bravo, tu as fini !" onClose={onClose} labelId="res-title">
       <div className="result">
-        <div className="res-time"><span className="emo" aria-hidden="true">{r.lvl >= 0 ? LEVELS[r.lvl].e : "📖"}</span><b>{fmtTime(r.ms)}</b></div>
-        <p className="res-lvl">{r.lvl >= 0 ? <>Tu as lu à la vitesse de <b>{LEVELS[r.lvl].n}</b>.</> : "Tu as lu tout le texte. Chaque lecture te rapproche de la trottinette."}</p>
-        {next >= 0 && <p className="muted">Prochain objectif : {LEVELS[next].e} {LEVELS[next].n}, en moins de {fmtSec(th[next])}.</p>}
+        <div className="res-time"><b>{fmtTime(r.ms)}</b></div>
+        <p className="res-lvl">{r.lvl >= 0 ? <>Palier atteint : <Chip i={r.lvl} /> <b>{LEVELS[r.lvl].n}</b></> : "Tu as lu tout le texte. Chaque lecture te rapproche du premier palier."}</p>
+        {next >= 0 ? <p className="muted">Prochain palier : {LEVELS[next].n}, en moins de {fmtSec(th[next])}.</p> : <p className="muted">Tu as atteint le palier le plus rapide.</p>}
         <p>{compare}</p>
         <p className="res-streak">{r.wasDone ? "Ta journée était déjà validée : lecture bonus !" : `Journée validée. Série : ${r.streak} jour${r.streak > 1 ? "s" : ""}.`}{r.record ? " Nouveau record de série !" : ""}</p>
-        <Vehicles P={P} bestMs={r.ms} small />
+        <TempoScale P={P} bestMs={r.ms} small label="cette lecture" />
       </div>
       <div className="row end">
         <button className="btn" onClick={onAgain}>Relire</button>
