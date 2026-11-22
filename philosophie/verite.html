@@ -1,0 +1,2024 @@
+<!doctype html><html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}img{max-width:100%}[hidden]{display:none!important}</style>
+<title>La vérité · Terminale</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Noto+Serif:ital,wght@0,400;0,600;1,400&display=swap">
+<style>
+/* Mise en page : fenêtre KDE (barre d'outils, panneau latéral à la manière de Configuration du système, vue de contenu à cartes plates). */
+:root{
+  --window:#eff0f1; --view:#fcfcfc; --alt:#f4f5f6; --header:#e3e5e7;
+  --text:#232629; --muted:#585e64; --border:#cdd0d4; --border-strong:#a7adb3;
+  --accent:#3daee9; --accent-ink:#1a6a99; --accent-soft:#ddf0fa;
+  --ok:#1d7a44; --ok-soft:#e0f3e7; --bad:#b7352a; --bad-soft:#fbe4e1; --warn:#a65200; --warn-soft:#fdeedd;
+  --c-C:#2373ad; --c-C-soft:#d8eaf8; --c-K:#7d3c98; --c-K-soft:#efe1f5; --c-D:#b35600; --c-D-soft:#fde7d1;
+  --c-E:#1d7a44; --c-E-soft:#dcf2e4; --c-R:#0b7d6e; --c-R-soft:#d3efea;
+  --mark:#fff1b8;
+  --sans:"Noto Sans","Segoe UI",system-ui,-apple-system,sans-serif;
+  --serif:"Noto Serif",Georgia,"Times New Roman",serif;
+  --mono:ui-monospace,"DejaVu Sans Mono",Menlo,monospace;
+  --r:4px; --r2:6px;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --window:#202326; --view:#292c30; --alt:#2e3236; --header:#31363b;
+    --text:#fcfcfc; --muted:#a9b1b8; --border:#43484e; --border-strong:#5e656c;
+    --accent:#3daee9; --accent-ink:#7cc7ef; --accent-soft:#1d3a4c;
+    --ok:#5ccb8a; --ok-soft:#1d3a29; --bad:#f2806f; --bad-soft:#48282a; --warn:#f3a557; --warn-soft:#45331f;
+    --c-C:#70bff0; --c-C-soft:#1e3a4e; --c-K:#c9a0e3; --c-K-soft:#3a2b47; --c-D:#f3a557; --c-D-soft:#463221;
+    --c-E:#5ccb8a; --c-E-soft:#1d3a29; --c-R:#52d3bf; --c-R-soft:#173e38;
+    --mark:#584b18; color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --window:#202326; --view:#292c30; --alt:#2e3236; --header:#31363b;
+  --text:#fcfcfc; --muted:#a9b1b8; --border:#43484e; --border-strong:#5e656c;
+  --accent:#3daee9; --accent-ink:#7cc7ef; --accent-soft:#1d3a4c;
+  --ok:#5ccb8a; --ok-soft:#1d3a29; --bad:#f2806f; --bad-soft:#48282a; --warn:#f3a557; --warn-soft:#45331f;
+  --c-C:#70bff0; --c-C-soft:#1e3a4e; --c-K:#c9a0e3; --c-K-soft:#3a2b47; --c-D:#f3a557; --c-D-soft:#463221;
+  --c-E:#5ccb8a; --c-E-soft:#1d3a29; --c-R:#52d3bf; --c-R-soft:#173e38;
+  --mark:#584b18; color-scheme:dark;
+}
+html,body{height:100%}
+body{background:var(--window);color:var(--text);font-family:var(--sans);font-size:15px;line-height:1.55;-webkit-font-smoothing:antialiased}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--header)}
+*{box-sizing:border-box}
+button,select,textarea,input{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--accent);outline-offset:1px}
+h1,h2,h3,h4{margin:0;line-height:1.25;text-wrap:balance;font-weight:600}
+p{margin:0}
+u{text-underline-offset:2px}
+
+/* Barre d'outils */
+.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:6;background:var(--header);border-bottom:1px solid var(--border)}
+.top-in{display:flex;align-items:center;gap:12px;padding-block:8px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.app-ico{width:28px;height:28px;border-radius:var(--r);background:var(--accent);display:grid;place-items:center;color:#fff;flex:none}
+.app-name{font-weight:600;font-size:15px}
+.app-sub{color:var(--muted);font-size:13px}
+.top .spacer{flex:1}
+.crumb{color:var(--muted);font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0}
+
+/* Coque */
+.shell{display:grid;grid-template-columns:216px minmax(0,1fr);gap:20px;padding-block:16px 48px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));max-width:1320px;margin:0 auto}
+.side{position:sticky;top:64px;align-self:start;display:flex;flex-direction:column;gap:2px}
+.side .group-label{font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);padding:10px 10px 4px}
+.nav{display:flex;align-items:center;gap:10px;padding:7px 10px;border-radius:var(--r);border:1px solid transparent;background:none;cursor:pointer;text-align:left;color:var(--text);width:100%}
+.nav:hover{background:var(--alt);border-color:var(--border)}
+.nav[aria-current="page"]{background:var(--accent-soft);border-color:var(--accent)}
+.nav svg{flex:none;color:var(--muted)}
+.nav[aria-current="page"] svg{color:var(--accent-ink)}
+.nav .nb{margin-left:auto;font-size:12px;color:var(--muted);font-variant-numeric:tabular-nums}
+.main{min-width:0;display:flex;flex-direction:column;gap:20px}
+@media (max-width:820px){
+  .shell{grid-template-columns:minmax(0,1fr)}
+  .side{position:static;flex-direction:row;overflow-x:auto;gap:6px;padding-bottom:4px;scrollbar-width:thin}
+  .side .group-label{display:none}
+  .nav{width:auto;flex:none;padding:6px 10px}
+  .nav .nb{display:none}
+  .app-sub{display:none}
+}
+
+/* Éléments communs */
+.page-head{display:flex;flex-direction:column;gap:6px}
+.page-head h1{font-size:24px}
+.page-head p{color:var(--muted);max-width:68ch}
+.card{background:var(--view);border:1px solid var(--border);border-radius:var(--r2)}
+.card-pad{padding:18px 20px}
+.sec-title{font-size:13px;letter-spacing:.05em;text-transform:uppercase;color:var(--muted);font-weight:600}
+.stack{display:flex;flex-direction:column;gap:12px}
+.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.muted{color:var(--muted)}
+.small{font-size:13px}
+.prose{max-width:70ch;display:flex;flex-direction:column;gap:10px}
+.btn{display:inline-flex;align-items:center;gap:6px;padding:6px 14px;border-radius:var(--r);border:1px solid var(--border-strong);background:var(--view);cursor:pointer;min-height:34px;line-height:1.2}
+.btn:hover:not(:disabled){border-color:var(--accent)}
+.btn:disabled{opacity:.5;cursor:default}
+.btn.primary{background:var(--accent);border-color:var(--accent);color:#fff;font-weight:500}
+.btn.primary:hover:not(:disabled){filter:brightness(1.06)}
+.btn.ghost{background:transparent;border-color:transparent;color:var(--accent-ink);padding-inline:6px}
+.btn.ghost:hover:not(:disabled){border-color:var(--border)}
+.btn.sm{min-height:28px;padding:3px 10px;font-size:13px}
+.chip{display:inline-flex;align-items:center;gap:6px;font-size:12px;padding:2px 8px;border-radius:999px;border:1px solid var(--border);color:var(--muted);background:var(--alt);white-space:nowrap}
+.chip.acc{border-color:var(--accent);color:var(--accent-ink);background:var(--accent-soft)}
+.pill-tabs{display:flex;gap:4px;flex-wrap:wrap;padding:3px;background:var(--alt);border:1px solid var(--border);border-radius:var(--r2);width:fit-content;max-width:100%}
+.pill-tabs button{border:1px solid transparent;background:none;padding:5px 12px;border-radius:var(--r);cursor:pointer;font-size:14px}
+.pill-tabs button[aria-pressed="true"]{background:var(--view);border-color:var(--border-strong);font-weight:600}
+.progress{height:6px;background:var(--alt);border:1px solid var(--border);border-radius:999px;overflow:hidden}
+.progress > span{display:block;height:100%;background:var(--accent)}
+
+/* Exercices */
+.ex{display:flex;flex-direction:column;gap:12px}
+.ex-head{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
+.ex-head h3{font-size:17px}
+.consigne{background:var(--alt);border:1px solid var(--border);border-radius:var(--r);padding:10px 12px;max-width:75ch}
+.consigne b{font-weight:600}
+.q{font-weight:500;max-width:72ch}
+.opts{display:flex;flex-direction:column;gap:6px}
+.opt{text-align:left;padding:9px 12px;border:1px solid var(--border-strong);border-radius:var(--r);background:var(--view);cursor:pointer;display:flex;gap:10px;align-items:flex-start}
+.opt:hover:not(:disabled){border-color:var(--accent);background:var(--accent-soft)}
+.opt:disabled{cursor:default;color:var(--text)}
+.opt .key{flex:none;width:22px;height:22px;border-radius:50%;border:1px solid var(--border-strong);display:grid;place-items:center;font-size:12px;color:var(--muted)}
+.opt.is-ok{border-color:var(--ok);background:var(--ok-soft)}
+.opt.is-ok .key{border-color:var(--ok);color:var(--ok)}
+.opt.is-bad{border-color:var(--bad);background:var(--bad-soft)}
+.opt.is-bad .key{border-color:var(--bad);color:var(--bad)}
+.verdict{border-left:3px solid var(--border-strong);padding:8px 12px;background:var(--alt);border-radius:0 var(--r) var(--r) 0;max-width:75ch}
+.verdict.ok{border-color:var(--ok);background:var(--ok-soft)}
+.verdict.bad{border-color:var(--bad);background:var(--bad-soft)}
+.verdict.info{border-color:var(--accent);background:var(--accent-soft)}
+.verdict strong{font-weight:600}
+.details{border:1px dashed var(--border-strong);border-radius:var(--r);padding:12px 14px;display:flex;flex-direction:column;gap:8px;max-width:78ch}
+.details h4{font-size:14px}
+.score{font-variant-numeric:tabular-nums;font-weight:600}
+.items{display:flex;flex-direction:column;gap:8px}
+.item{display:grid;grid-template-columns:minmax(0,1fr);gap:8px;align-items:start;padding:10px 12px;border:1px solid var(--border);border-radius:var(--r);background:var(--view)}
+.item.is-ok{border-color:var(--ok)}
+.item.is-bad{border-color:var(--bad)}
+.item .why{grid-column:1/-1;font-size:14px;color:var(--muted)}
+.item .sol{grid-column:1/-1;font-size:14px}
+.seg{display:flex;flex-wrap:wrap;gap:4px}
+.seg button{padding:4px 10px;border:1px solid var(--border-strong);background:var(--view);border-radius:var(--r);cursor:pointer;font-size:13px}
+.seg button[aria-pressed="true"]{background:var(--accent-soft);border-color:var(--accent);color:var(--accent-ink);font-weight:600}
+.seg button:disabled{cursor:default}
+select{padding:6px 8px;border:1px solid var(--border-strong);border-radius:var(--r);background:var(--view);max-width:100%;min-height:34px}
+textarea{width:100%;min-height:140px;padding:10px 12px;border:1px solid var(--border-strong);border-radius:var(--r);background:var(--view);line-height:1.55;resize:vertical}
+.chips-pick{display:flex;flex-wrap:wrap;gap:6px}
+.chips-pick button{padding:5px 11px;border:1px solid var(--border-strong);border-radius:999px;background:var(--view);cursor:pointer;font-size:14px}
+.chips-pick button[aria-pressed="true"]{background:var(--accent-soft);border-color:var(--accent);color:var(--accent-ink)}
+.chips-pick button.is-ok{border-color:var(--ok);background:var(--ok-soft);color:var(--text)}
+.chips-pick button.is-bad{border-color:var(--bad);background:var(--bad-soft);color:var(--text)}
+.chips-pick button.is-miss{border-style:dashed;border-color:var(--ok);color:var(--ok)}
+.order-list{display:flex;flex-direction:column;gap:6px;counter-reset:o}
+.order-row{display:grid;grid-template-columns:28px minmax(0,1fr) auto;gap:8px;align-items:center;padding:8px 10px;border:1px solid var(--border);border-radius:var(--r);background:var(--view)}
+.order-row .n{font-variant-numeric:tabular-nums;color:var(--muted);text-align:center}
+.order-row.is-ok{border-color:var(--ok)} .order-row.is-bad{border-color:var(--bad)}
+.order-row .role{grid-column:2/-1;font-size:13px;color:var(--muted)}
+.iconbtn{width:30px;height:30px;display:grid;place-items:center;border:1px solid var(--border-strong);border-radius:var(--r);background:var(--view);cursor:pointer}
+.iconbtn:hover:not(:disabled){border-color:var(--accent)}
+.iconbtn:disabled{opacity:.35;cursor:default}
+
+/* Grille d'auto-évaluation */
+.grid-eval{width:100%;border-collapse:collapse;font-size:14px}
+.grid-eval th,.grid-eval td{border:1px solid var(--border);padding:7px 8px;text-align:left;vertical-align:top}
+.grid-eval th{background:var(--alt);font-weight:600}
+.grid-eval td.c{text-align:center;width:44px}
+.grid-eval input{width:18px;height:18px;accent-color:var(--accent)}
+.tbl-wrap{overflow-x:auto}
+
+/* Fiches */
+.fiche-layout{display:grid;grid-template-columns:240px minmax(0,1fr);gap:16px;align-items:start}
+.fiche-list{display:flex;flex-direction:column;gap:2px;position:sticky;top:64px}
+.fiche-list button{text-align:left;padding:6px 10px;border-radius:var(--r);border:1px solid transparent;background:none;cursor:pointer;display:flex;gap:8px;align-items:baseline;font-size:14px}
+.fiche-list button:hover{background:var(--view);border-color:var(--border)}
+.fiche-list button[aria-current="true"]{background:var(--accent-soft);border-color:var(--accent)}
+.fiche-list .n{color:var(--muted);font-variant-numeric:tabular-nums;font-size:12px;width:18px;flex:none}
+@media (max-width:980px){.fiche-layout{grid-template-columns:minmax(0,1fr)}.fiche-list{position:static;flex-direction:row;overflow-x:auto;padding-bottom:4px}.fiche-list button{flex:none}}
+.idee{font-size:18px;font-weight:500;max-width:60ch;color:var(--text)}
+.fiche-body{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,300px);gap:20px}
+@media (max-width:1100px){.fiche-body{grid-template-columns:minmax(0,1fr)}}
+.box{border:1px solid var(--border);border-radius:var(--r);padding:12px 14px;background:var(--alt);display:flex;flex-direction:column;gap:6px}
+.box .lbl{font-size:12px;letter-spacing:.05em;text-transform:uppercase;color:var(--muted);font-weight:600}
+.box.retenir{background:var(--accent-soft);border-color:var(--accent)}
+.box.retenir .lbl{color:var(--accent-ink)}
+.diagram{overflow-x:auto;border:1px solid var(--border);border-radius:var(--r);background:var(--view);padding:8px}
+.diagram svg{display:block;width:100%;height:auto;min-width:460px}
+.d-box{fill:var(--alt);stroke:var(--border-strong)}
+.d-acc{fill:var(--accent-soft);stroke:var(--accent)}
+.d-warm{fill:var(--warn-soft);stroke:var(--warn)}
+.d-ok{fill:var(--ok-soft);stroke:var(--ok)}
+.d-bad{fill:var(--bad-soft);stroke:var(--bad)}
+.d-t{fill:var(--text);font-family:var(--sans);font-size:13px}
+.d-m{fill:var(--muted);font-family:var(--sans);font-size:12px}
+.d-b{fill:var(--text);font-family:var(--sans);font-size:13px;font-weight:600}
+.d-line{stroke:var(--border-strong);fill:none}
+.d-acc-line{stroke:var(--accent);fill:none}
+.d-head{fill:var(--accent)}
+
+/* Accueil */
+.steps4{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+@media (max-width:1000px){.steps4{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:520px){.steps4{grid-template-columns:minmax(0,1fr)}}
+.step-card{display:flex;flex-direction:column;gap:8px;padding:14px 16px;cursor:pointer;text-align:left;color:var(--text)}
+.step-card:hover{border-color:var(--accent)}
+.step-card .num{font-size:12px;color:var(--accent-ink);font-weight:600;letter-spacing:.04em}
+.step-card h3{font-size:16px}
+.step-card p{font-size:14px;color:var(--muted)}
+.tensions{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+@media (max-width:760px){.tensions{grid-template-columns:minmax(0,1fr)}}
+.tension{display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);gap:8px;align-items:stretch;padding:12px;border:1px solid var(--border);border-radius:var(--r2);background:var(--view);cursor:pointer;text-align:left}
+.tension:hover{border-color:var(--accent)}
+.pole{font-size:14px;padding:6px 8px;border-radius:var(--r)}
+.pole.a{background:var(--accent-soft);color:var(--text)}
+.pole.b{background:var(--warn-soft);color:var(--text)}
+.tension .vs{align-self:center;color:var(--muted);font-size:12px}
+.tension .key{grid-column:1/-1;font-size:13px;color:var(--muted);border-top:1px solid var(--border);padding-top:6px}
+.tension .key b{color:var(--ok);font-weight:600}
+.legend{display:flex;gap:14px;flex-wrap:wrap;font-size:13px;color:var(--muted)}
+.legend span{display:inline-flex;align-items:center;gap:6px}
+.sw{width:12px;height:12px;border-radius:3px;display:inline-block}
+
+/* Flashcards */
+.fc-wrap{display:grid;grid-template-columns:minmax(0,1fr) 260px;gap:16px;align-items:start}
+@media (max-width:900px){.fc-wrap{grid-template-columns:minmax(0,1fr)}}
+.fc{min-height:260px;display:flex;flex-direction:column;gap:12px;padding:22px 24px;cursor:pointer;position:relative}
+.fc .face-lbl{font-size:12px;letter-spacing:.05em;text-transform:uppercase;color:var(--muted)}
+.fc .front{font-size:21px;font-weight:600;line-height:1.35;max-width:40ch}
+.fc .back{font-size:16px;line-height:1.6;max-width:62ch;border-top:1px solid var(--border);padding-top:12px}
+.fc .hint{margin-top:auto;font-size:13px;color:var(--muted)}
+.fc.quote .front{font-family:var(--serif);font-weight:400;font-style:italic}
+.boxes{display:flex;flex-direction:column;gap:10px}
+.boxline{display:grid;grid-template-columns:110px minmax(0,1fr) 36px;gap:8px;align-items:center;font-size:13px}
+.boxline .progress > span.b1{background:var(--bad)}
+.boxline .progress > span.b2{background:var(--warn)}
+.boxline .progress > span.b3{background:var(--ok)}
+.kbd{font-family:var(--mono);font-size:12px;border:1px solid var(--border-strong);border-bottom-width:2px;border-radius:3px;padding:0 5px;background:var(--view)}
+
+/* Explication de texte */
+.tq-layout{display:grid;grid-template-columns:minmax(0,var(--a,56fr)) 14px minmax(0,var(--b,44fr));gap:2px;align-items:stretch}
+.tq-layout > section{align-self:start}
+.tq-layout.closed{grid-template-columns:minmax(0,1fr);gap:12px}
+.splitter{position:relative;cursor:col-resize;touch-action:none;border-radius:4px}
+.splitter::before{content:"";position:absolute;top:0;bottom:0;left:6px;width:2px;background:var(--border)}
+.splitter::after{content:"";position:sticky;top:45vh;display:block;margin:0 auto;width:6px;height:44px;border-radius:3px;background:var(--border-strong)}
+.splitter:hover::before,.splitter:focus-visible::before{background:var(--accent)}
+.splitter:hover::after,.splitter:focus-visible::after{background:var(--accent)}
+.shell.focus{grid-template-columns:minmax(0,1fr);max-width:none}
+.shell.focus .side{display:none}
+.text-head .tools{flex-wrap:nowrap}
+.text-head .iconbtn{width:28px;height:28px}
+.aa{font-family:var(--serif);font-weight:600;font-size:15px;line-height:1}
+.aa.sm{font-size:11px}
+.ttext.wrap .tx{white-space:normal;padding-left:1.2em;text-indent:-1.2em}
+.ttext.wrap .tline.para .tx{text-indent:.3em}
+@media (max-width:1100px){
+  .tq-layout{grid-template-columns:minmax(0,1fr);gap:12px}
+  .splitter,.wide-only{display:none}
+  .shell.focus .side{display:flex}
+}
+.text-panel{position:sticky;top:64px;align-self:start;max-height:calc(100vh - 80px);overflow:auto}
+@media (max-width:1100px){.text-panel{position:static;max-height:none}}
+.text-head{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:10px 14px;border-bottom:1px solid var(--border);background:var(--alt);border-radius:var(--r2) var(--r2) 0 0;position:sticky;top:0;z-index:1}
+.ttext{font-family:var(--serif);font-size:14.5px;line-height:1.8;padding:12px 14px 16px 0;overflow-x:auto}
+.ttext .tx{white-space:nowrap}
+.tline{display:grid;grid-template-columns:36px minmax(0,1fr);}
+.tline .ln{color:var(--muted);font-family:var(--sans);font-size:11px;text-align:right;padding-right:10px;padding-top:4px;font-variant-numeric:tabular-nums;user-select:none}
+.tline.para{margin-top:10px}
+.tline.para .tx{text-indent:1.5em}
+.tline.dim .tx{opacity:.38}
+.tline.hl .tx{background:var(--mark);border-radius:2px}
+.source{font-family:var(--sans);font-size:13px;color:var(--muted);text-align:right;padding:0 14px 12px}
+.tok{border-radius:3px;cursor:pointer;padding:0 1px}
+.tok:hover{outline:1px dashed var(--border-strong)}
+.tok.cC{background:var(--c-C-soft);box-shadow:inset 0 -2px 0 var(--c-C)}
+.tok.cK{background:var(--c-K-soft);box-shadow:inset 0 -2px 0 var(--c-K)}
+.tok.cD{background:var(--c-D-soft);box-shadow:inset 0 -2px 0 var(--c-D)}
+.tok.cE{background:var(--c-E-soft);box-shadow:inset 0 -2px 0 var(--c-E)}
+.tok.cR{background:var(--c-R-soft);box-shadow:inset 0 -2px 0 var(--c-R)}
+.tok.miss{outline:2px dotted var(--ok)}
+.pal{display:flex;flex-wrap:wrap;gap:6px}
+.pal button{display:inline-flex;align-items:center;gap:6px;padding:5px 10px;border:1px solid var(--border-strong);border-radius:var(--r);background:var(--view);cursor:pointer;font-size:13px}
+.pal button[aria-pressed="true"]{border-color:var(--accent);box-shadow:0 0 0 1px var(--accent);font-weight:600}
+.etapes{display:flex;flex-direction:column;gap:10px}
+.etape-bar{display:flex;gap:6px;overflow-x:auto;padding-bottom:2px}
+.etape-bar button{flex:none;display:flex;flex-direction:column;align-items:flex-start;gap:0;padding:6px 12px;border:1px solid var(--border);border-radius:var(--r);background:var(--view);cursor:pointer;text-align:left}
+.etape-bar button small{font-size:11px;color:var(--muted);letter-spacing:.04em;text-transform:uppercase}
+.etape-bar button span{font-size:14px;font-weight:500}
+.etape-bar button[aria-pressed="true"]{background:var(--accent-soft);border-color:var(--accent)}
+.substeps{display:flex;gap:4px;flex-wrap:wrap}
+.substeps button{font-size:13px;padding:3px 10px;border-radius:999px;border:1px solid var(--border);background:var(--view);cursor:pointer;display:inline-flex;gap:6px;align-items:center}
+.substeps button[aria-current="true"]{border-color:var(--accent);background:var(--accent-soft);font-weight:600}
+.substeps .dot{width:7px;height:7px;border-radius:50%;background:var(--border-strong)}
+.substeps .dot.on{background:var(--ok)}
+.navbar{display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap;border-top:1px solid var(--border);padding-top:12px}
+.model{font-family:var(--serif);font-size:15px;line-height:1.75;background:var(--view);border:1px solid var(--border);border-left:3px solid var(--ok);border-radius:var(--r);padding:12px 14px;display:flex;flex-direction:column;gap:10px;max-width:78ch}
+.model p{text-indent:1.5em}
+.model .tag{font-family:var(--sans);font-size:11px;letter-spacing:.05em;text-transform:uppercase;color:var(--ok);text-indent:0;display:block;margin-bottom:-6px}
+.collapse-btn{display:none}
+@media (max-width:1100px){.collapse-btn{display:inline-flex}}
+.worked{display:flex;flex-direction:column;gap:10px}
+.wstep{display:grid;grid-template-columns:auto minmax(0,1fr);gap:12px;padding:12px 14px;border:1px solid var(--border);border-radius:var(--r);background:var(--view)}
+.wstep .wn{width:26px;height:26px;border-radius:50%;background:var(--accent-soft);color:var(--accent-ink);display:grid;place-items:center;font-size:13px;font-weight:600;border:1px solid var(--accent)}
+.wstep h4{font-size:15px;margin-bottom:4px}
+.why-q{font-size:14px;color:var(--accent-ink);margin-top:6px}
+@media (prefers-reduced-motion:no-preference){
+  .fade{animation:fade .18s ease-out}
+  @keyframes fade{from{opacity:.4;transform:translateY(2px)}to{opacity:1;transform:none}}
+}
+</style>
+</head><body>
+<div id="root"></div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.3.1/umd/react.production.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.3.1/umd/react-dom.production.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/htm@3.1.1/dist/htm.umd.js"></script>
+<script>
+/* ============ DONNÉES ============ */
+
+const FICHES = [
+{ id:"jugement", titre:"Vérité et réalité",
+  idee:"La vérité n’est pas une chose : c’est une qualité de ce que l’on dit ou pense du réel.",
+  corps:[
+    "La **réalité**, c’est ce qui existe : la pluie qui tombe, le stylo posé sur la table. Elle n’est ni vraie ni fausse, elle *est*.",
+    "La **vérité** qualifie un **jugement**, c’est-à-dire une affirmation sur le réel. « Il pleut » est vrai s’il pleut. Seuls nos jugements peuvent être vrais ou faux.",
+    "Dire « un vrai stylo » ou « une personne vraie » est un **abus de langage** : on veut dire *authentique* ou *sincère*, pas *vrai* au sens philosophique.",
+    "Le réel est le même pour tous et ne dépend pas de moi. Mais la vérité de ma phrase dépend de ce que j’affirme : c’est le jugement qui peut être vrai ou faux."
+  ],
+  exemple:"Le chat est sur le canapé ou il n’y est pas : le réel ne change pas selon ce que je pense. La phrase « le chat est sur le canapé », elle, peut être vraie ou fausse.",
+  retenir:"Vérité ≠ réalité. Le réel est ; le jugement est vrai ou faux.",
+  reperes:["Vrai / probable / certain"], diagram:"jugement",
+  check:{q:"Laquelle de ces phrases emploie « vrai » au sens philosophique strict ?", options:[
+    {t:"« C’est un vrai diamant. »", fb:"Ici « vrai » signifie *authentique* : c’est un abus de langage."},
+    {t:"« Elle est toujours restée vraie avec ses amis. »", fb:"Ici « vrai » signifie *sincère* : c’est une qualité morale, pas la vérité d’un jugement."},
+    {t:"« La phrase “Paris est en France” est vraie. »", ok:true, fb:"« Vrai » qualifie un énoncé conforme au réel. C’est le sens philosophique."}]}
+},
+{ id:"correspondance", titre:"La vérité-correspondance",
+  idee:"Est vrai le jugement qui s’accorde avec la chose dont il parle.",
+  corps:[
+    "C’est la définition classique, formulée par **Thomas d’Aquin** à la suite d’Aristote : la vérité est l’**adéquation** de la pensée et de la chose (*adaequatio rei et intellectus*).",
+    "Cette conformité se **vérifie** de façon empirique : par l’expérience courante (je regarde par la fenêtre) ou par l’expérimentation scientifique.",
+    "**La difficulté** : pour comparer ma pensée et la chose, il faudrait voir la chose sans passer par mes sens ni par ma pensée. Or je n’ai jamais accès au réel qu’à travers mes représentations."
+  ],
+  exemple:"Tu portes depuis ta naissance des lunettes teintées en jaune, sans le savoir. Comment saurais-tu que le monde n’est pas jaune ? Tu ne peux pas retirer tes lunettes pour comparer.",
+  retenir:"La correspondance définit bien la vérité, mais ne donne pas de moyen infaillible de la reconnaître.",
+  reperes:["Objectif / subjectif"], diagram:"jugement",
+  check:{q:"Quelle est la principale difficulté de la vérité-correspondance ?", options:[
+    {t:"Elle oublie que le réel change sans cesse.", fb:"Le réel peut changer, mais un jugement daté (« il pleut ce matin ») peut rester vrai. Ce n’est pas la difficulté principale."},
+    {t:"Nous ne pouvons pas sortir de nos représentations pour les comparer au réel.", ok:true, fb:"C’est le problème des lunettes jaunes : on compare toujours une représentation à une autre représentation."},
+    {t:"Elle ne vaut que pour les mathématiques.", fb:"C’est l’inverse : elle vaut surtout pour les faits, que l’on peut observer."}]}
+},
+{ id:"evidence", titre:"Le critère de l’évidence",
+  idee:"Pour Descartes et Spinoza, l’idée vraie se reconnaît d’elle-même.",
+  corps:[
+    "Un **critère** est un signe qui permet de discerner le vrai du faux.",
+    "**Descartes** (*Discours de la méthode*, 1637) : est vrai ce que je conçois **clairement et distinctement**. Sa première certitude est le *cogito* : je peux douter de tout, mais pour douter il faut penser, donc je suis.",
+    "**Spinoza** (*Éthique*, 1677) : la vérité est **à elle-même son propre critère** (*verum index sui*). Comme la lumière, qui montre les objets et se montre elle-même, l’idée vraie montre qu’elle est vraie.",
+    "**La limite** : le sentiment d’évidence peut tromper. Il « saute aux yeux » que le Soleil tourne autour de la Terre. La **certitude** est un état de mon esprit ; la **vérité** est un rapport au réel."
+  ],
+  exemple:"Quand tu as vraiment compris une démonstration de maths, tu n’as pas besoin qu’on te confirme qu’elle est juste : tu le vois. Mais le complotiste aussi « voit » l’évidence de sa théorie.",
+  retenir:"L’évidence est un critère interne : solide en logique et en mathématiques, fragile pour les faits.",
+  reperes:["Vrai / probable / certain","Médiat / immédiat"],
+  check:{q:"Pourquoi l’évidence ne suffit-elle pas toujours comme critère ?", options:[
+    {t:"Le sentiment d’être certain peut accompagner une erreur.", ok:true, fb:"Certitude ≠ vérité : on peut être absolument sûr et se tromper."},
+    {t:"Parce que Descartes s’est contredit.", fb:"Ce n’est pas un argument : il faut montrer *pourquoi* le critère est fragile."},
+    {t:"Parce qu’une évidence est toujours collective.", fb:"Au contraire, chez Descartes, l’évidence est vécue par un esprit seul, dans la réflexion."}]}
+},
+{ id:"formel", titre:"Vérité formelle, vérité matérielle",
+  idee:"Un raisonnement peut être logiquement valide et pourtant faux.",
+  corps:[
+    "La **vérité formelle** concerne la cohérence interne du raisonnement, quel que soit son contenu. C’est le domaine de la logique et des mathématiques.",
+    "La **vérité matérielle** concerne l’accord du contenu avec le réel. Elle se vérifie par l’expérience.",
+    "Une connaissance complète exige les deux : un raisonnement **valide** et des prémisses **vraies**."
+  ],
+  exemple:"« Tous les poissons volent. Mon chat est un poisson. Donc mon chat vole. » La forme est parfaite, le contenu est faux.",
+  retenir:"Valide ≠ vrai. La logique contrôle la forme, l’expérience contrôle le contenu.",
+  reperes:["Formel / matériel","Principe / conséquence"], diagram:"validite",
+  check:{q:"« Si je révise, je réussis. J’ai réussi. Donc j’ai révisé. » Ce raisonnement est…", options:[
+    {t:"valide.", fb:"Non : on peut réussir sans avoir révisé (par chance, ou parce que l’on connaissait déjà le cours)."},
+    {t:"non valide, car la conclusion ne découle pas nécessairement des prémisses.", ok:true, fb:"C’est l’erreur classique qui consiste à « remonter » de la conséquence à la cause."},
+    {t:"vrai, puisque la conclusion peut être vraie.", fb:"Une conclusion vraie par hasard ne rend pas le raisonnement valide."}]}
+},
+{ id:"kant", titre:"Kant : connaître les phénomènes",
+  idee:"Nous connaissons les choses telles qu’elles nous apparaissent, jamais telles qu’elles sont en soi.",
+  corps:[
+    "Le **phénomène** est la chose telle qu’elle nous apparaît, à travers les formes de notre esprit : l’espace, le temps et des concepts comme celui de cause. Notre connaissance part de l’**intuition**, c’est-à-dire de ce qui nous est donné dans l’espace et le temps.",
+    "Le **noumène** (la chose en soi) est la chose telle qu’elle serait indépendamment de nous. On peut la penser, mais pas la connaître.",
+    "Comme tous les esprits humains ont la même structure, la connaissance des phénomènes est **objective** : elle vaut pour tous.",
+    "Pour Kant, un critère de vérité **à la fois universel et matériel** est impossible : universel, il ferait abstraction du contenu ; matériel, il porte justement sur ce contenu. Kant le remplace par **trois conditions** : la validité logique, l’accord avec les formes de l’expérience possible, la vérification par l’expérience."
+  ],
+  exemple:"Reprends les lunettes jaunes : si tout le monde porte les mêmes, « ce mur est plus jaune que celui-là » reste une vérité partagée et vérifiable.",
+  retenir:"Pas de critère universel unique, mais plusieurs conditions de la vérité.",
+  reperes:["Objectif / subjectif","Universel / général"], diagram:"kant",
+  check:{q:"Pour Kant, la connaissance des phénomènes est…", options:[
+    {t:"subjective : chacun a la sienne.", fb:"Non : tous les esprits partagent les mêmes formes, donc la connaissance vaut pour tous."},
+    {t:"objective, car tous les esprits humains partagent les mêmes formes.", ok:true, fb:"Objectif ne veut pas dire « atteindre la chose en soi », mais « valable pour tout sujet »."},
+    {t:"absolue : elle atteint la chose en soi.", fb:"C’est précisément ce que Kant refuse : la chose en soi est inconnaissable."}]}
+},
+{ id:"platon", titre:"Platon : la caverne et la ligne",
+  idee:"La vérité se conquiert en passant de l’opinion à la science.",
+  corps:[
+    "Dans l’**allégorie de la caverne** (*La République*, livre VII), des prisonniers enchaînés depuis l’enfance prennent les ombres projetées sur le mur pour la réalité. Ils ne savent pas qu’ils sont prisonniers.",
+    "Le **monde sensible** (ce que je perçois) produit l’**opinion** (*doxa*) : subjective, changeante. Le **monde intelligible** (ce que je pense par la raison) produit la **science**. Les **Idées** désignent l’**essence** des choses : ce qui est commun à toutes les choses du même type, unique et immuable.",
+    "Pour Platon, la vérité est **absolue** et **universelle**. Le mot grec *alètheia* signifie « dévoilement » : la vérité est à découvrir.",
+    "Sortir de la caverne est douloureux : le prisonnier libéré ne vit pas d’abord sa délivrance comme une libération."
+  ],
+  exemple:"Celui qui ne s’informe que par des vidéos courtes et sensationnelles regarde des « ombres » choisies par d’autres. Pour Platon, les **sophistes**, maîtres de la rhétorique, jouaient ce rôle : ils manipulaient les foules.",
+  retenir:"Opinion (sensible, variable) → science (intelligible, universelle).",
+  reperes:["Essentiel / accidentel","Croire / savoir"], diagram:"ligne",
+  check:{q:"Pourquoi les prisonniers ne se savent-ils pas prisonniers ?", options:[
+    {t:"Ils n’ont jamais rien connu d’autre que les ombres.", ok:true, fb:"On ne peut pas reconnaître une illusion quand on n’a aucun point de comparaison."},
+    {t:"Ils préfèrent les ombres en toute connaissance de cause.", fb:"Ce serait une illusion consentie. Or ils ignorent leur situation."},
+    {t:"Le soleil les éblouit.", fb:"L’éblouissement vient plus tard, quand l’un d’eux sort de la caverne."}]}
+},
+{ id:"relativisme", titre:"Relativisme et scepticisme",
+  idee:"« À chacun sa vérité » : une position séduisante, mais qui se contredit.",
+  corps:[
+    "Le **relativisme** nie l’idée de vérité universelle : ce qui est vrai pour l’un peut être faux pour l’autre. **Protagoras** : « l’homme est la mesure de toutes choses ». Il s’oppose au **dogmatisme**.",
+    "Le **scepticisme** (Pyrrhon) soutient qu’aucune connaissance n’est certaine : il faut **suspendre son jugement**.",
+    "Le relativisme semble attirant : ouverture d’esprit, humilité intellectuelle. Mais il enferme chacun dans son opinion. Sous couvert de tolérance, il refuse la discussion : plus de débat, plus de science, plus de monde commun.",
+    "Il **se réfute lui-même** : s’il est vrai pour tous que « tout est relatif », alors au moins une vérité n’est pas relative.",
+    "Il faut donc **délimiter** son domaine : il est légitime pour les goûts, discutable pour les valeurs, illégitime pour les faits."
+  ],
+  exemple:"« La pizza à l’ananas, c’est bon » relève du goût. « Napoléon est mort en 1821 » relève du fait : ce n’est pas une affaire d’opinion.",
+  retenir:"Distinguer jugements de goût, de valeur et de fait.",
+  reperes:["Absolu / relatif","Objectif / subjectif"],
+  check:{q:"Pourquoi le relativisme absolu se contredit-il ?", options:[
+    {t:"Il affirme comme vrai pour tous que rien n’est vrai pour tous.", ok:true, fb:"C’est une autoréfutation : la thèse s’excepte elle-même de ce qu’elle affirme."},
+    {t:"Parce que la science a prouvé qu’il était faux.", fb:"La critique est logique, pas expérimentale."},
+    {t:"Parce que les goûts ne se discutent pas.", fb:"C’est au contraire le domaine où le relativisme est légitime."}]}
+},
+{ id:"doute", titre:"Le doute",
+  idee:"Douter peut paralyser ou faire avancer : tout dépend de l’usage qu’on en fait.",
+  corps:[
+    "**Montaigne** (*Essais*) : notre esprit est faillible ; douter est une marque de modestie et de lucidité. Sa devise : « Que sais-je ? »",
+    "**Descartes** fait du doute une **méthode** : rejeter tout ce qui comporte le moindre doute pour trouver une certitude inébranlable.",
+    "Le **doute sceptique** est une fin : on reste dans le doute. Le **doute méthodique** est un moyen : on doute pour trouver ce qui résiste au doute.",
+    "**Russell** (*Essais sceptiques*, 1928) : la vérité est un idéal dont nous pouvons nous approcher, sans pouvoir espérer l’atteindre."
+  ],
+  exemple:"Face à une information choc sur les réseaux, tu vérifies la source : c’est un doute utile. Si tu doutes de toutes les sources sans exception, tu ne peux plus rien savoir, et tu finis par croire n’importe quoi.",
+  retenir:"Le bon doute est provisoire, volontaire et méthodique.",
+  reperes:["Vrai / probable / certain"],
+  check:{q:"Qu’est-ce qui distingue le doute de Descartes du doute sceptique ?", options:[
+    {t:"Descartes doute moins fort.", fb:"Au contraire, son doute est radical (« hyperbolique »)."},
+    {t:"Le doute cartésien est un moyen pour trouver une certitude.", ok:true, fb:"Le doute est un outil provisoire, pas une conclusion."},
+    {t:"Le doute sceptique porte seulement sur les sens.", fb:"Le sceptique doute de la possibilité même de toute connaissance certaine."}]}
+},
+{ id:"opinion", titre:"Opinion, unanimité, autonomie",
+  idee:"L’accord de tous est un indice de vérité, pas un critère.",
+  corps:[
+    "**Croire**, c’est tenir pour vrai sans preuve suffisante. **Savoir**, c’est tenir pour vrai avec des raisons solides et vérifiables.",
+    "**Sénèque** (*De la vie heureuse*) : la foule est le pire interprète de la vérité ; le sage ne s’y fie pas.",
+    "**Kant** : il faut chercher en soi-même, dans sa propre raison, la « pierre de touche » de la vérité. *Sapere aude* : ose te servir de ton propre entendement.",
+    "Un **indice** rend probable ; un **critère** permet de trancher. L’unanimité est un indice. Le respect des règles logiques et la vérification par l’expérience sont des critères plus objectifs.",
+    "**Tocqueville** nuance : personne ne peut tout vérifier, nous recevons forcément beaucoup d’opinions de confiance. Voir l’explication de texte."
+  ],
+  exemple:"Toute une classe affirme qu’un élève « l’a bien cherché ». Tout le monde est d’accord. Est-ce vrai, ou chacun suit-il le groupe pour ne pas devenir la cible suivante ?",
+  retenir:"Unanimité = indice. Penser par soi-même ≠ croire ce que l’on veut.",
+  reperes:["Croire / savoir","Persuader / convaincre"],
+  check:{q:"Pourquoi l’unanimité n’est-elle qu’un indice ?", options:[
+    {t:"Parce qu’un grand nombre de personnes peut partager une même erreur.", ok:true, fb:"L’histoire en donne de nombreux exemples : la Terre au centre de l’univers, par exemple."},
+    {t:"Parce qu’on n’est jamais vraiment tous d’accord.", fb:"Même si tous étaient d’accord, cela ne prouverait pas la vérité."},
+    {t:"Parce que seule la majorité compte.", fb:"Le nombre de voix ne fait pas la vérité, ni à l’unanimité ni à la majorité."}]}
+},
+{ id:"illusion", titre:"Vérité et illusion",
+  idee:"L’illusion n’est pas une simple erreur : elle est soutenue par le désir.",
+  corps:[
+    "**Erreur** : je me trompe sans le vouloir. **Mensonge** : je trompe autrui volontairement. **Illusion** : croyance que je maintiens parce qu’elle satisfait un désir (**Freud**, *L’Avenir d’une illusion*, 1927).",
+    "**Platon** (*Phédon*) : ce à quoi nous aspirons, c’est le vrai ; seule la vérité satisfait l’âme.",
+    "**Nietzsche** (*Vérité et mensonge au sens extra-moral*, 1873) : nos « vérités » sont des illusions dont on a oublié qu’elles en sont. Nous ne préférons le vrai que lorsqu’il nous est utile.",
+    "Il faut distinguer l’illusion **subie** (j’ignore que c’en est une) de l’illusion **consentie** (le roman, le film : je joue le jeu en connaissance de cause)."
+  ],
+  exemple:"Dans *Matrix*, choisir la pilule bleue, c’est rester dans une illusion confortable ; choisir la rouge, c’est accepter une réalité dure.",
+  retenir:"Le bonheur fondé sur l’illusion est fragile : il dépend de ce que le réel ne vienne pas le démentir.",
+  reperes:["Croire / savoir"],
+  check:{q:"Selon Freud, ce qui caractérise l’illusion, c’est…", options:[
+    {t:"qu’elle est forcément fausse.", fb:"Une illusion peut se révéler vraie par hasard. Ce qui la définit, c’est son origine."},
+    {t:"qu’elle est motivée par un désir.", ok:true, fb:"On y croit parce qu’on voudrait que ce soit vrai."},
+    {t:"qu’elle vient d’un défaut des sens.", fb:"C’est le cas de l’illusion d’optique, pas de l’illusion au sens de Freud."}]}
+},
+{ id:"science", titre:"La vérité scientifique",
+  idee:"Provisoire ne veut pas dire arbitraire.",
+  corps:[
+    "**Bachelard** (*La Formation de l’esprit scientifique*, 1938) : la vérité scientifique est une erreur rectifiée. On connaît toujours contre une connaissance antérieure.",
+    "**Popper** : une théorie scientifique n’est jamais prouvée définitivement, mais elle doit pouvoir être **réfutée** par l’expérience (**falsifiabilité**). L’astrologie, qui s’arrange pour avoir toujours raison, n’est pas scientifique.",
+    "La vérité scientifique n’est pas un reflet du réel dans un miroir : elle est **construite** par des instruments, des expériences et des calculs. Mais le réel résiste et oblige à corriger."
+  ],
+  exemple:"Einstein n’a pas jeté Newton à la poubelle : pour construire un pont, la physique de Newton suffit toujours. La nouvelle théorie explique mieux et plus loin.",
+  retenir:"La science progresse en corrigeant ses erreurs : c’est sa force, pas sa faiblesse.",
+  reperes:["Exemple / preuve","Vrai / probable / certain"],
+  check:{q:"Selon Popper, une théorie est scientifique si…", options:[
+    {t:"elle a été confirmée de nombreuses fois.", fb:"Mille confirmations ne prouvent rien de définitif : un seul contre-exemple peut tout renverser."},
+    {t:"elle peut être réfutée par une expérience.", ok:true, fb:"Elle prend le risque d’être contredite par le réel."},
+    {t:"tous les savants sont d’accord.", fb:"L’accord des savants est un indice, pas un critère."}]}
+},
+{ id:"dire", titre:"Faut-il toujours dire la vérité ?",
+  idee:"On passe ici de la vérité (connaître) à la véracité (dire ce que l’on croit vrai).",
+  corps:[
+    "**Kant** : il ne faut jamais mentir, même à un assassin qui demande où se cache ton ami. Si chacun s’autorisait à mentir « pour de bonnes raisons », plus personne ne pourrait croire personne : le mensonge ne peut pas devenir une règle universelle.",
+    "**Mill** (*L’Utilitarisme*, 1861) : chaque mensonge affaiblit la **confiance**, qui est au fondement de la vie en société.",
+    "**Benjamin Constant** objecte qu’on ne doit la vérité qu’à ceux qui y ont droit. **Jankélévitch** (*L’Ironie*) rappelle que toute vérité n’est pas bonne à dire : il faut tenir compte de qui écoute, quand et pourquoi.",
+    "Ne pas mentir n’oblige pas à **tout** dire : on peut se taire, choisir ses mots, faire preuve de tact."
+  ],
+  exemple:"Ton ami te fait écouter sa chanson juste avant de monter sur scène. « C’est nul » est vrai mais cruel ; « c’est génial » l’empêche de progresser. « Ta voix est belle, le refrain pourrait être retravaillé » est vrai, utile et respectueux.",
+  retenir:"Mentir ≠ se taire. Dire vrai, c’est respecter l’autre comme capable de comprendre.",
+  reperes:["Obligation / contrainte","Universel / particulier"],
+  check:{q:"Pourquoi Kant refuse-t-il tout mensonge, même pour une bonne cause ?", options:[
+    {t:"Parce que le mensonge finit toujours par être découvert.", fb:"C’est un argument de prudence (conséquences), pas l’argument de Kant."},
+    {t:"Parce qu’une règle autorisant le mensonge détruirait la confiance de tous.", ok:true, fb:"Le mensonge ne peut pas être universalisé sans se détruire lui-même."},
+    {t:"Parce que la loi l’interdit.", fb:"Kant parle d’un devoir moral, pas d’une obligation légale."}]}
+},
+{ id:"desir", titre:"Pourquoi chercher la vérité ?",
+  idee:"Le désir de savoir est proprement humain, et passe par plusieurs voies.",
+  corps:[
+    "**Aristote** (*Métaphysique*) : tous les hommes désirent naturellement savoir. Cette curiosité naît de l’**étonnement**, une émotion causée par ce qui nous semble inhabituel et qui nous pousse à surmonter l’inconnu.",
+    "Les animaux sont dans un rapport immédiat avec leur milieu et agissent par instinct. La pensée nous permet de prendre de la distance avec le monde pour l’interroger : nous prenons plaisir à expliquer.",
+    "**Pascal** (*Pensées*) : nous connaissons la vérité non seulement par la raison, mais aussi par le **cœur**. Les premiers principes (l’espace, le temps, le nombre) ne se démontrent pas : ils se sentent.",
+    "L’art et les **symboles** peuvent aussi dire quelque chose de vrai, par la voie plus longue de l’interprétation."
+  ],
+  exemple:"Un enfant qui demande sans cesse « pourquoi ? » ne cherche aucune utilité : il veut comprendre. Un roman comme *1984* dit quelque chose de vrai sur le pouvoir, bien que ses personnages n’aient jamais existé.",
+  retenir:"La vérité est désirée pour elle-même, et la raison n’est pas sa seule voie d’accès.",
+  reperes:["Médiat / immédiat","Intuitif / discursif"],
+  check:{q:"Pour Aristote, d’où vient le désir de savoir ?", options:[
+    {t:"De l’étonnement face à ce qui nous semble inhabituel.", ok:true, fb:"La philosophie commence avec l’étonnement."},
+    {t:"Du besoin de dominer la nature.", fb:"C’est plutôt une idée moderne (Descartes). Pour Aristote, le savoir est désiré pour lui-même."},
+    {t:"De la peur de la mort.", fb:"Ce n’est pas l’argument d’Aristote dans la *Métaphysique*."}]}
+}
+];
+
+const TENSIONS = [
+  {a:"La vérité est l’accord avec le réel", b:"On ne sort jamais de ses représentations", cle:"phénomène / chose en soi", f:"kant"},
+  {a:"L’évidence est le signe du vrai", b:"L’évidence peut tromper", cle:"vérité formelle / matérielle", f:"formel"},
+  {a:"La vérité est universelle", b:"À chacun sa vérité", cle:"goût / valeur / fait", f:"relativisme"},
+  {a:"Douter rend lucide", b:"Douter paralyse", cle:"doute méthodique / sceptique", f:"doute"},
+  {a:"L’accord de tous est un bon signe", b:"La foule se trompe souvent", cle:"indice / critère", f:"opinion"},
+  {a:"Nous aspirons au vrai", b:"L’illusion rend heureux", cle:"illusion subie / consentie", f:"illusion"},
+  {a:"La science dit le vrai", b:"La science change sans cesse", cle:"provisoire / arbitraire", f:"science"},
+  {a:"Il ne faut jamais mentir", b:"Certaines vérités blessent", cle:"mentir / se taire", f:"dire"}
+];
+
+const CARDS = [
+ // Définitions
+ {id:"d1",cat:"Définitions",f:"Vérité (sens classique)",b:"Qualité d’un jugement conforme au réel : l’adéquation de la pensée et de la chose (Thomas d’Aquin)."},
+ {id:"d2",cat:"Définitions",f:"Réalité",b:"Ce qui existe, indépendamment de ce qu’on en dit. Elle n’est ni vraie ni fausse : elle est."},
+ {id:"d3",cat:"Définitions",f:"Critère de vérité",b:"Signe ou règle qui permet de discerner le vrai du faux."},
+ {id:"d4",cat:"Définitions",f:"Évidence",b:"Caractère de ce qui s’impose à l’esprit clairement et distinctement, sans besoin de preuve supplémentaire."},
+ {id:"d5",cat:"Définitions",f:"Certitude",b:"État d’un esprit qui ne doute pas. On peut être certain et se tromper : certitude ≠ vérité."},
+ {id:"d6",cat:"Définitions",f:"Opinion (doxa)",b:"Avis subjectif, variable, qui dépend de l’individu et n’est pas fondé en raison."},
+ {id:"d7",cat:"Définitions",f:"Croyance dogmatique (Tocqueville)",b:"Opinion que l’on reçoit de confiance et sans la discuter. Le mot n’est pas péjoratif ici."},
+ {id:"d8",cat:"Définitions",f:"Dogmatisme",b:"Attitude qui affirme sans examen et refuse le doute ou la discussion."},
+ {id:"d9",cat:"Définitions",f:"Scepticisme",b:"Du grec skeptomai, « j’examine ». Position qui doute de toute connaissance certaine et suspend son jugement."},
+ {id:"d10",cat:"Définitions",f:"Relativisme",b:"Position qui nie l’existence d’une vérité universelle : ce qui est vrai pour l’un peut être faux pour l’autre."},
+ {id:"d11",cat:"Définitions",f:"Erreur, mensonge, illusion",b:"Erreur : je me trompe sans le vouloir. Mensonge : je trompe autrui volontairement. Illusion : croyance entretenue par un désir."},
+ {id:"d12",cat:"Définitions",f:"Phénomène / noumène",b:"Phénomène : la chose telle qu’elle nous apparaît. Noumène : la chose en soi, pensable mais inconnaissable (Kant)."},
+ {id:"d13",cat:"Définitions",f:"Intuition (Kant)",b:"Rapport immédiat à un objet donné dans l’espace et le temps : le point de départ de toute connaissance."},
+ {id:"d14",cat:"Définitions",f:"Falsifiabilité (Popper)",b:"Une théorie est scientifique si une expérience peut, en principe, la réfuter."},
+ {id:"d15",cat:"Définitions",f:"Alètheia",b:"Mot grec pour « vérité », qui signifie « dévoilement » : la vérité est ce qu’il faut découvrir."},
+ {id:"d16",cat:"Définitions",f:"Véracité",b:"Disposition à dire ce que l’on croit vrai. Elle s’oppose au mensonge, pas à l’erreur."},
+ {id:"d17",cat:"Définitions",f:"Essence / accident",b:"Essence : ce qui fait qu’une chose est ce qu’elle est. Accident : caractéristique non essentielle, qui ne change pas la nature de la chose."},
+ {id:"d18",cat:"Définitions",f:"Indice / critère",b:"Un indice rend une chose probable ; un critère permet de trancher. L’unanimité est un indice, pas un critère."},
+ {id:"d19",cat:"Définitions",f:"Sophiste",b:"Maître de la rhétorique dans la Grèce antique, capable de persuader une foule sans souci de la vérité (selon Platon)."},
+ // Repères
+ {id:"r1",cat:"Repères",f:"Croire / savoir",b:"Croire : tenir pour vrai sans preuve suffisante. Savoir : tenir pour vrai avec des raisons solides et vérifiables."},
+ {id:"r2",cat:"Repères",f:"Formel / matériel",b:"Formel : la cohérence du raisonnement, quel que soit son contenu. Matériel : l’accord du contenu avec le réel."},
+ {id:"r3",cat:"Repères",f:"Vrai / probable / certain",b:"Vrai : conforme au réel. Probable : plus de chances d’être vrai que faux. Certain : qui ne laisse aucune place au doute (état de l’esprit)."},
+ {id:"r4",cat:"Repères",f:"Universel / général",b:"Universel : vaut sans exception, pour tous. Général : vaut dans la plupart des cas."},
+ {id:"r5",cat:"Repères",f:"Particulier / singulier",b:"Particulier : vaut pour une partie d’un ensemble. Singulier : désigne un être unique."},
+ {id:"r6",cat:"Repères",f:"Objectif / subjectif",b:"Objectif : qui vaut pour tout esprit, indépendamment du point de vue. Subjectif : qui dépend du sujet qui juge."},
+ {id:"r7",cat:"Repères",f:"Absolu / relatif",b:"Absolu : qui ne dépend de rien d’autre. Relatif : qui dépend d’un point de vue, d’un contexte."},
+ {id:"r8",cat:"Repères",f:"Persuader / convaincre",b:"Persuader : obtenir l’adhésion par les émotions ou la séduction. Convaincre : par des raisons que chacun peut examiner."},
+ {id:"r9",cat:"Repères",f:"En fait / en droit",b:"En fait : ce qui est. En droit : ce qui doit être ou ce qui est possible par principe. Ex. : une croyance non vérifiée en fait, mais vérifiable en droit."},
+ {id:"r10",cat:"Repères",f:"Exemple / preuve",b:"Un exemple illustre une idée ; il ne la démontre pas. Une preuve établit qu’elle est vraie."},
+ {id:"r11",cat:"Repères",f:"Obligation / contrainte",b:"Contrainte : force extérieure qui s’impose. Obligation : devoir que je reconnais, et auquel je peux désobéir."},
+ // Auteurs
+ {id:"a1",cat:"Auteurs",f:"Thomas d’Aquin",b:"La vérité est l’adéquation de l’intelligence et de la chose."},
+ {id:"a2",cat:"Auteurs",f:"Descartes",b:"Critère de l’évidence (clair et distinct). Doute méthodique. Cogito : « je pense, donc je suis ». Discours de la méthode, Méditations métaphysiques."},
+ {id:"a3",cat:"Auteurs",f:"Spinoza",b:"La vérité est à elle-même son propre critère (verum index sui). Éthique, 1677."},
+ {id:"a4",cat:"Auteurs",f:"Platon",b:"Allégorie de la caverne : passer de l’opinion (monde sensible) à la science (monde intelligible, les Idées). La République, VII."},
+ {id:"a5",cat:"Auteurs",f:"Kant (connaissance)",b:"On ne connaît que les phénomènes. Pas de critère universel matériel de vérité, mais des conditions. Critique de la raison pure."},
+ {id:"a6",cat:"Auteurs",f:"Kant (penser par soi-même)",b:"Sapere aude. Chercher la pierre de touche de la vérité dans sa propre raison. Qu’est-ce que s’orienter dans la pensée ?, 1786."},
+ {id:"a7",cat:"Auteurs",f:"Kant (mensonge)",b:"Il ne faut jamais mentir, même pour une bonne cause : le mensonge ne peut pas être universalisé."},
+ {id:"a8",cat:"Auteurs",f:"Nietzsche",b:"Les vérités sont des illusions dont on a oublié qu’elles en sont. Vérité et mensonge au sens extra-moral, 1873."},
+ {id:"a9",cat:"Auteurs",f:"Sénèque",b:"La foule est le pire interprète de la vérité ; le sage ne se fie pas à l’opinion du grand nombre. De la vie heureuse."},
+ {id:"a10",cat:"Auteurs",f:"Montaigne",b:"Notre esprit est faillible : douter est une marque de modestie et de lucidité. « Que sais-je ? » Essais."},
+ {id:"a11",cat:"Auteurs",f:"Pascal",b:"Nous connaissons la vérité par la raison et par le cœur (premiers principes). Pensées."},
+ {id:"a12",cat:"Auteurs",f:"Bachelard",b:"La vérité scientifique est une erreur rectifiée. La Formation de l’esprit scientifique, 1938."},
+ {id:"a13",cat:"Auteurs",f:"Popper",b:"Une théorie est scientifique si elle est réfutable (falsifiabilité)."},
+ {id:"a14",cat:"Auteurs",f:"Russell",b:"La vérité est un idéal dont on s’approche sans pouvoir l’atteindre. Essais sceptiques, 1928."},
+ {id:"a15",cat:"Auteurs",f:"Mill",b:"Le mensonge affaiblit la confiance, fondement de la vie sociale. L’Utilitarisme, 1861."},
+ {id:"a16",cat:"Auteurs",f:"Jankélévitch",b:"Toute vérité n’est pas bonne à dire : il faut tenir compte de qui écoute et du moment. L’Ironie, 1964."},
+ {id:"a17",cat:"Auteurs",f:"Freud",b:"L’illusion est une croyance motivée par un désir. L’Avenir d’une illusion, 1927."},
+ {id:"a18",cat:"Auteurs",f:"Aristote",b:"Tous les hommes désirent naturellement savoir ; la philosophie naît de l’étonnement. Métaphysique."},
+ {id:"a19",cat:"Auteurs",f:"Protagoras",b:"Sophiste : « l’homme est la mesure de toutes choses ». Figure du relativisme."},
+ {id:"a20",cat:"Auteurs",f:"Tocqueville",b:"Personne ne peut tout vérifier : les croyances reçues de confiance sont nécessaires à la société et à la pensée. Une « servitude salutaire ». De la démocratie en Amérique, 1840."},
+ // Citations
+ {id:"c1",cat:"Citations",q:true,f:"« Ce à quoi nous aspirons, c’est le vrai. »",b:"Platon, Phédon."},
+ {id:"c2",cat:"Citations",q:true,f:"« Les choses que nous concevons fort clairement et fort distinctement sont toutes vraies. »",b:"Descartes, Discours de la méthode, 1637."},
+ {id:"c3",cat:"Citations",q:true,f:"« Verum index sui et falsi. »",b:"Spinoza, Éthique : le vrai est la marque de lui-même et du faux."},
+ {id:"c4",cat:"Citations",q:true,f:"« Les vérités sont des illusions dont on a oublié qu’elles le sont. »",b:"Nietzsche, Vérité et mensonge au sens extra-moral, 1873."},
+ {id:"c5",cat:"Citations",q:true,f:"« Le vulgaire est le pire interprète de la vérité. »",b:"Sénèque, De la vie heureuse."},
+ {id:"c6",cat:"Citations",q:true,f:"« Sapere aude ! »",b:"Kant, Qu’est-ce que les Lumières ?, 1784 : « Ose te servir de ton propre entendement. »"},
+ {id:"c7",cat:"Citations",q:true,f:"« Nous connaissons la vérité non seulement par la raison, mais encore par le cœur. »",b:"Pascal, Pensées."},
+ {id:"c8",cat:"Citations",q:true,f:"« L’homme est la mesure de toutes choses. »",b:"Protagoras (rapporté par Platon dans le Théétète)."},
+ {id:"c9",cat:"Citations",q:true,f:"« Tous les hommes désirent naturellement savoir. »",b:"Aristote, Métaphysique, livre A."},
+ {id:"c10",cat:"Citations",q:true,f:"« Que sais-je ? »",b:"Montaigne, Essais."},
+ {id:"c11",cat:"Citations",q:true,f:"« Une servitude salutaire. »",b:"Tocqueville, De la démocratie en Amérique, 1840 : recevoir des opinions de confiance permet un bon usage de la liberté."},
+ // Méthode
+ {id:"m1",cat:"Méthode",f:"Explication de texte : les 3 choses à ne pas faire",b:"Un exposé général à partir du texte ; un résumé ; une récitation de la doctrine de l’auteur."},
+ {id:"m2",cat:"Méthode",f:"Le quadrillage (2e lecture) repère…",b:"Les connecteurs logiques, les concepts importants, les termes difficiles, les exemples, les repères philosophiques."},
+ {id:"m3",cat:"Méthode",f:"Les 5 étapes au brouillon",b:"1. Appréhender le texte. 2. Identifier la structure argumentative. 3. Analyser le texte. 4. Préparer l’introduction. 5. Le travail au propre."},
+ {id:"m4",cat:"Méthode",f:"Ordre de l’introduction (grille)",b:"Présentation du texte et thème ; problème (sous forme de dilemme) ; thèse reformulée ; plan ; enjeux."},
+ {id:"m5",cat:"Méthode",f:"Ce que la grille interdit dans l’introduction",b:"Les citations et la paraphrase. Et dans l’annonce du plan, pas « nous allons étudier… » mais « l’auteur montre que… », avec les lignes."},
+ {id:"m6",cat:"Méthode",f:"Les 3 questions à poser à chaque passage",b:"Que fait le texte ? Comment le fait-il ? Pourquoi le dit-il ?"},
+ {id:"m7",cat:"Méthode",f:"Le texte ne donne aucun exemple : que faire ?",b:"En introduire soi-même pour rendre le propos concret, puis justifier leur pertinence."},
+ {id:"m8",cat:"Méthode",f:"Que contient une transition ?",b:"Les acquis et les limites de la partie, qui obligent à passer à la suivante. Pas de transition après la dernière partie."},
+ {id:"m9",cat:"Méthode",f:"Que rappelle la conclusion (10 lignes minimum) ?",b:"La problématique, le mouvement argumentatif et la thèse."},
+ {id:"m10",cat:"Méthode",f:"Problème « en amont » d’un texte",b:"La question que l’auteur s’est posée avant d’y répondre par sa thèse. Il est rarement écrit dans le texte."}
+];
+
+/* ---- Texte de Tocqueville, découpé selon les lignes de la feuille ----
+   {{id|texte}} = segment repérable dans le quadrillage */
+const TQ_LINES = [
+ "Les {{k0|croyances dogmatiques}} sont plus ou moins nombreuses, suivant",
+ "les temps. Elles naissent de différentes manières et peuvent changer de",
+ "forme et d’objet ; {{c1|mais}} on ne saurait faire qu’il n’y ait pas de {{k0b|croyances}}",
+ "{{k0b|dogmatiques}}, {{c2|c’est-à-dire}} d’{{k1|opinions}} que les hommes reçoivent de {{k2|confiance}}",
+ "et sans les {{k3|discuter}}. {{c3|Si}} chacun entreprenait lui-même de former toutes ses",
+ "opinions et de poursuivre isolément la {{k4|vérité}} dans des chemins {{d1|frayés}} par lui",
+ "seul, il n’est pas {{r1|probable}} qu’un grand nombre d’hommes dût jamais se réunir",
+ "dans aucune {{k5|croyance commune}}.",
+ "{{c4|Or}}, il est facile de voir qu’il n’y a pas de {{k6|société}} qui puisse prospérer",
+ "sans croyances semblables, {{c5|ou plutôt}} il n’y en a point qui subsistent ainsi ;",
+ "{{c6|car}}, sans {{k7|idées communes}}, il n’y a pas d’{{k8|action commune}}, et, sans action",
+ "commune, il existe encore des hommes, {{c7|mais}} non un {{k9|corps social}}. (...)",
+ "{{c8|Si}} l’homme était {{r2|forcé}} de se {{r3|prouver}} à lui-même toutes les vérités dont",
+ "il se sert chaque jour, il n’en finirait point ; il s’épuiserait en démonstrations",
+ "{{d2|préliminaires}} sans avancer ; {{c9|comme}} il n’a pas le temps, {{c10|à cause du}} court",
+ "espace de la vie, ni la {{d3|faculté}}, {{c10b|à cause des}} {{d4|bornes}} de son esprit, d’en agir",
+ "ainsi, il en est réduit à tenir pour {{r4|assurés}} une foule de faits et d’opinions qu’il",
+ "n’a eu ni le loisir ni le pouvoir d’{{k10|examiner}} et de {{k10b|vérifier}} par lui-même, {{c11|mais}}",
+ "que de plus habiles ont trouvés ou que la {{k11|foule}} adopte. {{c12|C’est sur ce premier}}",
+ "{{c12|fondement}} qu’il élève lui-même l’{{d5|édifice}} de ses propres pensées. (...) Un",
+ "homme qui entreprendrait d’examiner tout par lui-même ne pourrait accorder",
+ "que peu de temps et d’attention à chaque chose ; ce travail tiendrait son",
+ "esprit dans une agitation perpétuelle qui l’empêcherait de pénétrer",
+ "profondément dans aucune vérité et de se fixer avec solidité dans aucune",
+ "{{r5|certitude}}. (...) {{r6|Il faut}} {{c13|donc}} que, parmi les divers objets des opinions humaines,",
+ "il fasse un {{k12|choix}} et qu’il adopte beaucoup de croyances sans les discuter, {{c14|afin}}",
+ "{{c14|d’en}} mieux approfondir un petit nombre dont il s’est réservé l’examen. {{c15|Il est}}",
+ "{{c15|vrai que}} tout homme qui reçoit une opinion sur la parole d’autrui met son",
+ "{{k13|esprit en esclavage}} ; {{c16|mais}} c’est une {{k14|servitude}} {{d6|salutaire}} qui permet de faire un",
+ "bon usage de la {{k15|liberté}}."
+];
+const TQ_PARA = [1,9,13];
+
+/* Cibles du quadrillage. cats = catégories acceptées ; core = attendu */
+const QUAD = {
+ c1:{cats:["C"],core:true,lab:"mais (l. 3)",why:"Opposition : les croyances changent de forme, *mais* elles ne disparaissent jamais."},
+ c2:{cats:["C"],core:true,lab:"c’est-à-dire (l. 4)",why:"Introduit la **définition** des croyances dogmatiques."},
+ c3:{cats:["C"],core:true,lab:"Si (l. 5)",why:"Hypothèse : début d’un raisonnement par l’absurde."},
+ c4:{cats:["C"],core:true,lab:"Or (l. 9)",why:"Ajoute une seconde prémisse au raisonnement."},
+ c5:{cats:["C"],core:false,lab:"ou plutôt (l. 10)",why:"Rectification qui renforce l’idée : pas seulement « prospérer », mais « subsister »."},
+ c6:{cats:["C"],core:true,lab:"car (l. 11)",why:"Justification : la cause est l’absence d’action commune."},
+ c7:{cats:["C"],core:false,lab:"mais (l. 12)",why:"Opposition entre des hommes juxtaposés et un corps social."},
+ c8:{cats:["C"],core:true,lab:"Si (l. 13)",why:"Nouvelle hypothèse absurde, cette fois à l’échelle de l’individu."},
+ c9:{cats:["C"],core:true,lab:"comme (l. 15)",why:"Cause : l’homme n’a ni le temps ni la faculté."},
+ c10:{cats:["C"],core:false,lab:"à cause du (l. 15)",why:"Cause : la brièveté de la vie."},
+ c10b:{cats:["C"],core:false,lab:"à cause des (l. 16)",why:"Cause : les limites de l’esprit."},
+ c11:{cats:["C"],core:false,lab:"mais (l. 18)",why:"Oppose ce que l’individu n’a pas vérifié et ceux qui l’ont fait à sa place."},
+ c12:{cats:["C","R"],core:false,lab:"C’est sur ce premier fondement (l. 19-20)",why:"Conséquence, et repère **principe / conséquence** : les croyances reçues servent de base."},
+ c13:{cats:["C"],core:true,lab:"donc (l. 25)",why:"Conclusion du raisonnement."},
+ c14:{cats:["C"],core:true,lab:"afin d’ (l. 26-27)",why:"But : on adopte des croyances pour mieux examiner quelques questions."},
+ c15:{cats:["C"],core:true,lab:"Il est vrai que (l. 27-28)",why:"Concession : l’auteur reconnaît l’objection."},
+ c16:{cats:["C"],core:true,lab:"mais (l. 29)",why:"Retournement de l’objection : la servitude devient salutaire."},
+ k0:{cats:["K"],core:true,lab:"croyances dogmatiques (l. 1)",why:"Concept central, défini lignes 3-5."},
+ k0b:{cats:["K"],core:false,lab:"croyances dogmatiques (l. 3-4)",why:"Reprise du concept central."},
+ k1:{cats:["K"],core:true,lab:"opinions (l. 4)",why:"Le genre auquel appartiennent les croyances dogmatiques."},
+ k2:{cats:["K"],core:true,lab:"confiance (l. 4)",why:"Le mode d’acceptation de ces croyances."},
+ k3:{cats:["K"],core:false,lab:"discuter (l. 5)",why:"Ce que l’on ne fait pas avec les croyances dogmatiques."},
+ k4:{cats:["K"],core:true,lab:"vérité (l. 6)",why:"La notion au programme."},
+ k5:{cats:["K"],core:true,lab:"croyance commune (l. 8)",why:"Ce qui rend la société possible."},
+ k6:{cats:["K"],core:false,lab:"société (l. 9)",why:"Notion liée (l’État, la société)."},
+ k7:{cats:["K"],core:false,lab:"idées communes (l. 11)",why:"Synonyme de croyances communes."},
+ k8:{cats:["K"],core:false,lab:"action commune (l. 11)",why:"Ce que les idées communes rendent possible."},
+ k9:{cats:["K"],core:true,lab:"corps social (l. 12)",why:"Image organique de la société comme un tout."},
+ k10:{cats:["K"],core:true,lab:"examiner (l. 18)",why:"L’activité critique de l’esprit."},
+ k10b:{cats:["K","R"],core:false,lab:"vérifier (l. 18)",why:"Lié au repère croire / savoir."},
+ k11:{cats:["K"],core:false,lab:"foule (l. 19)",why:"Seconde source des opinions reçues, plus fragile que « les plus habiles »."},
+ k12:{cats:["K"],core:false,lab:"choix (l. 26)",why:"La liberté consiste à choisir ce que l’on examine."},
+ k13:{cats:["K"],core:true,lab:"esprit en esclavage (l. 29)",why:"L’objection : la dépendance intellectuelle."},
+ k14:{cats:["K"],core:true,lab:"servitude (l. 29)",why:"Avec « salutaire », forme le paradoxe final."},
+ k15:{cats:["K"],core:true,lab:"liberté (l. 30)",why:"Notion au programme : le but de toute l’argumentation."},
+ r1:{cats:["R"],core:true,lab:"probable (l. 7)",why:"Repère **vrai / probable / certain**."},
+ r2:{cats:["R"],core:false,lab:"forcé (l. 13)",why:"Repère **obligation / contrainte**."},
+ r3:{cats:["R","K"],core:false,lab:"prouver (l. 13)",why:"Repère **croire / savoir** : prouver, c’est passer de la croyance au savoir."},
+ r4:{cats:["R"],core:false,lab:"assurés (l. 17)",why:"Repère **vrai / probable / certain** : tenir pour assuré n’est pas savoir."},
+ r5:{cats:["R","K"],core:true,lab:"certitude (l. 25)",why:"Repère **vrai / probable / certain**."},
+ r6:{cats:["R"],core:false,lab:"Il faut (l. 25)",why:"Repère **obligation / contrainte** : une nécessité que l’on assume."},
+ d1:{cats:["D"],core:false,lab:"frayés",why:"Un chemin frayé est un chemin tracé, ouvert. Ici : chacun tracerait seul sa route vers la vérité."},
+ d2:{cats:["D"],core:false,lab:"préliminaires",why:"Qui viennent avant : des démonstrations préalables, avant même d’arriver à la question qui nous occupe."},
+ d3:{cats:["D"],core:false,lab:"faculté",why:"La capacité, le pouvoir de faire quelque chose."},
+ d4:{cats:["D"],core:false,lab:"bornes",why:"Les limites."},
+ d5:{cats:["D"],core:false,lab:"édifice",why:"Métaphore de la construction : nos pensées forment un bâtiment posé sur des fondations reçues."},
+ d6:{cats:["D"],core:false,lab:"salutaire",why:"Qui sauve, qui est bénéfique (comme un remède)."}
+};
+const QCATS = [
+ {k:"C",label:"Connecteur logique"},
+ {k:"K",label:"Concept important"},
+ {k:"D",label:"Terme difficile"},
+ {k:"E",label:"Exemple"},
+ {k:"R",label:"Repère"}
+];
+/* ============ OUTILS ============ */
+const {useState,useEffect,useLayoutEffect,useMemo,useRef,createContext,useContext,Fragment} = React;
+const html = htm.bind(React.createElement);
+
+const KEY = "verite-tle-v1";
+function loadStore(){ try{ const s = localStorage.getItem(KEY); return s ? JSON.parse(s) : {}; }catch(e){ return {}; } }
+function saveStore(s){ try{ localStorage.setItem(KEY, JSON.stringify(s)); }catch(e){} }
+const Store = createContext(null);
+function useStore(){ return useContext(Store); }
+
+function shuffle(a){ const b = a.slice(); for(let i=b.length-1;i>0;i--){ const j = Math.floor(Math.random()*(i+1)); [b[i],b[j]]=[b[j],b[i]]; } return b; }
+
+function rich(s){
+  if(s===undefined||s===null) return null;
+  const parts = String(s).split(/(\*\*[^*]+\*\*|\*[^*\s][^*]*\*|__[^_]+__)/g);
+  return parts.map((p,i)=>{
+    if(p.startsWith("**")&&p.endsWith("**")&&p.length>4) return html`<strong key=${i}>${p.slice(2,-2)}</strong>`;
+    if(p.startsWith("__")&&p.endsWith("__")&&p.length>4) return html`<u key=${i}>${p.slice(2,-2)}</u>`;
+    if(p.startsWith("*")&&p.endsWith("*")&&p.length>2) return html`<em key=${i}>${p.slice(1,-1)}</em>`;
+    return p;
+  });
+}
+
+const ICONS = {
+  home:"M3 11 12 4l9 7M5 10v10h5v-6h4v6h5V10",
+  book:"M4 5a2 2 0 0 1 2-2h13v16H6a2 2 0 0 0-2 2V5Zm0 14a2 2 0 0 1 2-2h13",
+  cards:"M7 4h12v14H7zM4 7v13h12",
+  pencil:"M4 20h4L19 9l-4-4L4 16v4ZM13 7l4 4",
+  text:"M5 5h14M5 9h14M5 13h10M5 17h12",
+  check:"M5 12l4 4L19 6",
+  x:"M6 6l12 12M18 6 6 18",
+  left:"M15 6l-6 6 6 6",
+  right:"M9 6l6 6-6 6",
+  up:"M6 15l6-6 6 6",
+  down:"M6 9l6 6 6-6",
+  refresh:"M20 11a8 8 0 1 0-2.3 5.7M20 5v6h-6",
+  eye:"M2 12s4-7 10-7 10 7 10 7-4 7-10 7S2 12 2 12Zm10 3a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z",
+  bulb:"M9 18h6M10 21h4M12 3a6 6 0 0 0-3.5 10.9c.6.5 1 1.2 1 2.1h5c0-.9.4-1.6 1-2.1A6 6 0 0 0 12 3Z",
+  flip:"M4 7h13l-3-3M20 17H7l3 3"
+};
+function Icon({name,size}){
+  const s = size||18;
+  return html`<svg width=${s} height=${s} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d=${ICONS[name]}/></svg>`;
+}
+
+/* ============ BRIQUES D'EXERCICE ============ */
+
+function Details({title,children}){
+  const [open,setOpen] = useState(false);
+  return html`<div className="stack" style=${{gap:"8px"}}>
+    <div><button className="btn ghost sm" onClick=${()=>setOpen(!open)} aria-expanded=${open}>
+      <${Icon} name=${open?"up":"down"} size=${16}/>${open?"Masquer la correction détaillée":(title||"Correction détaillée")}
+    </button></div>
+    ${open && html`<div className="details fade">${children}</div>`}
+  </div>`;
+}
+
+function useDone(id){
+  const {store,setStore} = useStore();
+  return (score,total)=>{ if(!id) return; setStore(s=>({...s,done:{...(s.done||{}),[id]:{score,total}}})); };
+}
+
+/* QCM simple : une question, retour immédiat */
+function QCM({q,options,explain,onAnswer}){
+  const [sel,setSel] = useState(null);
+  const done = sel!==null;
+  const letters = "ABCDE";
+  return html`<div className="ex">
+    <p className="q">${rich(q)}</p>
+    <div className="opts">
+      ${options.map((o,i)=>{
+        let cls = "opt";
+        if(done && o.ok) cls += " is-ok";
+        else if(done && i===sel) cls += " is-bad";
+        return html`<button key=${i} className=${cls} disabled=${done} onClick=${()=>{ setSel(i); onAnswer && onAnswer(!!o.ok); }}>
+          <span className="key">${letters[i]}</span><span>${rich(o.t)}</span></button>`;
+      })}
+    </div>
+    ${done && html`<div className=${"verdict fade "+(options[sel].ok?"ok":"bad")}>
+      <strong>${options[sel].ok?"Correct. ":"Pas tout à fait. "}</strong>${rich(options[sel].fb||"")}
+    </div>`}
+    ${done && explain && html`<${Details}>${typeof explain==="string" ? html`<p>${rich(explain)}</p>` : explain}<//>`}
+    ${done && html`<div><button className="btn sm" onClick=${()=>setSel(null)}><${Icon} name="refresh" size=${15}/>Réessayer</button></div>`}
+  </div>`;
+}
+
+/* Série de QCM avec score */
+function QCMSet({id,items}){
+  const [res,setRes] = useState({});
+  const markDone = useDone(id);
+  const answered = Object.keys(res).length;
+  const good = Object.values(res).filter(Boolean).length;
+  useEffect(()=>{ if(answered===items.length) markDone(good,items.length); },[answered]);
+  return html`<div className="stack" style=${{gap:"20px"}}>
+    ${items.map((it,i)=>html`<div key=${i} className="card card-pad">
+      <div className="small muted" style=${{marginBottom:"6px"}}>Question ${i+1} / ${items.length}</div>
+      <${QCM} q=${it.q} options=${it.options} explain=${it.explain} onAnswer=${ok=>setRes(r=>({...r,[i]:ok}))}/>
+    </div>`)}
+    ${answered===items.length && html`<div className="verdict info fade"><span className="score">${good} / ${items.length}</span> bonnes réponses du premier coup.</div>`}
+  </div>`;
+}
+
+/* Classement : chaque énoncé reçoit une catégorie */
+function Classify({id,items,cats,compact}){
+  const [ans,setAns] = useState({});
+  const [checked,setChecked] = useState(false);
+  const markDone = useDone(id);
+  const score = items.filter((it,i)=>ans[i]===it.c).length;
+  const all = Object.keys(ans).length===items.length;
+  const labelOf = k => (cats.find(c=>c.k===k)||{}).label;
+  return html`<div className="ex">
+    <div className="items">
+      ${items.map((it,i)=>{
+        const cls = "item"+(checked?(ans[i]===it.c?" is-ok":" is-bad"):"");
+        return html`<div key=${i} className=${cls}>
+          <div style=${{minWidth:0}}>${rich(it.t)}</div>
+          <div className="seg" role="group" aria-label="Catégorie">
+            ${cats.map(c=>html`<button key=${c.k} aria-pressed=${ans[i]===c.k} disabled=${checked}
+                onClick=${()=>setAns(a=>({...a,[i]:c.k}))}>${c.label}</button>`)}
+          </div>
+          ${checked && ans[i]!==it.c && html`<div className="sol"><strong>Réponse :</strong> ${labelOf(it.c)}</div>`}
+          ${checked && it.showWhy && html`<div className="why">${rich(it.why)}</div>`}
+        </div>`;
+      })}
+    </div>
+    <div className="row">
+      ${!checked && html`<button className="btn primary" disabled=${!all} onClick=${()=>{setChecked(true); markDone(score,items.length);}}><${Icon} name="check" size=${16}/>Vérifier</button>`}
+      ${!checked && !all && html`<span className="small muted">Classe tous les énoncés pour vérifier.</span>`}
+      ${checked && html`<span className="score">${score} / ${items.length}</span>`}
+      ${checked && html`<button className="btn sm" onClick=${()=>{setAns({});setChecked(false);}}><${Icon} name="refresh" size=${15}/>Recommencer</button>`}
+    </div>
+    ${checked && html`<${Details}>
+      ${items.map((it,i)=>html`<p key=${i}><strong>${labelOf(it.c)}.</strong> ${rich(it.t)} → ${rich(it.why)}</p>`)}
+    <//>`}
+  </div>`;
+}
+
+/* Association : chaque élément de gauche reçoit une réponse dans une liste */
+function Match({id,pairs,leftLabel}){
+  const opts = useMemo(()=>shuffle(pairs.map(p=>p.r)),[]);
+  const [ans,setAns] = useState({});
+  const [checked,setChecked] = useState(false);
+  const markDone = useDone(id);
+  const score = pairs.filter((p,i)=>ans[i]===p.r).length;
+  const all = Object.keys(ans).filter(k=>ans[k]).length===pairs.length;
+  return html`<div className="ex">
+    <div className="items">
+      ${pairs.map((p,i)=>{
+        const cls = "item"+(checked?(ans[i]===p.r?" is-ok":" is-bad"):"");
+        const sid = (id||"m")+"-sel-"+i;
+        return html`<div key=${i} className=${cls}>
+          <label htmlFor=${sid} style=${{minWidth:0}}>${rich(p.l)}</label>
+          <select id=${sid} value=${ans[i]||""} disabled=${checked} onChange=${e=>setAns(a=>({...a,[i]:e.target.value}))}>
+            <option value="">Choisir…</option>
+            ${opts.map((o,j)=>html`<option key=${j} value=${o}>${o}</option>`)}
+          </select>
+          ${checked && ans[i]!==p.r && html`<div className="sol"><strong>Réponse :</strong> ${p.r}</div>`}
+        </div>`;
+      })}
+    </div>
+    <div className="row">
+      ${!checked && html`<button className="btn primary" disabled=${!all} onClick=${()=>{setChecked(true);markDone(score,pairs.length);}}><${Icon} name="check" size=${16}/>Vérifier</button>`}
+      ${checked && html`<span className="score">${score} / ${pairs.length}</span>`}
+      ${checked && html`<button className="btn sm" onClick=${()=>{setAns({});setChecked(false);}}><${Icon} name="refresh" size=${15}/>Recommencer</button>`}
+    </div>
+    ${checked && html`<${Details}>${pairs.map((p,i)=>html`<p key=${i}><strong>${rich(p.l)}</strong> → ${p.r}. ${rich(p.why||"")}</p>`)}<//>`}
+  </div>`;
+}
+
+/* Sélection multiple de pastilles */
+function Chips({id,items,prompt}){
+  const [sel,setSel] = useState({});
+  const [checked,setChecked] = useState(false);
+  const markDone = useDone(id);
+  const nOk = items.filter(x=>x.ok).length;
+  const found = items.filter((x,i)=>x.ok&&sel[i]).length;
+  const extra = items.filter((x,i)=>!x.ok&&sel[i]).length;
+  return html`<div className="ex">
+    ${prompt && html`<p className="q">${rich(prompt)}</p>`}
+    <div className="chips-pick">
+      ${items.map((x,i)=>{
+        let cls = "";
+        if(checked){ if(x.ok&&sel[i]) cls="is-ok"; else if(!x.ok&&sel[i]) cls="is-bad"; else if(x.ok) cls="is-miss"; }
+        return html`<button key=${i} className=${cls} aria-pressed=${!!sel[i]} disabled=${checked} onClick=${()=>setSel(s=>({...s,[i]:!s[i]}))}>${x.t}</button>`;
+      })}
+    </div>
+    <div className="row">
+      ${!checked && html`<button className="btn primary" onClick=${()=>{setChecked(true);markDone(Math.max(0,found-extra),nOk);}}><${Icon} name="check" size=${16}/>Vérifier</button>`}
+      ${checked && html`<span className="score">${found} / ${nOk} trouvés${extra?` · ${extra} en trop`:""}</span>`}
+      ${checked && html`<span className="small muted">Vert plein : bien choisi · Pointillés : oublié · Rouge : à ne pas retenir</span>`}
+      ${checked && html`<button className="btn sm" onClick=${()=>{setSel({});setChecked(false);}}><${Icon} name="refresh" size=${15}/>Recommencer</button>`}
+    </div>
+    ${checked && html`<${Details}>${items.map((x,i)=>html`<p key=${i}><strong>${x.ok?"✓":"✗"} ${x.t}.</strong> ${rich(x.why)}</p>`)}<//>`}
+  </div>`;
+}
+
+/* Remise en ordre */
+function Order({id,items}){
+  const init = useMemo(()=>{ let s; do{ s = shuffle(items.map((_,i)=>i)); }while(items.length>1 && s.every((v,i)=>v===i)); return s; },[]);
+  const [ord,setOrd] = useState(init);
+  const [checked,setChecked] = useState(false);
+  const markDone = useDone(id);
+  const move = (i,d)=>{ const o = ord.slice(); const j=i+d; if(j<0||j>=o.length) return; [o[i],o[j]]=[o[j],o[i]]; setOrd(o); };
+  const score = ord.filter((v,i)=>v===i).length;
+  return html`<div className="ex">
+    <div className="order-list">
+      ${ord.map((v,i)=>html`<div key=${v} className=${"order-row"+(checked?(v===i?" is-ok":" is-bad"):"")}>
+        <span className="n">${i+1}</span>
+        <span style=${{minWidth:0}}>${rich(items[v].t)}</span>
+        <span className="row" style=${{gap:"4px",flexWrap:"nowrap"}}>
+          <button className="iconbtn" aria-label="Monter" disabled=${checked||i===0} onClick=${()=>move(i,-1)}><${Icon} name="up" size=${16}/></button>
+          <button className="iconbtn" aria-label="Descendre" disabled=${checked||i===ord.length-1} onClick=${()=>move(i,1)}><${Icon} name="down" size=${16}/></button>
+        </span>
+        ${checked && html`<span className="role">${v===i?"✓ ":"✗ À placer en position "+(v+1)+" · "}${items[v].role}</span>`}
+      </div>`)}
+    </div>
+    <div className="row">
+      ${!checked && html`<button className="btn primary" onClick=${()=>{setChecked(true);markDone(score,items.length);}}><${Icon} name="check" size=${16}/>Vérifier l’ordre</button>`}
+      ${checked && html`<span className="score">${score} / ${items.length} bien placés</span>`}
+      ${checked && html`<button className="btn sm" onClick=${()=>{setOrd(init);setChecked(false);}}><${Icon} name="refresh" size=${15}/>Recommencer</button>`}
+    </div>
+    ${checked && html`<${Details} title="Voir l’ordre correct">
+      <ol style=${{margin:0,paddingLeft:"20px",display:"flex",flexDirection:"column",gap:"6px"}}>
+        ${items.map((it,i)=>html`<li key=${i}><strong>${it.role}.</strong> ${rich(it.t)}</li>`)}
+      </ol><//>`}
+  </div>`;
+}
+
+/* Grille d'auto-évaluation (codes du professeur) */
+const LEVELS = [{k:"v",s:"√",t:"Acquis"},{k:"pm",s:"±",t:"Partiellement"},{k:"eq",s:"≈",t:"Approximatif"},{k:"x",s:"X",t:"Absent ou faux"}];
+function EvalGrid({id,criteria}){
+  const {store,setStore} = useStore();
+  const val = (store.evals||{})[id]||{};
+  const set = (i,k)=>setStore(s=>({...s,evals:{...(s.evals||{}),[id]:{...((s.evals||{})[id]||{}),[i]:k}}}));
+  return html`<div className="tbl-wrap"><table className="grid-eval">
+    <thead><tr><th>Critère de la grille</th>${LEVELS.map(l=>html`<th key=${l.k} className="c" title=${l.t}>${l.s}</th>`)}</tr></thead>
+    <tbody>${criteria.map((c,i)=>html`<tr key=${i}><td>${rich(c)}</td>
+      ${LEVELS.map(l=>html`<td key=${l.k} className="c"><input type="radio" id=${id+"-"+i+"-"+l.k} name=${id+"-"+i} aria-label=${l.t} checked=${val[i]===l.k} onChange=${()=>set(i,l.k)}/></td>`)}
+    </tr>`)}</tbody>
+  </table></div>`;
+}
+
+/* Production écrite + auto-évaluation + corrigé */
+function Open({id,prompt,hint,criteria,model,details,rows,simple}){
+  const {store,setStore} = useStore();
+  const text = (store.drafts||{})[id]||"";
+  const [show,setShow] = useState(false);
+  const markDone = useDone(id);
+  return html`<div className="ex">
+    ${prompt && html`<p className="q">${rich(prompt)}</p>`}
+    ${hint && html`<${Details} title="Un coup de pouce"><p>${rich(hint)}</p><//>`}
+    <label className="small muted" htmlFor=${id+"-ta"}>Ta réponse (enregistrée dans ce navigateur)</label>
+    <textarea id=${id+"-ta"} rows=${rows||6} value=${text} onChange=${e=>{const v=e.target.value;setStore(s=>({...s,drafts:{...(s.drafts||{}),[id]:v}}));}}></textarea>
+    ${criteria && html`<div className="stack" style=${{gap:"6px"}}><div className="small muted">Évalue-toi avec les codes de la grille avant de regarder le corrigé :</div><${EvalGrid} id=${id+"-ev"} criteria=${criteria}/></div>`}
+    <div className="row">
+      <button className="btn primary" onClick=${()=>{setShow(!show); if(!show) markDone(1,1);}}><${Icon} name="eye" size=${16}/>${show?"Masquer le corrigé":"Voir le corrigé"}</button>
+    </div>
+    ${show && html`<div className="stack fade">
+      ${simple && html`<div className="verdict ok"><strong>L’essentiel : </strong>${rich(simple)}</div>`}
+      ${model && html`<div className="model">${React.Children.toArray(model)}</div>`}
+      ${details && html`<${Details}>${React.Children.toArray(details)}<//>`}
+    </div>`}
+  </div>`;
+}
+
+/* Exemple résolu avec questions d'auto-explication */
+function Worked({steps}){
+  return html`<div className="worked">
+    ${steps.map((s,i)=>html`<${WStep} key=${i} n=${i+1} s=${s}/>`)}
+  </div>`;
+}
+function WStep({n,s}){
+  const [open,setOpen] = useState(false);
+  return html`<div className="wstep">
+    <span className="wn">${n}</span>
+    <div style=${{minWidth:0}}>
+      <h4>${s.h}</h4>
+      <div className="prose">${(Array.isArray(s.t)?s.t:[s.t]).map((p,i)=>html`<p key=${i}>${rich(p)}</p>`)}</div>
+      ${s.why && html`<div className="why-q">
+        <button className="btn ghost sm" onClick=${()=>setOpen(!open)}><${Icon} name="bulb" size=${15}/>${s.whyQ||"Pourquoi ce choix ?"}</button>
+        ${open && html`<p className="fade" style=${{color:"var(--text)",marginTop:"4px"}}>${rich(s.why)}</p>`}
+      </div>`}
+    </div>
+  </div>`;
+}
+
+/* ============ SCHÉMAS ============ */
+function Arrow({x1,y1,x2,y2,cls}){
+  const a = Math.atan2(y2-y1,x2-x1), L=8;
+  const p1 = [x2-L*Math.cos(a-0.4), y2-L*Math.sin(a-0.4)], p2=[x2-L*Math.cos(a+0.4), y2-L*Math.sin(a+0.4)];
+  return html`<g><line x1=${x1} y1=${y1} x2=${x2} y2=${y2} className=${cls||"d-acc-line"} strokeWidth="1.6"/>
+    <polygon points=${`${x2},${y2} ${p1[0]},${p1[1]} ${p2[0]},${p2[1]}`} className="d-head"/></g>`;
+}
+function Diagram({k}){
+  if(k==="jugement") return html`<svg viewBox="0 0 640 220" role="img" aria-label="Le réel, le jugement, et la vérité comme rapport entre les deux">
+    <rect x="20" y="30" width="200" height="96" rx="6" className="d-box"/>
+    <text x="120" y="56" textAnchor="middle" className="d-b">LE RÉEL</text>
+    <text x="120" y="80" textAnchor="middle" className="d-t">un chat, un canapé</text>
+    <text x="120" y="102" textAnchor="middle" className="d-m">il est · ni vrai ni faux</text>
+    <rect x="420" y="30" width="200" height="96" rx="6" className="d-acc"/>
+    <text x="520" y="56" textAnchor="middle" className="d-b">LE JUGEMENT</text>
+    <text x="520" y="80" textAnchor="middle" className="d-t">« Le chat est</text>
+    <text x="520" y="98" textAnchor="middle" className="d-t">sur le canapé »</text>
+    <${Arrow} x1=${228} y1=${78} x2=${412} y2=${78}/>
+    <text x="320" y="68" textAnchor="middle" className="d-m">je juge</text>
+    <path d="M120 134 v24 h400 v-24" className="d-line" strokeWidth="1.4"/>
+    <rect x="200" y="166" width="240" height="40" rx="6" className="d-ok"/>
+    <text x="320" y="191" textAnchor="middle" className="d-b">VÉRITÉ = accord des deux</text>
+  </svg>`;
+  if(k==="validite") return html`<svg viewBox="0 0 620 250" role="img" aria-label="Tableau validité et vérité des prémisses">
+    <text x="220" y="22" textAnchor="middle" className="d-b">Prémisses vraies</text>
+    <text x="470" y="22" textAnchor="middle" className="d-b">Prémisses fausses</text>
+    <text x="18" y="92" className="d-b">Valide</text>
+    <text x="18" y="190" className="d-b">Non valide</text>
+    <rect x="110" y="36" width="220" height="96" rx="6" className="d-ok"/>
+    <text x="220" y="70" textAnchor="middle" className="d-b">Conclusion vraie</text>
+    <text x="220" y="92" textAnchor="middle" className="d-t">« Socrate est mortel »</text>
+    <text x="220" y="114" textAnchor="middle" className="d-m">vérité formelle + matérielle</text>
+    <rect x="360" y="36" width="220" height="96" rx="6" className="d-warm"/>
+    <text x="470" y="70" textAnchor="middle" className="d-b">Conclusion douteuse</text>
+    <text x="470" y="92" textAnchor="middle" className="d-t">« Mon chat vole »</text>
+    <text x="470" y="114" textAnchor="middle" className="d-m">forme juste, contenu faux</text>
+    <rect x="110" y="142" width="470" height="90" rx="6" className="d-bad"/>
+    <text x="345" y="178" textAnchor="middle" className="d-b">Rien n’est garanti</text>
+    <text x="345" y="202" textAnchor="middle" className="d-t">la conclusion peut être vraie par hasard, mais elle n’est pas démontrée</text>
+  </svg>`;
+  if(k==="kant") return html`<svg viewBox="0 0 660 210" role="img" aria-label="Chose en soi, formes de l'esprit, phénomène">
+    <rect x="16" y="50" width="170" height="90" rx="6" className="d-box" strokeDasharray="5 4"/>
+    <text x="101" y="82" textAnchor="middle" className="d-b">Chose en soi</text>
+    <text x="101" y="104" textAnchor="middle" className="d-t">(noumène)</text>
+    <text x="101" y="124" textAnchor="middle" className="d-m">pensable, inconnaissable</text>
+    <rect x="245" y="30" width="170" height="130" rx="6" className="d-acc"/>
+    <text x="330" y="58" textAnchor="middle" className="d-b">Formes de l’esprit</text>
+    <text x="330" y="84" textAnchor="middle" className="d-t">espace · temps</text>
+    <text x="330" y="106" textAnchor="middle" className="d-t">catégories (cause…)</text>
+    <text x="330" y="140" textAnchor="middle" className="d-m">les mêmes pour tous</text>
+    <rect x="474" y="50" width="170" height="90" rx="6" className="d-ok"/>
+    <text x="559" y="82" textAnchor="middle" className="d-b">Phénomène</text>
+    <text x="559" y="104" textAnchor="middle" className="d-t">ce que je connais</text>
+    <text x="559" y="124" textAnchor="middle" className="d-m">objectif = valable pour tous</text>
+    <${Arrow} x1=${190} y1=${95} x2=${240} y2=${95}/>
+    <${Arrow} x1=${419} y1=${95} x2=${469} y2=${95}/>
+    <text x="330" y="194" textAnchor="middle" className="d-m">On ne retire jamais les « lunettes » de l’esprit, mais tout le monde porte les mêmes.</text>
+  </svg>`;
+  if(k==="ligne") return html`<svg viewBox="0 0 680 250" role="img" aria-label="Schéma de la ligne de Platon">
+    <text x="170" y="22" textAnchor="middle" className="d-b">Le visible (monde sensible)</text>
+    <text x="510" y="22" textAnchor="middle" className="d-b">L’intelligible (monde intelligible)</text>
+    <line x1="340" y1="10" x2="340" y2="200" className="d-line" strokeWidth="1.4"/>
+    ${[["Imagination","Images, reflets",20],["Croyance","Objets sensibles",180],["Raisonnement","Objets mathématiques",360],["Contemplation","Idées",520]].map(([a,b,x],i)=>html`<g key=${i}>
+      <rect x=${x} y="40" width="140" height="40" rx="5" className=${i<2?"d-box":"d-acc"}/>
+      <text x=${x+70} y="65" textAnchor="middle" className="d-t">${a}</text>
+      <rect x=${x} y="100" width="140" height="40" rx="5" className=${i<2?"d-box":"d-acc"}/>
+      <text x=${x+70} y="125" textAnchor="middle" className="d-t">${b}</text>
+    </g>`)}
+    <text x="14" y="94" className="d-m">connaissance ↑ · objets ↓</text>
+    <path d="M30 152 v10 h290 v-10" className="d-line"/>
+    <path d="M370 152 v10 h290 v-10" className="d-acc-line"/>
+    <rect x="115" y="172" width="120" height="30" rx="5" className="d-warm"/>
+    <text x="175" y="192" textAnchor="middle" className="d-b">Opinion</text>
+    <rect x="455" y="172" width="120" height="30" rx="5" className="d-ok"/>
+    <text x="515" y="192" textAnchor="middle" className="d-b">Science</text>
+    <${Arrow} x1=${60} y1=${228} x2=${620} y2=${228}/>
+    <text x="340" y="246" textAnchor="middle" className="d-m">sortir de la caverne : des ombres vers le soleil (le Bien)</text>
+  </svg>`;
+  return null;
+}
+/* ============ ACCUEIL ============ */
+function Home({go}){
+  const {store} = useStore();
+  const boxes = store.cards||{};
+  const acquired = CARDS.filter(c=>boxes[c.id]===3).length;
+  const exDone = EX_IDS.filter(id=>(store.done||{})[id]).length;
+  const tqDone = TQ_STEPS.filter(s=>(store.tq||{})[s.id]).length;
+  const fichesSeen = FICHES.filter(f=>(store.seen||{})[f.id]).length;
+  const path = [
+    {n:"Étape 1",t:"Comprendre",p:"13 fiches courtes, une idée à la fois, avec schémas et vérification immédiate.",go:"comprendre",v:`${fichesSeen} / ${FICHES.length} fiches lues`,pc:fichesSeen/FICHES.length},
+    {n:"Étape 2",t:"Mémoriser",p:"Cartes à retourner, rangées en 3 boîtes : on revoit plus souvent ce qu’on ne sait pas.",go:"cartes",v:`${acquired} / ${CARDS.length} cartes acquises`,pc:acquired/CARDS.length},
+    {n:"Étape 3",t:"S’entraîner",p:"Cinq niveaux, de la reconnaissance à la rédaction d’un paragraphe argumenté.",go:"exercices",v:`${exDone} / ${EX_IDS.length} exercices faits`,pc:exDone/EX_IDS.length},
+    {n:"Étape 4",t:"Expliquer un texte",p:"Tocqueville pas à pas, selon les 5 étapes et la grille de ton professeur.",go:"texte",v:`${tqDone} / ${TQ_STEPS.length} étapes faites`,pc:tqDone/TQ_STEPS.length}
+  ];
+  return html`<div className="main fade">
+    <div className="page-head">
+      <span className="chip acc" style=${{width:"fit-content"}}>Notion au programme · La vérité</span>
+      <h1>Comprendre, retenir et utiliser la notion de vérité</h1>
+      <p>Le parcours suit un ordre précis : on comprend d’abord, on mémorise ensuite le vocabulaire, puis on s’entraîne à manipuler les idées avant de les utiliser dans une explication de texte complète.</p>
+    </div>
+    <div className="steps4">
+      ${path.map(s=>html`<button key=${s.go} className="card step-card" onClick=${()=>go(s.go)}>
+        <span className="num">${s.n}</span><h3>${s.t}</h3><p>${s.p}</p>
+        <div className="progress" aria-hidden="true"><span style=${{width:Math.round(s.pc*100)+"%"}}></span></div>
+        <span className="small muted">${s.v}</span>
+      </button>`)}
+    </div>
+    <section className="card card-pad stack">
+      <div className="row" style=${{justifyContent:"space-between"}}>
+        <h2 style=${{fontSize:"18px"}}>La carte des tensions</h2>
+        <div className="legend">
+          <span><i className="sw" style=${{background:"var(--accent-soft)",border:"1px solid var(--accent)"}}></i>Pôle A</span>
+          <span><i className="sw" style=${{background:"var(--warn-soft)",border:"1px solid var(--warn)"}}></i>Pôle B</span>
+          <span><i className="sw" style=${{background:"var(--ok-soft)",border:"1px solid var(--ok)"}}></i>Distinction qui réduit la tension</span>
+        </div>
+      </div>
+      <p className="muted small" style=${{maxWidth:"75ch"}}>Presque tous les sujets sur la vérité réactivent une ou deux de ces tensions. En dissertation : la partie I défend le pôle A, la partie II montre ce qui le met en difficulté, la partie III utilise la distinction pour dépasser l’opposition. Clique sur une tension pour ouvrir la fiche.</p>
+      <div className="tensions">
+        ${TENSIONS.map((t,i)=>html`<button key=${i} className="tension" onClick=${()=>go("comprendre",t.f)}>
+          <span className="pole a">${t.a}</span><span className="vs">⇄</span><span className="pole b">${t.b}</span>
+          <span className="key">Pour la réduire : <b>${t.cle}</b></span>
+        </button>`)}
+      </div>
+    </section>
+    <${Details} title="Comment ce parcours est construit">
+      <p><strong>Une idée à la fois.</strong> Chaque fiche tient sur un écran, pour ne pas saturer la mémoire de travail. Les schémas portent leurs légendes à l’intérieur, au plus près de ce qu’elles désignent.</p>
+      <p><strong>Un code couleur constant.</strong> Bleu pour le premier pôle d’une tension, orange pour le second, vert pour la solution. Les mêmes couleurs reviennent partout.</p>
+      <p><strong>La récupération espacée.</strong> Les cartes ratées reviennent vite ; les cartes sues s’espacent. Se tester fait plus retenir que relire.</p>
+      <p><strong>De l’exemple résolu à l’autonomie.</strong> Au niveau 4, un sujet est entièrement traité, le suivant est à compléter, le dernier est à faire seul. L’aide diminue à mesure que la compétence augmente.</p>
+      <p><strong>Une correction en deux temps.</strong> D’abord le verdict et la bonne réponse, puis, si besoin, l’explication détaillée.</p>
+    <//>
+  </div>`;
+}
+
+/* ============ COMPRENDRE ============ */
+function Comprendre({initial}){
+  const {store,setStore} = useStore();
+  const [idx,setIdx] = useState(()=>{ const i = FICHES.findIndex(f=>f.id===initial); return i<0?0:i; });
+  useEffect(()=>{ const i = FICHES.findIndex(f=>f.id===initial); if(i>=0) setIdx(i); },[initial]);
+  const f = FICHES[idx];
+  useEffect(()=>{ setStore(s=>({...s,seen:{...(s.seen||{}),[f.id]:true}})); },[f.id]);
+  const top = useRef(null);
+  const goTo = i=>{ setIdx(i); if(top.current) top.current.scrollIntoView({block:"start"}); };
+  return html`<div className="main fade" ref=${top}>
+    <div className="page-head">
+      <h1>Comprendre</h1>
+      <p>Lis une fiche, réponds à la question de vérification, puis passe à la suivante.</p>
+    </div>
+    <div className="fiche-layout">
+      <nav className="fiche-list" aria-label="Fiches">
+        ${FICHES.map((x,i)=>html`<button key=${x.id} aria-current=${i===idx} onClick=${()=>goTo(i)}>
+          <span className="n">${i+1}</span><span>${x.titre}</span></button>`)}
+      </nav>
+      <article className="card card-pad stack fade" key=${f.id} style=${{gap:"16px"}}>
+        <div className="row" style=${{justifyContent:"space-between"}}>
+          <span className="small muted">Fiche ${idx+1} / ${FICHES.length}</span>
+          <div className="row" style=${{gap:"4px"}}>${f.reperes.map(r=>html`<span key=${r} className="chip">Repère · ${r}</span>`)}</div>
+        </div>
+        <h2 style=${{fontSize:"22px"}}>${f.titre}</h2>
+        <p className="idee">${f.idee}</p>
+        <div className="fiche-body">
+          <div className="prose">${f.corps.map((p,i)=>html`<p key=${i}>${rich(p)}</p>`)}</div>
+          <div className="stack">
+            <div className="box"><span className="lbl">Exemple</span><p>${rich(f.exemple)}</p></div>
+            <div className="box retenir"><span className="lbl">À retenir</span><p>${rich(f.retenir)}</p></div>
+          </div>
+        </div>
+        ${f.diagram && html`<div className="diagram"><${Diagram} k=${f.diagram}/></div>`}
+        <div className="card card-pad" style=${{background:"var(--alt)"}}>
+          <div className="sec-title" style=${{marginBottom:"8px"}}>Vérifie ta compréhension</div>
+          <${QCM} key=${f.id} q=${f.check.q} options=${f.check.options}/>
+        </div>
+        <div className="navbar">
+          <button className="btn" disabled=${idx===0} onClick=${()=>goTo(idx-1)}><${Icon} name="left" size=${16}/>Fiche précédente</button>
+          <button className="btn primary" disabled=${idx===FICHES.length-1} onClick=${()=>goTo(idx+1)}>Fiche suivante<${Icon} name="right" size=${16}/></button>
+        </div>
+      </article>
+    </div>
+  </div>`;
+}
+
+/* ============ FLASHCARDS ============ */
+const CATS = ["Toutes","Définitions","Repères","Auteurs","Citations","Méthode"];
+function buildQueue(cat,boxes){
+  const list = CARDS.filter(c=>cat==="Toutes"||c.cat===cat);
+  const by = [1,2,3].map(n=>shuffle(list.filter(c=>(boxes[c.id]||1)===n)));
+  return [...by[0],...by[1],...by[2]].map(c=>c.id);
+}
+function Flashcards(){
+  const {store,setStore} = useStore();
+  const boxes = store.cards||{};
+  const [cat,setCat] = useState("Toutes");
+  const [rev,setRev] = useState(false);
+  const [queue,setQueue] = useState(()=>buildQueue("Toutes",boxes));
+  const [flip,setFlip] = useState(false);
+  const [tally,setTally] = useState({ok:0,ko:0});
+  const card = CARDS.find(c=>c.id===queue[0]);
+  const restart = (c)=>{ setQueue(buildQueue(c,store.cards||{})); setFlip(false); setTally({ok:0,ko:0}); };
+  const answer = (known)=>{
+    if(!card) return;
+    const cur = boxes[card.id]||1;
+    const nb = known ? Math.min(3,cur+1) : 1;
+    setStore(s=>({...s,cards:{...(s.cards||{}),[card.id]:nb}}));
+    let rest = queue.slice(1);
+    if(!known) rest.splice(Math.min(3,rest.length),0,card.id);
+    setQueue(rest); setFlip(false);
+    setTally(t=>known?{...t,ok:t.ok+1}:{...t,ko:t.ko+1});
+  };
+  useEffect(()=>{
+    const h = e=>{
+      if(e.target && /INPUT|TEXTAREA|SELECT/.test(e.target.tagName)) return;
+      if(e.key===" "){ e.preventDefault(); setFlip(f=>!f); }
+      else if(flip && (e.key==="1"||e.key==="ArrowLeft")) answer(false);
+      else if(flip && (e.key==="2"||e.key==="ArrowRight")) answer(true);
+    };
+    window.addEventListener("keydown",h); return ()=>window.removeEventListener("keydown",h);
+  });
+  const list = CARDS.filter(c=>cat==="Toutes"||c.cat===cat);
+  const count = n=>list.filter(c=>(boxes[c.id]||1)===n).length;
+  const front = card ? (rev?card.b:card.f) : "";
+  const back = card ? (rev?card.f:card.b) : "";
+  return html`<div className="main fade">
+    <div className="page-head">
+      <h1>Mémoriser</h1>
+      <p>Essaie de répondre de tête avant de retourner la carte. Si tu savais, la carte monte d’une boîte et reviendra moins souvent. Sinon, elle retourne en boîte 1 et reviendra dans quelques cartes.</p>
+    </div>
+    <div className="row" style=${{justifyContent:"space-between"}}>
+      <div className="pill-tabs" role="group" aria-label="Catégorie">
+        ${CATS.map(c=>html`<button key=${c} aria-pressed=${cat===c} onClick=${()=>{setCat(c);restart(c);}}>${c}</button>`)}
+      </div>
+      <button className="btn sm" aria-pressed=${rev} onClick=${()=>{setRev(!rev);setFlip(false);}}><${Icon} name="flip" size=${15}/>${rev?"Sens : réponse → question":"Sens : question → réponse"}</button>
+    </div>
+    <div className="fc-wrap">
+      <div className="stack">
+        ${card ? html`<div className=${"card fc fade"+(card.q&&!rev?" quote":"")} key=${card.id+(flip?"b":"f")} onClick=${()=>setFlip(!flip)} role="button" tabIndex="0" aria-label="Retourner la carte">
+          <div className="row" style=${{justifyContent:"space-between"}}>
+            <span className="face-lbl">${card.cat} · boîte ${boxes[card.id]||1}</span>
+            <span className="small muted">${queue.length} carte${queue.length>1?"s":""} restante${queue.length>1?"s":""}</span>
+          </div>
+          <div className="front">${front}</div>
+          ${flip ? html`<div className="back">${back}</div>` : html`<div className="hint">Clique sur la carte ou appuie sur <span className="kbd">Espace</span> pour la retourner.</div>`}
+        </div>` : html`<div className="card card-pad stack">
+          <h3>Série terminée</h3>
+          <p className="muted">${tally.ok} carte${tally.ok>1?"s":""} sue${tally.ok>1?"s":""} · ${tally.ko} à revoir. Relance une série demain : c’est l’espacement qui fixe les souvenirs.</p>
+          <div><button className="btn primary" onClick=${()=>restart(cat)}><${Icon} name="refresh" size=${16}/>Nouvelle série</button></div>
+        </div>`}
+        ${card && html`<div className="row">
+          <button className="btn" disabled=${!flip} onClick=${()=>answer(false)}><${Icon} name="x" size=${16}/>À revoir <span className="kbd">1</span></button>
+          <button className="btn primary" disabled=${!flip} onClick=${()=>answer(true)}><${Icon} name="check" size=${16}/>Je savais <span className="kbd">2</span></button>
+        </div>`}
+      </div>
+      <aside className="card card-pad boxes">
+        <div className="sec-title">Tes boîtes · ${cat}</div>
+        ${[[1,"Boîte 1 · à revoir","b1"],[2,"Boîte 2 · en cours","b2"],[3,"Boîte 3 · acquis","b3"]].map(([n,l,c])=>html`<div key=${n} className="boxline">
+          <span>${l}</span>
+          <div className="progress"><span className=${c} style=${{width:(list.length?Math.round(count(n)/list.length*100):0)+"%"}}></span></div>
+          <span className="score" style=${{textAlign:"right"}}>${count(n)}</span>
+        </div>`)}
+        <p className="small muted">Session : ${tally.ok} sues · ${tally.ko} à revoir.</p>
+        <button className="btn sm" onClick=${()=>{ setStore(s=>{ const cs={...(s.cards||{})}; list.forEach(c=>delete cs[c.id]); return {...s,cards:cs}; }); setTimeout(()=>restart(cat),0); }}>Remettre ces cartes en boîte 1</button>
+      </aside>
+    </div>
+  </div>`;
+}
+
+/* ============ EXERCICES ============ */
+const LVL = [
+ {n:1,t:"Reconnaître",d:"Retrouver une définition ou une thèse."},
+ {n:2,t:"Distinguer",d:"Classer des énoncés grâce aux repères."},
+ {n:3,t:"Relier",d:"Associer auteurs, thèses et distinctions."},
+ {n:4,t:"Problématiser",d:"Transformer un sujet en problème."},
+ {n:5,t:"Argumenter",d:"Construire et rédiger un paragraphe."}
+];
+const EX_IDS = ["n1","n2a","n2b","n2c","n3a","n3b","n4b1","n4b2","n4b3","n4c","n5a","n5b"];
+
+const N1 = [
+ {q:"Peut-on dire qu’une pierre est « vraie » ?", options:[
+   {t:"Oui, si elle existe réellement.", fb:"Exister, c’est être réel. La vérité ne qualifie pas les choses."},
+   {t:"Non : la vérité qualifie un jugement, pas une chose.", ok:true, fb:"Seule une affirmation sur la pierre peut être vraie ou fausse."},
+   {t:"Oui, si c’est une vraie pierre et pas une imitation.", fb:"C’est un abus de langage : « vraie » veut dire ici authentique."}],
+  explain:"Vérité ≠ réalité. Le réel *est* ; c’est le jugement que je porte sur lui qui peut être vrai ou faux."},
+ {q:"Quel est le critère de la vérité selon Descartes ?", options:[
+   {t:"L’accord de tous les savants.", fb:"C’est un critère extérieur ; Descartes cherche un critère dans l’esprit lui-même."},
+   {t:"L’évidence : ce que je conçois clairement et distinctement.", ok:true, fb:"C’est la première règle de la méthode."},
+   {t:"L’utilité pratique de l’idée.", fb:"C’est plutôt l’idée de Nietzsche, pour la critiquer."}]},
+ {q:"Le sceptique est celui qui…", options:[
+   {t:"refuse toute vérité par méchanceté.", fb:"Il n’y a là aucune intention morale."},
+   {t:"doute et suspend son jugement.", ok:true, fb:"Il ne croit pas l’esprit capable de distinguer avec certitude le vrai du faux."},
+   {t:"croit tout ce qu’on lui dit.", fb:"C’est l’inverse : c’est la crédulité."}]},
+ {q:"Pour Kant, que pouvons-nous connaître ?", options:[
+   {t:"Les choses telles qu’elles sont en elles-mêmes.", fb:"La chose en soi est inconnaissable."},
+   {t:"Les phénomènes, c’est-à-dire les choses telles qu’elles nous apparaissent.", ok:true, fb:"Nous connaissons à travers les formes de l’esprit : l’espace et le temps."},
+   {t:"Rien du tout.", fb:"Kant n’est pas sceptique : la connaissance des phénomènes est solide et objective."}]},
+ {q:"La vérité formelle concerne…", options:[
+   {t:"la cohérence interne d’un raisonnement.", ok:true, fb:"Le contenu n’importe pas : seule la forme compte."},
+   {t:"l’accord avec l’expérience.", fb:"C’est la vérité matérielle."},
+   {t:"la forme de la Terre.", fb:"Jeu de mots tentant, mais non !"}]},
+ {q:"Pour Bachelard, la vérité scientifique est…", options:[
+   {t:"définitive une fois démontrée.", fb:"La science progresse justement en se corrigeant."},
+   {t:"une erreur rectifiée.", ok:true, fb:"On connaît contre une connaissance antérieure."},
+   {t:"une opinion partagée par les savants.", fb:"L’accord des savants vient après la rectification, il ne la remplace pas."}]},
+ {q:"Selon Freud, une illusion est…", options:[
+   {t:"une croyance motivée par un désir.", ok:true, fb:"On y croit parce qu’on voudrait que ce soit vrai."},
+   {t:"forcément fausse.", fb:"Une illusion peut se révéler vraie ; ce qui la définit, c’est son origine dans le désir."},
+   {t:"un mensonge que l’on fait aux autres.", fb:"Le mensonge vise autrui et suppose de connaître la vérité."}]},
+ {q:"Dans l’allégorie de la caverne, les ombres représentent…", options:[
+   {t:"les Idées.", fb:"Les Idées sont du côté du soleil, hors de la caverne."},
+   {t:"les opinions et apparences que l’on prend pour la réalité.", ok:true, fb:"Le monde sensible, mal compris, donne lieu à l’opinion."},
+   {t:"les rêves.", fb:"Les prisonniers sont éveillés ; c’est leur rapport au réel qui est trompé."}]}
+];
+
+const N2A = {cats:[{k:"F",label:"Fait"},{k:"V",label:"Valeur"},{k:"G",label:"Goût"}], items:[
+ {t:"L’eau gèle à 0 °C sous la pression atmosphérique normale.",c:"F",why:"Vérifiable par l’expérience : le relativisme n’y a pas sa place."},
+ {t:"Le rap est plus agréable à écouter que le jazz.",c:"G",why:"Dépend de la sensibilité de chacun : relativisme légitime."},
+ {t:"Mentir à ses amis est injuste.",c:"V",why:"On peut en discuter avec des arguments : ni pure affaire de goût, ni simple constat."},
+ {t:"Napoléon est mort en 1821.",c:"F",why:"Établi par les documents historiques."},
+ {t:"Ce film est trop long à mon goût.",c:"G",why:"L’expression « à mon goût » le dit."},
+ {t:"Il est plus important d’être honnête que d’être riche.",c:"V",why:"Une hiérarchie de valeurs, qui se justifie par des raisons."},
+ {t:"Il y a 30 élèves dans cette classe.",c:"F",why:"Il suffit de compter."}
+]};
+const N2B = {cats:[{k:"N",label:"Croyance non fondée"},{k:"C",label:"Croyance par confiance"},{k:"S",label:"Savoir"}], items:[
+ {t:"Je sens qu’il fera beau demain.",c:"N",why:"Aucune raison : un sentiment."},
+ {t:"J’ai démontré le théorème de Pythagore en cours de maths.",c:"S",why:"Démontré par soi-même : c’est un savoir."},
+ {t:"Mon horoscope dit que je vais réussir.",c:"N",why:"Source non fiable et invérifiable."},
+ {t:"La Terre tourne autour du Soleil : mon professeur me l’a appris.",c:"C",why:"Croyance reçue, mais d’une source fiable et vérifiable *en droit*. C’est la « croyance dogmatique » de Tocqueville."},
+ {t:"J’ai mesuré la table : elle fait 1,20 m.",c:"S",why:"Vérifié par l’expérience."},
+ {t:"Je suis sûr qu’il m’en veut : je le vois dans son regard.",c:"N",why:"La certitude ressentie n’est pas un savoir."},
+ {t:"Je prends le médicament que le médecin m’a prescrit, sans avoir lu les études.",c:"C",why:"Confiance raisonnée envers « de plus habiles », comme dit Tocqueville."}
+]};
+const N2C = {cats:[{k:"VV",label:"Valide et vrai"},{k:"VF",label:"Valide mais faux"},{k:"NV",label:"Non valide"}], items:[
+ {t:"Tous les poissons volent ; mon chat est un poisson ; donc mon chat vole.",c:"VF",why:"Forme correcte, prémisses fausses."},
+ {t:"Tous les hommes sont mortels ; Socrate est un homme ; donc Socrate est mortel.",c:"VV",why:"Forme correcte et prémisses vraies : vérité formelle et matérielle."},
+ {t:"Certains élèves sont fatigués ; Léa est élève ; donc Léa est fatiguée.",c:"NV",why:"« Certains » ne permet pas de conclure pour Léa."},
+ {t:"S’il pleut, la route est mouillée ; la route est mouillée ; donc il a plu.",c:"NV",why:"La route peut être mouillée pour une autre raison (arrosage)."},
+ {t:"Aucun triangle n’a quatre côtés ; cette figure a quatre côtés ; donc ce n’est pas un triangle.",c:"VV",why:"Forme correcte, prémisses vraies."}
+]};
+
+const N3A = [
+ {l:"Thomas d’Aquin",r:"La vérité est l’adéquation de la pensée et de la chose"},
+ {l:"Descartes",r:"Est vrai ce que je conçois clairement et distinctement"},
+ {l:"Spinoza",r:"La vérité est à elle-même son propre critère"},
+ {l:"Nietzsche",r:"Nos vérités sont des illusions qu’on a oubliées"},
+ {l:"Sénèque",r:"La foule est le pire interprète de la vérité"},
+ {l:"Bachelard",r:"La vérité scientifique est une erreur rectifiée"},
+ {l:"Popper",r:"Une théorie scientifique doit pouvoir être réfutée"},
+ {l:"Mill",r:"Le mensonge détruit la confiance sociale"},
+ {l:"Pascal",r:"On connaît aussi la vérité par le cœur"},
+ {l:"Tocqueville",r:"Nul ne peut tout vérifier par lui-même"}
+];
+const N3B = [
+ {l:"Douter rend lucide **⇄** Douter paralyse",r:"Doute méthodique / doute sceptique",why:"Le doute qui sert de moyen avance ; celui qui devient une fin bloque."},
+ {l:"L’accord de tous est bon signe **⇄** La foule se trompe",r:"Indice / critère",why:"L’unanimité rend probable, elle ne permet pas de trancher."},
+ {l:"La vérité est universelle **⇄** À chacun sa vérité",r:"Jugement de goût / jugement de fait",why:"Le relativisme vaut pour les goûts, pas pour les faits."},
+ {l:"L’illusion rend heureux **⇄** On aspire au vrai",r:"Illusion subie / illusion consentie",why:"Le roman est une illusion lucide ; l’aveuglement ne l’est pas."},
+ {l:"La science dit vrai **⇄** La science change",r:"Provisoire / arbitraire",why:"Une théorie corrigée est meilleure, pas plus arbitraire."},
+ {l:"Ne jamais mentir **⇄** Certaines vérités blessent",r:"Mentir / se taire",why:"On peut ne pas tout dire sans affirmer le faux."},
+ {l:"L’évidence convainc **⇄** L’évidence trompe",r:"Vérité formelle / vérité matérielle",why:"L’évidence logique est sûre ; pour les faits, il faut vérifier."},
+ {l:"Recevoir une opinion asservit **⇄** C’est indispensable",r:"Confiance aveugle / confiance raisonnée",why:"Ce qui est vérifiable en droit par d’autres peut être cru sans être vérifié en fait par moi."}
+];
+
+const N4A = [
+ {h:"Analyser les termes",t:["**Unanimité** : accord de tous les membres d’un groupe. **Critère** : signe distinctif qui permet de reconnaître et de juger avec certitude."],why:"On définit « critère » avec précision, car tout le sujet se joue sur ce mot : un critère doit permettre de *trancher*.",whyQ:"Pourquoi insister sur le mot « critère » ?"},
+ {h:"Repérer le présupposé",t:["Le sujet suppose qu’une vérité doit pouvoir être reconnue par tous. C’est vrai : 2 + 2 = 4 vaut partout. Mais la **réciproque** est douteuse : ce que tous reconnaissent est-il vrai pour autant ?"],why:"Une vérité universelle est reconnue par tous, mais tout ce que tous reconnaissent n’est pas une vérité. Le problème naît de cette réciproque.",whyQ:"Où se cache le problème ?"},
+ {h:"Formuler le problème comme un dilemme",t:["D’un côté, l’accord de tous semble garantir que l’on ne se trompe pas seul. De l’autre, l’histoire montre que des foules entières se sont trompées. **L’accord des esprits peut-il suffire à établir la vérité, ou n’est-il qu’un indice qui doit être confirmé par d’autres critères ?**"],why:"La problématique oppose deux réponses possibles et fait apparaître une distinction (indice / critère) qui servira au plan.",whyQ:"Pourquoi annoncer déjà « indice » ?"},
+ {h:"Construire le plan",t:["**I.** L’unanimité est un indice de vérité (une vérité vaut pour tous ; ce que tous admettent est a priori bon signe).","**II.** Mais elle ne garantit rien : la foule peut se tromper (Sénèque) ; la vérité se reconnaît à son évidence, non au nombre de voix (Spinoza) ; il faut penser par soi-même (Kant).","**III.** Il existe des critères plus objectifs : la cohérence logique (nécessaire, pas suffisante) et la vérification par l’expérience. L’accord des savants vaut parce qu’il résulte d’une méthode, pas d’un vote."],why:"La partie III ne dit pas « c’est un peu des deux » : elle remplace l’unanimité spontanée par l’accord réglé des esprits compétents.",whyQ:"Qu’est-ce qui rend la partie III vraiment dialectique ?"}
+];
+
+const N5A = [
+ {t:"Le doute n’est pas l’ennemi de la vérité : il est le moyen de la chercher.",role:"Idée directrice"},
+ {t:"En effet, celui qui ne doute jamais prend ses opinions pour des vérités, sans les avoir examinées.",role:"Explication"},
+ {t:"C’est pourquoi Descartes, dans le Discours de la méthode, décide de rejeter tout ce qui comporte le moindre doute, afin de trouver une certitude inébranlable : le cogito.",role:"Référence à un auteur"},
+ {t:"Par exemple, un élève qui vérifie la source d’une information choquante avant de la partager pratique, à son échelle, ce doute méthodique.",role:"Exemple"},
+ {t:"Son doute n’est pas un refus de croire : il est provisoire et vise à distinguer l’information fiable de la rumeur.",role:"Analyse de l’exemple"},
+ {t:"Reste à savoir si l’on peut tout examiner soi-même : n’y a-t-il pas des vérités que l’on doit recevoir sans les vérifier ?",role:"Transition"}
+];
+
+function Exercices(){
+  const [lv,setLv] = useState(1);
+  const {store} = useStore();
+  return html`<div className="main fade">
+    <div className="page-head">
+      <h1>S’entraîner</h1>
+      <p>Les niveaux vont du plus simple au plus exigeant. Chaque exercice donne d’abord une correction simple (le verdict et la bonne réponse), puis une correction détaillée si tu en as besoin.</p>
+    </div>
+    <div className="etape-bar" role="group" aria-label="Niveau">
+      ${LVL.map(l=>html`<button key=${l.n} aria-pressed=${lv===l.n} onClick=${()=>setLv(l.n)}>
+        <small>Niveau ${l.n}</small><span>${l.t}</span></button>`)}
+    </div>
+    <p className="muted">${LVL[lv-1].d}</p>
+    <div key=${lv} className="stack fade" style=${{gap:"20px"}}>
+      ${lv===1 && html`<${QCMSet} id="n1" items=${N1}/>`}
+      ${lv===2 && html`<${Fragment}>
+        <section className="card card-pad ex"><div className="ex-head"><h3>A. Fait, valeur ou goût ?</h3><span className="chip">Repère · objectif / subjectif</span></div>
+          <p className="consigne">Classe chaque jugement. Cela te dira où le relativisme (« à chacun sa vérité ») est légitime, et où il ne l’est pas.</p>
+          <${Classify} id="n2a" items=${N2A.items} cats=${N2A.cats}/></section>
+        <section className="card card-pad ex"><div className="ex-head"><h3>B. Croire ou savoir ?</h3><span className="chip">Repère · croire / savoir</span></div>
+          <p className="consigne">Trois catégories : une croyance sans fondement, une croyance reçue d’une source fiable, un savoir vérifié par soi-même.</p>
+          <${Classify} id="n2b" items=${N2B.items} cats=${N2B.cats}/></section>
+        <section className="card card-pad ex"><div className="ex-head"><h3>C. Valide ou vrai ?</h3><span className="chip">Repère · formel / matériel</span></div>
+          <p className="consigne">Un raisonnement est <b>valide</b> si la conclusion découle nécessairement des prémisses, et <b>vrai</b> si, en plus, les prémisses sont vraies.</p>
+          <${Classify} id="n2c" items=${N2C.items} cats=${N2C.cats}/></section><//>`}
+      ${lv===3 && html`<${Fragment}>
+        <section className="card card-pad ex"><h3>A. Qui soutient quelle thèse ?</h3>
+          <p className="consigne">Associe chaque auteur à sa thèse.</p><${Match} id="n3a" pairs=${N3A}/></section>
+        <section className="card card-pad ex"><h3>B. Quelle distinction réduit la tension ?</h3>
+          <p className="consigne">Pour chaque tension, choisis la distinction qui permet de la dépasser. C’est l’outil de ta troisième partie.</p><${Match} id="n3b" pairs=${N3B}/></section><//>`}
+      ${lv===4 && html`<${Niveau4}/>`}
+      ${lv===5 && html`<${Fragment}>
+        <section className="card card-pad ex"><div className="ex-head"><h3>A. Remettre un paragraphe dans l’ordre</h3><span className="chip">Sujet : la recherche de la vérité peut-elle se passer du doute ?</span></div>
+          <p className="consigne">Un paragraphe argumenté suit un ordre : idée, explication, référence, exemple, analyse de l’exemple, transition. Remets les phrases dans l’ordre avec les flèches.</p>
+          <${Order} id="n5a" items=${N5A}/></section>
+        <section className="card card-pad ex"><div className="ex-head"><h3>B. Rédiger un paragraphe</h3><span className="chip">Sujet : la vérité vaut-elle mieux que l’illusion ?</span></div>
+          <${Open} id="n5b" rows=${9}
+            prompt="Rédige le paragraphe de la partie II : **« Nous aspirons aussi au bonheur »**. Utilise la structure de l’exercice A."
+            hint="Idée : une illusion peut rendre plus heureux que la vérité. Explication : l’illusion satisfait un désir (Freud). Exemple : croire au Père Noël, la fiction, un roman. Analyse : on se divertit d’une réalité trop pesante. Transition : mais la vérité a-t-elle une valeur en elle-même ? (Nietzsche)"
+            criteria=${["Une idée directrice claire en début de paragraphe","Une explication qui déplie l’idée","Une référence expliquée (Freud), pas seulement citée","Un exemple concret, analysé","Une transition qui annonce la limite de l’idée"]}
+            simple="Idée → explication → référence → exemple → analyse → transition."
+            model=${html`<span className="tag">Corrigé possible</span>
+              <p>Pourtant, l’homme ne cherche pas seulement la vérité : il cherche aussi le bonheur, et l’illusion peut parfois mieux y conduire. En effet, une illusion n’est pas une simple erreur. Comme le montre Freud dans <u>L’Avenir d’une illusion</u>, c’est une croyance que l’on entretient parce qu’elle satisfait un désir : elle nous dit ce que nous voulons entendre. Ainsi, l’enfant qui croit au Père Noël vit la fête avec une joie que la vérité viendra plutôt diminuer. De même, nous avons parfois besoin de nous évader d’une réalité trop pesante par le roman ou le cinéma. Mais dans ce cas, l’illusion est consentie : je sais que la fiction est une fiction, et je joue le jeu. Il faut donc se demander si la vérité a une valeur en elle-même, ou si nous ne la préférons que lorsqu’elle nous est utile.</p>`}
+            details=${html`<p><strong>Pourquoi ce paragraphe fonctionne.</strong> La première phrase annonce l’idée. Freud n’est pas « placé » : sa définition sert à expliquer pourquoi l’illusion rend heureux. Les exemples sont analysés (la distinction subie / consentie apparaît). La dernière phrase ouvre vers la partie III (Nietzsche).</p><p><strong>Erreur fréquente.</strong> Écrire « Freud a dit que… » sans expliquer ce que cela apporte au raisonnement.</p>`}/></section><//>`}
+    </div>
+  </div>`;
+}
+
+function Niveau4(){
+  return html`<div className="stack" style=${{gap:"20px"}}>
+    <section className="card card-pad ex">
+      <div className="ex-head"><h3>A. Exemple résolu</h3><span className="chip acc">Sujet : l’unanimité est-elle un critère de vérité ?</span></div>
+      <p className="consigne">Lis chaque étape, puis clique sur la question pour vérifier que tu as compris <b>pourquoi</b> elle est faite ainsi.</p>
+      <${Worked} steps=${N4A}/>
+    </section>
+    <section className="card card-pad ex">
+      <div className="ex-head"><h3>B. À compléter</h3><span className="chip acc">Sujet : peut-on être certain de détenir la vérité ?</span></div>
+      <div className="consigne"><b>Déjà fait pour toi.</b> « Être certain » : ne pas douter, être sûr. « Détenir » : posséder, avoir en main de façon stable. « La vérité » : ici, un jugement conforme au réel.</div>
+      <div className="card card-pad" style=${{background:"var(--alt)"}}><${QCMOne} id="n4b1" q="Quelle tension le sujet fait-il apparaître ?" options=${[
+        {t:"Certitude et vérité ne coïncident pas : je peux être sûr et me tromper.",ok:true,fb:"La certitude est un état de mon esprit ; la vérité, un rapport au réel."},
+        {t:"La vérité est utile, mais elle peut faire souffrir.",fb:"C’est une autre question (vérité et bonheur)."},
+        {t:"La vérité est facile à trouver, mais difficile à dire.",fb:"Le sujet porte sur la connaissance, pas sur la parole."}]}/></div>
+      <div className="card card-pad" style=${{background:"var(--alt)"}}><${QCMOne} id="n4b2" q="Quelle problématique est la mieux formulée ?" options=${[
+        {t:"Qu’est-ce que la vérité ?",fb:"Trop large : on perd le lien entre certitude et vérité."},
+        {t:"Le sentiment de certitude suffit-il à garantir que l’on possède la vérité, ou celle-ci reste-t-elle un horizon que l’on approche sans jamais le posséder ?",ok:true,fb:"Deux réponses s’opposent clairement : c’est un dilemme."},
+        {t:"Descartes a-t-il raison ?",fb:"Un sujet de dissertation ne porte pas sur un auteur."}]}/></div>
+      <div className="card card-pad" style=${{background:"var(--alt)"}}>
+        <p className="q" style=${{marginBottom:"8px"}}>Remets les trois parties du plan dans un ordre dialectique.</p>
+        <${Order} id="n4b3" items=${[
+          {t:"Certaines certitudes semblent bien nous donner la vérité : l’évidence du cogito, les démonstrations mathématiques (Descartes, Spinoza).",role:"I. Thèse"},
+          {t:"Mais la certitude peut accompagner l’erreur, et la science elle-même se corrige sans cesse (Bachelard, Popper).",role:"II. Objection"},
+          {t:"On ne détient pas la vérité comme un objet : on s’en approche par une méthode qui accepte d’être corrigée (Russell, Kant).",role:"III. Dépassement"}]}/>
+      </div>
+    </section>
+    <section className="card card-pad ex">
+      <div className="ex-head"><h3>C. En autonomie</h3><span className="chip acc">Sujet : à chacun sa vérité ?</span></div>
+      <${Open} id="n4c" rows=${10}
+        prompt="Rédige au brouillon : l’analyse des termes, la problématique et un plan en trois parties."
+        criteria=${["Les termes « chacun » et « vérité » sont définis","Le problème est formulé comme un dilemme","Le plan progresse (I → II → III), il ne juxtapose pas","La partie III utilise une distinction","Chaque partie s’appuie sur au moins un auteur"]}
+        simple="Le relativisme est séduisant mais se contredit : il vaut pour les goûts, pas pour les faits."
+        model=${html`<span className="tag">Corrigé possible</span>
+          <p><strong>Termes.</strong> « À chacun » : à chaque individu, selon son point de vue. « Sa vérité » : une vérité qui lui appartiendrait en propre. L’expression a l’air tolérante, mais elle suggère que la vérité dépend de celui qui juge.</p>
+          <p><strong>Problème.</strong> D’un côté, la vérité est l’accord d’un jugement avec un réel qui est le même pour tous : il ne devrait donc y avoir qu’une vérité. De l’autre, chacun n’accède au réel qu’à travers ses perceptions et sa sensibilité, et les hommes ne parviennent pas à s’accorder. La vérité est-elle relative à chacun, ou peut-elle être commune à tous malgré la diversité des points de vue ?</p>
+          <p><strong>I.</strong> Chacun perçoit le monde à sa façon : le relativisme semble s’imposer (Protagoras, les sceptiques).</p>
+          <p><strong>II.</strong> Mais le relativisme se contredit et rend impossibles le dialogue et la science : si chacun a sa vérité, personne ne se trompe et plus rien ne se discute (Platon contre les sophistes).</p>
+          <p><strong>III.</strong> Il faut délimiter le relativisme : légitime pour les goûts, il ne l’est pas pour les faits. Et la connaissance objective reste possible, car tous les esprits partagent les mêmes formes (Kant).</p>`}
+        details=${html`<p><strong>Ce que ton cours apporte.</strong> Ton cahier pose déjà le dilemme : « 1 réalité, donc 1 vérité » contre « on accède à la réalité à travers nos perceptions ». Il note aussi les risques du relativisme : fermeture du débat, confusion entre opinion et savoir, impossibilité de la science. Ce sont les arguments de la partie II.</p><p><strong>Piège à éviter.</strong> Une partie III qui dit seulement « les deux ont raison ». Il faut une distinction qui dit <em>où</em> chacun a raison.</p>`}/>
+    </section>
+  </div>`;
+}
+function QCMOne({id,q,options}){
+  const markDone = useDone(id);
+  return html`<${QCM} q=${q} options=${options} onAnswer=${ok=>markDone(ok?1:0,1)}/>`;
+}
+/* ============ EXPLICATION DE TEXTE : TOCQUEVILLE ============ */
+function parseLine(line, li){
+  const out=[]; const re=/\{\{([^|}]+)\|([^}]+)\}\}/g; let last=0, m, n=0;
+  const plain = s => s.split(/(\s+)/).forEach(w=>{ if(!w) return; if(/^\s+$/.test(w)) out.push({sp:w}); else out.push({id:"w"+li+"_"+(n++), text:w, plain:true}); });
+  while((m=re.exec(line))){ if(m.index>last) plain(line.slice(last,m.index)); out.push({id:m[1],text:m[2]}); last=re.lastIndex; }
+  if(last<line.length) plain(line.slice(last));
+  return out;
+}
+const TQ_TOK = TQ_LINES.map(parseLine);
+
+const ETAPES = [
+ {n:1,t:"Appréhender le texte"},
+ {n:2,t:"Structure argumentative"},
+ {n:3,t:"Analyser le texte"},
+ {n:4,t:"Préparer l’introduction"},
+ {n:5,t:"Le travail au propre"}
+];
+const TQ_STEPS = [
+ {id:"e1a",et:1,t:"Les pièges"},
+ {id:"e1b",et:1,t:"Première lecture"},
+ {id:"e1c",et:1,t:"Quadrillage",mode:"quad"},
+ {id:"e1d",et:1,t:"Définir"},
+ {id:"e2a",et:2,t:"Thème, thèse, problème"},
+ {id:"e2b",et:2,t:"Découpage"},
+ {id:"e2c",et:2,t:"Ce que fait le texte"},
+ {id:"e2d",et:2,t:"Le raisonnement",mode:"conn"},
+ {id:"e3a",et:3,t:"Arguments"},
+ {id:"e3b",et:3,t:"Figures de style",hl:[6,7,12,19,20,28,29]},
+ {id:"e3c",et:3,t:"Exemples"},
+ {id:"e3d",et:3,t:"Autres auteurs"},
+ {id:"e3e",et:3,t:"Questions 1 à 3"},
+ {id:"e3f",et:3,t:"Transition",hl:[9,10,11,12,13,14]},
+ {id:"e4a",et:4,t:"Construire"},
+ {id:"e4b",et:4,t:"Rédiger"},
+ {id:"e5a",et:5,t:"Conclusion"},
+ {id:"e5b",et:5,t:"Relecture"}
+];
+
+function TextPanel({mode,hl,quad,setQuad,showSol,onHide,focus,onFocus}){
+  const hlSet = new Set(hl||[]);
+  const box = useRef(null);
+  const lastW = useRef(0);
+  const [fs,setFs] = useState(15);
+  const [auto,setAuto] = useState(true);
+  const [wrap,setWrap] = useState(false);
+  /* Ajustement automatique : chaque ligne numérotée doit tenir dans la largeur du panneau */
+  useLayoutEffect(()=>{
+    if(!auto) return;
+    const el = box.current; if(!el) return;
+    const fit = (force)=>{
+      const w = el.clientWidth;
+      if(!force && w===lastW.current) return;
+      lastW.current = w;
+      const prevFs = el.style.fontSize, hadWrap = el.classList.contains("wrap");
+      el.style.fontSize = "16px"; el.classList.remove("wrap");
+      const txs = el.querySelectorAll(".tx");
+      let need = 0; const avail = txs.length ? txs[0].clientWidth : 0;
+      txs.forEach(t=>{ need = Math.max(need, t.scrollWidth); });
+      el.style.fontSize = prevFs; if(hadWrap) el.classList.add("wrap");
+      if(!avail || !need) return;
+      const f = Math.min(17, 16*avail/need*0.97);
+      if(f < 12.5){ setWrap(true); setFs(14); } else { setWrap(false); setFs(Math.floor(f*4)/4); }
+    };
+    fit(true);
+    if(typeof ResizeObserver==="undefined") return;
+    const ro = new ResizeObserver(()=>fit(false)); ro.observe(el);
+    return ()=>ro.disconnect();
+  },[auto]);
+  const bump = d=>{ setAuto(false); setWrap(false); setFs(f=>Math.max(11,Math.min(22,Math.round(f)+d))); };
+  const clickTok = (tok)=>{
+    if(mode!=="quad"||quad.checked) return;
+    setQuad(q=>{ const a={...q.assign}; if(a[tok.id]===q.cat) delete a[tok.id]; else a[tok.id]=q.cat; return {...q,assign:a}; });
+  };
+  const clsFor = (tok)=>{
+    if(mode==="conn") return (!tok.plain && tok.id[0]==="c") ? "tok cC" : "";
+    if(mode!=="quad") return "";
+    if(showSol){
+      const t = QUAD[tok.id]; if(!t) return quad.assign[tok.id]?"tok":"tok";
+      let c = "tok c"+t.cats[0];
+      if(t.core && !t.cats.includes(quad.assign[tok.id])) c += " miss";
+      return c;
+    }
+    const a = quad.assign[tok.id];
+    return "tok"+(a?" c"+a:"");
+  };
+  return html`<div className="card text-panel">
+    <div className="text-head">
+      <span className="small"><strong>Le texte</strong> <span className="muted">· lignes de ta feuille</span></span>
+      <span className="row tools" style=${{gap:"4px"}}>
+        <button className="iconbtn" aria-label="Réduire le texte" title="Réduire le texte" onClick=${()=>bump(-1)}><span className="aa sm">A</span></button>
+        <button className="iconbtn" aria-label="Agrandir le texte" title="Agrandir le texte" onClick=${()=>bump(1)}><span className="aa">A</span></button>
+        <button className="btn sm" aria-pressed=${auto} onClick=${()=>{ lastW.current=0; setAuto(true); }} title="Adapter la taille pour que chaque ligne tienne en entier">Ajuster</button>
+        ${onFocus && html`<button className="btn sm wide-only" aria-pressed=${!!focus} onClick=${onFocus} title="Masquer ou afficher le menu de gauche">${focus?"Afficher le menu":"Masquer le menu"}</button>`}
+        ${onHide && html`<button className="btn ghost sm collapse-btn" onClick=${onHide}>Masquer</button>`}
+      </span>
+    </div>
+    <div className=${"ttext"+(wrap?" wrap":"")} ref=${box} style=${{fontSize:fs+"px"}}>
+      ${TQ_TOK.map((toks,li)=>{
+        const n = li+1;
+        const cls = "tline"+(TQ_PARA.includes(n)?" para":"")+(hl&&hl.length?(hlSet.has(n)?" hl":" dim"):"");
+        return html`<div key=${li} className=${cls}><span className="ln">${n}</span><span className="tx">
+          ${toks.map((t,j)=>{
+            if(t.sp) return t.sp;
+            const c = clsFor(t);
+            if(mode==="quad") return html`<span key=${j} className=${c} role="button" tabIndex=${quad.checked?-1:0} onClick=${()=>clickTok(t)} onKeyDown=${e=>{if(e.key==="Enter"){e.preventDefault();clickTok(t);}}}>${t.text}</span>`;
+            return c ? html`<span key=${j} className=${c}>${t.text}</span>` : t.text;
+          })}
+        </span></div>`;
+      })}
+    </div>
+    <div className="source">Alexis de Tocqueville, <u>De la démocratie en Amérique</u>, II, 1840.</div>
+  </div>`;
+}
+
+/* --- Étape 1c : quadrillage --- */
+function Quadrillage({quad,setQuad,showSol,setShowSol}){
+  const markDone = useDone("e1c");
+  const core = Object.entries(QUAD).filter(([k,v])=>v.core);
+  const stat = k => { const list = core.filter(([id,v])=>v.cats[0]===k); return {f:list.filter(([id,v])=>v.cats.includes(quad.assign[id])).length, n:list.length}; };
+  const plainAssigned = Object.entries(quad.assign).filter(([id])=>!QUAD[id]);
+  const wrongCat = Object.entries(quad.assign).filter(([id,c])=>QUAD[id] && !QUAD[id].cats.includes(c) && c!=="D");
+  const usedE = Object.values(quad.assign).includes("E");
+  const myD = Object.entries(quad.assign).filter(([id,c])=>c==="D").map(([id])=>{ for(const toks of TQ_TOK){ const t = toks.find(x=>x.id===id); if(t) return t.text; } return id; });
+  const check = ()=>{ setQuad(q=>({...q,checked:true})); const s=["C","K","R"].map(stat); markDone(s.reduce((a,x)=>a+x.f,0), s.reduce((a,x)=>a+x.n,0)); };
+  return html`<div className="ex">
+    <p className="consigne"><b>Deuxième lecture.</b> Choisis une couleur, puis clique sur les mots du texte pour les marquer. Clique à nouveau pour effacer. Un groupe de mots (« c’est-à-dire », « croyances dogmatiques ») se marque en entier.</p>
+    <div className="pal" role="group" aria-label="Code couleur">
+      ${QCATS.map(c=>html`<button key=${c.k} aria-pressed=${quad.cat===c.k} disabled=${quad.checked} onClick=${()=>setQuad(q=>({...q,cat:c.k}))}>
+        <i className="sw" style=${{background:`var(--c-${c.k}-soft)`,boxShadow:`inset 0 -3px 0 var(--c-${c.k})`}}></i>${c.label}</button>`)}
+    </div>
+    <div className="row">
+      ${!quad.checked && html`<button className="btn primary" onClick=${check}><${Icon} name="check" size=${16}/>Comparer avec le corrigé</button>`}
+      ${!quad.checked && html`<span className="small muted">${Object.keys(quad.assign).length} marquage(s)</span>`}
+      ${quad.checked && html`<button className="btn sm" aria-pressed=${showSol} onClick=${()=>setShowSol(!showSol)}><${Icon} name="eye" size=${15}/>${showSol?"Revoir mon quadrillage":"Afficher le corrigé sur le texte"}</button>`}
+      ${quad.checked && html`<button className="btn sm" onClick=${()=>{setQuad({assign:{},cat:"C",checked:false});setShowSol(false);}}><${Icon} name="refresh" size=${15}/>Recommencer</button>`}
+    </div>
+    ${quad.checked && html`<div className="stack fade">
+      <div className="items">
+        ${[["C","Connecteurs logiques"],["K","Concepts importants"],["R","Repères"]].map(([k,l])=>{ const s=stat(k); return html`<div key=${k} className=${"item "+(s.f/s.n>=0.6?"is-ok":"is-bad")}>
+          <span><strong>${l}</strong> · essentiels trouvés</span><span className="score">${s.f} / ${s.n}</span></div>`; })}
+      </div>
+      <div className="verdict info"><strong>Exemples :</strong> ${usedE?"tu as marqué un exemple, mais ":""}le texte n’en contient <strong>aucun</strong>. C’est une information importante : ta méthode dit que, dans ce cas, tu dois en introduire toi-même pour rendre le propos concret (étape 3).</div>
+      ${wrongCat.length>0 && html`<div className="verdict bad"><strong>À reclasser :</strong> ${wrongCat.map(([id,c])=>QUAD[id].lab+" → "+(QCATS.find(x=>x.k===QUAD[id].cats[0])||{}).label.toLowerCase()).join(" ; ")}.</div>`}
+      ${plainAssigned.length>0 && html`<p className="small muted">${plainAssigned.length} autre(s) mot(s) marqué(s) hors du corrigé : ce n’est pas une faute, mais demande-toi s’ils servent vraiment l’analyse.</p>`}
+      <p className="small muted">Sur le corrigé, les pointillés verts signalent les éléments essentiels que tu n’as pas marqués.</p>
+      <${Details}>
+        <h4>Connecteurs logiques</h4>
+        ${Object.entries(QUAD).filter(([k,v])=>v.cats[0]==="C").map(([k,v])=>html`<p key=${k}><strong>${v.lab}${v.core?"":" (facultatif)"}.</strong> ${rich(v.why)}</p>`)}
+        <h4>Concepts importants</h4>
+        ${Object.entries(QUAD).filter(([k,v])=>v.cats[0]==="K").map(([k,v])=>html`<p key=${k}><strong>${v.lab}${v.core?"":" (facultatif)"}.</strong> ${rich(v.why)}</p>`)}
+        <h4>Repères philosophiques</h4>
+        ${Object.entries(QUAD).filter(([k,v])=>v.cats[0]==="R").map(([k,v])=>html`<p key=${k}><strong>${v.lab}.</strong> ${rich(v.why)}</p>`)}
+        <h4>Termes difficiles</h4>
+        <p>Cette catégorie dépend de chacun : elle n’est pas notée. ${myD.length?`Tu as marqué : ${myD.join(", ")}.`:"Tu n’en as marqué aucun."} Voici ceux qui posent souvent problème :</p>
+        ${Object.entries(QUAD).filter(([k,v])=>v.cats[0]==="D").map(([k,v])=>html`<p key=${k}><strong>${v.lab}.</strong> ${rich(v.why)}</p>`)}
+      <//>
+    </div>`}
+  </div>`;
+}
+
+/* --- Étape 4a : construire l'introduction --- */
+const INTRO_SLOTS = [
+ {lab:"Présentation du texte et thème",opts:[
+   {t:"De tout temps, les hommes se sont interrogés sur la vérité.",why:"Formule banale : elle ne présente ni le texte, ni son thème précis."},
+   {t:"Qui a vérifié par lui-même que la Terre tourne autour du Soleil ? Presque personne, et pourtant nous le tenons pour vrai. Dans cet extrait de __De la démocratie en Amérique__ (1840), Alexis de Tocqueville s’interroge sur les opinions que nous acceptons de confiance : le texte porte sur la vérité et sur le rapport entre croire et savoir.",ok:true,why:"Un exemple concret qui amène le thème, l’auteur, le titre souligné et le couple de notions."},
+   {t:"Alexis de Tocqueville, né en 1805, est un magistrat et historien français qui a voyagé aux États-Unis.",why:"Une biographie : la méthode demande de ne pas réciter des connaissances sur l’auteur."}]},
+ {lab:"Problème (sous forme de dilemme)",opts:[
+   {t:"Tocqueville a-t-il raison ?",why:"Trop vague : ce n’est pas une question philosophique générale."},
+   {t:"Qu’est-ce que la démocratie ?",why:"Hors sujet : on confond le titre de l’œuvre et le thème de l’extrait."},
+   {t:"D’un côté, penser librement semble exiger que chacun examine tout par lui-même. De l’autre, aucun homme ne peut tout vérifier, et une société a besoin d’idées partagées. Faut-il alors choisir entre une liberté de pensée impossible et une dépendance qui semble asservir l’esprit ?",ok:true,why:"Deux exigences opposées sont posées : c’est un dilemme, et il dépasse le texte."}]},
+ {lab:"Thèse (reformulée, sans citation)",opts:[
+   {t:"Tocqueville affirme que « c’est une servitude salutaire qui permet de faire un bon usage de la liberté ».",why:"La grille interdit les citations en introduction, et la thèse ne doit pas être réduite à une citation."},
+   {t:"Tocqueville répond que les opinions acceptées de confiance sont à la fois inévitables et nécessaires : elles rendent possible la vie commune et permettent à chacun, limité par le temps et par son esprit, de concentrer son examen sur quelques questions. Cette dépendance est donc une soumission, mais une soumission bénéfique, qui sert la liberté.",ok:true,why:"La thèse est entièrement reformulée et reprend l’idée générale qui soutient tout le texte."},
+   {t:"Tocqueville pense qu’il faut croire tout ce que disent les autres.",why:"Contresens : il faut *choisir* ce que l’on examine soi-même (l. 25-27)."}]},
+ {lab:"Plan (ce que fait le texte, avec les lignes)",opts:[
+   {t:"Nous allons d’abord étudier la définition, puis l’argument, et enfin la conclusion.",why:"La grille demande « l’auteur montre que… » et non « nous allons… ». Les lignes manquent."},
+   {t:"L’auteur commence par définir ces croyances et montre qu’aucune société ne peut exister sans elles (l. 1-12). Il établit ensuite qu’elles sont aussi indispensables à la pensée individuelle, en raison des limites de la vie et de l’esprit (l. 13-25). Il conclut enfin que chacun doit choisir ce qu’il examine, et que cette dépendance permet un bon usage de la liberté (l. 25-30).",ok:true,why:"Les verbes disent ce que fait le texte (définit, établit, conclut), et chaque mouvement est situé."},
+   {t:"Nous verrons dans une première partie la thèse, dans une deuxième l’antithèse et dans une troisième la synthèse.",why:"C’est un plan de dissertation. L’explication suit le mouvement du texte."}]},
+ {lab:"Enjeux",opts:[
+   {t:"Ce texte est intéressant car il parle de la vérité.",why:"Trop vague : aucune conséquence concrète."},
+   {t:"L’enjeu est de savoir si Tocqueville est un bon philosophe.",why:"L’enjeu porte sur la question, pas sur l’auteur."},
+   {t:"L’enjeu est très concret : face aux réseaux sociaux et à la masse d’informations, nous devons sans cesse décider à qui faire confiance. Si Tocqueville a raison, être libre ne consiste pas à tout vérifier soi-même, mais à accorder sa confiance avec discernement.",ok:true,why:"L’importance de la question dans la vie courante et une conséquence concrète de la thèse."}]}
+];
+function IntroBuilder(){
+  const [sel,setSel] = useState({});
+  const [checked,setChecked] = useState(false);
+  const markDone = useDone("e4a");
+  const all = Object.keys(sel).length===INTRO_SLOTS.length;
+  const score = INTRO_SLOTS.filter((s,i)=>s.opts[sel[i]] && s.opts[sel[i]].ok).length;
+  return html`<div className="ex">
+    <p className="consigne">Pour chaque étape de l’introduction, dans l’ordre de ta grille, choisis le meilleur paragraphe.</p>
+    ${INTRO_SLOTS.map((s,i)=>html`<div key=${i} className="stack" style=${{gap:"6px"}}>
+      <div className="sec-title">${i+1}. ${s.lab}</div>
+      <div className="opts">${s.opts.map((o,j)=>{
+        let cls="opt"; if(checked){ if(o.ok) cls+=" is-ok"; else if(sel[i]===j) cls+=" is-bad"; } else if(sel[i]===j) cls+=" is-ok";
+        return html`<button key=${j} className=${cls} disabled=${checked} aria-pressed=${sel[i]===j} onClick=${()=>setSel(x=>({...x,[i]:j}))}>
+          <span className="key">${"ABC"[j]}</span><span>${rich(o.t)}${checked && (o.ok||sel[i]===j) ? html`<span className="small muted" style=${{display:"block",marginTop:"4px"}}>${rich(o.why)}</span>` : null}</span></button>`;
+      })}</div>
+    </div>`)}
+    <div className="row">
+      ${!checked && html`<button className="btn primary" disabled=${!all} onClick=${()=>{setChecked(true);markDone(score,INTRO_SLOTS.length);}}><${Icon} name="check" size=${16}/>Vérifier</button>`}
+      ${checked && html`<span className="score">${score} / ${INTRO_SLOTS.length}</span>`}
+      ${checked && html`<button className="btn sm" onClick=${()=>{setSel({});setChecked(false);}}><${Icon} name="refresh" size=${15}/>Recommencer</button>`}
+    </div>
+    ${checked && html`<div className="stack fade">
+      <div className="sec-title">L’introduction assemblée</div>
+      <div className="model">${INTRO_SLOTS.map((s,i)=>{ const o = s.opts.find(x=>x.ok); return html`<p key=${i}>${rich(o.t)}</p>`; })}</div>
+      <p className="small muted">Un alinéa par étape : ta grille rappelle que cela permet de vérifier que rien ne manque.</p>
+    </div>`}
+  </div>`;
+}
+
+const MODEL_INTRO = html`<span className="tag">Corrigé possible</span>
+  <p>Qui a vérifié par lui-même que la Terre tourne autour du Soleil, que les microbes existent ou que le médicament prescrit par son médecin est efficace ? Presque personne, et pourtant nous tenons ces affirmations pour vraies. Dans cet extrait de <u>De la démocratie en Amérique</u> (1840), Alexis de Tocqueville s’interroge sur les opinions que nous acceptons de confiance : le texte porte sur la vérité et sur le rapport entre croire et savoir.</p>
+  <p>Un dilemme apparaît alors. D’un côté, penser librement semble exiger que chacun examine tout par lui-même, sans rien admettre sur la parole d’autrui. De l’autre, aucun homme ne peut tout vérifier, et une société a besoin d’idées partagées. Faut-il choisir entre une liberté de pensée impossible et une dépendance qui semble asservir l’esprit ?</p>
+  <p>Tocqueville répond que les opinions acceptées de confiance, sans examen, sont à la fois inévitables et nécessaires. Elles rendent possible la vie commune, et elles permettent à chaque individu, limité par le temps et par les capacités de son esprit, de concentrer son examen sur quelques questions. Cette dépendance est donc une soumission, mais une soumission bénéfique, qui sert la liberté au lieu de la détruire.</p>
+  <p>L’auteur commence par définir ces croyances et montre qu’aucune société ne peut exister sans elles (l. 1-12). Il établit ensuite qu’elles sont aussi indispensables à la pensée individuelle, en raison des limites de la vie et de l’esprit humains (l. 13-25). Il conclut enfin que chacun doit choisir ce qu’il examine lui-même, et que cette dépendance permet un bon usage de la liberté (l. 25-30).</p>
+  <p>L’enjeu est très actuel : face aux réseaux sociaux et à la surabondance d’informations, nous devons sans cesse décider à qui faire confiance. Si Tocqueville a raison, être libre ne consiste pas à tout vérifier soi-même, mais à savoir accorder sa confiance avec discernement.</p>`;
+
+const INTRO_CRIT = [
+ "**Présentation** : auteur, titre souligné, thème (notion ou couple de notions)",
+ "**Problème** : une question générale, formulée comme un dilemme",
+ "**Thèse** : reformulée, pas réduite à une citation",
+ "**Plan** : ce que fait le texte, « l’auteur montre que… », lignes précisées",
+ "**Enjeux** : importance dans la vie courante, conséquences concrètes",
+ "**Forme** : aucune citation, pas de paraphrase, phrases simples, un alinéa par étape"
+];
+
+function Step({id,quad,setQuad,showSol,setShowSol}){
+  switch(id){
+  case "e1a": return html`<div className="ex">
+    <p className="consigne">Ta méthode commence par ce qu’il <b>ne faut pas faire</b> : un exposé général à partir du texte, un résumé, une récitation de la doctrine de l’auteur. Voici des phrases tirées de copies sur ce texte. Classe-les.</p>
+    <${Classify} id="e1a" cats=${[{k:"R",label:"Résumé"},{k:"G",label:"Exposé général"},{k:"D",label:"Récitation"},{k:"E",label:"Explication"}]} items=${[
+      {t:"Tocqueville dit que les croyances dogmatiques existent toujours, que la société en a besoin et que l’homme ne peut pas tout vérifier.",c:"R",why:"Redit le texte dans l’ordre, sans expliquer ni montrer comment il argumente."},
+      {t:"Depuis toujours, les hommes se demandent ce qu’est la vérité. Pour certains philosophes elle est absolue, pour d’autres relative.",c:"G",why:"Le texte devient un prétexte pour parler d’autre chose."},
+      {t:"Tocqueville, aristocrate libéral né en 1805, a voyagé en Amérique en 1831 et redoutait la tyrannie de la majorité.",c:"D",why:"Des connaissances sur l’auteur, qui ne servent pas l’analyse de ce passage."},
+      {t:"Le connecteur « or » (l. 9) introduit une seconde prémisse : sans idées communes, pas de société. Tocqueville en tire que les croyances reçues sont une condition de la vie collective.",c:"E",why:"Repère un élément précis, situé par sa ligne, et montre ce qu’il fait dans l’argument."},
+      {t:"En parlant de « servitude salutaire » (l. 29), Tocqueville unit deux termes opposés pour montrer qu’une dépendance peut servir la liberté.",c:"E",why:"Analyse une expression (un mot-clé, pas une phrase entière) et son but argumentatif."},
+      {t:"Le texte parle de la confiance. La confiance est importante dans la vie, en amitié comme en amour.",c:"G",why:"On quitte le texte pour des généralités."}
+    ]}/></div>`;
+  case "e1b": return html`<div className="stack" style=${{gap:"18px"}}>
+    <p className="consigne"><b>Première lecture, sans prise de notes.</b> Lis le texte une fois en entier. Ne surligne rien. Puis réponds de mémoire.</p>
+    <${QCM} q="En une phrase, de quoi parle ce texte ?" options=${[
+      {t:"Des opinions que nous acceptons sans les vérifier, et de leur nécessité.",ok:true,fb:"C’est le sujet du texte, avant même d’en connaître la thèse précise."},
+      {t:"Du fonctionnement de la démocratie américaine.",fb:"C’est le titre de l’œuvre, pas le thème de cet extrait."},
+      {t:"Du danger des fausses informations.",fb:"Le texte défend plutôt la nécessité de faire confiance. Le danger n’apparaît qu’en creux (« la foule », l. 19)."}]}/>
+    <${Open} id="e1b" rows=${4} prompt="Note ce qui t’a surpris ou ce que tu n’as pas compris, en proposant une hypothèse d’interprétation."
+      hint="Ta grille l’exige : « Je propose des hypothèses d’interprétation, même lorsque je ne comprends pas. »"
+      simple="Un passage obscur n’est pas un obstacle : c’est souvent là que se trouve le cœur du texte."
+      model=${html`<span className="tag">Exemple de réaction</span><p>La dernière phrase m’a surpris : comment une « servitude » peut-elle permettre la liberté ? Hypothèse : Tocqueville veut peut-être dire qu’en faisant confiance aux autres pour beaucoup de choses, on garde du temps et de l’énergie pour réfléchir vraiment à quelques questions.</p>`}/>
+  </div>`;
+  case "e1c": return html`<${Quadrillage} quad=${quad} setQuad=${setQuad} showSol=${showSol} setShowSol=${setShowSol}/>`;
+  case "e1d": return html`<div className="stack" style=${{gap:"18px"}}>
+    <p className="consigne">Ta grille demande de <b>définir</b> les concepts clés et de les <b>distinguer</b> d’autres concepts ou d’autres sens des mots.</p>
+    <${Match} id="e1d" pairs=${[
+      {l:"croyances dogmatiques (l. 1-5)",r:"Opinions reçues de confiance, sans discussion",why:"Définition donnée par le texte lui-même, l. 4-5."},
+      {l:"confiance (l. 4)",r:"Fait de s’en remettre à autrui sans exiger de preuve",why:"C’est le mode d’acceptation de ces croyances."},
+      {l:"croyance commune (l. 8)",r:"Opinion partagée qui permet d’agir ensemble",why:"Lien établi l. 11 : idées communes → action commune."},
+      {l:"corps social (l. 12)",r:"La société comme un tout organisé, pas une addition d’individus",why:"Opposé à « des hommes » juxtaposés."},
+      {l:"certitude (l. 25)",r:"État d’un esprit qui ne doute plus",why:"Ce que l’homme qui veut tout examiner ne peut jamais atteindre."},
+      {l:"servitude salutaire (l. 29)",r:"Dépendance bénéfique pour celui qui l’accepte",why:"« Salutaire » : qui sauve, comme un remède."}]}/>
+    <div className="card card-pad" style=${{background:"var(--alt)"}}>
+    <${QCM} q="Le mot « dogmatique » est-il péjoratif dans ce texte ?" options=${[
+      {t:"Oui : Tocqueville critique les gens dogmatiques.",fb:"C’est le sens courant, mais pas celui du texte. Tocqueville défend ces croyances."},
+      {t:"Non : il est descriptif et désigne une opinion reçue, comme un dogme, sans examen.",ok:true,fb:"Il faut le distinguer du **dogmatisme**, qui refuse par principe toute discussion."},
+      {t:"Oui, car il s’oppose à la science.",fb:"La science elle-même repose en partie sur la confiance accordée aux résultats d’autrui."}]}
+      explain="**Distinguer** : une *croyance dogmatique* au sens de Tocqueville est une opinion que je reçois sans l’examiner, faute de temps. Le *dogmatisme* est une attitude qui refuse l’examen par principe. Je peux recevoir beaucoup d’opinions de confiance sans être dogmatique, si j’accepte qu’elles soient discutées."/>
+    </div>
+  </div>`;
+  case "e2a": return html`<div className="stack" style=${{gap:"18px"}}>
+    <${QCM} q="**Thème.** De quoi traite le texte (notion ou couple de notions) ?" options=${[
+      {t:"De la vérité et de la croyance : le rapport entre croire et savoir.",ok:true,fb:"La liberté apparaît aussi à la fin : le texte relie vérité, croyance et liberté de penser."},
+      {t:"Du travail.",fb:"Aucun rapport avec l’extrait."},
+      {t:"De la démocratie comme régime politique.",fb:"La société est en jeu (l. 9-12), mais le cœur du texte est la formation de nos opinions."}]}/>
+    <${QCM} q="**Thèse.** Quelle formulation exprime le mieux l’idée générale qui soutient tout le texte ?" options=${[
+      {t:"Les croyances dogmatiques sont dangereuses, car elles mettent l’esprit en esclavage.",fb:"Contresens : c’est l’objection que Tocqueville concède (l. 27-29) pour mieux la retourner."},
+      {t:"Les croyances dogmatiques sont plus ou moins nombreuses suivant les temps.",fb:"C’est la première phrase recopiée : un détail, pas la thèse."},
+      {t:"Personne ne peut tout examiner : accepter de confiance la plupart de ses opinions est la condition de la vie sociale et d’une pensée libre et approfondie.",ok:true,fb:"Elle couvre les trois mouvements du texte et elle est reformulée."},
+      {t:"Il faut penser par soi-même et tout vérifier.",fb:"C’est la position que Tocqueville juge impossible (l. 13-25)."}]}/>
+    <${QCM} q="**Problème.** Quelle question, sous forme de dilemme, le texte cherche-t-il à résoudre ?" options=${[
+      {t:"Qu’est-ce qu’une croyance dogmatique ?",fb:"Une question de définition, pas un dilemme. Le texte y répond en une ligne."},
+      {t:"Faut-il tout examiner par soi-même pour penser librement, ou la confiance accordée aux opinions d’autrui est-elle une condition de la pensée ?",ok:true,fb:"Deux réponses opposées sont possibles : c’est un vrai problème, et la thèse y répond."},
+      {t:"La démocratie américaine est-elle un bon régime ?",fb:"Hors sujet."}]}/>
+    <${Open} id="e2a" rows=${3} prompt="Reformule la thèse avec tes mots, en une ou deux phrases, sans aucune citation."
+      simple="Nul ne peut tout vérifier ; la confiance, bien choisie, rend possibles la société et une pensée approfondie."
+      details=${html`<p>Ta grille : « Ne pas réduire la thèse à une citation mais faire un effort d’explicitation et de reformulation. » Test simple : si ta phrase contient plus de trois mots consécutifs du texte, reformule.</p>`}/>
+  </div>`;
+  case "e2b": return html`<div className="stack" style=${{gap:"18px"}}>
+    <p className="consigne"><b>Troisième lecture : le quadrillage des moments.</b> Attribue chaque passage à l’un des trois mouvements du texte. Plusieurs découpages sont parfois possibles ; celui-ci suit les étapes du raisonnement.</p>
+    <${Classify} id="e2b" cats=${[{k:"1",label:"Mouvement 1"},{k:"2",label:"Mouvement 2"},{k:"3",label:"Mouvement 3"}]} items=${[
+      {t:"l. 1-5 · « Les croyances dogmatiques… sans les discuter »",c:"1",why:"Thèse de départ et définition."},
+      {t:"l. 5-8 · « Si chacun entreprenait… croyance commune »",c:"1",why:"Première hypothèse, à l’échelle de la société."},
+      {t:"l. 9-12 · « Or, il est facile de voir… corps social »",c:"1",why:"Seconde prémisse : sans idées communes, pas de société."},
+      {t:"l. 13-19 · « Si l’homme était forcé… la foule adopte »",c:"2",why:"Changement d’échelle : on passe de la société à l’individu."},
+      {t:"l. 19-20 · « C’est sur ce premier fondement… »",c:"2",why:"Conséquence : ces croyances servent de fondation à la pensée."},
+      {t:"l. 20-25 · « Un homme qui entreprendrait… aucune certitude »",c:"2",why:"Second argument par l’absurde : tout examiner empêche de rien approfondir."},
+      {t:"l. 25-27 · « Il faut donc… réservé l’examen »",c:"3",why:"« Donc » : conclusion pratique."},
+      {t:"l. 27-30 · « Il est vrai que… liberté »",c:"3",why:"Concession et retournement final."}]}/>
+    <p className="q">Donne maintenant un titre à chaque mouvement.</p>
+    <${Match} id="e2b2" pairs=${[
+      {l:"Mouvement 1 (l. 1-12)",r:"Les croyances reçues sont la condition de toute société"},
+      {l:"Mouvement 2 (l. 13-25)",r:"Elles sont nécessaires à un esprit limité par le temps"},
+      {l:"Mouvement 3 (l. 25-30)",r:"Choisir ce qu’on examine : une servitude salutaire"}]}/>
+  </div>`;
+  case "e2c": return html`<div className="stack" style=${{gap:"18px"}}>
+    <div className="verdict info"><strong>Dire ≠ faire.</strong> Ce que le texte <em>dit</em> : « l’homme n’a pas le temps ». Ce que le texte <em>fait</em> : il justifie sa thèse par la finitude humaine. Ta grille demande d’exposer ce que le texte fait : il introduit un argument, contredit une thèse, exemplifie, nuance…</div>
+    <p className="consigne">Pour chaque passage, choisis ce que fait l’auteur.</p>
+    <${Match} id="e2c" pairs=${[
+      {l:"l. 1-3",r:"Pose sa thèse de départ",why:"Les croyances dogmatiques changent, mais ne disparaissent jamais."},
+      {l:"l. 4-5",r:"Définit un concept",why:"« c’est-à-dire » annonce la définition."},
+      {l:"l. 5-8",r:"Fait une hypothèse pour en montrer l’absurdité",why:"« Si chacun… » : la conséquence serait qu’aucune croyance commune ne pourrait naître."},
+      {l:"l. 9-12",r:"Ajoute une prémisse et la justifie",why:"« Or » ajoute l’idée qu’une société a besoin d’idées communes ; « car » la justifie."},
+      {l:"l. 13-19",r:"Transpose l’argument à l’échelle de l’individu",why:"On passe de « chacun » dans la société à « l’homme » face à ses propres pensées."},
+      {l:"l. 20-25",r:"Renforce par une seconde hypothèse absurde",why:"Tout examiner empêcherait d’approfondir quoi que ce soit."},
+      {l:"l. 25-27",r:"Tire une conclusion pratique",why:"« Il faut donc » : ce que chacun doit faire."},
+      {l:"l. 27-30",r:"Concède une objection, puis la retourne",why:"« Il est vrai que… mais » : l’esclavage devient une servitude salutaire."}]}/>
+  </div>`;
+  case "e2d": return html`<div className="stack" style=${{gap:"18px"}}>
+    <p className="consigne">Les connecteurs sont surlignés en bleu dans le texte. Indique la fonction de chacun.</p>
+    <${Match} id="e2d1" pairs=${[
+      {l:"« mais » (l. 3)",r:"Opposition"},
+      {l:"« c’est-à-dire » (l. 4)",r:"Définition, reformulation"},
+      {l:"« Si » (l. 5)",r:"Hypothèse"},
+      {l:"« Or » (l. 9)",r:"Ajout d’une prémisse"},
+      {l:"« ou plutôt » (l. 10)",r:"Rectification qui renforce"},
+      {l:"« car » (l. 11)",r:"Justification, cause"},
+      {l:"« donc » (l. 25)",r:"Conclusion"},
+      {l:"« afin d’ » (l. 26)",r:"But"},
+      {l:"« Il est vrai que… mais » (l. 27-29)",r:"Concession"}]}/>
+    <p className="q">Le premier mouvement cache un raisonnement en trois temps. Remets-le dans l’ordre.</p>
+    <${Order} id="e2d2" items=${[
+      {t:"Si chacun formait seul toutes ses opinions, aucune croyance commune ne pourrait naître.",role:"Première prémisse (l. 5-8)"},
+      {t:"Or, sans croyances communes, il n’y a pas d’action commune, donc pas de société.",role:"Seconde prémisse (l. 9-12)"},
+      {t:"Donc, sans opinions reçues de confiance, aucune société ne peut exister.",role:"Conclusion, implicite dans le texte"}]}/>
+    <p className="q">Quel type de raisonnement l’auteur utilise-t-il dans chaque passage ?</p>
+    <${Classify} id="e2d3" cats=${[{k:"Df",label:"Définition"},{k:"A",label:"Par l’absurde"},{k:"De",label:"Déductif"},{k:"Di",label:"Distinction"}]} items=${[
+      {t:"l. 1-5 · « c’est-à-dire d’opinions que les hommes reçoivent de confiance »",c:"Df",why:"L’auteur précise le sens d’un terme."},
+      {t:"l. 5-12 · « Si chacun entreprenait… mais non un corps social »",c:"A",why:"L’hypothèse conduit à une conséquence inacceptable : plus de société."},
+      {t:"l. 13-25 · « Si l’homme était forcé… aucune certitude »",c:"A",why:"Même schéma : vouloir tout prouver mène à ne rien savoir."},
+      {t:"l. 25-27 · « Il faut donc qu’il fasse un choix »",c:"De",why:"Applique à chacun la conclusion générale qui vient d’être établie."},
+      {t:"l. 27-30 · « esclavage… mais c’est une servitude salutaire »",c:"Di",why:"Distingue deux formes de dépendance : celle qui asservit et celle qui sert la liberté."}]}/>
+  </div>`;
+  case "e3a": return html`<div className="stack" style=${{gap:"18px"}}>
+    <p className="consigne">Ta grille : repérer les arguments et les <b>reformuler sans paraphrase</b>, c’est-à-dire <b>déplier</b> le sens et rendre raison de la logique de l’auteur. Pour chaque argument, choisis la meilleure reformulation.</p>
+    <div className="card card-pad" style=${{background:"var(--alt)"}}><${QCM} q="Argument 1 (l. 5-12)" options=${[
+      {t:"Si chacun entreprenait de former toutes ses opinions, les hommes ne se réuniraient dans aucune croyance commune ; or il n’y a pas de société sans croyances semblables.",fb:"C’est de la paraphrase : le texte est recopié avec quelques mots changés."},
+      {t:"Une société n’est pas une simple addition d’individus : pour agir ensemble, il faut partager des idées. Si chacun ne croyait que ce qu’il a vérifié seul, ces idées partagées ne pourraient pas exister.",ok:true,fb:"L’argument est déplié : on comprend *pourquoi* les croyances communes sont nécessaires."},
+      {t:"Tocqueville pense que la société est importante.",fb:"Trop vague : l’argument a disparu."}]}/></div>
+    <div className="card card-pad" style=${{background:"var(--alt)"}}><${QCM} q="Argument 2 (l. 13-25)" options=${[
+      {t:"L’homme est fini : sa vie est courte et son esprit limité. Vouloir tout démontrer, c’est s’épuiser sans avancer, et finalement ne rien connaître à fond.",ok:true,fb:"La finitude humaine est le ressort de l’argument."},
+      {t:"Si l’homme était forcé de se prouver toutes les vérités, il n’en finirait point et s’épuiserait en démonstrations préliminaires.",fb:"Paraphrase."},
+      {t:"Les hommes sont paresseux et préfèrent croire les autres.",fb:"Contresens : il ne s’agit pas de paresse, mais de limites que personne ne peut dépasser."}]}/></div>
+    <div className="card card-pad" style=${{background:"var(--alt)"}}><${QCM} q="Argument 3 (l. 25-30)" options=${[
+      {t:"Il faut tout croire sans discuter.",fb:"Contresens : il faut *choisir* un petit nombre de questions à examiner."},
+      {t:"Accepter de confiance la plupart de ses opinions libère l’attention pour examiner sérieusement quelques questions : la dépendance devient la condition d’une liberté réelle.",ok:true,fb:"Le paradoxe final est expliqué."},
+      {t:"Tout homme qui reçoit une opinion sur la parole d’autrui met son esprit en esclavage, mais c’est une servitude salutaire.",fb:"Paraphrase de la dernière phrase."}]}/></div>
+  </div>`;
+  case "e3b": return html`<div className="stack" style=${{gap:"18px"}}>
+    <p className="consigne">Ta grille demande de relever les <b>figures de style</b> qui donnent sens à l’argumentation, et de dire <b>pourquoi</b> l’auteur les emploie. Les lignes concernées sont surlignées.</p>
+    <${Match} id="e3b" pairs=${[
+      {l:"« servitude salutaire » (l. 29)",r:"Oxymore",why:"Deux termes opposés réunis : le paradoxe condense toute la thèse."},
+      {l:"« l’édifice de ses propres pensées », bâti sur un « premier fondement » (l. 19-20)",r:"Métaphore de la construction",why:"Les croyances reçues sont les fondations, invisibles mais indispensables, d’une pensée personnelle."},
+      {l:"« des chemins frayés par lui seul » (l. 6-7)",r:"Métaphore du chemin",why:"Chercher la vérité seul, c’est devoir tracer chaque route soi-même : épuisant et isolant."},
+      {l:"« corps social » (l. 12)",r:"Métaphore organique",why:"La société est un organisme dont les membres agissent ensemble, pas un tas d’individus."},
+      {l:"« met son esprit en esclavage » (l. 28-29)",r:"Image volontairement forte",why:"Tocqueville donne toute sa force à l’objection, pour que son retournement soit plus convaincant."}]}/>
+  </div>`;
+  case "e3c": return html`<div className="stack" style=${{gap:"18px"}}>
+    <p className="consigne">Le texte ne contient <b>aucun exemple</b>. Ta méthode dit alors : « j’en introduis pour rendre le propos concret ». Sélectionne ceux qui illustrent bien la thèse.</p>
+    <${Chips} id="e3c" items=${[
+      {t:"Croire que la Terre tourne autour du Soleil sans avoir fait les calculs",ok:true,why:"Une vérité reçue de « plus habiles » (l. 19), vérifiable en droit, que personne ne vérifie en fait."},
+      {t:"Prendre le traitement prescrit par son médecin",ok:true,why:"Confiance raisonnée en une compétence que l’on n’a pas."},
+      {t:"Suivre un GPS dans une ville inconnue",ok:true,why:"On agit sur la base d’informations qu’on n’a pas pu vérifier."},
+      {t:"Un chercheur qui s’appuie sur les résultats publiés par d’autres",ok:true,why:"Même la science repose sur la confiance : chacun approfondit un petit nombre de questions (l. 27)."},
+      {t:"Consulter un dictionnaire pour le sens d’un mot",ok:true,why:"Personne ne refait la langue seul : c’est une « croyance commune » (l. 8)."},
+      {t:"Croire une rumeur sur un camarade parce que toute la classe la répète",why:"Cela illustre plutôt le danger du texte : ce « que la foule adopte » (l. 19). Utile pour la discussion, pas pour illustrer la thèse."},
+      {t:"Démontrer soi-même le théorème de Pythagore",why:"C’est l’inverse : un savoir vérifié par soi-même, qui fait partie du « petit nombre » que l’on examine."},
+      {t:"Refuser un vaccin après avoir vu une seule vidéo",why:"Ce n’est pas un examen personnel, c’est une autre confiance, mal placée. Exemple utile pour discuter, pas pour illustrer."}]}/>
+    <${Open} id="e3c2" rows=${4} prompt="Choisis un exemple et explique en trois phrases ce qu’il montre et à quel moment du texte il se rattache."
+      simple="Un bon exemple est rattaché à une ligne précise et analysé, pas seulement cité."
+      model=${html`<span className="tag">Corrigé possible</span><p>Je prends le médicament que mon médecin me prescrit sans avoir lu les études qui prouvent son efficacité. Je n’ai ni le temps ni la compétence de les vérifier : c’est exactement la situation décrite lignes 15 à 19, où l’homme tient pour assurées des vérités trouvées par « de plus habiles ». Cette confiance n’est pas aveugle : elle s’adresse à une personne compétente, et elle me laisse libre de consacrer mon attention à d’autres questions.</p>`}/>
+  </div>`;
+  case "e3d": return html`<div className="stack" style=${{gap:"18px"}}>
+    <p className="consigne"><b>Prendre du recul.</b> Ta grille rappelle qu’identifier une doctrine adverse peut affiner l’analyse, mais que la référence à un autre auteur ne doit <b>jamais prendre le pas</b> sur l’explication. Situe chaque position par rapport à Tocqueville.</p>
+    <${Classify} id="e3d" cats=${[{k:"S",label:"Va dans le même sens"},{k:"O",label:"S’oppose"},{k:"N",label:"Nuance, précise"}]} items=${[
+      {t:"**Descartes**, première règle de la méthode : ne recevoir aucune chose pour vraie sans la connaître évidemment comme telle.",c:"O",why:"Tout examiner par soi-même : c’est ce que Tocqueville juge impossible."},
+      {t:"**Descartes**, morale par provision : pendant qu’il doute, il décide d’obéir aux lois et coutumes de son pays.",c:"S",why:"Même Descartes reconnaît qu’on ne peut pas vivre en attendant d’avoir tout examiné."},
+      {t:"**Kant** : il est commode de rester mineur, d’avoir un livre qui pense pour moi, un médecin qui juge de mon régime. *Sapere aude !*",c:"O",why:"Kant critique justement le confort de penser par autrui, avec les exemples mêmes que Tocqueville pourrait prendre."},
+      {t:"**Sénèque** : la foule est le pire interprète de la vérité.",c:"N",why:"Tocqueville met sur le même plan « les plus habiles » et « la foule » (l. 19). Sénèque oblige à les distinguer."},
+      {t:"**Pascal** : les premiers principes ne se démontrent pas ; on les connaît par le cœur.",c:"S",why:"On ne peut pas tout démontrer : la pensée repose sur ce qu’elle ne prouve pas."},
+      {t:"**La science moderne** : chaque chercheur s’appuie sur des résultats que d’autres ont vérifiés et que tous peuvent contrôler.",c:"N",why:"Elle confirme Tocqueville tout en précisant la condition de la bonne confiance : ce qui est reçu reste vérifiable en droit."}]}/>
+  </div>`;
+  case "e3e": return html`<div className="stack" style=${{gap:"20px"}}>
+    <p className="consigne">Les trois premières questions de ta feuille. Rédige, évalue-toi, puis compare avec le corrigé.</p>
+    <div className="card card-pad"><${Open} id="q1" rows=${5} prompt="**1.** Comment Tocqueville définit-il les croyances dogmatiques ?"
+      criteria=${["La définition du texte est repérée (l. 4-5)","Ses éléments sont expliqués : opinion, reçue, confiance, sans discussion","Le mot « dogmatique » est distingué du dogmatisme"]}
+      simple="Des opinions que l’on reçoit des autres, de confiance, sans les discuter (l. 4-5)."
+      details=${html`<p><strong>Opinions</strong> : ce ne sont pas des savoirs démontrés. <strong>Reçues</strong> : elles viennent d’autrui (des « plus habiles » ou de « la foule », l. 19). <strong>De confiance et sans discussion</strong> : on ne les examine pas.</p><p>Le mot n’est pas péjoratif ici : il ne désigne pas le dogmatisme, qui refuse l’examen par principe. Tocqueville ajoute que ces croyances changent de forme et d’objet selon les époques, mais qu’elles existent toujours (l. 1-5).</p>`}/></div>
+    <div className="card card-pad"><${Open} id="q2" rows=${6} prompt="**2.** Pourquoi l’homme doit-il nécessairement s’appuyer sur ces croyances ?"
+      criteria=${["La raison sociale est expliquée (l. 5-12)","La raison individuelle est expliquée (l. 13-25)","Un exemple concret est ajouté"]}
+      simple="Pour deux raisons : sans elles, pas de société ; et l’homme, fini, ne peut pas tout vérifier."
+      details=${html`<p><strong>Raison sociale (l. 5-12).</strong> Si chacun formait seul ses opinions, aucune croyance commune n’existerait. Or sans idées communes, pas d’action commune, donc pas de « corps social ».</p><p><strong>Raison individuelle (l. 13-25).</strong> La vie est courte et l’esprit limité. Celui qui voudrait tout prouver s’épuiserait en vérifications et ne pourrait rien approfondir : il n’atteindrait aucune certitude.</p><p><strong>Exemple.</strong> Un élève qui voudrait revérifier chaque date de son cours d’histoire n’aurait plus le temps de réfléchir au sens des événements.</p>`}/></div>
+    <div className="card card-pad"><${Open} id="q3" rows=${6} prompt="**3.** Expliquez la dernière phrase du texte (l. 27-30)."
+      criteria=${["La concession (« Il est vrai que ») est repérée","L’oxymore « servitude salutaire » est expliqué","Le lien entre dépendance et « bon usage de la liberté » est déplié"]}
+      simple="Recevoir des opinions d’autrui est une dépendance, mais une dépendance bénéfique : elle rend la liberté de penser possible."
+      details=${html`<p><strong>Concession.</strong> « Il est vrai que » : Tocqueville reconnaît l’objection. Recevoir une opinion sur parole, c’est renoncer à juger par soi-même ; l’image de l’esclavage est volontairement forte.</p><p><strong>Retournement.</strong> « Mais » introduit un oxymore : une servitude « salutaire », c’est-à-dire qui sauve. En confiant aux autres la plupart des vérifications, l’esprit garde du temps et de l’attention pour examiner vraiment quelques questions (l. 26-27).</p><p><strong>Sens de la liberté.</strong> Être libre n’est pas être indépendant de tout : c’est faire un bon usage de son jugement, en choisissant où l’exercer.</p><p><strong>Limite à discuter.</strong> Cela suppose de bien choisir à qui faire confiance : les « plus habiles », et non simplement « la foule » (l. 19).</p>`}/></div>
+  </div>`;
+  case "e3f": return html`<${Open} id="e3f" rows=${6}
+    prompt="Rédige la transition entre le premier et le deuxième mouvement."
+    hint="Ta grille : introduire et conclure chaque partie en montrant les **acquis** et les **limites** de la piste, qui conduisent logiquement à la partie suivante. Saute une ligne avant et après la transition. Pas de transition après la dernière partie."
+    criteria=${["Les acquis du premier mouvement sont rappelés","La limite de cet acquis est montrée","Le passage au mouvement suivant semble nécessaire","La ligne où commence la suite est indiquée"]}
+    simple="Acquis : pas de société sans croyances reçues. Limite : cela ne concerne que la vie collective. Donc : il faut montrer qu’elles sont aussi nécessaires à l’individu."
+    model=${html`<span className="tag">Corrigé possible</span><p>Tocqueville a ainsi établi que les croyances reçues de confiance sont la condition de toute société : sans opinions partagées, les hommes ne pourraient pas agir ensemble. Mais cet argument ne concerne que la vie collective. On pourrait encore penser qu’un individu soucieux de vérité devrait tout examiner par lui-même. Il reste donc à montrer que ces croyances sont nécessaires à la pensée individuelle elle-même : c’est ce que fait l’auteur à partir de la ligne 13.</p>`}/>`;
+  case "e4a": return html`<${IntroBuilder}/>`;
+  case "e4b": return html`<${Open} id="e4b" rows=${14}
+    prompt="Rédige ton introduction complète, avec un alinéa pour chaque étape de la grille."
+    criteria=${INTRO_CRIT}
+    simple="Présentation et thème → problème (dilemme) → thèse reformulée → plan (« l’auteur montre… », lignes) → enjeux."
+    model=${MODEL_INTRO}
+    details=${html`<p><strong>Pourquoi aucune citation ?</strong> Ta grille l’interdit en introduction : la thèse doit montrer que tu as compris le texte, ce qu’une citation ne prouve pas. Les citations viennent dans le développement, sous forme de mots-clés situés par leurs lignes.</p><p><strong>Pourquoi un exemple pour commencer ?</strong> Il rend le problème sensible avant de le formuler. Évite « De tout temps… ».</p>`}/>`;
+  case "e5a": return html`<${Open} id="e5a" rows=${10}
+    prompt="Rédige la conclusion (10 lignes minimum)."
+    hint="Ta grille demande trois rappels : la problématique, le mouvement argumentatif, la thèse. Une ouverture reste possible, mais elle est facultative."
+    criteria=${["Rappel de la problématique","Rappel du mouvement argumentatif","Rappel de la thèse","Au moins 10 lignes"]}
+    simple="Problème → les trois mouvements → la thèse et sa force."
+    model=${html`<span className="tag">Corrigé possible</span><p>Ce texte partait d’une difficulté réelle : comment concilier la liberté de penser, qui semble exiger l’examen personnel, avec le fait qu’aucun homme ne peut tout vérifier ? Tocqueville a d’abord défini les opinions reçues de confiance et montré qu’elles sont la condition de toute société, car sans idées communes il n’y a pas d’action commune. Il a ensuite établi qu’elles sont tout aussi nécessaires à l’individu, dont la vie est brève et l’esprit limité. Il en a enfin tiré une conclusion paradoxale : dépendre d’autrui pour la plupart de ses opinions est une servitude, mais une servitude bénéfique, qui libère du temps et de l’attention pour examiner vraiment quelques questions. La force de cette thèse est de montrer que la liberté de l’esprit n’est pas une indépendance absolue, mais un usage choisi de la confiance. Elle laisse pourtant ouverte une question décisive : comment distinguer la confiance raisonnée, accordée à ceux qui ont réellement vérifié, de la simple soumission à ce que « la foule adopte » ?</p>`}/>`;
+  case "e5b": return html`<div className="stack">
+    <p className="consigne">Avant de rendre ta copie, relis-la avec les critères de la grille de ton professeur.</p>
+    <${EvalGrid} id="e5b" criteria=${[
+      "**Introduction** : toutes les étapes sont présentes, un alinéa par étape",
+      "Trois lignes sautées entre l’introduction et le développement, et avant la conclusion",
+      "**Développement linéaire** : je suis l’ordre du texte",
+      "Pour chaque passage : ce que fait le texte, comment, pourquoi",
+      "Les arguments sont reformulés sans paraphrase",
+      "Les concepts clés sont définis et distingués",
+      "Les mots-clés sont cités (pas des phrases entières), avec les lignes",
+      "Les titres d’œuvres sont soulignés",
+      "J’ai introduit et analysé des exemples",
+      "Je propose des hypothèses d’interprétation quand je ne comprends pas",
+      "Deux ou trois sous-parties logiquement reliées dans chaque partie",
+      "Les références à d’autres auteurs ne prennent pas le pas sur l’explication",
+      "Une transition (acquis et limites) entre chaque partie, aucune après la dernière",
+      "**Conclusion** : problématique, mouvement argumentatif, thèse",
+      "Phrases simples et directes, copie cohérente"]}/>
+    <p className="small muted">Codes : √ acquis · ± partiellement · ≈ approximatif · X absent ou faux. Tes réponses restent enregistrées dans ce navigateur.</p>
+  </div>`;
+  default: return null;
+  }
+}
+
+function Texte(){
+  const {store,setStore} = useStore();
+  const [cur,setCur] = useState(0);
+  const [quad,setQuad] = useState({assign:{},cat:"C",checked:false});
+  const [showSol,setShowSol] = useState(false);
+  const [textOpen,setTextOpen] = useState(true);
+  const [split,setSplit] = useState(()=>(store.ui&&store.ui.split)||56);
+  const splitRef = useRef(split);
+  const layoutRef = useRef(null);
+  const focus = !!(store.ui&&store.ui.focus);
+  const saveSplit = v=>setStore(s=>({...s,ui:{...(s.ui||{}),split:v}}));
+  const onDrag = e=>{
+    e.preventDefault();
+    const r = layoutRef.current.getBoundingClientRect();
+    const move = ev=>{ const v = Math.max(30,Math.min(78,Math.round((ev.clientX-r.left)/r.width*100))); splitRef.current=v; setSplit(v); };
+    const up = ()=>{ window.removeEventListener("pointermove",move); window.removeEventListener("pointerup",up); saveSplit(splitRef.current); };
+    window.addEventListener("pointermove",move); window.addEventListener("pointerup",up);
+  };
+  const onKeySplit = e=>{
+    const d = e.key==="ArrowLeft"?-3:e.key==="ArrowRight"?3:0; if(!d) return;
+    e.preventDefault(); const v = Math.max(30,Math.min(78,split+d)); setSplit(v); saveSplit(v);
+  };
+  const step = TQ_STEPS[cur];
+  const et = ETAPES[step.et-1];
+  const top = useRef(null);
+  useEffect(()=>{ setStore(s=>({...s,tq:{...(s.tq||{}),[step.id]:true}})); },[step.id]);
+  const goStep = i=>{ setCur(i); setTextOpen(true); if(top.current) top.current.scrollIntoView({block:"start"}); };
+  const firstOf = n => TQ_STEPS.findIndex(s=>s.et===n);
+  const stepsOf = TQ_STEPS.map((s,i)=>({...s,i})).filter(s=>s.et===step.et);
+  return html`<div className="main fade" ref=${top}>
+    <div className="page-head">
+      <h1>Expliquer un texte : Tocqueville</h1>
+      <p>Un entraînement pas à pas, organisé selon les cinq étapes au brouillon et la grille de ton professeur. Le texte reste affiché à côté de chaque exercice.</p>
+    </div>
+    <div className="etapes">
+      <div className="etape-bar" role="group" aria-label="Étapes">
+        ${ETAPES.map(e=>html`<button key=${e.n} aria-pressed=${e.n===step.et} onClick=${()=>goStep(firstOf(e.n))}><small>Étape ${e.n}</small><span>${e.t}</span></button>`)}
+      </div>
+      <div className="substeps">
+        ${stepsOf.map(s=>html`<button key=${s.id} aria-current=${s.i===cur} onClick=${()=>goStep(s.i)}><span className=${"dot"+((store.done||{})[s.id]||(store.tq||{})[s.id]?" on":"")}></span>${s.t}</button>`)}
+      </div>
+    </div>
+    <div className=${"tq-layout"+(textOpen?"":" closed")} ref=${layoutRef} style=${{"--a":split+"fr","--b":(100-split)+"fr"}}>
+      ${textOpen ? html`<${TextPanel} mode=${step.mode||"plain"} hl=${step.hl} quad=${quad} setQuad=${setQuad} showSol=${showSol && step.mode==="quad"} onHide=${()=>setTextOpen(false)}
+          focus=${focus} onFocus=${()=>setStore(s=>({...s,ui:{...(s.ui||{}),focus:!focus}}))}/>`
+        : html`<div><button className="btn" onClick=${()=>setTextOpen(true)}><${Icon} name="text" size=${16}/>Afficher le texte</button></div>`}
+      ${textOpen && html`<div className="splitter" role="separator" aria-orientation="vertical" aria-label="Largeur du texte" aria-valuenow=${split} aria-valuemin="30" aria-valuemax="78" tabIndex="0"
+          title="Faire glisser pour élargir le texte ou l’exercice" onPointerDown=${onDrag} onKeyDown=${onKeySplit} onDoubleClick=${()=>{setSplit(56);saveSplit(56);}}></div>`}
+      <section className="card card-pad stack fade" key=${step.id} style=${{gap:"16px"}}>
+        <div>
+          <div className="small muted">Étape ${et.n} · ${et.t} · ${cur+1} / ${TQ_STEPS.length}</div>
+          <h2 style=${{fontSize:"20px",marginTop:"2px"}}>${step.t}</h2>
+        </div>
+        <${Step} id=${step.id} quad=${quad} setQuad=${setQuad} showSol=${showSol} setShowSol=${setShowSol}/>
+        <div className="navbar">
+          <button className="btn" disabled=${cur===0} onClick=${()=>goStep(cur-1)}><${Icon} name="left" size=${16}/>Précédent</button>
+          <button className="btn primary" disabled=${cur===TQ_STEPS.length-1} onClick=${()=>goStep(cur+1)}>Suivant<${Icon} name="right" size=${16}/></button>
+        </div>
+      </section>
+    </div>
+  </div>`;
+}
+
+/* ============ APPLICATION ============ */
+const PAGES = [
+ {id:"accueil",t:"Accueil",ic:"home"},
+ {id:"comprendre",t:"Comprendre",ic:"book"},
+ {id:"cartes",t:"Mémoriser",ic:"cards"},
+ {id:"exercices",t:"S’entraîner",ic:"pencil"},
+ {id:"texte",t:"Expliquer un texte",ic:"text"}
+];
+function App(){
+  const [store,setStoreRaw] = useState(loadStore);
+  const setStore = f => setStoreRaw(s=>{ const n = typeof f==="function"?f(s):f; saveStore(n); return n; });
+  const readHash = ()=>{ const h = (location.hash||"").replace("#",""); return PAGES.some(p=>p.id===h)?h:"accueil"; };
+  const [page,setPage] = useState(readHash);
+  const [fiche,setFiche] = useState(null);
+  useEffect(()=>{ const h=()=>setPage(readHash()); window.addEventListener("hashchange",h); return ()=>window.removeEventListener("hashchange",h); },[]);
+  const go = (p,f)=>{ if(f) setFiche(f); setPage(p); try{ history.replaceState(null,"","#"+p); }catch(e){ location.hash=p; } window.scrollTo(0,0); };
+  const boxes = store.cards||{};
+  const nb = {
+    comprendre: FICHES.filter(f=>(store.seen||{})[f.id]).length+"/"+FICHES.length,
+    cartes: CARDS.filter(c=>boxes[c.id]===3).length+"/"+CARDS.length,
+    exercices: EX_IDS.filter(id=>(store.done||{})[id]).length+"/"+EX_IDS.length,
+    texte: TQ_STEPS.filter(s=>(store.tq||{})[s.id]).length+"/"+TQ_STEPS.length
+  };
+  const cur = PAGES.find(p=>p.id===page);
+  return html`<${Store.Provider} value=${{store,setStore}}>
+    <header className="top"><div className="top-in">
+      <span className="app-ico"><${Icon} name="book" size=${16}/></span>
+      <span className="app-name">La vérité</span><span className="app-sub">Philosophie · Terminale</span>
+      <span className="spacer"></span>
+      <span className="crumb">${cur.t}</span>
+    </div></header>
+    <div className=${"shell"+(page==="texte"&&store.ui&&store.ui.focus?" focus":"")}>
+      <nav className="side" aria-label="Sections">
+        <span className="group-label">Parcours</span>
+        ${PAGES.map(p=>html`<button key=${p.id} className="nav" aria-current=${page===p.id?"page":undefined} onClick=${()=>go(p.id)}>
+          <${Icon} name=${p.ic}/><span>${p.t}</span>${nb[p.id] && html`<span className="nb">${nb[p.id]}</span>`}</button>`)}
+      </nav>
+      ${page==="accueil" && html`<${Home} go=${go}/>`}
+      ${page==="comprendre" && html`<${Comprendre} initial=${fiche}/>`}
+      ${page==="cartes" && html`<${Flashcards}/>`}
+      ${page==="exercices" && html`<${Exercices}/>`}
+      ${page==="texte" && html`<${Texte}/>`}
+    </div>
+  <//>`;
+}
+ReactDOM.createRoot(document.getElementById("root")).render(html`<${App}/>`);
+</script>
+</body></html>

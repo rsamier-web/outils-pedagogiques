@@ -1,0 +1,1482 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>La science en philosophie</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;500;600;700&family=Noto+Serif:ital@0;1&display=swap" rel="stylesheet">
+<style>
+/* Breeze (KDE Plasma) : fenêtre grise, vues claires, accent bleu.
+   Layout : barre d'outils en haut, panneau latéral de navigation, vue principale scrollable. */
+:root{
+  --window:#eff0f1; --view:#ffffff; --header:#dee0e2; --button:#fcfcfc;
+  --text:#232629; --muted:#5d646b; --border:#c3c7cb; --border-soft:#dde0e3;
+  --accent:#3daee9; --accent-text:#1a6ea6; --accent-soft:rgba(61,174,233,.13);
+  --pos:#27ae60; --pos-text:#1d7f47; --pos-soft:rgba(39,174,96,.12);
+  --neg:#da4453; --neg-text:#b52d3c; --neg-soft:rgba(218,68,83,.10);
+  --neu:#f67400; --neu-text:#a84f00; --neu-soft:rgba(246,116,0,.11);
+  --font-body:"Noto Sans","Segoe UI",system-ui,-apple-system,sans-serif;
+  --font-quote:"Noto Serif",Georgia,"Times New Roman",serif;
+  --shadow:0 1px 2px rgba(35,38,41,.07);
+  color-scheme:light;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --window:#202326; --view:#16181a; --header:#2a2e32; --button:#292c30;
+    --text:#f3f4f5; --muted:#a3abb3; --border:#454b51; --border-soft:#33383d;
+    --accent:#3daee9; --accent-text:#73c6f2; --accent-soft:rgba(61,174,233,.17);
+    --pos:#2fb36a; --pos-text:#5dd492; --pos-soft:rgba(47,179,106,.16);
+    --neg:#e0525f; --neg-text:#f2808b; --neg-soft:rgba(224,82,95,.16);
+    --neu:#f67400; --neu-text:#ffa252; --neu-soft:rgba(246,116,0,.16);
+    --shadow:none; color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --window:#202326; --view:#16181a; --header:#2a2e32; --button:#292c30;
+  --text:#f3f4f5; --muted:#a3abb3; --border:#454b51; --border-soft:#33383d;
+  --accent:#3daee9; --accent-text:#73c6f2; --accent-soft:rgba(61,174,233,.17);
+  --pos:#2fb36a; --pos-text:#5dd492; --pos-soft:rgba(47,179,106,.16);
+  --neg:#e0525f; --neg-text:#f2808b; --neg-soft:rgba(224,82,95,.16);
+  --neu:#f67400; --neu-text:#ffa252; --neu-soft:rgba(246,116,0,.16);
+  --shadow:none; color-scheme:dark;
+}
+
+*{box-sizing:border-box}
+html,body{height:100%;margin:0}
+body{background:var(--window);color:var(--text);font-family:var(--font-body);font-size:15px;line-height:1.55;-webkit-font-smoothing:antialiased}
+#root{height:100%}
+h1,h2,h3,h4{text-wrap:balance;margin:0;line-height:1.25}
+p{margin:0}
+button,input,select,textarea{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+
+/* Fenêtre */
+.app{display:grid;grid-template-rows:auto 1fr;height:100%}
+.toolbar{display:flex;align-items:center;gap:12px;padding:8px 16px;background:var(--header);border-bottom:1px solid var(--border)}
+.toolbar .appname{display:flex;align-items:center;gap:10px;font-weight:600;font-size:15px}
+.toolbar .appname small{font-weight:400;color:var(--muted)}
+.toolbar .spacer{flex:1}
+.stats{display:flex;gap:6px;flex-wrap:wrap}
+.chip{display:inline-flex;align-items:center;gap:6px;padding:2px 9px;border-radius:999px;border:1px solid var(--border);background:var(--view);font-size:12.5px;color:var(--muted);white-space:nowrap;font-variant-numeric:tabular-nums}
+.chip b{color:var(--text);font-weight:600}
+.chip.acc{border-color:var(--accent);background:var(--accent-soft);color:var(--accent-text)}
+.chip.pos{border-color:var(--pos);background:var(--pos-soft);color:var(--pos-text)}
+.chip.neg{border-color:var(--neg);background:var(--neg-soft);color:var(--neg-text)}
+.chip.neu{border-color:var(--neu);background:var(--neu-soft);color:var(--neu-text)}
+
+.body{display:grid;grid-template-columns:236px 1fr;min-height:0}
+.sidebar{background:var(--window);border-right:1px solid var(--border);overflow-y:auto;padding:10px 8px}
+.side-h{font-size:12px;font-weight:600;color:var(--muted);padding:10px 10px 4px;text-transform:none}
+.nav{display:flex;flex-direction:column;gap:2px}
+.nav-item{display:flex;align-items:center;gap:10px;width:100%;text-align:left;padding:7px 10px;border:1px solid transparent;border-radius:4px;background:none;cursor:pointer;font-size:14.5px}
+.nav-item:hover{background:var(--accent-soft)}
+.nav-item.on{background:var(--accent-soft);border-color:var(--accent)}
+.nav-item .ico{color:var(--muted);flex:none}
+.nav-item.on .ico{color:var(--accent-text)}
+.nav-item .count{margin-left:auto;font-size:12px;color:var(--muted);font-variant-numeric:tabular-nums}
+.subnav{display:flex;flex-direction:column;gap:1px;margin:2px 0 6px 18px;padding-left:8px;border-left:1px solid var(--border-soft)}
+.subnav button{display:flex;gap:8px;align-items:baseline;text-align:left;padding:5px 8px;border:1px solid transparent;border-radius:4px;background:none;cursor:pointer;font-size:13.5px;line-height:1.35}
+.subnav button:hover{background:var(--accent-soft)}
+.subnav button.on{background:var(--accent-soft);border-color:var(--accent)}
+.subnav .n{color:var(--muted);font-variant-numeric:tabular-nums;min-width:1.1em}
+.subnav .seen{margin-left:auto;color:var(--pos-text);font-size:12px}
+
+.main{overflow-y:auto;min-width:0}
+.page{max-width:980px;margin:0 auto;padding:24px 24px 64px;display:flex;flex-direction:column;gap:20px}
+.page-head{display:flex;flex-direction:column;gap:6px}
+.eyebrow{font-size:12.5px;font-weight:600;color:var(--accent-text)}
+.page-head h1{font-size:26px;font-weight:600}
+.page-head h2{font-size:23px;font-weight:600}
+.lead{color:var(--muted);max-width:68ch}
+
+/* Cartes Kirigami */
+.card{background:var(--view);border:1px solid var(--border);border-radius:6px;box-shadow:var(--shadow)}
+.card-pad{padding:16px 18px}
+.card-h{display:flex;align-items:center;gap:10px;padding:12px 18px;border-bottom:1px solid var(--border-soft)}
+.card-h h3{font-size:16px;font-weight:600}
+.card-h .right{margin-left:auto;display:flex;gap:6px;align-items:center}
+
+/* Boutons Breeze */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:7px;padding:6px 13px;border:1px solid var(--border);border-radius:4px;background:var(--button);cursor:pointer;font-size:14px;line-height:1.3;min-height:32px}
+.btn:hover:not(:disabled){border-color:var(--accent)}
+.btn:disabled{opacity:.5;cursor:not-allowed}
+.btn.primary{border-color:var(--accent);background:var(--accent-soft);color:var(--accent-text);font-weight:600}
+.btn.primary:hover:not(:disabled){background:var(--accent);color:#fff}
+.btn.ghost{background:none;border-color:transparent;color:var(--accent-text)}
+.btn.ghost:hover:not(:disabled){border-color:var(--border);background:var(--accent-soft)}
+.btn.pos{border-color:var(--pos);color:var(--pos-text);background:var(--pos-soft)}
+.btn.neg{border-color:var(--neg);color:var(--neg-text);background:var(--neg-soft)}
+.btn.neu{border-color:var(--neu);color:var(--neu-text);background:var(--neu-soft)}
+.btn.small{min-height:28px;padding:3px 10px;font-size:13px}
+.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.kbd{font-family:ui-monospace,"Noto Sans Mono",monospace;font-size:11.5px;border:1px solid var(--border);border-bottom-width:2px;border-radius:3px;padding:0 5px;color:var(--muted)}
+
+/* Segmented control */
+.seg{display:inline-flex;border:1px solid var(--border);border-radius:4px;overflow:hidden;background:var(--button);flex-wrap:wrap}
+.seg button{border:none;border-right:1px solid var(--border);background:none;padding:5px 12px;cursor:pointer;font-size:13.5px}
+.seg button:last-child{border-right:none}
+.seg button.on{background:var(--accent-soft);color:var(--accent-text);font-weight:600;box-shadow:inset 0 -2px 0 var(--accent)}
+.seg button:hover:not(.on){background:var(--accent-soft)}
+
+/* Accueil */
+.steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:12px}
+.step{display:flex;flex-direction:column;gap:8px;padding:16px;text-align:left}
+.step .num{width:26px;height:26px;border-radius:50%;display:grid;place-items:center;border:1px solid var(--accent);color:var(--accent-text);font-weight:600;font-size:13px}
+.step h3{font-size:16px;font-weight:600}
+.step p{color:var(--muted);font-size:14px;flex:1}
+.bar{height:6px;border-radius:3px;background:var(--border-soft);overflow:hidden}
+.bar>span{display:block;height:100%;background:var(--accent);border-radius:3px}
+.bar.pos>span{background:var(--pos)}
+.bar-l{display:flex;justify-content:space-between;font-size:12.5px;color:var(--muted);font-variant-numeric:tabular-nums}
+.principles{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:2px 24px;margin:0;padding:0;list-style:none}
+.principles li{display:grid;grid-template-columns:22px 1fr;gap:8px;padding:8px 0;border-bottom:1px solid var(--border-soft);font-size:14px}
+.principles li b{display:block;font-weight:600}
+.principles li span.m{color:var(--muted)}
+.principles .dot{width:8px;height:8px;border-radius:50%;background:var(--accent);margin-top:8px;margin-left:6px}
+
+/* Mots-clés */
+.toolrow{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.search{flex:1;min-width:200px;padding:6px 10px;border:1px solid var(--border);border-radius:4px;background:var(--view)}
+.switch{display:inline-flex;align-items:center;gap:8px;cursor:pointer;font-size:14px;user-select:none}
+.switch input{position:absolute;opacity:0;width:1px;height:1px}
+.switch .track{width:34px;height:18px;border-radius:9px;border:1px solid var(--border);background:var(--button);position:relative;transition:background .15s}
+.switch .track::after{content:"";position:absolute;top:2px;left:2px;width:12px;height:12px;border-radius:50%;background:var(--muted);transition:left .15s}
+.switch input:checked + .track{background:var(--accent);border-color:var(--accent)}
+.switch input:checked + .track::after{left:18px;background:#fff}
+.switch input:focus-visible + .track{outline:2px solid var(--accent);outline-offset:2px}
+.gloss-group h3{font-size:14px;font-weight:600;color:var(--muted);padding:12px 18px 6px}
+.gloss{margin:0}
+.gloss .it{display:grid;grid-template-columns:minmax(150px,220px) 1fr;gap:4px 18px;padding:9px 18px;border-top:1px solid var(--border-soft)}
+.gloss dt{font-weight:600}
+.gloss dd{margin:0;color:var(--text)}
+.gloss dd.hidden{color:var(--muted)}
+.reveal{border:1px dashed var(--border);background:none;border-radius:4px;padding:2px 10px;cursor:pointer;color:var(--accent-text);font-size:13.5px}
+
+/* Modules */
+.rail{display:none;gap:6px;overflow-x:auto;padding-bottom:2px}
+.rail button{flex:none;border:1px solid var(--border);border-radius:4px;background:var(--button);padding:4px 10px;cursor:pointer;font-size:13px;font-variant-numeric:tabular-nums}
+.rail button.on{border-color:var(--accent);background:var(--accent-soft);color:var(--accent-text);font-weight:600}
+.tension{display:inline-flex;align-items:center;gap:8px;font-size:13px;font-weight:600;color:var(--muted)}
+.tension .ab{padding:2px 9px;border-radius:999px;border:1px solid var(--border);background:var(--view);color:var(--text)}
+.key{border:1px solid var(--accent);background:var(--accent-soft);border-radius:6px;padding:12px 16px;display:grid;grid-template-columns:auto 1fr;gap:12px;align-items:start}
+.key .lab{font-size:12px;font-weight:700;color:var(--accent-text);padding-top:2px;white-space:nowrap}
+.key p{font-size:16px;font-weight:500}
+.mod-grid{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);gap:16px;align-items:start}
+.mod-text{display:flex;flex-direction:column;gap:12px}
+.blk{background:var(--view);border:1px solid var(--border);border-left-width:4px;border-radius:5px;padding:11px 14px;display:flex;flex-direction:column;gap:6px}
+.blk h4{font-size:13px;font-weight:700;letter-spacing:.01em}
+.blk.pb{border-left-color:var(--neu)} .blk.pb h4{color:var(--neu-text)}
+.blk.ex{border-left-color:var(--muted)} .blk.ex h4{color:var(--muted)}
+.blk.au{border-left-color:var(--accent)} .blk.au h4{color:var(--accent-text)}
+.blk.rs{border-left-color:var(--pos)} .blk.rs h4{color:var(--pos-text)}
+.blk ul{margin:0;padding-left:18px;display:flex;flex-direction:column;gap:5px}
+.auth{display:flex;flex-direction:column;gap:2px}
+.auth .who{font-weight:600}
+.auth .who em{font-weight:400;color:var(--muted)}
+.legend{display:flex;gap:14px;flex-wrap:wrap;font-size:12.5px;color:var(--muted)}
+.legend span{display:inline-flex;align-items:center;gap:6px}
+.legend i{width:10px;height:10px;border-radius:2px;display:inline-block}
+.sticky{position:sticky;top:12px;display:flex;flex-direction:column;gap:12px}
+.retenir{display:flex;gap:10px;align-items:baseline;padding:10px 14px;border-radius:5px;background:var(--pos-soft);border:1px solid var(--pos)}
+.retenir b{color:var(--pos-text);font-size:12.5px;white-space:nowrap}
+.mod-nav{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap}
+
+/* Figures */
+.fig{margin:0;background:var(--view);border:1px solid var(--border);border-radius:6px;padding:12px 12px 10px;color:var(--text)}
+.fig svg{display:block;width:100%;height:auto;max-width:100%}
+.fig figcaption{font-size:13px;color:var(--muted);margin-top:8px;padding:0 4px;line-height:1.45}
+.bx rect{fill:var(--view);stroke:var(--border);stroke-width:1.2}
+.bx.t-acc rect{fill:var(--accent-soft);stroke:var(--accent)}
+.bx.t-pos rect{fill:var(--pos-soft);stroke:var(--pos)}
+.bx.t-neg rect{fill:var(--neg-soft);stroke:var(--neg)}
+.bt{font-size:14px;font-weight:600;fill:currentColor}
+.bs{font-size:12px;fill:var(--muted)}
+.arr polyline{stroke:currentColor;stroke-width:1.4;opacity:.7}
+.arr polygon{fill:currentColor;opacity:.7}
+.arr.t-neg polyline{stroke:var(--neg);opacity:1} .arr.t-neg polygon{fill:var(--neg);opacity:1}
+.arr.t-pos polyline{stroke:var(--pos);opacity:1} .arr.t-pos polygon{fill:var(--pos);opacity:1}
+.arr.t-acc polyline{stroke:var(--accent);opacity:1} .arr.t-acc polygon{fill:var(--accent);opacity:1}
+.al{font-size:12px;fill:var(--muted)}
+.al.neg,.arr.t-neg .al{fill:var(--neg-text)}
+.al.pos,.arr.t-pos .al{fill:var(--pos-text)}
+.al.acc{fill:var(--accent-text);font-weight:600;font-size:13px}
+.lane{font-size:13px;font-weight:700;fill:currentColor}
+.sep{stroke:var(--border);stroke-dasharray:3 4}
+.brk{stroke:var(--muted);fill:none;stroke-width:1.2}
+.swan{fill:var(--view);stroke:currentColor;stroke-width:1.2;opacity:.8}
+.swan.black{fill:currentColor;opacity:1}
+
+/* Quick check / QCM */
+.qc{display:flex;flex-direction:column;gap:10px}
+.qtext{font-weight:600}
+.ctx{padding:8px 12px;border-left:3px solid var(--border);background:var(--window);border-radius:0 4px 4px 0;font-size:14.5px}
+.opts{display:flex;flex-direction:column;gap:6px}
+.opt{display:flex;gap:10px;align-items:flex-start;padding:8px 12px;border:1px solid var(--border);border-radius:4px;background:var(--button);cursor:pointer;text-align:left;font-size:14.5px}
+.opt:hover{border-color:var(--accent)}
+.opt input{margin:3px 0 0;accent-color:var(--accent)}
+.opt.sel{border-color:var(--accent);background:var(--accent-soft)}
+.opt.ok{border-color:var(--pos);background:var(--pos-soft)}
+.opt.ko{border-color:var(--neg);background:var(--neg-soft)}
+.opt.dis{cursor:default}
+.fb{display:flex;flex-direction:column;gap:6px;font-size:14px}
+.fb .line{display:flex;gap:8px;align-items:baseline}
+.fb .mark{font-weight:700}
+.fb.ok .mark{color:var(--pos-text)} .fb.ko .mark{color:var(--neg-text)}
+.why{padding:9px 12px;border-radius:4px;background:var(--window);border:1px solid var(--border-soft);font-size:14px}
+.why b{color:var(--accent-text)}
+
+/* Exercices */
+.levels{display:grid;grid-template-columns:repeat(5,1fr);gap:8px}
+.lvl{display:flex;flex-direction:column;gap:4px;align-items:flex-start;text-align:left;padding:10px 12px;border:1px solid var(--border);border-radius:5px;background:var(--view);cursor:pointer;position:relative}
+.lvl:hover{border-color:var(--accent)}
+.lvl.on{border-color:var(--accent);background:var(--accent-soft);box-shadow:inset 0 -3px 0 var(--accent)}
+.lvl .ln{font-size:12px;color:var(--muted);font-weight:600}
+.lvl .lt{font-weight:600;font-size:14.5px}
+.lvl .ls{font-size:12px;color:var(--muted);font-variant-numeric:tabular-nums}
+.lvl .ls.done{color:var(--pos-text)}
+.diff{display:flex;gap:3px;margin-top:2px}
+.diff i{width:12px;height:4px;border-radius:2px;background:var(--border)}
+.diff i.f{background:var(--accent)}
+.exlist{display:flex;flex-direction:column;gap:16px}
+.ex-intro{display:flex;flex-direction:column;gap:4px;padding:12px 18px;border-bottom:1px solid var(--border-soft)}
+.ex-intro .consigne{color:var(--muted);font-size:14px}
+.ex-body{padding:14px 18px 16px;display:flex;flex-direction:column;gap:16px}
+.qlist{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:18px;counter-reset:q}
+.qlist>li{display:flex;flex-direction:column;gap:8px;counter-increment:q}
+.qlist>li>.qtext::before{content:counter(q) ". ";color:var(--muted)}
+.checkbar{display:flex;gap:10px;flex-wrap:wrap;align-items:center;padding-top:12px;border-top:1px solid var(--border-soft)}
+.checkbar .hint{font-size:13px;color:var(--muted)}
+.score{font-weight:600;font-variant-numeric:tabular-nums}
+.match{display:flex;flex-direction:column;gap:8px}
+.match .mrow{display:grid;grid-template-columns:minmax(140px,230px) 1fr;gap:10px;align-items:start}
+.match .ml{font-weight:600;padding-top:6px}
+select{padding:6px 8px;border:1px solid var(--border);border-radius:4px;background:var(--button);width:100%;max-width:100%}
+select.ok{border-color:var(--pos);background:var(--pos-soft)}
+select.ko{border-color:var(--neg);background:var(--neg-soft)}
+.sortlist{display:flex;flex-direction:column;gap:10px}
+.sortitem{display:flex;flex-direction:column;gap:6px;padding:10px 12px;border:1px solid var(--border);border-radius:5px;background:var(--view)}
+.sortitem.ok{border-color:var(--pos)} .sortitem.ko{border-color:var(--neg)}
+.sortitem .st{font-size:14.5px}
+.orderlist{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:6px}
+.orderlist li{display:grid;grid-template-columns:28px 1fr auto;gap:10px;align-items:center;padding:8px 10px;border:1px solid var(--border);border-radius:5px;background:var(--view)}
+.orderlist li.ok{border-color:var(--pos);background:var(--pos-soft)} .orderlist li.ko{border-color:var(--neg);background:var(--neg-soft)}
+.orderlist .pos{font-weight:700;color:var(--muted);text-align:center;font-variant-numeric:tabular-nums}
+.orderlist .mv{display:flex;gap:4px}
+.iconbtn{width:30px;height:30px;display:grid;place-items:center;border:1px solid var(--border);border-radius:4px;background:var(--button);cursor:pointer}
+.iconbtn:hover:not(:disabled){border-color:var(--accent)}
+.iconbtn:disabled{opacity:.35;cursor:default}
+.cloze p{line-height:2.1;margin-bottom:6px}
+.cloze select{width:auto;display:inline-block;padding:2px 6px;margin:0 2px}
+.worked{display:flex;flex-direction:column;gap:12px}
+.wstep{border:1px solid var(--border);border-radius:5px;background:var(--view);overflow:hidden}
+.wstep .wh{display:flex;gap:10px;align-items:center;padding:9px 14px;background:var(--window);border-bottom:1px solid var(--border-soft);font-weight:600}
+.wstep .wh .n{width:22px;height:22px;border-radius:50%;display:grid;place-items:center;border:1px solid var(--accent);color:var(--accent-text);font-size:12px}
+.wstep .wb{padding:10px 14px;display:flex;flex-direction:column;gap:8px}
+.prompt{font-size:14px;color:var(--neu-text);display:flex;gap:6px}
+.wb ul{margin:0;padding-left:18px;display:flex;flex-direction:column;gap:5px}
+.fading{display:flex;gap:6px;align-items:center;flex-wrap:wrap;font-size:13px;color:var(--muted)}
+.field{display:flex;flex-direction:column;gap:5px}
+.field label{font-weight:600;font-size:14px}
+textarea{width:100%;padding:8px 10px;border:1px solid var(--border);border-radius:4px;background:var(--view);resize:vertical;line-height:1.5}
+.model{display:flex;flex-direction:column;gap:12px;padding:12px 14px;border:1px solid var(--pos);border-radius:5px;background:var(--pos-soft)}
+.model h4{font-size:14px;color:var(--pos-text)}
+.model ul{margin:4px 0 0;padding-left:18px;display:flex;flex-direction:column;gap:5px}
+.checklist{display:flex;flex-direction:column;gap:6px;margin:0;padding:0;list-style:none}
+.checklist label{display:flex;gap:10px;align-items:flex-start;cursor:pointer;font-size:14.5px}
+.checklist input{margin-top:4px;accent-color:var(--pos)}
+
+/* Flashcards */
+.fc-wrap{display:grid;grid-template-columns:minmax(0,1fr) 260px;gap:16px;align-items:start}
+.filters{display:flex;flex-direction:column;gap:10px}
+.filters .frow{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.filters .flab{font-size:13px;color:var(--muted);min-width:76px}
+.pill{border:1px solid var(--border);border-radius:999px;background:var(--button);padding:3px 11px;cursor:pointer;font-size:13px}
+.pill.on{border-color:var(--accent);background:var(--accent-soft);color:var(--accent-text);font-weight:600}
+.pill:hover:not(.on){border-color:var(--accent)}
+.flash{perspective:1400px;height:300px;width:100%;border:none;background:none;padding:0;cursor:pointer;display:block;text-align:left}
+.flash-inner{position:relative;width:100%;height:100%;transition:transform .45s ease;transform-style:preserve-3d}
+.flash.flipped .flash-inner{transform:rotateY(180deg)}
+.face{position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;border:1px solid var(--border);border-radius:8px;background:var(--view);padding:18px 22px;display:flex;flex-direction:column;gap:10px;overflow:auto;box-shadow:var(--shadow)}
+.face.back{transform:rotateY(180deg);border-color:var(--accent)}
+.face .top{display:flex;gap:6px;flex-wrap:wrap;align-items:center}
+.face .front-t{font-size:22px;font-weight:600;margin:auto 0;line-height:1.35;text-wrap:balance}
+.face .front-t.quote{font-family:var(--font-quote);font-style:italic;font-weight:400;font-size:21px}
+.face .ask{color:var(--muted);font-size:14px}
+.face .back-t{font-size:16.5px;line-height:1.55;margin:auto 0}
+.face .hint{font-size:12.5px;color:var(--muted)}
+.rate{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.rate .btn{flex-direction:column;gap:2px;padding:8px}
+.rate .btn small{font-size:11.5px;font-weight:400;opacity:.85}
+.leitner{display:flex;flex-direction:column;gap:8px}
+.lbox{display:grid;grid-template-columns:62px 1fr 28px;gap:8px;align-items:center;font-size:13px;font-variant-numeric:tabular-nums}
+.lbox .bar{height:8px}
+.lbox .c{text-align:right;color:var(--muted)}
+.counter{font-variant-numeric:tabular-nums;color:var(--muted);font-size:13.5px}
+.done-card{display:flex;flex-direction:column;gap:12px;align-items:flex-start}
+.tally{display:flex;gap:8px;flex-wrap:wrap}
+.confirm{display:flex;gap:8px;align-items:center;flex-wrap:wrap;font-size:13.5px}
+
+/* Responsive */
+@media (max-width:900px){
+  .mod-grid{grid-template-columns:1fr}
+  .sticky{position:static}
+  .fc-wrap{grid-template-columns:1fr}
+  .levels{grid-template-columns:repeat(auto-fit,minmax(150px,1fr))}
+}
+@media (max-width:760px){
+  .body{grid-template-columns:1fr;grid-template-rows:auto 1fr}
+  .sidebar{border-right:none;border-bottom:1px solid var(--border);padding:6px 10px;overflow-x:auto;overflow-y:hidden}
+  .side-h,.subnav,.nav-item .count{display:none}
+  .nav{flex-direction:row;gap:4px}
+  .nav-item{width:auto;white-space:nowrap;padding:6px 10px;font-size:14px}
+  .toolbar .stats{display:none}
+  .rail{display:flex}
+  .page{padding:18px 16px 56px}
+  .gloss .it{grid-template-columns:1fr}
+  .match .mrow{grid-template-columns:1fr}
+  .key{grid-template-columns:1fr;gap:4px}
+  .flash{height:340px}
+}
+@media (prefers-reduced-motion:reduce){
+  .flash-inner,.switch .track,.switch .track::after{transition:none}
+}
+</style>
+</head>
+<body>
+<div id="root"></div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.3.1/umd/react.production.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.3.1/umd/react-dom.production.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/htm@3.1.1/dist/htm.umd.js"></script>
+<script>
+(function(){
+"use strict";
+const { useState, useEffect, useMemo, useRef } = React;
+const html = htm.bind(React.createElement);
+
+/* ---------- Utilitaires ---------- */
+const store = {
+  get(k, d){ try { const v = window.localStorage.getItem(k); return v ? JSON.parse(v) : d; } catch(e){ return d; } },
+  set(k, v){ try { window.localStorage.setItem(k, JSON.stringify(v)); } catch(e){} }
+};
+function usePersist(key, init){
+  const [v, setV] = useState(() => store.get(key, init));
+  useEffect(() => { store.set(key, v); }, [key, v]);
+  return [v, setV];
+}
+function shuffle(a){ const b = a.slice(); for (let i = b.length - 1; i > 0; i--){ const j = Math.floor(Math.random() * (i + 1)); [b[i], b[j]] = [b[j], b[i]]; } return b; }
+function prepQ(q){
+  const order = shuffle(q.options.map((_, i) => i));
+  return Object.assign({}, q, { options: order.map(i => q.options[i]), answer: order.indexOf(q.answer) });
+}
+function prepBlank(b){
+  const order = shuffle(b.opts.map((_, i) => i));
+  return Object.assign({}, b, { opts: order.map(i => b.opts[i]), a: order.indexOf(b.a) });
+}
+
+/* ---------- Contenu : modules ---------- */
+const MODULES = [
+  { id:"science", short:"Qu'est-ce que la science ?", a:"Désir de savoir", b:"besoin d'être rassuré",
+    question:"D'où vient la science et que cherche-t-elle ?",
+    cle:"La science naît de l'étonnement et cherche des lois générales grâce à une méthode rigoureuse.",
+    probleme:"Tout humain veut savoir : l'animal réagit par réflexe, l'humain s'étonne devant un effet dont il ignore la cause. Mais face à une question sans réponse, on est tenté de prendre la première explication venue, juste pour être rassuré.",
+    exemples:["La pomme qui tombe : la science ne s'intéresse pas à cette pomme-là, mais à la loi qui fait tomber tous les corps.","Un orage éclate : on y a vu la colère des dieux ; la science y voit une décharge électrique."],
+    refs:[{who:"Aristote", work:"Métaphysique", idea:"« Tous les hommes désirent naturellement savoir. » Et il n'y a de science que du général."},
+          {who:"Descartes", work:"Discours de la méthode, 1637", idea:"Fonder les connaissances : ne rien tenir pour vrai sans l'avoir examiné (doute méthodique)."}],
+    resolution:"Prendre le chemin long : transformer l'étonnement en question précise, puis chercher la réponse par une méthode, au lieu de se contenter d'une réponse rassurante.",
+    retenir:"La science est un savoir général, organisé et méthodique, qui vise l'objectivité.",
+    check:{q:"Pourquoi dit-on qu'« il n'y a de science que du général » ?", options:["Parce que la science cherche des lois valables pour tous les cas d'un même type","Parce que la science n'étudie que de grands sujets comme l'univers","Parce qu'un seul cas bien observé suffit à établir une loi"], answer:0, why:"La science ne décrit pas un cas isolé : elle cherche la loi qui explique tous les cas semblables (toutes les chutes, pas cette chute-là)."} },
+
+  { id:"opinion", short:"Science et opinion", a:"Science", b:"opinion",
+    question:"Peut-on se fier à ce que l'on voit ?",
+    cle:"La science se construit contre l'opinion et contre l'expérience spontanée, qui nous trompent.",
+    probleme:"Nos sens et le « bon sens » donnent l'illusion de savoir. L'opinion répond vite, rassure, et nous empêche de poser de vraies questions.",
+    exemples:["Le Soleil semble « se lever » : en réalité, c'est la Terre qui tourne.","Aristote pensait que les corps lourds tombent plus vite. Galilée montre que c'est l'air qui freine la plume. En 1971, sur la Lune (sans air), un astronaute lâche un marteau et une plume : ils tombent ensemble."],
+    refs:[{who:"Bachelard", work:"La Formation de l'esprit scientifique, 1938", idea:"« L'opinion pense mal ; elle ne pense pas. » Elle est un obstacle épistémologique : le scientifique doit penser contre les autres et contre lui-même."},
+          {who:"Galilée", work:"XVIIe siècle", idea:"Remplace l'observation spontanée par l'expérimentation : on crée des conditions contrôlées (plan incliné, réduction des frottements)."}],
+    resolution:"La science ne jette pas l'observation : elle la corrige. L'expérimentation est artificielle (provoquée), précise (mesurée) et suit un protocole reproductible.",
+    retenir:"La science ne s'oppose pas à l'expérience, mais à l'expérience non critiquée.",
+    check:{q:"Quelle est la différence entre expérience commune et expérimentation ?", options:["L'expérimentation est construite, mesurée et reproductible ; l'expérience commune est spontanée","L'expérimentation se fait en laboratoire, l'expérience commune dehors","Il n'y en a pas : les deux reposent sur l'observation"], answer:0, why:"Le lieu ne compte pas : ce qui compte, c'est que l'expérimentation est préparée selon un protocole que d'autres peuvent refaire."} },
+
+  { id:"demarche", short:"La démarche scientifique", a:"Hypothèse", b:"preuve",
+    question:"Comment la science teste-t-elle ses idées ?",
+    cle:"La démarche hypothético-déductive : on imagine une hypothèse, on en déduit une conséquence testable, puis on la met à l'épreuve.",
+    probleme:"Une cause cachée ne s'observe pas directement. Il faut la supposer, puis vérifier si ce qu'elle prédit se produit vraiment.",
+    exemples:["Vienne, années 1840. Dans une maternité, un service a beaucoup plus de décès par fièvre puerpérale que l'autre. Semmelweis teste et élimine sept hypothèses : épidémie, surpopulation, étudiants, régime, clochette du prêtre, position d'accouchement…","Un collègue se coupe pendant une dissection et meurt des mêmes symptômes. Nouvelle hypothèse : les médecins transportent de la « matière cadavérique » sur leurs mains. Test : lavage au chlorure de chaux. La mortalité chute."],
+    refs:[{who:"Semmelweis", work:"médecin, 1818-1865", idea:"Applique la méthode avant qu'elle soit théorisée. Ses collègues refusent pourtant ses conclusions."},
+          {who:"Claude Bernard", work:"Introduction à l'étude de la médecine expérimentale, 1865", idea:"Formule la méthode expérimentale : observation, hypothèse, expérience qui juge l'hypothèse."}],
+    resolution:"Une hypothèse n'est jamais crue sur parole : elle n'est retenue que si elle résiste au test. Les hypothèses éliminées font aussi avancer la connaissance.",
+    retenir:"Problème → hypothèse → conséquence testable → expérience → hypothèse éliminée ou retenue.",
+    check:{q:"Pourquoi Semmelweis a-t-il fait supprimer la clochette du prêtre ?", options:["Pour tester l'hypothèse d'un effet de la peur sur les patientes","Parce que le bruit dérangeait les médecins","Pour prouver que la religion causait la maladie"], answer:0, why:"Il déduit une conséquence testable : si la peur causait la fièvre, supprimer la clochette ferait baisser la mortalité. Rien ne change : l'hypothèse est éliminée."} },
+
+  { id:"provisoire", short:"Une vérité provisoire", a:"Vérité", b:"changement",
+    question:"Si la science change, peut-on encore lui faire confiance ?",
+    cle:"Une théorie scientifique n'est jamais prouvée définitivement ; elle est scientifique parce qu'elle peut être réfutée.",
+    probleme:"Le géocentrisme a été abandonné, Einstein a corrigé Newton. Et l'induction pose problème : avoir vu mille fois la même chose ne prouve pas que ce sera toujours vrai.",
+    exemples:["La dinde de Russell est nourrie chaque matin et en conclut qu'on la nourrira toujours… jusqu'au matin de Noël.","« Tous les cygnes sont blancs » : des milliers d'observations ne le prouvent pas ; un seul cygne noir (découvert en Australie) le réfute.","On calcule encore les trajectoires des fusées avec Newton ; le GPS, lui, doit tenir compte d'Einstein. Une théorie dépassée n'est pas forcément « fausse »."],
+    refs:[{who:"Hume", work:"XVIIIe siècle", idea:"Problème de l'induction : nous croyons que l'avenir ressemblera au passé par habitude, pas par preuve."},
+          {who:"Popper", work:"La Logique de la découverte scientifique, 1934", idea:"Critère de réfutabilité (falsifiabilité) : une théorie est scientifique si une expérience pourrait la montrer fausse."}],
+    resolution:"Le changement est la force de la science : une vérité scientifique vaut « jusqu'à preuve du contraire ». Une théorie qui a résisté aux tests est corroborée.",
+    retenir:"Vérifier définitivement une loi universelle est impossible ; pour la réfuter, un seul contre-exemple suffit.",
+    check:{q:"Lequel de ces énoncés est réfutable au sens de Popper ?", options:["L'eau pure bout à 100 °C au niveau de la mer","Il t'arrivera bientôt quelque chose d'important","Tout ce qui arrive avait une raison d'arriver"], answer:0, why:"On peut chauffer de l'eau et mesurer : si elle bouillait à 90 °C, l'énoncé serait réfuté. Les deux autres sont compatibles avec n'importe quel fait."} },
+
+  { id:"objectivite", short:"Objectivité et paradigmes", a:"Objectivité", b:"subjectivité",
+    question:"La science peut-elle être objective alors que les scientifiques sont humains ?",
+    cle:"Les scientifiques pensent dans le cadre de leur époque (un paradigme), mais l'objectivité se construit collectivement.",
+    probleme:"Un scientifique a des croyances, une carrière, des maîtres. Une idée nouvelle peut être refusée parce qu'elle dérange : poids de l'autorité, ancienneté d'une idée, coût du changement.",
+    exemples:["Semmelweis est rejeté : admettre que leurs mains tuaient des patientes était insupportable pour les médecins.","Galilée est condamné en 1633 pour avoir défendu l'héliocentrisme.","Passer du géocentrisme à l'héliocentrisme, c'est changer de paradigme."],
+    refs:[{who:"Kuhn", work:"La Structure des révolutions scientifiques, 1962", idea:"Science normale dans un paradigme → anomalies → crise → révolution → nouveau paradigme."},
+          {who:"Bachelard", work:"La Formation de l'esprit scientifique, 1938", idea:"Le scientifique doit aller contre les idées majoritaires de son époque, et contre lui-même."}],
+    resolution:"L'objectivité est un idéal collectif (intersubjectif) : protocoles, reproductibilité, évaluation par les pairs, débat contradictoire.",
+    retenir:"Un scientifique seul peut se tromper ; la communauté corrige. Comme l'arbitrage vidéo : plusieurs regards réduisent l'erreur.",
+    check:{q:"Qu'est-ce qu'un paradigme selon Kuhn ?", options:["Un cadre de pensée partagé par les scientifiques d'une époque","Une expérience qui prouve définitivement une théorie","Une erreur commise par un savant isolé"], answer:0, why:"Le paradigme oriente les questions qu'on pose et la manière d'y répondre, jusqu'à ce qu'une crise le fasse remplacer."} },
+
+  { id:"relativisme", short:"Relatif ou relativiste ?", a:"Relatif", b:"relativiste",
+    question:"Si la science change, est-ce que tout se vaut ?",
+    cle:"Le savoir scientifique est relatif (provisoire) sans être relativiste (tout ne se vaut pas).",
+    probleme:"On entend : « La science s'est déjà trompée, donc mon avis vaut le sien. » C'est confondre deux idées très différentes.",
+    exemples:["« La Terre est plate » et « la Terre est ronde » ne se valent pas : l'une a résisté à des siècles de tests (tour du monde, photos satellites, ombre ronde de la Terre sur la Lune), l'autre a été réfutée.","Un avion construit selon « ma vérité à moi » ne volerait pas."],
+    refs:[{who:"Relativisme faible", work:"position raisonnable", idea:"Les connaissances évoluent et dépendent de leur époque."},
+          {who:"Relativisme fort", work:"position intenable", idea:"Toutes les thèses se valent. Elle se contredit : si tout se vaut, « tout se vaut » ne vaut pas plus que son contraire."}],
+    resolution:"Éviter deux excès : le dogmatisme (la science serait absolue et définitive) et le relativisme fort. Entre les deux : un savoir provisoire, mais le meilleur disponible parce qu'il a été testé.",
+    retenir:"Relatif n'est pas relativiste.",
+    check:{q:"« Les théories évoluent, donc la science ne vaut pas plus que l'opinion. » Quelle erreur commet ce raisonnement ?", options:["Il passe du relativisme faible au relativisme fort","Il confond la science et la technique","Il n'y a aucune erreur"], answer:0, why:"Que les théories évoluent (relativisme faible) ne signifie pas que tout se vaut : une théorie testée vaut mieux qu'une opinion jamais testée."} },
+
+  { id:"pseudo", short:"Science ou pseudo-science ?", a:"Science", b:"pseudo-science",
+    question:"Comment reconnaître une fausse science ?",
+    cle:"Une pseudo-science imite la science (elle explique, elle prédit) sans en respecter la méthode.",
+    probleme:"L'astrologie affirme que les astres influencent notre personnalité et notre destin. Elle semble « marcher » parce que nous nous reconnaissons dans des descriptions vagues.",
+    exemples:["Effet Barnum : en 1948, le psychologue Forer donne à tous ses étudiants le même « portrait personnalisé » tiré d'horoscopes. Ils le jugent très juste : plus de 4 sur 5 en moyenne.","Prophétie autoréalisatrice : l'horoscope annonce une rencontre, tu deviens plus ouvert… et tu fais une rencontre."],
+    refs:[{who:"Popper", work:"Conjectures et réfutations, 1963", idea:"La réfutabilité sert de critère de démarcation : l'astrologie fait des prédictions si floues qu'aucun fait ne peut les contredire."}],
+    resolution:"Quatre questions de démarcation : est-ce testable ? reproduit par d'autres ? précis ? ouvert à la critique ? L'enjeu est réel : les pseudo-sciences peuvent manipuler, entretenir la peur et l'ignorance, et miner la confiance dans la science.",
+    retenir:"Ce n'est pas le sujet qui fait la science, c'est la méthode.",
+    check:{q:"Pourquoi l'astrologie n'est-elle pas une science selon Popper ?", options:["Ses prédictions sont trop vagues pour pouvoir être réfutées","Elle étudie les astres, qui sont trop lointains","Elle est trop ancienne"], answer:0, why:"L'astronomie étudie aussi les astres et c'est une science : le problème n'est pas l'objet, mais l'impossibilité de tester les affirmations."} },
+
+  { id:"humaines", short:"Les sciences humaines", a:"Expliquer", b:"comprendre",
+    question:"Peut-on étudier l'être humain comme on étudie une pierre ?",
+    cle:"En sciences humaines, l'objet étudié pense et réagit à ce qu'on dit de lui : il faut une méthode adaptée.",
+    probleme:"Une pierre ne change pas parce qu'on l'étudie ; un humain, si. Une prédiction peut même provoquer ce qu'elle annonce (prophétie autoréalisatrice).",
+    exemples:["2020 : une rumeur annonce une pénurie de papier toilette ; tout le monde en achète ; les rayons se vident. La prédiction a créé la pénurie.","Bulle spéculative : tout le monde croit qu'une action va monter, l'achète… et elle monte, jusqu'à l'effondrement.","Effet Pygmalion (Rosenthal, 1968) : les attentes des enseignants influencent les progrès des élèves. L'ampleur de l'effet est aujourd'hui discutée : la science se corrige."],
+    refs:[{who:"Dilthey", work:"fin du XIXe siècle", idea:"« Nous expliquons la nature, nous comprenons la vie psychique. » Expliquer, c'est chercher les causes ; comprendre, c'est saisir le sens que les personnes donnent à leurs actions."}],
+    resolution:"Les sciences humaines restent rigoureuses : statistiques, enquêtes, comparaisons, et protocoles comme le double aveugle (ni le patient ni le médecin ne savent qui reçoit le vrai traitement) pour neutraliser l'effet des croyances.",
+    retenir:"Une méthode différente ne veut pas dire moins de rigueur.",
+    check:{q:"À quoi sert un protocole en double aveugle ?", options:["À neutraliser l'effet des croyances du patient et du médecin","À doubler le nombre de patients testés","À cacher les résultats au public"], answer:0, why:"Si personne ne sait qui reçoit le vrai traitement, les attentes ne peuvent pas fausser le résultat : on mesure l'effet réel du traitement."} },
+
+  { id:"morale", short:"Science et morale", a:"Savoir", b:"pouvoir",
+    question:"Tout ce que la science rend possible est-il permis ?",
+    cle:"La science dit ce qui est et ce qui est possible, pas ce qu'il faut faire.",
+    probleme:"La physique nucléaire produit de l'électricité… et la bombe atomique. La génétique peut soigner… ou « fabriquer » des bébés sur mesure.",
+    exemples:["1945 : Oppenheimer, qui a dirigé la fabrication de la bombe atomique, s'interroge ensuite sur la responsabilité des savants.","2018 : la naissance en Chine de bébés génétiquement modifiés est condamnée par la communauté scientifique."],
+    refs:[{who:"Rabelais", work:"Pantagruel, 1532", idea:"« Science sans conscience n'est que ruine de l'âme. »"},
+          {who:"Jonas", work:"Le Principe responsabilité, 1979", idea:"Notre pouvoir technique est devenu si grand que nous devons agir en pensant aux générations futures."}],
+    resolution:"Ne pas freiner la recherche par principe, mais l'encadrer : comités d'éthique, lois de bioéthique, débat démocratique. La science éclaire les choix ; la société décide.",
+    retenir:"Le possible n'est pas forcément le permis.",
+    check:{q:"« Puisque la science le permet, il faut le faire. » Qu'objecterait Jonas ?", options:["Que notre pouvoir nous impose une responsabilité envers les générations futures","Que la science ne rend jamais rien de dangereux possible","Qu'il faut arrêter toute recherche scientifique"], answer:0, why:"Pour Jonas, plus notre pouvoir est grand, plus notre responsabilité l'est : il ne s'agit pas d'arrêter la science, mais de mesurer les conséquences de ce qu'elle rend possible."} }
+];
+MODULES.forEach(m => { m.check = prepQ(m.check); });
+
+/* ---------- Contenu : glossaire (pré-entraînement) ---------- */
+const GLOSS = [
+  ["science",0,"Ensemble de connaissances organisées et cohérentes, obtenues par une méthode rigoureuse, qui vise l'objectivité et des lois générales."],
+  ["opinion",1,"Croyance spontanée, non examinée, qui donne l'illusion de savoir. Elle répond vite pour rassurer."],
+  ["expérience commune",1,"Observation spontanée et subjective de la vie quotidienne. Elle peut tromper (le Soleil qui « se lève »)."],
+  ["expérimentation",1,"Expérience construite : artificielle (provoquée), précise (mesurée) et suivant un protocole reproductible."],
+  ["obstacle épistémologique",1,"Chez Bachelard, ce qui freine la connaissance scientifique dans l'esprit même : opinion, première impression, habitudes."],
+  ["rupture épistémologique",1,"Moment où la science se construit en rompant avec l'opinion ou avec une connaissance antérieure."],
+  ["hypothèse",2,"Réponse provisoire à un problème, qu'il faut mettre à l'épreuve avant de l'accepter."],
+  ["démarche hypothético-déductive",2,"Problème → hypothèse → déduction d'une conséquence testable → expérience → hypothèse éliminée ou retenue."],
+  ["induction",3,"Raisonnement qui passe de cas particuliers observés à une loi générale."],
+  ["problème de l'induction",3,"Des cas particuliers, même très nombreux, ne prouvent jamais qu'une loi générale est vraie (Hume)."],
+  ["réfutabilité",3,"Chez Popper, une théorie est scientifique si l'on peut imaginer une expérience qui la montrerait fausse. Synonyme : falsifiabilité."],
+  ["corroboration",3,"Une théorie qui a résisté à des tests sévères n'est pas prouvée : elle est corroborée, vraie « jusqu'à preuve du contraire »."],
+  ["paradigme",4,"Chez Kuhn, cadre de pensée partagé par la communauté scientifique d'une époque (par exemple, le géocentrisme)."],
+  ["science normale",4,"Travail ordinaire des scientifiques à l'intérieur d'un paradigme accepté."],
+  ["révolution scientifique",4,"Remplacement d'un paradigme par un autre, après une crise causée par des anomalies."],
+  ["objectivité",4,"Caractère d'une connaissance qui ne dépend pas des préférences du sujet. En science, c'est un idéal collectif."],
+  ["reproductibilité",4,"D'autres chercheurs, suivant le même protocole, doivent obtenir le même résultat."],
+  ["évaluation par les pairs",4,"Relecture critique d'un travail par d'autres spécialistes avant sa publication."],
+  ["dogmatisme",5,"Attitude qui tient une connaissance pour absolue et définitive, sans accepter de la remettre en question."],
+  ["relativisme faible",5,"Idée que les connaissances évoluent et dépendent de leur époque. Position raisonnable."],
+  ["relativisme fort",5,"Idée que toutes les thèses se valent. Elle se contredit : « tout se vaut » ne vaudrait pas plus que son contraire."],
+  ["pseudo-science",6,"Pratique qui se présente comme une science (elle explique, elle prédit) sans en respecter la méthode."],
+  ["critère de démarcation",6,"Critère qui sépare science et non-science. Chez Popper : la réfutabilité."],
+  ["effet Barnum",6,"Tendance à accepter une description vague comme si elle nous concernait personnellement."],
+  ["prophétie autoréalisatrice",7,"Prédiction qui, parce qu'on y croit, modifie les comportements et provoque sa propre réalisation."],
+  ["double aveugle",7,"Protocole où ni le patient ni le médecin ne savent qui reçoit le vrai traitement : on neutralise l'effet des croyances."],
+  ["principe responsabilité",8,"Chez Jonas, obligation d'agir de façon à préserver l'existence et la qualité de vie des générations futures."]
+].map(([t, m, d]) => ({ t, m, d }));
+
+/* ---------- Contenu : flashcards ---------- */
+const AUTEURS = [
+  ["Aristote","IVe s. av. J.-C.",0,"Métaphysique : « Tous les hommes désirent naturellement savoir. » Il n'y a de science que du général. Sa physique (les corps lourds tombent plus vite) sera réfutée par Galilée."],
+  ["Descartes","1596-1650",0,"Discours de la méthode (1637) : doute méthodique ; ne tenir pour vrai que ce qui est évident après examen, pour fonder solidement les connaissances."],
+  ["Galilée","1564-1642",1,"Remplace l'observation spontanée par l'expérimentation. Montre que la vitesse de chute ne dépend pas de la masse. Condamné en 1633 pour avoir défendu l'héliocentrisme."],
+  ["Hume","1711-1776",3,"Problème de l'induction : nous croyons que l'avenir ressemblera au passé par habitude, non par preuve."],
+  ["Bachelard","1884-1962",1,"La Formation de l'esprit scientifique (1938) : l'opinion est un obstacle épistémologique ; la science se construit contre elle et contre nos premières impressions."],
+  ["Popper","1902-1994",3,"La Logique de la découverte scientifique (1934) : une théorie est scientifique si elle est réfutable. C'est le critère de démarcation entre science et pseudo-science."],
+  ["Kuhn","1922-1996",4,"La Structure des révolutions scientifiques (1962) : science normale dans un paradigme, anomalies, crise, révolution scientifique."],
+  ["Dilthey","1833-1911",7,"Distingue les sciences de la nature (expliquer par les causes) et les sciences de l'esprit (comprendre le sens)."],
+  ["Rabelais","vers 1494-1553",8,"Pantagruel (1532) : « Science sans conscience n'est que ruine de l'âme. » Le savoir doit être guidé par la morale."],
+  ["Jonas","1903-1993",8,"Le Principe responsabilité (1979) : notre pouvoir technique nous oblige à agir en pensant aux générations futures."]
+];
+const CITATIONS = [
+  ["« Tous les hommes désirent naturellement savoir. »",0,"Aristote, Métaphysique. Le désir de connaître est naturel chez l'humain : c'est l'origine de la science."],
+  ["« L'opinion pense mal ; elle ne pense pas. »",1,"Bachelard, La Formation de l'esprit scientifique (1938). L'opinion traduit nos besoins en connaissances : elle rassure au lieu d'examiner."],
+  ["« Rien ne va de soi. Rien n'est donné. Tout est construit. »",1,"Bachelard. Une connaissance scientifique n'est jamais une simple observation : elle répond à une question construite."],
+  ["« Le critère de la scientificité d'une théorie réside dans la possibilité de l'invalider, de la réfuter ou encore de la tester. »",3,"Popper, Conjectures et réfutations (1963). C'est le critère de réfutabilité."],
+  ["« Nous expliquons la nature, nous comprenons la vie psychique. »",7,"Dilthey. Les sciences de la nature cherchent des causes ; les sciences humaines cherchent aussi le sens."],
+  ["« Science sans conscience n'est que ruine de l'âme. »",8,"Rabelais, Pantagruel (1532). Le savoir sans morale peut devenir destructeur."]
+];
+const EXEMPLES = [
+  ["La plume et le marteau sur la Lune (1971)",1,"Sans air, ils tombent ensemble : l'expérience commune (« le lourd tombe plus vite ») trompait. C'est Galilée contre Aristote."],
+  ["Le Soleil qui « se lève »",1,"Nos sens nous trompent : c'est la Terre qui tourne. La science corrige l'évidence."],
+  ["Semmelweis et la fièvre puerpérale",2,"La démarche hypothético-déductive : sept hypothèses éliminées, puis l'hypothèse de la matière cadavérique corroborée par le lavage des mains."],
+  ["Semmelweis rejeté par ses collègues",4,"Le poids de l'autorité et du paradigme : une vérité dérangeante peut être refusée. D'où la nécessité d'une objectivité collective."],
+  ["La dinde de Russell",3,"Le problème de l'induction : nourrie chaque matin, elle croit que cela durera toujours… jusqu'au matin de Noël."],
+  ["Le cygne noir",3,"L'asymétrie de Popper : des milliers de cygnes blancs ne prouvent pas que tous le sont ; un seul cygne noir réfute la loi."],
+  ["Newton et le GPS",3,"Une théorie dépassée n'est pas fausse partout : Newton reste valable à notre échelle, mais le GPS doit tenir compte de la relativité d'Einstein."],
+  ["Le procès de Galilée (1633)",4,"La résistance d'un paradigme (le géocentrisme) et de l'autorité face à une idée nouvelle."],
+  ["La Terre plate ou ronde",5,"Relatif n'est pas relativiste : les deux thèses ne se valent pas, l'une a résisté aux tests, l'autre a été réfutée."],
+  ["L'expérience de Forer (1948)",6,"L'effet Barnum : tous les étudiants jugent très juste le même portrait vague tiré d'horoscopes."],
+  ["La pénurie de papier toilette (2020)",7,"La prophétie autoréalisatrice : la rumeur de pénurie fait acheter tout le monde et crée la pénurie."],
+  ["L'effet Pygmalion (Rosenthal, 1968)",7,"Les attentes des enseignants influencent les progrès des élèves. L'ampleur de l'effet est aujourd'hui discutée, signe que la science se corrige."],
+  ["Les bébés génétiquement modifiés (2018)",8,"Le possible n'est pas le permis : la communauté scientifique a condamné cette expérience."]
+];
+const REPERES = [
+  ["croire / savoir",0,"Croire : tenir pour vrai sans preuve suffisante. Savoir : tenir pour vrai avec des raisons justifiées et vérifiables. La science veut passer de l'un à l'autre."],
+  ["universel / général / particulier / singulier",0,"Universel : vaut pour tous les cas sans exception. Général : vaut pour la plupart des cas. Particulier : quelques cas. Singulier : un cas unique. La science vise des lois universelles à partir de cas particuliers."],
+  ["hypothèse / conséquence / conclusion",2,"Hypothèse : supposition de départ. Conséquence : ce qui en découle logiquement et peut être testé. Conclusion : ce qu'on retient après le test."],
+  ["exemple / preuve",3,"Un exemple illustre une idée, il ne la prouve pas (problème de l'induction). Mais un contre-exemple peut réfuter une loi générale."],
+  ["en fait / en droit",3,"En fait : ce qui se passe réellement. En droit : ce qui devrait être, ce qui est légitime. En fait, les théories changent ; en droit, la science vise une vérité universelle."],
+  ["objectif / subjectif / intersubjectif",4,"Subjectif : dépend du sujet. Objectif : vaut indépendamment du sujet. Intersubjectif : validé par l'accord contrôlé de plusieurs sujets ; c'est ainsi que se construit l'objectivité scientifique."],
+  ["absolu / relatif",5,"Absolu : ne dépend de rien d'autre. Relatif : dépend d'autre chose (une époque, des instruments). Le savoir scientifique est relatif sans être relativiste."],
+  ["expliquer / comprendre",7,"Expliquer : rendre compte d'un phénomène par ses causes (sciences de la nature). Comprendre : saisir le sens d'une action ou d'une intention (sciences humaines). Distinction de Dilthey."]
+];
+const CATS = ["Définition","Auteur","Citation","Exemple","Repère"];
+const CARDS = [].concat(
+  GLOSS.map((g, i) => ({ id:"d"+i, cat:"Définition", m:g.m, front:g.t, ask:"Donne la définition.", back:g.d })),
+  AUTEURS.map((a, i) => ({ id:"a"+i, cat:"Auteur", m:a[2], front:a[0], ask:"Dates : "+a[1]+". Œuvre et idée clé ?", back:a[3] })),
+  CITATIONS.map((c, i) => ({ id:"c"+i, cat:"Citation", m:c[1], front:c[0], ask:"Qui l'a dit ? Que veut dire la phrase ?", back:c[2], quote:true })),
+  EXEMPLES.map((e, i) => ({ id:"e"+i, cat:"Exemple", m:e[1], front:e[0], ask:"Que montre cet exemple ?", back:e[2] })),
+  REPERES.map((r, i) => ({ id:"r"+i, cat:"Repère", m:r[1], front:r[0], ask:"Distingue les termes.", back:r[2] }))
+);
+
+/* ---------- Contenu : exercices ---------- */
+const L1_ITEMS = [
+  {q:"Selon Bachelard, l'opinion est…", options:["un obstacle à la connaissance scientifique","un premier degré de la science qu'il suffit de préciser","une connaissance fiable parce que partagée par tous"], answer:0, why:"Pour Bachelard, l'opinion « pense mal ; elle ne pense pas » : elle bloque la question au lieu de l'ouvrir. La science se construit en rupture avec elle, pas dans son prolongement."},
+  {q:"Le critère de démarcation proposé par Popper est…", options:["la réfutabilité","la vérifiabilité","l'utilité pratique"], answer:0, why:"Une loi universelle ne peut jamais être vérifiée définitivement, mais elle peut être réfutée. Une théorie est scientifique si elle s'expose à ce risque."},
+  {q:"Une révolution scientifique, chez Kuhn, c'est…", options:["le remplacement d'un paradigme par un autre après une crise","la découverte d'un fait qui confirme la théorie en place","une invention technique qui change la vie quotidienne"], answer:0, why:"Les anomalies s'accumulent, le paradigme entre en crise, puis un nouveau cadre le remplace (géocentrisme → héliocentrisme)."},
+  {q:"Le problème de l'induction, c'est que…", options:["des cas particuliers, même nombreux, ne prouvent pas une loi générale","l'induction est un raisonnement trop lent","on ne peut rien observer avec certitude"], answer:0, why:"C'est la leçon de Hume et de la dinde de Russell : mille matins identiques ne garantissent pas le mille-et-unième."},
+  {q:"« Nous expliquons la nature, nous comprenons la vie psychique » est une phrase de…", options:["Dilthey","Descartes","Popper"], answer:0, why:"Dilthey distingue expliquer (par les causes, sciences de la nature) et comprendre (le sens, sciences humaines)."},
+  {q:"L'expérimentation se distingue de l'observation spontanée parce qu'elle est…", options:["construite, mesurée et reproductible","plus ancienne","réalisée par un seul savant"], answer:0, why:"L'expérimentation est provoquée, précise et suit un protocole que d'autres peuvent refaire. C'est ce qui permet de corriger les illusions des sens."},
+  {q:"Le relativisme fort affirme que…", options:["toutes les thèses se valent","les connaissances évoluent avec le temps","la science est absolue et définitive"], answer:0, why:"Le relativisme faible dit que les connaissances évoluent ; le relativisme fort dit que tout se vaut, ce qui se contredit. La troisième réponse décrit le dogmatisme."},
+  {q:"L'effet Barnum désigne…", options:["la tendance à se reconnaître dans une description vague","le fait qu'une prédiction se réalise parce qu'on y croit","la peur d'être critiqué par ses collègues"], answer:0, why:"Forer (1948) l'a montré avec un même portrait donné à tous ses étudiants. La deuxième réponse décrit une prophétie autoréalisatrice, un autre mécanisme."}
+].map(prepQ);
+
+const L2_AUTEURS = [
+  {l:"Aristote", r:"Il n'y a de science que du général.", why:"Pour Aristote, la science porte sur des lois, pas sur des cas isolés."},
+  {l:"Descartes", r:"Ne rien tenir pour vrai sans l'avoir examiné.", why:"C'est la première règle de la méthode (Discours de la méthode, 1637)."},
+  {l:"Bachelard", r:"L'opinion est un obstacle épistémologique.", why:"La science se construit contre l'opinion et contre nos premières impressions."},
+  {l:"Hume", r:"Nous croyons à la régularité du monde par habitude.", why:"C'est le problème de l'induction : aucune preuve ne garantit que l'avenir ressemblera au passé."},
+  {l:"Popper", r:"Une théorie scientifique doit pouvoir être réfutée.", why:"La réfutabilité est son critère de démarcation."},
+  {l:"Kuhn", r:"La science avance par révolutions de paradigmes.", why:"Science normale, anomalies, crise, révolution."},
+  {l:"Dilthey", r:"On explique la nature, on comprend la vie psychique.", why:"Distinction entre sciences de la nature et sciences de l'esprit."},
+  {l:"Jonas", r:"Notre pouvoir nous oblige envers les générations futures.", why:"C'est le principe responsabilité (1979)."}
+];
+const L2_EXEMPLES = [
+  {l:"La dinde de Russell", r:"Le problème de l'induction", why:"Des cas répétés ne garantissent pas une loi."},
+  {l:"Le cygne noir", r:"La réfutation par un contre-exemple", why:"Un seul fait contraire suffit à réfuter une loi universelle."},
+  {l:"La plume et le marteau sur la Lune", r:"La rupture avec l'expérience commune", why:"L'évidence (« le lourd tombe plus vite ») est corrigée par l'expérience construite."},
+  {l:"Semmelweis supprime la clochette", r:"Une hypothèse éliminée par le test", why:"La conséquence prévue (baisse de mortalité) ne se produit pas."},
+  {l:"Galilée condamné en 1633", r:"La résistance du paradigme et de l'autorité", why:"Une idée nouvelle dérange le cadre établi."},
+  {l:"L'expérience de Forer", r:"L'effet Barnum", why:"Chacun se reconnaît dans un portrait vague."},
+  {l:"La pénurie de papier toilette", r:"La prophétie autoréalisatrice", why:"La croyance en la pénurie provoque la pénurie."},
+  {l:"Les bébés génétiquement modifiés", r:"Le possible n'est pas le permis", why:"Ce que la science rend possible doit être jugé moralement."}
+];
+
+const L3_REFUT = {
+  cats:["Réfutable","Non réfutable"],
+  items:[
+    {t:"Tous les métaux se dilatent quand on les chauffe.", c:0, why:"On peut chauffer un métal et mesurer : un seul métal qui ne se dilate pas réfuterait l'énoncé."},
+    {t:"Les natifs du Bélier sont des leaders nés, sauf quand ils ne le sont pas.", c:1, why:"L'énoncé prévoit lui-même son exception : aucun fait ne peut le contredire."},
+    {t:"Dans le vide, deux objets de masses différentes tombent avec la même accélération.", c:0, why:"On peut le tester (c'est ce qu'a montré l'expérience du marteau et de la plume sur la Lune)."},
+    {t:"Ce qui doit arriver arrivera.", c:1, why:"Quoi qu'il arrive, on dira que « cela devait arriver » : l'énoncé ne prend aucun risque."},
+    {t:"Se laver les mains entre la salle de dissection et la maternité fait baisser la mortalité.", c:0, why:"C'est l'hypothèse de Semmelweis : si la mortalité n'avait pas baissé, elle aurait été réfutée."},
+    {t:"Tu traverses une période de changements, mais tu as des ressources en toi.", c:1, why:"Phrase vague typique de l'effet Barnum : elle convient à tout le monde, donc rien ne peut la contredire."},
+    {t:"La Terre fait le tour du Soleil en environ 365 jours.", c:0, why:"On peut le mesurer par l'observation astronomique ; un autre résultat le réfuterait."},
+    {t:"Les rêves expriment toujours un désir caché, même quand ils semblent dire le contraire.", c:1, why:"Si le rêve dit le contraire, on y voit encore le désir « caché » : l'énoncé explique tout, donc rien ne peut le réfuter. Popper adressait ce reproche à certains usages de la psychanalyse."}
+  ]
+};
+const L3_RELAT = {
+  cats:["Dogmatisme","Savoir relatif","Relativisme fort"],
+  items:[
+    {t:"La science a dit son dernier mot sur l'univers : il n'y a plus rien à découvrir.", c:0, why:"Croire la connaissance définitive et close, c'est du dogmatisme."},
+    {t:"La physique de Newton a été dépassée sur certains points par Einstein, mais reste valable à notre échelle.", c:1, why:"Le savoir est corrigé et précisé, sans être jeté : c'est un savoir relatif, mais solide."},
+    {t:"Chacun sa vérité : la Terre plate est une opinion comme une autre.", c:2, why:"Mettre sur le même plan une thèse testée et une thèse réfutée, c'est le relativisme fort."},
+    {t:"Ce que dit mon manuel de sciences ne peut jamais être remis en question.", c:0, why:"Refuser toute remise en question est contraire à l'esprit scientifique lui-même."},
+    {t:"Nos connaissances sur les dinosaures ont changé (certains avaient des plumes) grâce à de nouveaux fossiles.", c:1, why:"De nouvelles preuves corrigent la connaissance : c'est ainsi que la science progresse."},
+    {t:"Les vaccins, c'est une théorie ; les remèdes de ma grand-mère, une autre : ça se vaut.", c:2, why:"Les vaccins ont été testés par des essais contrôlés ; mettre toutes les affirmations au même niveau, c'est le relativisme fort."}
+  ]
+};
+
+const L4_ORDER = [
+  {t:"Constat : un service de la maternité compte beaucoup plus de décès que l'autre.", st:"Problème"},
+  {t:"Plusieurs hypothèses sont testées puis éliminées (épidémie, clochette du prêtre, position…).", st:"Hypothèses éliminées"},
+  {t:"Un collègue se coupe pendant une dissection et meurt des mêmes symptômes.", st:"Fait nouveau"},
+  {t:"Nouvelle hypothèse : les mains des médecins transportent de la matière cadavérique.", st:"Hypothèse"},
+  {t:"Déduction : si c'est vrai, se laver les mains doit faire baisser la mortalité.", st:"Conséquence testable"},
+  {t:"Test : lavage obligatoire des mains au chlorure de chaux.", st:"Expérimentation"},
+  {t:"Résultat : la mortalité chute ; l'hypothèse est corroborée.", st:"Conclusion"}
+];
+const L4_CAS = [
+  {ctx:"Léa : « J'ai révisé la veille pour mes quatre derniers contrôles et j'ai eu de bonnes notes. Donc réviser la veille, ça marche toujours. »", q:"Quel concept éclaire l'erreur de Léa ?", options:["Le problème de l'induction","L'effet Barnum","Le paradigme"], answer:0, why:"Léa généralise à partir de quatre cas : comme la dinde de Russell, elle ne prouve pas que ce sera toujours vrai. D'autres causes ont pu jouer (contrôles faciles, cours bien suivi)."},
+  {ctx:"Une rumeur annonce sur les réseaux une pénurie d'essence. Le lendemain, les stations sont à sec.", q:"Quel mécanisme est à l'œuvre ?", options:["Une prophétie autoréalisatrice","Une réfutation","Un obstacle épistémologique"], answer:0, why:"La croyance en la pénurie pousse chacun à faire le plein, ce qui provoque la pénurie annoncée. C'est la difficulté propre aux sciences humaines."},
+  {ctx:"Au XIXe siècle, un médecin refuse une nouvelle méthode parce que tous ses maîtres enseignaient le contraire.", q:"Qu'est-ce qui l'empêche d'accepter la nouveauté ?", options:["Le poids du paradigme et de l'autorité","Le relativisme fort","L'effet Barnum"], answer:0, why:"C'est l'histoire de Semmelweis : le cadre établi et le prestige des maîtres freinent l'idée nouvelle (Kuhn). D'où l'importance du contrôle collectif par les faits."},
+  {ctx:"Un voyant affirme : « Je vois un changement dans votre vie dans les prochains mois. »", q:"Pourquoi cette affirmation n'est-elle pas scientifique ?", options:["Elle est trop vague pour être réfutée","Elle porte sur l'avenir","Elle n'a pas été publiée"], answer:0, why:"Une prédiction scientifique peut porter sur l'avenir (une éclipse). Le problème est le flou : quoi qu'il arrive, on pourra dire qu'il y a eu « un changement »."},
+  {ctx:"Tom : « Les astronomes ont changé d'avis sur Pluton, qui n'est plus une planète depuis 2006. Donc je n'ai pas à croire la science. »", q:"Quelle confusion fait Tom ?", options:["Il confond savoir relatif et relativisme","Il confond expliquer et comprendre","Il confond induction et déduction"], answer:0, why:"Le reclassement de Pluton montre que la science se corrige quand les données changent : c'est un savoir relatif. Cela ne veut pas dire que toutes les opinions se valent."},
+  {ctx:"Pour tester un médicament, on donne à la moitié des patients une pilule sans principe actif, sans que ni eux ni les médecins sachent qui reçoit quoi.", q:"Pourquoi procéder ainsi ?", options:["Pour neutraliser l'effet des croyances (double aveugle)","Pour économiser des médicaments","Pour vérifier définitivement le médicament"], answer:0, why:"Le double aveugle empêche les attentes du patient et du médecin de fausser le résultat. Il ne « vérifie » rien définitivement : il permet un test sévère."}
+].map(prepQ);
+
+const L5_WORKED = {
+  sujet:"Une vérité scientifique peut-elle changer ?",
+  steps:[
+    {h:"Analyser les termes", prompt:"Quels mots du sujet faut-il définir, et lequel est le plus piégeux ?",
+     body:["« Vérité » : accord entre ce que l'on pense et ce qui est. On attend d'elle qu'elle soit stable et universelle.","« Scientifique » : obtenue par une méthode rigoureuse (hypothèse, expérimentation, contrôle par les pairs).","« Changer » : être corrigée, complétée ou remplacée.","« Peut-elle » : deux sens. En fait (arrive-t-il qu'elle change ?) et en droit (est-ce compatible avec l'idée même de vérité ?)."],
+     why:"Le repère en fait / en droit transforme une question d'histoire des sciences en vrai problème philosophique."},
+    {h:"Repérer le paradoxe", prompt:"Qu'est-ce qui, dans ces définitions, entre en contradiction ?",
+     body:["En fait, l'histoire des sciences montre que les théories changent : le géocentrisme a été abandonné, Newton a été corrigé par Einstein.","En droit, une vérité qui change semble ne pas en être une : si c'était vrai hier, comment cela peut-il être faux aujourd'hui ?"],
+     why:"Le paradoxe naît de la tension entre ce qu'on observe (les théories changent) et ce qu'on attend de la vérité (qu'elle ne change pas)."},
+    {h:"Formuler la problématique", prompt:"Comment transformer ce paradoxe en une question qui oppose deux réponses possibles ?",
+     body:["Le fait que les théories scientifiques soient remplacées signifie-t-il que la science ne dit pas la vérité, ou ce changement est-il la manière même dont la science s'approche du vrai ?"],
+     why:"Une bonne problématique reprend les termes du sujet et met deux thèses face à face."},
+    {h:"Construire le plan", prompt:"Quel ordre permet d'aller de l'évidence vers une réponse plus fine ?",
+     body:["I. Une vérité scientifique semble ne pas pouvoir changer : elle est universelle et établie par une méthode (Aristote : il n'y a de science que du général ; Descartes : ne tenir pour vrai que ce qui a été examiné).","II. Pourtant, l'histoire des sciences est faite de ruptures : l'induction ne prouve jamais rien définitivement (Hume, la dinde de Russell) et les paradigmes sont renversés (Kuhn ; Galilée contre Aristote).","III. Ce qui change, ce sont les théories, pas l'exigence de vérité : une théorie est vraie « jusqu'à preuve du contraire » (Popper : réfutabilité, corroboration). Newton reste valable à notre échelle : le savoir est relatif sans être relativiste."],
+     why:"Chaque partie dépasse la précédente : la III ne choisit pas entre I et II, elle distingue les théories (qui changent) et la visée de vérité (qui demeure)."}
+  ]
+};
+function B(opts, why){ return prepBlank({ blank:true, opts, a:0, why }); }
+const L5_CLOZE = {
+  sujet:"Faut-il croire ce que dit la science ?",
+  paras:[
+    ["Analyse : le verbe « croire » s'oppose ici à ", B(["savoir","douter","penser"],"Repère croire / savoir : croire, c'est tenir pour vrai sans preuve suffisante ; savoir, c'est le faire avec des raisons vérifiables."), ". Croire, c'est tenir pour vrai sans preuve suffisante."],
+    ["Paradoxe : la science s'oppose à ", B(["l'opinion","la technique","la morale"],"Bachelard : la science se construit contre l'opinion. Or, si nous croyons la science sans la comprendre, notre adhésion ressemble à une opinion."), ", pourtant la plupart d'entre nous ne peuvent pas vérifier eux-mêmes ses résultats et doivent lui faire confiance."],
+    ["Problématique : peut-on accorder notre confiance à la science sans retomber dans une croyance ", B(["aveugle","religieuse","rationnelle"],"Le problème porte sur la nature de notre adhésion : confiance justifiée ou soumission sans examen."), " ?"],
+    ["I. Il ne faudrait pas croire la science, mais la comprendre : selon ", B(["Bachelard","Rabelais","Dilthey"],"Bachelard : « L'opinion pense mal ; elle ne pense pas. » Croire sans comprendre, c'est rester dans l'opinion."), ", le savoir scientifique se construit contre l'opinion."],
+    ["II. Mais personne ne peut tout vérifier : notre confiance repose sur le contrôle ", B(["collectif","individuel","politique"],"L'objectivité est intersubjective : évaluation par les pairs, reproductibilité, débat. On fait confiance à une procédure, pas à une personne."), " des résultats par la communauté scientifique."],
+    ["III. Faire confiance à la science n'est pas croire aveuglément, car elle accepte d'être ", B(["réfutée","imposée","vérifiée définitivement"],"Popper : une théorie scientifique s'expose au test. Une croyance aveugle, elle, refuse toute réfutation."), " : son savoir est relatif sans être ", B(["relativiste","objectif","rationnel"],"Relatif : provisoire et améliorable. Relativiste : tout se vaudrait. La science est le premier, pas le second."), "."]
+  ]
+};
+const L5_PROD = {
+  sujet:"L'expérience suffit-elle à fonder la connaissance ?",
+  fields:[
+    {id:"def", label:"1. Définis les termes (au moins deux sens d'« expérience »)", ph:"Expérience commune : … / Expérimentation : … / Suffire : … / Fonder : …", rows:4},
+    {id:"pb", label:"2. Paradoxe et problématique", ph:"D'un côté… ; de l'autre… Donc : … ?", rows:4},
+    {id:"plan", label:"3. Plan en trois parties (une phrase par partie)", ph:"I. … / II. … / III. …", rows:5},
+    {id:"par", label:"4. Un paragraphe argumentatif qui mobilise Popper et un exemple", ph:"Argument, explication, exemple, conclusion partielle.", rows:7}
+  ],
+  simple:[
+    {h:"Définitions", lines:["Expérience : (1) expérience commune, vécue et spontanée ; (2) expérimentation, construite selon un protocole.","Suffire : être une condition suffisante, pas seulement nécessaire.","Fonder : donner une base solide qui justifie la connaissance."]},
+    {h:"Problématique", lines:["Toute connaissance du réel semble partir de l'expérience ; pourtant l'expérience trompe et ne peut pas prouver une loi générale. Si la connaissance doit partir de l'expérience, celle-ci peut-elle à elle seule en garantir la vérité, ou faut-il que la raison la construise et la critique ?"]},
+    {h:"Plan", lines:["I. La connaissance part de l'expérience : l'étonnement et l'observation sont le point de départ de toute démarche (Aristote).","II. Mais l'expérience seule ne suffit pas : elle trompe (Bachelard ; Aristote contre Galilée) et l'induction ne prouve rien (Hume ; la dinde de Russell).","III. La connaissance naît d'une expérience construite par la raison : l'hypothèse guide l'expérimentation (Semmelweis), et l'expérience juge les théories en les réfutant (Popper)."]}
+  ],
+  detail:[
+    {h:"Paragraphe modèle", lines:["Argument : l'expérience ne peut pas prouver une loi universelle, mais elle peut la réfuter.","Explication : Popper montre qu'il existe une asymétrie. Aucune quantité d'observations favorables ne garantit qu'une loi vaut pour tous les cas ; en revanche, un seul fait contraire suffit à la montrer fausse. Une théorie est donc scientifique quand elle s'expose à ce risque.","Exemple : des milliers de cygnes blancs observés en Europe ne prouvaient pas que « tous les cygnes sont blancs » ; la découverte de cygnes noirs en Australie a suffi à réfuter cette loi.","Conclusion partielle : l'expérience ne suffit donc pas à fonder la connaissance, mais elle reste indispensable comme juge : elle ne dit pas ce qui est vrai, elle élimine ce qui est faux."]},
+    {h:"Pourquoi ce corrigé fonctionne", lines:["La problématique part d'une vraie tension : l'expérience est un point de départ indispensable, mais une garantie insuffisante.","La partie III ne choisit pas un camp : elle redéfinit le rôle de l'expérience (juge plutôt que fondement).","Chaque auteur est expliqué et appuyé par un exemple concret."]}
+  ],
+  checklist:["J'ai défini les deux sens d'« expérience ».","J'ai formulé un paradoxe, et pas seulement reformulé la question.","Ma problématique reprend les termes du sujet.","Mon plan progresse : chaque partie dépasse la précédente.","J'ai mobilisé au moins deux auteurs, en expliquant leur idée.","Chaque argument s'appuie sur un exemple précis.","J'ai utilisé au moins un repère (croire / savoir, exemple / preuve…)."]
+};
+
+const LEVELS = [
+  { n:1, title:"Reconnaître", goal:"Retrouver une définition, un auteur, une idée.", ex:[
+    { id:"l1-qcm", type:"qcm", title:"Définitions et auteurs", consigne:"Choisis la bonne réponse pour chaque question, puis vérifie.", items:L1_ITEMS } ] },
+  { n:2, title:"Associer", goal:"Relier une thèse à son auteur, un exemple au concept qu'il illustre.", ex:[
+    { id:"l2-auteurs", type:"match", title:"Auteur et thèse", consigne:"Associe chaque auteur à sa thèse.", pairs:L2_AUTEURS },
+    { id:"l2-exemples", type:"match", title:"Exemple et concept", consigne:"Associe chaque exemple au concept qu'il illustre.", pairs:L2_EXEMPLES } ] },
+  { n:3, title:"Classer", goal:"Appliquer un critère à des énoncés que tu n'as jamais vus.", ex:[
+    { id:"l3-refut", type:"sort", title:"Réfutable ou non ?", consigne:"Pour chaque énoncé : pourrait-on imaginer un fait qui le montrerait faux ?", data:L3_REFUT },
+    { id:"l3-relat", type:"sort", title:"Dogmatisme, savoir relatif ou relativisme fort ?", consigne:"Classe chaque affirmation selon la position qu'elle exprime.", data:L3_RELAT } ] },
+  { n:4, title:"Analyser", goal:"Reconnaître un concept dans une situation concrète.", ex:[
+    { id:"l4-ordre", type:"order", title:"La démarche de Semmelweis", consigne:"Remets les étapes dans l'ordre avec les flèches.", steps:L4_ORDER },
+    { id:"l4-cas", type:"qcm", title:"Études de cas", consigne:"Lis chaque situation et choisis le concept qui l'éclaire.", items:L4_CAS } ] },
+  { n:5, title:"Argumenter", goal:"Utiliser les concepts dans une dissertation, du guidé à l'autonome.", ex:[
+    { id:"l5-guide", type:"worked", tag:"Exemple guidé", title:"Analyse de sujet commentée", consigne:"Lis chaque étape. Avant de l'ouvrir, essaie de répondre à la question en orange.", data:L5_WORKED },
+    { id:"l5-trous", type:"cloze", tag:"À compléter", title:"Analyse à compléter", consigne:"Même démarche, mais c'est toi qui complètes les éléments clés.", data:L5_CLOZE },
+    { id:"l5-seul", type:"production", tag:"En autonomie", title:"Analyse en autonomie", consigne:"Rédige seul, puis compare avec le corrigé et évalue-toi avec la grille.", data:L5_PROD } ] }
+];
+const EX_ALL = LEVELS.reduce((a, l) => a.concat(l.ex), []);
+
+/* ---------- Icônes (style Breeze, monochromes) ---------- */
+function Icon({ name, size }){
+  const s = size || 16;
+  const p = {
+    home: html`<path d="M2.5 8 8 3l5.5 5"/><path d="M4 7v6.5h8V7"/><path d="M6.5 13.5v-3.5h3v3.5"/>`,
+    tag: html`<path d="M2.5 2.5h5.5l6 6-5.5 5.5-6-6z"/><circle cx="5.5" cy="5.5" r="1"/>`,
+    book: html`<path d="M8 4.5C6.8 3.4 5 3 2.5 3v9.5c2.5 0 4.3.4 5.5 1.5 1.2-1.1 3-1.5 5.5-1.5V3C11 3 9.2 3.4 8 4.5z"/><path d="M8 4.5V14"/>`,
+    cards: html`<rect x="2.5" y="5" width="9" height="8.5" rx="1"/><path d="M5 3h7.5a1 1 0 0 1 1 1v7"/>`,
+    check: html`<rect x="2.5" y="2.5" width="11" height="11" rx="1.5"/><path d="M5.2 8.2 7.2 10.2 11 5.8"/>`,
+    up: html`<path d="M4 10l4-4 4 4"/>`,
+    down: html`<path d="M4 6l4 4 4-4"/>`,
+    logo: html`<circle cx="8" cy="8" r="5.5"/><path d="M8 2.5v11M2.5 8h11"/><circle cx="8" cy="8" r="2"/>`
+  }[name];
+  return html`<svg className="ico" width=${s} height=${s} viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">${p}</svg>`;
+}
+
+/* ---------- Schémas ---------- */
+function head(x1, y1, x2, y2){
+  const a = Math.atan2(y2 - y1, x2 - x1), s = 8;
+  return x2 + "," + y2 + " " + (x2 - s * Math.cos(a - 0.45)) + "," + (y2 - s * Math.sin(a - 0.45)) + " " + (x2 - s * Math.cos(a + 0.45)) + "," + (y2 - s * Math.sin(a + 0.45));
+}
+function Arr({ pts, tone, dashed, label, lx, ly, anchor }){
+  const n = pts.length, p1 = pts[n - 2], p2 = pts[n - 1];
+  return html`<g className=${"arr" + (tone ? " t-" + tone : "")}>
+    <polyline points=${pts.map(p => p.join(",")).join(" ")} fill="none" strokeDasharray=${dashed ? "5 4" : undefined}/>
+    <polygon points=${head(p1[0], p1[1], p2[0], p2[1])}/>
+    ${label ? html`<text x=${lx} y=${ly} textAnchor=${anchor || "middle"} className="al">${label}</text>` : null}
+  </g>`;
+}
+function Bx({ x, y, w, h, t, s, tone }){
+  return html`<g className=${"bx" + (tone ? " t-" + tone : "")}>
+    <rect x=${x} y=${y} width=${w} height=${h} rx="5"/>
+    <text x=${x + w / 2} y=${s ? y + h / 2 - 3 : y + h / 2 + 4.5} textAnchor="middle" className="bt">${t}</text>
+    ${s ? html`<text x=${x + w / 2} y=${y + h / 2 + 13} textAnchor="middle" className="bs">${s}</text>` : null}
+  </g>`;
+}
+function Fig({ vb, caption, children }){
+  return html`<figure className="fig"><svg viewBox=${vb} role="img" aria-label=${caption}>${children}</svg><figcaption>${caption}</figcaption></figure>`;
+}
+const DIAGRAMS = [
+  () => html`<${Fig} vb="0 0 600 225" caption="Face à l'étonnement, l'opinion prend un raccourci vers une réponse rassurante ; la science prend le chemin long de la question et de la méthode.">
+    <${Bx} x=${8} y=${88} w=${172} h=${52} t="Étonnement" s="un effet sans cause connue"/>
+    <${Bx} x=${420} y=${14} w=${165} h=${50} t="Réponse rassurante" s="l'opinion s'arrête là" tone="neg"/>
+    <${Arr} pts=${[[180,104],[418,42]]} tone="neg" dashed=${true} label="le raccourci" lx=${292} ly=${62}/>
+    <${Bx} x=${200} y=${160} w=${115} h=${46} t="Question" s="bien posée"/>
+    <${Bx} x=${335} y=${160} w=${115} h=${46} t="Méthode" s="hypothèse, test"/>
+    <${Bx} x=${470} y=${160} w=${120} h=${46} t="Loi générale" s="connaissance" tone="pos"/>
+    <${Arr} pts=${[[100,140],[198,180]]}/>
+    <${Arr} pts=${[[315,183],[333,183]]}/>
+    <${Arr} pts=${[[450,183],[468,183]]}/>
+    <text x="395" y="148" textAnchor="middle" className="al pos">le chemin long : la science</text>
+  <//>`,
+  () => html`<${Fig} vb="0 0 600 215" caption="Même question (pourquoi les corps tombent-ils ?), deux méthodes : l'observation spontanée trompe, l'expérimentation construite corrige.">
+    <text x="12" y="70" className="lane">Aristote</text>
+    <${Bx} x=${95} y=${40} w=${140} h=${50} t="Observation" s="spontanée"/>
+    <${Bx} x=${265} y=${40} w=${150} h=${50} t="Généralisation" s="« ça se voit »"/>
+    <${Bx} x=${445} y=${40} w=${145} h=${50} t="Le lourd tombe" s="plus vite ✗" tone="neg"/>
+    <${Arr} pts=${[[235,65],[263,65]]}/>
+    <${Arr} pts=${[[415,65],[443,65]]}/>
+    <line x1="12" y1="115" x2="590" y2="115" className="sep"/>
+    <text x="12" y="175" className="lane">Galilée</text>
+    <${Bx} x=${95} y=${145} w=${140} h=${50} t="Expérimentation" s="plan incliné, vide" tone="acc"/>
+    <${Bx} x=${265} y=${145} w=${150} h=${50} t="Mesure précise" s="protocole reproductible"/>
+    <${Bx} x=${445} y=${145} w=${145} h=${50} t="Même chute" s="sans air ✓" tone="pos"/>
+    <${Arr} pts=${[[235,170],[263,170]]}/>
+    <${Arr} pts=${[[415,170],[443,170]]}/>
+  <//>`,
+  () => html`<${Fig} vb="0 0 600 220" caption="Démarche hypothético-déductive : chaque hypothèse est testée ; un échec renvoie à une nouvelle hypothèse, jusqu'à celle qui résiste au test.">
+    <${Bx} x=${15} y=${20} w=${125} h=${48} t="Problème" s="trop de décès"/>
+    <${Bx} x=${165} y=${20} w=${125} h=${48} t="Hypothèse" s="une cause possible"/>
+    <${Bx} x=${315} y=${20} w=${125} h=${48} t="Déduction" s="si… alors…"/>
+    <${Bx} x=${465} y=${20} w=${120} h=${48} t="Test" s="on observe" tone="acc"/>
+    <${Arr} pts=${[[140,44],[163,44]]}/>
+    <${Arr} pts=${[[290,44],[313,44]]}/>
+    <${Arr} pts=${[[440,44],[463,44]]}/>
+    <${Bx} x=${300} y=${150} w=${150} h=${48} t="Éliminée" s="7 fois chez Semmelweis" tone="neg"/>
+    <${Bx} x=${470} y=${150} w=${120} h=${48} t="Corroborée" s="lavage des mains" tone="pos"/>
+    <${Arr} pts=${[[535,68],[535,148]]} tone="pos" label="réussi" lx=${543} ly=${112} anchor="start"/>
+    <${Arr} pts=${[[495,68],[410,148]]} tone="neg" label="échec" lx=${440} ly=${102} anchor="end"/>
+    <${Arr} pts=${[[300,174],[227,174],[227,70]]} label="nouvelle hypothèse" lx=${219} ly=${126} anchor="end"/>
+  <//>`,
+  () => html`<${Fig} vb="0 0 600 215" caption="Asymétrie de Popper : mille confirmations ne prouvent pas une loi universelle ; un seul contre-exemple suffit à la réfuter.">
+    ${[0,1,2].map(r => [0,1,2,3,4,5,6,7].map(c => html`<circle key=${r + "-" + c} cx=${30 + c * 22} cy=${28 + r * 22} r="7" className="swan"/>`))}
+    <text x="107" y="108" textAnchor="middle" className="al">des milliers de cygnes blancs</text>
+    <circle cx="107" cy="162" r="9" className="swan black"/>
+    <text x="107" y="194" textAnchor="middle" className="al">un seul cygne noir</text>
+    <${Bx} x=${340} y=${85} w=${248} h=${50} t="« Tous les cygnes sont blancs »" s="loi universelle"/>
+    <${Arr} pts=${[[200,50],[338,100]]} dashed=${true} label="ne prouve pas" lx=${282} ly=${94}/>
+    <${Arr} pts=${[[124,159],[338,122]]} tone="neg" label="réfute" lx=${236} ly=${158}/>
+  <//>`,
+  () => html`<${Fig} vb="0 0 600 220" caption="Kuhn : la science avance dans un cadre partagé (un paradigme), jusqu'à ce que des anomalies provoquent une crise, puis une révolution.">
+    <${Bx} x=${20} y=${25} w=${160} h=${50} t="Science normale" s="dans un paradigme"/>
+    <${Bx} x=${215} y=${25} w=${150} h=${50} t="Anomalies" s="des faits qui résistent"/>
+    <${Bx} x=${400} y=${25} w=${180} h=${50} t="Crise" s="le cadre vacille" tone="neg"/>
+    <${Bx} x=${400} y=${155} w=${180} h=${50} t="Révolution" s="ex. Copernic, Galilée" tone="acc"/>
+    <${Bx} x=${175} y=${155} w=${190} h=${50} t="Nouveau paradigme" s="ex. héliocentrisme" tone="pos"/>
+    <${Arr} pts=${[[180,50],[213,50]]}/>
+    <${Arr} pts=${[[365,50],[398,50]]}/>
+    <${Arr} pts=${[[490,75],[490,153]]}/>
+    <${Arr} pts=${[[400,180],[367,180]]}/>
+    <${Arr} pts=${[[175,180],[100,180],[100,77]]} label="devient la norme" lx=${108} ly=${132} anchor="start"/>
+  <//>`,
+  () => html`<${Fig} vb="0 0 600 175" caption="Le savoir scientifique se tient entre deux excès : relatif (il peut être corrigé), mais pas relativiste (tout ne se vaut pas).">
+    <text x="300" y="38" textAnchor="middle" className="al pos">la position juste</text>
+    <${Bx} x=${20} y=${50} w=${180} h=${70} t="Dogmatisme" s="la science serait absolue" tone="neg"/>
+    <${Bx} x=${210} y=${50} w=${180} h=${70} t="Savoir relatif" s="provisoire mais testé" tone="pos"/>
+    <${Bx} x=${400} y=${50} w=${180} h=${70} t="Relativisme fort" s="tout se vaut" tone="neg"/>
+    <text x="110" y="148" textAnchor="middle" className="al">« C'est prouvé à jamais »</text>
+    <text x="300" y="148" textAnchor="middle" className="al">« Vrai jusqu'à nouvel ordre »</text>
+    <text x="490" y="148" textAnchor="middle" className="al">« Chacun sa vérité »</text>
+  <//>`,
+  () => html`<${Fig} vb="0 0 600 312" caption="Quatre questions de démarcation : un seul « non » suffit pour qu'une affirmation ne puisse pas prétendre au statut de science.">
+    <${Bx} x=${15} y=${18} w=${150} h=${44} t="Une affirmation"/>
+    <${Arr} pts=${[[165,40],[213,40]]}/>
+    <${Bx} x=${215} y=${20} w=${190} h=${40} t="Testable ?"/>
+    <${Bx} x=${215} y=${82} w=${190} h=${40} t="Reproduite ?"/>
+    <${Bx} x=${215} y=${144} w=${190} h=${40} t="Précise ?"/>
+    <${Bx} x=${215} y=${206} w=${190} h=${40} t="Accepte la critique ?"/>
+    <${Arr} pts=${[[310,60],[310,80]]} label="oui" lx=${318} ly=${74} anchor="start"/>
+    <${Arr} pts=${[[310,122],[310,142]]} label="oui" lx=${318} ly=${136} anchor="start"/>
+    <${Arr} pts=${[[310,184],[310,204]]} label="oui" lx=${318} ly=${198} anchor="start"/>
+    <${Arr} pts=${[[310,246],[310,264]]} label="oui" lx=${318} ly=${259} anchor="start"/>
+    <${Bx} x=${235} y=${266} w=${150} h=${40} t="Science" tone="pos"/>
+    <${Bx} x=${458} y=${100} w=${130} h=${60} t="Pseudo-science" s="pas une science" tone="neg"/>
+    <${Arr} pts=${[[405,40],[456,112]]} tone="neg" label="non" lx=${440} ly=${66} anchor="start"/>
+    <${Arr} pts=${[[405,102],[456,124]]} tone="neg"/>
+    <${Arr} pts=${[[405,164],[456,138]]} tone="neg"/>
+    <${Arr} pts=${[[405,226],[456,150]]} tone="neg"/>
+  <//>`,
+  () => html`<${Fig} vb="0 0 600 240" caption="En sciences humaines, une prédiction peut modifier les comportements et provoquer ce qu'elle annonçait : la boucle se referme sur elle-même.">
+    <${Bx} x=${30} y=${25} w=${170} h=${52} t="Prédiction" s="« pénurie ! »"/>
+    <${Bx} x=${400} y=${25} w=${170} h=${52} t="Croyance" s="on y croit"/>
+    <${Bx} x=${400} y=${160} w=${170} h=${52} t="Actions" s="tout le monde achète"/>
+    <${Bx} x=${30} y=${160} w=${170} h=${52} t="Événement" s="rayons vides" tone="neg"/>
+    <${Arr} pts=${[[200,51],[398,51]]}/>
+    <${Arr} pts=${[[485,77],[485,158]]}/>
+    <${Arr} pts=${[[400,186],[202,186]]}/>
+    <${Arr} pts=${[[115,160],[115,79]]} dashed=${true} label="« elle avait raison ! »" lx=${125} ly=${123} anchor="start"/>
+    <text x="340" y="116" textAnchor="middle" className="al acc">prophétie</text>
+    <text x="340" y="133" textAnchor="middle" className="al acc">autoréalisatrice</text>
+  <//>`,
+  () => html`<${Fig} vb="0 0 600 160" caption="La science dit ce qui est et ce qui est possible ; décider de ce qu'il faut faire relève de l'éthique, de la loi et du débat.">
+    <text x="195" y="38" textAnchor="middle" className="al">la science répond</text>
+    <path d="M20 54V46H370V54" className="brk"/>
+    <text x="497" y="38" textAnchor="middle" className="al acc">la société décide</text>
+    <path d="M410 54V46H585V54" className="brk"/>
+    <${Bx} x=${20} y=${74} w=${150} h=${52} t="Savoir" s="ce qui est"/>
+    <${Bx} x=${210} y=${74} w=${160} h=${52} t="Pouvoir" s="ce qui est possible"/>
+    <${Bx} x=${410} y=${74} w=${175} h=${52} t="Faut-il le faire ?" s="éthique, lois, débat" tone="acc"/>
+    <${Arr} pts=${[[170,100],[208,100]]}/>
+    <${Arr} pts=${[[370,100],[408,100]]}/>
+  <//>`
+];
+
+/* ---------- Composants communs ---------- */
+function Bar({ value, total, tone }){
+  const pct = total ? Math.round(100 * value / total) : 0;
+  return html`<div className=${"bar" + (tone ? " " + tone : "")} role="progressbar" aria-valuenow=${value} aria-valuemin="0" aria-valuemax=${total}><span style=${{ width: pct + "%" }}></span></div>`;
+}
+function Why({ children }){ return html`<div className="why">${children}</div>`; }
+
+function CheckBar({ checked, score, total, canCheck, onCheck, onReset, detail, setDetail }){
+  if (!checked) return html`<div className="checkbar">
+    <button className="btn primary" disabled=${!canCheck} onClick=${onCheck}>Vérifier</button>
+    ${!canCheck ? html`<span className="hint">Réponds à tout pour vérifier.</span>` : null}
+  </div>`;
+  const tone = score === total ? "pos" : (score >= total / 2 ? "neu" : "neg");
+  return html`<div className="checkbar">
+    <span className=${"chip " + tone}><span className="score">${score} / ${total}</span></span>
+    <button className="btn" onClick=${() => setDetail(!detail)} aria-expanded=${detail}>${detail ? "Masquer la correction détaillée" : "Voir la correction détaillée"}</button>
+    <button className="btn ghost" onClick=${onReset}>Recommencer</button>
+  </div>`;
+}
+function Feedback({ ok, answer, why, detail }){
+  return html`<div className=${"fb " + (ok ? "ok" : "ko")}>
+    <div className="line"><span className="mark">${ok ? "✓ Juste" : "✗ À revoir"}</span>${!ok && answer ? html`<span>Réponse attendue : <b>${answer}</b></span>` : null}</div>
+    ${detail && why ? html`<${Why}><b>Pourquoi ? </b>${why}<//>` : null}
+  </div>`;
+}
+
+/* ---------- Exercices ---------- */
+function QcmEx({ ex, onResult }){
+  const [ans, setAns] = useState({});
+  const [checked, setChecked] = useState(false);
+  const [detail, setDetail] = useState(false);
+  const score = ex.items.reduce((s, it, i) => s + (ans[i] === it.answer ? 1 : 0), 0);
+  return html`<div className="ex-body">
+    <ol className="qlist">
+      ${ex.items.map((it, i) => html`<li key=${i}>
+        ${it.ctx ? html`<p className="ctx">${it.ctx}</p>` : null}
+        <p className="qtext">${it.q}</p>
+        <div className="opts" role="radiogroup">
+          ${it.options.map((o, j) => {
+            const sel = ans[i] === j;
+            let st = "";
+            if (checked){ if (j === it.answer) st = " ok"; else if (sel) st = " ko"; }
+            return html`<label key=${j} className=${"opt" + (sel ? " sel" : "") + st + (checked ? " dis" : "")} htmlFor=${ex.id + "-" + i + "-" + j}>
+              <input type="radio" id=${ex.id + "-" + i + "-" + j} name=${ex.id + "-" + i} checked=${sel} disabled=${checked} onChange=${() => setAns(prev => Object.assign({}, prev, { [i]: j }))}/>
+              <span>${o}</span>
+            </label>`;
+          })}
+        </div>
+        ${checked ? html`<${Feedback} ok=${ans[i] === it.answer} answer=${it.options[it.answer]} why=${it.why} detail=${detail}/>` : null}
+      </li>`)}
+    </ol>
+    <${CheckBar} checked=${checked} score=${score} total=${ex.items.length} canCheck=${Object.keys(ans).length === ex.items.length}
+      onCheck=${() => { setChecked(true); onResult(ex.id, score, ex.items.length); }}
+      onReset=${() => { setAns({}); setChecked(false); setDetail(false); }} detail=${detail} setDetail=${setDetail}/>
+  </div>`;
+}
+
+function MatchEx({ ex, onResult }){
+  const rights = useMemo(() => shuffle(ex.pairs.map((p, i) => i)), [ex.id]);
+  const [ans, setAns] = useState({});
+  const [checked, setChecked] = useState(false);
+  const [detail, setDetail] = useState(false);
+  const score = ex.pairs.reduce((s, p, i) => s + (ans[i] === i ? 1 : 0), 0);
+  return html`<div className="ex-body">
+    <div className="match">
+      ${ex.pairs.map((p, i) => {
+        const ok = ans[i] === i;
+        return html`<div key=${i} className="mrow">
+          <label className="ml" htmlFor=${ex.id + "-s" + i}>${p.l}</label>
+          <div style=${{ display:"flex", flexDirection:"column", gap:"6px" }}>
+            <select id=${ex.id + "-s" + i} className=${checked ? (ok ? "ok" : "ko") : ""} disabled=${checked} value=${ans[i] === undefined ? "" : String(ans[i])} onChange=${e => setAns(prev => Object.assign({}, prev, { [i]: e.target.value === "" ? undefined : +e.target.value }))}>
+              <option value="">— choisir —</option>
+              ${rights.map(k => html`<option key=${k} value=${String(k)}>${ex.pairs[k].r}</option>`)}
+            </select>
+            ${checked ? html`<${Feedback} ok=${ok} answer=${p.r} why=${p.why} detail=${detail}/>` : null}
+          </div>
+        </div>`;
+      })}
+    </div>
+    <${CheckBar} checked=${checked} score=${score} total=${ex.pairs.length} canCheck=${ex.pairs.every((p, i) => ans[i] !== undefined)}
+      onCheck=${() => { setChecked(true); onResult(ex.id, score, ex.pairs.length); }}
+      onReset=${() => { setAns({}); setChecked(false); setDetail(false); }} detail=${detail} setDetail=${setDetail}/>
+  </div>`;
+}
+
+function SortEx({ ex, onResult }){
+  const d = ex.data;
+  const [ans, setAns] = useState({});
+  const [checked, setChecked] = useState(false);
+  const [detail, setDetail] = useState(false);
+  const score = d.items.reduce((s, it, i) => s + (ans[i] === it.c ? 1 : 0), 0);
+  return html`<div className="ex-body">
+    <div className="sortlist">
+      ${d.items.map((it, i) => {
+        const ok = ans[i] === it.c;
+        return html`<div key=${i} className=${"sortitem" + (checked ? (ok ? " ok" : " ko") : "")}>
+          <p className="st">${it.t}</p>
+          <div className="seg" role="radiogroup" aria-label=${"Classement de l'énoncé " + (i + 1)}>
+            ${d.cats.map((c, k) => html`<button key=${k} role="radio" aria-checked=${ans[i] === k} className=${ans[i] === k ? "on" : ""} disabled=${checked} onClick=${() => setAns(prev => Object.assign({}, prev, { [i]: k }))}>${c}</button>`)}
+          </div>
+          ${checked ? html`<${Feedback} ok=${ok} answer=${d.cats[it.c]} why=${it.why} detail=${detail}/>` : null}
+        </div>`;
+      })}
+    </div>
+    <${CheckBar} checked=${checked} score=${score} total=${d.items.length} canCheck=${Object.keys(ans).length === d.items.length}
+      onCheck=${() => { setChecked(true); onResult(ex.id, score, d.items.length); }}
+      onReset=${() => { setAns({}); setChecked(false); setDetail(false); }} detail=${detail} setDetail=${setDetail}/>
+  </div>`;
+}
+
+function initialOrder(n){
+  let o = shuffle([...Array(n).keys()]);
+  let guard = 0;
+  while (o.every((v, i) => v === i) && guard++ < 10) o = shuffle(o);
+  return o;
+}
+function OrderEx({ ex, onResult }){
+  const steps = ex.steps;
+  const [order, setOrder] = useState(() => initialOrder(steps.length));
+  const [checked, setChecked] = useState(false);
+  const [detail, setDetail] = useState(false);
+  const score = order.reduce((s, v, i) => s + (v === i ? 1 : 0), 0);
+  const move = (i, d) => { const o = order.slice(); const j = i + d; if (j < 0 || j >= o.length) return; [o[i], o[j]] = [o[j], o[i]]; setOrder(o); };
+  return html`<div className="ex-body">
+    <ol className="orderlist">
+      ${order.map((v, i) => html`<li key=${v} className=${checked ? (v === i ? "ok" : "ko") : ""}>
+        <span className="pos">${i + 1}</span>
+        <span>${steps[v].t}</span>
+        <span className="mv">
+          <button className="iconbtn" aria-label=${"Monter l'étape " + (i + 1)} disabled=${checked || i === 0} onClick=${() => move(i, -1)}><${Icon} name="up"/></button>
+          <button className="iconbtn" aria-label=${"Descendre l'étape " + (i + 1)} disabled=${checked || i === order.length - 1} onClick=${() => move(i, 1)}><${Icon} name="down"/></button>
+        </span>
+      </li>`)}
+    </ol>
+    ${checked ? html`<div className=${"fb " + (score === steps.length ? "ok" : "ko")}>
+      <div className="line"><span className="mark">${score === steps.length ? "✓ Ordre correct" : "✗ " + (steps.length - score) + " étape(s) mal placée(s)"}</span></div>
+      ${detail ? html`<${Why}>
+        <b>L'ordre de la démarche</b>
+        <ol style=${{ margin:"6px 0 6px", paddingLeft:"20px" }}>${steps.map((s, i) => html`<li key=${i}><b>${s.st} : </b>${s.t}</li>`)}</ol>
+        Le cœur de la démarche hypothético-déductive est l'enchaînement hypothèse → conséquence testable → expérimentation. Les hypothèses éliminées ne sont pas des échecs : elles réduisent le champ des causes possibles.
+      <//>` : null}
+    </div>` : null}
+    <${CheckBar} checked=${checked} score=${score} total=${steps.length} canCheck=${true}
+      onCheck=${() => { setChecked(true); onResult(ex.id, score, steps.length); }}
+      onReset=${() => { setOrder(initialOrder(steps.length)); setChecked(false); setDetail(false); }} detail=${detail} setDetail=${setDetail}/>
+  </div>`;
+}
+
+function WorkedEx({ ex, onResult }){
+  const d = ex.data;
+  const [shown, setShown] = useState(1);
+  useEffect(() => { if (shown === d.steps.length) onResult(ex.id, 1, 1); }, [shown]);
+  return html`<div className="ex-body">
+    <p><b>Sujet : </b>« ${d.sujet} »</p>
+    <div className="worked">
+      ${d.steps.map((s, i) => html`<div key=${i} className="wstep">
+        <div className="wh"><span className="n">${i + 1}</span>${s.h}</div>
+        <div className="wb">
+          <p className="prompt"><b>?</b> ${s.prompt}</p>
+          ${i < shown ? html`
+            <ul>${s.body.map((b, k) => html`<li key=${k}>${b}</li>`)}</ul>
+            <${Why}><b>Pourquoi ce choix ? </b>${s.why}<//>` :
+            (i === shown ? html`<div><button className="btn primary small" onClick=${() => setShown(shown + 1)}>J'ai réfléchi : afficher l'étape</button></div>` : null)}
+        </div>
+      </div>`)}
+    </div>
+    ${shown < d.steps.length ? html`<div className="row"><button className="btn ghost small" onClick=${() => setShown(d.steps.length)}>Tout afficher</button></div>` : null}
+  </div>`;
+}
+
+function ClozeEx({ ex, onResult }){
+  const d = ex.data;
+  const blanks = [];
+  d.paras.forEach(p => p.forEach(seg => { if (typeof seg !== "string") blanks.push(seg); }));
+  const [ans, setAns] = useState({});
+  const [checked, setChecked] = useState(false);
+  const [detail, setDetail] = useState(false);
+  const score = blanks.reduce((s, b, i) => s + (ans[i] === b.a ? 1 : 0), 0);
+  let k = -1;
+  return html`<div className="ex-body">
+    <p><b>Sujet : </b>« ${d.sujet} »</p>
+    <div className="cloze">
+      ${d.paras.map((p, pi) => html`<p key=${pi}>${p.map((seg, si) => {
+        if (typeof seg === "string") return seg;
+        k++; const idx = k; const ok = ans[idx] === seg.a;
+        return html`<select key=${si} aria-label=${"Trou " + (idx + 1)} className=${checked ? (ok ? "ok" : "ko") : ""} disabled=${checked} value=${ans[idx] === undefined ? "" : String(ans[idx])} onChange=${e => setAns(prev => Object.assign({}, prev, { [idx]: e.target.value === "" ? undefined : +e.target.value }))}>
+          <option value="">…</option>
+          ${seg.opts.map((o, oi) => html`<option key=${oi} value=${String(oi)}>${o}</option>`)}
+        </select>`;
+      })}</p>`)}
+    </div>
+    ${checked ? html`<div className="qlist" style=${{ gap:"8px" }}>
+      ${blanks.map((b, i) => html`<div key=${i}><${Feedback} ok=${ans[i] === b.a} answer=${b.opts[b.a]} why=${b.why} detail=${detail}/></div>`)}
+    </div>` : null}
+    <${CheckBar} checked=${checked} score=${score} total=${blanks.length} canCheck=${blanks.every((b, i) => ans[i] !== undefined)}
+      onCheck=${() => { setChecked(true); onResult(ex.id, score, blanks.length); }}
+      onReset=${() => { setAns({}); setChecked(false); setDetail(false); }} detail=${detail} setDetail=${setDetail}/>
+  </div>`;
+}
+
+function ProductionEx({ ex, onResult }){
+  const d = ex.data;
+  const [draft, setDraft] = usePersist("sci.draft." + ex.id, {});
+  const [shown, setShown] = useState(false);
+  const [detail, setDetail] = useState(false);
+  const [ticks, setTicks] = useState({});
+  const nTicks = Object.values(ticks).filter(Boolean).length;
+  useEffect(() => { if (shown) onResult(ex.id, nTicks, d.checklist.length); }, [shown, nTicks]);
+  return html`<div className="ex-body">
+    <p><b>Sujet : </b>« ${d.sujet} »</p>
+    ${d.fields.map(f => html`<div key=${f.id} className="field">
+      <label htmlFor=${ex.id + "-" + f.id}>${f.label}</label>
+      <textarea id=${ex.id + "-" + f.id} rows=${f.rows} placeholder=${f.ph} value=${draft[f.id] || ""} onChange=${e => setDraft(prev => Object.assign({}, prev, { [f.id]: e.target.value }))}></textarea>
+    </div>`)}
+    ${!shown ? html`<div className="checkbar">
+      <button className="btn primary" onClick=${() => setShown(true)}>Voir le corrigé</button>
+      <span className="hint">Ton brouillon reste enregistré dans ce navigateur.</span>
+    </div>` : html`
+      <div className="model">
+        ${d.simple.map((s, i) => html`<div key=${i}><h4>${s.h}</h4><ul>${s.lines.map((l, j) => html`<li key=${j}>${l}</li>`)}</ul></div>`)}
+        ${detail ? d.detail.map((s, i) => html`<div key=${"d" + i}><h4>${s.h}</h4><ul>${s.lines.map((l, j) => html`<li key=${j}>${l}</li>`)}</ul></div>`) : null}
+      </div>
+      <div className="row"><button className="btn" onClick=${() => setDetail(!detail)} aria-expanded=${detail}>${detail ? "Masquer la correction détaillée" : "Voir la correction détaillée (paragraphe modèle)"}</button></div>
+      <div className="card card-pad" style=${{ display:"flex", flexDirection:"column", gap:"10px" }}>
+        <h4 style=${{ fontSize:"14px" }}>Grille d'auto-évaluation <span className="chip" style=${{ marginLeft:"6px" }}><b>${nTicks}</b> / ${d.checklist.length}</span></h4>
+        <ul className="checklist">${d.checklist.map((c, i) => html`<li key=${i}><label htmlFor=${ex.id + "-ck" + i}><input type="checkbox" id=${ex.id + "-ck" + i} checked=${!!ticks[i]} onChange=${e => setTicks(prev => Object.assign({}, prev, { [i]: e.target.checked }))}/><span>${c}</span></label></li>`)}</ul>
+      </div>`}
+  </div>`;
+}
+
+const EX_COMP = { qcm:QcmEx, match:MatchEx, sort:SortEx, order:OrderEx, worked:WorkedEx, cloze:ClozeEx, production:ProductionEx };
+
+function Exercises({ exRes, onResult }){
+  const [lvl, setLvl] = usePersist("sci.level", 0);
+  const L = LEVELS[lvl] || LEVELS[0];
+  return html`<div className="page">
+    <div className="page-head">
+      <span className="eyebrow">Étape 4 · S'entraîner</span>
+      <h1>Exercices</h1>
+      <p className="lead">Cinq niveaux, du plus simple au plus exigeant : reconnaître, associer, classer, analyser, puis argumenter. Chaque exercice donne une correction simple, puis une correction détaillée si tu la demandes.</p>
+    </div>
+    <div className="levels" role="tablist" aria-label="Niveaux">
+      ${LEVELS.map((l, i) => {
+        const done = l.ex.filter(e => exRes[e.id]).length;
+        return html`<button key=${i} role="tab" aria-selected=${i === lvl} className=${"lvl" + (i === lvl ? " on" : "")} onClick=${() => setLvl(i)}>
+          <span className="ln">Niveau ${l.n}</span>
+          <span className="lt">${l.title}</span>
+          <span className="diff" aria-hidden="true">${[1,2,3,4,5].map(k => html`<i key=${k} className=${k <= l.n ? "f" : ""}></i>`)}</span>
+          <span className=${"ls" + (done === l.ex.length ? " done" : "")}>${done === l.ex.length ? "✓ " : ""}${done} / ${l.ex.length} fait${l.ex.length > 1 ? "s" : ""}</span>
+        </button>`;
+      })}
+    </div>
+    <div className="page-head">
+      <h2>Niveau ${L.n} · ${L.title}</h2>
+      <p className="lead">${L.goal}</p>
+      ${L.n === 5 ? html`<div className="fading"><span className="chip acc">1 · Exemple guidé</span>→<span className="chip">2 · À compléter</span>→<span className="chip">3 · En autonomie</span><span>L'aide diminue à chaque étape.</span></div>` : null}
+    </div>
+    <div className="exlist">
+      ${L.ex.map(e => {
+        const C = EX_COMP[e.type]; const r = exRes[e.id];
+        return html`<section key=${e.id} className="card" aria-labelledby=${e.id + "-t"}>
+          <div className="ex-intro">
+            <div className="row">
+              ${e.tag ? html`<span className="chip acc">${e.tag}</span>` : null}
+              <h3 id=${e.id + "-t"} style=${{ fontSize:"16px", fontWeight:600 }}>${e.title}</h3>
+              ${r ? html`<span className=${"chip " + (r.s === r.t ? "pos" : "")} style=${{ marginLeft:"auto" }}>Dernier score : <b>${r.s} / ${r.t}</b></span>` : null}
+            </div>
+            <p className="consigne">${e.consigne}</p>
+          </div>
+          <${C} ex=${e} onResult=${onResult}/>
+        </section>`;
+      })}
+    </div>
+    ${lvl < LEVELS.length - 1 ? html`<div className="row"><button className="btn primary" onClick=${() => setLvl(lvl + 1)}>Passer au niveau ${lvl + 2} · ${LEVELS[lvl + 1].title}</button></div>` : null}
+  </div>`;
+}
+
+/* ---------- Flashcards ---------- */
+function buildQueue(filters, boxes){
+  const deck = CARDS.filter(c => (filters.cat === "all" || c.cat === filters.cat) && (filters.mod === "all" || c.m === +filters.mod) && (!filters.weak || (boxes[c.id] || 1) < 4));
+  return shuffle(deck).sort((a, b) => (boxes[a.id] || 1) - (boxes[b.id] || 1)).map(c => c.id);
+}
+const BYID = {}; CARDS.forEach(c => { BYID[c.id] = c; });
+
+function Flashcards({ boxes, setBoxes, initMod }){
+  const [filters, setFilters] = useState({ cat:"all", mod: initMod === undefined ? "all" : String(initMod), weak:false });
+  const [queue, setQueue] = useState(() => buildQueue(filters, boxes));
+  const [i, setI] = useState(0);
+  const [flip, setFlip] = useState(false);
+  const [tally, setTally] = useState({ k:0, h:0, n:0 });
+  const [confirmReset, setConfirmReset] = useState(false);
+  const first = useRef(true);
+  const restart = (f) => { setQueue(buildQueue(f || filters, boxes)); setI(0); setFlip(false); setTally({ k:0, h:0, n:0 }); };
+  useEffect(() => { if (first.current){ first.current = false; return; } restart(filters); }, [filters.cat, filters.mod, filters.weak]);
+
+  const card = BYID[queue[i]];
+  const rate = (r) => {
+    if (!card || !flip) return;
+    const cur = boxes[card.id] || 1;
+    const nb = r === "k" ? Math.min(5, cur + 1) : (r === "h" ? cur : 1);
+    setBoxes(Object.assign({}, boxes, { [card.id]: nb }));
+    setTally(Object.assign({}, tally, { [r]: tally[r] + 1 }));
+    setI(i + 1); setFlip(false);
+  };
+  useEffect(() => {
+    const onKey = (e) => {
+      const tg = e.target && e.target.tagName;
+      if (tg === "INPUT" || tg === "SELECT" || tg === "TEXTAREA" || tg === "BUTTON") return;
+      if (e.key === " " || e.key === "Enter"){ if (card){ e.preventDefault(); setFlip(f => !f); } }
+      else if (flip && e.key === "1") rate("n");
+      else if (flip && e.key === "2") rate("h");
+      else if (flip && e.key === "3") rate("k");
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  });
+
+  const deckAll = CARDS.filter(c => (filters.cat === "all" || c.cat === filters.cat) && (filters.mod === "all" || c.m === +filters.mod));
+  const perBox = [1,2,3,4,5].map(b => deckAll.filter(c => (boxes[c.id] || 1) === b).length);
+  const mastered = perBox[3] + perBox[4];
+  const setF = (k, v) => setFilters(Object.assign({}, filters, { [k]: v }));
+
+  return html`<div className="page">
+    <div className="page-head">
+      <span className="eyebrow">Étape 3 · Mémoriser</span>
+      <h1>Flashcards</h1>
+      <p className="lead">Essaie de répondre de tête avant de retourner la carte : c'est l'effort de rappel qui fixe la mémoire. Les cartes que tu connais montent de boîte et reviennent moins souvent ; celles que tu rates retournent en boîte 1.</p>
+    </div>
+    <div className="card card-pad filters">
+      <div className="frow"><span className="flab">Type</span>
+        ${["all"].concat(CATS).map(c => html`<button key=${c} className=${"pill" + (filters.cat === c ? " on" : "")} aria-pressed=${filters.cat === c} onClick=${() => setF("cat", c)}>${c === "all" ? "Toutes" : c + "s"}</button>`)}
+      </div>
+      <div className="frow"><label className="flab" htmlFor="fc-mod">Module</label>
+        <select id="fc-mod" style=${{ maxWidth:"340px" }} value=${filters.mod} onChange=${e => setF("mod", e.target.value)}>
+          <option value="all">Tous les modules</option>
+          ${MODULES.map((m, k) => html`<option key=${k} value=${String(k)}>${k + 1}. ${m.short}</option>`)}
+        </select>
+        <label className="switch" htmlFor="fc-weak"><input type="checkbox" id="fc-weak" checked=${filters.weak} onChange=${e => setF("weak", e.target.checked)}/><span className="track"></span>Seulement les cartes à retravailler</label>
+      </div>
+    </div>
+    <div className="fc-wrap">
+      <div style=${{ display:"flex", flexDirection:"column", gap:"12px" }}>
+        ${card ? html`
+          <div className="row" style=${{ justifyContent:"space-between" }}>
+            <span className="counter">Carte ${i + 1} / ${queue.length}</span>
+            <span className="counter">Boîte ${boxes[card.id] || 1} / 5</span>
+          </div>
+          <button className=${"flash" + (flip ? " flipped" : "")} onClick=${() => setFlip(!flip)} aria-label=${flip ? "Carte retournée : réponse affichée. Cliquer pour revoir la question." : "Cliquer pour retourner la carte"}>
+            <div className="flash-inner">
+              <div className="face front" aria-hidden=${flip}>
+                <div className="top"><span className="chip acc">${card.cat}</span><span className="chip">${card.m + 1}. ${MODULES[card.m].short}</span></div>
+                <p className=${"front-t" + (card.quote ? " quote" : "")}>${card.front}</p>
+                <p className="ask">${card.ask}</p>
+                <p className="hint">Clique ou appuie sur <span className="kbd">Espace</span> pour retourner.</p>
+              </div>
+              <div className="face back" aria-hidden=${!flip}>
+                <div className="top"><span className="chip acc">${card.cat}</span><span className="chip"><b>${card.front.length > 60 ? card.front.slice(0, 57) + "…" : card.front}</b></span></div>
+                <p className="back-t">${card.back}</p>
+                <p className="hint">Évalue-toi honnêtement ci-dessous (<span className="kbd">1</span> <span className="kbd">2</span> <span className="kbd">3</span>).</p>
+              </div>
+            </div>
+          </button>
+          <div className="rate">
+            <button className="btn neg" disabled=${!flip} onClick=${() => rate("n")}>Je ne savais pas<small>retour en boîte 1</small></button>
+            <button className="btn neu" disabled=${!flip} onClick=${() => rate("h")}>J'ai hésité<small>reste dans sa boîte</small></button>
+            <button className="btn pos" disabled=${!flip} onClick=${() => rate("k")}>Je savais<small>boîte suivante</small></button>
+          </div>` : html`
+          <div className="card card-pad done-card">
+            <h3 style=${{ fontSize:"18px" }}>${queue.length ? "Session terminée" : "Aucune carte à retravailler ici"}</h3>
+            ${queue.length ? html`<div className="tally">
+              <span className="chip pos">Je savais : <b>${tally.k}</b></span>
+              <span className="chip neu">Hésitations : <b>${tally.h}</b></span>
+              <span className="chip neg">À revoir : <b>${tally.n}</b></span>
+            </div>
+            <p className="lead">Reviens demain : réviser un peu chaque jour est plus efficace qu'une longue séance.</p>` : html`<p className="lead">Toutes les cartes de cette sélection sont en boîte 4 ou 5. Désactive le filtre pour réviser l'ensemble.</p>`}
+            <div className="row">
+              <button className="btn primary" onClick=${() => { const f = Object.assign({}, filters, { weak:true }); if (filters.weak) restart(f); else setFilters(f); }}>Revoir les cartes à retravailler</button>
+              <button className="btn" onClick=${() => { const f = Object.assign({}, filters, { weak:false }); if (!filters.weak) restart(f); else setFilters(f); }}>Nouvelle session complète</button>
+            </div>
+          </div>`}
+      </div>
+      <aside className="card card-pad leitner" aria-label="Boîtes de Leitner">
+        <h3 style=${{ fontSize:"15px" }}>Tes boîtes</h3>
+        ${perBox.map((n, b) => html`<div key=${b} className="lbox"><span>Boîte ${b + 1}</span><${Bar} value=${n} total=${deckAll.length} tone=${b >= 3 ? "pos" : ""}/><span className="c">${n}</span></div>`)}
+        <div className="bar-l"><span>Maîtrisées (boîtes 4-5)</span><span><b>${mastered}</b> / ${deckAll.length}</span></div>
+        <p className="hint" style=${{ fontSize:"12.5px", color:"var(--muted)" }}>Ta progression reste enregistrée dans ce navigateur.</p>
+        ${confirmReset ? html`<div className="confirm"><span>Tout remettre en boîte 1 ?</span><button className="btn neg small" onClick=${() => { setBoxes({}); setConfirmReset(false); restart(filters); }}>Oui, réinitialiser</button><button className="btn small" onClick=${() => setConfirmReset(false)}>Annuler</button></div>` :
+          html`<button className="btn ghost small" onClick=${() => setConfirmReset(true)}>Réinitialiser ma progression</button>`}
+      </aside>
+    </div>
+  </div>`;
+}
+
+/* ---------- Mots-clés ---------- */
+function Glossary(){
+  const [q, setQ] = useState("");
+  const [test, setTest] = useState(false);
+  const [open, setOpen] = useState({});
+  const norm = s => s.toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, "");
+  const items = GLOSS.filter(g => !q || norm(g.t + " " + g.d).includes(norm(q)));
+  return html`<div className="page">
+    <div className="page-head">
+      <span className="eyebrow">Étape 1 · Pré-requis</span>
+      <h1>Mots-clés</h1>
+      <p className="lead">Lis ces ${GLOSS.length} mots avant les modules : connaître le vocabulaire d'abord libère de l'attention pour comprendre les idées ensuite. En mode test, cache les définitions et essaie de les retrouver.</p>
+    </div>
+    <div className="toolrow">
+      <input className="search" type="search" id="gloss-q" aria-label="Rechercher un mot-clé" placeholder="Rechercher un mot ou une idée…" value=${q} onChange=${e => setQ(e.target.value)}/>
+      <label className="switch" htmlFor="gloss-test"><input type="checkbox" id="gloss-test" checked=${test} onChange=${e => { setTest(e.target.checked); setOpen({}); }}/><span className="track"></span>Mode test</label>
+    </div>
+    <div className="card">
+      ${MODULES.map((m, k) => {
+        const list = items.filter(g => g.m === k);
+        if (!list.length) return null;
+        return html`<div key=${k} className="gloss-group">
+          <h3>${k + 1}. ${m.short}</h3>
+          <dl className="gloss">${list.map(g => html`<div key=${g.t} className="it">
+            <dt>${g.t}</dt>
+            ${test && !open[g.t] ? html`<dd><button className="reveal" onClick=${() => setOpen(Object.assign({}, open, { [g.t]: true }))}>Afficher la définition</button></dd>` : html`<dd>${g.d}</dd>`}
+          </div>`)}</dl>
+        </div>`;
+      })}
+      ${!items.length ? html`<p className="card-pad lead">Aucun mot ne correspond à « ${q} ».</p>` : null}
+    </div>
+  </div>`;
+}
+
+/* ---------- Modules ---------- */
+function QuickCheck({ c }){
+  const [sel, setSel] = useState(null);
+  const done = sel !== null;
+  return html`<div className="card card-pad qc">
+    <span className="eyebrow">Vérifie-toi</span>
+    <p className="qtext">${c.q}</p>
+    <div className="opts">
+      ${c.options.map((o, j) => {
+        let st = "";
+        if (done){ if (j === c.answer) st = " ok"; else if (j === sel) st = " ko"; }
+        return html`<button key=${j} className=${"opt" + st + (done ? " dis" : "")} disabled=${done} onClick=${() => setSel(j)}><span>${o}</span></button>`;
+      })}
+    </div>
+    ${done ? html`<div className=${"fb " + (sel === c.answer ? "ok" : "ko")}>
+      <div className="line"><span className="mark">${sel === c.answer ? "✓ Juste" : "✗ Pas tout à fait"}</span></div>
+      <${Why}>${c.why}<//>
+      <div><button className="btn ghost small" onClick=${() => setSel(null)}>Réessayer</button></div>
+    </div>` : null}
+  </div>`;
+}
+
+function ModuleView({ idx, setIdx, onCards, seen }){
+  const m = MODULES[idx];
+  const D = DIAGRAMS[idx];
+  const nCards = CARDS.filter(c => c.m === idx).length;
+  return html`<div className="page">
+    <div className="rail" role="tablist" aria-label="Modules">
+      ${MODULES.map((mm, k) => html`<button key=${k} role="tab" aria-selected=${k === idx} className=${k === idx ? "on" : ""} onClick=${() => setIdx(k)}>${k + 1}${seen[mm.id] ? " ✓" : ""}</button>`)}
+    </div>
+    <div className="page-head">
+      <span className="eyebrow">Étape 2 · Comprendre — module ${idx + 1} / ${MODULES.length}</span>
+      <h1>${m.question}</h1>
+      <span className="tension">Tension : <span className="ab">${m.a}</span>↔<span className="ab">${m.b}</span></span>
+    </div>
+    <div className="key"><span className="lab">IDÉE CLÉ</span><p>${m.cle}</p></div>
+    <div className="mod-grid">
+      <div className="mod-text">
+        <div className="blk pb"><h4>Le problème</h4><p>${m.probleme}</p></div>
+        <div className="blk ex"><h4>Exemples</h4><ul>${m.exemples.map((e, k) => html`<li key=${k}>${e}</li>`)}</ul></div>
+        <div className="blk au"><h4>Auteurs et repères</h4>${m.refs.map((r, k) => html`<div key=${k} className="auth"><span className="who">${r.who} <em>· ${r.work}</em></span><span>${r.idea}</span></div>`)}</div>
+        <div className="blk rs"><h4>Pour réduire la tension</h4><p>${m.resolution}</p></div>
+      </div>
+      <div className="sticky">
+        <${D}/>
+        <div className="retenir"><b>À RETENIR</b><span>${m.retenir}</span></div>
+        <div className="legend" aria-hidden="true">
+          <span><i style=${{ background:"var(--neu)" }}></i>problème</span>
+          <span><i style=${{ background:"var(--accent)" }}></i>auteurs</span>
+          <span><i style=${{ background:"var(--pos)" }}></i>solution</span>
+        </div>
+      </div>
+    </div>
+    <${QuickCheck} key=${m.id} c=${m.check}/>
+    <div className="mod-nav">
+      <button className="btn" disabled=${idx === 0} onClick=${() => setIdx(idx - 1)}>← Module précédent</button>
+      <button className="btn ghost" onClick=${() => onCards(idx)}>Réviser les ${nCards} cartes de ce module</button>
+      <button className="btn primary" disabled=${idx === MODULES.length - 1} onClick=${() => setIdx(idx + 1)}>Module suivant →</button>
+    </div>
+  </div>`;
+}
+
+/* ---------- Accueil ---------- */
+function Home({ go, stats }){
+  const steps = [
+    { n:1, v:"mots-cles", t:"Mots-clés", d:"Le vocabulaire de base, à lire en premier (5 minutes).", val:null },
+    { n:2, v:"comprendre", t:"Comprendre", d:"Neuf modules courts : une tension, un schéma, une solution.", val:[stats.seen, MODULES.length, "modules lus"] },
+    { n:3, v:"flashcards", t:"Mémoriser", d:CARDS.length + " flashcards avec répétition espacée (boîtes de Leitner).", val:[stats.mastered, CARDS.length, "cartes maîtrisées"] },
+    { n:4, v:"exercices", t:"S'entraîner", d:"Cinq niveaux, de la définition à la dissertation, avec corrigés.", val:[stats.exDone, EX_ALL.length, "exercices faits"] }
+  ];
+  const principles = [
+    ["Les mots avant les idées","Le vocabulaire appris d'abord laisse de la place pour comprendre."],
+    ["Une tension par module","Des blocs courts, à ton rythme, plutôt qu'un long cours d'une traite."],
+    ["Texte et schéma côte à côte","Lire et voir en même temps, sans chercher l'un loin de l'autre."],
+    ["Des couleurs qui ont un sens","Orange pour le problème, bleu pour les auteurs, vert pour la solution."],
+    ["Se tester plutôt que relire","Chercher la réponse de tête fixe mieux que relire ses notes."],
+    ["Du guidé à l'autonome","Exemple commenté, puis exercice à trous, puis rédaction seul."]
+  ];
+  return html`<div className="page">
+    <div className="page-head">
+      <span className="eyebrow">Philosophie · Terminale · Notion : la science</span>
+      <h1>La science en philosophie</h1>
+      <p className="lead">Comprendre les tensions liées à la science, mémoriser les auteurs et les concepts, puis les utiliser en dissertation. Suis les quatre étapes dans l'ordre la première fois.</p>
+    </div>
+    <div className="steps">
+      ${steps.map(s => html`<div key=${s.n} className="card step">
+        <span className="num">${s.n}</span>
+        <h3>${s.t}</h3>
+        <p>${s.d}</p>
+        ${s.val ? html`<div style=${{ display:"flex", flexDirection:"column", gap:"4px" }}><${Bar} value=${s.val[0]} total=${s.val[1]} tone=${s.val[0] === s.val[1] ? "pos" : ""}/><div className="bar-l"><span>${s.val[2]}</span><span>${s.val[0]} / ${s.val[1]}</span></div></div>` : html`<div className="bar-l"><span>${GLOSS.length} mots-clés</span></div>`}
+        <button className=${"btn" + (s.n === 1 && stats.seen === 0 ? " primary" : "")} onClick=${() => go(s.v)}>Ouvrir</button>
+      </div>`)}
+    </div>
+    <section className="card">
+      <div className="card-h"><h3>Comment cet outil t'aide à apprendre</h3></div>
+      <ul className="principles card-pad">
+        ${principles.map((p, i) => html`<li key=${i}><span className="dot"></span><span><b>${p[0]}</b><span className="m">${p[1]}</span></span></li>`)}
+      </ul>
+    </section>
+    <section className="card card-pad" style=${{ display:"flex", flexDirection:"column", gap:"8px" }}>
+      <h3 style=${{ fontSize:"16px" }}>L'idée centrale de toute la notion</h3>
+      <p>La science n'est pas une collection de vérités définitives : c'est une méthode pour corriger nos erreurs. Ce qui la rend fiable, ce n'est pas d'avoir toujours raison, mais d'organiser sa propre remise en question.</p>
+    </section>
+  </div>`;
+}
+
+/* ---------- Application ---------- */
+const VIEWS = ["accueil","mots-cles","comprendre","flashcards","exercices"];
+const NAV = [
+  { id:"accueil", label:"Accueil", icon:"home" },
+  { id:"mots-cles", label:"Mots-clés", icon:"tag" },
+  { id:"comprendre", label:"Comprendre", icon:"book" },
+  { id:"flashcards", label:"Flashcards", icon:"cards" },
+  { id:"exercices", label:"Exercices", icon:"check" }
+];
+function readHash(){ try { const h = (window.location.hash || "").slice(1); return VIEWS.indexOf(h) >= 0 ? h : "accueil"; } catch(e){ return "accueil"; } }
+
+function App(){
+  const [view, setView] = useState(readHash);
+  const [boxes, setBoxes] = usePersist("sci.boxes", {});
+  const [exRes, setExRes] = usePersist("sci.ex", {});
+  const [seen, setSeen] = usePersist("sci.seen", {});
+  const [modIdx, setModIdx] = usePersist("sci.mod", 0);
+  const [fcMod, setFcMod] = useState(undefined);
+  const [fcKey, setFcKey] = useState(0);
+  const mainRef = useRef(null);
+
+  useEffect(() => {
+    const f = () => setView(readHash());
+    window.addEventListener("hashchange", f);
+    return () => window.removeEventListener("hashchange", f);
+  }, []);
+  useEffect(() => { if (mainRef.current) mainRef.current.scrollTop = 0; }, [view, modIdx]);
+  useEffect(() => { if (view === "comprendre"){ const id = MODULES[modIdx].id; if (!seen[id]) setSeen(Object.assign({}, seen, { [id]: true })); } }, [view, modIdx]);
+
+  const go = (v) => { if (v !== "flashcards") setFcMod(undefined); setView(v); try { if (window.location.hash !== "#" + v) window.location.hash = v; } catch(e){} };
+  const openModule = (k) => { setModIdx(k); go("comprendre"); };
+  const onCards = (k) => { setFcMod(k); setFcKey(fcKey + 1); setView("flashcards"); try { window.location.hash = "flashcards"; } catch(e){} };
+  const onResult = (id, s, t) => setExRes(prev => Object.assign({}, prev, { [id]: { s, t } }));
+
+  const stats = {
+    seen: MODULES.filter(m => seen[m.id]).length,
+    mastered: CARDS.filter(c => (boxes[c.id] || 1) >= 4).length,
+    exDone: EX_ALL.filter(e => exRes[e.id]).length
+  };
+  const idx = Math.min(Math.max(0, modIdx | 0), MODULES.length - 1);
+
+  let content;
+  if (view === "mots-cles") content = html`<${Glossary}/>`;
+  else if (view === "comprendre") content = html`<${ModuleView} idx=${idx} setIdx=${setModIdx} onCards=${onCards} seen=${seen}/>`;
+  else if (view === "flashcards") content = html`<${Flashcards} key=${"fc" + fcKey} boxes=${boxes} setBoxes=${setBoxes} initMod=${fcMod}/>`;
+  else if (view === "exercices") content = html`<${Exercises} exRes=${exRes} onResult=${onResult}/>`;
+  else content = html`<${Home} go=${go} stats=${stats}/>`;
+
+  return html`<div className="app">
+    <header className="toolbar">
+      <div className="appname"><${Icon} name="logo" size=${20}/><span>La science <small>· Philosophie Terminale</small></span></div>
+      <span className="spacer"></span>
+      <div className="stats" aria-label="Progression">
+        <span className="chip">Modules <b>${stats.seen}/${MODULES.length}</b></span>
+        <span className="chip">Cartes maîtrisées <b>${stats.mastered}/${CARDS.length}</b></span>
+        <span className="chip">Exercices <b>${stats.exDone}/${EX_ALL.length}</b></span>
+      </div>
+    </header>
+    <div className="body">
+      <nav className="sidebar" aria-label="Navigation">
+        <div className="side-h">Parcours</div>
+        <div className="nav">
+          ${NAV.map(n => html`<div key=${n.id} style=${{ display:"contents" }}>
+            <button className=${"nav-item" + (view === n.id ? " on" : "")} aria-current=${view === n.id ? "page" : undefined} onClick=${() => go(n.id)}>
+              <${Icon} name=${n.icon}/><span>${n.label}</span>
+              ${n.id === "comprendre" ? html`<span className="count">${stats.seen}/${MODULES.length}</span>` : null}
+              ${n.id === "flashcards" ? html`<span className="count">${CARDS.length}</span>` : null}
+              ${n.id === "exercices" ? html`<span className="count">${stats.exDone}/${EX_ALL.length}</span>` : null}
+            </button>
+            ${n.id === "comprendre" && view === "comprendre" ? html`<div className="subnav">
+              ${MODULES.map((m, k) => html`<button key=${k} className=${k === idx ? "on" : ""} onClick=${() => openModule(k)}><span className="n">${k + 1}</span><span>${m.short}</span>${seen[m.id] ? html`<span className="seen" aria-label="lu">✓</span>` : null}</button>`)}
+            </div>` : null}
+          </div>`)}
+        </div>
+      </nav>
+      <main className="main" ref=${mainRef}>${content}</main>
+    </div>
+  </div>`;
+}
+
+window.__SCI_APP__ = App;
+const rootEl = typeof document !== "undefined" && document.getElementById("root");
+if (rootEl && ReactDOM.createRoot) ReactDOM.createRoot(rootEl).render(html`<${App}/>`);
+})();
+</script>
+</body>
+</html>
