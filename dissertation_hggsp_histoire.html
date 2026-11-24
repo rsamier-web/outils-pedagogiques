@@ -316,6 +316,10 @@ button.pill{cursor:pointer;font-family:inherit}
 @media (max-width:560px){.header .matsw .btn{min-width:0;padding:.15rem .5rem}}
 .flash-q{font-size:.95rem;color:var(--muted);font-weight:600;padding-bottom:.5rem;border-bottom:1px dashed var(--line-strong);max-width:46ch}
 .apara>.chip{align-self:flex-start}
+.pop{max-height:calc(100vh - 4.5rem);overflow-y:auto}
+.voice-set{display:flex;flex-direction:column;gap:.7rem;border-top:1px solid var(--line);padding-top:.8rem}
+.voice-set select{font-size:.88rem}
+input[type=range]{width:100%;accent-color:var(--accent)}
 </style>
 </head>
 <body>
@@ -1228,13 +1232,79 @@ const KEY = 'atelier-hggsp-histoire-v1';
 const loadStore = () => { try { const r = localStorage.getItem(KEY); return r ? JSON.parse(r) : {}; } catch (e) { return {}; } };
 const saveStore = o => { try { localStorage.setItem(KEY, JSON.stringify(o)); } catch (e) {} };
 const CAN_SPEAK = typeof window !== 'undefined' && 'speechSynthesis' in window && typeof SpeechSynthesisUtterance !== 'undefined';
-function speak(text) {
+
+/* ---------- Synthèse vocale : les meilleures voix françaises gratuites en premier ---------- */
+/* Classement : voix neuronales « Natural / Online » (Microsoft Edge), voix Premium puis Améliorées (Apple),
+   voix Google (Chrome, Android), puis voix système standard ; le français de France avant les autres variantes. */
+function voiceInfo(v) {
+  const n = v.name || '';
+  let score = 0, tier = 'Standard';
+  if (/natural|neural|online/i.test(n)) { score = 100; tier = 'Naturelle'; }
+  else if (/premium/i.test(n)) { score = 90; tier = 'Premium'; }
+  else if (/enhanced|amélioré|ameliore/i.test(n)) { score = 80; tier = 'Améliorée'; }
+  else if (/google/i.test(n)) { score = 70; tier = 'Google'; }
+  else if (/am[ée]lie|thomas|audrey|aur[ée]lie|marie|daniel/i.test(n)) { score = 40; }
+  else if (/microsoft/i.test(n)) { score = 20; }
+  if (/multilingual/i.test(n)) score -= 3;
+  const lang = (v.lang || '').replace('_', '-');
+  if (/^fr-FR$/i.test(lang)) score += 6; else if (/^fr-(CA|BE|CH)$/i.test(lang)) score += 2;
+  if (v.localService === false) score += 1;
+  return { score, tier, lang };
+}
+let VOICES = [];
+const voiceListeners = new Set();
+function loadVoices() {
+  if (!CAN_SPEAK) return;
   try {
-    const s = window.speechSynthesis; s.cancel();
-    const u = new SpeechSynthesisUtterance(plain(text)); u.lang = 'fr-FR'; u.rate = 0.9;
-    const v = (s.getVoices() || []).find(v => v.lang && v.lang.toLowerCase().startsWith('fr')); if (v) u.voice = v;
-    s.speak(u);
+    const list = window.speechSynthesis.getVoices().filter(v => /^fr([-_]|$)/i.test(v.lang || ''));
+    VOICES = list.map(v => ({ v, ...voiceInfo(v) })).sort((a, b) => b.score - a.score || a.v.name.localeCompare(b.v.name));
+    voiceListeners.forEach(f => f(VOICES));
   } catch (e) {}
+}
+if (CAN_SPEAK) {
+  loadVoices();
+  try { window.speechSynthesis.addEventListener('voiceschanged', loadVoices); } catch (e) { window.speechSynthesis.onvoiceschanged = loadVoices; }
+  setTimeout(loadVoices, 600); setTimeout(loadVoices, 2000);
+}
+function useVoices() {
+  const [list, setList] = useState(VOICES);
+  useEffect(() => { voiceListeners.add(setList); loadVoices(); return () => voiceListeners.delete(setList); }, []);
+  return list;
+}
+const TTS = { voice: '', rate: 0.95, pitch: 1 };
+let speakToken = 0;
+const speakListeners = new Set();
+let speakingId = null;
+const setSpeaking = id => { speakingId = id; speakListeners.forEach(f => f(id)); };
+function chunks(text) {
+  const out = [];
+  String(text).replace(/\s+/g, ' ').trim().replace(/([.!?;:…])\s+/g, '$1\u0000').split('\u0000').forEach(sen => {
+    if (sen.length <= 180) { if (sen) out.push(sen); return; }
+    let cur = '';
+    sen.replace(/,\s+/g, ',\u0000').split('\u0000').forEach(p => { if ((cur + ' ' + p).length > 180 && cur) { out.push(cur); cur = p; } else cur = cur ? cur + ' ' + p : p; });
+    if (cur) out.push(cur);
+  });
+  return out;
+}
+function stopSpeak() { speakToken++; try { window.speechSynthesis.cancel(); } catch (e) {} setSpeaking(null); }
+function speak(text, id) {
+  if (!CAN_SPEAK) return;
+  stopSpeak();
+  const tok = speakToken;
+  const s = window.speechSynthesis;
+  const pick = VOICES.find(x => x.v.voiceURI === TTS.voice) || VOICES[0];
+  const parts = chunks(plain(text).replace(/([?!.…:])\s*\./g, '$1'));
+  setSpeaking(id || 'x');
+  const next = i => {
+    if (tok !== speakToken) return;
+    if (i >= parts.length) { setSpeaking(null); return; }
+    const u = new SpeechSynthesisUtterance(parts[i]);
+    u.lang = pick ? pick.v.lang : 'fr-FR'; if (pick) u.voice = pick.v;
+    u.rate = TTS.rate; u.pitch = TTS.pitch;
+    u.onend = () => next(i + 1); u.onerror = () => { if (tok === speakToken) setSpeaking(null); };
+    try { s.speak(u); } catch (e) { setSpeaking(null); }
+  };
+  next(0);
 }
 async function copyText(t) {
   try { await navigator.clipboard.writeText(t); return true; } catch (e) {
@@ -1292,10 +1362,15 @@ function Tabs({ items, value, onChange }) {
 /* ---------- Contexte ---------- */
 const Ctx = createContext(null);
 const useApp = () => useContext(Ctx);
+let speakSeq = 0;
 function SpeakBtn({ text, label }) {
   const { store } = useApp();
+  const [myId] = useState(() => 'sp' + (++speakSeq));
+  const [cur, setCur] = useState(speakingId);
+  useEffect(() => { speakListeners.add(setCur); return () => { speakListeners.delete(setCur); if (speakingId === myId) stopSpeak(); }; }, []);
   if (!CAN_SPEAK || store.settings.tts === false) return null;
-  return html`<button className="btn btn-sm btn-flat" onClick=${() => speak(text)}><${Icon} n="speaker" s=${16} />${label || 'Écouter'}</button>`;
+  const on = cur === myId;
+  return html`<button className=${'btn btn-sm btn-flat' + (on ? ' on' : '')} aria-pressed=${on} onClick=${() => (on ? stopSpeak() : speak(text, myId))}><${Icon} n=${on ? 'x' : 'speaker'} s=${16} />${on ? 'Arrêter' : (label == null ? 'Écouter' : label)}</button>`;
 }
 
 /* ---------- Correction (simple + détaillée) ---------- */
@@ -2048,6 +2123,27 @@ function PNotes() {
   </div></div>`;
 }
 
+function VoiceSettings() {
+  const { store, setSettings } = useApp();
+  const s = store.settings;
+  const voices = useVoices();
+  const cur = voices.find(x => x.v.voiceURI === s.voice) || voices[0];
+  const best = voices.length && voices[0].score >= 70;
+  return html`<div className="voice-set">
+    <label className="switch"><span>Boutons « Écouter »</span><input type="checkbox" checked=${s.tts !== false} onChange=${e => setSettings({ tts: e.target.checked })} /></label>
+    ${s.tts !== false ? html`<${Fragment}>
+      <div><label className="lbl" htmlFor="set-voice">Voix</label>
+        ${voices.length ? html`<select id="set-voice" value=${cur ? cur.v.voiceURI : ''} onChange=${e => setSettings({ voice: e.target.value })}>
+          ${voices.map((x, i) => html`<option key=${x.v.voiceURI} value=${x.v.voiceURI}>${(i === 0 ? '★ ' : '') + x.v.name.replace(/^Microsoft /, '').replace(/ - .*$/, '').replace(/ \(.*\)$/, '') + ' · ' + x.tier + ' · ' + x.lang}</option>`)}
+        </select>` : html`<p className="count">Aucune voix française trouvée sur cet appareil.</p>`}</div>
+      <div><label className="lbl" htmlFor="set-rate">Vitesse : ${Math.round(s.rate * 100)} %</label><input id="set-rate" type="range" min="0.6" max="1.3" step="0.05" value=${s.rate} onChange=${e => setSettings({ rate: Number(e.target.value) })} /></div>
+      <div><label className="lbl" htmlFor="set-pitch">Hauteur de la voix : ${s.pitch < 0.95 ? 'plus grave' : s.pitch > 1.05 ? 'plus aiguë' : 'normale'}</label><input id="set-pitch" type="range" min="0.7" max="1.3" step="0.05" value=${s.pitch} onChange=${e => setSettings({ pitch: Number(e.target.value) })} /></div>
+      <div className="actions"><${SpeakBtn} text="Bonjour ! Voici la voix choisie pour lire le cours et les exemples." label="Tester la voix" /><button className="btn btn-sm btn-flat" onClick=${() => setSettings({ voice: '', rate: 0.95, pitch: 1 })}><${Icon} n="reset" s=${15} />Par défaut</button></div>
+      ${!best ? html`<p className="count">Pour une voix plus naturelle et gratuite : ouvre l’application dans Microsoft Edge (voix « Naturelles ») ou dans Chrome (« Google français »). Sur iPhone ou Mac, télécharge une voix « Améliorée » dans les réglages d’accessibilité.</p>` : null}
+    <//>` : null}
+  </div>`;
+}
+
 /* -- Réglages -- */
 function Settings({ onClose }) {
   const { store, setSettings, setStore } = useApp();
@@ -2060,7 +2156,7 @@ function Settings({ onClose }) {
       <div><div className="lbl">Thème</div><div className="seg-ctl">${[['auto', 'Auto'], ['light', 'Clair'], ['dark', 'Sombre']].map(([k, l]) => html`<button key=${k} className=${'btn btn-sm' + (s.theme === k ? ' on' : '')} aria-pressed=${s.theme === k} onClick=${() => setSettings({ theme: k })}>${l}</button>`)}</div></div>
       <label className="switch"><span>Texte aéré</span><input type="checkbox" checked=${!!s.airy} onChange=${e => setSettings({ airy: e.target.checked })} /></label>
       <label className="switch"><span>Couleurs des pièces</span><input type="checkbox" checked=${s.colors !== false} onChange=${e => setSettings({ colors: e.target.checked })} /></label>
-      ${CAN_SPEAK ? html`<label className="switch"><span>Boutons « Écouter »</span><input type="checkbox" checked=${s.tts !== false} onChange=${e => setSettings({ tts: e.target.checked })} /></label>` : null}
+      ${CAN_SPEAK ? html`<${VoiceSettings} />` : null}
       ${!sure ? html`<button className="btn btn-sm" onClick=${() => setSure(true)}><${Icon} n="reset" s=${15} />Effacer ma progression</button>`
         : html`<div className="frame"><span>Effacer toute ta progression et tes brouillons ?</span><div className="actions"><button className="btn btn-sm" onClick=${() => setSure(false)}>Annuler</button><button className="btn btn-sm btn-primary" onClick=${() => { setStore({ settings: store.settings, mat: store.mat, prog: {}, drafts: {}, diss: {}, cards: {} }); setSure(false); onClose(); }}>Oui, effacer</button></div></div>`}
     </div>
@@ -2087,7 +2183,7 @@ const PAGES = {
 function App() {
   const [store, setStore] = useState(() => {
     const s = loadStore();
-    return { ...s, settings: { size: 'm', airy: false, colors: true, tts: true, theme: 'auto', ...(s.settings || {}) }, mat: s.mat === 'hist' ? 'hist' : 'hggsp', prog: s.prog || {}, drafts: s.drafts || {}, diss: s.diss || {}, cards: s.cards || {} };
+    return { ...s, settings: { size: 'm', airy: false, colors: true, tts: true, theme: 'auto', voice: '', rate: 0.95, pitch: 1, ...(s.settings || {}) }, mat: s.mat === 'hist' ? 'hist' : 'hggsp', prog: s.prog || {}, drafts: s.drafts || {}, diss: s.diss || {}, cards: s.cards || {} };
   });
   const initial = (() => { const h = (location.hash || '').slice(1); return PAGES[h] ? h : 'home'; })();
   const [page, setPage] = useState(initial);
@@ -2103,6 +2199,7 @@ function App() {
     r.style.setProperty('--ws', s.airy ? '.12em' : '0em');
     const dark = s.theme === 'dark' || (s.theme === 'auto' && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches);
     r.setAttribute('data-theme', dark ? 'dark' : 'light');
+    TTS.voice = s.voice || ''; TTS.rate = Number(s.rate) || 0.95; TTS.pitch = Number(s.pitch) || 1;
   }, [store.settings]);
   const go = p => { setPage(p); setDrawer(false); try { history.replaceState(null, '', '#' + p); } catch (e) {} const c = document.querySelector('.content'); if (c) c.scrollTop = 0; };
   const setProg = (k, v) => setStore(s => ({ ...s, prog: { ...s.prog, [k]: v } }));
