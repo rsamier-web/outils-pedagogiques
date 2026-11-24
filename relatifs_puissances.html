@@ -1,0 +1,987 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Relatifs et puissances</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/* VOICE : sobre et rassurant, un outil d'entraînement quotidien.
+   IDEA : une fenêtre KDE Breeze — barre de titre, panneau « Parcours », vue à onglets.
+   PICTURE : la droite graduée et les facteurs qui s'additionnent ou se simplifient.
+   COLOUR and TYPE : neutres Breeze, accent bleu, positif bleu / négatif orange ; Noto Sans.
+   LAYOUT : panneau latéral, une étape à la fois, un calcul à la fois avec clavier. */
+:root{
+  --window:#eff0f1; --view:#fcfcfc; --header:#e3e5e7; --alt:#f4f5f6; --btn:#f7f8f8; --field:#ffffff;
+  --text:#232629; --muted:#5b646d; --border:#c2c7cb; --line:#dde0e3; --hover:rgba(61,174,233,.09);
+  --accent:#3daee9; --accent-ink:#1a6c9c; --accent-soft:rgba(61,174,233,.15);
+  --good:#1e8a4f; --good-soft:rgba(39,174,96,.12); --bad:#c0364a; --bad-soft:rgba(218,68,83,.09);
+  --warn:#b85900; --warn-soft:rgba(246,116,0,.12);
+  --plus:#1a6c9c; --minus:#b85900; --tile-a:rgba(61,174,233,.16); --tile-b:rgba(246,116,0,.14);
+  --font:"Noto Sans",ui-sans-serif,system-ui,"Segoe UI",Roboto,Arial,sans-serif;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --window:#232629; --view:#1b1e20; --header:#2a2e32; --alt:#202326; --btn:#2c3136; --field:#141618;
+  --text:#eff0f1; --muted:#a2aab2; --border:#434a51; --line:#33383d; --hover:rgba(61,174,233,.11);
+  --accent:#3daee9; --accent-ink:#72c6f0; --accent-soft:rgba(61,174,233,.2);
+  --good:#41c77f; --good-soft:rgba(39,174,96,.17); --bad:#f26b7d; --bad-soft:rgba(218,68,83,.16);
+  --warn:#ff9d45; --warn-soft:rgba(246,116,0,.16);
+  --plus:#72c6f0; --minus:#ff9d45; --tile-a:rgba(61,174,233,.22); --tile-b:rgba(246,116,0,.2);
+  color-scheme:dark }}
+:root[data-theme="dark"]{
+  --window:#232629; --view:#1b1e20; --header:#2a2e32; --alt:#202326; --btn:#2c3136; --field:#141618;
+  --text:#eff0f1; --muted:#a2aab2; --border:#434a51; --line:#33383d; --hover:rgba(61,174,233,.11);
+  --accent:#3daee9; --accent-ink:#72c6f0; --accent-soft:rgba(61,174,233,.2);
+  --good:#41c77f; --good-soft:rgba(39,174,96,.17); --bad:#f26b7d; --bad-soft:rgba(218,68,83,.16);
+  --warn:#ff9d45; --warn-soft:rgba(246,116,0,.16);
+  --plus:#72c6f0; --minus:#ff9d45; --tile-a:rgba(61,174,233,.22); --tile-b:rgba(246,116,0,.2);
+  color-scheme:dark }
+
+*,*::before,*::after{box-sizing:border-box}
+body{margin:0;background:var(--window);color:var(--text);font-family:var(--font);overflow-x:clip}
+.app{font-size:15px;line-height:1.55;min-height:100vh;display:flex;flex-direction:column}
+.app.big{font-size:18px;line-height:1.75;letter-spacing:.015em;word-spacing:.06em}
+button,input{font:inherit;color:inherit;letter-spacing:inherit}
+h2,h3,h4{text-wrap:balance;margin:0;line-height:1.3}
+p{margin:0}
+b{font-weight:600}
+:focus-visible{outline:2px solid var(--accent);outline-offset:1px;border-radius:3px}
+sup{font-size:.66em;line-height:0}
+.muted{color:var(--muted)}
+.small{font-size:.85em}
+.num{font-variant-numeric:tabular-nums}
+.pos{color:var(--plus);font-weight:600}.neg{color:var(--minus);font-weight:600}
+.frac{display:inline-flex;flex-direction:column;align-items:center;vertical-align:middle;margin:0 .12em;line-height:1.25}
+.frac>span{padding:0 .3em}
+.frac>span:first-child{border-bottom:1.5px solid currentColor;padding-bottom:.1em}
+.frac>span:last-child{padding-top:.15em}
+
+/* Barre de titre */
+.titlebar{position:sticky;top:0;z-index:10;display:flex;align-items:center;gap:.7em;padding:.4em 16px;background:var(--header);border-bottom:1px solid var(--border);min-height:46px}
+.titlebar svg{flex:none}
+.tb-name{font-weight:600}
+.tb-sub{color:var(--muted);font-size:.87em}
+.spacer{flex:1}
+.switch{display:inline-flex;align-items:center;gap:.45em;font-size:.87em;cursor:pointer;background:none;border:0;padding:.3em .2em}
+.switch .track{width:30px;height:16px;border-radius:8px;border:1px solid var(--border);background:var(--field);position:relative;transition:background .2s}
+.switch .track::after{content:"";position:absolute;top:2px;left:2px;width:10px;height:10px;border-radius:50%;background:var(--muted);transition:transform .2s,background .2s}
+.switch[aria-checked="true"] .track{background:var(--accent-soft);border-color:var(--accent)}
+.switch[aria-checked="true"] .track::after{transform:translateX(14px);background:var(--accent)}
+
+/* Structure */
+.layout{flex:1;display:grid;grid-template-columns:250px minmax(0,1fr)}
+.sidebar{border-right:1px solid var(--border);padding:12px 8px;display:flex;flex-direction:column;gap:2px}
+.side-cap{font-size:.74em;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;padding:.6em .75em .35em}
+.side-item{display:flex;align-items:center;gap:.65em;width:100%;padding:.45em .7em;border:1px solid transparent;border-radius:4px;background:none;text-align:left;cursor:pointer;min-height:40px}
+.side-item:hover{background:var(--hover)}
+.side-item[aria-current="page"]{background:var(--accent-soft);border-color:var(--accent)}
+.side-item .ic{width:22px;height:22px;flex:none;color:var(--muted)}
+.side-item[aria-current="page"] .ic{color:var(--accent-ink)}
+.sn-b{flex:none;width:22px;height:22px;border-radius:50%;border:1px solid var(--muted);display:grid;place-items:center;font-size:.78em;font-weight:600;color:var(--muted)}
+.side-item[aria-current="page"] .sn-b{border-color:var(--accent-ink);color:var(--accent-ink)}
+.side-item .mini{margin-left:auto;display:flex;gap:3px}
+.mini span{width:7px;height:7px;border-radius:50%;border:1px solid var(--border);background:var(--field)}
+.mini .s1{background:var(--warn-soft);border-color:var(--warn)}
+.mini .s2{background:var(--accent);border-color:var(--accent)}
+.mini .s3{background:var(--good);border-color:var(--good)}
+.side-foot{margin-top:auto;padding:1em .5em .3em;display:grid;gap:.4em;font-size:.85em}
+.linkbtn{background:none;border:0;padding:0;color:var(--muted);text-decoration:underline;cursor:pointer;text-align:left}
+.main{background:var(--view);min-width:0}
+.wrap{max-width:880px;width:100%;margin:0 auto;padding-inline:28px}
+.head{padding-block:1.5em .9em}
+.head .eyebrow{font-size:.85em;color:var(--muted)}
+.head h2{font-size:1.5em;font-weight:600}
+.head p{color:var(--muted);margin-top:.25em;max-width:64ch}
+.tabs-bar{border-bottom:1px solid var(--border);background:var(--view);position:sticky;top:46px;z-index:5}
+.tabs{display:flex;overflow-x:auto;scrollbar-width:none}
+.tab{flex:none;padding:.6em 1em;border:0;border-bottom:2px solid transparent;background:none;cursor:pointer;color:var(--muted);display:flex;align-items:center;gap:.45em;min-height:44px}
+.tab:hover{color:var(--text);background:var(--hover)}
+.tab[aria-selected="true"]{color:var(--text);border-bottom-color:var(--accent);font-weight:600}
+.tab .tn{font-size:.75em;width:1.6em;height:1.6em;border-radius:50%;border:1px solid currentColor;display:grid;place-items:center;font-weight:600}
+.page{padding-block:1.5em 4em;display:grid;gap:1.4em}
+.lead{color:var(--muted);font-size:.93em;max-width:66ch}
+
+/* Cadres, sections, règles */
+.frame{background:var(--view);border:1px solid var(--line);border-radius:5px;padding:1em 1.1em}
+.sec{display:grid;gap:.7em}
+.sec h3{font-size:1.12em;font-weight:600;display:flex;gap:.55em;align-items:baseline}
+.sec h3 .sn{color:var(--accent-ink);font-variant-numeric:tabular-nums}
+.sec p{max-width:66ch}
+.two{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,250px),1fr));gap:.8em}
+.two .frame{display:grid;gap:.4em;align-content:start;background:var(--alt)}
+.two h4{font-size:.98em;font-weight:600}
+.ex{font-size:1.12em;font-variant-numeric:tabular-nums;padding:.4em .75em;background:var(--alt);border-left:3px solid var(--accent);border-radius:0 3px 3px 0;justify-self:start;max-width:100%}
+.two .ex{background:var(--view)}
+.rule{border-left:4px solid var(--accent);background:var(--accent-soft);border-radius:0 5px 5px 0;padding:.7em 1.1em;display:grid;gap:.3em;justify-self:start;min-width:min(100%,280px)}
+.rule .rl{font-size:.75em;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--accent-ink)}
+.rule .rf{font-size:1.35em;font-variant-numeric:tabular-nums}
+.keep{border:1px solid var(--accent);background:var(--accent-soft);border-radius:5px;padding:.9em 1.1em;display:grid;gap:.5em}
+.keep h4{font-size:.8em;text-transform:uppercase;letter-spacing:.08em;color:var(--accent-ink)}
+.keep ul,.plain{margin:0;padding-left:1.2em;display:grid;gap:.3em}
+.signs{border-collapse:collapse;font-size:1.05em;font-variant-numeric:tabular-nums}
+.signs td,.signs th{border:1px solid var(--line);padding:.35em .9em;text-align:center}
+.signs th{background:var(--alt);font-weight:600}
+.legend{display:flex;flex-wrap:wrap;gap:1em;font-size:.88em;color:var(--muted);align-items:center}
+.sw{display:inline-block;width:.85em;height:.85em;border-radius:2px;vertical-align:-.05em;margin-right:.35em}
+
+/* Boutons, curseurs */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:.4em;padding:.4em 1em;border:1px solid var(--border);border-radius:3px;background:var(--btn);cursor:pointer;min-height:2.5em;text-align:left}
+.btn:hover:not(:disabled){border-color:var(--accent)}
+.btn.primary{border-color:var(--accent);background:var(--accent-soft)}
+.btn.right{border-color:var(--good);background:var(--good-soft)}
+.btn.wrong{border-color:var(--bad);background:var(--bad-soft)}
+.btn:disabled{opacity:.55;cursor:default}
+.row{display:flex;flex-wrap:wrap;gap:.5em;align-items:center}
+.seg{display:inline-flex;flex-wrap:wrap;border:1px solid var(--border);border-radius:3px;overflow:hidden}
+.seg button{border:0;background:var(--btn);padding:.4em .9em;cursor:pointer;min-height:2.5em}
+.seg button+button{border-left:1px solid var(--border)}
+.seg button[aria-pressed="true"]{background:var(--accent-soft);color:var(--accent-ink);font-weight:600}
+input[type=range]{accent-color:var(--accent);width:100%;min-width:0;height:28px}
+.ctrls{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,220px),1fr));gap:.8em 1.4em}
+.ctrl{display:grid;gap:.15em}
+.ctrl label{font-size:.88em;color:var(--muted);display:flex;justify-content:space-between;gap:1em}
+.ctrl output{color:var(--text);font-weight:600;font-variant-numeric:tabular-nums}
+
+/* Messages type KMessageWidget */
+.msg{display:flex;gap:.65em;align-items:flex-start;padding:.6em .85em;border:1px solid var(--accent);background:var(--accent-soft);border-radius:4px}
+.msg .mi{flex:none;width:1.35em;height:1.35em;border-radius:50%;display:grid;place-items:center;font-size:.8em;font-weight:700;color:var(--view);background:var(--accent);margin-top:.12em}
+.msg.good{border-color:var(--good);background:var(--good-soft)}.msg.good .mi{background:var(--good)}
+.msg.bad{border-color:var(--bad);background:var(--bad-soft)}.msg.bad .mi{background:var(--bad)}
+.msg.warn{border-color:var(--warn);background:var(--warn-soft)}.msg.warn .mi{background:var(--warn)}
+.msg>div{min-width:0;display:grid;gap:.3em}
+.msg ul{margin:0;padding-left:1.2em;display:grid;gap:.2em}
+
+/* Figures */
+.lab{display:grid;gap:1em}
+.svgbox{overflow-x:auto}
+.svgbox svg{display:block;width:100%;height:auto}
+svg text{font-family:var(--font)}
+.ax{stroke:var(--text);stroke-width:1.5}
+.tk{stroke:var(--muted);stroke-width:1}
+.tl{fill:var(--muted);font-size:12px}
+.tl0{fill:var(--text);font-weight:700}
+.arc-p{fill:none;stroke:var(--plus);stroke-width:2.5}.arc-m{fill:none;stroke:var(--minus);stroke-width:2.5}
+.ah-p{fill:var(--plus)}.ah-m{fill:var(--minus)}
+.lbl-p{fill:var(--plus);font-weight:700;font-size:15px}.lbl-m{fill:var(--minus);font-weight:700;font-size:15px}
+.dot-a{fill:var(--view);stroke:var(--text);stroke-width:2}
+.dot-r{fill:var(--accent);stroke:var(--accent-ink);stroke-width:1.5}
+.tag-t{fill:var(--text);font-size:12px;font-weight:600}
+.readout{font-size:1.08em;font-variant-numeric:tabular-nums;display:grid;gap:.35em}
+.readout .big{font-size:1.25em;font-weight:600}
+.tiles{display:flex;flex-wrap:wrap;align-items:center;gap:.3em;min-height:2.4em}
+.tile{display:inline-grid;place-items:center;min-width:2.5em;height:2.1em;padding:0 .4em;border-radius:4px;border:1px solid var(--accent);background:var(--tile-a);font-weight:600;font-variant-numeric:tabular-nums}
+.tile.b{border-color:var(--warn);background:var(--tile-b)}
+.tile.gone{opacity:.35;text-decoration:line-through;border-style:dashed}
+.times{color:var(--muted)}
+.qrow{display:grid;gap:.4em}
+.qbar{border-top:2px solid var(--text);width:100%}
+.one{font-weight:600;padding:0 .3em}
+
+/* Exemple résolu */
+.worked{border-color:var(--accent);display:grid;gap:.8em}
+.badge{display:inline-flex;font-size:.75em;text-transform:uppercase;letter-spacing:.08em;font-weight:600;color:var(--accent-ink);border:1px solid var(--accent);border-radius:3px;padding:.1em .5em;background:var(--accent-soft)}
+.steps{list-style:none;counter-reset:s;padding:0;margin:0;display:grid;gap:.7em}
+.steps li{counter-increment:s;display:grid;grid-template-columns:1.9em minmax(0,1fr);gap:.55em;align-items:start}
+.steps li::before{content:counter(s);width:1.75em;height:1.75em;border-radius:50%;border:1px solid var(--accent);color:var(--accent-ink);display:grid;place-items:center;font-size:.82em;font-weight:600;background:var(--view)}
+.steps .st{font-weight:600}
+.steps .sd{font-variant-numeric:tabular-nums}
+
+/* Calcul et clavier */
+.drill{display:grid;gap:1em;justify-items:start}
+.drill-top{display:flex;flex-wrap:wrap;align-items:center;gap:.8em;width:100%}
+.dots{display:flex;gap:4px;flex-wrap:wrap}
+.dots span{width:11px;height:11px;border-radius:50%;border:1px solid var(--border);background:var(--field)}
+.dots span.ok{background:var(--good);border-color:var(--good)}
+.dots span.ko{background:var(--bad);border-color:var(--bad)}
+.dots span.cur{border-color:var(--accent);box-shadow:0 0 0 2px var(--accent-soft)}
+.tag{font-size:.78em;font-weight:600;color:var(--warn);border:1px solid var(--warn);border-radius:3px;padding:.05em .5em;background:var(--warn-soft)}
+.chrono{margin-left:auto;font-size:.88em;color:var(--muted)}
+.drill-q{font-size:clamp(1.6em,5vw,2.1em);font-weight:600;font-variant-numeric:tabular-nums;line-height:1.8;display:block;min-height:2.4em}
+.drill-q sup{font-size:.6em;vertical-align:super}
+.slot{display:inline-block;min-width:1.7em;padding:0 .3em;border:2px solid var(--accent);border-radius:5px;background:var(--field);text-align:center;color:var(--text)}
+.slot.empty{color:var(--muted);border-style:dashed}
+sup.slot{font-size:.6em;line-height:1.3;vertical-align:baseline;position:relative;top:-.95em;margin-left:.08em}
+.pad{display:grid;grid-template-columns:repeat(3,minmax(0,4.4em));gap:.4em}
+.pk{height:3em;border:1px solid var(--border);border-radius:4px;background:var(--btn);cursor:pointer;font-size:1.15em;font-weight:600;font-variant-numeric:tabular-nums}
+.pk:hover:not(:disabled){border-color:var(--accent)}
+.pk:active{background:var(--accent-soft)}
+.pk.ok{grid-column:1 / -1;border-color:var(--accent);background:var(--accent-soft);font-size:1em}
+.pk:disabled{opacity:.5}
+.guide-step{display:grid;gap:.5em;padding:.7em .85em;border:1px solid var(--line);border-radius:4px;background:var(--alt)}
+.guide-step.past{background:var(--view)}
+.guide-step .gp{font-variant-numeric:tabular-nums}
+.guide-step .gok{color:var(--good);font-size:.92em}
+.choices{display:flex;flex-wrap:wrap;gap:.5em}
+
+/* Niveaux et parcours */
+.levels{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,200px),1fr));gap:.5em}
+.lvl{display:grid;gap:.3em;text-align:left;padding:.6em .8em;border:1px solid var(--border);border-radius:4px;background:var(--btn);cursor:pointer}
+.lvl:hover{border-color:var(--accent)}
+.lvl[aria-pressed="true"]{border-color:var(--accent);background:var(--accent-soft)}
+.lvl .ln{font-size:.78em;color:var(--muted);font-weight:600;text-transform:uppercase;letter-spacing:.06em}
+.chip{display:inline-flex;align-items:center;gap:.3em;font-size:.78em;font-weight:600;border-radius:3px;padding:.05em .5em;border:1px solid var(--border);color:var(--muted);background:var(--field);justify-self:start;white-space:nowrap}
+.chip.s1{color:var(--warn);border-color:var(--warn);background:var(--warn-soft)}
+.chip.s2{color:var(--accent-ink);border-color:var(--accent);background:var(--accent-soft)}
+.chip.s3{color:var(--good);border-color:var(--good);background:var(--good-soft)}
+.steplist{display:grid;gap:.5em}
+.steprow{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:.8em;align-items:center;padding:.6em .8em;border:1px solid var(--line);border-radius:5px;background:var(--view)}
+.steprow .chips{display:flex;flex-wrap:wrap;gap:.35em;margin-top:.25em}
+.group-cap{font-size:.8em;font-weight:600;text-transform:uppercase;letter-spacing:.07em;color:var(--muted);margin-top:.4em}
+.stat{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,150px),1fr));gap:.6em}
+.stat div{border:1px solid var(--line);border-radius:5px;padding:.6em .8em;background:var(--alt)}
+.stat b{display:block;font-size:1.5em;font-variant-numeric:tabular-nums}
+
+@media (max-width:800px){
+  .layout{grid-template-columns:1fr}
+  .sidebar{flex-direction:row;overflow-x:auto;border-right:0;border-bottom:1px solid var(--border);padding:8px 16px;gap:6px;background:var(--window)}
+  .side-cap,.side-foot{display:none}
+  .side-item{flex:none;width:auto}
+  .side-item .mini{display:none}
+  .wrap{padding-inline:16px}
+  .tb-sub{display:none}
+  .tabs-bar{position:static}
+}
+@media (max-width:520px){
+  .switch .lbl{display:none}
+  .steprow{grid-template-columns:auto minmax(0,1fr)}
+  .steprow .btn{grid-column:1 / -1}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style>
+</head>
+<body>
+<div id="root"></div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.3.1/umd/react.production.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.3.1/umd/react-dom.production.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/htm@3.1.1/dist/htm.umd.js"></script>
+<script>
+{
+const { useState, useEffect, useRef } = React;
+const html = htm.bind(React.createElement);
+
+/* ================= Outils ================= */
+const store = {
+  get(k, d){ try{ const v = localStorage.getItem("rp_" + k); return v == null ? d : JSON.parse(v); }catch(e){ return d; } },
+  set(k, v){ try{ localStorage.setItem("rp_" + k, JSON.stringify(v)); }catch(e){} }
+};
+const R = (a, b) => a + Math.floor(Math.random() * (b - a + 1));
+const nz = (a, b) => { let v; do { v = R(a, b); } while (v === 0); return v; };
+const pick = arr => arr[R(0, arr.length - 1)];
+const S = v => v < 0 ? "−" + (-v) : String(v);            /* −5 ou 5 */
+const P = v => v < 0 ? "(−" + (-v) + ")" : "(+" + v + ")"; /* (−5) ou (+5) */
+const PN = v => v < 0 ? "(−" + (-v) + ")" : String(v);     /* (−5) ou 5 */
+const pw = (b, e) => b + "<sup>" + S(e) + "</sup>";
+const fr = (t, b) => '<span class="frac"><span>' + t + '</span><span>' + b + '</span></span>';
+const Hx = ({ h, as = "span", className }) => React.createElement(as, { className, dangerouslySetInnerHTML: { __html: h } });
+const fmt1 = x => x.toFixed(1).replace(".", ",");
+const edit = (val, key) => {
+  if (key === "±") return val.startsWith("−") ? val.slice(1) : "−" + val;
+  if (key === "⌫") return val.slice(0, -1);
+  if (/^\d$/.test(key)){ const d = val.replace("−", ""); if (d.length >= 3) return val; if (d === "0") return val.replace("0", key); return val + key; }
+  return val;
+};
+const parseV = val => parseInt(val.replace("−", "-"), 10);
+
+/* Explications */
+function addEx(a, b){
+  const c = a + b, A = Math.abs(a), B = Math.abs(b);
+  if (a === 0 || b === 0) return S(a) + " + " + PN(b) + " = <b>" + S(c) + "</b>.";
+  if ((a > 0) === (b > 0)) return "Même signe : j'additionne les distances à zéro, " + A + " + " + B + " = " + (A + B) + ", et je garde le signe " + (a < 0 ? "−" : "+") + ". Résultat : <b>" + S(c) + "</b>.";
+  if (A === B) return "Deux nombres opposés : leur somme est <b>0</b>.";
+  const far = A > B ? a : b;
+  return "Signes contraires : je soustrais les distances à zéro, " + Math.max(A, B) + " − " + Math.min(A, B) + " = " + Math.abs(A - B) + ", et je garde le signe du plus éloigné de zéro (" + S(far) + "). Résultat : <b>" + S(c) + "</b>.";
+}
+function subEx(a, b){
+  if (b === 0) return S(a) + " − 0 = <b>" + S(a) + "</b>.";
+  return "Soustraire " + PN(b) + ", c'est ajouter son opposé : " + S(a) + " − " + PN(b) + " = " + S(a) + " + " + P(-b) + ". " + addEx(a, -b);
+}
+function addDiag(a, b, v){
+  const c = a + b, A = Math.abs(a), B = Math.abs(b);
+  if (c !== 0 && v === -c) return "Le calcul des distances est bon, mais pas le signe du résultat.";
+  if (a && b && (a > 0) !== (b > 0) && Math.abs(v) === A + B) return "Les signes sont contraires : on soustrait les distances à zéro, on ne les additionne pas.";
+  if (a && b && (a > 0) === (b > 0) && A !== B && Math.abs(v) === Math.abs(A - B)) return "Les deux nombres ont le même signe : on additionne les distances à zéro.";
+  return null;
+}
+function subDiag(a, b, v){
+  if (b !== 0 && v === a + b && a + b !== a - b) return "Tu as ajouté " + PN(b) + ". Soustraire un nombre, c'est ajouter son <b>opposé</b> : " + S(a) + " + " + P(-b) + ".";
+  return addDiag(a, -b, v);
+}
+
+/* ================= Générateurs (Automatiser) ================= */
+const BASES = ["10", "10", "10", "2", "3", "5", "a", "x"];
+function chainItem(terms){
+  const q = terms.map(t => t.op == null ? S(t.v) : " " + t.op + " " + (t.paren ? P(t.v) : t.v)).join("");
+  const contrib = terms.map(t => t.op == null ? t.v : (t.op === "+" ? t.v : -t.v));
+  const ans = contrib.reduce((s, x) => s + x, 0);
+  const plain = contrib.map((c, i) => i === 0 ? S(c) : (c < 0 ? " − " + (-c) : " + " + c)).join("");
+  let acc = contrib[0]; const parts = [];
+  for (let i = 1; i < contrib.length; i++){ const n = acc + contrib[i]; parts.push(S(acc) + " " + (contrib[i] < 0 ? "−" : "+") + " " + Math.abs(contrib[i]) + " = " + S(n)); acc = n; }
+  const hasP = terms.some(t => t.paren);
+  const ex = (hasP ? "J'écris sans parenthèses : " + plain + ". " : "") + "De gauche à droite : " + parts.join(" ; ") + ". Résultat : <b>" + S(ans) + "</b>.";
+  return { q: q + " =", a: ans, ex, diag: v => (ans !== 0 && v === -ans) ? "Le signe du résultat n'est pas bon." : null, key: q, terms, contrib };
+}
+function prodItem(b, es){
+  const ans = es.reduce((s, x) => s + x, 0);
+  const q = es.map(e => pw(b, e)).join(" × ");
+  const sum = es.map((e, i) => i === 0 ? S(e) : PN(e)).join(" + ");
+  return { q: q + " = " + b, sup: true, b, a: ans, key: q,
+    ex: "Même base, c'est un produit : on additionne les exposants. " + sum + " = " + S(ans) + ", donc " + q + " = <b>" + pw(b, ans) + "</b>.",
+    diag: v => {
+      if (es.length === 2){
+        const [n, p] = es;
+        if (v === n - p && n - p !== ans) return "Pour un <b>produit</b>, on additionne les exposants (on ne les soustrait pas).";
+        if (v === n * p && n * p !== ans) return "On ne multiplie pas les exposants : pour un produit, on les <b>additionne</b>.";
+        const d = addDiag(n, p, v); if (d) return "La formule est bonne ; l'erreur est dans l'addition des relatifs. " + d;
+      }
+      if (ans !== 0 && v === -ans) return "Revois le signe de l'exposant.";
+      return null;
+    } };
+}
+function quotItem(b, n, p){
+  const ans = n - p;
+  const calc = p < 0 ? S(n) + " − " + P(p) + " = " + S(n) + " + " + (-p) + " = " + S(ans) : S(n) + " − " + p + " = " + S(ans);
+  return { q: fr(pw(b, n), pw(b, p)) + " = " + b, sup: true, b, a: ans, key: b + n + "/" + p,
+    ex: "Même base, c'est un quotient : on soustrait les exposants, celui du haut moins celui du bas. " + calc + ", donc <b>" + pw(b, ans) + "</b>.",
+    diag: v => {
+      if (v === n + p && n + p !== ans) return p < 0 ? "Soustraire un négatif, c'est ajouter : " + S(n) + " − " + P(p) + " = " + S(n) + " + " + (-p) + "." : "Pour un <b>quotient</b>, on soustrait les exposants (on ne les additionne pas).";
+      if (v === p - n && ans !== 0) return "C'est l'exposant du haut moins celui du bas : " + S(n) + " − " + PN(p) + ", pas l'inverse.";
+      const d = subDiag(n, p, v); if (d) return "La formule est bonne ; l'erreur est dans la soustraction des relatifs. " + d;
+      return null;
+    } };
+}
+function fracItem(b, top, bot){
+  const T = top.reduce((s, x) => s + x, 0), B = bot.reduce((s, x) => s + x, 0), ans = T - B;
+  const tq = top.map(e => pw(b, e)).join(" × "), bq = bot.map(e => pw(b, e)).join(" × ");
+  const sumS = es => es.map((e, i) => i === 0 ? S(e) : PN(e)).join(" + ");
+  const parts = [];
+  if (top.length > 1) parts.push("En haut, produit : " + sumS(top) + " = " + S(T) + ".");
+  if (bot.length > 1) parts.push("En bas, produit : " + sumS(bot) + " = " + S(B) + ".");
+  const fin = B < 0 ? S(T) + " − " + P(B) + " = " + S(T) + " + " + (-B) + " = " + S(ans) : S(T) + " − " + B + " = " + S(ans);
+  parts.push("Quotient, haut moins bas : " + fin + ", donc <b>" + pw(b, ans) + "</b>" + (ans === 0 ? " = 1" : "") + ".");
+  return { q: fr(tq, bq) + " = " + b, sup: true, b, a: ans, key: tq + "/" + bq, ex: parts.join(" "),
+    diag: v => { if (v === T + B && T + B !== ans) return "Pour le quotient final, on <b>soustrait</b> l'exposant du bas."; if (ans !== 0 && v === -ans) return "Revois le signe : c'est le haut moins le bas."; return null; } };
+}
+const GEN = {
+  add(L){
+    let a, b, q;
+    if (L === 0){ const s = Math.random() < .5 ? -1 : 1; a = s * R(1, 10); b = s * R(1, 10); q = P(a) + " + " + P(b); }
+    else if (L === 1){ const s = Math.random() < .5 ? -1 : 1; a = s * R(1, 12); b = -s * R(1, 12); q = P(a) + " + " + P(b); }
+    else { a = nz(-30, 30); b = nz(-30, 30); q = Math.random() < .5 ? P(a) + " + " + P(b) : S(a) + " + " + PN(b); }
+    return { q: q + " =", a: a + b, ex: addEx(a, b), diag: v => addDiag(a, b, v), key: q };
+  },
+  sub(L){
+    let a, b, q;
+    if (L === 0){ a = nz(-12, 12); b = R(1, 12); q = Math.random() < .5 ? S(a) + " − " + b : P(a) + " − " + P(b); }
+    else if (L === 1){ a = nz(-12, 12); b = -R(1, 12); q = Math.random() < .5 ? S(a) + " − " + P(b) : P(a) + " − " + P(b); }
+    else { a = nz(-30, 30); b = nz(-30, 30); q = b < 0 || Math.random() < .5 ? S(a) + " − " + P(b) : S(a) + " − " + b; }
+    return { q: q + " =", a: a - b, ex: subEx(a, b), diag: v => subDiag(a, b, v), key: q };
+  },
+  chain(L){
+    const t = [];
+    if (L === 0){ t.push({ v: nz(-10, 10) }); for (let k = 0; k < 2; k++) t.push({ op: pick(["+", "−"]), v: R(1, 10) }); }
+    else if (L === 1){ t.push({ v: nz(-12, 12) }); for (let k = 0; k < 2; k++) t.push({ op: pick(["+", "−"]), v: nz(-12, 12), paren: true }); }
+    else { t.push({ v: nz(-20, 20) }); for (let k = 0; k < 3; k++){ const pz = Math.random() < .5; t.push({ op: pick(["+", "−"]), v: pz ? nz(-20, 20) : R(1, 20), paren: pz }); } }
+    return chainItem(t);
+  },
+  prod(L){
+    const b = pick(BASES); let es;
+    if (L === 0) es = [R(1, 9), R(1, 9)];
+    else if (L === 1){ es = [R(1, 12), -R(1, 12)]; if (Math.random() < .5) es.reverse(); }
+    else es = Math.random() < .3 ? [nz(-12, 12), nz(-12, 12), nz(-12, 12)] : [nz(-20, 20), nz(-20, 20)];
+    return prodItem(b, es);
+  },
+  quot(L){
+    const b = pick(BASES); let n, p;
+    if (L === 0){ p = R(1, 8); n = p + R(1, 8); }
+    else if (L === 1){ if (Math.random() < .5){ n = R(1, 8); p = n + R(1, 8); } else { n = -R(1, 10); p = R(1, 10); } }
+    else { n = nz(-15, 15); p = -R(1, 15); }
+    return quotItem(b, n, p);
+  },
+  mix(L){
+    const b = pick(BASES);
+    if (L === 0) return Math.random() < .5 ? prodItem(b, [nz(-12, 12), nz(-12, 12)]) : quotItem(b, nz(-12, 12), nz(-12, 12));
+    if (L === 1) return Math.random() < .5 ? fracItem(b, [nz(-9, 9), nz(-9, 9)], [nz(-9, 9)]) : fracItem(b, [nz(-9, 9)], [nz(-9, 9), nz(-9, 9)]);
+    return fracItem(b, [nz(-9, 9), nz(-9, 9)], [nz(-9, 9), nz(-9, 9)]);
+  }
+};
+
+/* ================= Générateurs (Pas à pas) ================= */
+const FORMULA_O = ["On les additionne", "On les soustrait", "On les multiplie"];
+const GUIDE = {
+  add(){
+    const s = Math.random() < .5 ? -1 : 1, same = Math.random() < .5;
+    const a = s * R(2, 12), b = (same ? s : -s) * R(1, 12), c = a + b, A = Math.abs(a), B = Math.abs(b);
+    const q = P(a) + " + " + P(b);
+    const steps = [{ p: "Les deux nombres ont-ils le même signe ?", t: "choice", o: ["Même signe", "Signes contraires"], a: same ? 0 : 1,
+      ok: same ? "Oui : " + S(a) + " et " + S(b) + " sont tous les deux " + (a < 0 ? "négatifs" : "positifs") + "." : "Non : l'un est positif, l'autre est négatif." }];
+    if (same) steps.push({ p: "Distances à zéro : " + A + " et " + B + ". Même signe : je les additionne. " + A + " + " + B + " = ?", t: "num", a: A + B, ok: A + " + " + B + " = " + (A + B) + "." });
+    else steps.push({ p: "Distances à zéro : " + A + " et " + B + ". Signes contraires : je soustrais la plus petite de la plus grande. " + Math.max(A, B) + " − " + Math.min(A, B) + " = ?", t: "num", a: Math.abs(A - B), ok: Math.max(A, B) + " − " + Math.min(A, B) + " = " + Math.abs(A - B) + "." });
+    if (c !== 0) steps.push({ p: "Quel est le signe du résultat ?", t: "choice", o: ["+ (positif)", "− (négatif)"], a: c < 0 ? 1 : 0, ok: same ? "Même signe : je garde le signe commun." : "Je garde le signe du nombre le plus éloigné de zéro : " + S(A > B ? a : b) + "." });
+    return { q, steps, done: q + " = <b>" + S(c) + "</b>" };
+  },
+  sub(){
+    const a = nz(-12, 12), b = nz(-12, 12), q = S(a) + " − " + PN(b);
+    return { q, steps: [
+      { p: "Soustraire " + PN(b) + ", c'est ajouter son opposé. Quel est l'opposé de " + S(b) + " ?", t: "num", a: -b, ok: "L'opposé de " + S(b) + " est " + S(-b) + " : " + q + " = " + S(a) + " + " + P(-b) + "." },
+      { p: "Je calcule " + S(a) + " + " + P(-b) + " = ?", t: "num", a: a - b, ok: addEx(a, -b) }
+    ], done: q + " = <b>" + S(a - b) + "</b>" };
+  },
+  chain(){
+    const it = GEN.chain(1), { terms, contrib } = it; let acc = contrib[0]; const steps = [];
+    for (let i = 1; i < terms.length; i++){
+      const t = terms[i], n = acc + contrib[i];
+      steps.push({ p: (i === 1 ? "De gauche à droite. " : "Je continue avec le résultat. ") + S(acc) + " " + t.op + " " + (t.paren ? P(t.v) : t.v) + " = ?", t: "num", a: n, ok: t.op === "+" ? addEx(acc, t.v) : subEx(acc, t.v) });
+      acc = n;
+    }
+    return { q: it.q.replace(/ =$/, ""), steps, done: it.q + " <b>" + S(it.a) + "</b>" };
+  },
+  prod(){
+    const b = pick(BASES), n = nz(-12, 12), p = nz(-12, 12), q = pw(b, n) + " × " + pw(b, p);
+    return { q, steps: [
+      { p: "Les deux puissances ont la même base et c'est un <b>produit</b>. Que fait-on des exposants ?", t: "choice", o: FORMULA_O, a: 0, ok: "Produit de puissances de même base : on <b>additionne</b> les exposants." },
+      { p: "Exposant : " + S(n) + " + " + PN(p) + " = ?", t: "num", a: n + p, ok: addEx(n, p) }
+    ], done: q + " = <b>" + pw(b, n + p) + "</b>" };
+  },
+  quot(){
+    const b = pick(BASES), n = nz(-12, 12), p = nz(-12, 12), q = fr(pw(b, n), pw(b, p));
+    const steps = [{ p: "Les deux puissances ont la même base et c'est un <b>quotient</b>. Que fait-on des exposants ?", t: "choice", o: FORMULA_O, a: 1, ok: "Quotient de puissances de même base : on <b>soustrait</b> l'exposant du bas à celui du haut." }];
+    if (p < 0){
+      steps.push({ p: S(n) + " − " + P(p) + " : soustraire " + S(p) + ", c'est ajouter son opposé. " + S(n) + " − " + P(p) + " = " + S(n) + " + ?", t: "num", a: -p, ok: "L'opposé de " + S(p) + " est " + (-p) + "." });
+      steps.push({ p: S(n) + " + " + (-p) + " = ?", t: "num", a: n - p, ok: addEx(n, -p) });
+    } else steps.push({ p: "Exposant : " + S(n) + " − " + p + " = ?", t: "num", a: n - p, ok: subEx(n, p) });
+    return { q, steps, done: q + " = <b>" + pw(b, n - p) + "</b>" };
+  },
+  mix(){
+    const b = pick(BASES), n = nz(-9, 9), p = nz(-9, 9), r = nz(-9, 9), T = n + p;
+    const q = fr(pw(b, n) + " × " + pw(b, p), pw(b, r));
+    return { q, steps: [
+      { p: "Par quoi commencer ?", t: "choice", o: ["Par le haut : c'est un produit", "Par le quotient"], a: 0, ok: "Je simplifie d'abord le haut (un produit), puis je fais le quotient." },
+      { p: "En haut, produit : " + S(n) + " + " + PN(p) + " = ?", t: "num", a: T, ok: addEx(n, p) + " Le haut devient " + pw(b, T) + "." },
+      { p: "Quotient, haut moins bas : " + S(T) + " − " + PN(r) + " = ?", t: "num", a: T - r, ok: subEx(T, r) }
+    ], done: q + " = <b>" + pw(b, T - r) + "</b>" };
+  }
+};
+
+/* ================= Étapes ================= */
+const STEPS = [
+  { id: "add", group: "Nombres relatifs", name: "Additionner", T: 5, goal: "Additionner deux nombres relatifs entiers, sans hésiter.",
+    levels: ["Même signe", "Signes contraires", "Tous les cas, jusqu'à 30"] },
+  { id: "sub", group: "Nombres relatifs", name: "Soustraire", T: 6, goal: "Transformer une soustraction en addition de l'opposé, puis calculer.",
+    levels: ["Soustraire un positif", "Soustraire un négatif", "Tous les cas, jusqu'à 30"] },
+  { id: "chain", group: "Nombres relatifs", name: "Enchaîner", T: 10, goal: "Calculer une suite d'additions et de soustractions.",
+    levels: ["Trois nombres sans parenthèses", "Avec des parenthèses", "Quatre nombres, jusqu'à 20"] },
+  { id: "prod", group: "Puissances", name: "Produit", T: 6, goal: "Produit de puissances de même base : additionner les exposants.",
+    levels: ["Exposants positifs", "Un exposant négatif", "Tous les cas"] },
+  { id: "quot", group: "Puissances", name: "Quotient", T: 7, goal: "Quotient de puissances de même base : soustraire les exposants.",
+    levels: ["Exposants positifs", "Résultat négatif", "Soustraire un négatif"] },
+  { id: "mix", group: "Puissances", name: "Produits et quotients", T: 12, goal: "Choisir la bonne formule et enchaîner les calculs d'exposants.",
+    levels: ["Produit ou quotient ?", "Trois puissances", "Fractions complètes"] }
+];
+const STATUS = ["À découvrir", "En cours", "Acquis", "Automatisé"];
+
+/* ================= Composants communs ================= */
+const ICON = { good: "✓", bad: "✕", warn: "!", info: "i" };
+function Msg({ kind = "info", children }){
+  return html`<div className=${"msg " + kind} role=${kind === "bad" || kind === "warn" ? "alert" : "status"}><span className="mi" aria-hidden="true">${ICON[kind]}</span><div>${children}</div></div>`;
+}
+function Sec({ n, title, children }){
+  return html`<section className="sec">${title && html`<h3>${n != null && html`<span className="sn">${n}.</span>`}<span>${title}</span></h3>`}${children}</section>`;
+}
+function Keep({ items }){
+  return html`<div className="keep"><h4>Je retiens</h4><ul>${items.map((t, i) => html`<li key=${i}><${Hx} h=${t}/></li>`)}</ul></div>`;
+}
+function Rule({ f, label = "Règle" }){
+  return html`<div className="rule"><span className="rl">${label}</span><${Hx} className="rf" h=${f}/></div>`;
+}
+function Ex({ h }){ return html`<${Hx} as="p" className="ex" h=${h}/>`; }
+function Worked({ title, steps }){
+  const [k, setK] = useState(1);
+  return html`<section className="frame worked">
+    <div className="row"><span className="badge">Exemple résolu</span><${Hx} className="muted" h=${title}/></div>
+    <ol className="steps">${steps.slice(0, k).map(([t, d], j) => html`<li key=${j}><div><div className="st">${t}</div><${Hx} as="div" className="sd" h=${d}/></div></li>`)}</ol>
+    ${k < steps.length && html`<div className="row"><button className="btn primary" onClick=${() => setK(k + 1)}>Étape suivante (${k + 1} sur ${steps.length})</button><button className="btn" onClick=${() => setK(steps.length)}>Tout afficher</button></div>`}
+  </section>`;
+}
+function Chip({ s }){ return html`<span className=${"chip s" + s}>${STATUS[s]}</span>`; }
+
+/* Clavier : chiffres, signe, effacer, valider. Touches physiques acceptées. */
+function useKeys(onKey){
+  const ref = useRef(onKey); ref.current = onKey;
+  useEffect(() => {
+    const h = e => {
+      if (e.ctrlKey || e.metaKey || e.altKey) return;
+      const tg = e.target && e.target.tagName;
+      if (tg === "INPUT" || tg === "TEXTAREA" || tg === "SELECT") return;
+      if (tg === "BUTTON" && (e.key === "Enter" || e.key === " ")) return;
+      let k = null;
+      if (/^[0-9]$/.test(e.key)) k = e.key;
+      else if (e.key === "-" || e.key === "−" || e.key === "Subtract" || e.key === "+") k = "±";
+      else if (e.key === "Backspace") k = "⌫";
+      else if (e.key === "Enter") k = "ok";
+      if (k){ e.preventDefault(); ref.current(k); }
+    };
+    window.addEventListener("keydown", h);
+    return () => window.removeEventListener("keydown", h);
+  }, []);
+}
+function Pad({ onKey, disabled }){
+  const keys = ["7", "8", "9", "4", "5", "6", "1", "2", "3", "±", "0", "⌫"];
+  const nd = e => e.preventDefault();
+  return html`<div className="pad" role="group" aria-label="Clavier">
+    ${keys.map(k => html`<button key=${k} type="button" className="pk" disabled=${disabled} onMouseDown=${nd} onClick=${() => onKey(k)} aria-label=${k === "±" ? "Changer le signe" : k === "⌫" ? "Effacer" : k}>${k === "±" ? "+/−" : k}</button>`)}
+    <button type="button" className="pk ok" disabled=${disabled} onMouseDown=${nd} onClick=${() => onKey("ok")}>Valider</button>
+  </div>`;
+}
+function Slot({ val, sup }){
+  const c = "slot" + (val ? "" : " empty");
+  return sup ? html`<sup className=${c}>${val || "?"}</sup>` : html`<span className=${c}>${val || "?"}</span>`;
+}
+
+/* ================= Manipulations ================= */
+function NumberLab({ mode }){
+  const [a, setA] = useState(-3);
+  const [b, setB] = useState(mode === "sub" ? -5 : 5);
+  const mv = mode === "sub" ? -b : b, r = a + mv;
+  const X = v => 30 + (v + 12) * (540 / 24), y0 = 100;
+  const h = Math.min(66, 16 + Math.abs(mv) * 7), xa = X(a), xr = X(r), cls = mv >= 0 ? "p" : "m";
+  const ticks = []; for (let v = -12; v <= 12; v++) ticks.push(v);
+  const id = mode;
+  return html`<div className="frame lab">
+    <div className="svgbox"><svg viewBox="0 0 600 150" role="img" aria-label=${"Droite graduée : départ " + S(a) + ", arrivée " + S(r)}>
+      <defs>
+        <marker id=${"hp" + id} viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" className="ah-p"/></marker>
+        <marker id=${"hm" + id} viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" className="ah-m"/></marker>
+      </defs>
+      <line x1="20" y1=${y0} x2="580" y2=${y0} className="ax"/>
+      ${ticks.map(v => html`<g key=${v}><line x1=${X(v)} y1=${y0 - (v === 0 ? 8 : 5)} x2=${X(v)} y2=${y0 + (v === 0 ? 8 : 5)} className=${v === 0 ? "ax" : "tk"}/>${v % 2 === 0 && html`<text x=${X(v)} y=${y0 + 22} textAnchor="middle" className=${"tl" + (v === 0 ? " tl0" : "")}>${S(v)}</text>`}</g>`)}
+      ${mv !== 0 && html`<path d=${"M" + xa + "," + (y0 - 7) + " Q" + (xa + xr) / 2 + "," + (y0 - 7 - h * 2) + " " + xr + "," + (y0 - 7)} className=${"arc-" + cls} markerEnd=${"url(#h" + cls + id + ")"}/>`}
+      ${mv !== 0 && html`<text x=${(xa + xr) / 2} y=${y0 - 13 - h} textAnchor="middle" className=${"lbl-" + cls}>${mv > 0 ? "+" + mv : S(mv)}</text>`}
+      <circle cx=${xa} cy=${y0} r="6" className="dot-a"/>
+      <circle cx=${xr} cy=${y0} r="6" className="dot-r"/>
+      <text x=${xa} y=${y0 + 42} textAnchor="middle" className="tag-t">départ</text>
+      ${r !== a && html`<text x=${xr} y=${y0 + 42} textAnchor="middle" className="tag-t">arrivée</text>`}
+    </svg></div>
+    <div className="ctrls">
+      <div className="ctrl"><label htmlFor=${"nl-a-" + id}>Nombre de départ <output>${S(a)}</output></label><input id=${"nl-a-" + id} type="range" min="-6" max="6" step="1" value=${a} onChange=${e => setA(+e.target.value)}/></div>
+      <div className="ctrl"><label htmlFor=${"nl-b-" + id}>Nombre ${mode === "sub" ? "soustrait" : "ajouté"} <output>${S(b)}</output></label><input id=${"nl-b-" + id} type="range" min="-6" max="6" step="1" value=${b} onChange=${e => setB(+e.target.value)}/></div>
+    </div>
+    <div className="readout">
+      <${Hx} className="big" h=${mode === "sub" ? S(a) + " − " + PN(b) + " = " + S(a) + " + " + P(-b) + " = " + S(r) : P(a) + " + " + P(b) + " = " + S(r)}/>
+      <${Hx} className="muted small" h=${mode === "sub" ? subEx(a, b) : addEx(a, b)}/>
+    </div>
+    <p className="legend"><span><span className="sw" style=${{ background: "var(--plus)" }}></span>vers la droite : on ajoute un positif</span><span><span className="sw" style=${{ background: "var(--minus)" }}></span>vers la gauche : on ajoute un négatif</span></p>
+  </div>`;
+}
+function MiniLine(){
+  const X = v => 200 + v * 34;
+  return html`<div className="svgbox" style=${{ maxWidth: "460px" }}><svg viewBox="0 0 400 86" role="img" aria-label="−3 et +3 sont à la même distance de zéro">
+    <line x1="20" y1="56" x2="380" y2="56" className="ax"/>
+    ${[-5, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5].map(v => html`<g key=${v}><line x1=${X(v)} y1="51" x2=${X(v)} y2="61" className=${v === 0 ? "ax" : "tk"}/><text x=${X(v)} y="78" textAnchor="middle" className=${"tl" + (v === 0 ? " tl0" : "")}>${S(v)}</text></g>`)}
+    <line x1=${X(-3)} y1="30" x2=${X(0)} y2="30" stroke="var(--minus)" strokeWidth="2"/>
+    <line x1=${X(0)} y1="30" x2=${X(3)} y2="30" stroke="var(--plus)" strokeWidth="2"/>
+    <text x=${X(-1.5)} y="22" textAnchor="middle" className="lbl-m">3</text>
+    <text x=${X(1.5)} y="22" textAnchor="middle" className="lbl-p">3</text>
+    <circle cx=${X(-3)} cy="56" r="6" fill="var(--minus)"/><circle cx=${X(3)} cy="56" r="6" fill="var(--plus)"/>
+  </svg></div>`;
+}
+function Tiles({ n, cls = "", gone = 0 }){
+  if (n === 0) return html`<span className="one">1</span>`;
+  return html`${Array.from({ length: n }, (_, k) => html`<${React.Fragment} key=${k}>${k > 0 && html`<span className="times">×</span>`}<span className=${"tile " + cls + (k < gone ? " gone" : "")}>10</span><//>`)}`;
+}
+function PowerLab({ mode }){
+  const [n, setN] = useState(mode === "quot" ? 5 : 2);
+  const [p, setP] = useState(mode === "quot" ? 2 : 3);
+  const k = Math.min(n, p), r = mode === "prod" ? n + p : n - p;
+  return html`<div className="frame lab">
+    <div className="ctrls">
+      <div className="ctrl"><label htmlFor=${"pl-n-" + mode}>Premier exposant <output>${n}</output></label><input id=${"pl-n-" + mode} type="range" min="0" max="6" value=${n} onChange=${e => setN(+e.target.value)}/></div>
+      <div className="ctrl"><label htmlFor=${"pl-p-" + mode}>Second exposant <output>${p}</output></label><input id=${"pl-p-" + mode} type="range" min="0" max="6" value=${p} onChange=${e => setP(+e.target.value)}/></div>
+    </div>
+    ${mode === "prod" ? html`<div className="lab">
+        <div className="readout"><${Hx} className="big" h=${pw(10, n) + " × " + pw(10, p)}/></div>
+        <div className="tiles"><${Tiles} n=${n}/><span className="times">×</span><${Tiles} n=${p} cls="b"/></div>
+        <div className="readout"><${Hx} h=${"J'écris " + n + " facteurs 10, puis encore " + p + " : en tout " + n + " + " + p + " = <b>" + (n + p) + "</b> facteurs."}/><${Hx} className="big" h=${pw(10, n) + " × " + pw(10, p) + " = " + pw(10, n + p)}/></div>
+      </div>`
+    : html`<div className="lab">
+        <div className="qrow">
+          <div className="tiles"><${Tiles} n=${n} gone=${k}/></div>
+          <div className="qbar"></div>
+          <div className="tiles"><${Tiles} n=${p} cls="b" gone=${k}/></div>
+        </div>
+        <div className="readout">
+          <${Hx} h=${k > 0 ? "Je simplifie " + k + " facteur" + (k > 1 ? "s" : "") + " 10 en haut et en bas." : "Il n'y a rien à simplifier."}/>
+          <${Hx} className="big" h=${fr(pw(10, n), pw(10, p)) + " = " + (r > 0 ? pw(10, r) : r === 0 ? "1 = " + pw(10, 0) : fr("1", pw(10, -r)) + " = " + pw(10, r))}/>
+          <${Hx} className="muted small" h=${"Exposant : " + n + " − " + p + " = " + S(r) + (r < 0 ? ". Il reste des facteurs en bas : l'exposant est négatif." : ".")}/>
+        </div>
+      </div>`}
+    <p className="legend"><span><span className="sw" style=${{ background: "var(--tile-a)", border: "1px solid var(--accent)" }}></span>${mode === "prod" ? "premier facteur" : "en haut"}</span><span><span className="sw" style=${{ background: "var(--tile-b)", border: "1px solid var(--warn)" }}></span>${mode === "prod" ? "second facteur" : "en bas"}</span></p>
+  </div>`;
+}
+
+/* ================= Comprendre ================= */
+const sup = (b, e) => b + "<sup>" + e + "</sup>";
+function CompAdd(){
+  return html`
+  <${Sec} n=${1} title="Un nombre relatif : un signe et une distance à zéro">
+    <p>−3 et +3 sont à la même distance de zéro, de chaque côté. Ce sont deux nombres <b>opposés</b>.</p><${MiniLine}/>
+  <//>
+  <${Sec} n=${2} title="Additionner sur la droite graduée">
+    <p>Ajouter un positif fait avancer vers la droite ; ajouter un négatif fait reculer vers la gauche.</p><${NumberLab} mode="add"/>
+  <//>
+  <${Sec} n=${3} title="Deux cas, deux gestes">
+    <div className="two">
+      <div className="frame"><h4>Même signe</h4><p>J'<b>additionne</b> les distances à zéro et je garde le signe commun.</p><${Ex} h="(−3) + (−4) = −7"/></div>
+      <div className="frame"><h4>Signes contraires</h4><p>Je <b>soustrais</b> les distances à zéro et je garde le signe du plus éloigné de zéro.</p><${Ex} h="(−7) + (+2) = −5"/></div>
+    </div>
+  <//>
+  <${Worked} title="(−9) + (+4)" steps=${[["Je regarde les signes", "−9 est négatif, +4 est positif : signes <b>contraires</b>."], ["Je soustrais les distances", "9 − 4 = 5."], ["Je choisis le signe", "−9 est le plus éloigné de zéro : le résultat est négatif."], ["Résultat", "(−9) + (+4) = <b>−5</b>"]]}/>
+  <${Keep} items=${["Même signe : j'additionne les distances, je garde le signe.", "Signes contraires : je soustrais les distances, je garde le signe du plus éloigné de zéro.", "Deux opposés ont une somme nulle : (−6) + (+6) = 0."]}/>`;
+}
+function CompSub(){
+  return html`
+  <${Sec} n=${1} title="Soustraire, c'est ajouter l'opposé">
+    <${Rule} f="a − b = a + (−b)"/>
+    <div className="two">
+      <div className="frame"><h4>Soustraire un positif</h4><${Ex} h="5 − (+8) = 5 + (−8) = −3"/></div>
+      <div className="frame"><h4>Soustraire un négatif</h4><${Ex} h="5 − (−8) = 5 + (+8) = 13"/></div>
+    </div>
+  <//>
+  <${Sec} n=${2} title="Sur la droite graduée"><${NumberLab} mode="sub"/><//>
+  <${Sec} n=${3} title="Écrire sans parenthèses">
+    <div className="svgbox"><table className="signs"><tbody>
+      <tr><td>+ (+a)</td><td>= + a</td><td rowSpan="2" className="muted small">signes identiques → +</td></tr><tr><td>− (−a)</td><td>= + a</td></tr>
+      <tr><td>+ (−a)</td><td>= − a</td><td rowSpan="2" className="muted small">signes différents → −</td></tr><tr><td>− (+a)</td><td>= − a</td></tr>
+    </tbody></table></div>
+  <//>
+  <${Msg} kind="warn"><b>Piège.</b> −5 − 8 ne fait ni 3 ni −3. Soustraire 8, c'est ajouter −8 : −5 + (−8) = −13.<//>
+  <${Worked} title="−6 − (−10)" steps=${[["Je transforme", "Soustraire (−10), c'est ajouter (+10) : −6 − (−10) = −6 + (+10)."], ["Je regarde les signes", "Signes contraires : 10 − 6 = 4."], ["Je choisis le signe", "+10 est le plus éloigné de zéro : le résultat est positif."], ["Résultat", "−6 − (−10) = <b>4</b>"]]}/>
+  <${Keep} items=${["Soustraire un nombre, c'est ajouter son opposé.", "− (−a) devient + a : deux signes identiques donnent +.", "Ensuite, j'applique les règles de l'addition."]}/>`;
+}
+function CompChain(){
+  return html`
+  <${Sec} n=${1} title="Une suite d'additions et de soustractions">
+    <p>Dans 7 − 12 + 4 − 9, chaque nombre est précédé de son signe : +7, −12, +4, −9.</p>
+    <div className="two">
+      <div className="frame"><h4>De gauche à droite</h4><${Ex} h="7 − 12 = −5 ; −5 + 4 = −1 ; −1 − 9 = −10"/></div>
+      <div className="frame"><h4>En regroupant</h4><${Ex} h="positifs : 7 + 4 = 11<br>négatifs : −12 − 9 = −21<br>11 − 21 = −10"/></div>
+    </div>
+  <//>
+  <${Sec} n=${2} title="Avec des parenthèses : je les supprime d'abord">
+    <${Ex} h="4 − (−6) + (−9) = 4 + 6 − 9 = 1"/>
+    <p className="muted">− (−6) devient + 6, et + (−9) devient − 9.</p>
+  <//>
+  <${Msg} kind="info"><b>Pourquoi s'entraîner à ça ?</b> Avec les puissances, tu feras exactement ces calculs sur les exposants : <${Hx} h=${fr(sup(10, 3) + " × " + sup(10, "−5"), sup(10, "−4"))}/> demande de calculer 3 + (−5) − (−4).<//>
+  <${Worked} title="4 − (−6) + (−9) − 3" steps=${[["Je supprime les parenthèses", "4 + 6 − 9 − 3"], ["De gauche à droite", "4 + 6 = 10"], ["Je continue", "10 − 9 = 1"], ["Je termine", "1 − 3 = <b>−2</b>"]]}/>
+  <${Keep} items=${["Je supprime les parenthèses : − (−a) = + a et + (−a) = − a.", "Je calcule de gauche à droite, ou je regroupe positifs et négatifs.", "Je vérifie le signe du résultat."]}/>`;
+}
+function CompProd(){
+  return html`
+  <${Sec} n=${1} title="Ce que veut dire une puissance">
+    <${Ex} h=${sup(10, 4) + " = 10 × 10 × 10 × 10 (4 facteurs)"}/>
+    <p>Un exposant négatif veut dire « 1 divisé par » : <${Hx} h=${sup(10, "−2") + " = " + fr("1", sup(10, 2)) + " = 0,01"}/>. Et <${Hx} h=${sup("a", 1) + " = a, " + sup("a", 0) + " = 1"}/>.</p>
+  <//>
+  <${Sec} n=${2} title="Pourquoi on additionne les exposants"><${PowerLab} mode="prod"/><//>
+  <${Rule} f=${sup("a", "n") + " × " + sup("a", "p") + " = " + sup("a", "n + p")}/>
+  <${Sec} n=${3} title="Le calcul de l'exposant est une addition de relatifs">
+    <p>Tu sais déjà le faire (étape 1). La formule reste vraie avec des exposants négatifs.</p>
+    <${Ex} h=${sup(10, "−14") + " × " + sup(10, "−18") + " = " + sup(10, "−14 + (−18)") + " = " + sup(10, "−32")}/>
+    <${Ex} h=${sup(2, 7) + " × " + sup(2, "−9") + " = " + sup(2, "7 + (−9)") + " = " + sup(2, "−2")}/>
+  <//>
+  <${Msg} kind="warn"><b>Pièges</b><ul>
+    <li>Il faut la <b>même base</b> : <${Hx} h=${sup(2, 3) + " × " + sup(5, 4)}/> ne se simplifie pas avec la formule.</li>
+    <li>On ne multiplie pas les bases : <${Hx} h=${sup(2, 3) + " × " + sup(2, 4) + " = " + sup(2, 7) + ", pas " + sup(4, 7)}/>.</li>
+    <li>Une somme n'est pas un produit : <${Hx} h=${sup(2, 3) + " + " + sup(2, 4) + " = 8 + 16 = 24, pas " + sup(2, 7)}/>.</li>
+  </ul><//>
+  <${Worked} title=${sup(10, "−5") + " × " + sup(10, 8)} steps=${[["Je reconnais la situation", "Même base 10, et c'est un produit : j'additionne les exposants."], ["Je calcule l'exposant", "−5 + 8 : signes contraires, 8 − 5 = 3, signe de 8 → 3."], ["Résultat", sup(10, "−5") + " × " + sup(10, 8) + " = <b>" + sup(10, 3) + "</b>"]]}/>
+  <${Keep} items=${["Produit de puissances de même base : on <b>additionne</b> les exposants.", "L'exposant se calcule avec les règles d'addition des relatifs.", "La base ne change pas."]}/>`;
+}
+function CompQuot(){
+  return html`
+  <${Sec} n=${1} title="Pourquoi on soustrait les exposants"><p>Fais varier les exposants : les facteurs communs en haut et en bas se simplifient.</p><${PowerLab} mode="quot"/><//>
+  <${Rule} f=${fr(sup("a", "n"), sup("a", "p")) + " = " + sup("a", "n − p")}/>
+  <${Sec} n=${2} title="Le calcul de l'exposant est une soustraction de relatifs">
+    <p>Toujours l'exposant <b>du haut moins</b> celui du bas. Tu sais déjà le faire (étape 2).</p>
+    <${Ex} h=${fr(sup(10, 3), sup(10, 8)) + " = " + sup(10, "3 − 8") + " = " + sup(10, "−5")}/>
+  <//>
+  <${Msg} kind="warn"><b>Piège.</b> <${Hx} h=${fr(sup(4, 7), sup(4, "−8")) + " = " + sup(4, "7 − (−8)") + " = " + sup(4, 15)}/> : soustraire un négatif, c'est ajouter.<//>
+  <${Worked} title=${fr(sup(10, "−3"), sup(10, "−9"))} steps=${[["Je reconnais la situation", "Même base 10, et c'est un quotient : je soustrais, haut moins bas."], ["J'écris l'exposant", "−3 − (−9)"], ["Je transforme", "Soustraire (−9), c'est ajouter 9 : −3 + 9."], ["Je calcule", "Signes contraires : 9 − 3 = 6, signe de 9 → 6."], ["Résultat", "<b>" + sup(10, 6) + "</b>"]]}/>
+  <${Keep} items=${["Quotient de puissances de même base : on <b>soustrait</b> les exposants.", "Toujours l'exposant du haut moins celui du bas.", "Soustraire un exposant négatif, c'est ajouter."]}/>`;
+}
+function CompMix(){
+  return html`
+  <${Sec} n=${1} title="Les deux formules côte à côte">
+    <div className="two">
+      <div className="frame"><h4>Produit : on additionne</h4><${Rule} f=${sup("a", "n") + " × " + sup("a", "p") + " = " + sup("a", "n + p")}/></div>
+      <div className="frame"><h4>Quotient : on soustrait</h4><${Rule} f=${fr(sup("a", "n"), sup("a", "p")) + " = " + sup("a", "n − p")}/></div>
+    </div>
+    <p>Signe × → j'additionne. Trait de fraction → je soustrais, haut moins bas.</p>
+  <//>
+  <${Sec} n=${2} title="Une méthode en trois temps">
+    <ol className="plain"><li>En haut : je simplifie le produit (j'additionne).</li><li>En bas : je simplifie le produit (j'additionne).</li><li>Je fais le quotient : haut moins bas.</li></ol>
+  <//>
+  <${Worked} title=${fr(sup(10, 3) + " × " + sup(10, "−5"), sup(10, "−4") + " × " + sup(10, 2))} steps=${[["En haut", "3 + (−5) = −2 : le haut vaut " + sup(10, "−2") + "."], ["En bas", "−4 + 2 = −2 : le bas vaut " + sup(10, "−2") + "."], ["Le quotient", "−2 − (−2) = −2 + 2 = 0."], ["Résultat", "<b>" + sup(10, 0) + " = 1</b>. Normal : le haut et le bas sont égaux."]]}/>
+  <${Keep} items=${["× : additionner les exposants ; trait de fraction : soustraire.", "Haut, puis bas, puis quotient.", sup("a", 0) + " = 1."]}/>`;
+}
+const COMP = { add: CompAdd, sub: CompSub, chain: CompChain, prod: CompProd, quot: CompQuot, mix: CompMix };
+
+/* ================= Pas à pas ================= */
+function Guided({ stepId, toAuto }){
+  const [prob, setProb] = useState(() => GUIDE[stepId]());
+  const [k, setK] = useState(0);
+  const [val, setVal] = useState("");
+  const [tries, setTries] = useState(0);
+  const [msg, setMsg] = useState(null);
+  const [reveal, setReveal] = useState(false);
+  const [errs, setErrs] = useState(0);
+  const [clean, setClean] = useState(0);
+  const [count, setCount] = useState(0);
+  const st = prob.steps[k], done = k >= prob.steps.length;
+  const answer = v => {
+    if (v === st.a){
+      setMsg(null); setTries(0); setVal(""); setK(k + 1);
+      if (k + 1 >= prob.steps.length){ setCount(count + 1); if (errs === 0) setClean(clean + 1); }
+    } else {
+      const t = tries + 1; setTries(t); setErrs(errs + 1);
+      if (t >= 2) setReveal(true); else setMsg("Pas encore. Relis la question et réessaie.");
+    }
+  };
+  const cont = () => { setReveal(false); setMsg(null); setTries(0); setVal(""); const nk = k + 1; setK(nk); if (nk >= prob.steps.length) setCount(count + 1); };
+  const next = () => { setProb(GUIDE[stepId]()); setK(0); setVal(""); setTries(0); setMsg(null); setReveal(false); setErrs(0); };
+  const onKey = key => {
+    if (done){ if (key === "ok") next(); return; }
+    if (reveal){ if (key === "ok") cont(); return; }
+    if (st.t !== "num") return;
+    if (key === "ok"){ if (val === "" || val === "−") return; answer(parseV(val)); }
+    else { setVal(v => edit(v, key)); setMsg(null); }
+  };
+  useKeys(onKey);
+  return html`<div className="lab">
+    <div className="frame lab">
+      <div className="row" style=${{ justifyContent: "space-between" }}><span className="muted small">Exercice guidé · ${count} terminé${count > 1 ? "s" : ""}, dont ${clean} sans erreur</span></div>
+      <${Hx} className="drill-q" h=${prob.q}/>
+      ${prob.steps.slice(0, k).map((s, j) => html`<div key=${j} className="guide-step past"><${Hx} className="gp" h=${s_label(j) + s.p}/><${Hx} className="gok" h=${"✓ " + s.ok}/></div>`)}
+      ${!done && html`<div className="guide-step">
+        <${Hx} className="gp" h=${s_label(k) + st.p}/>
+        ${st.t === "choice"
+          ? html`<div className="choices">${st.o.map((o, j) => html`<button key=${j} className=${"btn" + (reveal && j === st.a ? " right" : "")} disabled=${reveal} onClick=${() => answer(j)}>${o}</button>`)}</div>`
+          : html`<div className="row"><span className="drill-q" style=${{ minHeight: 0, fontSize: "1.5em" }}><${Slot} val=${val}/></span></div>${!reveal && html`<${Pad} onKey=${onKey}/>`}`}
+        ${msg && html`<${Msg} kind="bad">${msg}<//>`}
+        ${reveal && html`<${Msg} kind="warn"><${Hx} h=${"La réponse était <b>" + (st.t === "choice" ? st.o[st.a] : S(st.a)) + "</b>. " + st.ok}/><div className="row"><button className="btn primary" onClick=${cont}>Continuer</button></div><//>`}
+      </div>`}
+      ${done && html`<${Msg} kind="good"><${Hx} h=${prob.done}/><//>`}
+      ${done && html`<div className="row"><button className="btn primary" onClick=${next}>Exercice suivant</button><span className="muted small">ou touche Entrée</span></div>`}
+    </div>
+    ${clean >= 3 && html`<${Msg} kind="info">Tu réussis sans aide : passe à l'onglet Automatiser pour gagner en rapidité.<div className="row"><button className="btn primary" onClick=${toAuto}>Aller à Automatiser</button></div><//>`}
+  </div>`;
+}
+const s_label = k => "<b>Étape " + (k + 1) + ".</b> ";
+
+/* ================= Automatiser ================= */
+function median(arr){ if (!arr.length) return null; const a = arr.slice().sort((x, y) => x - y), m = Math.floor(a.length / 2); return a.length % 2 ? a[m] : (a[m - 1] + a[m]) / 2; }
+function Drill({ make, n, onDone, showTime }){
+  const build = () => { const out = [], keys = new Set(); let g = 0; while (out.length < n && g < 300){ g++; const it = make(); if (keys.has(it.key)) continue; keys.add(it.key); out.push({ ...it, orig: true }); } return out; };
+  const [queue, setQueue] = useState(build);
+  const [i, setI] = useState(0);
+  const [val, setVal] = useState("");
+  const [phase, setPhase] = useState("ask");
+  const [res, setRes] = useState([]);
+  const [diag, setDiag] = useState(null);
+  const [, setTick] = useState(0);
+  const t0 = useRef(Date.now());
+  const it = queue[i];
+  useEffect(() => { if (!showTime || phase !== "ask") return; const id = setInterval(() => setTick(x => x + 1), 200); return () => clearInterval(id); }, [showTime, phase, i]);
+  const advance = () => {
+    if (i + 1 >= queue.length){ const ok = res.filter(r => r.ok); onDone({ score: ok.length, total: n, median: median(ok.map(r => r.t)) }); return; }
+    setI(i + 1); setVal(""); setPhase("ask"); setDiag(null); t0.current = Date.now();
+  };
+  useEffect(() => { if (phase !== "right") return; const id = setTimeout(advance, 650); return () => clearTimeout(id); }, [phase, i]);
+  const submit = () => {
+    if (val === "" || val === "−") return;
+    const v = parseV(val), dt = (Date.now() - t0.current) / 1000, ok = v === it.a;
+    if (it.orig) setRes([...res, { ok, t: dt }]);
+    if (ok) setPhase("right");
+    else {
+      setPhase("wrong"); setDiag(it.diag ? it.diag(v) : null);
+      if (it.orig){ const q = queue.slice(); q.splice(Math.min(i + 3, q.length), 0, { ...it, orig: false }); setQueue(q); }
+    }
+  };
+  const onKey = k => { if (phase === "ask"){ if (k === "ok") submit(); else setVal(v => edit(v, k)); } else if (phase === "wrong" && k === "ok") advance(); };
+  useKeys(onKey);
+  const cur = res.length;
+  return html`<div className="frame drill">
+    <div className="drill-top">
+      <div className="dots" aria-label=${"Calcul " + Math.min(cur + 1, n) + " sur " + n}>${Array.from({ length: n }, (_, k) => html`<span key=${k} className=${k < res.length ? (res[k].ok ? "ok" : "ko") : (k === cur && it.orig ? "cur" : "")}></span>`)}</div>
+      ${!it.orig && html`<span className="tag">À revoir</span>`}
+      ${showTime && html`<span className="chrono num">${fmt1((Date.now() - t0.current) / 1000)} s</span>`}
+    </div>
+    <div className="drill-q" aria-live="polite"><${Hx} h=${it.q}/><${Slot} val=${val} sup=${it.sup}/></div>
+    ${phase === "right" && html`<${Msg} kind="good">Juste !<//>`}
+    ${phase === "wrong" && html`<${Msg} kind="bad">${diag && html`<${Hx} as="p" h=${diag}/>`}<${Hx} as="p" h=${"Réponse : <b>" + (it.sup ? pw(it.b, it.a) : S(it.a)) + "</b>."}/><${Hx} as="p" className="small" h=${it.ex}/><//>`}
+    ${phase === "wrong"
+      ? html`<div className="row"><button className="btn primary" onClick=${advance}>Continuer</button><span className="muted small">ou touche Entrée</span></div>`
+      : html`<${Pad} onKey=${onKey} disabled=${phase !== "ask"}/>`}
+  </div>`;
+}
+function Summary({ r, T, children }){
+  return html`<div className="frame lab">
+    <div className="stat">
+      <div><span className="muted small">Bonnes réponses du premier coup</span><b>${r.score} / ${r.total}</b></div>
+      <div><span className="muted small">Temps habituel par calcul juste</span><b>${r.median == null ? "—" : fmt1(r.median) + " s"}</b></div>
+    </div>
+    ${children}
+  </div>`;
+}
+function AutoPage({ step, mastery, setMastery, showTime, goNextStep }){
+  const lv = mastery[step.id] || [0, 0, 0];
+  const first = lv.findIndex(x => x < 3);
+  const [L, setL] = useState(first < 0 ? 2 : first);
+  const [run, setRun] = useState(0);
+  const [phase, setPhase] = useState("idle");
+  const [result, setResult] = useState(null);
+  const start = () => { setRun(run + 1); setPhase("run"); setResult(null); };
+  const done = r => {
+    const ns = r.score >= 9 ? (r.median != null && r.median <= step.T ? 3 : 2) : 1;
+    const arr = lv.slice(); arr[L] = Math.max(arr[L], ns);
+    setMastery({ ...mastery, [step.id]: arr }); setResult({ ...r, ns }); setPhase("done");
+  };
+  const choose = k => { setL(k); setPhase("idle"); setResult(null); };
+  return html`<div className="lab">
+    <div className="levels">${step.levels.map((nm, k) => html`<button key=${k} className="lvl" aria-pressed=${k === L} onClick=${() => choose(k)}><span className="ln">Niveau ${k + 1}</span><span>${nm}</span><${Chip} s=${lv[k]}/></button>`)}</div>
+    <p className="lead"><b>Acquis</b> : au moins 9 bonnes réponses sur 10. <b>Automatisé</b> : acquis, et la plupart de tes calculs justes prennent moins de ${step.T} secondes. Une erreur revient un peu plus tard dans la série.</p>
+    ${phase === "idle" && html`<div className="row"><button className="btn primary" onClick=${start}>Commencer une série de 10 calculs</button><span className="muted small">Clavier à l'écran ou touches du clavier (le signe moins change le signe).</span></div>`}
+    ${phase === "run" && html`<${Drill} key=${run} make=${() => GEN[step.id](L)} n=${10} onDone=${done} showTime=${showTime}/>`}
+    ${phase === "done" && result && html`<${Summary} r=${result} T=${step.T}>
+      ${result.ns === 3 && html`<${Msg} kind="good"><b>Automatisé !</b> Justes et rapides : ce calcul devient un réflexe.<//>`}
+      ${result.ns === 2 && html`<${Msg} kind="info"><b>Acquis.</b> Tes calculs sont justes. Pour automatiser, refais une série plus tard ou demain : la rapidité viendra avec la répétition, sans te presser au point de te tromper.<//>`}
+      ${result.ns === 1 && html`<${Msg} kind="warn">Encore un peu d'entraînement. Relis les corrections, repasse par « Pas à pas » si besoin, puis refais une série.<//>`}
+      <div className="row">
+        <button className="btn" onClick=${start}>Refaire une série</button>
+        ${L < 2 && html`<button className="btn primary" onClick=${() => choose(L + 1)}>Niveau suivant</button>`}
+        ${L === 2 && goNextStep && html`<button className="btn primary" onClick=${goNextStep}>Étape suivante</button>`}
+      </div>
+    <//>`}
+  </div>`;
+}
+
+/* ================= Vues ================= */
+const TABS = [["comprendre", "Comprendre"], ["guide", "Pas à pas"], ["auto", "Automatiser"]];
+const TAB_LEAD = {
+  comprendre: "La règle, une image pour la comprendre, puis un exemple résolu.",
+  guide: "Un calcul découpé en petites étapes. Réponds à chaque étape avant de passer à la suivante.",
+  auto: "Des séries courtes, à refaire souvent, jusqu'à ce que le calcul devienne automatique."
+};
+function StepView({ idx, tab, setTab, mastery, setMastery, showTime, openStep }){
+  const step = STEPS[idx], C = COMP[step.id];
+  const go = t => { setTab(t); window.scrollTo({ top: 0 }); };
+  return html`<${React.Fragment}>
+    <div className="wrap head"><span className="eyebrow">${step.group} · étape ${idx + 1} sur 6</span><h2>${step.name}</h2><p>${step.goal}</p></div>
+    <div className="tabs-bar"><div className="wrap"><div className="tabs" role="tablist">${TABS.map(([k, l], i) => html`<button key=${k} role="tab" className="tab" aria-selected=${k === tab} onClick=${() => go(k)}><span className="tn">${i + 1}</span>${l}</button>`)}</div></div></div>
+    <div className="wrap"><div className="page">
+      <p className="lead">${TAB_LEAD[tab]}</p>
+      ${tab === "comprendre" && html`<${C}/><div className="row" style=${{ justifyContent: "flex-end" }}><button className="btn primary" onClick=${() => go("guide")}>Je m'entraîne pas à pas →</button></div>`}
+      ${tab === "guide" && html`<${Guided} key=${step.id} stepId=${step.id} toAuto=${() => go("auto")}/>`}
+      ${tab === "auto" && html`<${AutoPage} key=${step.id} step=${step} mastery=${mastery} setMastery=${setMastery} showTime=${showTime} goNextStep=${idx < 5 ? () => openStep(idx + 1) : null}/>`}
+    </div></div>
+  <//>`;
+}
+function Home({ mastery, openStep, openReview }){
+  let target = null;
+  STEPS.some((s, i) => { const lv = mastery[s.id] || [0, 0, 0]; const k = lv.findIndex(x => x < 3); if (k >= 0){ target = { i, k }; return true; } return false; });
+  const groups = ["Nombres relatifs", "Puissances"];
+  const nAuto = STEPS.reduce((n, s) => n + (mastery[s.id] || [0, 0, 0]).filter(x => x === 3).length, 0);
+  return html`<div className="wrap">
+    <div className="head"><h2>Mon parcours</h2><p>Objectif : que chaque calcul devienne automatique. On commence par les nombres relatifs, puis on réutilise exactement les mêmes calculs dans les exposants des puissances.</p></div>
+    <div className="page">
+      <div className="frame lab">
+        <div className="stat"><div><span className="muted small">Niveaux automatisés</span><b>${nAuto} / 18</b></div></div>
+        ${target ? html`<div className="row"><button className="btn primary" onClick=${() => openStep(target.i, target.k === 0 && !(mastery[STEPS[target.i].id] || [0])[0] ? "comprendre" : "auto")}>Continuer : ${STEPS[target.i].name}, niveau ${target.k + 1}</button><span className="muted small">${STEPS[target.i].levels[target.k]}</span></div>`
+          : html`<${Msg} kind="good">Tous les niveaux sont automatisés. Garde le réflexe avec une révision express de temps en temps.<//>`}
+      </div>
+      ${groups.map(g => html`<div key=${g} className="steplist"><div className="group-cap">${g}</div>
+        ${STEPS.map((s, i) => s.group !== g ? null : html`<div key=${s.id} className="steprow">
+          <span className="sn-b">${i + 1}</span>
+          <div><b>${s.name}</b><div className="chips">${s.levels.map((nm, k) => html`<span key=${k} title=${nm}><${Chip} s=${(mastery[s.id] || [0, 0, 0])[k]}/></span>`)}</div></div>
+          <button className="btn" onClick=${() => openStep(i)}>Ouvrir</button>
+        </div>`)}
+      </div>`)}
+      <div className="frame lab">
+        <h3 style=${{ fontSize: "1.1em" }}>Révision express</h3>
+        <p className="muted">12 calculs mélangés, tirés des niveaux que tu as déjà travaillés. Cinq minutes par jour suffisent pour garder les automatismes.</p>
+        <div className="row"><button className="btn primary" onClick=${openReview}>Lancer une révision express</button></div>
+      </div>
+    </div>
+  </div>`;
+}
+function Review({ mastery, showTime }){
+  const pool = [];
+  STEPS.forEach(s => (mastery[s.id] || [0, 0, 0]).forEach((st, k) => { if (st > 0) pool.push([s.id, k]); }));
+  const src = pool.length ? pool : [["add", 0], ["add", 1], ["sub", 0]];
+  const [run, setRun] = useState(0);
+  const [result, setResult] = useState(null);
+  return html`<div className="wrap">
+    <div className="head"><h2>Révision express</h2><p>${pool.length ? "Calculs mélangés parmi les " + pool.length + " niveaux déjà travaillés." : "Tu n'as encore travaillé aucun niveau : la révision porte sur les premiers niveaux des relatifs."}</p></div>
+    <div className="page">
+      ${!result ? html`<${Drill} key=${run} make=${() => { const [id, k] = pick(src); return GEN[id](k); }} n=${12} showTime=${showTime} onDone=${setResult}/>`
+        : html`<${Summary} r=${result}><div className="row"><button className="btn primary" onClick=${() => { setResult(null); setRun(run + 1); }}>Nouvelle révision</button></div><//>`}
+    </div>
+  </div>`;
+}
+
+const ICONS = {
+  home: html`<svg className="ic" viewBox="0 0 22 22" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinejoin="round" strokeLinecap="round"><path d="M3 18.5h16M5 18.5V12M9.5 18.5V8M14 18.5v-6M18.5 18.5V4"/></svg>`,
+  review: html`<svg className="ic" viewBox="0 0 22 22" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinejoin="round" strokeLinecap="round"><path d="M17.5 8.5A7 7 0 1 0 18 13"/><path d="M18 4v4.5h-4.5"/></svg>`
+};
+function App(){
+  const [view, setView] = useState(() => { const v = store.get("view", "home"); return v === "home" || v === "review" || (typeof v === "number" && v >= 0 && v < 6) ? v : "home"; });
+  const [tab, setTab] = useState(() => { const t = store.get("tab", "comprendre"); return TABS.some(x => x[0] === t) ? t : "comprendre"; });
+  const [mastery, setMastery] = useState(() => store.get("mastery", {}));
+  const [big, setBig] = useState(() => store.get("big", false));
+  const [showTime, setShowTime] = useState(() => store.get("time", false));
+  const [confirmReset, setConfirmReset] = useState(false);
+  const [rev, setRev] = useState(0);
+  useEffect(() => store.set("view", view), [view]);
+  useEffect(() => store.set("tab", tab), [tab]);
+  useEffect(() => store.set("mastery", mastery), [mastery]);
+  useEffect(() => store.set("big", big), [big]);
+  useEffect(() => store.set("time", showTime), [showTime]);
+  const openStep = (i, t) => { setView(i); if (t) setTab(t); window.scrollTo({ top: 0 }); };
+  const openReview = () => { setView("review"); setRev(rev + 1); window.scrollTo({ top: 0 }); };
+  const item = (key, label, icon, cur, onClick, extra) => html`<button key=${String(key)} className="side-item" aria-current=${cur ? "page" : undefined} onClick=${onClick}>${icon}<span>${label}</span>${extra}</button>`;
+  return html`<div className=${"app" + (big ? " big" : "")}>
+    <header className="titlebar">
+      <svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true"><rect x="1" y="1" width="22" height="22" rx="4" fill="var(--accent)"/><path d="M5.5 12h6M8.5 9v6" stroke="var(--view)" strokeWidth="2" strokeLinecap="round"/><path d="M13.5 15.5h5" stroke="var(--view)" strokeWidth="2" strokeLinecap="round"/><text x="15" y="10.5" fontSize="7" fontWeight="700" fill="var(--view)" fontFamily="sans-serif">n</text></svg>
+      <span className="tb-name">Relatifs et puissances</span><span className="tb-sub">Mathématiques 4e</span>
+      <span className="spacer"></span>
+      <button className="switch" role="switch" aria-checked=${showTime} aria-label="Afficher le chrono" onClick=${() => setShowTime(!showTime)}><span className="track"></span><span className="lbl">Chrono</span></button>
+      <button className="switch" role="switch" aria-checked=${big} aria-label="Texte agrandi" onClick=${() => setBig(!big)}><span className="track"></span><span className="lbl">Texte agrandi</span></button>
+    </header>
+    <div className="layout">
+      <nav className="sidebar" aria-label="Parcours">
+        ${item("home", "Mon parcours", ICONS.home, view === "home", () => setView("home"))}
+        ${["Nombres relatifs", "Puissances"].map(g => html`<${React.Fragment} key=${g}><div className="side-cap">${g}</div>
+          ${STEPS.map((s, i) => s.group !== g ? null : item(i, s.name, html`<span className="sn-b">${i + 1}</span>`, view === i, () => openStep(i), html`<span className="mini" aria-hidden="true">${(mastery[s.id] || [0, 0, 0]).map((x, k) => html`<span key=${k} className=${"s" + x}></span>`)}</span>`))}<//>`)}
+        <div className="side-cap">Entretenir</div>
+        ${item("review", "Révision express", ICONS.review, view === "review", openReview)}
+        <div className="side-foot">
+          <span className="muted">Ta progression reste dans ce navigateur.</span>
+          ${confirmReset
+            ? html`<div className="row"><button className="btn" onClick=${() => { setMastery({}); setConfirmReset(false); }}>Oui, tout effacer</button><button className="btn" onClick=${() => setConfirmReset(false)}>Annuler</button></div>`
+            : html`<button className="linkbtn" onClick=${() => setConfirmReset(true)}>Effacer ma progression</button>`}
+        </div>
+      </nav>
+      <main className="main">
+        ${view === "home" && html`<${Home} mastery=${mastery} openStep=${openStep} openReview=${openReview}/>`}
+        ${view === "review" && html`<${Review} key=${rev} mastery=${mastery} showTime=${showTime}/>`}
+        ${typeof view === "number" && html`<${StepView} key=${view} idx=${view} tab=${tab} setTab=${setTab} mastery=${mastery} setMastery=${setMastery} showTime=${showTime} openStep=${openStep}/>`}
+      </main>
+    </div>
+  </div>`;
+}
+ReactDOM.createRoot(document.getElementById("root")).render(html`<${App}/>`);
+window.__RP = { GEN, GUIDE, STEPS };
+}
+</script>
+</body>
+</html>
