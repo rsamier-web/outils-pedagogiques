@@ -320,6 +320,13 @@ button.pill{cursor:pointer;font-family:inherit}
 .voice-set{display:flex;flex-direction:column;gap:.7rem;border-top:1px solid var(--line);padding-top:.8rem}
 .voice-set select{font-size:.88rem}
 input[type=range]{width:100%;accent-color:var(--accent)}
+.libgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(17rem,1fr));gap:.6rem}
+.libcard{all:unset;box-sizing:border-box;cursor:pointer;display:flex;flex-direction:column;gap:.55rem;border:1px solid var(--line-strong);border-radius:5px;background:var(--view);padding:.8rem .9rem;transition:border-color .12s,background .12s}
+.libcard:hover{border-color:var(--accent);background:var(--accent-tint)}
+.libcard:focus-visible{outline:2px solid var(--accent);outline-offset:1px}
+.libcard.lu{border-left:3px solid var(--pos)}
+.libcard .task{font-size:1rem}
+.pill.ok{border-color:var(--pos);color:var(--pos)}
 </style>
 </head>
 <body>
@@ -1101,6 +1108,555 @@ En **1849**, les rois reprennent le contrôle : presque partout, c’est l’**�
   ]
 };
 
+/* =====================================================================
+   Bibliothèque des dissertations corrigées — HGGSP « S’informer »
+   Chaque corrigé : analyse du sujet, plan, texte complet.
+   ===================================================================== */
+const DS = (intro, parts, trans, concl) => ({
+  intro: { acc: intro[0], def: intro[1], pres: intro[2], pb: intro[3], ann: intro[4] },
+  parts: parts.map(p => ({ idee: p[0], paras: p.slice(1).map(q => ({ a: q[0], e: q[1], x: q[2] })) })),
+  trans, concl: { bil: concl[0], ouv: concl[1] }
+});
+
+D_HGGSP.libFams = [
+  { id: 'tech', t: 'Les révolutions techniques de l’information', d: 'Sujets sur l’évolution des médias : presse, radio, télévision, Internet.' },
+  { id: 'acces', t: 'Accès à l’information et qualité de l’information', d: 'Sujets qui opposent quantité et qualité : plus d’informations, est-ce une meilleure information ?' },
+  { id: 'pouvoir', t: 'Liberté, contrôle et pouvoir', d: 'Sujets sur l’État, la censure, la propagande, la liberté de la presse.' },
+  { id: 'opinion', t: 'Médias et opinion publique', d: 'Sujets sur les liens entre médias et opinion : affaire Dreyfus, guerre du Vietnam.' }
+];
+D_HGGSP.weFam = { 'we-h1': 'tech', 'we-h2': 'acces' };
+
+D_HGGSP.sujets.push(
+  { id: 'w', q: 'Les médias, une arme en temps de guerre ?', src: 'Sujet d’entraînement (à partir du cours)', consigne: 'Vous vous appuierez sur la Seconde Guerre mondiale et sur la guerre du Vietnam.' },
+  { id: 'dr', q: 'Quel rôle la presse a-t-elle joué dans l’affaire Dreyfus ?', src: 'Sujet d’entraînement (jalon du programme)', consigne: 'Vous montrerez comment la presse accuse, puis divise, et vous nuancerez son rôle.' }
+);
+
+D_HGGSP.lib = [
+  /* ---------- Famille : révolutions techniques ---------- */
+  { id: 'lib-i', fam: 'tech', sujet: 'i', type: 'Citation à discuter : plan dialectique', rep: 'La phrase est juste pour le XXe siècle, mais les rôles des médias se mélangent, et Internet bouleverse ce partage.',
+    analyse: { keys: ['la radio annonce', 'la télévision montre', 'la presse explique'], defs: [['annoncer', 'Donner la nouvelle, vite, au moment où elle arrive.'], ['montrer', 'Faire voir l’événement en images.'], ['expliquer', 'Donner les causes, le contexte, analyser.']], bornes: 'Le XXe siècle (âge de la radio et de la télévision), jusqu’à Internet aujourd’hui.', type: 'Citation à discuter : on montre ce qui est vrai, puis les limites.' },
+    diss: DS([
+      'Hubert Beuve-Méry, le fondateur du journal Le Monde en 1944, résume ainsi le rôle des médias : « la radio annonce l’événement, la télévision le montre, la presse l’explique ».',
+      'Annoncer, c’est donner la nouvelle très vite ; montrer, c’est faire voir l’événement en images ; expliquer, c’est en donner les causes et le sens.',
+      'Au XXe siècle, la presse, la radio et la télévision deviennent des médias de masse et se partagent le public.',
+      'Chaque média a-t-il vraiment une fonction propre dans la transmission de l’information ?',
+      'Nous verrons d’abord que chaque média a longtemps eu une fonction propre. Puis nous montrerons que ce partage des rôles est trop simple. Enfin, nous verrons qu’Internet bouscule ce partage.'
+    ], [
+      ['Chaque média a longtemps eu une fonction propre.',
+        ['Tout d’abord, la radio est le média de l’annonce immédiate.', 'En effet, elle transmet la voix en direct, sans délai d’impression, jusque dans les maisons.', 'Par exemple, la TSF sert lors du naufrage du Titanic en 1912, et le 18 juin 1940, le général de Gaulle annonce sur la BBC que la France doit continuer le combat.'],
+        ['De plus, la télévision montre, tandis que la presse explique.', 'En effet, l’image donne l’impression d’assister à l’événement, alors que le journal a la place et le temps d’analyser.', 'Par exemple, en 1969, la Terre entière voit en direct le premier pas sur la Lune ; à l’inverse, en 1898, « J’accuse… ! » de Zola explique longuement pourquoi Dreyfus est innocent.']],
+      ['Mais ce partage des rôles est trop simple.',
+        ['Tout d’abord, la presse ne fait pas qu’expliquer : elle annonce et révèle aussi.', 'En effet, un journal peut publier une information avant tout le monde et lancer une affaire.', 'Par exemple, en 1894, c’est la presse, notamment La Libre Parole, qui révèle l’arrestation de Dreyfus ; elle accuse avant même le procès.'],
+        ['De plus, montrer n’est pas expliquer : l’image peut tromper.', 'En effet, une image ou un chiffre répété chaque soir peut donner une idée fausse de la réalité.', 'Par exemple, pendant la guerre du Vietnam, les télévisions américaines annoncent chaque soir le « body count », qui donne l’illusion d’une victoire rapide.']],
+      ['Internet bouscule ce partage des fonctions.',
+        ['Tout d’abord, Internet réunit les trois fonctions dans un seul média.', 'En effet, on y trouve à la fois du texte, du son et des images, en direct et en continu.', 'Par exemple, après l’invention du Web par Tim Berners-Lee en 1989, Internet compte aujourd’hui environ 5,5 milliards d’utilisateurs.'],
+        ['Cependant, expliquer devient encore plus nécessaire.', 'En effet, chacun peut publier sans vérifier : les fausses informations circulent aussi vite que les vraies.', 'Par exemple, la désinformation et les théories du complot, comme celle de la Terre plate, se diffusent sur les réseaux.']]
+    ], [
+      'Ainsi, au XXe siècle, chaque média a sa force. Mais ce partage est-il si net ?',
+      'Ainsi, les rôles des médias se mélangent. Avec Internet, ils se mélangent encore davantage.'
+    ], [
+      'En conclusion, la phrase de Beuve-Méry décrit bien les forces de chaque média au XXe siècle, mais elle simplifie la réalité : la presse annonce aussi, et l’image peut tromper. Avec Internet, les trois fonctions se rejoignent, et le besoin d’explication grandit.',
+      'Aujourd’hui, qui doit expliquer l’information : les journalistes, l’école, ou chaque citoyen ?'
+    ]) },
+
+  { id: 'lib-e', fam: 'tech', sujet: 'e', type: 'Question « Comment » : plan thématique', rep: 'Internet crée un réseau mondial, rend l’information horizontale et permanente, mais il pose de nouveaux problèmes de fiabilité.',
+    analyse: { keys: ['Internet', 'bouleverse', 'les façons de s’informer'], defs: [['Internet', 'Un réseau mondial qui relie des ordinateurs.'], ['bouleverser', 'Changer complètement.']], bornes: 'De 1969 (ARPANET) à aujourd’hui ; le monde entier.', type: 'Question « Comment… ? » : on explique les étapes et les effets d’un changement.' },
+    diss: DS([
+      'Aujourd’hui, environ 5,5 milliards de personnes utilisent Internet.',
+      'Internet, de l’anglais « interconnected networks », est un réseau mondial qui relie des ordinateurs. S’informer, c’est chercher et recevoir des informations.',
+      'Depuis la création d’ARPANET en 1969, Internet s’est étendu au monde entier et concurrence la presse, la radio et la télévision.',
+      'En quoi Internet change-t-il la façon de produire, de recevoir et de juger l’information ?',
+      'Nous verrons d’abord qu’Internet crée un réseau mondial d’information. Puis nous montrerons qu’il change la façon de produire et de recevoir l’information. Enfin, nous verrons qu’il pose de nouveaux problèmes.'
+    ], [
+      ['Internet crée un réseau mondial d’information.',
+        ['Tout d’abord, Internet naît d’un projet militaire et universitaire américain.', 'En effet, il s’agit d’abord de relier des ordinateurs éloignés pour échanger des données.', 'Par exemple, ARPANET relie en 1969 une agence militaire américaine et quatre universités ; en 1971, Tomlinson envoie le premier courriel.'],
+        ['De plus, Internet devient un média de masse mondial.', 'En effet, l’invention du Web et des navigateurs permet à tous de consulter des pages facilement.', 'Par exemple, Tim Berners-Lee invente le Web en 1989, le navigateur Mosaic apparaît en 1993, et Internet explose dans les années 2000.']],
+      ['Internet change la façon de produire et de recevoir l’information.',
+        ['Tout d’abord, l’information devient horizontale.', 'En effet, chacun peut produire, publier et partager des informations, sans passer par un journal ou une chaîne.', 'Par exemple, sur les réseaux sociaux, un témoin peut publier une vidéo vue par des millions de personnes.'],
+        ['De plus, l’information devient permanente et individuelle.', 'En effet, chacun choisit ce qu’il lit, quand il veut, sur son écran.', 'Par exemple, depuis 2012, la durée d’écoute de la télévision diminue, et ses téléspectateurs sont de plus en plus âgés.']],
+      ['Mais Internet pose de nouveaux problèmes.',
+        ['Tout d’abord, les fausses informations circulent plus vite.', 'En effet, ce qui est publié n’est pas toujours vérifié.', 'Par exemple, on distingue la mésinformation, une erreur de bonne foi, et la désinformation, un mensonge volontaire.'],
+        ['De plus, Internet favorise les théories du complot.', 'En effet, il n’a pas créé ces théories, mais il les aide à toucher un très grand public.', 'Par exemple, les croyances en une Terre plate ou dans les Illuminati se diffusent en ligne.']]
+    ], [
+      'Ainsi, Internet devient un réseau mondial. Cela change aussi la manière de s’informer.',
+      'Ainsi, chacun devient acteur de l’information. Cependant, cette liberté a un prix.'
+    ], [
+      'En conclusion, Internet bouleverse les façons de s’informer : il crée un réseau mondial, rend l’information horizontale et permanente, mais il facilite aussi les fausses informations.',
+      'Les médias traditionnels, comme la presse, peuvent-ils aider à trier l’information à l’heure d’Internet ?'
+    ]) },
+
+  /* ---------- Famille : accès et qualité ---------- */
+  { id: 'lib-f', fam: 'acces', sujet: 'f', type: 'Question fermée : plan dialectique', rep: 'Être plus informé donne accès à plus de faits, mais pas forcément à des faits vrais ni compris ; être bien informé demande un regard critique.',
+    analyse: { keys: ['de plus en plus informé', 'signifie-t-il', 'bien informé'], defs: [['de plus en plus informé', 'Recevoir une quantité croissante d’informations.'], ['bien informé', 'Recevoir des informations vraies, vérifiées et comprises.']], bornes: 'Les XXe et XXIe siècles.', type: 'Question fermée qui oppose quantité et qualité.' },
+    diss: DS([
+      'Aujourd’hui, un habitant de la planète passe en moyenne plus de six heures par jour devant des médias.',
+      'Être de plus en plus informé, c’est recevoir une quantité croissante d’informations ; être bien informé, c’est recevoir des informations vraies, vérifiées et comprises.',
+      'Aux XXe et XXIe siècles, la radio, la télévision puis Internet multiplient les informations disponibles.',
+      'L’abondance d’informations, permise par les progrès techniques, rend-elle les citoyens mieux informés ?',
+      'Nous verrons d’abord que les progrès techniques nous informent de plus en plus. Puis nous montrerons qu’être plus informé ne veut pas dire être mieux informé. Enfin, nous verrons qu’être bien informé suppose un regard critique.'
+    ], [
+      ['Les progrès techniques nous informent de plus en plus.',
+        ['Tout d’abord, les médias de masse touchent un public de plus en plus large.', 'En effet, chaque nouveau média ajoute un public et une manière de s’informer.', 'Par exemple, au début du XXe siècle, plus de 9 millions de journaux sont vendus chaque jour en France ; dans les années 1960, la télévision entre dans tous les foyers.'],
+        ['De plus, Internet rend l’information permanente et mondiale.', 'En effet, on peut s’informer partout, tout le temps, sur son téléphone.', 'Par exemple, environ 5,5 milliards de personnes utilisent Internet aujourd’hui.']],
+      ['Mais être plus informé ne veut pas dire être mieux informé.',
+        ['Tout d’abord, les médias peuvent diffuser une information orientée.', 'En effet, un pouvoir peut utiliser les médias pour faire croire ce qui l’arrange.', 'Par exemple, pendant la guerre du Vietnam, le « body count » annoncé chaque soir donne l’illusion d’une victoire rapide : c’est le « credibility gap ».'],
+        ['De plus, la quantité d’informations favorise les erreurs et les mensonges.', 'En effet, plus il y a d’informations, plus il est difficile de vérifier.', 'Par exemple, sur Internet, la mésinformation, la désinformation et les théories du complot se diffusent très vite.']],
+      ['Être bien informé suppose un regard critique.',
+        ['Tout d’abord, il faut croiser et vérifier les sources.', 'En effet, une information n’est fiable que si l’on sait d’où elle vient et si on peut la confirmer.', 'Par exemple, pendant l’affaire Dreyfus, le colonel Picquart découvre l’innocence de Dreyfus en réexaminant les preuves, alors que presque toute la presse le dit coupable.'],
+        ['De plus, les journalistes, les intellectuels et l’école aident à mieux comprendre.', 'En effet, ils vérifient, expliquent et apprennent à juger l’information.', 'Par exemple, en 1898, Zola explique l’affaire dans « J’accuse… ! » ; aujourd’hui, l’éducation aux médias apprend aux élèves à vérifier une source.']]
+    ], [
+      'Ainsi, nous sommes de plus en plus informés. Mais sommes-nous mieux informés ?',
+      'Ainsi, la quantité ne garantit pas la qualité. Comment, alors, être bien informé ?'
+    ], [
+      'En conclusion, être de plus en plus informé ne signifie pas être bien informé : les progrès techniques multiplient les informations, mais aussi les erreurs et les manipulations. Être bien informé demande de vérifier ses sources et de garder un esprit critique.',
+      'Faut-il enseigner davantage l’esprit critique face aux médias, dès le collège ?'
+    ]) },
+
+  { id: 'lib-a', fam: 'acces', sujet: 'a', type: 'Question fermée : plan dialectique', rep: 'Le numérique rend l’information plus libre et plus accessible, mais il ne garantit pas sa fiabilité : cela dépend de nos usages.',
+    analyse: { keys: ['révolution numérique', 'garantit-elle', 'une meilleure information'], defs: [['révolution numérique', 'Le grand changement apporté par Internet et les écrans depuis la fin du XXe siècle.'], ['garantir', 'Assurer, rendre certain.']], bornes: 'De la fin du XXe siècle à aujourd’hui.', type: 'Question fermée : oui / mais / dépassement.' },
+    diss: DS([
+      'En 1992, seuls 10 % des foyers français ont un ordinateur ; aujourd’hui, environ 5,5 milliards de personnes utilisent Internet.',
+      'La révolution numérique désigne le grand changement apporté par Internet et les écrans. Une meilleure information est une information plus accessible, plus libre et plus fiable.',
+      'Depuis la fin du XXe siècle, le numérique transforme la façon de s’informer dans le monde entier.',
+      'Internet et le numérique ont-ils rendu l’information plus libre, plus accessible et plus fiable ?',
+      'Nous verrons d’abord que le numérique rend l’information plus accessible et plus libre. Puis nous montrerons qu’il ne garantit pas une information fiable. Enfin, nous verrons qu’une meilleure information dépend de nos usages.'
+    ], [
+      ['Le numérique rend l’information plus accessible et plus libre.',
+        ['Tout d’abord, Internet rend l’information accessible au monde entier.', 'En effet, un simple téléphone suffit pour lire, écouter et regarder des informations venues de partout.', 'Par exemple, du réseau ARPANET, créé en 1969, au Web inventé en 1989, Internet atteint aujourd’hui environ 5,5 milliards d’utilisateurs.'],
+        ['De plus, chacun peut publier et témoigner.', 'En effet, la transmission devient horizontale : il n’est plus nécessaire de passer par un journal ou une chaîne.', 'Par exemple, sur les réseaux sociaux, un témoin peut filmer un événement et le montrer à des millions de personnes.']],
+      ['Mais il ne garantit pas une information fiable.',
+        ['Tout d’abord, les fausses informations se multiplient.', 'En effet, personne ne vérifie tout ce qui est publié.', 'Par exemple, la mésinformation est une erreur de bonne foi, la désinformation un mensonge volontaire : les deux circulent très vite en ligne.'],
+        ['De plus, Internet favorise la diffusion des théories du complot.', 'En effet, il permet à des idées sans preuve de toucher un très large public.', 'Par exemple, la croyance en une Terre plate ou dans les Illuminati se répand sur Internet.']],
+      ['Une meilleure information dépend de nos usages.',
+        ['Tout d’abord, chaque internaute doit vérifier ses sources.', 'En effet, savoir qui publie, quand et pourquoi permet de juger une information.', 'Par exemple, avant de partager une vidéo, on peut chercher si des médias fiables en parlent aussi.'],
+        ['De plus, les journalistes et l’école gardent un rôle important.', 'En effet, ils vérifient, expliquent et apprennent à trier l’information.', 'Par exemple, l’éducation aux médias apprend aux élèves à distinguer une information vérifiée d’une rumeur.']]
+    ], [
+      'Ainsi, le numérique rend l’information plus accessible. Mais est-elle plus fiable ?',
+      'Ainsi, le numérique ne garantit pas la fiabilité. Tout dépend alors de la façon dont on l’utilise.'
+    ], [
+      'En conclusion, la révolution numérique ne garantit pas une meilleure information : elle la rend plus libre et plus accessible, mais pas forcément plus fiable. C’est l’esprit critique des citoyens qui fait la différence.',
+      'Les intelligences artificielles qui écrivent des textes vont-elles rendre la vérification encore plus nécessaire ?'
+    ]) },
+
+  /* ---------- Famille : liberté, contrôle et pouvoir ---------- */
+  { id: 'lib-g', fam: 'pouvoir', sujet: 'g', type: 'Question fermée : plan dialectique', rep: 'Les États peuvent garantir une information libre, mais ils sont aussi tentés de la contrôler ; la fiabilité dépend aussi des journalistes et des citoyens.',
+    analyse: { keys: ['les États', 'garants', 'information fiable'], defs: [['garant', 'Celui qui protège, qui assure.'], ['fiable', 'Vraie, en qui on peut avoir confiance.']], bornes: 'De la fin du XIXe siècle à aujourd’hui ; démocraties et régimes totalitaires.', type: 'Question fermée : oui / mais / dépassement.' },
+    diss: DS([
+      'Le 29 juillet 1881, une loi garantit en France la liberté de la presse.',
+      'Être garant d’une information fiable, c’est protéger une information vraie, libre et vérifiée.',
+      'Depuis la fin du XIXe siècle, les États interviennent de plus en plus dans l’information, par des lois, par des médias publics ou par la propagande.',
+      'Les États protègent-ils une information vraie et libre, ou cherchent-ils plutôt à la contrôler ?',
+      'Nous verrons d’abord que les États peuvent garantir la liberté de l’information. Puis nous montrerons qu’ils la contrôlent souvent. Enfin, nous verrons que sa fiabilité dépend aussi de la société.'
+    ], [
+      ['Les États peuvent garantir la liberté et la qualité de l’information.',
+        ['Tout d’abord, un État démocratique peut protéger la liberté de la presse par la loi.', 'En effet, une loi empêche le pouvoir de censurer les journaux qui le critiquent.', 'Par exemple, en France, la loi du 29 juillet 1881 supprime la censure et permet l’essor d’une presse très variée.'],
+        ['De plus, un État peut créer des médias publics fiables.', 'En effet, un média public peut chercher à informer tous les citoyens, et pas seulement à vendre.', 'Par exemple, la BBC, créée en 1922, devient pendant la guerre la voix des pays libres : le 18 juin 1940, de Gaulle y lance son appel.']],
+      ['Mais les États contrôlent souvent l’information.',
+        ['Tout d’abord, les régimes totalitaires mettent les médias au service de leur propagande.', 'En effet, contrôler les médias permet d’imposer un seul message et de faire taire les opposants.', 'Par exemple, dans l’Allemagne nazie, Goebbels, ministre de la Propagande, contrôle tous les médias ; l’Italie fasciste utilise Radio Bari.'],
+        ['De plus, même une démocratie peut orienter l’information en temps de guerre.', 'En effet, un gouvernement en guerre veut garder le soutien de son opinion.', 'Par exemple, pendant la guerre du Vietnam, l’armée américaine crée le JUSPAO, et le « body count » donne l’illusion d’une victoire rapide.']],
+      ['La fiabilité de l’information dépend aussi de la société.',
+        ['Tout d’abord, journalistes et intellectuels peuvent contredire l’État.', 'En effet, dans un pays libre, ils peuvent enquêter et publier une autre version des faits.', 'Par exemple, en 1898, Zola accuse l’armée dans « J’accuse… ! » ; au Vietnam, les reporters révèlent le « credibility gap ».'],
+        ['De plus, à l’heure d’Internet, chacun doit vérifier ses sources.', 'En effet, l’information est horizontale : l’État ne peut plus tout contrôler, mais il ne peut pas non plus tout vérifier.', 'Par exemple, la désinformation peut venir de particuliers comme d’États étrangers.']]
+    ], [
+      'Ainsi, les États peuvent protéger l’information. Mais le font-ils toujours ?',
+      'Ainsi, les États sont souvent tentés de contrôler l’information. La fiabilité dépend donc aussi d’autres acteurs.'
+    ], [
+      'En conclusion, les États peuvent être garants d’une information fiable quand ils protègent la liberté de la presse, mais ils sont souvent tentés de la contrôler, surtout en guerre. La fiabilité de l’information dépend donc aussi des journalistes, des intellectuels et des citoyens.',
+      'Aujourd’hui, les États doivent-ils faire des lois contre les fausses informations sur Internet, au risque de limiter la liberté d’expression ?'
+    ]) },
+
+  { id: 'lib-d', fam: 'pouvoir', sujet: 'd', type: 'Question « Quelles forces » : plan thématique (l’État, l’opinion, le marché et la technique)', rep: 'L’État, l’opinion et le marché peuvent chacun protéger ou menacer la liberté de l’information.',
+    analyse: { keys: ['forces', 'à la fois menacer et garantir', 'liberté de l’information'], defs: [['forces', 'Les acteurs qui ont du pouvoir sur l’information : l’État, l’opinion, l’argent.'], ['liberté de l’information', 'Le droit de publier et de recevoir des informations sans censure.']], bornes: 'De la fin du XIXe siècle à aujourd’hui.', type: 'Question ouverte : chaque partie étudie une force, dans ses deux effets.' },
+    diss: DS([
+      'En 1898, Émile Zola publie « J’accuse… ! » : il peut accuser l’armée parce que la presse est libre depuis 1881.',
+      'La liberté de l’information est le droit de publier et de recevoir des informations sans censure. Les forces sont les acteurs qui ont du pouvoir sur elle : l’État, l’opinion publique, l’argent et les techniques.',
+      'Depuis la fin du XIXe siècle, ces forces se transforment avec les médias de masse puis avec Internet.',
+      'Comment les mêmes forces peuvent-elles à la fois protéger et menacer la liberté de l’information ?',
+      'Nous verrons d’abord le rôle de l’État. Puis nous étudierons celui de l’opinion publique. Enfin, nous verrons celui du marché et des techniques.'
+    ], [
+      ['L’État peut garantir la liberté de l’information, mais aussi la menacer.',
+        ['Tout d’abord, l’État garantit la liberté de l’information par la loi.', 'En effet, une loi protège les journaux contre la censure.', 'Par exemple, en France, la loi du 29 juillet 1881 garantit la liberté de la presse.'],
+        ['Mais l’État peut aussi censurer et faire de la propagande.', 'En effet, un pouvoir qui contrôle les médias peut imposer sa version des faits.', 'Par exemple, Goebbels contrôle tous les médias de l’Allemagne nazie ; pendant la guerre du Vietnam, le JUSPAO oriente l’information américaine.']],
+      ['L’opinion publique peut menacer ou protéger la liberté de l’information.',
+        ['Tout d’abord, l’opinion peut pousser la presse à suivre les préjugés.', 'En effet, un journal veut plaire à ses lecteurs pour être acheté.', 'Par exemple, au début de l’affaire Dreyfus, dans une société marquée par l’antisémitisme, la presse est presque entièrement antidreyfusarde.'],
+        ['Mais l’opinion peut aussi exiger la vérité.', 'En effet, quand le public doute du discours officiel, les médias deviennent plus critiques.', 'Par exemple, après l’offensive du Têt en 1968, l’opinion américaine se retourne et 500 000 personnes manifestent à Washington en 1969.']],
+      ['Le marché et les techniques ont aussi deux visages.',
+        ['Tout d’abord, l’argent permet à la presse d’exister, mais la rend dépendante.', 'En effet, un journal vit de ses ventes et de la publicité : il peut éviter de déplaire.', 'Par exemple, la publicité entre dans la presse dès 1836, et les tirages dépassent 9 millions d’exemplaires par jour au début du XXe siècle.'],
+        ['De plus, Internet libère l’information, mais facilite la désinformation.', 'En effet, chacun peut publier sans autorisation, mais aussi sans vérification.', 'Par exemple, Internet donne la parole à 5,5 milliards d’utilisateurs, mais il diffuse aussi des théories du complot.']]
+    ], [
+      'Ainsi, l’État protège ou menace l’information. Mais il n’est pas la seule force.',
+      'Ainsi, l’opinion publique pèse dans les deux sens. Il faut aussi tenir compte de l’argent et de la technique.'
+    ], [
+      'En conclusion, l’État, l’opinion publique, le marché et les techniques peuvent à la fois garantir et menacer la liberté de l’information. Tout dépend de l’équilibre entre ces forces et de la vigilance des citoyens.',
+      'Les grandes entreprises du numérique sont-elles devenues une nouvelle force qui pèse sur l’information ?'
+    ]) },
+
+  { id: 'lib-h', fam: 'pouvoir', sujet: 'h', type: 'Question fermée : plan dialectique', rep: 'Les médias peuvent jouer un rôle de contre-pouvoir quand ils sont libres, mais ils dépendent aussi de l’État, de leur public et de leurs ressources.',
+    analyse: { keys: ['médias d’information', '« quatrième pouvoir »', '?'], defs: [['quatrième pouvoir', 'Une expression qui désigne les médias, capables de surveiller les trois pouvoirs : exécutif, législatif, judiciaire.'], ['médias d’information', 'Presse, radio, télévision, Internet.']], bornes: 'De la fin du XIXe siècle à aujourd’hui.', type: 'Question fermée : oui / mais / dépassement.' },
+    diss: DS([
+      'Le 13 janvier 1898, Émile Zola accuse l’armée française dans le journal L’Aurore.',
+      'On appelle « quatrième pouvoir » les médias, quand ils surveillent les trois pouvoirs de l’État : exécutif, législatif et judiciaire.',
+      'Depuis la loi de 1881 sur la liberté de la presse, puis avec la radio, la télévision et Internet, les médias ont de plus en plus d’influence.',
+      'Les médias sont-ils un contre-pouvoir capable de surveiller l’État, ou dépendent-ils de l’État, de l’opinion et de l’argent ?',
+      'Nous verrons d’abord que les médias peuvent surveiller et contester le pouvoir. Puis nous montrerons qu’ils sont souvent dépendants. Enfin, nous verrons que ce pouvoir est partagé avec le public.'
+    ], [
+      ['Des médias capables de surveiller et de contester le pouvoir.',
+        ['Tout d’abord, une presse libre peut dénoncer une injustice d’État.', 'En effet, la liberté de la presse permet de critiquer l’armée, le gouvernement ou la justice.', 'Par exemple, dans « J’accuse… ! », Zola accuse des militaires d’avoir condamné Dreyfus, un innocent.'],
+        ['De plus, les journalistes peuvent révéler l’écart entre le discours officiel et la réalité.', 'En effet, sur le terrain, ils voient ce que le gouvernement ne dit pas.', 'Par exemple, pendant la guerre du Vietnam, les reportages après l’offensive du Têt (1968) révèlent le « credibility gap ».']],
+      ['Mais des médias souvent dépendants.',
+        ['Tout d’abord, les médias peuvent dépendre de l’État.', 'En effet, un pouvoir peut contrôler les médias ou leur imposer sa version.', 'Par exemple, Goebbels contrôle tous les médias de l’Allemagne nazie, et le JUSPAO oriente l’information pendant la guerre du Vietnam.'],
+        ['De plus, les médias dépendent de leur public et de l’argent.', 'En effet, un journal doit plaire à ses lecteurs et vivre de la publicité.', 'Par exemple, au début de l’affaire Dreyfus, la presse est presque entièrement antidreyfusarde, comme l’est une grande partie de ses lecteurs.']],
+      ['Un pouvoir partagé avec le public.',
+        ['Tout d’abord, l’opinion publique pèse sur les médias.', 'En effet, quand le public change d’avis, les médias changent aussi de ton.', 'Par exemple, des historiens montrent que l’opinion américaine a poussé les médias à devenir plus critiques sur le Vietnam.'],
+        ['De plus, avec Internet, chacun devient producteur d’information.', 'En effet, la transmission devient horizontale : les médias ne sont plus les seuls à informer.', 'Par exemple, sur les réseaux sociaux, un simple témoin peut révéler un fait, mais aussi diffuser une fausse information.']]
+    ], [
+      'Ainsi, les médias peuvent être un contre-pouvoir. Mais sont-ils vraiment indépendants ?',
+      'Ainsi, les médias dépendent souvent d’autres forces. Leur pouvoir est donc partagé.'
+    ], [
+      'En conclusion, les médias peuvent être un « quatrième pouvoir » quand ils sont libres et osent enquêter, mais ils dépendent souvent de l’État, de leur public et de l’argent. Aujourd’hui, ce pouvoir est partagé avec tous les citoyens.',
+      'À l’heure d’Internet, qui surveille ceux qui informent ?'
+    ]) },
+
+  { id: 'lib-w', fam: 'pouvoir', sujet: 'w', type: 'Question fermée : plan dialectique', rep: 'Les médias sont une arme de guerre pour les États, totalitaires comme démocratiques, mais une arme difficile à contrôler, qui peut se retourner contre eux.',
+    analyse: { keys: ['les médias', 'une arme', 'en temps de guerre'], defs: [['une arme', 'Un moyen de combattre l’ennemi ou de convaincre sa population.'], ['en temps de guerre', 'Pendant un conflit : ici la Seconde Guerre mondiale et la guerre du Vietnam.']], bornes: 'Le XXe siècle : Seconde Guerre mondiale (1939-1945) et guerre du Vietnam (1955-1975).', type: 'Question fermée : oui / mais / dépassement.' },
+    diss: DS([
+      'Le 18 juin 1940, le général de Gaulle appelle les Français à résister, non pas avec des fusils, mais au micro de la BBC.',
+      'Une arme est un moyen de combattre l’ennemi ou de convaincre sa propre population. Les médias sont la presse, la radio et la télévision.',
+      'Au XXe siècle, pendant la Seconde Guerre mondiale puis pendant la guerre du Vietnam, les médias de masse touchent des millions de personnes.',
+      'Les médias sont-ils un instrument que les États maîtrisent en temps de guerre, ou une arme qui peut se retourner contre eux ?',
+      'Nous verrons d’abord que les médias sont une arme de propagande. Puis nous montrerons que même les démocraties les utilisent en guerre. Enfin, nous verrons que c’est une arme difficile à contrôler.'
+    ], [
+      ['Les médias sont une arme de propagande.',
+        ['Tout d’abord, les régimes totalitaires utilisent la radio pour contrôler les esprits.', 'En effet, la radio touche des millions de personnes en même temps, même celles qui ne lisent pas.', 'Par exemple, Goebbels, ministre de la Propagande, contrôle tous les médias allemands ; en France occupée, Radio Paris diffuse la propagande de la collaboration.'],
+        ['De plus, la radio devient une arme de résistance.', 'En effet, elle traverse les frontières et peut donner de l’espoir aux populations occupées.', 'Par exemple, pendant la « guerre des ondes », Radio Londres s’oppose à Radio Paris, et de Gaulle lance son appel du 18 juin 1940 sur la BBC.']],
+      ['Même les démocraties utilisent les médias comme une arme.',
+        ['Tout d’abord, un gouvernement démocratique cherche à garder le soutien de son opinion.', 'En effet, une guerre lointaine doit être acceptée par la population qui envoie ses soldats.', 'Par exemple, pendant la guerre du Vietnam, les États-Unis créent le JUSPAO pour organiser la propagande.'],
+        ['De plus, la télévision sert à donner l’illusion de la victoire.', 'En effet, des chiffres répétés chaque soir rassurent le public.', 'Par exemple, les télévisions américaines annoncent chaque soir le « body count », le nombre d’ennemis tués.']],
+      ['Mais c’est une arme difficile à contrôler.',
+        ['Tout d’abord, les images peuvent révéler la réalité.', 'En effet, quand les images contredisent le discours officiel, le public perd confiance.', 'Par exemple, l’offensive du Têt (1968) révèle le « credibility gap », et la photo de Nick Ut (1972) choque le monde entier.'],
+        ['De plus, l’opinion peut se retourner contre la guerre.', 'En effet, dans une démocratie, les citoyens peuvent manifester et voter.', 'Par exemple, environ 6 Américains sur 10 soutiennent la guerre en 1965, moins de 3 sur 10 au début des années 1970 ; 500 000 personnes manifestent à Washington en 1969.']]
+    ], [
+      'Ainsi, les médias sont une arme redoutable. Les démocraties s’en servent-elles aussi ?',
+      'Ainsi, même les démocraties utilisent les médias en guerre. Mais cette arme leur obéit-elle toujours ?'
+    ], [
+      'En conclusion, les médias sont bien une arme en temps de guerre : les régimes totalitaires comme les démocraties s’en servent pour convaincre. Mais c’est une arme difficile à contrôler, qui peut se retourner contre ceux qui l’utilisent, comme au Vietnam.',
+      'Aujourd’hui, Internet et la désinformation font-ils de l’information une arme des guerres actuelles ?'
+    ]) },
+
+  /* ---------- Famille : médias et opinion ---------- */
+  { id: 'lib-op', fam: 'opinion', sujet: 'op', type: 'Plan dialectique en deux temps, puis dépassement', rep: 'Les médias suivent souvent l’opinion de leur public, mais ils peuvent la faire changer dans certains moments décisifs : médias et opinion s’influencent dans les deux sens.',
+    analyse: { keys: ['les médias', 'font', 'ou suivent', 'l’opinion publique', 'Dreyfus', 'Vietnam'], defs: [['opinion publique', 'Les idées et les valeurs partagées par une grande partie de la société.'], ['faire l’opinion', 'La créer, la transformer.']], bornes: 'L’affaire Dreyfus (1894-1906) en France ; la guerre du Vietnam (1964-1973) aux États-Unis.', type: 'Alternative (« ou ») : on étudie les deux réponses, puis on les dépasse.' },
+    diss: DS([
+      'En janvier 1898, un seul article d’Émile Zola fait basculer une partie de la France dans le camp de Dreyfus.',
+      'L’opinion publique désigne les idées et les valeurs partagées par une grande partie de la société. « Faire l’opinion », c’est la créer ou la transformer.',
+      'Deux exemples permettent de répondre : l’affaire Dreyfus en France (1894-1906) et la guerre du Vietnam aux États-Unis (1964-1973).',
+      'Les médias sont-ils capables de transformer l’opinion publique, ou ne font-ils que refléter ce que pense leur public ?',
+      'Nous verrons d’abord que les médias suivent souvent l’opinion de leur public. Puis nous montrerons que certains médias la font basculer. Enfin, nous verrons que médias et opinion s’influencent dans les deux sens.'
+    ], [
+      ['Les médias suivent souvent l’opinion de leur public.',
+        ['Tout d’abord, pendant l’affaire Dreyfus, la presse reflète les préjugés de ses lecteurs.', 'En effet, un journal veut plaire à ceux qui l’achètent, dans une société marquée par l’antisémitisme et le sentiment anti-allemand.', 'Par exemple, de 1894 à 1897, la presse est presque entièrement antidreyfusarde, comme La Libre Parole.'],
+        ['De plus, au début de la guerre du Vietnam, les télévisions relaient la version officielle.', 'En effet, au milieu des années 1960, la majorité des Américains soutient la guerre contre le communisme.', 'Par exemple, les télévisions annoncent chaque soir le « body count » fourni par l’armée et le JUSPAO.']],
+      ['Mais certains médias font basculer l’opinion.',
+        ['Tout d’abord, un article peut diviser tout un pays.', 'En effet, quand un écrivain célèbre s’engage, il pousse les lecteurs à se poser des questions.', 'Par exemple, le 13 janvier 1898, Zola publie « J’accuse… ! » dans L’Aurore : la France se divise entre dreyfusards et antidreyfusards.'],
+        ['De plus, les images de guerre peuvent révéler un mensonge officiel.', 'En effet, quand les images contredisent le discours du gouvernement, le public perd confiance.', 'Par exemple, l’offensive du Têt (1968) et la photo de Nick Ut (1972) révèlent le « credibility gap ».']],
+      ['En réalité, médias et opinion s’influencent dans les deux sens.',
+        ['Tout d’abord, l’opinion pousse aussi les médias à changer.', 'En effet, les médias dépendent de leur public : quand il doute, ils deviennent plus critiques.', 'Par exemple, des historiens montrent que c’est en partie l’opinion américaine qui a poussé les médias à changer de ton sur le Vietnam.'],
+        ['De plus, cette relation dépend du contexte.', 'En effet, elle varie selon la liberté de la presse, la guerre et le rôle des intellectuels.', 'Par exemple, sans la loi de 1881 sur la liberté de la presse, Zola n’aurait pas pu publier « J’accuse… ! ».']]
+    ], [
+      'Ainsi, les médias suivent souvent leur public. Pourtant, ils peuvent parfois le faire changer.',
+      'Ainsi, certains médias font basculer l’opinion. Mais l’influence va-t-elle dans un seul sens ?'
+    ], [
+      'En conclusion, les médias suivent souvent l’opinion de leur public, mais ils peuvent la faire basculer à des moments décisifs, comme en 1898 ou en 1968. En réalité, médias et opinion s’influencent dans les deux sens.',
+      'Avec les réseaux sociaux, qui fait l’opinion aujourd’hui : les médias ou les internautes eux-mêmes ?'
+    ]) },
+
+  { id: 'lib-dr', fam: 'opinion', sujet: 'dr', type: 'Question « Quel rôle » : plan chronologique et thématique, avec nuance', rep: 'La presse accuse d’abord Dreyfus, puis elle divise la France et contribue à le défendre ; mais son rôle doit être nuancé, car c’est la justice qui le réhabilite.',
+    analyse: { keys: ['quel rôle', 'la presse', 'l’affaire Dreyfus'], defs: [['l’affaire Dreyfus', 'Le procès et la condamnation injuste du capitaine Alfred Dreyfus, accusé d’espionnage (1894-1906).'], ['rôle', 'Ce que la presse fait, son influence.']], bornes: 'De 1894 (arrestation) à 1906 (réhabilitation) ; la France.', type: 'Question « Quel rôle ? » : on montre les différents rôles, puis on nuance.' },
+    diss: DS([
+      'Le 13 janvier 1898, le journal L’Aurore publie en première page « J’accuse… ! » d’Émile Zola.',
+      'L’affaire Dreyfus désigne la condamnation injuste du capitaine Alfred Dreyfus, officier juif accusé d’espionnage au profit de l’Allemagne.',
+      'De 1894 à 1906, elle divise la France, à un moment où la presse est libre depuis la loi de 1881 et tire à des millions d’exemplaires.',
+      'La presse a-t-elle seulement suivi l’affaire Dreyfus, ou l’a-t-elle transformée ?',
+      'Nous verrons d’abord que la presse accuse Dreyfus. Puis nous montrerons qu’elle fait basculer l’affaire en 1898. Enfin, nous nuancerons son rôle.'
+    ], [
+      ['De 1894 à 1897, une presse qui accuse.',
+        ['Tout d’abord, la presse est devenue un média de masse très puissant.', 'En effet, elle est libre et lue par des millions de Français, de plus en plus alphabétisés.', 'Par exemple, la loi du 29 juillet 1881 garantit la liberté de la presse, et au début du XXe siècle, plus de 9 millions de journaux sont vendus chaque jour.'],
+        ['De plus, cette presse est d’abord presque entièrement antidreyfusarde.', 'En effet, elle reflète l’antisémitisme et le sentiment anti-allemand d’une partie de la société depuis la défaite de 1871.', 'Par exemple, La Libre Parole, journal antisémite, révèle l’arrestation de Dreyfus en 1894 et l’accuse sans preuve.']],
+      ['En 1898, une presse qui fait basculer l’affaire.',
+        ['Tout d’abord, un article relance l’affaire.', 'En effet, Zola utilise la liberté de la presse pour dénoncer publiquement l’armée.', 'Par exemple, dans « J’accuse… ! », publié dans L’Aurore le 13 janvier 1898, Zola accuse des militaires d’avoir condamné un innocent.'],
+        ['De plus, la presse divise la France en deux camps.', 'En effet, chaque journal prend parti, et les lecteurs se rangent derrière eux.', 'Par exemple, la France se partage entre dreyfusards et antidreyfusards ; des intellectuels s’engagent et la Ligue des droits de l’homme est créée en 1898.']],
+      ['Un rôle à nuancer.',
+        ['Tout d’abord, la presse suit aussi l’opinion de ses lecteurs.', 'En effet, un journal a intérêt à dire ce que son public pense déjà.', 'Par exemple, beaucoup de journaux restent antidreyfusards jusqu’au bout, car leurs lecteurs le sont.'],
+        ['De plus, c’est la justice, et non la presse, qui réhabilite Dreyfus.', 'En effet, la presse peut alerter l’opinion, mais elle ne peut pas juger.', 'Par exemple, en 1899, Dreyfus est à nouveau condamné à Rennes, puis gracié ; il n’est réhabilité qu’en 1906.']]
+    ], [
+      'Ainsi, la presse commence par accuser Dreyfus. Pourtant, elle va aussi contribuer à le défendre.',
+      'Ainsi, la presse fait basculer l’affaire. Mais faut-il exagérer son rôle ?'
+    ], [
+      'En conclusion, la presse joue un rôle central dans l’affaire Dreyfus : elle l’accuse d’abord, puis elle divise la France et contribue à le défendre avec « J’accuse… ! ». Mais son rôle doit être nuancé, car elle suit aussi ses lecteurs, et c’est la justice qui réhabilite Dreyfus en 1906.',
+      'L’affaire Dreyfus marque-t-elle la naissance de l’intellectuel engagé dans les médias ?'
+    ]) }
+];
+
+/* =====================================================================
+   Bibliothèque des dissertations corrigées — Histoire 1814-1848
+   comp: true = utilise des connaissances absentes du cours de l’élève.
+   ===================================================================== */
+D_HIST.libFams = [
+  { id: 'ordre', t: 'L’ordre de 1815 et sa contestation', d: 'Sujets sur le congrès de Vienne, les alliances et le retour à l’ordre ancien.' },
+  { id: 'nations', t: 'Le mouvement des nationalités', d: 'Sujets sur les aspirations nationales : la Grèce, la Belgique, la Pologne, l’Italie.' },
+  { id: 'france', t: 'La France entre monarchie et révolution', d: 'Sujets sur la Charte de 1814, les monarchies constitutionnelles et le rôle de la France.' },
+  { id: 'revol', t: 'Les poussées révolutionnaires de 1830 et 1848', d: 'Sujets sur les révolutions de 1830 et 1848 et le Printemps des peuples.' }
+];
+D_HIST.weFam = { 'we-v': 'ordre', 'we-n': 'nations' };
+
+D_HIST.sujets.push(
+  { id: 'vi', q: 'Le congrès de Vienne (1815) réussit-il à construire un ordre européen durable ?', src: 'Sujet d’entraînement (point de passage : 1815, Metternich et le congrès de Vienne)', consigne: 'Vous étudierez l’ordre établi en 1815, sa stabilité et ses limites jusqu’en 1848.' },
+  { id: 'gr', q: 'Pourquoi l’indépendance grecque devient-elle une cause européenne (1821-1830) ?', src: 'Sujet d’entraînement (point de passage : 1822, le massacre de Chios)', consigne: 'Vous montrerez le rôle des insurgés, des artistes et des États.' },
+  { id: 'rf', q: 'Quel rôle joue la France dans l’Europe entre restauration et révolution (1814-1848) ?', src: 'Académie de Normandie (enjeu de la séquence)', consigne: 'Vous montrerez que la France est à la fois surveillée, actrice de l’ordre européen et foyer révolutionnaire.' },
+  { id: 'rv', q: 'Pourquoi la France connaît-elle des révolutions en 1830 et en 1848 ?', src: 'Sujet d’entraînement (point de passage : 1830, les Trois Glorieuses)', consigne: 'Vous expliquerez les causes politiques, idéologiques et sociales.' },
+  { id: 'pp', q: 'Le Printemps des peuples (1848) : succès ou échec ?', src: 'Sujet d’entraînement (à partir du programme)', consigne: 'Vous étudierez les espoirs, les échecs et les acquis des révolutions de 1848.' }
+);
+
+D_HIST.lib = [
+  /* ---------- Famille : l’ordre de 1815 ---------- */
+  { id: 'lib-eq', fam: 'ordre', sujet: 'eq', type: 'Question « Pourquoi » : plan thématique (l’ordre / ses failles / sa contestation)', rep: 'L’ordre de 1815 ignore les peuples et les idées libérales ; ces idées, diffusées par la Révolution, provoquent très vite des insurrections.',
+    analyse: { keys: ['pourquoi', 'équilibre européen', 'instauré en 1815', 'rapidement contesté'], defs: [['équilibre européen', 'L’organisation décidée à Vienne : aucune puissance ne domine, les rois retrouvent leur trône.'], ['contesté', 'Remis en cause, attaqué.']], bornes: 'De 1815 aux années 1820-1830 ; l’Europe.', type: 'Question « Pourquoi ? » : on cherche des causes.' },
+    diss: DS([
+      'De septembre 1814 à juin 1815, les vainqueurs de Napoléon se réunissent à Vienne autour du chancelier autrichien Metternich.',
+      'L’équilibre européen désigne l’organisation de l’Europe décidée à Vienne : aucune puissance ne doit dominer les autres, et les rois retrouvent leur trône. Être contesté, c’est être remis en cause.',
+      'Entre 1815 et 1830, cet ordre se heurte aux idées libérales et nationales diffusées par la Révolution française.',
+      'Pourquoi l’ordre conservateur décidé en 1815 ne parvient-il pas à arrêter les idées nées de la Révolution ?',
+      'Nous verrons d’abord qu’il s’agit d’un ordre conservateur imposé aux peuples. Puis nous montrerons qu’il nie leurs aspirations libérales et nationales. Enfin, nous verrons qu’il est contesté très rapidement.'
+    ], [
+      ['Un ordre conservateur imposé aux peuples.',
+        ['Tout d’abord, le congrès de Vienne redessine l’Europe au profit des rois.', 'En effet, les vainqueurs défendent la légitimité dynastique : le pouvoir revient aux familles royales, par héritage.', 'Par exemple, les diplomates réunis autour de Metternich remettent les rois sur leur trône, comme les Bourbons en France.'],
+        ['De plus, les rois s’allient pour défendre cet ordre.', 'En effet, ils veulent empêcher toute nouvelle révolution.', 'Par exemple, en 1815, l’Autriche, la Prusse et la Russie forment la Sainte-Alliance ; avec le Royaume-Uni, la Quadruple-Alliance surveille la France.']],
+      ['Un ordre qui nie les aspirations libérales et nationales.',
+        ['Tout d’abord, de nombreux peuples restent divisés ou dominés.', 'En effet, à Vienne, les frontières sont tracées sans consulter les peuples.', 'Par exemple, la Pologne est partagée, l’Italie est divisée et dominée par l’Autriche, et la Grèce reste une province de l’Empire ottoman.'],
+        ['De plus, les idées de la Révolution continuent à circuler.', 'En effet, les armées révolutionnaires puis napoléoniennes ont diffusé dans toute l’Europe l’égalité, la liberté et l’idée de nation.', 'Par exemple, les aspirations libérales réclament les droits de l’individu, et les aspirations nationales le droit des peuples à former leur État.']],
+      ['Une contestation rapide.',
+        ['Tout d’abord, des insurrections éclatent dès les années 1820.', 'En effet, des libéraux et des patriotes refusent l’ordre imposé à Vienne.', 'Par exemple, des insurrections éclatent dès 1820 en Espagne et en Italie ; en 1821, les Grecs se soulèvent et obtiennent leur indépendance en 1830.'],
+        ['De plus, en France, le roi le plus attaché à l’ordre ancien est renversé.', 'En effet, en voulant revenir à l’Ancien Régime, Charles X provoque une révolution.', 'Par exemple, en juillet 1830, ses ordonnances contre la liberté de la presse provoquent sa chute.']]
+    ], [
+      'Ainsi, les rois imposent un ordre conservateur. Mais cet ordre ignore ce que veulent les peuples.',
+      'Ainsi, l’ordre de Vienne nie les aspirations des peuples. Cela explique qu’il soit contesté très vite.'
+    ], [
+      'En conclusion, l’équilibre de 1815 est rapidement contesté parce qu’il est imposé par les rois et qu’il ignore les aspirations libérales et nationales nées de la Révolution. Dès les années 1820, et surtout en 1830, des peuples se soulèvent contre lui.',
+      'La vague révolutionnaire de 1848 va-t-elle faire tomber définitivement l’ordre de Vienne ?'
+    ]) },
+
+  { id: 'lib-vi', fam: 'ordre', sujet: 'vi', type: 'Question fermée : plan dialectique', rep: 'Le congrès de Vienne construit un ordre qui assure une certaine paix entre les grandes puissances, mais cet ordre ignore les peuples : il est contesté dès 1820 et s’effondre en 1848.',
+    analyse: { keys: ['congrès de Vienne', 'réussit-il', 'ordre européen', 'durable'], defs: [['ordre européen', 'L’organisation politique de l’Europe : frontières, régimes, alliances.'], ['durable', 'Qui dure longtemps.']], bornes: 'De 1815 à 1848 ; l’Europe.', type: 'Question fermée : oui / mais.' },
+    diss: DS([
+      'Le 13 mars 1848, Metternich, l’homme du congrès de Vienne, doit fuir Vienne en révolution.',
+      'Un ordre européen est l’organisation politique de l’Europe : ses frontières, ses régimes et ses alliances. Il est durable s’il dure longtemps sans être renversé.',
+      'Réuni de septembre 1814 à juin 1815, le congrès de Vienne veut réorganiser l’Europe après la chute de Napoléon.',
+      'L’ordre construit à Vienne en 1815 parvient-il à garantir la paix et la stabilité de l’Europe jusqu’en 1848 ?',
+      'Nous verrons d’abord que le congrès de Vienne construit un ordre pensé pour durer. Puis nous montrerons que cet ordre assure une certaine stabilité. Enfin, nous verrons qu’il reste fragile et finit par s’effondrer.'
+    ], [
+      ['Un ordre construit pour durer.',
+        ['Tout d’abord, le congrès de Vienne réorganise toute l’Europe.', 'En effet, les vainqueurs de Napoléon veulent effacer la domination française et rendre le pouvoir aux rois.', 'Par exemple, autour de Metternich, les diplomates redessinent les frontières et remettent les monarques sur leur trône, au nom de la légitimité dynastique.'],
+        ['De plus, les grandes puissances créent un système pour préserver la paix.', 'En effet, elles décident de se réunir pour régler leurs conflits et de s’allier contre les révolutions.', 'Par exemple, le concert européen naît à Vienne ; en 1815, la Sainte-Alliance et la Quadruple-Alliance doivent faire respecter cet ordre.']],
+      ['Un ordre qui assure une certaine stabilité.',
+        ['Tout d’abord, les grandes puissances évitent une grande guerre européenne.', 'En effet, l’équilibre entre elles empêche l’une de dominer les autres.', 'Par exemple, entre 1815 et 1848, aucune guerre générale n’oppose les grandes puissances européennes.'],
+        ['De plus, les alliances répriment les révolutions.', 'En effet, les rois s’entraident pour écraser les révoltes libérales et nationales.', 'Par exemple, dans les années 1820, les insurrections d’Italie et d’Espagne sont écrasées, en Espagne par une armée française en 1823.']],
+      ['Mais un ordre fragile, contesté puis brisé.',
+        ['Tout d’abord, la carte de Vienne change dès 1830.', 'En effet, des peuples obtiennent leur indépendance malgré les décisions de 1815.', 'Par exemple, la Grèce devient indépendante en 1830, et la Belgique se sépare des Pays-Bas en 1830-1831.'],
+        ['De plus, en 1848, l’ordre de Vienne s’effondre.', 'En effet, une vague de révolutions libérales et nationales touche toute l’Europe.', 'Par exemple, pendant le Printemps des peuples, Metternich, symbole de l’ordre de Vienne, doit fuir Vienne le 13 mars 1848.']]
+    ], [
+      'Ainsi, le congrès de Vienne construit un ordre pensé pour durer. Réussit-il à maintenir la paix ?',
+      'Ainsi, l’ordre de Vienne assure une certaine stabilité. Pourtant, il ne satisfait pas les peuples.'
+    ], [
+      'En conclusion, le congrès de Vienne construit un ordre qui évite une grande guerre européenne pendant plus de trente ans. Mais cet ordre, imposé par les rois, ignore les peuples : il est contesté dès les années 1820 et s’effondre en 1848.',
+      'Le principe du concert européen, se réunir pour éviter la guerre, a-t-il inspiré l’Europe d’aujourd’hui ?'
+    ]), comp: true },
+
+  /* ---------- Famille : le mouvement des nationalités ---------- */
+  { id: 'lib-mn', fam: 'nations', sujet: 'mn', type: 'Question « succès ou échec » : plan dialectique', rep: 'Le mouvement des nationalités obtient quelques succès (Grèce, Belgique), mais échoue le plus souvent ; il affaiblit pourtant durablement l’ordre de Vienne.',
+    analyse: { keys: ['mouvement des nationalités', 'succès', 'échec', '1815-1848'], defs: [['mouvement des nationalités', 'Les luttes des peuples sans État pour former leur propre nation.'], ['succès ou échec', 'On doit peser les deux, puis conclure.']], bornes: 'De 1815 à 1848 ; l’Europe.', type: 'Alternative « succès ou échec ? » : on étudie les deux, puis on dépasse.' },
+    diss: DS([
+      'En 1830, la Grèce devient indépendante ; un an plus tard, la Pologne est écrasée par l’armée russe.',
+      'Le mouvement des nationalités désigne les luttes des peuples sans État, qui veulent être reconnus comme nations souveraines.',
+      'Entre 1815 et 1848, ce mouvement s’oppose à l’ordre de Vienne, qui a redessiné l’Europe sans consulter les peuples.',
+      'Les peuples d’Europe parviennent-ils à faire reconnaître leur nation face à l’ordre des rois ?',
+      'Nous verrons d’abord que le mouvement des nationalités obtient de réels succès. Puis nous montrerons qu’il connaît de nombreux échecs. Enfin, nous verrons qu’il transforme pourtant l’Europe.'
+    ], [
+      ['Des succès réels.',
+        ['Tout d’abord, la Grèce obtient son indépendance.', 'En effet, les Grecs, soulevés contre l’Empire ottoman, reçoivent le soutien des opinions et des grandes puissances.', 'Par exemple, après le massacre de Chios (1822) et la victoire de Navarin (1827), la Grèce devient indépendante en 1830.'],
+        ['De plus, la Belgique devient un nouvel État.', 'En effet, la révolution de 1830 à Paris encourage d’autres peuples à se soulever.', 'Par exemple, en 1830, les Belges se soulèvent contre les Pays-Bas et obtiennent leur indépendance, reconnue en 1831.']],
+      ['Mais des échecs nombreux.',
+        ['Tout d’abord, la plupart des insurrections sont écrasées.', 'En effet, les grandes monarchies s’entraident pour défendre l’ordre de Vienne.', 'Par exemple, les insurrections italiennes des années 1820 sont réprimées, et la Pologne, soulevée en 1830, est écrasée par la Russie en 1831.'],
+        ['De plus, le Printemps des peuples échoue.', 'En effet, après les révolutions de 1848, les rois reprennent le contrôle grâce à leurs armées.', 'Par exemple, en 1849, la révolution hongroise est écrasée, et l’Allemagne n’est pas unifiée.']],
+      ['Un mouvement qui transforme pourtant l’Europe.',
+        ['Tout d’abord, l’idée de nation se diffuse partout.', 'En effet, des patriotes, des écrivains et des artistes la défendent.', 'Par exemple, l’Italien Mazzini fonde la Jeune Italie en 1831, puis la Jeune Europe en 1834.'],
+        ['De plus, l’ordre de Vienne ne peut plus être maintenu comme avant.', 'En effet, les révolutions de 1848 montrent que les rois ne peuvent plus ignorer les peuples.', 'Par exemple, le 13 mars 1848, Metternich, symbole de l’ordre de Vienne, doit fuir.']]
+    ], [
+      'Ainsi, quelques peuples obtiennent leur État. Mais ces succès sont rares.',
+      'Ainsi, le mouvement des nationalités échoue souvent. Pourtant, il change durablement l’Europe.'
+    ], [
+      'En conclusion, le mouvement des nationalités n’est ni un vrai succès ni un simple échec : il obtient deux nations nouvelles, la Grèce et la Belgique, mais échoue le plus souvent. Il affaiblit pourtant durablement l’ordre des rois.',
+      'Les unités italienne et allemande, dans la seconde moitié du XIXe siècle, sont-elles l’héritage de ce mouvement ?'
+    ]), comp: true },
+
+  { id: 'lib-gr', fam: 'nations', sujet: 'gr', type: 'Question « Pourquoi » : plan thématique', rep: 'L’indépendance grecque devient une cause européenne parce qu’une insurrection nationale, durement réprimée, émeut les opinions, puis entraîne l’intervention des grandes puissances.',
+    analyse: { keys: ['pourquoi', 'indépendance grecque', 'cause européenne', '1821-1830'], defs: [['cause européenne', 'Un combat soutenu dans toute l’Europe, par les opinions et par les États.'], ['indépendance', 'Le fait de devenir un État libre, qui ne dépend plus d’un autre.']], bornes: 'De 1821 (soulèvement) à 1830 (indépendance) ; la Grèce et l’Europe.', type: 'Question « Pourquoi ? » : on cherche des causes, classées par thèmes.' },
+    diss: DS([
+      'En 1824, au Salon de Paris, Eugène Delacroix expose les Scènes des massacres de Scio.',
+      'Une cause européenne est un combat soutenu dans toute l’Europe, par les opinions comme par les États. L’indépendance est le fait de devenir un État libre.',
+      'De 1821 à 1830, les Grecs luttent contre l’Empire ottoman, dans une Europe dominée par l’ordre de Vienne, hostile aux révolutions.',
+      'Comment une révolte nationale dans l’Empire ottoman parvient-elle à mobiliser toute l’Europe, alors que les rois combattent les révolutions ?',
+      'Nous verrons d’abord qu’il s’agit d’une insurrection nationale durement réprimée. Puis nous montrerons qu’elle mobilise les opinions européennes. Enfin, nous verrons qu’elle entraîne l’intervention des États.'
+    ], [
+      ['Une insurrection nationale durement réprimée.',
+        ['Tout d’abord, les Grecs se soulèvent pour former leur nation.', 'En effet, influencés par les idées libérales et nationales de la Révolution française, ils refusent la domination ottomane.', 'Par exemple, au début du XIXe siècle, la Grèce est une province de l’Empire ottoman ; les Grecs se soulèvent en 1821.'],
+        ['De plus, la répression ottomane est terrible.', 'En effet, l’Empire ottoman veut écraser la révolte par la terreur.', 'Par exemple, en 1822, les troupes ottomanes massacrent la population de l’île de Chios.']],
+      ['Une cause qui mobilise les opinions européennes.',
+        ['Tout d’abord, les artistes s’engagent pour les Grecs.', 'En effet, ils veulent émouvoir le public et pousser les gouvernements à agir.', 'Par exemple, Delacroix peint les Scènes des massacres de Scio en 1824, et Victor Hugo écrit le poème « L’Enfant », publié en 1829.'],
+        ['De plus, des Européens soutiennent directement les insurgés.', 'En effet, la Grèce est vue comme le berceau de la civilisation européenne : c’est le philhellénisme.', 'Par exemple, des comités philhellènes collectent de l’argent, et le poète anglais Byron meurt en Grèce en 1824.']],
+      ['Une cause qui entraîne l’intervention des États.',
+        ['Tout d’abord, les grandes puissances interviennent militairement.', 'En effet, les Grecs luttent contre un empire musulman, et les puissances ont des intérêts en Méditerranée.', 'Par exemple, en 1827, les flottes française, britannique et russe détruisent la flotte ottomane à Navarin.'],
+        ['De plus, cette intervention aboutit à l’indépendance.', 'En effet, vaincu, le sultan doit négocier.', 'Par exemple, par le traité d’Andrinople (14 septembre 1829), le sultan Mahmoud II reconnaît la Grèce, qui devient indépendante en 1830.']]
+    ], [
+      'Ainsi, les Grecs se soulèvent et sont durement réprimés. Ce drame émeut toute l’Europe.',
+      'Ainsi, l’opinion européenne se mobilise. Les États vont alors intervenir.'
+    ], [
+      'En conclusion, l’indépendance grecque devient une cause européenne parce qu’une insurrection nationale, durement réprimée à Chios, émeut les artistes et les opinions, puis pousse la France, le Royaume-Uni et la Russie à intervenir. C’est une exception dans l’Europe des rois.',
+      'Pourquoi les autres peuples, comme les Polonais en 1831, ne reçoivent-ils pas le même soutien ?'
+    ]), comp: true },
+
+  /* ---------- Famille : la France entre monarchie et révolution ---------- */
+  { id: 'lib-ch', fam: 'france', sujet: 'ch', type: 'Question « Dans quelle mesure » : plan analytique, puis bilan', rep: 'La Charte rend au roi une grande autorité, mais elle garde l’essentiel des acquis révolutionnaires : c’est un compromis, fragile.',
+    analyse: { keys: ['dans quelle mesure', 'Charte de 1814', 'compromis', 'restauration de l’ordre ancien', 'acquis révolutionnaires'], defs: [['compromis', 'Un accord où chacun garde une partie de ce qu’il veut.'], ['acquis révolutionnaires', 'Les droits gagnés depuis 1789.']], bornes: 'De 1814 (la Charte) à 1830 (chute de Charles X) ; la France.', type: '« Dans quelle mesure » : on montre les deux côtés, puis on évalue.' },
+    diss: DS([
+      'Le 4 juin 1814, Louis XVIII octroie une constitution aux Français : la Charte.',
+      'Un compromis est un accord dans lequel chacun garde une partie de ce qu’il veut. Les acquis révolutionnaires sont les droits gagnés depuis 1789.',
+      'Après la chute de Napoléon, le roi doit gouverner un pays marqué par vingt-cinq ans de Révolution et d’Empire.',
+      'La Charte de 1814 rétablit-elle la monarchie d’avant 1789, ou conserve-t-elle l’héritage de la Révolution ?',
+      'Nous verrons d’abord qu’elle restaure l’autorité royale. Puis nous montrerons qu’elle maintient des acquis révolutionnaires. Enfin, nous verrons que ce compromis reste fragile.'
+    ], [
+      ['Une restauration de l’autorité royale.',
+        ['Tout d’abord, la Charte rend au roi l’essentiel du pouvoir.', 'En effet, elle n’est pas votée par le peuple : le roi l’« octroie », c’est-à-dire qu’il l’accorde par sa seule volonté.', 'Par exemple, l’article 13 affirme que « la personne du roi est inviolable et sacrée », et l’article 14 lui permet de gouverner par ordonnances.'],
+        ['De plus, la monarchie retrouve ses symboles d’Ancien Régime.', 'En effet, Louis XVIII veut montrer que la Révolution est terminée.', 'Par exemple, le drapeau blanc remplace le drapeau tricolore, La Marseillaise est interdite, et la religion catholique redevient religion de l’État.']],
+      ['Le maintien des acquis révolutionnaires.',
+        ['Tout d’abord, la Charte garde l’égalité civile gagnée en 1789.', 'En effet, Louis XVIII sait que les Français ne veulent pas revenir aux privilèges.', 'Par exemple, l’article 1 affirme que « les Français sont égaux devant la loi », et le Code civil est conservé.'],
+        ['De plus, la Charte garantit des libertés et une Chambre élue.', 'En effet, le roi doit partager le pouvoir de faire les lois.', 'Par exemple, la liberté de la presse est reconnue, et une Chambre des députés est élue, même si seuls les hommes riches votent (suffrage censitaire).']],
+      ['Un compromis fragile.',
+        ['Tout d’abord, Louis XVIII veut réconcilier les Français.', 'En effet, il cherche à satisfaire à la fois les monarchistes et les anciens révolutionnaires.', 'Par exemple, il garde des acquis de la Révolution tout en rétablissant la dynastie des Bourbons.'],
+        ['Cependant, Charles X rompt cet équilibre.', 'En effet, il veut renouer avec l’Ancien Régime et l’absolutisme.', 'Par exemple, il se fait sacrer à Reims en 1825 ; en juillet 1830, ses ordonnances contre la liberté de la presse provoquent sa chute.']]
+    ], [
+      'Ainsi, la Charte restaure l’autorité du roi. Pourtant, elle ne revient pas à l’Ancien Régime.',
+      'Ainsi, la Charte conserve des acquis révolutionnaires. Mais ce compromis peut-il durer ?'
+    ], [
+      'En conclusion, la Charte de 1814 est bien un compromis : elle rend au roi une grande autorité, mais elle maintient l’égalité devant la loi et des libertés héritées de la Révolution. Ce compromis reste fragile, comme le montre la chute de Charles X en 1830.',
+      'La Charte révisée de 1830, sous Louis-Philippe, trouve-t-elle un meilleur équilibre ?'
+    ]) },
+
+  { id: 'lib-fr', fam: 'france', sujet: 'fr', type: 'Question « Comment » : plan chronologique', rep: 'Les monarchies constitutionnelles cherchent un compromis entre roi et libertés, mais elles échouent quand elles refusent de partager davantage le pouvoir (1830, 1848).',
+    analyse: { keys: ['comment', 'concilier', 'monarchie', 'héritage révolutionnaire', '1814-1848'], defs: [['concilier', 'Faire tenir ensemble deux choses qui s’opposent.'], ['héritage révolutionnaire', 'Les idées et les droits issus de 1789 : égalité, libertés, souveraineté nationale.']], bornes: 'De 1814 (Charte) à 1848 (révolution de février) ; la France.', type: 'Question « Comment ? » sur une période : plan chronologique, une partie par règne.' },
+    diss: DS([
+      'En 1814, Louis XVIII revient sur le trône ; en 1848, le dernier roi des Français, Louis-Philippe, est renversé.',
+      'Concilier, c’est faire tenir ensemble deux choses qui s’opposent. L’héritage révolutionnaire désigne les droits issus de 1789 : égalité, libertés, souveraineté nationale.',
+      'Entre 1814 et 1848, la France connaît deux monarchies constitutionnelles : la Restauration, puis la monarchie de Juillet.',
+      'Comment les rois de France essaient-ils de faire accepter la monarchie à un pays marqué par la Révolution, et pourquoi échouent-ils ?',
+      'Nous verrons d’abord le compromis de Louis XVIII. Puis nous montrerons que Charles X rompt ce compromis. Enfin, nous verrons que la monarchie de Juillet tente un nouveau compromis, qui échoue.'
+    ], [
+      ['1814-1824 : Louis XVIII et le compromis de la Charte.',
+        ['Tout d’abord, Louis XVIII accepte une constitution.', 'En effet, il veut réconcilier les monarchistes et les anciens révolutionnaires.', 'Par exemple, la Charte de 1814 garde l’égalité devant la loi (article 1) tout en affirmant que le roi est « inviolable et sacré » (article 13).'],
+        ['Cependant, le pouvoir reste réservé à une petite élite.', 'En effet, le vote dépend de la richesse.', 'Par exemple, avec le suffrage censitaire, moins de 100 000 Français peuvent voter.']],
+      ['1824-1830 : Charles X rompt le compromis.',
+        ['Tout d’abord, Charles X veut revenir à l’Ancien Régime.', 'En effet, il défend une monarchie de droit divin, favorable aux nobles et à l’Église.', 'Par exemple, il se fait sacrer à Reims en 1825, comme les rois d’avant 1789.'],
+        ['De plus, sa politique autoritaire provoque une révolution.', 'En effet, il s’attaque aux libertés garanties par la Charte.', 'Par exemple, ses ordonnances de juillet 1830 suppriment la liberté de la presse ; les Parisiens se soulèvent les 27, 28 et 29 juillet : ce sont les Trois Glorieuses.']],
+      ['1830-1848 : la monarchie de Juillet, un nouveau compromis qui échoue.',
+        ['Tout d’abord, Louis-Philippe affiche son attachement à la Révolution.', 'En effet, il veut un roi accepté par la nation, et non imposé par Dieu.', 'Par exemple, il devient « roi des Français », rétablit le drapeau tricolore et révise la Charte.'],
+        ['Cependant, il refuse d’élargir le droit de vote.', 'En effet, il gouverne avec la bourgeoisie et craint les républicains.', 'Par exemple, seuls environ 240 000 hommes votent ; en février 1848, une révolution le renverse et proclame la IIe République.']]
+    ], [
+      'Ainsi, Louis XVIII trouve un compromis. Mais son successeur va le remettre en cause.',
+      'Ainsi, Charles X est renversé en 1830. Le nouveau roi doit trouver un autre équilibre.'
+    ], [
+      'En conclusion, les rois de France cherchent entre 1814 et 1848 à concilier monarchie et héritage révolutionnaire, par des chartes et des symboles. Mais ils échouent dès qu’ils refusent de partager davantage le pouvoir : en 1830, puis en 1848.',
+      'La IIe République, avec le suffrage universel masculin, va-t-elle réussir là où les rois ont échoué ?'
+    ]), comp: true },
+
+  { id: 'lib-rf', fam: 'france', sujet: 'rf', type: 'Question « Quel rôle » : plan thématique et chronologique', rep: 'La France est d’abord une puissance vaincue et surveillée, puis une actrice de l’ordre européen, mais surtout un foyer révolutionnaire pour l’Europe, en 1830 et en 1848.',
+    analyse: { keys: ['quel rôle', 'la France', 'Europe', 'entre restauration et révolution', '1814-1848'], defs: [['rôle', 'Ce que la France fait et son influence sur l’Europe.'], ['restauration et révolution', 'Le retour des rois et les soulèvements contre eux.']], bornes: 'De 1814 à 1848 ; la France dans l’Europe.', type: 'Question « Quel rôle ? » : on montre plusieurs rôles différents.' },
+    diss: DS([
+      'En 1815, la France vaincue est surveillée par toute l’Europe ; en 1848, sa révolution de février déclenche le Printemps des peuples.',
+      'Le rôle de la France, c’est ce qu’elle fait et son influence sur l’Europe. Restauration et révolution désignent le retour des rois et les soulèvements contre eux.',
+      'Entre 1814 et 1848, l’Europe des rois cherche à effacer la Révolution française, née en France.',
+      'La France est-elle un pays surveillé, un défenseur de l’ordre européen, ou le moteur des révolutions en Europe ?',
+      'Nous verrons d’abord que la France est une puissance vaincue et surveillée. Puis nous montrerons qu’elle participe à l’ordre européen. Enfin, nous verrons qu’elle reste un foyer révolutionnaire pour l’Europe.'
+    ], [
+      ['Une puissance vaincue et surveillée.',
+        ['Tout d’abord, la France perd sa domination sur l’Europe.', 'En effet, Napoléon est vaincu et les puissances victorieuses réorganisent le continent sans elle.', 'Par exemple, au congrès de Vienne (1814-1815), les vainqueurs effacent les traces de la domination française et rétablissent les Bourbons.'],
+        ['De plus, la France est surveillée par ses anciens ennemis.', 'En effet, les puissances craignent qu’elle ne redevienne révolutionnaire et conquérante.', 'Par exemple, en 1815, la Quadruple-Alliance (Royaume-Uni, Autriche, Prusse, Russie) doit empêcher la France de redevenir une menace.']],
+      ['Une puissance qui participe à l’ordre européen.',
+        ['Tout d’abord, la France monarchique aide à réprimer des révolutions.', 'En effet, les Bourbons partagent les idées des autres rois.', 'Par exemple, en 1823, une armée française rétablit le pouvoir absolu du roi d’Espagne.'],
+        ['De plus, la France intervient en faveur de la Grèce.', 'En effet, elle retrouve un rôle de grande puissance et son opinion soutient les Grecs.', 'Par exemple, en 1827, la flotte française combat avec les flottes britannique et russe à Navarin.']],
+      ['Un foyer révolutionnaire pour l’Europe.',
+        ['Tout d’abord, la révolution de 1830 se diffuse en Europe.', 'En effet, la chute d’un roi à Paris donne de l’espoir aux libéraux et aux patriotes.', 'Par exemple, après les Trois Glorieuses (27-29 juillet 1830), la Belgique obtient son indépendance et la Pologne se soulève.'],
+        ['De plus, la révolution de 1848 déclenche le Printemps des peuples.', 'En effet, la proclamation de la République en France encourage les peuples à réclamer libertés et nations.', 'Par exemple, après la révolution de février 1848 à Paris, Vienne se soulève le 13 mars et Metternich s’enfuit.']]
+    ], [
+      'Ainsi, la France est d’abord surveillée. Mais elle redevient vite une grande puissance.',
+      'Ainsi, la France participe à l’ordre européen. Pourtant, elle reste le pays de la Révolution.'
+    ], [
+      'En conclusion, la France joue un rôle ambigu entre 1814 et 1848 : puissance vaincue et surveillée, elle participe à l’ordre européen, mais elle reste surtout le foyer des révolutions qui ébranlent l’Europe en 1830 et en 1848.',
+      'Sous Napoléon III, la France va-t-elle soutenir le mouvement des nationalités, en Italie notamment ?'
+    ]), comp: true },
+
+  /* ---------- Famille : 1830 et 1848 ---------- */
+  { id: 'lib-rv', fam: 'revol', sujet: 'rv', type: 'Question « Pourquoi » : plan thématique (causes politiques, idéologiques, sociales)', rep: 'La France connaît des révolutions en 1830 et 1848 parce que ses rois refusent de partager le pouvoir, face à des aspirations libérales et républicaines fortes et à des tensions sociales.',
+    analyse: { keys: ['pourquoi', 'la France', 'révolutions', '1830', '1848'], defs: [['révolution', 'Un changement brutal de régime, souvent par un soulèvement du peuple.'], ['1830 et 1848', 'Les Trois Glorieuses (juillet 1830) et la révolution de février 1848.']], bornes: 'De 1814 à 1848 ; la France, surtout Paris.', type: 'Question « Pourquoi ? » : on classe les causes par thèmes.' },
+    diss: DS([
+      'Les 27, 28 et 29 juillet 1830, les Parisiens dressent des barricades ; en février 1848, ils recommencent.',
+      'Une révolution est un changement brutal de régime politique, souvent provoqué par un soulèvement du peuple.',
+      'En 1830, la révolution renverse Charles X ; en 1848, elle renverse Louis-Philippe et proclame la IIe République.',
+      'Pourquoi les monarchies constitutionnelles françaises sont-elles renversées par deux révolutions, en 1830 puis en 1848 ?',
+      'Nous verrons d’abord que les rois refusent de partager le pouvoir. Puis nous montrerons que les aspirations libérales et républicaines restent fortes. Enfin, nous verrons le rôle des tensions sociales.'
+    ], [
+      ['Des rois qui refusent de partager le pouvoir.',
+        ['Tout d’abord, le droit de vote reste réservé aux plus riches.', 'En effet, le suffrage censitaire exclut la très grande majorité des Français de la vie politique.', 'Par exemple, moins de 100 000 hommes votent sous la Restauration, et seulement environ 240 000 sous la monarchie de Juillet.'],
+        ['De plus, les rois refusent les réformes demandées.', 'En effet, ils préfèrent l’autorité à la négociation.', 'Par exemple, en juillet 1830, Charles X suspend la liberté de la presse par ordonnances ; en février 1848, le gouvernement de Louis-Philippe interdit un banquet réformiste, ce qui déclenche l’insurrection.']],
+      ['Des aspirations libérales et républicaines fortes.',
+        ['Tout d’abord, les Français restent attachés aux acquis de la Révolution.', 'En effet, beaucoup refusent le retour de l’Ancien Régime et défendent les libertés.', 'Par exemple, les journalistes et les étudiants parisiens sont parmi les premiers à protester contre les ordonnances de 1830.'],
+        ['De plus, les républicains réclament le suffrage universel.', 'En effet, pour eux, la souveraineté appartient à la nation entière.', 'Par exemple, en 1847-1848, la campagne des banquets réclame l’élargissement du droit de vote ; la IIe République établit le suffrage universel masculin en mars 1848.']],
+      ['Des tensions sociales.',
+        ['Tout d’abord, la misère ouvrière nourrit la colère.', 'En effet, avec les débuts de l’industrie, les ouvriers travaillent beaucoup pour des salaires très bas.', 'Par exemple, les canuts, ouvriers de la soie de Lyon, se révoltent en 1831 et en 1834.'],
+        ['De plus, une crise économique précède la révolution de 1848.', 'En effet, quand le pain devient cher et le travail rare, le mécontentement grandit.', 'Par exemple, en 1846-1847, de mauvaises récoltes et une crise industrielle touchent la France.']]
+    ], [
+      'Ainsi, les rois refusent de partager le pouvoir. Face à eux, de nombreux Français réclament davantage de libertés.',
+      'Ainsi, les aspirations politiques restent fortes. Les difficultés sociales les rendent explosives.'
+    ], [
+      'En conclusion, la France connaît des révolutions en 1830 et en 1848 parce que ses rois refusent de partager le pouvoir, face à des Français attachés aux libertés et à la République, dans un contexte de misère ouvrière et de crise économique.',
+      'Pourquoi la révolution de 1848 se diffuse-t-elle, cette fois, à toute l’Europe ?'
+    ]), comp: true },
+
+  { id: 'lib-pp', fam: 'revol', sujet: 'pp', type: 'Question « succès ou échec » : plan dialectique', rep: 'Le Printemps des peuples suscite un immense espoir mais échoue à court terme ; il laisse pourtant des acquis durables et met fin à l’ordre de Vienne.',
+    analyse: { keys: ['Printemps des peuples', '1848', 'succès', 'échec'], defs: [['Printemps des peuples', 'La vague de révolutions libérales et nationales qui touche l’Europe en 1848.'], ['succès ou échec', 'On pèse les résultats à court terme et à long terme.']], bornes: '1848-1849 ; l’Europe (France, empire d’Autriche, États allemands et italiens).', type: 'Alternative « succès ou échec ? » : on étudie les deux, puis on dépasse.' },
+    diss: DS([
+      'Le 13 mars 1848, le chancelier Metternich, symbole de l’Europe des rois depuis 1815, doit fuir Vienne.',
+      'Le Printemps des peuples désigne la vague de révolutions libérales et nationales qui touche l’Europe en 1848.',
+      'Partie de Paris en février 1848, cette vague touche l’empire d’Autriche, les États allemands et italiens, puis elle est réprimée en 1849.',
+      'Les révolutions de 1848 permettent-elles aux peuples d’obtenir leurs libertés et leurs nations ?',
+      'Nous verrons d’abord que le Printemps des peuples suscite un immense espoir. Puis nous montrerons qu’il échoue à court terme. Enfin, nous verrons qu’il laisse pourtant des acquis durables.'
+    ], [
+      ['Un immense espoir.',
+        ['Tout d’abord, la révolution se diffuse très vite dans toute l’Europe.', 'En effet, la révolution de février à Paris montre qu’un roi peut être renversé.', 'Par exemple, après Paris, des révolutions éclatent en mars 1848 à Vienne, Berlin, Milan, Venise, Budapest et Prague.'],
+        ['De plus, les peuples réclament des libertés et des nations.', 'En effet, les aspirations libérales et nationales, réprimées depuis 1815, s’expriment enfin.', 'Par exemple, un parlement se réunit à Francfort en mai 1848 pour unifier l’Allemagne, et les Hongrois réclament leur autonomie.']],
+      ['Un échec à court terme.',
+        ['Tout d’abord, les rois reprennent le contrôle.', 'En effet, les armées restent fidèles aux monarques, et les révolutionnaires se divisent.', 'Par exemple, en 1849, l’Autriche, aidée par la Russie, écrase la révolution hongroise, et le parlement de Francfort échoue.'],
+        ['De plus, même en France, la révolution recule.', 'En effet, les ouvriers déçus se révoltent, et les électeurs choisissent l’ordre.', 'Par exemple, en juin 1848, une révolte ouvrière est écrasée à Paris ; en décembre, Louis-Napoléon Bonaparte est élu président.']],
+      ['Mais des acquis durables.',
+        ['Tout d’abord, l’ordre de Vienne est fini.', 'En effet, les rois ne peuvent plus ignorer complètement les peuples.', 'Par exemple, Metternich ne revient pas au pouvoir, le servage est aboli dans l’empire d’Autriche, et le Piémont garde sa constitution.'],
+        ['De plus, la France obtient des droits essentiels.', 'En effet, la IIe République applique des idées de la Révolution française.', 'Par exemple, le suffrage universel masculin est établi en mars 1848, et l’esclavage est aboli le 27 avril 1848, grâce à Victor Schœlcher.']]
+    ], [
+      'Ainsi, 1848 fait naître un immense espoir. Mais cet espoir est vite déçu.',
+      'Ainsi, les révolutions échouent à court terme. Pourtant, elles laissent des traces.'
+    ], [
+      'En conclusion, le Printemps des peuples est un échec à court terme, puisque les rois reprennent le pouvoir en 1849. Mais il met fin à l’ordre de Vienne et laisse des acquis durables, comme le suffrage universel masculin et l’abolition de l’esclavage en France.',
+      'Les nations italienne et allemande, unifiées plus tard au XIXe siècle, sont-elles les héritières de 1848 ?'
+    ]), comp: true }
+];
+
 /* ---------- Données communes : pièces de la dissertation, grilles, méthode ---------- */
 const MATS = { hggsp: D_HGGSP, hist: D_HIST };
 
@@ -1203,6 +1759,16 @@ const WE_WHY = {
   trans: ['Comment passer à la partie suivante ?', 'La transition fait le bilan de la partie qui se termine et annonce la suivante. Le raisonnement avance.'],
   concl: ['Quelle réponse finale, et quelle ouverture ?', 'Le bilan répond clairement à la problématique. L’ouverture élargit vers une autre question.']
 };
+
+/* ---------- Bibliothèque : tous les corrigés, classés par famille ---------- */
+const stripConn = s => { const t = String(s).replace(/^(Tout d’abord|De plus|Cependant|Mais|Enfin|Pourtant|Ensuite), /, ''); return t.charAt(0).toUpperCase() + t.slice(1); };
+Object.values(MATS).forEach(D => {
+  const fromWe = D.we.map(w => ({ id: w.id, fam: D.weFam[w.id], sujet: w.sujet, analyse: w.analyse, diss: w.diss, we: true, type: D.plans[w.sujet] ? D.plans[w.sujet].type : '', rep: D.plans[w.sujet] ? D.plans[w.sujet].rep : '' }));
+  D.libAll = fromWe.concat(D.lib);
+  D.libAll.forEach(L => {
+    if (!D.plans[L.sujet]) D.plans[L.sujet] = { type: L.type, pb: L.diss.intro.pb, rep: L.rep, parts: L.diss.parts.map(p => [p.idee.replace(/\.$/, ''), p.paras.map(q => stripConn(q.a).replace(/\.$/, ''))]) };
+  });
+});
 
 const { useState, useEffect, useMemo, useContext, createContext, Fragment } = React;
 const html = htm.bind(React.createElement);
@@ -1343,7 +1909,8 @@ const ICONS = {
   shuffle: 'M4 7h3c4 0 6 10 10 10h3M17 14l3 3-3 3M4 17h3c1.5 0 2.6-1.3 3.5-3M14 8.5c.9-1 1.8-1.5 3-1.5h3M17 4l3 3-3 3',
   flip: 'M4 12a8 8 0 0 1 14-5.3M20 12a8 8 0 0 1-14 5.3M18 3v4h-4M6 21v-4h4',
   time: 'M12 21a9 9 0 1 0 0-18 9 9 0 0 0 0 18zM12 7v5l3 2',
-  plus: 'M12 5v14M5 12h14'
+  plus: 'M12 5v14M5 12h14',
+  library: 'M5 4h3v16H5zM10 4h3v16h-3zM15.5 5.2l2.9-.8 3.1 15.4-2.9.8z'
 };
 function Icon({ n, s = 18 }) {
   return html`<svg width=${s} height=${s} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d=${ICONS[n] || ICONS.info} /></svg>`;
@@ -1934,7 +2501,7 @@ function fieldsOf(nParts, three) {
   return F;
 }
 function PAtelier() {
-  const { mat, store, setStore, setProg } = useApp(); const D = MATS[mat];
+  const { mat, store, setStore, setProg, go } = useApp(); const D = MATS[mat];
   const selKey = 'atelierSel_' + mat;
   const [sid, setSid] = useState(store[selKey] || D.sujets[0].id);
   const isCustom = sid === '__custom';
@@ -2007,6 +2574,7 @@ function PAtelier() {
         <div className="actions"><span className="spacer"></span><button className="btn btn-primary" onClick=${() => { setView('model'); if (full.length > 300) setProg(mat + ':atelier', 1); }}>Plan modèle et retour IA<${Icon} n="right" s=${16} /></button></div>
       <//>` : null}
       ${view === 'model' ? html`<${Fragment}>
+        ${!isCustom && D.libAll.some(x => x.sujet === sid) ? html`<div className="actions"><button className="btn" onClick=${() => { const L = D.libAll.find(x => x.sujet === sid); setStore(st => ({ ...st, ['biblioSel_' + mat]: L.id })); go('biblio'); }}><${Icon} n="library" s=${16} />Lire la dissertation corrigée de ce sujet</button></div>` : null}
         ${plan ? html`<span className="eyebrow">Plan modèle</span><${Outline} plan=${plan} /><p className="count">Ton plan peut être différent et réussi. Vérifie surtout : une vraie question dans la problématique, des parties qui répondent, un exemple précis par paragraphe.</p>` : html`<${Msg} kind="info">Pas de plan modèle pour ce sujet. Le retour par une IA reste possible.</${Msg}>`}
         ${full.length > 50 ? html`<${AIPanel} mat=${mat} task="Dissertation (complète ou partielle)" sujet=${sujetText} consigne=${suj && suj.consigne ? suj.consigne : ''} text=${full} grid=${GRIDS.diss} full=${true} />` : html`<${Msg} kind="info">Rédige au moins l’introduction ou une partie pour demander un retour à une IA.</${Msg}>`}
       <//>` : null}
@@ -2021,6 +2589,68 @@ function Outline({ plan }) {
     <p className="count"><strong>Réponse en une phrase :</strong> <${T} s=${plan.rep} /></p>
     ${plan.parts.map((p, i) => html`<div key=${i} className="ol-part"><div className="ol-head"><span className="rn">${ROMAN[i]}</span><span><${T} s=${p[0]} /></span></div>
       ${p[1].map((s, j) => html`<div key=${j} className="ol-sub"><b>${'ABC'[j]}.</b><span><${T} s=${s} /></span></div>`)}</div>`)}
+  </div>`;
+}
+
+/* -- Bibliothèque des corrigés -- */
+function PBiblio() {
+  const { mat, store, setStore, setProg, go } = useApp(); const D = MATS[mat];
+  const selKey = 'biblioSel_' + mat;
+  const [sel, setSelState] = useState(store[selKey] || null);
+  const [fam, setFam] = useState('');
+  const setSel = v => { setSelState(v); setStore(s => ({ ...s, [selKey]: v })); const c = document.querySelector('.content'); if (c) c.scrollTop = 0; };
+  const L = sel ? D.libAll.find(x => x.id === sel) : null;
+  if (L) return html`<${BiblioItem} key=${L.id} L=${L} onBack=${() => setSel(null)} />`;
+  const total = D.libAll.length;
+  const read = D.libAll.filter(x => store.prog[mat + ':lu-' + x.id]).length;
+  return html`<div className="page">
+    <div><span className="eyebrow">${D.label} · La dissertation</span><h1>Bibliothèque des corrigés</h1>
+      <p className="lead">Tous les sujets de dissertation du chapitre, avec un corrigé complet, classés par famille. Pour chaque sujet : l’analyse, le plan, puis la dissertation rédigée. Conseil : cherche d’abord le plan toi-même.</p></div>
+    <span className="count">${total} dissertations corrigées · ${read} lue${read > 1 ? 's' : ''}</span>
+    <${Progress} value=${read} max=${total} />
+    <div className="actions">${[['', 'Toutes les familles']].concat(D.libFams.map(f => [f.id, f.t])).map(([k, l]) => html`<button key=${k} className=${'pill' + (fam === k ? ' on' : '')} aria-pressed=${fam === k} onClick=${() => setFam(k)}>${fr(l)}</button>`)}</div>
+    ${D.libFams.filter(f => !fam || f.id === fam).map((f, fi) => {
+      const items = D.libAll.filter(x => x.fam === f.id);
+      return html`<section key=${f.id} className="homegrp"><h2>${fr(f.t)}</h2><p className="count">${fr(f.d)}</p>
+        <div className="libgrid">${items.map(x => {
+          const suj = D.sujets.find(s => s.id === x.sujet); const lu = store.prog[mat + ':lu-' + x.id];
+          return html`<button key=${x.id} className=${'libcard' + (lu ? ' lu' : '')} onClick=${() => setSel(x.id)}>
+            <span className="task"><${T} s=${suj.q} /></span>
+            <span className="cit-meta"><span className="pill">${fr(suj.src)}</span>${x.comp ? html`<${Comp} />` : null}${x.we ? html`<span className="pill on">Aussi en exemple guidé</span>` : null}${lu ? html`<span className="pill ok"><${Icon} n="check" s=${12} /> Lu</span>` : null}</span>
+          </button>`;
+        })}</div></section>`;
+    })}
+  </div>`;
+}
+function BiblioItem({ L, onBack }) {
+  const { mat, store, setStore, setProg, go } = useApp(); const D = MATS[mat];
+  const suj = D.sujets.find(s => s.id === L.sujet);
+  const plan = D.plans[L.sujet];
+  const [tab, setTab] = useState('plan');
+  const [showPlan, setShowPlan] = useState(false);
+  const fam = D.libFams.find(f => f.id === L.fam);
+  useEffect(() => { if (tab === 'texte') setProg(mat + ':lu-' + L.id, 1); }, [tab]);
+  const we = { id: 'lib-step-' + L.id, sujet: L.sujet, mode: 'Corrigé', d: 'Toutes les étapes sont montrées. Réponds dans ta tête avant de dévoiler.', analyse: L.analyse, diss: L.diss };
+  const train = () => { setStore(s => ({ ...s, ['atelierSel_' + mat]: L.sujet })); go('atelier'); };
+  return html`<div className="page">
+    <div className="actions"><button className="btn btn-sm btn-flat" onClick=${onBack}><${Icon} n="left" s=${15} />Tous les corrigés</button><span className="spacer"></span><span className="count">${fr(fam ? fam.t : '')}</span></div>
+    <div className="frame"><span className="eyebrow">Sujet · ${fr(suj.src)}</span><p className="task"><${T} s=${suj.q} /></p>${suj.consigne ? html`<p className="count"><strong>Consigne :</strong> <${T} s=${suj.consigne} /></p>` : null}${L.comp ? html`<p className="count"><${Comp} /> Ce corrigé utilise aussi des connaissances qui ne sont pas encore dans ton cours.</p>` : null}</div>
+    <${Tabs} value=${tab} onChange=${setTab} items=${[['plan', 'Analyse et plan'], ['texte', 'Dissertation rédigée', !!store.prog[mat + ':lu-' + L.id]], ['etapes', 'Étape par étape']]} />
+    ${tab === 'plan' ? html`<${Fragment}>
+      <div className="frame"><span className="eyebrow">Analyse du sujet</span>
+        <div className="legend">${L.analyse.keys.map(k => html`<span key=${k} className="key">${fr(k)}</span>`)}</div>
+        <dl className="dl">${L.analyse.defs.map(d => html`<${Fragment} key=${d[0]}><dt>${fr(d[0])}</dt><dd><${T} s=${d[1]} /></dd><//>`)}<dt>Bornes</dt><dd><${T} s=${L.analyse.bornes} /></dd><dt>Type de sujet</dt><dd><${T} s=${L.analyse.type} /></dd></dl></div>
+      ${!showPlan ? html`<div className="card"><div className="selfq"><${Icon} n="think" /><span>Avant de voir le plan, cherche au brouillon : quelle problématique ? quelles deux ou trois grandes parties ?</span></div>
+        <div className="actions"><button className="btn btn-primary" onClick=${() => setShowPlan(true)}><${Icon} n="eye" s=${16} />Voir le plan corrigé</button></div></div>`
+        : html`<${Fragment}><span className="eyebrow">Plan corrigé</span><${Outline} plan=${plan} />
+          <div className="actions"><span className="spacer"></span><button className="btn btn-primary" onClick=${() => setTab('texte')}>Lire la dissertation rédigée<${Icon} n="right" s=${16} /></button></div><//>`}
+    <//>` : null}
+    ${tab === 'texte' ? html`<${Fragment}>
+      <div className="legend">${['acc', 'def', 'pres', 'pb', 'ann', 'idee', 'arg', 'expl', 'ex', 'trans', 'bil', 'ouv'].map(r => html`<${Chip} key=${r} k=${r} />`)}</div>
+      <${DissText} d=${L.diss} inlineRoles=${store.settings.colors !== false} />
+      <div className="actions"><${SpeakBtn} text=${dissPlain(L.diss)} label="Écouter la dissertation" /><span className="spacer"></span><button className="btn" onClick=${train}><${Icon} n="pen" s=${16} />M’entraîner sur ce sujet</button></div>
+    <//>` : null}
+    ${tab === 'etapes' ? html`<${WorkedDiss} key=${we.id} we=${we} />` : null}
   </div>`;
 }
 
@@ -2039,7 +2669,7 @@ function PMemo() {
       <p className="task"><${T} s=${D.sujets.find(s => s.id === pid).q} /></p>
       <${Outline} plan=${D.plans[pid]} />
     <//>` : null}
-    ${tab === 'sujets' ? html`<div>${D.sujets.map(s => html`<div key=${s.id} className="cit-row"><p className="task"><${T} s=${s.q} /></p>${s.consigne ? html`<p className="count"><strong>Consigne :</strong> <${T} s=${s.consigne} /></p>` : null}<div className="cit-meta"><span className="pill">${s.src}</span>${D.plans[s.id] ? html`<span className="pill on">Plan modèle</span>` : null}${D.we.some(w => w.sujet === s.id) ? html`<span className="pill on">Dissertation résolue</span>` : null}</div></div>`)}</div>` : null}
+    ${tab === 'sujets' ? html`<div>${D.sujets.map(s => html`<div key=${s.id} className="cit-row"><p className="task"><${T} s=${s.q} /></p>${s.consigne ? html`<p className="count"><strong>Consigne :</strong> <${T} s=${s.consigne} /></p>` : null}<div className="cit-meta"><span className="pill">${s.src}</span>${D.plans[s.id] ? html`<span className="pill on">Plan modèle</span>` : null}${D.libAll.some(w => w.sujet === s.id) ? html`<span className="pill on">Corrigé complet</span>` : null}</div></div>`)}</div>` : null}
   </div>`;
 }
 
@@ -2047,7 +2677,7 @@ function PMemo() {
 const GROUPS = [
   ['Comprendre et mémoriser', ['cours', 'glossaire', 'cartes', 'quiz']],
   ['Mobiliser ses connaissances', ['restit', 'argu']],
-  ['La dissertation', ['methode', 'exemples', 'progression', 'atelier']]
+  ['La dissertation', ['methode', 'exemples', 'progression', 'atelier', 'biblio']]
 ];
 function pageStatus(id, mat, prog, store) {
   const D = MATS[mat];
@@ -2060,6 +2690,7 @@ function pageStatus(id, mat, prog, store) {
   if (id === 'exemples') return [D.we.filter(w => prog[mat + ':' + w.id]).length, D.we.length];
   if (id === 'progression') { let n = 0, m = 0; D.fams.forEach((f, fi) => f.items.forEach((_, i) => { m++; if (prog[mat + ':f' + fi + '-' + i]) n++; })); return [n, m]; }
   if (id === 'atelier') return [prog[mat + ':atelier'] ? 1 : 0, 1];
+  if (id === 'biblio') return [D.libAll.filter(x => prog[mat + ':lu-' + x.id]).length, D.libAll.length];
   return null;
 }
 function MatSwitch({ big }) {
@@ -2097,6 +2728,7 @@ function PNotes() {
       <li><strong>Récupération espacée.</strong> Flashcards avec remise en fin de paquet des cartes non sues ; quiz du cours et quiz de vocabulaire tiré au hasard. <span className="ref">Roediger et Karpicke, effet de test.</span></li>
       <li><strong>Exemples résolus, puis estompage.</strong> Chaque type d’exercice commence par un exemple résolu avec auto-explication ; la seconde dissertation résolue demande de choisir certaines pièces ; la trame vide propose trois niveaux d’aide. <span className="ref">Sweller ; Renkl et Atkinson ; Kalyuga, renversement de l’expertise.</span></li>
       <li><strong>Complexité croissante.</strong> Cinq niveaux : reconnaître, organiser, choisir, compléter, rédiger.</li>
+      <li><strong>Bibliothèque des corrigés.</strong> Tous les sujets du chapitre (BNS, manuels, académies et sujets d’entraînement) ont un corrigé complet, classé par famille de sujets. Le plan est masqué tant que l’élève ne l’a pas cherché ; la lecture étape par étape réutilise l’exemple résolu. Les corrigés marqués « Complément » mobilisent des connaissances absentes du cours de l’élève.</li>
       <li><strong>Signalisation.</strong> Une couleur et une étiquette par pièce de dissertation, identiques partout (désactivables dans « Affichage »). <span className="ref">Mayer, principe de signalisation.</span></li>
       <li><strong>Autorégulation.</strong> Après chaque production : repérage automatique des éléments attendus (questions de cours), grille d’autovérification, corrigé modèle, puis retour par une IA. <span className="ref">Inspiré du modèle SRSD, Harris et Graham.</span></li>
     </ul></section>
@@ -2130,7 +2762,7 @@ function VoiceSettings() {
   const cur = voices.find(x => x.v.voiceURI === s.voice) || voices[0];
   const best = voices.length && voices[0].score >= 70;
   return html`<div className="voice-set">
-    <label className="switch"><span>Boutons « Écouter »</span><input type="checkbox" checked=${s.tts !== false} onChange=${e => setSettings({ tts: e.target.checked })} /></label>
+    <label className="switch"><span>Boutons « Écouter »</span><input type="checkbox" checked=${s.tts !== false} onChange=${e => setSettings({ tts: e.target.checked })} /></label>
     ${s.tts !== false ? html`<${Fragment}>
       <div><label className="lbl" htmlFor="set-voice">Voix</label>
         ${voices.length ? html`<select id="set-voice" value=${cur ? cur.v.voiceURI : ''} onChange=${e => setSettings({ voice: e.target.value })}>
@@ -2139,7 +2771,7 @@ function VoiceSettings() {
       <div><label className="lbl" htmlFor="set-rate">Vitesse : ${Math.round(s.rate * 100)} %</label><input id="set-rate" type="range" min="0.6" max="1.3" step="0.05" value=${s.rate} onChange=${e => setSettings({ rate: Number(e.target.value) })} /></div>
       <div><label className="lbl" htmlFor="set-pitch">Hauteur de la voix : ${s.pitch < 0.95 ? 'plus grave' : s.pitch > 1.05 ? 'plus aiguë' : 'normale'}</label><input id="set-pitch" type="range" min="0.7" max="1.3" step="0.05" value=${s.pitch} onChange=${e => setSettings({ pitch: Number(e.target.value) })} /></div>
       <div className="actions"><${SpeakBtn} text="Bonjour ! Voici la voix choisie pour lire le cours et les exemples." label="Tester la voix" /><button className="btn btn-sm btn-flat" onClick=${() => setSettings({ voice: '', rate: 0.95, pitch: 1 })}><${Icon} n="reset" s=${15} />Par défaut</button></div>
-      ${!best ? html`<p className="count">Pour une voix plus naturelle et gratuite : ouvre l’application dans Microsoft Edge (voix « Naturelles ») ou dans Chrome (« Google français »). Sur iPhone ou Mac, télécharge une voix « Améliorée » dans les réglages d’accessibilité.</p>` : null}
+      ${!best ? html`<p className="count">Pour une voix plus naturelle et gratuite : ouvre l’application dans Microsoft Edge (voix « Naturelles ») ou dans Chrome (« Google français »). Sur iPhone ou Mac, télécharge une voix « Améliorée » dans les réglages d’accessibilité.</p>` : null}
     <//>` : null}
   </div>`;
 }
@@ -2176,6 +2808,7 @@ const PAGES = {
   exemples: { t: 'Dissertations résolues', icon: 'bulb', C: PExemples, d: 'Deux dissertations, étape par étape.' },
   progression: { t: 'Progression', icon: 'steps', C: PProg, d: 'Exercices du plus simple au plus complexe.' },
   atelier: { t: 'Trame vide', icon: 'pen', C: PAtelier, d: 'Rédiger seul une dissertation complète.' },
+  biblio: { t: 'Bibliothèque des corrigés', icon: 'library', C: PBiblio, d: 'Tous les sujets, avec un corrigé complet, classés par famille.' },
   memo: { t: 'Mémo', icon: 'memo', C: PMemo },
   notes: { t: 'Notes pour l’adulte', icon: 'info', C: PNotes }
 };
