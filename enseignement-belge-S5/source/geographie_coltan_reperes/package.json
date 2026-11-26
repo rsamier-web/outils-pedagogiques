@@ -1,0 +1,14 @@
+{
+  "name": "geographie-coltan-reperes",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Géographie S5 (FWB) : le coltan en RDC et les repères spatiaux",
+  "scripts": { "build": "node build.mjs" },
+  "dependencies": {
+    "@fontsource/noto-sans": "^5.1.0",
+    "esbuild": "^0.25.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
+  }
+}
