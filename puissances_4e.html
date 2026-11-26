@@ -1,0 +1,649 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Puissances et fractions 4e</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+/* VOICE everyday learning tool, calm and exact, for a 4e student working alone
+   IDEA a KDE Plasma application: System Settings sidebar, Breeze frames, flat buttons, blue highlight
+   PICTURE the problem itself set large; in Comprendre, live factor tiles, a sliding place-value table and sign pairs
+   COLOUR Breeze window grey, white view, Plasma blue #3daee9 for focus and signalling, green / red / orange only for feedback
+   TYPE Noto Sans (Plasma default) for everything; mathematics set larger
+   LAYOUT header bar + 250px sidebar + one content column; under 820px the sidebar becomes a scrolling tab strip */
+:root{color-scheme:light dark;
+--win:light-dark(#eff0f1,#202326);--view:light-dark(#ffffff,#141618);--alt:light-dark(#f6f7f7,#1b1e20);
+--ink:light-dark(#232629,#fcfcfc);--mute:light-dark(#596169,#a6aeb6);--line:light-dark(#cfd3d7,#3b4045);
+--btn:light-dark(#fcfcfc,#2a2e32);--hi:#3daee9;--hit:light-dark(#d6ecf9,#1c3a4c);--link:light-dark(#17689c,#72c6f0);
+--ok:light-dark(#1b7a43,#4fd08a);--okb:light-dark(#e2f4e9,#13301f);--ko:light-dark(#b8322a,#ff808b);--kob:light-dark(#fbe7e8,#3a1a1e);
+--wa:light-dark(#9a4d00,#f9a24d);--wab:light-dark(#fff0df,#3a2810);--tb:light-dark(#fde3c8,#4a3215)}
+:root[data-theme=light]{color-scheme:light}:root[data-theme=dark]{color-scheme:dark}
+*{box-sizing:border-box;min-width:0}
+html{scroll-padding-top:70px}
+body{margin:0;background:var(--win);color:var(--ink);font:16px/1.55 "Noto Sans",system-ui,"Segoe UI",sans-serif;overflow-x:clip}
+sup{font-size:.68em;line-height:0;vertical-align:.62em}
+a{color:var(--link)}
+h1{font-size:clamp(26px,3.4vw,32px);line-height:1.1;letter-spacing:-.01em;margin:0 0 6px;font-weight:600;text-wrap:balance}
+h2{font-size:19px;margin:0 0 12px;font-weight:600}
+h3{font-size:16px;margin:14px 0 8px;font-weight:600}
+.lede{color:var(--mute);margin:0 0 20px;max-width:68ch}
+.bar{position:sticky;top:0;z-index:5;display:flex;align-items:center;gap:16px;padding:10px max(16px,2vw);background:var(--win);border-bottom:1px solid var(--line)}
+.bar b{font-weight:600;font-size:17px}
+.bar .gp{margin-left:auto;display:flex;align-items:center;gap:10px;font-size:14px;color:var(--mute)}
+.meter{width:120px;height:6px;border-radius:3px;background:var(--line);overflow:hidden}
+.meter i{display:block;height:100%;background:var(--hi)}
+.app{display:grid;grid-template-columns:250px minmax(0,1fr);align-items:start}
+.side{position:sticky;top:53px;max-height:calc(100vh - 53px);overflow:auto;padding:12px 10px;border-right:1px solid var(--line);min-height:calc(100vh - 53px)}
+.side .sh{font-size:13px;color:var(--mute);margin:14px 10px 4px;font-weight:600}
+.side a{display:flex;justify-content:space-between;gap:8px;align-items:center;padding:9px 10px;border-radius:4px;color:var(--ink);text-decoration:none;font-size:15px;min-height:40px}
+.side a:hover{background:color-mix(in srgb,var(--hi) 12%,transparent)}
+.side a.on{background:var(--hit);box-shadow:inset 0 0 0 1px var(--hi)}
+.side .cnt{font-size:13px;color:var(--mute);white-space:nowrap}
+.side .cnt.full{color:var(--ok);font-weight:600}
+main{padding:24px max(16px,3vw) 64px;max-width:980px;outline:none}
+.frame{background:var(--view);border:1px solid var(--line);border-radius:6px;padding:18px 20px;margin:0 0 18px}
+.key{border-left:4px solid var(--hi)}
+.key p{margin:6px 0}
+.row{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-top:14px}
+.center{justify-content:center;text-align:center}
+button,.btn{font:inherit;font-size:15px;color:var(--ink);background:var(--btn);border:1px solid var(--line);border-radius:5px;padding:8px 14px;min-height:40px;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;gap:6px}
+button:hover:not(:disabled),.btn:hover{border-color:var(--hi)}
+button:focus-visible,.btn:focus-visible,input:focus-visible,a:focus-visible,.fc:focus-visible{outline:2px solid var(--hi);outline-offset:1px}
+button:disabled{opacity:.45;cursor:default}
+button.pri{border-color:var(--hi);background:var(--hit)}
+input{font:inherit;font-size:16px;color:var(--ink);background:var(--view);border:1px solid var(--line);border-radius:4px;padding:6px 8px;min-height:40px}
+input[type=range]{padding:0;border:0;background:none;accent-color:var(--hi);min-height:30px;width:180px}
+.mute{color:var(--mute)}
+.nw{white-space:nowrap}
+small{font-size:13px}
+.hl{color:var(--link);font-weight:700}
+.hw{color:var(--wa);font-weight:700}
+.fr{display:inline-flex;flex-direction:column;vertical-align:middle;text-align:center;margin:0 .12em;line-height:1.3}
+.fr>span{padding:0 .25em;white-space:nowrap}
+.fr>span:first-child{border-bottom:1.5px solid currentColor}
+.pa{font-size:1.75em;vertical-align:middle;font-weight:300;line-height:1}
+.cut{text-decoration:line-through;text-decoration-color:var(--ko);text-decoration-thickness:2px}
+.steps{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);gap:10px 22px;align-items:center}
+.sm{font-size:19px}
+.sn{color:var(--mute);font-size:15px;border-left:2px solid var(--line);padding-left:12px}
+.sn:empty{border:0}
+.new{animation:in .35s ease-out}
+@keyframes in{from{opacity:0;transform:translateY(4px)}}
+.case+.case{margin-top:8px;padding-top:6px;border-top:1px dashed var(--line)}
+.stmt{font-size:17px;margin:0 0 6px}
+.dots{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:16px}
+.dot{min-width:40px;min-height:36px;padding:4px;justify-content:center;font-size:14px}
+.dot.ok{background:var(--okb);border-color:var(--ok);color:var(--ok)}
+.dot.ko{background:var(--kob);border-color:var(--ko);color:var(--ko)}
+.dot.cur{box-shadow:0 0 0 2px var(--hi)}
+.exhead{display:flex;flex-wrap:wrap;gap:12px;align-items:center;color:var(--mute);font-size:14px}
+.stars{color:var(--wa);letter-spacing:2px;font-size:16px}
+.stars .off{color:var(--line)}
+.tag{font-size:13px;padding:1px 8px;border-radius:10px}
+.tag.ok{background:var(--okb);color:var(--ok)}
+.cons{margin:10px 0 6px;font-weight:500}
+.qrow{display:flex;flex-wrap:wrap;align-items:center;gap:10px 14px;margin:8px 0 4px}
+.q{font-size:24px;line-height:1.5}
+.eq{font-size:24px}
+.pw{display:inline-flex;align-items:flex-start;gap:3px}
+.pw .b{width:5.5em;margin-top:12px}
+.pw .e{width:4em;font-size:16px}
+.fin{display:inline-flex;flex-direction:column;align-items:center;gap:4px}
+.fin input{width:7em;text-align:center}
+.fin .bar2{width:100%;height:2px;background:var(--ink)}
+#a1.n{width:9em}
+.opts{display:grid;gap:8px;margin-top:10px}
+.opt{justify-content:flex-start;text-align:left;font-size:17px;padding:10px 14px}
+.opt.good{background:var(--okb);border-color:var(--ok)}
+.opt.bad{background:var(--kob);border-color:var(--ko)}
+.fb{margin-top:12px;padding:0;border-radius:5px}
+.fb:not(:empty){padding:10px 14px}
+.fb.ok{background:var(--okb);color:var(--ink);border-left:4px solid var(--ok)}
+.fb.ko{background:var(--kob);border-left:4px solid var(--ko)}
+.fb.er{background:var(--wab);border-left:4px solid var(--wa)}
+.hint{margin-top:12px;padding:10px 14px;background:var(--alt);border:1px dashed var(--line);border-radius:5px}
+.sol{margin-top:14px;padding:14px 16px;background:var(--alt);border:1px solid var(--line);border-radius:5px}
+.sol h3{margin-top:0}
+.nav{justify-content:space-between;border-top:1px solid var(--line);padding-top:14px;margin-top:18px}
+.copie{display:inline-block;font-style:italic;font-size:22px;padding:6px 18px;background:repeating-linear-gradient(transparent 0 31px,color-mix(in srgb,var(--hi) 35%,transparent) 31px 32px);border-left:2px solid color-mix(in srgb,var(--ko) 60%,transparent)}
+.path{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-bottom:22px;counter-reset:s}
+.path a{display:block;background:var(--view);border:1px solid var(--line);border-radius:6px;padding:16px;text-decoration:none;color:var(--ink);position:relative}
+.path a:hover{border-color:var(--hi)}
+.path b{display:block;font-size:17px;margin-bottom:4px}
+.path span{color:var(--mute);font-size:14px;display:block}
+.path em{font-style:normal;font-size:13px;color:var(--link);display:block;margin-top:8px}
+.fams{display:grid;gap:2px}
+.fams a{display:grid;grid-template-columns:minmax(0,1fr) 160px auto;gap:14px;align-items:center;padding:10px 12px;border-radius:4px;color:var(--ink);text-decoration:none}
+.fams a:hover{background:var(--hit)}
+.fams .meter{width:100%}
+.fams .n{font-size:14px;color:var(--mute);white-space:nowrap;text-align:right;min-width:4.5em}
+.memo{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:12px}
+.mc{background:var(--view);border:1px solid var(--line);border-radius:6px;padding:14px 16px}
+.mc .f{font-size:14px;color:var(--mute)}
+.mc .b{font-size:20px;margin:6px 0}
+.mc .x{font-size:14px;border-top:1px solid var(--line);padding-top:6px;margin-top:6px}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:16px}
+.chips button{min-height:34px;padding:4px 12px;font-size:14px;border-radius:17px}
+.chips button.on{background:var(--hit);border-color:var(--hi)}
+.fc{perspective:1200px;width:min(580px,100%);height:300px;margin:0 auto;cursor:pointer;border-radius:8px}
+.fcin{position:relative;width:100%;height:100%;transition:transform .45s ease;transform-style:preserve-3d}
+.fc.flip .fcin{transform:rotateY(180deg)}
+.face{position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;padding:24px;border:1px solid var(--line);border-radius:8px;background:var(--view);text-align:center}
+.face .g{font-size:13px;color:var(--mute)}
+.face .t{font-size:24px;line-height:1.4}
+.back{transform:rotateY(180deg);border-color:var(--hi)}
+.back .x{font-size:16px;color:var(--mute);border-top:1px solid var(--line);padding-top:10px}
+.qbar{height:6px;background:var(--line);border-radius:3px;overflow:hidden;margin:6px 0 18px}
+.qbar i{display:block;height:100%;background:var(--hi);transition:width .3s}
+.qq{font-size:24px;margin:6px 0 4px}
+.score{font-size:44px;font-weight:700;line-height:1}
+.miss{border-top:1px solid var(--line);padding:10px 0}
+.seg{display:inline-flex;flex-wrap:wrap;border:1px solid var(--line);border-radius:5px;overflow:hidden}
+.seg button{border:0;border-radius:0;border-right:1px solid var(--line)}
+.seg button:last-child{border-right:0}
+.seg button.on{background:var(--hit);box-shadow:inset 0 -2px 0 var(--hi)}
+.sliders{display:flex;flex-wrap:wrap;gap:8px 28px;margin:14px 0}
+.sliders label{display:flex;align-items:center;gap:10px;font-size:15px}
+.pic{background:var(--alt);border:1px solid var(--line);border-radius:6px;padding:18px;min-height:150px}
+.tl{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin:6px 0}
+.grp{display:inline-flex;flex-wrap:wrap;gap:4px;padding:5px;border-radius:6px;border:1px dashed var(--line)}
+.grp.par{border-style:solid}
+.tile{display:inline-flex;align-items:center;justify-content:center;width:38px;height:30px;border-radius:4px;font-size:14px;font-weight:600}
+.tile.a{background:var(--hit);color:var(--link);border:1px solid var(--hi)}
+.tile.b{background:var(--tb);color:var(--wa);border:1px solid color-mix(in srgb,var(--wa) 60%,transparent)}
+.tile.cut{opacity:.4;text-decoration:line-through;text-decoration-thickness:2px}
+.opx{font-size:22px;color:var(--mute)}
+.tfrac{display:inline-flex;flex-direction:column;align-items:center;gap:6px}
+.tbar{height:2px;width:100%;background:var(--ink)}
+.res{font-size:22px;margin-top:12px}
+.expl{color:var(--mute);margin:8px 0 0}
+.pv{border-collapse:collapse;font-variant-numeric:tabular-nums}
+.pv th{font-weight:500;font-size:13px;color:var(--mute);padding:4px 0;width:2.6em;min-width:2.6em}
+.pv td{height:44px;width:2.6em;min-width:2.6em;text-align:center;font-size:22px;border:1px solid var(--line);background:var(--view)}
+.pv th:first-child,.pv td:first-child{width:auto;text-align:left;font-size:14px;color:var(--mute);border:0;background:none;padding-right:10px;white-space:nowrap}
+.pv .u{border-right:4px solid var(--hi)}
+.pv .pad{color:var(--wa)}
+.pv .dig{display:inline-block;animation:sl .55s ease-out}
+@keyframes sl{from{transform:translateX(calc(var(--n) * 2.6em));opacity:.3}}
+.scroll{overflow-x:auto}
+.pairs{display:flex;flex-wrap:wrap;gap:10px;align-items:flex-start}
+.pair{display:inline-flex;flex-direction:column;align-items:center;gap:4px}
+.pair>div{display:flex;gap:4px;padding:5px;border:1px solid var(--ok);border-radius:6px;background:var(--okb)}
+.pair.odd>div{border-color:var(--ko);background:var(--kob)}
+.chip{padding:3px 8px;border-radius:4px;background:var(--view);border:1px solid var(--line);font-size:15px}
+.pl{font-size:13px;color:var(--ok);font-weight:600}
+.pair.odd .pl{color:var(--ko)}
+@media(max-width:820px){
+.app{grid-template-columns:minmax(0,1fr)}
+.side{position:sticky;top:53px;z-index:4;display:flex;gap:4px;max-height:none;min-height:0;overflow-x:auto;padding:6px 10px;border-right:0;border-bottom:1px solid var(--line);background:var(--win)}
+.side .sh{display:none}
+.side a{flex:none;white-space:nowrap;min-height:38px}
+.side .cnt{display:none}
+.path{grid-template-columns:repeat(2,minmax(0,1fr))}
+html{scroll-padding-top:110px}}
+@media(max-width:600px){
+.bar .meter,.bar .lg{display:none}
+.bar b{font-size:15px}
+.steps{grid-template-columns:minmax(0,1fr);gap:4px}
+.sn{margin-bottom:8px}
+.fams a{grid-template-columns:minmax(0,1fr) auto}
+.fams .meter{grid-column:1/-1;order:3}
+.frame{padding:14px}
+.q,.eq{font-size:21px}
+.fc{height:320px}}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<header class="bar"><b>Puissances et fractions · 4e</b><div class="gp"><span><span id="gpt"></span><span class="lg"> exercices réussis</span></span><span class="meter"><i id="gpm"></i></span></div></header>
+<div class="app">
+<nav class="side" id="side" aria-label="Sections"></nav>
+<main id="main" tabindex="-1"></main>
+</div>
+<script>
+{
+const $=s=>document.querySelector(s);
+const P=(b,e)=>`${b}<sup>${e}</sup>`;
+const F=(n,d)=>`<span class="fr"><span>${n}</span><span>${d}</span></span>`;
+const PF=(n,d,e)=>`<span class="pa">(</span>${F(n,d)}<span class="pa">)</span><sup>${e}</sup>`;
+const H=x=>`<span class="hl">${x}</span>`;
+const sg=r=>r<0?'−'+(-r):''+r;
+const COPIE=x=>`<span class="copie">${x}</span>`;
+
+/* ---------- nombres décimaux et décalage de la virgule ---------- */
+function parseDec(s){s=String(s).replace(/[\s  ]/g,'').replace('.',',');
+ if(!/^\d{1,9}(,\d{1,9})?$/.test(s))return null;
+ const [a,b='']=s.split(','),d=[];
+ for(let k=0;k<a.length;k++)d.push({v:+a[k],p:a.length-1-k});
+ for(let k=0;k<b.length;k++)d.push({v:+b[k],p:-(k+1)});
+ while(d.length&&d[0].v===0)d.shift();
+ while(d.length&&d[d.length-1].v===0)d.pop();
+ return d}
+function place(d,n){
+ if(!d.length)return{map:{0:{v:0}},str:'0',val:0,top:0,lo:0};
+ const hi=d[0].p+n,lo=d[d.length-1].p+n,map={};
+ d.forEach(x=>map[x.p+n]={v:x.v});
+ const top=Math.max(hi,0),bot=Math.min(lo,0);
+ for(let p=top;p>=bot;p--)if(!map[p])map[p]={v:0,pad:1};
+ let I='',Fr='';for(let p=top;p>=0;p--)I+=map[p].v;for(let p=-1;p>=lo;p--)Fr+=map[p].v;
+ const str=I.replace(/\B(?=(\d{3})+(?!\d))/g,' ')+(Fr?','+Fr.replace(/(\d{3})(?=\d)/g,'$1 '):'');
+ return{map,str,val:parseFloat(I+(Fr?'.'+Fr:'')),top,lo}}
+
+/* ---------- familles d'exercices ---------- */
+const FAM=[
+{id:'ecrire',t:'Écrire sous forme de puissance',d:'Reconnaître un produit de facteurs égaux.',cons:'Réécrire sous la forme d’une seule puissance.',
+k:`<p>${P('a','n')} = a × a × … × a : un produit de <b>n facteurs</b> égaux à a. L’exposant compte les facteurs.</p><p>Si le facteur répété est négatif ou est une fraction, on l’écrit <b>entre parenthèses</b> : (−5) × (−5) = ${P('(−5)',2)}.</p>`,
+ex:{s:`Écrire A = (−4) × (−4) × (−4) × (−4) × (−4) et B = ${F(2,3)} × ${F(2,3)} × ${F(2,3)} sous forme d’une puissance.`,c:[
+{t:'A',l:[[`A = (−4) × (−4) × (−4) × (−4) × (−4)`,'On repère le facteur qui se répète : −4. Il est négatif, on garde les parenthèses.'],[`On compte : ${H('5')} facteurs`,'On compte les facteurs (pas les signes ×).'],[`A = ${P('(−4)',H(5))}`,'L’exposant est le nombre de facteurs.']]},
+{t:'B',l:[[`B = ${F(2,3)} × ${F(2,3)} × ${F(2,3)}`,'Le facteur répété est une fraction : parenthèses obligatoires.'],[`B = ${PF(2,3,H(3))}`,'3 facteurs égaux à 2/3.']]}]},
+items:[
+{l:1,t:'pow',q:'2 × 2 × 2',a:[2,3],h:'Quel nombre se répète ? Combien de fois ?',tr:[{b:2,e:2,m:'Compte les facteurs 2, pas les signes × : il y a 3 facteurs.'},{b:3,e:2,m:'La base est le nombre répété (2), l’exposant est le nombre de facteurs (3).'}],s:[[`2 × 2 × 2 = ${P(2,H(3))}`,'3 facteurs égaux à 2.'],['= 8','Valeur numérique.']]},
+{l:1,t:'pow',q:'8 × 8 × 8 × 8 × 8',a:[8,5],h:'Compte les 8.',tr:[{b:5,e:8,m:'Tu as inversé : la base est 8, l’exposant est 5.'}],s:[[`8 × 8 × 8 × 8 × 8 = ${P(8,H(5))}`,'5 facteurs égaux à 8.']]},
+{l:1,t:'pow',q:'10 × 10 × 10 × 10 × 10 × 10 × 10',a:[10,7],h:'Compte les 10, un par un.',s:[[`= ${P(10,H(7))}`,'7 facteurs égaux à 10.'],['= 10 000 000','1 suivi de 7 zéros.']]},
+{l:2,t:'pow',q:'(−5) × (−5) × (−5)',a:[-5,3],h:'Le facteur répété est −5. Tape la base avec son signe : −5 ou (−5).',tr:[{b:5,m:'Le facteur répété est −5, pas 5 : la base est (−5).'}],s:[[`(−5) × (−5) × (−5) = ${P('(−5)',H(3))}`,'3 facteurs égaux à −5 : la base est −5, entre parenthèses.'],['= −125','Bonus : 3 est impair, le résultat est négatif.']]},
+{l:2,t:'pow',q:`${F(7,10)} × ${F(7,10)} × ${F(7,10)} × ${F(7,10)}`,a:[0.7,4],ab:'7/10',h:'La base peut être une fraction : tape-la avec une barre, 7/10.',tr:[{b:1.75,m:'La base est 7/10 (sept dixièmes), pas 7/4 : le 4 est l’exposant.'},{b:7,e:4,m:'La base est la fraction entière 7/10, pas seulement 7.'}],s:[[`= ${PF(7,10,H(4))}`,'4 facteurs égaux à 7/10.'],[`= ${F(P(7,4),P(10,4))}`,'On peut aussi l’écrire ainsi : numérateur et dénominateur à la puissance 4.']]},
+{l:2,t:'pow',q:'0,5 × 0,5 × 0,5 × 0,5',a:[0.5,4],h:'La base est un nombre décimal.',s:[[`= ${P('0,5',H(4))}`,'4 facteurs égaux à 0,5.'],['= 0,062 5','Valeur numérique, pour vérifier.']]},
+{l:3,t:'ch',q:'−3 × 3 × 3 × 3',o:[[P('(−3)',4),'Non : (−3)⁴ = (−3) × (−3) × (−3) × (−3). Il faudrait 4 signes −, il n’y en a qu’un.'],[`−${P(3,4)}`,''],[P(3,4),'Le signe − a disparu : il faut le garder devant.'],[`−${P(3,3)}`,'Compte bien les 3 : il y en a 4.']],a:1,h:'Le signe − est-il répété devant chaque 3 ?',s:[['−3 × 3 × 3 × 3 = −(3 × 3 × 3 × 3)','Le signe − ne concerne que le premier 3 : il n’est pas répété.'],[`= −${P(3,H(4))}`,'4 facteurs égaux à 3.'],['= −81',`À comparer : ${P('(−3)',4)} = 81.`]]}]},
+
+{id:'dix',t:'Puissances de 10',d:'Passer de 10ⁿ à l’écriture décimale, et inversement.',cons:'Donner l’écriture décimale.',
+k:`<p>${P(10,'n')} = 1 suivi de <b>n zéros</b>. &nbsp; ${P(10,'−n')} = ${F(1,P(10,'n'))} = 0,0…01 avec <b>n chiffres après la virgule</b>.</p><p>${P(10,0)} = 1 et ${P(10,1)} = 10. Un exposant négatif donne un nombre <b>plus petit que 1</b>, pas un nombre négatif.</p>`,
+ex:{s:`Donner l’écriture décimale de ${P(10,5)} et de ${P(10,'−4')}, puis écrire 0,000 001 sous forme d’une puissance de 10.`,c:[
+{t:P(10,5),l:[[`${P(10,5)} = 1${H('00 000')}`,'Exposant positif : 1 suivi de 5 zéros.']]},
+{t:P(10,'−4'),l:[[`${P(10,'−4')} = ${F(1,P(10,4))} = ${F(1,'10 000')}`,'Exposant négatif : c’est l’inverse de 10⁴, un nombre plus petit que 1.'],[`= 0,${H('000 1')}`,'4 chiffres après la virgule ; le dernier est le 1.']]},
+{t:'0,000 001',l:[[`0,${H('000 001')}`,'On compte les chiffres après la virgule, jusqu’au 1 inclus : 6.'],[`= ${P(10,'−6')}`,'6 chiffres après la virgule → exposant −6.']]}]},
+items:[
+{l:1,t:'num',q:P(10,4),a:10000,h:'1 suivi de combien de zéros ?',tr:[{v:40,m:'10⁴ ne veut pas dire 10 × 4 : c’est 10 × 10 × 10 × 10.'},{v:1000,m:'Il faut 4 zéros après le 1.'},{v:100000,m:'Il faut 4 zéros après le 1, pas 5.'}],s:[[`${P(10,4)} = 10 × 10 × 10 × 10`,'4 facteurs égaux à 10.'],[`= 1${H('0 000')}`,'1 suivi de 4 zéros.']]},
+{l:1,t:'num',q:P(10,0),a:1,h:'1 suivi de… zéro zéro.',tr:[{v:0,m:'Par convention, 10⁰ = 1 (et non 0).'},{v:10,m:'10 = 10¹. Ici l’exposant est 0 : 1 suivi d’aucun zéro.'}],s:[[`${P(10,0)} = 1`,'1 suivi de 0 zéro. Tout nombre non nul à la puissance 0 vaut 1.']]},
+{l:1,t:'num',q:P(10,1),a:10,s:[[`${P(10,1)} = 10`,'Un seul facteur 10 : 1 suivi d’un zéro.']]},
+{l:1,t:'num',q:P(10,'−3'),a:0.001,h:'Exposant négatif : combien de chiffres après la virgule ?',tr:[{v:-1000,m:'Un exposant négatif ne rend pas le nombre négatif : 10⁻³ = 1/10³ = 1/1 000.'},{v:0.0001,m:'Compte les chiffres après la virgule : il en faut 3, le 1 compris.'},{v:-30,m:'10⁻³ ne veut pas dire 10 × (−3).'}],s:[[`${P(10,'−3')} = ${F(1,P(10,3))} = ${F(1,'1 000')}`,'Exposant négatif : c’est l’inverse de 10³.'],[`= 0,${H('001')}`,'3 chiffres après la virgule, le dernier est 1. Le nombre est positif.']]},
+{l:2,t:'num',q:P(10,9),a:1e9,s:[[`${P(10,9)} = 1${H('000 000 000')}`,'1 suivi de 9 zéros : un milliard.']]},
+{l:2,t:'pow',c:'Écrire sous la forme d’une puissance de 10.',q:'100 000',a:[10,5],tr:[{e:6,m:'On compte seulement les zéros, pas le 1.'}],s:[[`100 000 = 1 suivi de ${H(5)} zéros`,''],[`= ${P(10,5)}`,'L’exposant est le nombre de zéros.']]},
+{l:2,t:'pow',c:'Écrire sous la forme d’une puissance de 10.',q:'0,001',a:[10,-3],h:'Nombre plus petit que 1 : exposant négatif.',tr:[{e:3,m:'0,001 est plus petit que 1 : l’exposant est négatif.'},{e:-2,m:'Compte tous les chiffres après la virgule, le 1 compris : 3.'}],s:[[`0,${H('001')}`,'3 chiffres après la virgule (le 1 compris).'],[`= ${F(1,'1 000')} = ${F(1,P(10,3))} = ${P(10,'−3')}`,'']]},
+{l:2,t:'pow',c:'Écrire sous la forme d’une puissance de 10.',q:'un millionième',a:[10,-6],h:'Un millionième = 1 divisé par 1 000 000.',tr:[{e:6,m:'Un millionième est plus petit que 1 : exposant négatif.'}],s:[[`un millionième = ${F(1,'1 000 000')}`,'1 divisé en un million de parts.'],[`= ${F(1,P(10,6))} = ${P(10,'−6')}`,'1 000 000 = 10⁶.']]},
+{l:2,t:'pow',c:'Écrire sous la forme d’une puissance de 10.',q:'0,000 000 01',a:[10,-8],tr:[{e:-7,m:'Recompte : il y a 8 chiffres après la virgule, le 1 compris.'},{e:8,m:'Nombre plus petit que 1 : exposant négatif.'}],s:[[`0,${H('000 000 01')}`,'8 chiffres après la virgule, jusqu’au 1.'],[`= ${P(10,'−8')}`,'']]},
+{l:3,t:'pow',c:'Écrire sous la forme d’une puissance de 10.',q:F('10 × 10 × 10 × 10 × 10 × 10','10 × 10 × 10'),a:[10,3],h:'Simplifie : un 10 du haut avec un 10 du bas.',tr:[{e:9,m:'On ne multiplie pas tout : c’est un quotient, on simplifie.'}],s:[[F(`${H('10 × 10 × 10')} × 10 × 10 × 10`,H('10 × 10 × 10')),'On simplifie 3 facteurs 10 en haut et en bas.'],[`= 10 × 10 × 10 = ${P(10,3)}`,'Il reste 3 facteurs 10 en haut.'],[`Règle : ${F(P(10,6),P(10,3))} = ${P(10,'6−3')} = ${P(10,3)}`,'']]},
+{l:3,t:'pow',c:'Écrire sous la forme d’une puissance de 10.',q:F('10 × 10','10 × 10 × 10 × 10 × 10'),a:[10,-3],h:'Il y a plus de 10 en bas qu’en haut.',tr:[{e:3,m:'Il reste les facteurs 10 en bas : le résultat est plus petit que 1, l’exposant est négatif.'},{e:7,m:'C’est un quotient : on simplifie, on ne compte pas tous les 10.'}],s:[[F(H('10 × 10'),`${H('10 × 10')} × 10 × 10 × 10`),'On simplifie 2 facteurs 10 en haut et en bas.'],[`= ${F(1,'10 × 10 × 10')} = ${F(1,P(10,3))}`,'Il reste 3 facteurs 10 au dénominateur.'],[`= ${P(10,H('−3'))}`,`Car ${F(1,P(10,'n'))} = ${P(10,'−n')}.`]]}]},
+
+{id:'virgule',t:'Multiplier par 10ⁿ',d:'La virgule se décale.',cons:'Donner l’écriture décimale, sans calculatrice.',
+k:`<p>Multiplier par ${P(10,'n')} : la virgule se décale de <b>n rangs vers la droite</b> (le nombre grandit).</p><p>Multiplier par ${P(10,'−n')} : la virgule se décale de <b>n rangs vers la gauche</b> (le nombre rapetisse). On complète avec des zéros si besoin.</p>`,
+ex:{s:`Donner l’écriture décimale de 3,75 × ${P(10,2)} et de 58 × ${P(10,'−3')}.`,c:[
+{t:`3,75 × ${P(10,2)}`,l:[[`3,75 × ${P(10,H(2))}`,'Exposant positif 2 : la virgule va de 2 rangs vers la droite.'],['3,75 → 37,5 → 375','Un rang à chaque flèche.'],[`3,75 × ${P(10,2)} = 375`,'Vérification : 3,75 × 100 = 375.']]},
+{t:`58 × ${P(10,'−3')}`,l:[[`58 × ${P(10,H('−3'))}`,'58 = 58,0 : la virgule est cachée après le 8. Exposant −3 : 3 rangs vers la gauche.'],[`58 → 5,8 → 0,58 → 0,${H('0')}58`,'Quand il n’y a plus de chiffre, on ajoute un zéro.'],[`58 × ${P(10,'−3')} = 0,058`,'Vérification : 58 ÷ 1 000 = 0,058.']]}]},
+items:[
+{l:1,t:'v',x:'2',n:6},{l:1,t:'v',x:'4,2',n:3},{l:1,t:'v',x:'13',n:4},
+{l:2,t:'v',x:'0,018',n:7},{l:2,t:'v',x:'2,6',n:-2},{l:2,t:'v',x:'0,8',n:5},{l:2,t:'v',x:'1250',n:-4},
+{l:3,t:'v',x:'0,32',n:-2},{l:3,t:'v',x:'520000',n:-5},{l:3,t:'v',x:'0,00018',n:6},{l:3,t:'v',x:'0,042',n:4}]},
+
+{id:'signes',t:'Signes et priorités',d:'(−a)ⁿ, −aⁿ et l’ordre des calculs.',cons:'Calculer.',
+k:`<p>Ordre des calculs : <b>1.</b> parenthèses → <b>2.</b> puissances → <b>3.</b> × et ÷ → <b>4.</b> + et −.</p><p>${P('(−a)','n')} est <b>positif si n est pair</b>, <b>négatif si n est impair</b>. Attention : ${P('(−3)',2)} = 9 mais −${P(3,2)} = −(${P(3,2)}) = −9.</p>`,
+ex:{s:`Calculer D = 7 − 3 × ${P(4,2)} et C = −${P(3,2)} + ${P('(−3)',2)}.`,c:[
+{t:'D',l:[[`D = 7 − 3 × ${H(P(4,2))}`,'Il y a une puissance : on la calcule en premier.'],[`D = 7 − ${H('3 × 16')}`,'4² = 4 × 4 = 16 (et surtout pas 4 × 2 = 8). Puis la multiplication.'],['D = 7 − 48','Enfin la soustraction.'],['D = −41','']]},
+{t:'C',l:[[`C = −${P(3,2)} + ${P('(−3)',2)}`,'Deux écritures qui se ressemblent, mais différentes.'],[`−${P(3,2)} = −(3 × 3) = −9`,'Sans parenthèses, la puissance ne porte que sur 3 ; le signe − reste devant.'],[`${P('(−3)',2)} = (−3) × (−3) = 9`,'Exposant pair : résultat positif.'],['C = −9 + 9 = 0','']]}]},
+items:[
+{l:1,t:'num',q:`F = ${P('(−4)',2)}`,a:16,tr:[{v:-16,m:'(−4)² = (−4) × (−4) : moins par moins donne plus.'},{v:-8,m:'(−4)² ne veut pas dire (−4) × 2.'},{v:8,m:'(−4)² ne veut pas dire 4 × 2.'}],s:[[`${P('(−4)',2)} = (−4) × (−4)`,'La base est −4, entre parenthèses.'],['= 16','Moins par moins donne plus.']]},
+{l:1,t:'num',q:`−${P(4,2)}`,a:-16,tr:[{v:16,m:'Sans parenthèses, la puissance porte seulement sur 4 : −4² = −(4 × 4).'},{v:-8,m:'4² = 4 × 4, pas 4 × 2.'}],s:[[`−${P(4,2)} = −(4 × 4)`,'Pas de parenthèses : la puissance ne porte que sur 4.'],['= −16','']]},
+{l:1,t:'num',q:`E = 6 + ${P(3,2)} × 4`,a:42,h:'Puissance, puis multiplication, puis addition.',tr:[{v:60,m:'La multiplication passe avant l’addition : on ne fait pas 6 + 9 en premier.'},{v:30,m:'3² = 3 × 3 = 9, pas 3 × 2.'},{v:324,m:'La puissance ne porte que sur 3, pas sur 6 + 3.'}],s:[[`E = 6 + ${H(P(3,2))} × 4`,'Puissance d’abord.'],[`E = 6 + ${H('9 × 4')}`,'3² = 9. Puis la multiplication.'],['E = 6 + 36 = 42','Enfin l’addition.']]},
+{l:2,t:'num',q:`G = 1 + 3 × ${P(2,3)}`,a:25,tr:[{v:32,m:'Multiplication avant addition : 3 × 8 d’abord.'},{v:19,m:'2³ = 2 × 2 × 2 = 8, pas 2 × 3.'}],s:[[`G = 1 + 3 × ${H(P(2,3))}`,'Puissance d’abord : 2³ = 2 × 2 × 2 = 8.'],[`G = 1 + ${H('3 × 8')}`,'Puis la multiplication.'],['G = 1 + 24 = 25','']]},
+{l:2,t:'num',q:`I = 6 × (5 − ${P(3,2)} − 2)`,a:-36,h:'Commence par la parenthèse ; dedans, la puissance d’abord.',tr:[{v:36,m:'Dans la parenthèse : 5 − 9 − 2 = −6, un nombre négatif.'},{v:-6,m:'Il reste à multiplier par 6.'}],s:[[`I = 6 × (5 − ${H(P(3,2))} − 2)`,'D’abord la parenthèse ; dedans, la puissance.'],['I = 6 × (5 − 9 − 2)','3² = 9.'],['I = 6 × (−6)','5 − 9 = −4, puis −4 − 2 = −6.'],['I = −36','Plus par moins donne moins.']]},
+{l:2,t:'num',q:`A = ${P('(−1)',2026)}`,a:1,h:'2026 est-il pair ou impair ?',tr:[{v:-1,m:'2026 est pair : les facteurs −1 se regroupent par paires, le résultat est positif.'},{v:-2026,m:'(−1)²⁰²⁶ ne veut pas dire (−1) × 2026.'}],s:[[`${P('(−1)',2026)}`,'On regroupe les facteurs −1 par paires : (−1) × (−1) = 1.'],['2026 est pair → résultat positif',''],[`${P('(−1)',2026)} = 1`,'']]},
+{l:2,t:'num',q:`B = ${P('(−1)',2027)}`,a:-1,tr:[{v:1,m:'2027 est impair : il reste un facteur −1 seul, le résultat est négatif.'}],s:[[`${P('(−1)',2027)} = ${P('(−1)',2026)} × (−1)`,'Il reste un facteur −1 après les paires.'],['= 1 × (−1) = −1','Exposant impair : résultat négatif.']]},
+{l:3,t:'num',q:`C = −${P(2,4)} + ${P('(−2)',4)}`,a:0,tr:[{v:32,m:'−2⁴ = −16 : sans parenthèses, le signe − reste devant.'},{v:-32,m:'(−2)⁴ : 4 est pair, donc (−2)⁴ = +16.'}],s:[[`C = −${P(2,4)} + ${P('(−2)',4)}`,''],[`−${P(2,4)} = −(2 × 2 × 2 × 2) = −16`,'Sans parenthèses, la puissance ne porte que sur 2.'],[`${P('(−2)',4)} = 16`,'Exposant pair : positif.'],['C = −16 + 16 = 0','']]},
+{l:3,t:'num',q:`F = ${P('(−0,1)',3)}`,a:-0.001,tr:[{v:0.001,m:'3 est impair : le résultat est négatif.'},{v:-0.3,m:'(−0,1)³ = (−0,1) × (−0,1) × (−0,1), pas −0,1 × 3.'},{v:-0.0001,m:'0,1 × 0,1 × 0,1 = 0,001 : 3 chiffres après la virgule.'}],s:[[`${P('(−0,1)',3)} = (−0,1) × (−0,1) × (−0,1)`,''],['= −0,001','0,1 × 0,1 × 0,1 = 0,001, et 3 est impair : négatif.']]},
+{l:3,t:'num',q:`D = 5 − 2 × ${P(6,2)}`,a:-67,tr:[{v:108,m:'La multiplication 2 × 36 passe avant la soustraction : on ne fait pas 5 − 2 d’abord.'},{v:-19,m:'6² = 6 × 6 = 36, pas 12.'},{v:-139,m:'2 × 6² = 2 × 36 ; la puissance ne porte que sur 6.'}],s:[[`D = 5 − 2 × ${H(P(6,2))}`,'Puissance d’abord.'],[`D = 5 − ${H('2 × 36')}`,'6² = 36. Puis la multiplication.'],['D = 5 − 72 = −67','']]},
+{l:3,t:'num',q:`L = ${P('(−2)',3)} × ${P('(−2)',2)}`,a:-32,tr:[{v:32,m:'(−2)³ = −8 est négatif, (−2)² = 4 est positif : le produit est négatif.'}],s:[[`L = ${P('(−2)',3)} × ${P('(−2)',2)}`,'On peut calculer chaque puissance…'],['L = (−8) × 4 = −32','(−2)³ = −8 et (−2)² = 4.'],[`ou : L = ${P('(−2)','3+2')} = ${P('(−2)',5)} = −32`,'… ou utiliser la règle du produit.']]}]},
+
+{id:'regles',t:'Calculer avec une même base',d:'Produit, quotient, puissance de puissance.',cons:'Écrire sous la forme d’une seule puissance.',
+k:`<p>${P('a','m')} × ${P('a','n')} = ${P('a','m + n')} &nbsp;·&nbsp; ${F(P('a','m'),P('a','n'))} = ${P('a','m − n')} &nbsp;·&nbsp; (${P('a','m')})<sup>n</sup> = ${P('a','m × n')} &nbsp;·&nbsp; ${P('a','n')} × ${P('b','n')} = ${P('(a × b)','n')}</p><p>Ces règles viennent du comptage des facteurs (voir <a href="#comprendre">Comprendre</a>). Elles ne marchent <b>pas</b> pour une somme ou une différence.</p>`,
+ex:{s:`Écrire sous forme d’une seule puissance : ${P(10,4)} × ${P(10,'−9')} ; ${F(P(10,'−3'),P(10,'−8'))} ; (${P(3,4)})<sup>2</sup> × 3.`,c:[
+{t:'Produit',l:[[`${P(10,4)} × ${P(10,'−9')} = ${P(10,H('4+(−9)'))}`,'Produit, même base : on additionne les exposants.'],[`= ${P(10,'−5')}`,'4 + (−9) = 4 − 9 = −5.']]},
+{t:'Quotient',l:[[`${F(P(10,'−3'),P(10,'−8'))} = ${P(10,H('−3−(−8)'))}`,'Quotient : exposant du haut moins exposant du bas.'],[`= ${P(10,'−3+8')} = ${P(10,5)}`,'Soustraire −8, c’est ajouter 8.']]},
+{t:'Puissance de puissance',l:[[`(${P(3,4)})<sup>2</sup> × 3 = ${P(3,H('4×2'))} × ${P(3,1)}`,'Puissance de puissance : on multiplie. Et 3 = 3¹.'],[`= ${P(3,8)} × ${P(3,1)} = ${P(3,H('8+1'))} = ${P(3,9)}`,'Produit : on additionne.']]}]},
+items:[
+{l:1,t:'pow',q:`B = ${P(10,3)} × ${P(10,2)}`,a:[10,5],tr:[{e:1,m:'Pour un produit, on additionne les exposants (3 + 2), on ne les soustrait pas.'},{e:6,m:'On additionne les exposants, on ne les multiplie pas.'},{b:100,m:'On garde la base 10 : on ne multiplie pas les bases.'}],s:[[`${P(10,3)} × ${P(10,2)} = ${P(10,H('3+2'))}`,'Produit, même base 10 : on additionne les exposants.'],[`= ${P(10,5)}`,'Vérification : 1 000 × 100 = 100 000.']]},
+{l:1,t:'pow',q:`${P(3,4)} × ${P(3,5)}`,a:[3,9],tr:[{e:20,m:'On additionne les exposants (4 + 5), on ne les multiplie pas.'},{b:9,m:'On garde la base 3 : on ne multiplie pas les bases.'}],s:[[`${P(3,4)} × ${P(3,5)} = ${P(3,H('4+5'))} = ${P(3,9)}`,'On garde la base 3 et on additionne les exposants.']]},
+{l:1,t:'pow',q:F(P(7,8),P(7,3)),a:[7,5],tr:[{e:11,m:'C’est un quotient : on soustrait les exposants.'}],s:[[`${F(P(7,8),P(7,3))} = ${P(7,H('8−3'))} = ${P(7,5)}`,'Quotient : exposant du haut moins exposant du bas.']]},
+{l:1,t:'pow',q:`J = ${F(P(10,6),P(10,4))}`,a:[10,2],tr:[{e:10,m:'Quotient : on soustrait les exposants.'}],s:[[`${F(P(10,6),P(10,4))} = ${P(10,H('6−4'))} = ${P(10,2)}`,'Quotient : haut moins bas.'],['= 100','Écriture décimale.']]},
+{l:2,t:'pow',q:F(P(10,2),P(10,5)),a:[10,-3],h:'Haut moins bas : 2 − 5.',tr:[{e:7,m:'Quotient : on soustrait, exposant du haut moins exposant du bas : 2 − 5.'},{e:3,m:'Attention à l’ordre : haut moins bas, 2 − 5 = −3.'}],s:[[`${F(P(10,2),P(10,5))} = ${P(10,H('2−5'))}`,'Haut moins bas, dans cet ordre.'],[`= ${P(10,'−3')}`,'Plus de facteurs 10 en bas : le résultat est plus petit que 1.']]},
+{l:2,t:'pow',q:`(${P(10,3)})<sup>4</sup>`,a:[10,12],tr:[{e:7,m:'Puissance d’une puissance : on multiplie les exposants (3 × 4).'},{e:81,m:'On multiplie les exposants : 3 × 4.'}],s:[[`(${P(10,3)})<sup>4</sup> = ${P(10,H('3×4'))} = ${P(10,12)}`,'4 groupes de 3 facteurs 10 : on multiplie les exposants.']]},
+{l:2,t:'pow',q:`K = ${P(3,4)} × ${P(3,2)}`,a:[3,6],tr:[{e:8,m:'On additionne les exposants : 4 + 2.'},{b:9,m:'On garde la base 3.'}],s:[[`${P(3,4)} × ${P(3,2)} = ${P(3,H('4+2'))} = ${P(3,6)}`,'Même base 3 : on additionne.']]},
+{l:2,t:'num',c:'Donner la valeur numérique (le nombre).',q:`K = ${P(3,4)} × ${P(3,2)}`,a:729,h:'Écris K comme une seule puissance, puis développe-la.',tr:[{v:36,m:'3⁶ n’est pas 36 ! 3⁶ = 3 × 3 × 3 × 3 × 3 × 3.'},{v:18,m:'3⁶ ne veut pas dire 3 × 6.'},{v:6561,m:'4 + 2 = 6, pas 8 : K = 3⁶.'}],s:[[`K = ${P(3,6)}`,'Voir l’exercice précédent.'],[`${P(3,6)} = 3 × 3 × 3 × 3 × 3 × 3`,'6 facteurs égaux à 3 (et non 3 × 6, ni « 36 »).'],['= 9 × 9 × 9 = 729','On regroupe par 2 : 3 × 3 = 9 ; 9 × 9 = 81 ; 81 × 9 = 729.']]},
+{l:2,t:'pow',q:`${P('(−6)',2)} × ${P('(−6)',3)}`,a:[-6,5],tr:[{b:6,m:'La base est −6 : garde le signe.'}],s:[[`${P('(−6)',2)} × ${P('(−6)',3)} = ${P('(−6)',H('2+3'))} = ${P('(−6)',5)}`,'La base est −6 : on garde les parenthèses.']]},
+{l:2,t:'pow',q:`${P(10,5)} × ${P(10,'−8')}`,a:[10,-3],tr:[{e:13,m:'5 + (−8) = 5 − 8 = −3.'},{e:-40,m:'Produit : on additionne, on ne multiplie pas.'},{e:3,m:'5 + (−8) est négatif : −3.'}],s:[[`${P(10,5)} × ${P(10,'−8')} = ${P(10,H('5+(−8)'))}`,'Produit : on additionne.'],[`= ${P(10,'−3')}`,'5 + (−8) = 5 − 8 = −3.']]},
+{l:3,t:'pow',q:F(P(10,'−2'),P(10,'−6')),a:[10,4],h:'−2 − (−6) : soustraire un nombre négatif revient à ajouter son opposé.',tr:[{e:-8,m:'−2 − (−6) = −2 + 6 = 4 : soustraire un négatif revient à ajouter.'},{e:-4,m:'Haut moins bas : −2 − (−6) = −2 + 6.'}],s:[[`${F(P(10,'−2'),P(10,'−6'))} = ${P(10,H('−2−(−6)'))}`,'Quotient : haut moins bas.'],[`= ${P(10,'−2+6')} = ${P(10,4)}`,'Soustraire −6, c’est ajouter 6.']]},
+{l:3,t:'pow',q:`(${P(2,5)})<sup>2</sup> × 2`,a:[2,11],h:'Et le dernier 2, quel est son exposant ?',tr:[{e:10,m:'Il reste le facteur 2 = 2¹ : ajoute 1.'},{e:8,m:'Puissance de puissance : 5 × 2 = 10, pas 5 + 2.'},{e:7,m:'Puissance de puissance : on multiplie (5 × 2).'}],s:[[`(${P(2,5)})<sup>2</sup> × 2 = ${P(2,H('5×2'))} × ${P(2,1)}`,`Puissance de puissance : on multiplie. Et 2 = ${P(2,1)}.`],[`= ${P(2,10)} × ${P(2,1)} = ${P(2,H('10+1'))} = ${P(2,11)}`,'Produit : on additionne.']]},
+{l:3,t:'pow',q:`${P(5,3)} × ${P(4,3)}`,a:[20,3],h:'Bases différentes, mais même exposant.',tr:[{b:9,m:'aⁿ × bⁿ = (a × b)ⁿ : on multiplie les bases, 5 × 4.'},{e:6,m:'L’exposant reste 3 : (5 × 4)³.'}],s:[[`${P(5,3)} × ${P(4,3)} = ${P('(5 × 4)',3)}`,`Même exposant : ${P('a','n')} × ${P('b','n')} = ${P('(a × b)','n')}.`],[`= ${P(20,3)}`,'= 8 000.']]},
+{l:3,t:'pow',q:`L = ${P('(−2)',3)} × ${P('(−2)',2)}`,a:[-2,5],tr:[{e:6,m:'Produit : on additionne, 3 + 2.'},{b:2,m:'La base est −2.'}],s:[[`${P('(−2)',3)} × ${P('(−2)',2)} = ${P('(−2)',H('3+2'))} = ${P('(−2)',5)}`,'Même base −2.'],['= −32','5 est impair : négatif.']]},
+{l:3,t:'num',c:'Calculer.',q:`D = ${F(P('(−3)',3)+' × '+P('(−3)',2),P('(−3)',4))}`,a:-3,h:'Numérateur : même base −3. Puis le quotient.',tr:[{v:3,m:'(−3)¹ = −3 : le signe reste.'}],s:[[`${P('(−3)',3)} × ${P('(−3)',2)} = ${P('(−3)',5)}`,'Numérateur : 3 + 2 = 5.'],[`${F(P('(−3)',5),P('(−3)',4))} = ${P('(−3)',H('5−4'))} = ${P('(−3)',1)}`,'Quotient : 5 − 4 = 1.'],['D = −3',`${P('a',1)} = a.`]]}]},
+
+{id:'fractions',t:'Fractions et puissances',d:'10⁻ⁿ = 1/10ⁿ, (a/b)ⁿ, simplifier en décomposant.',cons:'Écrire sous la forme d’une puissance de 10.',
+k:`<p>${P(10,'−n')} = ${F(1,P(10,'n'))} &nbsp;·&nbsp; ${PF('a','b','n')} = ${F(P('a','n'),P('b','n'))}</p><p>Pour <b>simplifier</b> : on décompose numérateur et dénominateur en produits de facteurs premiers (2, 3, 5…), puis on supprime les facteurs communs. Utiles : <span class="nw">4 = ${P(2,2)}</span>, <span class="nw">6 = 2 × 3</span>, <span class="nw">9 = ${P(3,2)}</span>, <span class="nw">10 = 2 × 5</span>, <span class="nw">15 = 3 × 5</span>, <span class="nw">75 = 3 × ${P(5,2)}</span>.</p>`,
+ex:{s:`Simplifier ${F(P(12,2),P(2,4)+' × 3')}, puis écrire ${F(1,'100 000')} sous forme d’une puissance de 10.`,c:[
+{t:'Simplifier',l:[[`12 = ${P(2,2)} × 3`,'On décompose 12 en facteurs premiers.'],[`${P(12,2)} = (${P(2,2)} × 3)<sup>2</sup> = ${P(2,4)} × ${P(3,2)}`,'(a × b)ⁿ = aⁿ × bⁿ, et (2²)² = 2⁴.'],[`${F(P(12,2),P(2,4)+' × 3')} = ${F(H(P(2,4))+' × '+P(3,2),H(P(2,4))+' × 3')}`,'On remplace et on repère le facteur commun 2⁴.'],[`= ${F(P(3,2),3)} = ${P(3,'2−1')} = 3`,'On supprime 2⁴, puis quotient de même base.']]},
+{t:'Fraction et puissance de 10',l:[[`${F(1,'100 000')} = ${F(1,P(10,5))}`,'100 000 = 1 suivi de 5 zéros = 10⁵.'],[`= ${P(10,'−5')}`,`Car ${F(1,P(10,'n'))} = ${P(10,'−n')}.`]]}]},
+items:[
+{l:1,t:'pow',q:F(1,'1 000'),a:[10,-3],tr:[{e:3,m:'Ce nombre est plus petit que 1 : l’exposant est négatif.'}],s:[[`${F(1,'1 000')} = ${F(1,P(10,3))}`,'1 000 = 10³.'],[`= ${P(10,'−3')}`,'']]},
+{l:1,t:'frac',c:'Écrire sous forme d’une fraction de numérateur 1 (dénominateur en écriture décimale).',q:P(10,'−5'),a:[1,100000],h:'10⁻⁵ = 1 / 10⁵. Écris 10⁵ en entier.',tr:[{n:1,d:10000,m:'10⁵ = 100 000 : 5 zéros.'}],s:[[`${P(10,'−5')} = ${F(1,P(10,5))}`,'Définition de 10⁻ⁿ.'],[`= ${F(1,'100 000')}`,'10⁵ = 1 suivi de 5 zéros.']]},
+{l:2,t:'pow',q:F(1,P(10,'−5')),a:[10,5],h:'Écris 1 = 10⁰ et utilise la règle du quotient.',tr:[{e:-5,m:'L’inverse de 10⁻⁵ est 10⁵ : 1/10⁻ⁿ = 10ⁿ.'}],s:[[`${F(1,P(10,'−5'))} = ${F(P(10,0),P(10,'−5'))}`,'1 = 10⁰.'],[`= ${P(10,H('0−(−5)'))} = ${P(10,5)}`,'Quotient : 0 − (−5) = 5.']]},
+{l:2,t:'frac',c:'Calculer et donner le résultat sous forme de fraction.',q:PF(2,3,3),a:[8,27],tr:[{n:6,d:9,m:'(2/3)³ n’est pas (2 × 3)/(3 × 3) : on élève le numérateur et le dénominateur à la puissance 3.'},{n:8,d:3,m:'Le dénominateur aussi est élevé à la puissance 3.'},{n:2,d:27,m:'Le numérateur aussi est élevé à la puissance 3.'}],s:[[`${PF(2,3,3)} = ${F(P(2,3),P(3,3))}`,'Le numérateur ET le dénominateur sont élevés à la puissance 3.'],[`= ${F(8,27)}`,'2³ = 8 et 3³ = 27.']]},
+{l:2,t:'ch',c:'Écrire sous la forme a × 10ⁿ.',q:F(2,'1 000'),o:[[`2 × ${P(10,3)}`,'Diviser par 1 000 rend le nombre plus petit : l’exposant est négatif.'],[`${P(10,'−6')}`,'On ne multiplie pas 2 et 3 : 2/1 000 = 2 × 1/1 000.'],[`2 × ${P(10,'−3')}`,''],[`${P(2,'−3')}`,'Le 2 n’est pas la base d’une puissance ici.']],a:2,s:[[`${F(2,'1 000')} = 2 × ${F(1,'1 000')}`,''],[`= 2 × ${F(1,P(10,3))} = 2 × ${P(10,'−3')}`,'= 0,002.']]},
+{l:2,t:'num',c:'Simplifier en décomposant les nombres (donner un entier).',q:F(P(10,4),P(2,4)+' × '+P(5,3)),a:5,h:'10 = 2 × 5, donc 10⁴ = 2⁴ × 5⁴.',tr:[{v:25,m:'5⁴ ÷ 5³ = 5¹ = 5.'}],s:[[`${P(10,4)} = ${P('(2 × 5)',4)} = ${P(2,4)} × ${P(5,4)}`,'10 = 2 × 5.'],[F(`${H(P(2,4))} × ${P(5,4)}`,`${H(P(2,4))} × ${P(5,3)}`),'Facteur commun 2⁴ : on le supprime.'],[`= ${F(P(5,4),P(5,3))} = ${P(5,1)} = 5`,'4 − 3 = 1.']]},
+{l:2,t:'num',c:'Simplifier en décomposant les nombres (donner un entier).',q:F(P(6,3),P(2,3)+' × '+P(3,2)),a:3,h:'6 = 2 × 3.',s:[[`${P(6,3)} = ${P('(2 × 3)',3)} = ${P(2,3)} × ${P(3,3)}`,'6 = 2 × 3.'],[F(`${H(P(2,3))} × ${P(3,3)}`,`${H(P(2,3))} × ${P(3,2)}`),'Facteur commun 2³ : on le supprime.'],[`= ${F(P(3,3),P(3,2))} = ${P(3,1)} = 3`,'']]},
+{l:3,t:'num',c:'Simplifier en décomposant les nombres (donner un entier).',q:F(P(15,2)+' × 3',P(5,2)+' × 9'),a:3,h:'15 = 3 × 5 et 9 = 3².',s:[[`${P(15,2)} = ${P(3,2)} × ${P(5,2)} et 9 = ${P(3,2)}`,'15 = 3 × 5.'],[F(`${P(3,2)} × ${H(P(5,2))} × 3`,`${H(P(5,2))} × ${P(3,2)}`),'Facteur commun 5².'],[`= ${F(P(3,2)+' × 3',P(3,2))} = 3`,'On supprime aussi 3².']]},
+{l:3,t:'num',c:'Simplifier en décomposant les nombres (donner un entier).',q:F(P(4,3)+' × '+P(9,2),P(6,4)+' × 2'),a:2,h:'4 = 2², 9 = 3², 6 = 2 × 3.',s:[[`${P(4,3)} = (${P(2,2)})<sup>3</sup> = ${P(2,6)} ; ${P(9,2)} = (${P(3,2)})<sup>2</sup> = ${P(3,4)}`,'4 = 2² et 9 = 3².'],[`${P(6,4)} × 2 = ${P(2,4)} × ${P(3,4)} × 2 = ${P(2,5)} × ${P(3,4)}`,'6 = 2 × 3, et 2⁴ × 2 = 2⁵.'],[F(`${P(2,6)} × ${H(P(3,4))}`,`${P(2,5)} × ${H(P(3,4))}`),'Facteur commun 3⁴.'],[`= ${F(P(2,6),P(2,5))} = ${P(2,1)} = 2`,'']]},
+{l:3,t:'frac',c:'Défi : écrire sous la forme d’une fraction irréductible.',q:F(P(15,4)+' × '+P(5,2)+' × 3',P(75,2)+' × '+P(9,2)),a:[25,3],h:'15 = 3 × 5, 75 = 3 × 5², 9 = 3². Regroupe les 3 et les 5.',s:[[`${P(15,4)} × ${P(5,2)} × 3 = ${P(3,4)} × ${P(5,4)} × ${P(5,2)} × 3 = ${P(3,5)} × ${P(5,6)}`,'15 = 3 × 5, puis on regroupe les mêmes bases.'],[`${P(75,2)} × ${P(9,2)} = ${P(3,2)} × ${P(5,4)} × ${P(3,4)} = ${P(3,6)} × ${P(5,4)}`,'75² = (3 × 5²)² = 3² × 5⁴ ; 9² = 3⁴.'],[`${F(P(3,5)+' × '+P(5,6),P(3,6)+' × '+P(5,4))} = ${F(P(5,2),P(3,1))}`,'5⁶ ÷ 5⁴ = 5² reste en haut ; 3⁶ ÷ 3⁵ = 3 reste en bas.'],[`= ${F(25,3)}`,'25 et 3 n’ont aucun facteur commun : fraction irréductible.']]}]},
+
+{id:'raisonner',t:'Raisonner et justifier',d:'Sommes de puissances, comparaisons, vrai ou faux.',cons:'Calculer.',
+k:`<p>Il n’existe <b>pas de règle</b> pour additionner ou soustraire des puissances : ${P(10,7)} + ${P(10,3)} ≠ ${P(10,10)}. On revient à l’écriture décimale.</p><p>Pour <b>comparer</b> deux puissances, on cherche à les écrire avec le même exposant (ou la même base).</p>`,
+ex:{s:`Léo affirme que ${P(10,3)} + ${P(10,2)} = ${P(10,5)}. A-t-il raison ? Puis comparer ${P(2,30)} et ${P(3,20)}.`,c:[
+{t:'Vrai ou faux ?',l:[[`${P(10,3)} + ${P(10,2)} = 1 000 + 100 = 1 100`,'Pas de règle pour une somme : on passe en écriture décimale.'],[`${P(10,5)} = 100 000`,''],['1 100 ≠ 100 000 : faux','Léo a utilisé la règle du produit (additionner les exposants) pour une somme.']]},
+{t:'Comparer',l:[[`${P(2,30)} = (${P(2,3)})<sup>10</sup> = ${P(8,10)}`,'On cherche le même exposant : 30 = 3 × 10.'],[`${P(3,20)} = (${P(3,2)})<sup>10</sup> = ${P(9,10)}`,'20 = 2 × 10.'],[`8 < 9, donc ${P(8,10)} < ${P(9,10)} : ${P(2,30)} < ${P(3,20)}`,'Même exposant : le plus grand est celui de plus grande base.']]}]},
+items:[
+{l:1,t:'ch',c:'Vrai ou faux ?',q:`« ${P(10,'−3')} est un nombre négatif. »`,o:[['Vrai','10⁻³ = 0,001 : c’est un nombre positif, plus petit que 1.'],['Faux','']],a:1,s:[[`${P(10,'−3')} = ${F(1,P(10,3))} = 0,001`,''],['0,001 > 0 : faux','L’exposant négatif indique un nombre plus petit que 1, pas un nombre négatif.']]},
+{l:1,t:'num',q:`H = ${P(10,7)} + ${P(10,3)}`,a:10001000,h:'Écris chaque puissance en écriture décimale, puis additionne.',tr:[{v:1e10,m:'10⁷ + 10³ n’est pas 10¹⁰ : additionner les exposants ne marche que pour un produit.'},{v:1e21,m:'On ne multiplie pas les exposants.'}],s:[[`H = ${P(10,7)} + ${P(10,3)}`,'Somme : pas de règle sur les exposants.'],['H = 10 000 000 + 1 000','On passe en écriture décimale.'],['H = 10 001 000','']]},
+{l:2,t:'num',q:`E = 2 × ${P(10,3)} − 5 × ${P(10,2)}`,a:1500,tr:[{v:-300,m:'On ne peut pas faire 2 − 5 : ils ne multiplient pas la même puissance de 10. 2 000 − 500 = 1 500.'},{v:-3000,m:'2 × 10³ = 2 000 et 5 × 10² = 500.'}],s:[[`E = 2 × ${P(10,3)} − 5 × ${P(10,2)}`,'Puissances, puis multiplications.'],['E = 2 × 1 000 − 5 × 100',''],['E = 2 000 − 500 = 1 500','']]},
+{l:2,t:'num',q:`G = 4 × ${P(10,'−2')} + 3 × ${P(10,'−1')}`,a:0.34,tr:[{v:0.07,m:'On ne peut pas additionner 4 et 3 : ils ne multiplient pas la même puissance de 10.'},{v:0.7,m:'4 × 10⁻² = 0,04 et 3 × 10⁻¹ = 0,3.'},{v:0.43,m:'Attention aux rangs : 4 centièmes + 3 dixièmes.'}],s:[[`G = 4 × ${P(10,'−2')} + 3 × ${P(10,'−1')}`,''],['G = 4 × 0,01 + 3 × 0,1','10⁻² = 0,01 et 10⁻¹ = 0,1.'],['G = 0,04 + 0,3 = 0,34','4 centièmes + 3 dixièmes.']]},
+{l:2,t:'ch',c:'Est-ce vrai ? Justifier.',q:`Inès affirme que ${P(10,5)} + ${P(10,'−5')} = ${P(10,0)}.`,o:[['Vrai','Calcule chaque terme : 10⁵ + 10⁻⁵ est plus grand que 100 000, alors que 10⁰ = 1.'],['Faux','']],a:1,s:[[`${P(10,5)} = 100 000 et ${P(10,'−5')} = 0,000 01`,'5 chiffres après la virgule pour 10⁻⁵ (attention : pas 0,000 1).'],[`${P(10,5)} + ${P(10,'−5')} = 100 000,000 01`,''],[`${P(10,0)} = 1`,''],['100 000,000 01 ≠ 1 : faux',`Inès a additionné les exposants (5 + (−5) = 0) : cette règle est celle du produit. D’ailleurs ${P(10,5)} × ${P(10,'−5')} = ${P(10,0)} = 1, ça c’est vrai !`]]},
+{l:3,t:'num',q:`H = ${P('(2 × 5)',3)} − ${P(2,3)} × ${P(5,3)}`,a:0,h:'(a × b)ⁿ = aⁿ × bⁿ.',s:[[`${P('(2 × 5)',3)} = ${P(2,3)} × ${P(5,3)}`,'Règle (a × b)ⁿ = aⁿ × bⁿ.'],[`H = ${P(2,3)} × ${P(5,3)} − ${P(2,3)} × ${P(5,3)} = 0`,'Les deux termes sont égaux. Vérification : 10³ = 1 000 et 8 × 125 = 1 000.']]},
+{l:3,t:'ch',c:'Vrai ou faux ? Justifier.',q:`${P(2,3)} + ${P(2,3)} = ${P(2,4)}`,o:[['Vrai',''],['Faux','Calcule : 8 + 8 = 16, et 2⁴ = 16. Pièce piège !']],a:0,s:[[`${P(2,3)} + ${P(2,3)} = 2 × ${P(2,3)}`,'Deux fois le même nombre.'],[`= ${P(2,1)} × ${P(2,3)} = ${P(2,4)}`,'Produit de même base : 1 + 3 = 4.'],['Vrai : 8 + 8 = 16 = 2⁴','Attention : 2³ + 2³ n’est pas 2⁶.']]},
+{l:3,t:'ch',c:'Vrai ou faux ?',q:`${P('(−3)',2)} = −${P(3,2)}`,o:[['Vrai','(−3)² = 9 alors que −3² = −9.'],['Faux','']],a:1,s:[[`${P('(−3)',2)} = (−3) × (−3) = 9`,''],[`−${P(3,2)} = −(3 × 3) = −9`,'Sans parenthèses, le carré ne porte que sur 3.'],['9 ≠ −9 : faux','']]},
+{l:3,t:'ch',c:'Défi : sans calculatrice, quel est le plus grand nombre ?',q:`${P(2,50)} ou ${P(5,20)} ?`,o:[[P(2,50),''],[P(5,20),'Écris les deux nombres avec le même exposant 10.'],['Ils sont égaux','Écris-les avec le même exposant 10, puis compare les bases.']],a:0,h:'50 = 5 × 10 et 20 = 2 × 10.',s:[[`${P(2,50)} = (${P(2,5)})<sup>10</sup> = ${P(32,10)}`,'50 = 5 × 10.'],[`${P(5,20)} = (${P(5,2)})<sup>10</sup> = ${P(25,10)}`,'20 = 2 × 10.'],[`32 > 25, donc ${P(32,10)} > ${P(25,10)} : ${P(2,50)} > ${P(5,20)}`,'Même exposant : le plus grand a la plus grande base.']]}]},
+
+{id:'erreurs',t:'Trouver l’erreur',d:'Repérer les pièges les plus fréquents.',cons:'Un élève a écrit ceci. Quelle est son erreur ?',
+k:`<p>Corriger l’erreur d’un autre aide à ne pas la refaire. Pour chaque copie, cherche <b>quelle règle</b> a été mal utilisée.</p><p>Les pièges fréquents : confondre les règles (+, −, ×), oublier qu’un exposant compte des facteurs, mal compter les zéros, oublier les parenthèses.</p>`,
+ex:{s:`Un élève a écrit : ${COPIE(`${P(2,3)} × ${P(2,4)} = ${P(4,7)}`)}`,c:[
+{t:'',l:[['Les exposants : 3 + 4 = 7','Cette partie est juste.'],[`La base : ${H('2')} et non 4`,'Erreur : il a aussi multiplié les bases. On garde la base 2.'],[`Correction : ${P(2,3)} × ${P(2,4)} = ${P(2,7)} = 128`,'Vérification : 8 × 16 = 128.']]}]},
+items:[
+{l:1,t:'ch',q:COPIE(`${P(10,3)} × ${P(10,2)} = ${P(10,'3−2')} = ${P(10,1)}`),o:[['Il a soustrait les exposants : pour un produit, on les additionne.',''],['Il fallait multiplier les exposants : 10⁶.','Non : on multiplie les exposants pour une puissance de puissance, pas pour un produit.'],['Il n’y a pas d’erreur.','Vérifie : 1 000 × 100 = 100 000 = 10⁵.']],a:0,s:[[`${P(10,3)} × ${P(10,2)} = ${P(10,H('3+2'))} = ${P(10,5)}`,'Produit : on additionne les exposants.']]},
+{l:1,t:'ch',q:COPIE(`${P(3,4)} × ${P(3,2)} = ${P(3,6)} = 36`),o:[['3⁴ × 3² ne fait pas 3⁶.','Si : 4 + 2 = 6, cette étape est juste.'],['Il fallait écrire 9⁶.','On garde la base 3.'],['3⁶ ne vaut pas 36 : 3⁶ = 729.','']],a:2,s:[[`${P(3,6)} = 3 × 3 × 3 × 3 × 3 × 3`,'6 facteurs égaux à 3.'],['= 729','« 36 » mélange la base et l’exposant.']]},
+{l:2,t:'ch',q:COPIE(`${F(P(10,2),P(10,5))} = ${P(10,'2+5')} = ${P(10,7)}`),o:[['Il a additionné : pour un quotient, on soustrait (2 − 5).',''],['Il fallait faire 5 − 2 = 3.','Ordre : haut moins bas, 2 − 5.'],['Il n’y a pas d’erreur.','Il y a plus de 10 en bas : le résultat est plus petit que 1.']],a:0,s:[[`${F(P(10,2),P(10,5))} = ${P(10,H('2−5'))} = ${P(10,'−3')}`,'Quotient : haut moins bas.']]},
+{l:2,t:'ch',q:COPIE(`${P(10,'−5')} = 0,000 1`),o:[['10⁻⁵ est négatif : −100 000.','Un exposant négatif donne un nombre plus petit que 1, pas négatif.'],['Il manque un zéro : 10⁻⁵ = 0,000 01.',''],['Il fallait écrire 100 000.','Ça, c’est 10⁵.']],a:1,s:[[`${P(10,'−5')} = 0,${H('000 01')}`,'5 chiffres après la virgule, le 1 compris.'],['0,000 1 = 10⁻⁴','L’élève a écrit 10⁻⁴.']]},
+{l:2,t:'ch',q:COPIE(`−${P(3,2)} = 9`),o:[['Il fallait écrire 6.','3² = 3 × 3, pas 3 × 2.'],['−3² = −9 : sans parenthèses, le carré ne porte que sur 3.',''],['Il n’y a pas d’erreur.','Ce serait juste pour (−3)².']],a:1,s:[[`−${P(3,2)} = −(3 × 3) = −9`,'Seul 3 est au carré.'],[`À ne pas confondre avec ${P('(−3)',2)} = 9.`,'']]},
+{l:2,t:'ch',q:COPIE(`${PF(2,3,2)} = ${F(4,3)}`),o:[['Il fallait écrire 4/6.','On n’élève pas au carré en multipliant par 2.'],['Le dénominateur aussi est au carré : 4/9.',''],['Il n’y a pas d’erreur.','Vérifie : (2/3) × (2/3) = 4/9.']],a:1,s:[[`${PF(2,3,2)} = ${F(P(2,2),P(3,2))} = ${F(4,9)}`,'Numérateur et dénominateur au carré.']]},
+{l:3,t:'ch',q:COPIE(`5 − 2 × ${P(6,2)} = 5 − ${P(12,2)}`),o:[['Il a multiplié avant la puissance : on calcule 6² d’abord.',''],['Il fallait faire 5 − 2 d’abord.','Non : la multiplication passe avant la soustraction.'],['Il n’y a pas d’erreur.','2 × 6² = 2 × 36 = 72, alors que 12² = 144.']],a:0,s:[[`5 − 2 × ${H(P(6,2))} = 5 − 2 × 36`,'Puissance d’abord.'],['= 5 − 72 = −67','']]},
+{l:3,t:'ch',q:COPIE(`${P(10,7)} + ${P(10,3)} = ${P(10,10)}`),o:[['Il fallait écrire 10²¹.','On ne multiplie pas les exposants.'],['Il n’y a pas d’erreur.','10 000 000 + 1 000 = 10 001 000, pas 10 000 000 000.'],['Il n’y a pas de règle pour une somme : 10 001 000.','']],a:2,s:[[`${P(10,7)} + ${P(10,3)} = 10 000 000 + 1 000`,'Écriture décimale.'],['= 10 001 000','La règle « on additionne les exposants » ne vaut que pour un produit.']]},
+{l:3,t:'ch',q:COPIE(`0,32 × ${P(10,'−2')} = 0,032`),o:[['La virgule va vers la droite : 32.','Exposant négatif : vers la gauche.'],['Il a décalé d’un seul rang : il faut 0,003 2.',''],['Il n’y a pas d’erreur.','Il faut décaler de 2 rangs.']],a:1,s:[['0,32 → 0,032 → 0,003 2','2 rangs vers la gauche ; on complète avec des zéros.']]}]}
+];
+
+/* exercices de virgule : énoncé, réponse et correction générés */
+FAM.forEach(f=>f.items.forEach(it=>{if(it.t!=='v')return;
+ const d=parseDec(it.x),n=it.n,r=place(d,n),o=place(d,0).str,an=Math.abs(n),rg=`${an} rang${an>1?'s':''}`;
+ const ch=[o];for(let k=1;k<=an;k++)ch.push(place(d,Math.sign(n)*k).str);
+ it.t='num';it.a=r.val;it.q=`${o} × ${P(10,sg(n))}`;
+ it.h=`Exposant ${n>0?'positif : vers la droite':'négatif : vers la gauche'}, de ${rg}.`;
+ it.tr=[{v:place(d,-n).val,m:n>0?'Mauvais sens : exposant positif, la virgule va vers la droite et le nombre grandit.':'Mauvais sens : exposant négatif, la virgule va vers la gauche et le nombre rapetisse.'},{v:place(d,n-1).val,m:`Recompte : il faut décaler de ${rg} exactement.`},{v:place(d,n+1).val,m:`Recompte : il faut décaler de ${rg} exactement.`}];
+ it.s=[[`${o} × ${P(10,H(sg(n)))}`,`Exposant ${sg(n)} : la virgule se décale de ${rg} vers la ${n>0?'droite':'gauche'}.`+(it.x.includes(',')?'':` La virgule de ${o} est cachée : ${o} = ${o},0.`)],[ch.join(' → '),'Un rang à chaque flèche ; on complète avec des zéros si besoin.'],[`${it.q} = ${r.str}`,`Vérification : ${o} ${n>0?'×':'÷'} ${place([{v:1,p:0}],an).str} = ${r.str}.`]];}));
+
+/* ---------- flashcards et fiche mémo ---------- */
+const CARDS=[
+{g:'Définitions',f:`Que signifie ${P('a','n')} ? (n entier positif)`,b:`a × a × … × a<br><small>n facteurs égaux à a</small>`,x:`${P(2,3)} = 2 × 2 × 2 = 8`},
+{g:'Définitions',f:`${P('a',1)} = ?`,b:`${P('a',1)} = a`,x:`${P(7,1)} = 7`},
+{g:'Définitions',f:`${P('a',0)} = ? (a ≠ 0)`,b:`${P('a',0)} = 1`,x:`${P(10,0)} = 1 ; ${P(5,0)} = 1`},
+{g:'Puissances de 10',f:`Écriture décimale de ${P(10,'n')}`,b:'1 suivi de n zéros',x:`${P(10,4)} = 10 000`},
+{g:'Puissances de 10',f:`Écriture décimale de ${P(10,'−n')}`,b:'0,0…01<br><small>n chiffres après la virgule</small>',x:`${P(10,'−3')} = 0,001`},
+{g:'Puissances de 10',f:`${P(10,'−n')} sous forme de fraction`,b:`${P(10,'−n')} = ${F(1,P(10,'n'))}`,x:`${P(10,'−2')} = ${F(1,100)} = 0,01`},
+{g:'Puissances de 10',f:`Multiplier par ${P(10,'n')}`,b:'La virgule se décale de n rangs vers la droite',x:`3,75 × ${P(10,2)} = 375`},
+{g:'Puissances de 10',f:`Multiplier par ${P(10,'−n')}`,b:'La virgule se décale de n rangs vers la gauche',x:`58 × ${P(10,'−3')} = 0,058`},
+{g:'Puissances de 10',f:'Un millième ? Un millionième ?',b:`${P(10,'−3')} et ${P(10,'−6')}`,x:'un millième = 0,001 ; un millionième = 0,000 001'},
+{g:'Règles de calcul',f:`${P('a','m')} × ${P('a','n')} = ?`,b:P('a','m + n'),x:`${P(10,3)} × ${P(10,2)} = ${P(10,5)}`},
+{g:'Règles de calcul',f:`${F(P('a','m'),P('a','n'))} = ?`,b:P('a','m − n'),x:`${F(P(10,2),P(10,5))} = ${P(10,'−3')}`},
+{g:'Règles de calcul',f:`(${P('a','m')})<sup>n</sup> = ?`,b:P('a','m × n'),x:`(${P(10,3)})<sup>4</sup> = ${P(10,12)}`},
+{g:'Règles de calcul',f:`${P('a','n')} × ${P('b','n')} = ?`,b:P('(a × b)','n'),x:`${P(5,3)} × ${P(4,3)} = ${P(20,3)}`},
+{g:'Règles de calcul',f:`${P('a','m')} + ${P('a','n')} = ?`,b:'Pas de règle !<br><small>On calcule chaque terme.</small>',x:`${P(10,3)} + ${P(10,2)} = 1 100 (et pas ${P(10,5)})`},
+{g:'Signes et priorités',f:`Signe de ${P('(−a)','n')}`,b:'Positif si n est pair<br>négatif si n est impair',x:`${P('(−2)',4)} = 16 ; ${P('(−2)',3)} = −8`},
+{g:'Signes et priorités',f:`${P('(−3)',2)} et −${P(3,2)}`,b:`${P('(−3)',2)} = 9 mais −${P(3,2)} = −9`,x:'Sans parenthèses, la puissance ne porte que sur 3.'},
+{g:'Signes et priorités',f:'Ordre des priorités',b:'( ) → puissances → × et ÷ → + et −',x:`2 + 3 × ${P(4,2)} = 2 + 48 = 50`},
+{g:'Fractions',f:`${PF('a','b','n')} = ?`,b:F(P('a','n'),P('b','n')),x:`${PF(2,3,3)} = ${F(8,27)}`},
+{g:'Fractions',f:'Simplifier une fraction avec des puissances',b:'Décomposer en facteurs premiers,<br>puis supprimer les facteurs communs',x:`${F(P(6,3),P(2,3)+' × '+P(3,2))} = ${F(P(2,3)+' × '+P(3,3),P(2,3)+' × '+P(3,2))} = 3`}];
+const GROUPS=[...new Set(CARDS.map(c=>c.g))];
+
+/* ---------- quiz ---------- */
+const QUIZ=[
+{q:`${P(10,3)} × ${P(10,4)} = ?`,o:[P(10,7),P(10,12),P(10,1),P(100,7)],e:'Produit de même base : on additionne les exposants, 3 + 4 = 7.'},
+{q:`${F(P(10,6),P(10,2))} = ?`,o:[P(10,4),P(10,3),P(10,8),P(1,4)],e:'Quotient : on soustrait les exposants, 6 − 2 = 4.'},
+{q:`(${P(10,2)})<sup>3</sup> = ?`,o:[P(10,6),P(10,5),P(10,8),P(10,9)],e:'Puissance de puissance : on multiplie, 2 × 3 = 6.'},
+{q:`${P(10,'−2')} = ?`,o:['0,01','−100','0,001','−0,01'],e:`${P(10,'−2')} = ${F(1,100)} = 0,01 : 2 chiffres après la virgule. Le nombre reste positif.`},
+{q:`${P(10,0)} = ?`,o:['1','0','10','On ne peut pas calculer'],e:'Tout nombre non nul à la puissance 0 vaut 1.'},
+{q:`${P('(−2)',3)} = ?`,o:['−8','8','−6','6'],e:'(−2) × (−2) × (−2) = −8 : exposant impair, résultat négatif.'},
+{q:`−${P(2,4)} = ?`,o:['−16','16','−8','8'],e:'Sans parenthèses, la puissance ne porte que sur 2 : −(2 × 2 × 2 × 2) = −16.'},
+{q:`${P('(−1)',100)} = ?`,o:['1','−1','100','−100'],e:'100 est pair : le résultat est positif.'},
+{q:`4,5 × ${P(10,3)} = ?`,o:['4 500','0,004 5','45 000','450'],e:'3 rangs vers la droite : 4,5 → 45 → 450 → 4 500.'},
+{q:`72 × ${P(10,'−3')} = ?`,o:['0,072','72 000','0,72','7,2'],e:'3 rangs vers la gauche : 72 → 7,2 → 0,72 → 0,072.'},
+{q:`${P(2,5)} × ${P(2,'−2')} = ?`,o:[P(2,3),P(2,'−10'),P(2,7),P(4,3)],e:'Produit : 5 + (−2) = 3.'},
+{q:`${P(5,3)} × ${P(2,3)} = ?`,o:[P(10,3),P(7,3),P(10,6),P(7,6)],e:`Même exposant : ${P('a','n')} × ${P('b','n')} = ${P('(a × b)','n')}, ici ${P('(5 × 2)',3)} = ${P(10,3)}.`},
+{q:`${PF(3,4,2)} = ?`,o:[F(9,16),F(6,8),F(9,4),F(3,16)],e:`Numérateur et dénominateur au carré : ${F(P(3,2),P(4,2))} = ${F(9,16)}.`},
+{q:`${F(1,P(10,4))} = ?`,o:[P(10,'−4'),'−'+P(10,4),P(10,4),'0,000 4'],e:`${F(1,P(10,'n'))} = ${P(10,'−n')}. Et ${P(10,'−4')} = 0,000 1 (pas 0,000 4).`},
+{q:`${F(P(10,'−3'),P(10,'−5'))} = ?`,o:[P(10,2),P(10,'−8'),P(10,'−2'),P(10,8)],e:'Quotient : −3 − (−5) = −3 + 5 = 2.'},
+{q:`${P(10,4)} + ${P(10,2)} = ?`,o:['10 100',P(10,6),P(10,8),'1 000 000'],e:'Pas de règle pour une somme : 10 000 + 100 = 10 100.'},
+{q:`2 + 3 × ${P(4,2)} = ?`,o:['50','80','146','26'],e:'Puissance d’abord : 4² = 16 ; puis 3 × 16 = 48 ; enfin 2 + 48 = 50.'},
+{q:'Un millionième s’écrit…',o:[P(10,'−6'),P(10,6),P(10,'−5'),P(10,'−7')],e:`Un millionième = ${F(1,'1 000 000')} = ${P(10,'−6')}.`},
+{q:'Quel est le plus grand nombre ?',o:[P(3,4),P(4,3),P(2,6),P(6,2)],e:'3⁴ = 81 ; 4³ = 64 ; 2⁶ = 64 ; 6² = 36.'},
+{q:`6 = 2 × 3, donc ${P(6,3)} = ?`,o:[`${P(2,3)} × ${P(3,3)}`,`2 × ${P(3,3)}`,`${P(2,3)} + ${P(3,3)}`,'6 × 3'],e:`${P('(2 × 3)',3)} = ${P(2,3)} × ${P(3,3)} : chaque facteur est élevé à la puissance 3.`}];
+
+/* ---------- état ---------- */
+let S={};try{S=JSON.parse(localStorage.getItem('pf4e')||'{}')||{}}catch(e){S={}}
+S.ex=S.ex||{};S.pos=S.pos||{};
+const save=()=>{try{localStorage.setItem('pf4e',JSON.stringify(S))}catch(e){}};
+const TOTAL=FAM.reduce((s,f)=>s+f.items.length,0);
+const okCount=f=>f.items.filter((_,i)=>S.ex[f.id+i]==='ok').length;
+const shuffle=a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a};
+
+function updateGlobal(){const ok=FAM.reduce((s,f)=>s+okCount(f),0);
+ $('#gpt').textContent=`${ok} / ${TOTAL}`;$('#gpm').style.width=(100*ok/TOTAL)+'%';
+ FAM.forEach(f=>{const c=document.getElementById('c-'+f.id);if(c){const n=okCount(f);c.textContent=`${n}/${f.items.length}`;c.classList.toggle('full',n===f.items.length)}})}
+
+$('#side').innerHTML=`<p class="sh">Apprendre</p><a href="#accueil">Accueil</a><a href="#comprendre">Comprendre les règles</a><a href="#formules">Fiche mémo</a><a href="#cartes">Flashcards</a><a href="#quiz">Quiz</a><p class="sh">S’entraîner</p>`+FAM.map(f=>`<a href="#f-${f.id}"><span>${f.t}</span><span class="cnt" id="c-${f.id}"></span></a>`).join('');
+
+const stepsHTML=(lines,fresh)=>`<div class="steps">${lines.map(([m,n],k)=>{const c=fresh&&k===lines.length-1?' new':'';return `<div class="sm${c}">${m}</div><div class="sn${c}">${n||''}</div>`}).join('')}</div>`;
+
+/* ---------- vues ---------- */
+const main=$('#main');
+function home(){
+ const done=FAM.reduce((s,f)=>s+okCount(f),0);
+ main.innerHTML=`<h1>Puissances et fractions</h1><p class="lede">Un parcours en quatre temps, à partir des fiches de la classe. Chaque famille d’exercices commence par l’essentiel et un exemple résolu pas à pas, puis propose des exercices de plus en plus difficiles, avec une correction détaillée.</p>
+ <div class="path">
+ <a href="#comprendre"><b>1. Comprendre</b><span>Voir pourquoi les règles marchent, en comptant les facteurs.</span><em>3 manipulations</em></a>
+ <a href="#formules"><b>2. Mémoriser</b><span>La fiche mémo, puis les flashcards pour s’auto-tester.</span><em>${CARDS.length} cartes</em></a>
+ <a href="#quiz"><b>3. Se tester</b><span>Un quiz rapide de 10 questions, avec explications.</span><em>${QUIZ.length} questions en réserve</em></a>
+ <a href="#f-${FAM[0].id}"><b>4. S’entraîner</b><span>Exemple résolu, puis exercices ★ à ★★★.</span><em>${done} / ${TOTAL} réussis</em></a>
+ </div>
+ <section class="frame"><h2>Familles d’exercices</h2><div class="fams">${FAM.map(f=>{const n=okCount(f),t=f.items.length;return `<a href="#f-${f.id}"><span><b>${f.t}</b><br><small class="mute">${f.d}</small></span><span class="meter"><i style="width:${100*n/t}%"></i></span><span class="n">${n} / ${t}</span></a>`}).join('')}</div>
+ <div class="row"><button id="rst" data-act="reset">Effacer ma progression</button></div></section>`}
+
+let T={op:'mul',m:3,n:2},V={x:'3,75',n:2},G={n:5};
+function learn(){
+ main.innerHTML=`<h1>Comprendre les règles</h1><p class="lede">Les règles de calcul ne sont pas magiques : elles viennent du comptage des facteurs. Bouge les curseurs et observe.</p>
+ <section class="frame"><h2>Compter les facteurs 10</h2>
+ <div class="seg" role="group" aria-label="Opération"><button data-act="top" data-op="mul">Produit</button><button data-act="top" data-op="div">Quotient</button><button data-act="top" data-op="pow">Puissance de puissance</button></div>
+ <div class="sliders"><label for="tm">m = <b id="tmv"></b></label><input type="range" id="tm" min="1" max="6" value="${T.m}"><label for="tn">n = <b id="tnv"></b></label><input type="range" id="tn" min="1" max="6" value="${T.n}"></div>
+ <div class="pic" id="tiles"></div></section>
+ <section class="frame"><h2>Multiplier par une puissance de 10</h2>
+ <div class="sliders"><label for="vx">Nombre</label><input id="vx" value="${V.x}" inputmode="decimal" style="width:9em" autocomplete="off"><label for="vn">× 10 puissance <b id="vnv"></b></label><input type="range" id="vn" min="-6" max="6" value="${V.n}"></div>
+ <div class="pic" id="virg"></div></section>
+ <section class="frame"><h2>Le signe de ${P('(−2)','n')}</h2>
+ <div class="sliders"><label for="gn">n = <b id="gnv"></b></label><input type="range" id="gn" min="1" max="9" value="${G.n}"></div>
+ <div class="pic" id="sig"></div></section>`;
+ drawTiles();drawVirg();drawSig()}
+
+function drawTiles(){
+ document.querySelectorAll('[data-op]').forEach(b=>b.classList.toggle('on',b.dataset.op===T.op));
+ $('#tmv').textContent=T.m;$('#tnv').textContent=T.n;
+ const t=(k,c,cut=0)=>Array.from({length:k},(_,i)=>`<span class="tile ${c}${i<cut?' cut':''}">10</span>`).join('');
+ const{op,m,n}=T;let pic,txt,res;
+ if(op==='mul'){pic=`<div class="tl"><span class="grp">${t(m,'a')}</span><span class="opx">×</span><span class="grp">${t(n,'b')}</span></div><div class="tl"><span class="opx">=</span><span class="grp">${t(m,'a')}${t(n,'b')}</span></div>`;
+  txt=`${m} facteur${m>1?'s':''} 10, puis ${n} facteur${n>1?'s':''} 10 : en tout ${m} + ${n} = ${m+n} facteurs. On additionne les exposants.`;
+  res=`${P(10,m)} × ${P(10,n)} = ${P(10,H(m+' + '+n))} = ${P(10,m+n)}`}
+ else if(op==='div'){const c=Math.min(m,n),r=m-n;
+  pic=`<div class="tfrac"><div class="grp">${t(m,'a',c)}</div><div class="tbar"></div><div class="grp">${t(n,'b',c)}</div></div>`;
+  txt=`On simplifie ${c} facteur${c>1?'s':''} 10 en haut avec ${c} en bas. `+(r>0?`Il reste ${r} facteur${r>1?'s':''} 10 en haut.`:r<0?`Il reste ${-r} facteur${-r>1?'s':''} 10 en bas : le résultat est ${F(1,P(10,-r))}, plus petit que 1, d’où l’exposant négatif.`:'Il ne reste rien : le quotient vaut 1, c’est pourquoi 10⁰ = 1.');
+  res=`${F(P(10,m),P(10,n))} = ${P(10,H(m+' − '+n))} = ${P(10,sg(r))}`+(r<0?` = ${F(1,P(10,-r))}`:'')+(r===0?' = 1':'')}
+ else{pic=`<div class="tl">${Array.from({length:n},()=>`<span class="grp par">${t(m,'a')}</span>`).join('<span class="opx">×</span>')}</div>`;
+  txt=`${n} groupe${n>1?'s':''} de ${m} facteur${m>1?'s':''} 10 : en tout ${n} × ${m} = ${m*n} facteurs. On multiplie les exposants.`;
+  res=`(${P(10,m)})<sup>${n}</sup> = ${P(10,H(m+' × '+n))} = ${P(10,m*n)}`}
+ $('#tiles').innerHTML=pic+`<div class="res">${res}</div><p class="expl">${txt}</p>`}
+
+function drawVirg(){
+ $('#vnv').textContent=sg(V.n);const d=parseDec(V.x),box=$('#virg');
+ if(!d){box.innerHTML='<p>Écris un nombre positif, par exemple 3,75 ou 0,042 (9 chiffres au plus de chaque côté de la virgule).</p>';return}
+ const o=place(d,0),r=place(d,V.n),cols=[];for(let p=6;p>=-6;p--)cols.push(p);
+ const fits=d.length&&(d[0].p+V.n)<=6&&(d[d.length-1].p+V.n)>=-6&&d[0].p<=6&&d[d.length-1].p>=-6;
+ const row=(pl,lab,anim)=>`<tr><td>${lab}</td>${cols.map(p=>{const c=pl.map[p];const u=p===0?' class="u"':'';if(!c)return `<td${u}></td>`;return `<td${u}><span class="${c.pad?'pad':''}${anim&&!c.pad?' dig':''}" style="--n:${V.n}">${c.v}</span></td>`}).join('')}</tr>`;
+ const an=Math.abs(V.n),dir=V.n>0?'droite':'gauche';
+ box.innerHTML=`<div class="res">${o.str} × ${P(10,sg(V.n))} = <b>${r.str}</b></div>`+
+ (fits?`<div class="scroll" style="margin-top:12px"><table class="pv"><thead><tr><th></th>${cols.map(p=>`<th${p===0?' class="u"':''}>${P(10,sg(p))}</th>`).join('')}</tr></thead><tbody>${row(o,'Départ',0)}${row(r,'Résultat',1)}</tbody></table></div>`:'<p class="expl">Le résultat sort du tableau, mais la règle est la même.</p>')+
+ `<p class="expl">${V.n===0?'× 10⁰ = × 1 : rien ne bouge.':`Chaque chiffre prend une valeur ${place([{v:1,p:0}],an).str} fois ${V.n>0?'plus grande':'plus petite'} : il glisse de ${an} colonne${an>1?'s':''} vers la ${V.n>0?'gauche':'droite'} du tableau. Vu depuis les chiffres, c’est la <b>virgule</b> (trait bleu) qui se décale de ${an} rang${an>1?'s':''} vers la <b>${dir}</b>. Les zéros orange sont ajoutés pour boucher les trous.`}</p>`}
+
+function drawSig(){
+ const n=G.n;$('#gnv').textContent=n;const v=2**n;let h='';
+ for(let i=0;i<Math.floor(n/2);i++)h+=`<span class="pair"><div><span class="chip">(−2)</span><span class="chip">(−2)</span></div><span class="pl">= +4</span></span>`;
+ if(n%2)h+=`<span class="pair odd"><div><span class="chip">(−2)</span></div><span class="pl">reste seul</span></span>`;
+ $('#sig').innerHTML=`<div class="pairs">${h}</div><div class="res">${P('(−2)',n)} = ${n%2?'−':''}${v}</div><p class="expl">${Math.floor(n/2)} paire${n>3?'s':''} de facteurs négatifs : chaque paire donne un nombre positif. ${n%2?'Il reste un facteur négatif seul : le résultat est <b>négatif</b> (n impair).':'Aucun facteur ne reste seul : le résultat est <b>positif</b> (n pair).'}<br>À comparer : −${P(2,n)} = −(${P(2,n)}) = −${v}, toujours négatif.</p>`}
+
+function memo(){
+ main.innerHTML=`<h1>Fiche mémo</h1><p class="lede">Tout ce qu’il faut savoir par cœur, avec un exemple pour chaque formule. Ensuite, teste-toi avec les <a href="#cartes">flashcards</a>.</p>`+
+ GROUPS.map(g=>`<h2 style="margin-top:22px">${g}</h2><div class="memo">${CARDS.filter(c=>c.g===g).map(c=>`<div class="mc"><div class="f">${c.f}</div><div class="b">${c.b}</div><div class="x">${c.x}</div></div>`).join('')}</div>`).join('')}
+
+let D=null;
+function cards(){
+ main.innerHTML=`<h1>Flashcards</h1><p class="lede">Lis la question, réponds dans ta tête, puis retourne la carte. Sois honnête : les cartes « À revoir » reviennent un peu plus tard.</p>
+ <div class="chips" id="cg"><button data-act="cg" data-g="" class="on">Toutes</button>${GROUPS.map(g=>`<button data-act="cg" data-g="${g}">${g}</button>`).join('')}</div>
+ <div class="fc" id="fc" tabindex="0" role="button" aria-label="Retourner la carte" data-act="flip"><div class="fcin"><div class="face front" id="ff"></div><div class="face back" id="fb2"></div></div></div>
+ <div class="row center" id="fcb"></div><p class="mute center" id="fcs"></p>`;
+ deck('')}
+function deck(g){D={q:shuffle(CARDS.map((c,i)=>i).filter(i=>!g||CARDS[i].g===g)),known:0,again:0,miss:new Set(),flip:false,n:0};
+ document.querySelectorAll('#cg button').forEach(b=>b.classList.toggle('on',b.dataset.g===g));drawCard()}
+function drawCard(){
+ const fc=$('#fc');fc.classList.toggle('flip',D.flip);
+ if(!D.q.length){$('#ff').innerHTML=`<div class="t">Paquet terminé</div><div class="g">${D.known} carte${D.known>1?'s':''} sue${D.known>1?'s':''} du premier coup · ${D.miss.size} à retravailler</div>`;$('#fb2').innerHTML='';
+  $('#fcb').innerHTML=`<button class="pri" data-act="restart">Recommencer</button>${D.miss.size?'<button data-act="redo">Revoir les cartes ratées</button>':''}`;$('#fcs').textContent='';return}
+ const c=CARDS[D.q[0]];
+ $('#ff').innerHTML=`<div class="g">${c.g}</div><div class="t">${c.f}</div><div class="g">Touche la carte pour la retourner</div>`;
+ $('#fb2').innerHTML=`<div class="t">${c.b}</div><div class="x">${c.x}</div>`;
+ $('#fcb').innerHTML=D.flip?`<button data-act="again">À revoir</button><button class="pri" data-act="know">Je savais</button>`:`<button class="pri" data-act="flip">Retourner</button>`;
+ $('#fcs').textContent=`${D.q.length} carte${D.q.length>1?'s':''} restante${D.q.length>1?'s':''} · sues : ${D.known} · à revoir : ${D.miss.size}`}
+
+let Q=null;
+function quiz(list){
+ const pool=list||shuffle(QUIZ.map((_,i)=>i)).slice(0,10);
+ Q={list:pool.map(i=>({i,ord:shuffle([0,1,2,3])})),k:0,score:0,miss:[],done:false};
+ main.innerHTML=`<h1>Quiz</h1><p class="lede">10 questions tirées au hasard. Après chaque réponse, une courte explication.</p><section class="frame" id="qz"></section>`;drawQ()}
+function drawQ(){
+ const box=$('#qz');
+ if(Q.k>=Q.list.length){const ms=Q.miss;
+  box.innerHTML=`<div class="score">${Q.score} / ${Q.list.length}</div><p class="mute">${Q.score===Q.list.length?'Parfait, toutes les formules sont en place.':Q.score>=7?'Bien. Revois les questions ratées ci-dessous.':'Reprends la fiche mémo et les flashcards, puis refais un quiz.'}</p>
+  ${ms.map(i=>`<div class="miss"><div>${QUIZ[i].q} &nbsp;<b>${QUIZ[i].o[0]}</b></div><div class="mute">${QUIZ[i].e}</div></div>`).join('')}
+  <div class="row"><button class="pri" data-act="newq">Nouveau quiz</button>${ms.length?'<button data-act="redoq">Rejouer mes erreurs</button>':''}</div>`;return}
+ const it=Q.list[Q.k],q=QUIZ[it.i];
+ box.innerHTML=`<div class="exhead"><span>Question ${Q.k+1} sur ${Q.list.length}</span><span>Score : ${Q.score}</span></div><div class="qbar"><i style="width:${100*Q.k/Q.list.length}%"></i></div>
+ <div class="qq">${q.q}</div><div class="opts">${it.ord.map(o=>`<button class="opt" data-act="qa" data-o="${o}">${q.o[o]}</button>`).join('')}</div><div id="qfb"></div>`}
+
+let cur=null,weK=1;
+function fam(f){
+ cur={f,i:Math.min(S.pos[f.id]||0,f.items.length-1),tries:0};weK=1;
+ main.innerHTML=`<h1>${f.t}</h1><p class="lede">${f.d}</p>
+ <section class="frame key"><h2>L’essentiel</h2>${f.k}</section>
+ <section class="frame"><h2>Exemple résolu</h2><div class="stmt">${f.ex.s}</div><div id="ws"></div>
+ <div class="row"><button class="pri" id="wn" data-act="wn">Étape suivante</button><button id="wa" data-act="wa">Tout afficher</button><span class="mute" id="wc"></span></div></section>
+ <section class="frame" id="exos"><h2>Exercices</h2><div class="dots" id="dots"></div><div id="exo"></div></section>`;
+ drawWE();drawExo()}
+function drawWE(fresh){
+ const all=cur.f.ex.c,total=all.reduce((s,c)=>s+c.l.length,0);let k=weK,out='';
+ for(const c of all){if(k<=0)break;const ls=c.l.slice(0,k);k-=c.l.length;out+=`<div class="case">${c.t?`<h3>${c.t}</h3>`:''}${stepsHTML(ls,fresh&&k<=0)}</div>`}
+ $('#ws').innerHTML=out;const end=weK>=total;$('#wn').disabled=end;$('#wa').disabled=end;
+ $('#wc').innerHTML=end?'<button data-act="goex">À toi : passe aux exercices</button>':`Étape ${weK} sur ${total}`}
+function ansHTML(it){
+ if(it.t==='num')return `<span class="eq">=</span><input id="a1" class="n" inputmode="decimal" autocomplete="off" aria-label="Ta réponse">`;
+ if(it.t==='pow')return `<span class="eq">=</span><span class="pw"><input id="a1" class="b" autocomplete="off" aria-label="Base" placeholder="base"><input id="a2" class="e" autocomplete="off" aria-label="Exposant" placeholder="exp."></span>`;
+ if(it.t==='frac')return `<span class="eq">=</span><span class="fin"><input id="a1" inputmode="numeric" autocomplete="off" aria-label="Numérateur"><span class="bar2"></span><input id="a2" inputmode="numeric" autocomplete="off" aria-label="Dénominateur"></span>`;
+ return ''}
+function drawExo(){
+ const f=cur.f,i=cur.i,it=f.items[i],st=S.ex[f.id+i];cur.tries=0;
+ $('#dots').innerHTML=f.items.map((x,k)=>`<button class="dot ${S.ex[f.id+k]||''}${k===i?' cur':''}" data-act="goi" data-i="${k}" aria-label="Exercice ${k+1}, niveau ${x.l}">${k+1}</button>`).join('');
+ $('#exo').innerHTML=`<div class="exhead"><span class="stars" aria-label="Niveau ${it.l} sur 3">${'★'.repeat(it.l)}<span class="off">${'★'.repeat(3-it.l)}</span></span><span>Exercice ${i+1} sur ${f.items.length}</span>${st==='ok'?'<span class="tag ok">Déjà réussi</span>':''}</div>
+ <p class="cons">${it.c||f.cons}</p><div class="qrow"><div class="q">${it.q}</div>${ansHTML(it)}</div>
+ ${it.t==='ch'?`<div class="opts">${it.o.map((o,k)=>`<button class="opt" data-act="pick" data-k="${k}">${o[0]}</button>`).join('')}</div>`:''}
+ <div class="row">${it.t!=='ch'?'<button class="pri" data-act="check">Vérifier</button>':''}<button data-act="hint">Coup de pouce</button><button data-act="sol">Correction détaillée</button></div>
+ <div class="fb" id="fbk" aria-live="polite"></div><div class="hint" id="hint" hidden>${it.h||'Relis l’essentiel et l’exemple résolu juste au-dessus : la méthode est la même.'}</div>
+ <div class="sol" id="sol" hidden><h3>Correction détaillée</h3>${stepsHTML(it.s)}</div>
+ <div class="row nav"><button data-act="prev"${i?'':' disabled'}>Précédent</button><button data-act="next"${i<f.items.length-1?'':' disabled'}>Suivant</button></div>`}
+
+const num=s=>{s=String(s).replace(/[\s  ]/g,'').replace(/[−–]/g,'-').replace(/,/g,'.');if(!s)return NaN;
+ if(/^-?[\d.]+\/-?[\d.]+$/.test(s)){const[a,b]=s.split('/');return +b?+a/+b:NaN}
+ return /^-?(\d+\.?\d*|\.\d+)$/.test(s)?+s:NaN};
+const eq=(a,b)=>Math.abs(a-b)<=1e-9*Math.max(1,Math.abs(b));
+const show=x=>String(x).replace('-','−').replace('.',',');
+function check(it){
+ const NO='Ce n’est pas encore ça. Reprends étape par étape, ou demande un coup de pouce.';
+ if(it.t==='num'){const v=num($('#a1').value);if(isNaN(v))return{err:'Écris un nombre (virgule ou point acceptés).'};
+  if(eq(v,it.a))return{ok:1};const tr=(it.tr||[]).find(t=>eq(v,t.v));return{msg:tr?tr.m:NO}}
+ if(it.t==='pow'){const b=num($('#a1').value.replace(/[()]/g,'')),e=num($('#a2').value);
+  if(isNaN(b)||isNaN(e)||!Number.isInteger(e))return{err:'Complète la base et l’exposant (l’exposant est un nombre entier).'};
+  const[ab,ae]=it.a,okb=eq(b,ab),oke=e===ae;if(okb&&oke)return{ok:1};
+  const tr=(it.tr||[]).find(t=>(t.b===undefined||eq(b,t.b))&&(t.e===undefined||t.e===e));if(tr)return{msg:tr.m};
+  if(eq(b**e,ab**ae))return{msg:`C’est égal en valeur, mais on attend une puissance de base ${it.ab||show(ab)}.`};
+  if(okb)return{msg:'La base est juste. Vérifie l’exposant.'};if(oke)return{msg:'L’exposant est juste. Vérifie la base.'};return{msg:NO}}
+ if(it.t==='frac'){const n=num($('#a1').value),d=num($('#a2').value);
+  if(!Number.isInteger(n)||!Number.isInteger(d)||d===0)return{err:'Écris un numérateur et un dénominateur entiers.'};
+  const[an,ad]=it.a;if(n===an&&d===ad)return{ok:1};const tr=(it.tr||[]).find(t=>t.n===n&&t.d===d);if(tr)return{msg:tr.m};
+  if(n*ad===d*an)return{msg:'C’est la bonne valeur, mais la fraction n’est pas irréductible : simplifie encore.'};return{msg:NO}}}
+function result(ok,msg){
+ const f=cur.f,id=f.id+cur.i,fb=$('#fbk');
+ if(ok){S.ex[id]='ok';fb.className='fb ok';fb.innerHTML='<b>Juste !</b> Compare ta méthode avec la correction détaillée si tu veux.'}
+ else{cur.tries++;if(S.ex[id]!=='ok')S.ex[id]='ko';fb.className='fb ko';fb.innerHTML=`<b>Pas encore.</b> ${msg}${cur.tries>=2?' Tu peux ouvrir la correction détaillée.':''}`}
+ save();updateGlobal();
+ const dot=document.querySelector(`.dot[data-i="${cur.i}"]`);if(dot)dot.className=`dot ${S.ex[id]} cur`}
+
+const ACT={
+ check(){const r=check(cur.f.items[cur.i]);if(r.err){const fb=$('#fbk');fb.className='fb er';fb.textContent=r.err;return}result(!!r.ok,r.msg)},
+ pick(b){const it=cur.f.items[cur.i],k=+b.dataset.k;
+  if(k===it.a){b.classList.add('good');document.querySelectorAll('.opt').forEach(x=>x.disabled=true);result(true)}
+  else{b.classList.add('bad');b.disabled=true;result(false,it.o[k][1])}},
+ hint(){$('#hint').hidden=!$('#hint').hidden},
+ sol(){const s=$('#sol');s.hidden=!s.hidden;if(!s.hidden)s.scrollIntoView({block:'nearest',behavior:'smooth'})},
+ prev(){cur.i--;S.pos[cur.f.id]=cur.i;save();drawExo()},
+ next(){cur.i++;S.pos[cur.f.id]=cur.i;save();drawExo()},
+ goi(b){cur.i=+b.dataset.i;S.pos[cur.f.id]=cur.i;save();drawExo()},
+ wn(){weK++;drawWE(true)},
+ wa(){weK=99;drawWE()},
+ goex(){$('#exos').scrollIntoView({behavior:'smooth'})},
+ top(b){T.op=b.dataset.op;drawTiles()},
+ flip(){if(!D.q.length)return;D.flip=!D.flip;drawCard()},
+ know(){const i=D.q.shift();if(!D.miss.has(i))D.known++;D.flip=false;drawCard()},
+ again(){const i=D.q.shift();D.miss.add(i);D.q.splice(Math.min(3,D.q.length),0,i);D.flip=false;drawCard()},
+ restart(){const g=document.querySelector('#cg .on');deck(g?g.dataset.g:'')},
+ redo(){const m=[...D.miss];D={q:shuffle(m),known:0,again:0,miss:new Set(),flip:false};drawCard()},
+ cg(b){deck(b.dataset.g)},
+ qa(b){if(Q.done)return;const it=Q.list[Q.k],q=QUIZ[it.i],o=+b.dataset.o,ok=o===0;Q.done=true;
+  if(ok)Q.score++;else Q.miss.push(it.i);
+  document.querySelectorAll('#qz .opt').forEach(x=>{x.disabled=true;if(+x.dataset.o===0)x.classList.add('good')});if(!ok)b.classList.add('bad');
+  $('#qfb').innerHTML=`<div class="fb ${ok?'ok':'ko'}"><b>${ok?'Juste.':'Non.'}</b> ${q.e}</div><div class="row"><button class="pri" data-act="qn">${Q.k<Q.list.length-1?'Question suivante':'Voir mon score'}</button></div>`;
+  $('#qfb .pri').focus()},
+ qn(){Q.k++;Q.done=false;drawQ()},
+ newq(){quiz()},
+ redoq(){quiz(Q.miss.slice())},
+ reset(b){if(b.dataset.c){S={ex:{},pos:{}};save();updateGlobal();home()}else{b.dataset.c=1;b.textContent='Confirmer : tout effacer ?';b.classList.add('pri')}}
+};
+document.addEventListener('click',e=>{const b=e.target.closest('[data-act]');if(!b||b.disabled)return;const a=ACT[b.dataset.act];if(a){e.preventDefault();a(b)}});
+document.addEventListener('keydown',e=>{
+ if(e.key==='Enter'&&e.target.matches('#exo input')){e.preventDefault();ACT.check()}
+ if((e.key===' '||e.key==='Enter')&&e.target.id==='fc'){e.preventDefault();ACT.flip()}});
+document.addEventListener('input',e=>{const id=e.target.id;
+ if(id==='tm'||id==='tn'){T[id==='tm'?'m':'n']=+e.target.value;drawTiles()}
+ if(id==='vx'){V.x=e.target.value;drawVirg()}
+ if(id==='vn'){V.n=+e.target.value;drawVirg()}
+ if(id==='gn'){G.n=+e.target.value;drawSig()}});
+
+function route(){
+ const h=(location.hash||'#accueil').slice(1);
+ document.querySelectorAll('#side a').forEach(a=>{const on=a.getAttribute('href')==='#'+h;a.classList.toggle('on',on);if(on)a.scrollIntoView({block:'nearest',inline:'nearest'})});
+ const f=h.startsWith('f-')&&FAM.find(x=>x.id===h.slice(2));
+ if(f)fam(f);else if(h==='comprendre')learn();else if(h==='formules')memo();else if(h==='cartes')cards();else if(h==='quiz')quiz();else home();
+ window.scrollTo(0,0)}
+window.addEventListener('hashchange',route);
+updateGlobal();route();
+}
+</script>
+</body>
+</html>
