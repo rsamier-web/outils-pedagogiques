@@ -31,7 +31,7 @@ function Sheet({ ev }) {
           <button role="tab" aria-selected={mode === "entrainement"} onClick={() => { setMode("entrainement"); setAll(false); }}>Entraînement (corrigé par question)</button>
           <button role="tab" aria-selected={mode === "examen"} onClick={() => { setMode("examen"); setShown({}); setAll(false); }}>Mode examen</button>
         </div>
-        <button className="btn small" onClick={() => window.print()}><Icon n="print" />Imprimer</button>
+        <button className="btn small" onClick={() => { try { window.print(); } catch (err) { /* impression indisponible */ } }}><Icon n="print" />Imprimer</button>
       </div>
     </div>
     <div className="eval-sheet">

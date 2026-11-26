@@ -6,6 +6,7 @@ import { resetAll } from "../store.js";
 export default function Settings({ onClose }) {
   const { settings: S, setSettings, reader } = useApp();
   const [voices, setVoices] = useState(frenchVoices());
+  const [confirmReset, setConfirmReset] = useState(false);
   useEffect(() => {
     if (!ttsSupported()) return;
     const f = () => setVoices(frenchVoices());
@@ -51,7 +52,8 @@ export default function Settings({ onClose }) {
 
         <h3>Progression</h3>
         <p className="small muted">Ta progression (leçons lues, cartes mémoire, scores) est enregistrée uniquement dans ce navigateur.</p>
-        <button className="btn" onClick={() => { if (window.confirm("Effacer toute la progression enregistrée dans ce navigateur ?")) { resetAll(); location.reload(); } }}>Effacer ma progression</button>
+        {!confirmReset ? <button className="btn" onClick={() => setConfirmReset(true)}>Effacer ma progression</button>
+          : <div className="row"><span className="small">Tout effacer ?</span><button className="btn" style={{ borderColor: "var(--neg)" }} onClick={() => { resetAll(); location.hash = "#/home"; location.reload(); }}>Oui, effacer</button><button className="btn" onClick={() => setConfirmReset(false)}>Annuler</button></div>}
       </div>
     </div>
   );
