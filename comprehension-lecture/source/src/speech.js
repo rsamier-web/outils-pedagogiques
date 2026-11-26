@@ -1,6 +1,5 @@
 // Synthèse vocale : Web Speech API, lecture phrase par phrase.
-// Surlignage du mot prononcé : événements « boundary » quand la voix les fournit,
-// sinon estimation calée sur la vitesse de lecture (cas des voix Google en ligne de Chrome).
+// Surlignage : la phrase en cours de lecture (pas de balayage mot à mot).
 // Pause = on mémorise la phrase en cours ; Reprendre = on relit cette phrase depuis son début.
 
 export const ttsSupported = () =>
@@ -74,7 +73,7 @@ export class Speaker {
     this.getSettings = getSettings;
     this.gen = 0; this.queue = []; this.idx = 0; this.opts = {};
     this.snap = { status: "idle", mode: null, key: null, w: -1, error: null };
-    this.listeners = new Set(); this.watchdog = null; this.est = null; this.saved = null; this.forceLocal = false;
+    this.listeners = new Set(); this.watchdog = null; this.saved = null; this.forceLocal = false;
   }
   sub = f => { this.listeners.add(f); return () => this.listeners.delete(f); };
   get = () => this.snap;
@@ -88,7 +87,7 @@ export class Speaker {
     return v;
   }
   halt() {
-    this.gen++; clearTimeout(this.watchdog); clearInterval(this.est);
+    this.gen++; clearTimeout(this.watchdog);
     if (ttsSupported()) { try { window.speechSynthesis.cancel(); } catch (e) {} }
   }
   // items : [{ key, text, starts, fixedW? }]
@@ -113,28 +112,9 @@ export class Speaker {
     const v = this.pickVoice();
     if (v) { u.voice = v; u.lang = v.lang.replace("_", "-"); } else u.lang = "fr-FR";
     u.rate = st.rate; u.pitch = st.pitch; u.volume = st.volume;
-    let gotBoundary = false;
-    u.onstart = () => {
-      if (g !== this.gen) return;
-      if (item.fixedW != null) { this.setSnap({ key: item.key, w: item.fixedW }); return; }
-      this.setSnap({ key: item.key, w: 0 });
-      // Estimation si la voix ne signale pas les mots (voix en ligne).
-      const t0 = performance.now(); const cps = 13.5 * Math.max(0.5, st.rate || 1);
-      clearInterval(this.est);
-      this.est = setInterval(() => {
-        if (g !== this.gen || gotBoundary) { clearInterval(this.est); return; }
-        const ci = ((performance.now() - t0) / 1000) * cps;
-        const w = this.wordAt(item, ci);
-        if (w !== this.snap.w) this.setSnap({ w });
-      }, 90);
-    };
-    u.onboundary = e => {
-      if (g !== this.gen || item.fixedW != null) return;
-      if (e.name && e.name !== "word") return;
-      gotBoundary = true; clearInterval(this.est);
-      const w = this.wordAt(item, e.charIndex || 0);
-      if (w !== this.snap.w) this.setSnap({ w });
-    };
+    // Saillance sur la phrase en cours uniquement (pas de balayage mot à mot).
+    // Seul un mot touché par l'élève (fixedW) est mis en évidence.
+    u.onstart = () => { if (g === this.gen) this.setSnap({ key: item.key, w: item.fixedW != null ? item.fixedW : -1 }); };
     u.onend = () => { if (g === this.gen) this.advance(); };
     u.onerror = e => {
       if (g !== this.gen || e.error === "interrupted" || e.error === "canceled") return;
@@ -149,7 +129,7 @@ export class Speaker {
     window.speechSynthesis.speak(u);
   }
   advance() {
-    clearTimeout(this.watchdog); clearInterval(this.est);
+    clearTimeout(this.watchdog);
     if (this.idx + 1 < this.queue.length) {
       this.halt(); this.idx++; const g = this.gen;
       setTimeout(() => { if (g === this.gen) this.speakCurrent(); }, 40);

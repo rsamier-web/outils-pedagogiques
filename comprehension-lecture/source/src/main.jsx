@@ -234,11 +234,11 @@ function Say({ id, text, as = "span", className, click = true }) {
             return (
               <React.Fragment key={s.key}>
                 {si > 0 && " "}
-                <span className={"snt" + (on && snap.mode === "page" ? " on" : "")} data-sk={s.key}>
+                <span className={"snt" + (on && snap.w < 0 ? " on" : "")} data-sk={s.key}>
                   {s.toks.map((tk, k) => {
                     const nx = s.toks[k + 1];
                     const sep = !nx ? "" : (/^[?!:;»”]+$/.test(nx.t) || tk.t === "«" || tk.t === "—" || tk.t === "–") ? " " : " ";
-                    const w = tk.wi >= 0 && on && snap.w === tk.wi;
+                    const w = tk.wi >= 0 && on && snap.mode === "single" && snap.w === tk.wi;
                     const el = tk.word ? <span className={"w" + (w ? " wd" : "")} data-w={tk.wi}>{tk.t}</span> : tk.t;
                     return <React.Fragment key={k}>{tk.b ? <b>{el}</b> : el}{sep}</React.Fragment>;
                   })}
@@ -297,7 +297,7 @@ function SettingsPanel({ data, update, speaker, voices, onClose, openSuivi }) {
         <button className="btn" onClick={() => speaker.say("Bonjour ! Je lis le texte avec toi. Touche un mot pour l’entendre.")} disabled={!voices.list.length}>
           {Ico.ear}<span>Tester la voix</span>
         </button>
-        <Switch label="Surligner la phrase et le mot lus" checked={s.highlight} onChange={v => set({ highlight: v })} />
+        <Switch label="Surligner la phrase lue" checked={s.highlight} onChange={v => set({ highlight: v })} />
         <Seg label="Un clic sur un mot lit…" name="click" value={s.clickMode} onChange={v => set({ clickMode: v })} options={[["word", "le mot"], ["sentence", "la phrase"]]} />
         <Switch label="Passer seul à la page suivante" hint="Après « Lire la page », la lecture continue sur les écrans suivants (consignes, texte) et s’arrête à la question." checked={s.autoNext} onChange={v => set({ autoNext: v })} />
       </section>

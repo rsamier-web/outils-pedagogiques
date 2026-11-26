@@ -1,6 +1,6 @@
 // Service worker de Comprendre les textes : fonctionne hors ligne après la première visite.
 // Changez VERSION à chaque mise à jour de index.html pour forcer le rafraîchissement.
-const VERSION = 'comprehension-v1';
+const VERSION = 'comprehension-v2';
 const CORE = ['./', './index.html', './manifest-comprehension.webmanifest', './icon-192.png', './icon-512.png', './icon-maskable-512.png', './apple-touch-icon.png'];
 
 self.addEventListener('install', e => {

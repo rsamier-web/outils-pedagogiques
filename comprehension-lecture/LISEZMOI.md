@@ -15,9 +15,8 @@ Les deux applications sont indépendantes : chacune garde ses données dans son 
 
 Affichage : Andika, Atkinson Hyperlegible ou Lexend ; taille 16 à 30 px ; interligne 1,4 à 2,2 ; espacement élargi.
 Synthèse vocale (Web Speech API, gratuite) : Lire la page, Pause/Reprendre, Arrêter ; lecture phrase par phrase,
-phrase et mot surlignés (désactivable) ; clic sur un mot pour l’entendre (ou la phrase) ; choix de la voix française,
+seule la phrase en cours est surlignée, sans balayage mot à mot (désactivable) ; clic sur un mot pour l’entendre (ou la phrase) ; choix de la voix française,
 vitesse, hauteur, volume, Tester la voix ; option « Passer seul à la page suivante ».
-Avec les voix Google en ligne, Chrome ne signale pas toujours le mot prononcé : le surlignage du mot est alors estimé.
 
 Installation dans Chrome :
 - Ordinateur : bouton « Installer » dans la barre d’outils de l’application, ou icône d’installation dans la barre d’adresse.
