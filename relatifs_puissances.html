@@ -176,6 +176,11 @@ svg text{font-family:var(--font)}
 .tile.gone{opacity:.35;text-decoration:line-through;border-style:dashed}
 .times{color:var(--muted)}
 .qrow{display:grid;gap:.4em}
+.grp{display:inline-flex;flex-wrap:wrap;align-items:center;gap:.3em;padding:.25em .4em;border:1px dashed var(--border);border-radius:6px}
+.pattern{display:grid;grid-template-columns:auto auto;justify-content:start;gap:.15em 1.2em;font-size:1.08em;font-variant-numeric:tabular-nums}
+.pattern .pr{padding:.1em .5em;border-radius:3px}
+.pattern .pr.hl{background:var(--good-soft)}
+.pattern .pn{color:var(--accent-ink);font-size:.85em;font-weight:600;align-self:start;margin-top:-.55em}
 .qbar{border-top:2px solid var(--text);width:100%}
 .one{font-weight:600;padding:0 .3em}
 
@@ -363,6 +368,42 @@ function fracItem(b, top, bot){
   return { q: fr(tq, bq) + " = " + b, sup: true, b, a: ans, key: tq + "/" + bq, ex: parts.join(" "),
     diag: v => { if (v === T + B && T + B !== ans) return "Pour le quotient final, on <b>soustrait</b> l'exposant du bas."; if (ans !== 0 && v === -ans) return "Revois le signe : c'est le haut moins le bas."; return null; } };
 }
+const sgnR = () => Math.random() < .5 ? -1 : 1;
+function mulEx(fs){
+  const neg = fs.filter(x => x < 0).length, ans = fs.reduce((t, x) => t * x, 1);
+  const dist = fs.map(x => Math.abs(x)).join(" × ");
+  const signTxt = fs.length === 2
+    ? (neg === 1 ? "Signes contraires : le produit est négatif." : "Même signe : le produit est positif.")
+    : neg + " facteur" + (neg > 1 ? "s" : "") + " négatif" + (neg > 1 ? "s" : "") + " : nombre " + (neg % 2 ? "impair, le produit est négatif." : "pair, le produit est positif.");
+  return signTxt + " Je multiplie les distances à zéro : " + dist + " = " + Math.abs(ans) + ". Résultat : <b>" + S(ans) + "</b>.";
+}
+function mulItem(fs, style){
+  const ans = fs.reduce((t, x) => t * x, 1);
+  const q = fs.map((x, i) => style === 1 ? (i === 0 ? S(x) : PN(x)) : P(x)).join(" × ");
+  return { q: q + " =", a: ans, key: q, ex: mulEx(fs), diag: v => {
+    if (ans !== 0 && v === -ans) return "La valeur est bonne, mais pas le signe. " + (fs.length === 2 ? "Même signe → positif ; signes contraires → négatif." : "Compte les facteurs négatifs : pair → positif, impair → négatif.");
+    if (fs.length === 2 && v !== ans && Math.abs(v) === Math.abs(fs[0] + fs[1])) return "Tu as additionné. Ici, c'est une <b>multiplication</b>.";
+    return null; } };
+}
+const ppw = (b, n, p) => "(" + pw(b, n) + ")<sup>" + S(p) + "</sup>";
+function powItem(b, n, p, extra){
+  const np = n * p, mul = S(n) + " × " + PN(p) + " = " + S(np);
+  const signNote = (n < 0) !== (p < 0) ? "signes contraires, l'exposant est négatif" : "même signe, l'exposant est positif";
+  let ans = np, q = ppw(b, n, p), ex;
+  if (!extra) ex = "Puissance d'une puissance : on multiplie les exposants. " + mul + " (" + signNote + "), donc <b>" + pw(b, np) + "</b>.";
+  else if (extra.op === "×"){ ans = np + extra.q; q = q + " × " + pw(b, extra.q); ex = "D'abord la puissance de puissance, on multiplie : " + mul + ", soit " + pw(b, np) + ". Puis le produit, on additionne : " + S(np) + " + " + PN(extra.q) + " = " + S(ans) + ", donc <b>" + pw(b, ans) + "</b>."; }
+  else { ans = np - extra.q; q = fr(ppw(b, n, p), pw(b, extra.q)); ex = "D'abord la puissance de puissance, on multiplie : " + mul + ", soit " + pw(b, np) + ". Puis le quotient, on soustrait : " + S(np) + " − " + PN(extra.q) + " = " + S(ans) + ", donc <b>" + pw(b, ans) + "</b>."; }
+  return { q: q + " = " + b, sup: true, b, a: ans, key: q, ex, diag: v => {
+    if (!extra){
+      if (v === n + p && n + p !== np) return "Pour une puissance de puissance, on <b>multiplie</b> les exposants (on ne les additionne pas).";
+      if (np !== 0 && v === -np) return "La valeur est bonne, mais pas le signe : règle des signes du produit (étape 4).";
+    } else {
+      const wrong = n + p + (extra.op === "×" ? extra.q : -extra.q);
+      if (v === wrong && v !== ans) return "La puissance de puissance se calcule en <b>multipliant</b> : " + S(n) + " × " + PN(p) + " = " + S(np) + ".";
+      if (ans !== 0 && v === -ans) return "Revois les signes.";
+    }
+    return null; } };
+}
 const GEN = {
   add(L){
     let a, b, q;
@@ -398,6 +439,17 @@ const GEN = {
     else if (L === 1){ if (Math.random() < .5){ n = R(1, 8); p = n + R(1, 8); } else { n = -R(1, 10); p = R(1, 10); } }
     else { n = nz(-15, 15); p = -R(1, 15); }
     return quotItem(b, n, p);
+  },
+  mul(L){
+    if (L === 0) return mulItem([sgnR() * R(2, 10), sgnR() * R(2, 10)], 0);
+    if (L === 1){ const k = Math.random() < .5 ? 3 : 4; return mulItem(Array.from({ length: k }, () => sgnR() * R(1, 5)), R(0, 1)); }
+    return Math.random() < .65 ? mulItem([sgnR() * R(2, 12), sgnR() * R(2, 12)], R(0, 1)) : mulItem([0, 0, 0].map(() => sgnR() * R(2, 6)), R(0, 1));
+  },
+  pow(L){
+    const b = pick(BASES);
+    if (L === 0) return powItem(b, R(2, 6), R(2, 5));
+    if (L === 1){ let n = nz(-9, 9), p = nz(-6, 6); if (n > 0 && p > 0){ if (Math.random() < .5) n = -n; else p = -p; } return powItem(b, n, p); }
+    return powItem(b, nz(-6, 6), nz(-5, 5), { op: Math.random() < .5 ? "×" : "÷", q: nz(-9, 9) });
   },
   mix(L){
     const b = pick(BASES);
@@ -453,6 +505,28 @@ const GUIDE = {
     } else steps.push({ p: "Exposant : " + S(n) + " − " + p + " = ?", t: "num", a: n - p, ok: subEx(n, p) });
     return { q, steps, done: q + " = <b>" + pw(b, n - p) + "</b>" };
   },
+  mul(){
+    const three = Math.random() < .4;
+    const fs = three ? [0, 0, 0].map(() => sgnR() * R(2, 5)) : [sgnR() * R(2, 10), sgnR() * R(2, 10)];
+    const ans = fs.reduce((t, x) => t * x, 1), neg = fs.filter(x => x < 0).length, q = fs.map(P).join(" × "), D = fs.map(x => Math.abs(x));
+    const steps = [];
+    if (three){
+      steps.push({ p: "Combien de facteurs sont négatifs ?", t: "num", a: neg, ok: neg + " facteur" + (neg > 1 ? "s" : "") + " négatif" + (neg > 1 ? "s" : "") + "." });
+      steps.push({ p: "Alors, quel est le signe du produit ?", t: "choice", o: ["+ (positif)", "− (négatif)"], a: neg % 2, ok: neg % 2 ? "Nombre impair de facteurs négatifs : le produit est négatif." : "Nombre pair de facteurs négatifs : le produit est positif." });
+    } else steps.push({ p: "Quel est le signe du produit ?", t: "choice", o: ["+ (positif)", "− (négatif)"], a: neg % 2, ok: neg === 1 ? "Signes contraires : le produit est négatif." : "Même signe : le produit est positif." });
+    steps.push({ p: "Je multiplie les distances à zéro : " + D.join(" × ") + " = ?", t: "num", a: Math.abs(ans), ok: D.join(" × ") + " = " + Math.abs(ans) + "." });
+    return { q, steps, done: q + " = <b>" + S(ans) + "</b>" };
+  },
+  pow(){
+    const b = pick(BASES); let n = nz(-9, 9), p = nz(-6, 6);
+    if (Math.abs(n) === 1) n *= 3; if (Math.abs(p) === 1) p *= 2;
+    const q = ppw(b, n, p), np = n * p;
+    return { q, steps: [
+      { p: "C'est une <b>puissance d'une puissance</b>. Que fait-on des exposants ?", t: "choice", o: FORMULA_O, a: 2, ok: "Puissance d'une puissance : on <b>multiplie</b> les exposants." },
+      { p: "Signe de l'exposant : " + S(n) + " × " + PN(p) + " sera…", t: "choice", o: ["+ (positif)", "− (négatif)"], a: np < 0 ? 1 : 0, ok: (n < 0) !== (p < 0) ? "Signes contraires : l'exposant est négatif." : "Même signe : l'exposant est positif." },
+      { p: "Je multiplie les distances à zéro : " + Math.abs(n) + " × " + Math.abs(p) + " = ?", t: "num", a: Math.abs(np), ok: "L'exposant est " + S(np) + "." }
+    ], done: q + " = <b>" + pw(b, np) + "</b>" };
+  },
   mix(){
     const b = pick(BASES), n = nz(-9, 9), p = nz(-9, 9), r = nz(-9, 9), T = n + p;
     const q = fr(pw(b, n) + " × " + pw(b, p), pw(b, r));
@@ -472,12 +546,16 @@ const STEPS = [
     levels: ["Soustraire un positif", "Soustraire un négatif", "Tous les cas, jusqu'à 20"] },
   { id: "chain", group: "Nombres relatifs", name: "Enchaîner", T: 10, goal: "Calculer une suite d'additions et de soustractions.",
     levels: ["Trois nombres sans parenthèses", "Avec des parenthèses", "Quatre nombres, jusqu'à 20"] },
+  { id: "mul", group: "Nombres relatifs", name: "Multiplier", T: 6, goal: "Trouver le signe d'un produit de relatifs, puis calculer.",
+    levels: ["Deux facteurs", "Trois ou quatre facteurs", "Tous les cas, jusqu'à 12"] },
   { id: "prod", group: "Puissances", name: "Produit", T: 6, goal: "Produit de puissances de même base : additionner les exposants.",
     levels: ["Exposants positifs", "Un exposant négatif", "Tous les cas"] },
   { id: "quot", group: "Puissances", name: "Quotient", T: 7, goal: "Quotient de puissances de même base : soustraire les exposants.",
     levels: ["Exposants positifs", "Résultat négatif", "Soustraire un négatif"] },
   { id: "mix", group: "Puissances", name: "Produits et quotients", T: 12, goal: "Choisir la bonne formule et enchaîner les calculs d'exposants.",
-    levels: ["Produit ou quotient ?", "Trois puissances", "Fractions complètes"] }
+    levels: ["Produit ou quotient ?", "Trois puissances", "Fractions complètes"] },
+  { id: "pow", group: "Puissances", name: "Puissance d'une puissance", T: 8, goal: "Puissance d'une puissance : multiplier les exposants.",
+    levels: ["Exposants positifs", "Exposants négatifs", "Avec un produit ou un quotient"] }
 ];
 const STATUS = ["À découvrir", "En cours", "Acquis", "Automatisé"];
 
@@ -620,6 +698,45 @@ function PowerLab({ mode }){
   </div>`;
 }
 
+function SignPattern(){
+  const [b, setB] = useState(-2);
+  const rows = [3, 2, 1, 0, -1, -2, -3];
+  return html`<div className="frame lab">
+    <div className="ctrl" style=${{ maxWidth: "320px" }}><label htmlFor="sp-b">Second facteur <output>${S(b)}</output></label><input id="sp-b" type="range" min="-5" max="-1" value=${b} onChange=${e => setB(+e.target.value)}/></div>
+    <div className="pattern">${rows.map((a, i) => html`<${React.Fragment} key=${a}>
+      <${Hx} className=${"pr" + (a < 0 ? " hl" : "")} h=${(a === 0 ? "0" : P(a)) + " × " + P(b) + " = " + S(a * b)}/>
+      <span className="pn">${i > 0 ? "+ " + (-b) : ""}</span>
+    <//>`)}</div>
+    <p className="muted small">Quand le premier facteur diminue de 1, le résultat augmente de ${-b}. Le motif continue après 0 : négatif × négatif donne un positif.</p>
+  </div>`;
+}
+function SignLab(){
+  const [fs, setFs] = useState([-2, 3, -1, 4]);
+  const neg = fs.filter(v => v < 0).length, prod = fs.reduce((t, v) => t * v, 1);
+  const toggle = i => setFs(fs.map((v, k) => k === i ? -v : v));
+  return html`<div className="frame lab">
+    <p>Clique sur un facteur pour changer son signe.</p>
+    <div className="row">${fs.map((v, i) => html`<${React.Fragment} key=${i}>${i > 0 && html`<span className="times">×</span>`}<button className="btn" onClick=${() => toggle(i)} aria-label=${"Facteur " + (i + 1) + " : " + S(v) + ". Changer le signe"}><span className=${v < 0 ? "neg" : "pos"}>${P(v)}</span></button><//>`)}</div>
+    <div className="row"><button className="btn" disabled=${fs.length >= 6} onClick=${() => setFs([...fs, [2, 5, 3, 1, 2, 3][fs.length]])}>Ajouter un facteur</button><button className="btn" disabled=${fs.length <= 2} onClick=${() => setFs(fs.slice(0, -1))}>Retirer un facteur</button></div>
+    <div className="readout">
+      <div>Facteurs négatifs : <b>${neg}</b> → nombre <b>${neg % 2 ? "impair" : "pair"}</b> → produit <b className=${prod < 0 ? "neg" : "pos"}>${prod < 0 ? "négatif" : "positif"}</b></div>
+      <div className="big">Produit = ${S(prod)}</div>
+    </div>
+  </div>`;
+}
+function PowPowLab(){
+  const [n, setN] = useState(2);
+  const [p, setP] = useState(3);
+  return html`<div className="frame lab">
+    <div className="ctrls">
+      <div className="ctrl"><label htmlFor="pp-n">Exposant intérieur <output>${n}</output></label><input id="pp-n" type="range" min="1" max="4" value=${n} onChange=${e => setN(+e.target.value)}/></div>
+      <div className="ctrl"><label htmlFor="pp-p">Exposant extérieur <output>${p}</output></label><input id="pp-p" type="range" min="1" max="4" value=${p} onChange=${e => setP(+e.target.value)}/></div>
+    </div>
+    <div className="readout"><${Hx} className="big" h=${ppw(10, n, p) + " = " + Array.from({ length: p }, () => pw(10, n)).join(" × ")}/></div>
+    <div className="tiles">${Array.from({ length: p }, (_, g) => html`<${React.Fragment} key=${g}>${g > 0 && html`<span className="times">×</span>`}<span className="grp"><${Tiles} n=${n} cls=${g % 2 ? "b" : ""}/></span><//>`)}</div>
+    <div className="readout"><${Hx} h=${p + " groupes de " + n + " facteurs 10 : en tout " + p + " × " + n + " = <b>" + n * p + "</b> facteurs."}/><${Hx} className="big" h=${ppw(10, n, p) + " = " + pw(10, n * p)}/></div>
+  </div>`;
+}
 /* ================= Comprendre ================= */
 const sup = (b, e) => b + "<sup>" + e + "</sup>";
 function CompAdd(){
@@ -724,7 +841,49 @@ function CompMix(){
   <${Worked} title=${fr(sup(10, 3) + " × " + sup(10, "−5"), sup(10, "−4") + " × " + sup(10, 2))} steps=${[["En haut", "3 + (−5) = −2 : le haut vaut " + sup(10, "−2") + "."], ["En bas", "−4 + 2 = −2 : le bas vaut " + sup(10, "−2") + "."], ["Le quotient", "−2 − (−2) = −2 + 2 = 0."], ["Résultat", "<b>" + sup(10, 0) + " = 1</b>. Normal : le haut et le bas sont égaux."]]}/>
   <${Keep} items=${["× : additionner les exposants ; trait de fraction : soustraire.", "Haut, puis bas, puis quotient.", sup("a", 0) + " = 1."]}/>`;
 }
-const COMP = { add: CompAdd, sub: CompSub, chain: CompChain, prod: CompProd, quot: CompQuot, mix: CompMix };
+function CompMul(){
+  return html`
+  <${Sec} n=${1} title="La règle des signes">
+    <${Rule} f="Même signe → produit positif<br>Signes contraires → produit négatif"/>
+    <div className="svgbox"><table className="signs"><thead><tr><th>×</th><th className="pos">+</th><th className="neg">−</th></tr></thead>
+      <tbody><tr><th className="pos">+</th><td className="pos">+</td><td className="neg">−</td></tr><tr><th className="neg">−</th><td className="neg">−</td><td className="pos">+</td></tr></tbody></table></div>
+    <p>Ensuite, je multiplie les distances à zéro comme d'habitude : (−6) × (+7) = −42.</p>
+  <//>
+  <${Sec} n=${2} title="Pourquoi négatif × négatif donne un positif"><${SignPattern}/><//>
+  <${Sec} n=${3} title="Plusieurs facteurs : je compte les négatifs">
+    <p>Nombre <b>pair</b> de facteurs négatifs → positif. Nombre <b>impair</b> → négatif.</p><${SignLab}/>
+  <//>
+  <${Msg} kind="warn"><b>Piège : ne pas confondre avec l'addition.</b> (−3) + (−4) = −7, mais (−3) × (−4) = +12. La règle « je garde le signe » ne vaut que pour l'addition.<//>
+  <${Worked} title="(−2) × (+3) × (−5)" steps=${[["Je compte les facteurs négatifs", "−2 et −5 : deux facteurs négatifs."], ["Je trouve le signe", "Deux, c'est pair : le produit est positif."], ["Je multiplie les distances", "2 × 3 × 5 = 30."], ["Résultat", "(−2) × (+3) × (−5) = <b>30</b>"]]}/>
+  <${Keep} items=${["Deux facteurs : même signe → +, signes contraires → −.", "Plusieurs facteurs : nombre pair de négatifs → +, impair → −.", "Le signe d'abord, puis le produit des distances à zéro."]}/>`;
+}
+function CompPow(){
+  return html`
+  <${Sec} n=${1} title="Ce que veut dire une puissance de puissance">
+    <p>Dans <${Hx} h=${ppw(10, 2, 3)}/>, la puissance <${Hx} h=${pw(10, 2)}/> est elle-même élevée au cube : on la multiplie 3 fois par elle-même.</p>
+    <${PowPowLab}/>
+  <//>
+  <${Rule} f=${"(" + sup("a", "n") + ")<sup>p</sup> = " + sup("a", "n × p")}/>
+  <${Sec} n=${2} title="Le calcul de l'exposant est un produit de relatifs">
+    <p>Tu sais déjà le faire (étape 4) : le signe d'abord, puis les distances.</p>
+    <${Ex} h=${ppw(8, -2, 5) + " = " + sup(8, "−2 × 5") + " = " + sup(8, "−10")}/>
+    <${Ex} h=${ppw(10, -3, -4) + " = " + sup(10, "−3 × (−4)") + " = " + sup(10, 12)}/>
+  <//>
+  <${Msg} kind="warn"><b>Pièges</b><ul>
+    <li>On <b>multiplie</b> les exposants, on ne les additionne pas : <${Hx} h=${ppw(10, 2, 3) + " = " + sup(10, 6) + ", pas " + sup(10, 5)}/>.</li>
+    <li>Ne pas confondre avec un produit : <${Hx} h=${sup(10, 2) + " × " + sup(10, 3) + " = " + sup(10, 5)}/> (on additionne), mais <${Hx} h=${ppw(10, 2, 3) + " = " + sup(10, 6)}/> (on multiplie).</li>
+  </ul><//>
+  <${Sec} n=${3} title="Les trois formules">
+    <div className="svgbox"><table className="signs"><tbody>
+      <tr><th>Produit</th><td><${Hx} h=${sup("a", "n") + " × " + sup("a", "p") + " = " + sup("a", "n + p")}/></td><td>j'additionne</td></tr>
+      <tr><th>Quotient</th><td><${Hx} h=${fr(sup("a", "n"), sup("a", "p")) + " = " + sup("a", "n − p")}/></td><td>je soustrais</td></tr>
+      <tr><th>Puissance de puissance</th><td><${Hx} h=${"(" + sup("a", "n") + ")<sup>p</sup> = " + sup("a", "n × p")}/></td><td>je multiplie</td></tr>
+    </tbody></table></div>
+  <//>
+  <${Worked} title=${ppw(8, -2, 5)} steps=${[["Je reconnais la situation", "Une puissance élevée à une puissance : je multiplie les exposants."], ["Je trouve le signe", "−2 et 5 ont des signes contraires : l'exposant est négatif."], ["Je multiplie les distances", "2 × 5 = 10, donc l'exposant est −10."], ["Résultat", ppw(8, -2, 5) + " = <b>" + sup(8, "−10") + "</b>"]]}/>
+  <${Keep} items=${["Puissance d'une puissance : on <b>multiplie</b> les exposants.", "L'exposant se calcule avec la règle des signes du produit.", "× : j'additionne ; trait de fraction : je soustrais ; puissance de puissance : je multiplie."]}/>`;
+}
+const COMP = { add: CompAdd, sub: CompSub, chain: CompChain, mul: CompMul, prod: CompProd, quot: CompQuot, mix: CompMix, pow: CompPow };
 
 /* ================= Pas à pas ================= */
 function Guided({ stepId, toAuto }){
@@ -876,13 +1035,13 @@ function StepView({ idx, tab, setTab, mastery, setMastery, showTime, openStep })
   const step = STEPS[idx], C = COMP[step.id];
   const go = t => { setTab(t); window.scrollTo({ top: 0 }); };
   return html`<${React.Fragment}>
-    <div className="wrap head"><span className="eyebrow">${step.group} · étape ${idx + 1} sur 6</span><h2>${step.name}</h2><p>${step.goal}</p></div>
+    <div className="wrap head"><span className="eyebrow">${step.group} · étape ${idx + 1} sur ${STEPS.length}</span><h2>${step.name}</h2><p>${step.goal}</p></div>
     <div className="tabs-bar"><div className="wrap"><div className="tabs" role="tablist">${TABS.map(([k, l], i) => html`<button key=${k} role="tab" className="tab" aria-selected=${k === tab} onClick=${() => go(k)}><span className="tn">${i + 1}</span>${l}</button>`)}</div></div></div>
     <div className="wrap"><div className="page">
       <p className="lead">${TAB_LEAD[tab]}</p>
       ${tab === "comprendre" && html`<${C}/><div className="row" style=${{ justifyContent: "flex-end" }}><button className="btn primary" onClick=${() => go("guide")}>Je m'entraîne pas à pas →</button></div>`}
       ${tab === "guide" && html`<${Guided} key=${step.id} stepId=${step.id} toAuto=${() => go("auto")}/>`}
-      ${tab === "auto" && html`<${AutoPage} key=${step.id} step=${step} mastery=${mastery} setMastery=${setMastery} showTime=${showTime} goNextStep=${idx < 5 ? () => openStep(idx + 1) : null}/>`}
+      ${tab === "auto" && html`<${AutoPage} key=${step.id} step=${step} mastery=${mastery} setMastery=${setMastery} showTime=${showTime} goNextStep=${idx < STEPS.length - 1 ? () => openStep(idx + 1) : null}/>`}
     </div></div>
   <//>`;
 }
@@ -895,7 +1054,7 @@ function Home({ mastery, openStep, openReview }){
     <div className="head"><h2>Mon parcours</h2><p>Objectif : que chaque calcul devienne automatique. On commence par les nombres relatifs, puis on réutilise exactement les mêmes calculs dans les exposants des puissances.</p></div>
     <div className="page">
       <div className="frame lab">
-        <div className="stat"><div><span className="muted small">Niveaux automatisés</span><b>${nAuto} / 18</b></div></div>
+        <div className="stat"><div><span className="muted small">Niveaux automatisés</span><b>${nAuto} / ${STEPS.length * 3}</b></div></div>
         ${target ? html`<div className="row"><button className="btn primary" onClick=${() => openStep(target.i, target.k === 0 && !(mastery[STEPS[target.i].id] || [0])[0] ? "comprendre" : "auto")}>Continuer : ${STEPS[target.i].name}, niveau ${target.k + 1}</button><span className="muted small">${STEPS[target.i].levels[target.k]}</span></div>`
           : html`<${Msg} kind="good">Tous les niveaux sont automatisés. Garde le réflexe avec une révision express de temps en temps.<//>`}
       </div>
@@ -934,7 +1093,7 @@ const ICONS = {
   review: html`<svg className="ic" viewBox="0 0 22 22" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinejoin="round" strokeLinecap="round"><path d="M17.5 8.5A7 7 0 1 0 18 13"/><path d="M18 4v4.5h-4.5"/></svg>`
 };
 function App(){
-  const [view, setView] = useState(() => { const v = store.get("view", "home"); return v === "home" || v === "review" || (typeof v === "number" && v >= 0 && v < 6) ? v : "home"; });
+  const [view, setView] = useState(() => { const v = store.get("view", "home"); return v === "home" || v === "review" || (typeof v === "number" && v >= 0 && v < STEPS.length) ? v : "home"; });
   const [tab, setTab] = useState(() => { const t = store.get("tab", "comprendre"); return TABS.some(x => x[0] === t) ? t : "comprendre"; });
   const [mastery, setMastery] = useState(() => store.get("mastery", {}));
   const [big, setBig] = useState(() => store.get("big", false));
