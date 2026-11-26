@@ -368,14 +368,14 @@ const GEN = {
     let a, b, q;
     if (L === 0){ const s = Math.random() < .5 ? -1 : 1; a = s * R(1, 10); b = s * R(1, 10); q = P(a) + " + " + P(b); }
     else if (L === 1){ const s = Math.random() < .5 ? -1 : 1; a = s * R(1, 12); b = -s * R(1, 12); q = P(a) + " + " + P(b); }
-    else { a = nz(-30, 30); b = nz(-30, 30); q = Math.random() < .5 ? P(a) + " + " + P(b) : S(a) + " + " + PN(b); }
+    else { a = nz(-20, 20); b = nz(-20, 20); q = Math.random() < .5 ? P(a) + " + " + P(b) : S(a) + " + " + PN(b); }
     return { q: q + " =", a: a + b, ex: addEx(a, b), diag: v => addDiag(a, b, v), key: q };
   },
   sub(L){
     let a, b, q;
     if (L === 0){ a = nz(-12, 12); b = R(1, 12); q = Math.random() < .5 ? S(a) + " − " + b : P(a) + " − " + P(b); }
     else if (L === 1){ a = nz(-12, 12); b = -R(1, 12); q = Math.random() < .5 ? S(a) + " − " + P(b) : P(a) + " − " + P(b); }
-    else { a = nz(-30, 30); b = nz(-30, 30); q = b < 0 || Math.random() < .5 ? S(a) + " − " + P(b) : S(a) + " − " + b; }
+    else { a = nz(-20, 20); b = nz(-20, 20); q = b < 0 || Math.random() < .5 ? S(a) + " − " + P(b) : S(a) + " − " + b; }
     return { q: q + " =", a: a - b, ex: subEx(a, b), diag: v => subDiag(a, b, v), key: q };
   },
   chain(L){
@@ -467,9 +467,9 @@ const GUIDE = {
 /* ================= Étapes ================= */
 const STEPS = [
   { id: "add", group: "Nombres relatifs", name: "Additionner", T: 5, goal: "Additionner deux nombres relatifs entiers, sans hésiter.",
-    levels: ["Même signe", "Signes contraires", "Tous les cas, jusqu'à 30"] },
+    levels: ["Même signe", "Signes contraires", "Tous les cas, jusqu'à 20"] },
   { id: "sub", group: "Nombres relatifs", name: "Soustraire", T: 6, goal: "Transformer une soustraction en addition de l'opposé, puis calculer.",
-    levels: ["Soustraire un positif", "Soustraire un négatif", "Tous les cas, jusqu'à 30"] },
+    levels: ["Soustraire un positif", "Soustraire un négatif", "Tous les cas, jusqu'à 20"] },
   { id: "chain", group: "Nombres relatifs", name: "Enchaîner", T: 10, goal: "Calculer une suite d'additions et de soustractions.",
     levels: ["Trois nombres sans parenthèses", "Avec des parenthèses", "Quatre nombres, jusqu'à 20"] },
   { id: "prod", group: "Puissances", name: "Produit", T: 6, goal: "Produit de puissances de même base : additionner les exposants.",
