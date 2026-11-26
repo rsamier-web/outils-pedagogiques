@@ -510,8 +510,9 @@ a{color:var(--focus)}
               <option value="none">Neniu (la Esperanta teksto senŝanĝe)</option>
               <option value="pl">Pola (ĉ → cz, ŝ → sz, ŭ → ł…)</option>
               <option value="hr">Kroata (ĉ → č, ŝ → š, ĵ → ž…)</option>
+              <option value="it">Itala (ĉ → ci, ŝ → sh, c → ts, akcento markita…)</option>
             </select>
-            <span class="hint">Pola voĉo prononcas Esperanton simile: samaj konsonantoj kaj akcento sur la antaŭlasta silabo.</span>
+            <span class="hint">Pola voĉo prononcas Esperanton simile: samaj konsonantoj kaj akcento sur la antaŭlasta silabo. Itala voĉo ankaŭ taŭgas: nur la h estas muta kaj la ĵ sonas kiel ĝ.</span>
           </label>
           <div class="grid2">
             <label class="f" for="tts-rate">Rapido<div class="rng"><input type="range" id="tts-rate" min="0.5" max="1.4" step="0.05"><output id="o-rate"></output></div></label>
@@ -671,18 +672,28 @@ try{const t=JSON.parse(localStorage.getItem(LS_TTS)||'null');if(t)Object.assign(
 const saveTTS=()=>{try{localStorage.setItem(LS_TTS,JSON.stringify(TTS.set));}catch(e){}};
 function currentVoice(){const v=TTS.voices;if(!v.length)return null;
   if(TTS.set.voice){const f=v.find(x=>x.voiceURI===TTS.set.voice);if(f)return f;}
-  return v.find(x=>/^eo/i.test(x.lang))||v.find(x=>/^pl/i.test(x.lang))||v.find(x=>/^(hr|sr|bs)/i.test(x.lang))||null;}
+  return v.find(x=>/^eo/i.test(x.lang))||v.find(x=>/^pl/i.test(x.lang))||v.find(x=>/^(hr|sr|bs)/i.test(x.lang))||v.find(x=>/^it/i.test(x.lang))||null;}
 function adaptMode(v){const m=TTS.set.mode;if(m!=='auto')return m;if(!v)return 'none';const l=(v.lang||'').toLowerCase();
-  if(l.startsWith('eo'))return 'none';if(l.startsWith('pl'))return 'pl';if(/^(hr|sr|bs)/.test(l))return 'hr';return 'none';}
+  if(l.startsWith('eo'))return 'none';if(l.startsWith('pl'))return 'pl';if(/^(hr|sr|bs)/.test(l))return 'hr';if(l.startsWith('it'))return 'it';return 'none';}
 const toPl=s=>s.toLowerCase().replace(/ĉ/g,'cz').replace(/ĝ/g,'dż').replace(/ĥ/g,'ch').replace(/ĵ/g,'ż').replace(/ŝ/g,'sz').replace(/ŭ/g,'ł').replace(/v/g,'w');
+/* itala adapto: la Esperanta teksto reskribita laŭ itala literumado, kun akcentsigno sur la antaŭlasta silabo */
+const toIt=s=>String(s).replace(/[A-Za-zĈĜĤĴŜŬĉĝĥĵŝŭ]+/g,w=>{const V='aeiou',A={a:'à',e:'é',i:'ì',o:'ó',u:'ù'},lw=w.toLowerCase();
+  const vi=[];for(let i=0;i<lw.length;i++)if(V.includes(lw[i]))vi.push(i);const st=vi.length>=2?vi[vi.length-2]:-1;let o='';
+  for(let i=0;i<lw.length;i++){const c=lw[i],p=lw[i-1]||'',n=lw[i+1]||'',fr=n!==''&&'ei'.includes(n),vo=n!==''&&V.includes(n),pv=p!==''&&'aeiouj'.includes(p);
+    if(V.includes(c)){o+=i===st?A[c]:c;continue;}
+    switch(c){case 'c':o+='ts';break;case 'ĉ':o+=fr?'c':(vo||n?'ci':'ch');break;case 'ĝ':case 'ĵ':o+=fr?'g':(vo?'gi':'dj');break;
+      case 'ŝ':o+='sh';break;case 'g':o+=(fr||n==='n'||(n==='l'&&lw[i+2]==='i'))?'gh':'g';break;case 'k':case 'ĥ':o+=fr?'ch':'c';break;case 'h':break;
+      case 'j':o+='i';break;case 'ŭ':o+='u';break;case 's':o+=((pv&&vo)||(n&&'bdgvmnlrĝĵz'.includes(n)))?'ss':'s';break;
+      case 'z':o+=p?'s':'z';break;default:o+=c;}}
+  return o;});
 const toHr=s=>s.toLowerCase().replace(/ĉ/g,'č').replace(/ĝ/g,'dž').replace(/ĥ/g,'h').replace(/ĵ/g,'ž').replace(/ŝ/g,'š').replace(/ŭ/g,'u');
 let userActed=false, audioEl=null;
 function speak(text,slow){if(!text)return;
   const a=AUDIO[text];if(a){try{if(!audioEl)audioEl=new Audio();audioEl.src=a;audioEl.playbackRate=slow?0.75:1;audioEl.play().catch(()=>{});return;}catch(e){}}
   if(!TTS.ok)return;
   try{window.speechSynthesis.cancel();const v=currentVoice(),mode=adaptMode(v);let s=String(text).replace(/·/g,'').replace(/___/g,'…');
-    if(mode==='pl')s=toPl(s);else if(mode==='hr')s=toHr(s);
-    const u=new SpeechSynthesisUtterance(s);if(v){u.voice=v;u.lang=v.lang;}else u.lang='eo';
+    if(mode==='pl')s=toPl(s);else if(mode==='hr')s=toHr(s);else if(mode==='it')s=toIt(s);
+    const u=new SpeechSynthesisUtterance(s);if(v){u.voice=v;u.lang=v.lang;}else u.lang={pl:'pl-PL',hr:'hr-HR',it:'it-IT'}[mode]||'eo';
     u.rate=Math.max(0.3,TTS.set.rate*(slow?0.7:1));u.pitch=TTS.set.pitch;window.speechSynthesis.speak(u);}catch(e){}}
 function loadVoices(){if(!TTS.ok)return;try{TTS.voices=window.speechSynthesis.getVoices()||[];}catch(e){TTS.voices=[];}renderVoiceUI();}
 if(TTS.ok){loadVoices();try{window.speechSynthesis.addEventListener('voiceschanged',loadVoices);}catch(e){window.speechSynthesis.onvoiceschanged=loadVoices;}}
@@ -1167,14 +1178,14 @@ attachX($('#lx-q'));$('#lx-q').addEventListener('input',()=>{openLex=null;render
 /* ---------- Agordoj ---------- */
 function renderVoiceUI(){const sel=$('#tts-voice');if(!sel)return;
   if(!TTS.ok){const st=$('#tts-status');st.className='status warn';st.textContent='Voĉa legado ne funkcias en ĉi tiu retumilo. La resto de la aplikaĵo funkcias normale.';sel.disabled=true;return;}
-  const v=TTS.voices.slice().sort((a,b)=>{const r=x=>/^eo/i.test(x.lang)?0:/^pl/i.test(x.lang)?1:/^(hr|sr|bs)/i.test(x.lang)?2:3;return r(a)-r(b)||a.lang.localeCompare(b.lang)||a.name.localeCompare(b.name);});
+  const v=TTS.voices.slice().sort((a,b)=>{const r=x=>/^eo/i.test(x.lang)?0:/^pl/i.test(x.lang)?1:/^(hr|sr|bs)/i.test(x.lang)?2:/^it/i.test(x.lang)?3:4;return r(a)-r(b)||a.lang.localeCompare(b.lang)||a.name.localeCompare(b.name);});
   const cv=currentVoice();
   sel.innerHTML='<option value="">Aŭtomata'+(cv?' ('+esc(cv.name)+')':'')+'</option>'+v.map(x=>'<option value="'+esc(x.voiceURI)+'"'+(TTS.set.voice===x.voiceURI?' selected':'')+'>'+esc(x.name)+' — '+esc(x.lang)+'</option>').join('');
   const st=$('#tts-status'),mode=adaptMode(cv);
   if(!v.length){st.className='status warn';st.textContent='Ankoraŭ neniu voĉo ŝargiĝis. Premu «Aŭskulti»: iuj retumiloj ŝargas siajn voĉojn nur post la unua legado.';}
   else if(cv&&/^eo/i.test(cv.lang)){st.className='status';st.textContent='Esperanta voĉo trovita: '+cv.name+'.';}
-  else if(cv&&mode!=='none'){st.className='status';st.textContent='Neniu Esperanta voĉo en ĉi tiu aparato. La voĉo '+cv.name+' ('+cv.lang+') legas kun '+(mode==='pl'?'pola':'kroata')+' adapto de la literumado: la prononco estas proksima, sed ne perfekta.';}
-  else{st.className='status warn';st.textContent='Neniu Esperanta, pola aŭ kroata voĉo en ĉi tiu aparato. Elektu voĉon kaj adapton, aŭ instalu voĉon (vidu sube).';}}
+  else if(cv&&mode!=='none'){st.className='status';st.textContent='Neniu Esperanta voĉo en ĉi tiu aparato. La voĉo '+cv.name+' ('+cv.lang+') legas kun '+({pl:'pola',hr:'kroata',it:'itala'}[mode])+' adapto de la literumado: la prononco estas proksima, sed ne perfekta.';}
+  else{st.className='status warn';st.textContent='Neniu Esperanta, pola, kroata aŭ itala voĉo en ĉi tiu aparato. Elektu voĉon kaj adapton, aŭ instalu voĉon (vidu sube).';}}
 function b64enc(str){const b=new TextEncoder().encode(str);let s='';for(let i=0;i<b.length;i+=0x8000)s+=String.fromCharCode.apply(null,b.subarray(i,i+0x8000));return btoa(s);}
 function b64dec(s){const bin=atob(s);const b=new Uint8Array(bin.length);for(let i=0;i<bin.length;i++)b[i]=bin.charCodeAt(i);return new TextDecoder().decode(b);}
 function renderSettings(){$('#s-lang').innerHTML='<option value="">Neniu (nur Esperanto)</option>'+DATA.langs.map(([c,n])=>'<option value="'+c+'"'+(S.settings.lang===c?' selected':'')+'>'+esc(n)+'</option>').join('');

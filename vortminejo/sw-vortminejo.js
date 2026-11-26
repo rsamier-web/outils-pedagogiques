@@ -1,7 +1,7 @@
 // Servolaboristo de Vortminejo: la aplikaĵo funkcias senkonekte post la unua vizito.
 // Ŝanĝu VERSIO ĉe ĉiu ĝisdatigo de index.html, por ke la instalitaj aparatoj ricevu la novan version.
 // Ĝi forviŝas nur siajn proprajn kaŝmemorojn (komenciĝantajn per «vortminejo-»), neniam tiujn de aliaj aplikaĵoj.
-const VERSIO = 'vortminejo-v7';
+const VERSIO = 'vortminejo-v9';
 const KERNO = ['./', './index.html', './manifest-vortminejo.webmanifest', './icon-vortminejo-192.png', './icon-vortminejo-512.png', './icon-vortminejo-maskable.png', './apple-touch-icon-vortminejo.png'];
 self.addEventListener('install', e => {
   e.waitUntil(caches.open(VERSIO).then(c => c.addAll(KERNO)).then(() => self.skipWaiting()));
@@ -16,7 +16,7 @@ self.addEventListener('fetch', e => {
   const tiparo = url.hostname === 'fonts.googleapis.com' || url.hostname === 'fonts.gstatic.com';
   if (url.origin !== self.location.origin && !tiparo) return;
   if (req.mode === 'navigate') {
-    e.respondWith(fetch(req).then(res => { const k = res.clone(); caches.open(VERSIO).then(c => c.put('./index.html', k)); return res; })
+    e.respondWith(fetch(req, { cache: 'no-cache' }).then(res => { if (res.ok) { const k = res.clone(); caches.open(VERSIO).then(c => c.put('./index.html', k)); } return res; })
       .catch(() => caches.match('./index.html')));
     return;
   }
