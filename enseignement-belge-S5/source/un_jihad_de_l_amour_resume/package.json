@@ -1,0 +1,14 @@
+{
+  "name": "un-jihad-de-l-amour-resume",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Français S5 (FWB) : schéma et résumé d’Un jihad de l’amour et de textes argumentatifs",
+  "scripts": { "build": "node build.mjs" },
+  "dependencies": {
+    "@fontsource/noto-sans": "^5.1.0",
+    "esbuild": "^0.25.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
+  }
+}

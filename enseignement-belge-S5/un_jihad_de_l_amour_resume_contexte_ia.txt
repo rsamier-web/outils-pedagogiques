@@ -1,0 +1,464 @@
+UN JIHAD DE L’AMOUR · SCHÉMA ET RÉSUMÉ · CONTEXTE POUR ASSISTANT IA
+Application pour élèves de 5e secondaire (enseignement belge francophone, UAA 2).
+Application : https://rsamier-web.github.io/outils-pedagogiques/enseignement-belge-S5/un_jihad_de_l_amour_resume.html
+Rôle attendu de l’IA : donner un retour constructif sur les productions des élèves (schéma, résumé, texte argumentatif), sans faire le travail à leur place.
+Le livre n’est pas reproduit : les analyses ci-dessous sont des reformulations (faites à partir des éditions néerlandaise et anglaise).
+
+======================================================================
+1. MÉTHODE (fiches du cours p. 78 : schéma ; p. 86 : résumé)
+======================================================================
+
+## Les cinq éléments d’un texte argumentatif
+- Le thème et la thèse : Un texte argumentatif cherche à faire partager une opinion. Pour l’analyser, on commence toujours par deux questions. De quoi parle le texte ? C’est le thème : un sujet, souvent un groupe nominal. Exemple : « le téléphone portable à l’école ». Que pense l’auteur de ce sujet ? C’est la thèse : une opinion, toujours une phrase complète. Exemple : « le téléphone devrait être interdit pendant les cours ». Astuce : le thème ne prend pas parti ; la thèse, si. Deux auteurs peuvent avoir le même thème et des thèses opposées.
+  À retenir : Thème = de quoi parle le texte (un sujet, sans avis). Thèse = ce que l’auteur pense de ce sujet (une opinion, une phrase).
+- Argument, explication, exemple : Pour défendre sa thèse, l’auteur donne des arguments : des raisons. Un argument répond à la question « pourquoi l’auteur a-t-il raison ? ». Chaque argument est souvent développé par une explication (ou développement) : elle précise l’argument, montre comment il fonctionne. Puis vient parfois un exemple : un cas concret, précis, qui illustre l’argument. Il répond à la question « par exemple ? ». Regarde le texte coloré à droite : chaque couleur correspond à un rôle. Lis-le une fois en suivant les couleurs.
+  À retenir : Argument = une raison (pourquoi ?). Explication = le développement de l’argument (comment ? en quoi ?). Exemple = un cas concret (par exemple ?).
+- Les phrases qui ont une autre fonction : Toutes les phrases d’un texte argumentatif ne servent pas à argumenter. Certaines ont une autre fonction : accrocher le lecteur (une anecdote, une citation, une question), présenter le contexte, raconter, émouvoir. D’autres présentent l’avis adverse : c’est le contre-argument (ou la concession, quand l’auteur admet qu’il a en partie raison : « certes… »). L’auteur y répond souvent par une réfutation (« pourtant… », « mais… »). C’est l’étape 3 de ta fiche page 78 : repérer les parties qui ont une autre fonction que la fonction argumentative. Elles ne vont pas dans le schéma comme des arguments.
+  À retenir : Accroche, anecdote, contexte, citation = autre fonction. Contre-argument / concession = l’avis adverse ; réfutation = la réponse de l’auteur.
+
+## Repérer grâce aux indices
+- Où se cache la thèse ? : La thèse se trouve souvent au début (dans l’introduction) et elle est reprise à la fin (dans la conclusion). Le titre la résume parfois. Cherche les marques d’opinion : « selon moi », « je pense que », « il faut », « il est essentiel de », « devrait », des adjectifs comme « injuste » ou « indispensable ». Attention : la thèse n’est pas toujours la première phrase. Elle vient souvent après une accroche (une anecdote, une citation) ou après une concession (« Certes…, pourtant… »).
+  À retenir : La thèse est souvent au début et reprise à la fin. Cherche les marques d’opinion et le mot qui suit une concession (pourtant, mais).
+- Les connecteurs, des panneaux indicateurs : Les connecteurs logiques indiquent le rôle de la phrase qui suit. Ce sont tes meilleurs indices. « D’abord, ensuite, de plus, enfin » annoncent souvent un nouvel argument. « En effet, car, c’est-à-dire » annoncent une explication. « Par exemple, ainsi, notamment » annoncent un exemple. « Certes, on objecte que, certains pensent » annoncent un contre-argument ; « mais, pourtant, cependant » annoncent la réfutation ou la thèse. « En somme, donc, bref » annoncent la conclusion.
+  À retenir : Les connecteurs annoncent le rôle de la phrase. Mais attention : « ainsi » peut annoncer un exemple ou une conséquence ; vérifie toujours le sens.
+- Argument ou exemple ? Le test : Les élèves confondent souvent argument et exemple. Voici un test simple. Un argument est général : il vaut pour beaucoup de cas et répond à « pourquoi ? ». Un exemple est particulier : il parle d’une personne, d’un lieu, d’une date, d’un chiffre précis. Essaie de mettre « Par exemple, » devant la phrase. Si cela fonctionne, c’est probablement un exemple. Essaie de mettre « parce que » devant : si cela fonctionne, c’est probablement un argument. Pour remonter d’un exemple à l’argument, demande-toi : « qu’est-ce que cet exemple prouve ? ». La réponse, formulée de façon générale, est l’argument.
+  À retenir : Argument = général ; exemple = particulier (nom, date, lieu, chiffre). De l’exemple à l’argument : « Qu’est-ce que cela prouve ? »
+- Les grands types d’arguments : Connaître les types d’arguments aide à les reconnaître plus vite. Logique (cause et conséquence) : « Les notifications détournent l’attention, donc les élèves apprennent moins bien. » De valeur (morale, justice, liberté) : « La vengeance est injuste. » D’autorité : on s’appuie sur un expert, un texte reconnu. D’expérience : on s’appuie sur un vécu. Par l’analogie : on compare deux situations. Dans un résumé, on ne nomme pas le type d’argument, mais savoir le reconnaître aide à reformuler l’idée au lieu de recopier les mots.
+  À retenir : Types fréquents : logique, de valeur, d’autorité, d’expérience, par analogie. Un exemple n’est pas un argument : il l’illustre.
+
+## La méthode du schéma (fiche p. 78)
+- Les six étapes de la procédure : Voici la procédure de ta fiche page 78. Elle transforme un texte long en un schéma argumentatif clair. 1. Lire le texte et le comprendre. 2. Repérer le thème (le sujet) et la thèse (l’idée défendue). 3. Repérer les parties qui ont une autre fonction que la fonction argumentative. 4. Repérer les arguments et les exemples. 5. Tracer le schéma du texte : hiérarchiser et reformuler les informations. 6. Rédiger le résumé du texte. Ne saute pas d’étape : chaque étape réduit la quantité d’informations à garder en tête. C’est ce qui rend la tâche possible.
+  À retenir : Comprendre → thème et thèse → autres fonctions → arguments et exemples → schéma (hiérarchiser, reformuler) → résumé.
+- La structure du schéma : de A à E : Ton schéma se lit de gauche à droite, comme dans ton cours : A. le thème, B. la thèse, C. les arguments, D. les explications (le développement), E. les exemples. Chaque argument a sa propre ligne : on voit immédiatement combien il y en a et ce qui dépend de quoi. C’est cela, hiérarchiser. Les connecteurs peuvent figurer sur les flèches : « car » entre la thèse et un argument, « en effet » vers l’explication, « par exemple » vers l’exemple. Le contre-argument et sa réfutation se placent dans une case à part, sous la thèse.
+  À retenir : A thème → B thèse → C arguments → D explications → E exemples. Une ligne par argument ; contre-argument dans une case à part.
+- Reformuler : écrire court et avec tes mots : Dans le schéma, on n’écrit pas de longues phrases recopiées. On reformule : on dit la même idée, plus court, avec d’autres mots. Trois techniques : raccourcir (garder le noyau de la phrase), généraliser (remplacer une liste par un mot qui la résume : « climat, école, logement » → « leur avenir »), nominaliser (transformer un verbe en nom : « les élèves se concentrent moins » → « baisse de concentration »). Attention : reformuler n’est pas transformer. Le sens doit rester exactement celui de l’auteur. C’est le critère de fidélité.
+  À retenir : Raccourcir, généraliser, nominaliser. Reformuler sans changer le sens.
+
+## Du schéma au résumé (fiche p. 86)
+- Changer d’énonciateur : Dans le texte source, l’auteur parle souvent en son nom : « je pense », « selon moi ». Dans ton résumé, c’est toi qui écris : tu rédiges à la 3e personne. « Je refuse la haine » devient « El Bachiri refuse la haine » ou « l’auteur refuse la haine ». C’est ce qu’on appelle changer d’énonciateur. Tu transmets la pensée de l’auteur à un lecteur qui n’a pas lu le texte.
+  À retenir : Résumé à la 3e personne : « il », « elle », « l’auteur », « El Bachiri ».
+- Attribuer les propos et choisir le bon verbe : Attribue les idées à l’auteur en utilisant son nom de famille (El Bachiri) ou son prénom et son nom (Mohamed El Bachiri). Jamais seulement le prénom. Évite de répéter « il dit que ». Choisis un verbe introducteur précis, qui montre ce que fait l’auteur : il affirme, soutient, dénonce, regrette, reconnaît, réfute, plaide pour, appelle à… Le verbe est déjà une information : « il admet que » montre une concession, « il dénonce » montre une critique.
+  À retenir : Nom de famille, ou prénom + nom ; jamais le prénom seul. Un verbe précis à la place de « dire ».
+- L’introduction et le développement : L’introduction donne la source (auteur, titre, date, éventuellement le genre), le thème et la thèse. En une ou deux phrases. Le développement suit l’ordre du schéma : un paragraphe par argument (ou un paragraphe par groupe d’arguments si la consigne est courte). Chaque paragraphe commence par l’argument et peut contenir l’explication essentielle. Organise le tout avec des connecteurs logiques adéquats : d’abord, ensuite, de plus, enfin ; en effet, car ; certes… mais. Les exemples ne sont généralement pas repris : on garde l’idée. On garde un exemple seulement s’il est indispensable pour comprendre l’argument.
+  À retenir : Intro : source + thème + thèse. Un paragraphe par argument, dans l’ordre du schéma, avec connecteurs. Pas d’exemples, sauf s’ils sont indispensables.
+- Neutralité et reformulation : Neutralité : tu transmets l’avis de l’auteur, pas le tien. Pas de « je trouve que », pas de « l’auteur a bien raison », pas de « malheureusement ». Reformulation obligatoire : tu n’as pas le droit de recopier des phrases du texte. Mais attention, ne transforme pas les propos de l’auteur : pas d’ajout, pas de contresens, pas d’exagération. Si un mot-clé est irremplaçable (par exemple « jihad de l’amour »), tu peux le citer entre guillemets, une fois, brièvement.
+  À retenir : Pas d’avis personnel. Reformuler, sans transformer le sens.
+- Intelligibilité et recevabilité : Intelligibilité : ton lecteur n’a pas lu le texte ; il doit tout comprendre sans lui. Évite les allusions (« comme dans l’exemple des colombes ») et explique les noms propres si nécessaire. Veille à être précis, à la correction des anaphores (« il », « celui-ci », « cette idée » doivent renvoyer clairement à quelqu’un ou à quelque chose) et à utiliser les verbes adéquats. Recevabilité : respecte la consigne. Le nombre de mots maximal, le destinataire, la présentation. Compte tes mots et indique le total en bas de ta copie si on te le demande.
+  À retenir : Le lecteur doit comprendre sans le texte source. Respecter le nombre de mots et le destinataire.
+
+## Évaluer un résumé : les critères
+- Les critères d’un bon résumé : Pertinence : tu as gardé les informations essentielles (thèse, arguments) et supprimé l’accessoire (exemples, anecdotes, répétitions). Fidélité : tu respectes la pensée de l’auteur et l’ordre de ses idées, sans contresens et sans avis personnel. Intelligibilité : un lecteur qui ne connaît pas le texte comprend tout. Recevabilité : tu respectes la consigne (nombre de mots, destinataire, énonciation). Langue : orthographe, syntaxe, ponctuation.
+  À retenir : Pertinence, fidélité, intelligibilité, recevabilité, langue.
+- Les erreurs les plus fréquentes : Recopier des morceaux de phrases du texte. Garder les exemples et oublier l’argument qu’ils illustrent. Résumer mécaniquement paragraphe par paragraphe, en donnant autant de place à une anecdote qu’à un argument. Au contraire, la place de chaque idée dépend de son importance. Trop réduire : un texte « télégraphique », sans connecteurs, qu’on ne comprend plus. Dépasser le nombre de mots. Oublier de changer d’énonciateur (« je ») ou donner son avis.
+  À retenir : Ni copie, ni exemples, ni avis. Proportionner selon l’importance, pas selon la longueur des paragraphes.
+
+## Résumer un livre entier
+- Un livre n’est pas un texte court : Un livre comme Un jihad de l’amour contient une cinquantaine de fragments. Impossible de faire « un paragraphe par fragment » ! La méthode change d’échelle : on lit le livre par grands mouvements, puis on regroupe les fragments qui défendent la même idée. Plusieurs fragments, parfois éloignés, servent souvent un même argument. Par exemple, le refus de la vengeance apparaît dans « Fraternité », « Vengeance », « La peine de mort », « Les auteurs » et « Politique » : un seul argument, cinq fragments.
+  À retenir : Lire par mouvements. Regrouper les fragments par idée : plusieurs fragments = un argument.
+- Trier les fragments par fonction : Dans un essai-témoignage, beaucoup de pages racontent (le jour de l’attentat, l’enfance) ou expriment des émotions (les poèmes à Loubna). Elles comptent énormément dans le livre, mais elles ne sont pas des arguments. Elles ont une autre fonction : émouvoir le lecteur (pathos) et rendre l’auteur crédible (éthos) : il parle en victime, en musulman pratiquant, en enfant de Molenbeek. Dans le résumé, on les évoque en une phrase de présentation de l’auteur. Le reste du résumé est consacré à la thèse et aux arguments.
+  À retenir : Récit et lyrisme = autre fonction (émouvoir, rendre crédible). Une phrase pour le contexte, le reste pour les arguments.
+- Du schéma du livre au résumé : Une fois le schéma du livre terminé, la rédaction suit la fiche page 86, comme pour un texte court. Pour un résumé d’environ 200 mots : une introduction de 40 à 50 mots (auteur, titre, date, genre, contexte en une phrase, thème et thèse), puis un court paragraphe par argument (25 à 35 mots chacun). Choisis un ordre logique pour les arguments, puisque le livre est fragmentaire : par exemple, du refus de la vengeance à l’éducation.
+  À retenir : Intro de 40 à 50 mots, puis un paragraphe court par argument. Un ordre logique, annoncé par des connecteurs.
+
+## Du schéma au texte argumentatif
+- D’une ligne du schéma à un paragraphe : Le schéma fonctionne dans les deux sens. Tu sais passer d’un texte à son schéma ; tu peux aussi déplier un schéma pour écrire un texte argumentatif. Chaque ligne du schéma devient un paragraphe : 1. la phrase-argument, introduite par un connecteur d’énumération ; 2. une ou deux phrases d’explication (« En effet, … ») ; 3. un exemple (« Par exemple, … ») ; 4. éventuellement une phrase de lien avec la thèse. Entraîne-toi avec les trames de l’atelier : les débuts de phrases sont déjà là, tu complètes.
+  À retenir : Argument (connecteur) → explication (en effet) → exemple (par exemple) → lien avec la thèse.
+- Introduction et conclusion : L’introduction amène le thème (une accroche : un fait, une question), puis formule la thèse clairement. Elle peut annoncer les arguments. La conclusion reformule la thèse en résumant les arguments, puis propose une ouverture (une question, un conseil, un appel). Pour convaincre davantage, ajoute un contre-argument et sa réfutation avant la conclusion : tu montres que tu as pensé à l’avis adverse.
+  À retenir : Intro : accroche + thèse (+ annonce). Conclusion : thèse reformulée + ouverture. Un contre-argument réfuté renforce le texte.
+
+======================================================================
+2. LE LIVRE
+======================================================================
+Titre : Un jihad de l’amour (titre original : Een jihad van liefde ; en anglais : A Jihad for Love)
+Auteur : Mohamed El Bachiri, né en 1980, Bruxellois d’origine marocaine, ancien conducteur de métro, père de trois garçons
+Mise en forme : David Van Reybrouck, écrivain flamand, a recueilli ses propos et organisé les textes
+Parution : 2017 : d’abord en néerlandais (De Bezige Bij), puis en français (JC Lattès) et en anglais
+Genre : Un essai-témoignage : des fragments courts qui mêlent récit, poésie et argumentation
+Contexte : Le 22 mars 2016, des attentats frappent l’aéroport de Bruxelles et la station de métro Maelbeek. Loubna Lafquiri, l’épouse de l’auteur, meurt dans le métro.
+Origine du livre : Fin 2016, à la télévision flamande, Mohamed El Bachiri appelle à un « jihad de l’amour ». Sa prise de parole est massivement partagée ; le livre la prolonge.
+Destinataires : Tous les lecteurs, et en particulier les jeunes musulmans d’Europe, qu’il invite à une lecture humaniste de l’islam
+
+Mouvements :
+1. Ouverture : une définition et une lettre : La définition du mot « jihad » et une lettre d’amour à Loubna posent les deux fils du livre : le sens d’un mot et le deuil.
+2. Le choc et le deuil : Le jour de l’attentat, l’écriture la nuit sur son téléphone, l’insomnie, les médicaments : un homme qui se dit « mort » mais reste là pour ses enfants.
+3. D’où il parle : origines, foi, esprit critique : Fils d’immigrés marocains, il grandit à Molenbeek, fréquente une école catholique et apprend à questionner sa religion avec la raison.
+4. Loubna, une histoire d’amour : La rencontre, la vie de couple, le mariage, les naissances, puis un portrait-hommage de Loubna.
+5. Répondre à l’attentat : ni haine ni vengeance : Ce qu’il dit à ses fils, le refus de la vengeance et de la peine de mort, sa réponse aux auteurs des attentats.
+6. Appartenances : Molenbeek, le Maroc, la Belgique : Il défend Molenbeek contre sa caricature, raconte l’enterrement au Maroc, la rencontre avec le roi, et son attachement à ses deux pays.
+7. Le manifeste : humanité, jihad, raison : Il expose ses principes : appartenance à l’humanité, éducation, sens véritable du jihad, valeurs humanistes, honnêteté, séparation de la religion et de l’État.
+8. Clôture : l’appel : Des poèmes sur l’amour et une dernière strophe : il parle au nom de tous les musulmans ordinaires qu’on n’entend jamais.
+
+Fragments (titre traduit · fonction · argument · contenu) :
+- Épigraphe : définition du mot « jihad » (— / —) · argu · A2 · Un article de dictionnaire distingue l’effort contre ses passions (grand jihad) et la défense de l’islam (petit jihad).
+- Lettre à Loubna ((zonder titel) / (sans titre)) · lyrique · — · Il dit à sa femme disparue que rien n’a plus de goût et se demande quoi dire aux enfants.
+- Ce jour-là (Die dag / That day) · recit · — · Récit très bref : il est en congé, elle prend le métro, il comprend tout en voyant qu’elle n’est plus connectée après 9 h 10.
+- Le soir (’s Avonds / The evening) · lyrique · — · Il écrit des textes sur son téléphone : écrire sur l’amour le rapproche de Loubna.
+- La nuit (’s Nachts / The night) · recit · — · La nuit, sous médicaments, il descend l’escalier pour donner le biberon au plus jeune de ses trois fils.
+- Ma voix (Mijn stem / My voice) · lyrique · — · Il se dit « un mort qui donne une leçon de vie », vivant seulement pour ses enfants.
+- Mes parents (Mijn ouders / My parents) · recit · — · Né en 1980, sixième de huit enfants, il retrace l’immigration de ses parents depuis le Rif et Oujda.
+- La langue (Taal / Language) · recit · — · Le français est sa langue maternelle ; ses parents parlaient tamazight entre eux.
+- La foi (Geloof / Faith) · mixte · A3 · Musulman par naissance puis par conviction ; il a appris le Coran par cœur sans le comprendre, mais le trouve d’une grande poésie.
+- Mon école (Mijn school / My school) · recit · A4 · Il fréquente une école primaire catholique et se sent proche des chrétiens.
+- Compassion (Mededogen / Compassion) · argu · A4 · Il invite les musulmans à témoigner aux autres croyants et aux athées la même bienveillance que celle qu’il a reçue.
+- Le Coran (De Koran / The Koran) · argu · A3 · Axe vertical et axe horizontal : les passages guerriers sont historiques et ne doivent jamais servir à nuire.
+- Réflexion (Reflectie / Reflection) · argu · A3 · Enfant, il ne comprenait pas que Mère Teresa soit exclue du paradis ; réfléchir est un don de Dieu.
+- Curiosité (Nieuwsgierigheid / Curiosity) · argu · A5 · La sagesse commence par la curiosité ; l’avenir commence par l’histoire.
+- L’histoire (Geschiedenis / History) · argu · A3 · L’islam a de nombreux visages ; il admire Luther, qui a osé poser des questions.
+- Confiance en soi (Zelfvertrouwen / Self-confidence) · mixte · A5 · Traité de « sale Marocain » à six ans, il n’a pas su répondre : l’école ne lui avait pas appris que la Belgique avait fait venir les immigrés.
+- Voyager (Reizen / Travel) · recit · — · Il quitte l’école sans diplôme à dix-huit ans et trie le courrier de nuit à l’aéroport.
+- La rencontre (Ontmoeting / Meeting) · recit · — · Loubna entre dans le magasin de téléphones où il travaille.
+- La relation (Relatie / Relationship) · recit · — · Fiançailles, mariage civil en 2004, installation à Schaerbeek.
+- Vivre ensemble (Samenwonen / Living together) · mixte · — · Il apprend à vivre à deux ; l’amour, comme la foi, se travaille.
+- Le mariage (Huwelijk / Marriage) · lyrique · — · Loubna est son amie, pas son trophée : « j’aime, donc je suis ».
+- La naissance (Geboorte / Birth) · lyrique · — · Les plus beaux moments de sa vie, devenus douloureux à évoquer.
+- À propos des attentats (Over de aanslagen / About the attacks) · argu · A1 · Une seule phrase : le terroriste « le laisse froid ». Il refuse de lui donner de l’importance.
+- Bonté (Goedheid / Goodness) · lyrique · — · Portrait-hommage de Loubna, professeure de sport engagée, généreuse et opposée à la violence.
+- Les enfants (De kinderen / The children) · recit · — · Ce qu’il a dit à ses fils : maman est au ciel.
+- Fraternité (Broederschap / Brotherhood) · argu · A1, A4 · « Nous sommes tous frères », même celui qui a commis le pire ; se venger, c’est se mettre à son niveau.
+- Vengeance (Wraak / Vengeance) · argu · A1 · Poème : un père capitaine et ses trois fils débattent ; l’un veut une armée, l’autre envoie quatre colombes.
+- La peine de mort (De doodstraf / The death penalty) · argu · A1 · La peine de mort est un crime commis avec l’accord de la société.
+- Le cœur (Het hart / The heart) · argu · A2 · Rien ne justifie la haine ; l’amour est une ressource inépuisable.
+- Les auteurs (De daders / The wrongdoers) · argu · A1, A3 · Il s’adresse au terroriste : si tuer des innocents est pour toi une justice, nous n’avons pas la même religion.
+- Molenbeek (Molenbeek / Molenbeek) · argu · A5 · Le Molenbeek des médias fait plus peur que le vrai ; après la mort de Loubna, il y a trouvé une grande solidarité.
+- Le Maroc (Marokko / Morocco) · mixte · A4, A5 · Loubna est enterrée à Salé ; le roi Philippe la cite comme exemple d’intégration ; le Maroc, terre de tolérance.
+- Deux pays (Twee landen / Two countries) · mixte · A5 · Il aime la « belgitude » et la qualité de vie marocaine.
+- Profondeurs (Diepten / Depths) · lyrique · — · Le doute, le brouillard, la nécessité de rester debout pour ses enfants.
+- Beauté (Schoonheid / Beauty) · lyrique · — · Une phrase : la vie n’a plus le même goût, mais le coucher de soleil reste beau.
+- L’essentiel (De essentie / The essence) · mixte · — · L’essentiel n’est pas leur histoire d’amour, mais le message de paix que la mort de Loubna laisse.
+- Appartenance (Verbondenheid / Belonging) · argu · A4 · Aller au bout de sa religion, c’est y trouver celle des autres ; le cosmopolitisme ne remplace pas la culture locale.
+- L’éducation (Onderwijs / Education) · argu · A5 · Une communauté est une porte, pas une forteresse ; l’art et la poésie apprennent aux jeunes à exprimer leurs émotions.
+- Jihad (Jihad / Jihad) · argu · A2 · Il se proclame « jihadiste de l’amour » et explique le sens premier du mot : l’effort sur soi.
+- Ce livre (Dit boek / This book) · mixte · — · Le livre est un poème, un hommage à Loubna, une réponse à l’humanité et non à la folie.
+- Humanité (Menselijkheid / Humanity) · argu · A4 · Humain d’abord, musulman ensuite : caractère sacré de la vie, libre arbitre, fraternité.
+- Politique (Politiek / Politics) · argu · A1, A4 · Il se met à la place des Palestiniens et des Israéliens : chaque mort est un mort de trop.
+- Honnêteté (Eerlijkheid / Honesty) · argu · A3 · Polygamie et voile : être honnête et respecter le choix des femmes.
+- Séparation de la religion et de l’État (Scheiding van kerk en staat / Separation of religion and state) · argu · A3 · Il défend la séparation, mais refuse une laïcité qui exclut les croyants : c’est aussi un fondamentalisme.
+- La prière (Gebed / Prayer) · argu · A3 · La religion ne doit pas être un étendard ; la prière reste pour lui un moment de calme.
+- À la nuit (poème) (In de nacht / At night) · lyrique · A4 · Une voix intérieure appelle à aimer son prochain, même mauvais.
+- L’amour (poème) (Liefde / Love) · lyrique · A4 · Une litanie : l’amour ne peut mener à la haine ; « si tu es Amour, je partage ta religion ».
+- Strophe finale (Slotstrofe / Final strophe) · mixte · — · Sans le drame, on ne l’aurait jamais entendu : il était un musulman comme tant d’autres qu’on n’entend jamais.
+
+SCHÉMA ARGUMENTATIF DE RÉFÉRENCE
+Thème : La réponse à apporter à la haine et à la violence terroriste.
+Thèse : Face à la haine, il faut répondre par l’amour : mener un « jihad de l’amour », c’est-à-dire un effort sur soi pour refuser la vengeance et reconnaître l’humanité de chacun.
+A1 · Répondre à la violence par la violence ne fait que reproduire le mal.
+   Explications : Se venger, c’est commettre la même faute que les assassins et « se mettre à leur niveau ». On ne répare pas une injustice par une autre injustice : la colère, même légitime, ne justifie jamais une atrocité. La haine d’un camp nourrit l’extrémisme de l’autre : rien n’est résolu et ce sont les populations qui paient.
+   Exemples : Ses fils, furieux, réclament vengeance : il leur répond qu’ils valent mieux que cela. Le poème « Vengeance » : un frère veut lever une armée, l’autre lâche quatre colombes vers les quatre coins du monde. Le conflit israélo-palestinien, où chaque violence alimente la violence d’en face. La peine de mort, qu’il décrit comme un crime commis avec l’accord de la société.
+   Fragments : Fraternité, Vengeance, La peine de mort, Les auteurs, Politique
+A2 · Le mot « jihad » désigne d’abord un effort sur soi-même, et non une guerre : les terroristes l’ont détourné.
+   Explications : Dans son sens premier, le jihad est l’effort que chacun mène contre ses propres passions et sa colère. Le véritable « jihadiste » ne s’emporte pas : il cherche le savoir, va vers l’autre et reconnaît son humanité. Mener un jihad de l’amour, c’est donc résister à la haine, ce qui demande plus de courage que la violence.
+   Exemples : La définition du dictionnaire placée en tête du livre : le « grand jihad » contre ses passions, le « petit jihad » de défense. Les paroles du Prophète « Ne te mets pas en colère » et son conseil de s’asseoir, puis de s’allonger pour calmer sa colère. Sa propre formule : il se dit « jihadiste de l’amour » et préférerait mourir plutôt que haïr.
+   Fragments : Épigraphe, Jihad, Le cœur
+A3 · Une foi lue avec la raison et replacée dans son contexte historique mène à l’amour, pas à la violence.
+   Explications : Le Coran a un axe vertical (le lien avec Dieu, valable pour toujours) et un axe horizontal (des règles liées au VIIe siècle). Les passages guerriers sont des paroles historiques : ils ne peuvent jamais servir à faire du mal à quelqu’un. La raison et l’esprit critique sont un don de Dieu ; il n’y a rien de spirituel dans un meurtre ou une guerre. L’islam a de nombreux visages : il rejette tous les fondamentalismes, y compris une laïcité qui exclut les croyants.
+   Exemples : Le Prophète, mystique à La Mecque, devenu chef politique malgré lui à Médine. Sa question d’enfant : pourquoi Mère Teresa n’irait-elle pas au paradis ? Bagdad au Xe siècle, où les savants étudiaient les pensées grecque, indienne et perse. La polygamie et le voile : selon lui, il faut d’abord être honnête et laisser les femmes décider. Les fidèles qui prient au bord de l’autoroute pour être vus : la religion ne doit pas être un étendard.
+   Fragments : Le Coran, Réflexion, L’histoire, Honnêteté, Séparation de la religion et de l’État, La prière
+A4 · Tous les êtres humains sont frères : l’humanité commune passe avant ce qui nous sépare.
+   Explications : Il se définit comme un être humain d’abord, un musulman ensuite. Être humain implique trois valeurs : le caractère sacré de toute vie, le libre arbitre et la fraternité. En allant au bout de sa propre religion, on rencontre celle des autres ; même l’auteur d’un attentat reste un frère « qui a pris le mauvais chemin ». On peut perdre sa culture, sa foi ou son pays, mais pas son humanité.
+   Exemples : L’affection reçue des enseignants de son école catholique. Le verset du Coran selon lequel Dieu a fait des peuples et des tribus « pour qu’ils se connaissent ». Les musulmans de Damas autorisés à prier dans une église ; Raphaël peignant le philosophe musulman Averroès au Vatican. Les prières venues du monde entier, « au nom de tous les dieux », après la mort de Loubna. Partager un repas avec quelqu’un qui ne pense pas comme soi.
+   Fragments : Mon école, Compassion, Fraternité, Appartenance, Humanité, Le Maroc
+A5 · La diversité est une richesse : c’est l’éducation, et non le repli ou les préjugés, qui permet de vivre ensemble.
+   Explications : Une communauté doit être « une porte et non une forteresse » : ni assimilation totale, ni repli sur soi. La diversité doit devenir la norme dès l’enfance ; la sagesse commence par la curiosité et la connaissance de l’histoire. Il faut apprendre aux jeunes à exprimer leurs émotions, notamment par l’art et la poésie. Les préjugés et les images caricaturales des médias enferment les personnes dans une étiquette.
+   Exemples : À six ans, un voisin le traite de « sale Marocain ». Le Molenbeek des médias, présenté comme Kaboul, face au Molenbeek solidaire qu’il connaît. La Belgique, « pays bâtard » et carrefour, et l’humour de la « belgitude ». Le Maroc, sa tradition de tolérance, et Loubna citée par le roi comme exemple d’intégration réussie. Ceux qui interdisent la musique, l’art et la poésie privent les êtres humains du plus beau d’eux-mêmes.
+   Fragments : Confiance en soi, Curiosité, Molenbeek, Le Maroc, Deux pays, L’éducation
+Conclusion du livre : Le livre se termine par un appel lyrique : l’amour est la seule réponse à la haine, et l’auteur, conducteur de métro, parle pour tous ces musulmans ordinaires qu’on n’entend jamais.
+Passages à autre fonction : Le récit du 22 mars 2016 et du deuil (la nuit, les médicaments, les enfants) : il émeut et montre d’où l’auteur parle. Les souvenirs d’enfance, de jeunesse et la vie avec Loubna : ils construisent la crédibilité de l’auteur (son éthos). Les textes lyriques et les poèmes adressés à Loubna : hommage et expression de la douleur.
+
+Pièges du résumé du livre :
+- Raconter le jour de l’attentat en détail (l’heure, la couverture, l’escalier) : c’est du récit, pas un argument.
+- Décrire Loubna (son sourire, son métier, leur rencontre) : c’est un hommage, pas un argument.
+- Recopier les poèmes ou les phrases du livre : il faut reformuler.
+- Donner ton avis (« Je trouve que Mohamed a raison ») : un résumé est neutre.
+- Écrire « Mohamed dit que… » à chaque phrase : utilise son nom de famille (El Bachiri) et des verbes précis (affirme, soutient, dénonce…).
+- Mettre tous les exemples (Mère Teresa, Luther, Averroès, Damas…) : garde les idées ; un exemple seulement s’il est indispensable pour comprendre.
+
+Résumé modèle en 150 mots environ :
+Dans son essai-témoignage Un jihad de l’amour (2017), Mohamed El Bachiri, dont l’épouse a été tuée lors de l’attentat du métro de Bruxelles en 2016, s’interroge sur la réponse à apporter à la haine terroriste. Il soutient qu’il faut lui opposer l’amour.
+D’abord, il affirme que la vengeance ne fait que reproduire le mal : répondre à la violence par la violence, c’est commettre la même faute que les assassins.
+Ensuite, il rappelle que le jihad désigne avant tout un effort sur soi contre ses passions, et non une guerre.
+Par ailleurs, il défend une foi éclairée par la raison, qui replace les textes religieux dans leur contexte et refuse tout fondamentalisme.
+De plus, il souligne que tous les êtres humains sont frères, au-delà de leurs croyances.
+Enfin, il estime que l’éducation et l’ouverture à la diversité, et non le repli, permettent de vivre ensemble.
+
+Résumé modèle en 250 mots environ :
+Dans Un jihad de l’amour (2017), essai-témoignage mis en forme par David Van Reybrouck, Mohamed El Bachiri, Bruxellois musulman dont l’épouse Loubna a été tuée lors de l’attentat du métro Maelbeek en 2016, s’interroge sur la manière de répondre à la haine terroriste. Il défend l’idée qu’il faut mener un « jihad de l’amour », c’est-à-dire un effort sur soi pour refuser la haine.
+Tout d’abord, l’auteur affirme que la vengeance ne fait que prolonger le mal. Répondre à la violence par la violence reviendrait à commettre la même faute que les assassins, et la haine d’un camp nourrit toujours celle de l’autre. C’est pourquoi il rejette aussi la peine de mort.
+Ensuite, il rappelle que le mot « jihad » désigne d’abord un combat intérieur contre ses passions et sa colère. Les terroristes ont détourné ce sens : le véritable courage consiste à garder son calme et à aller vers l’autre.
+Par ailleurs, il plaide pour une foi éclairée par la raison. Selon lui, les règles et les passages guerriers des textes religieux doivent être replacés dans leur contexte historique et ne peuvent jamais justifier un meurtre. Il refuse tous les fondamentalismes.
+De plus, il soutient que l’humanité commune passe avant les différences : chaque vie est sacrée et tous les êtres humains sont frères.
+Enfin, il estime que la diversité est une richesse et que l’éducation, la curiosité et l’art, plutôt que le repli ou les préjugés, permettent de vivre ensemble.
+
+Ce que révèle la comparaison des traductions :
+- Un livre traduit… d’une traduction : D’après la postface, le livre réunit des textes écrits par Mohamed El Bachiri après les attentats et des propos recueillis par David Van Reybrouck lors d’un long entretien, les 2 et 3 février 2017, à Anderlecht et à Molenbeek. Les textes, d’abord en français, ont été traduits en néerlandais puis retravaillés : l’édition néerlandaise (mars 2017) est la première parue. La version anglaise est traduite du néerlandais. Leçon : Le sens global (les idées) reste stable d’une langue à l’autre ; les mots exacts, eux, changent. C’est exactement ce que fait un résumé : garder les idées, pas les mots.
+- « Jihad » : effort ou lutte ? : En néerlandais, le mot jihad est expliqué par « inspanning », qui signifie « effort ». En anglais, il devient « struggle », qui signifie plutôt « lutte, combat ». Le dictionnaire cité en ouverture donne les deux sens : effort et lutte. Leçon : La nuance compte : « effort sur soi » insiste sur le travail intérieur, « lutte » garde une idée de combat. Pour ton résumé, la formulation la plus fidèle à la thèse est « un effort sur soi-même contre la haine ».
+- Le détail de 9 h 10 : En néerlandais, il comprend le drame en voyant que Loubna n’a plus été connectée après 9 h 10. La phrase anglaise est ambiguë et peut faire croire à un métro de 9 h 10. Leçon : Un détail de récit peut se brouiller d’une traduction à l’autre. Bonne nouvelle : ce genre de détail n’a de toute façon pas sa place dans un résumé argumentatif.
+- « Les auteurs » ou « les malfaiteurs » ? : Le fragment s’intitule « De daders » en néerlandais (les auteurs des faits) et « The wrongdoers » en anglais (ceux qui font le mal). En néerlandais, il dit qu’il adresserait sa phrase « à lui », un terroriste précis ; en anglais, « à eux ». Leçon : Le néerlandais rend l’adresse plus personnelle : il parle d’homme à homme à celui qui a tué. Cela renforce l’argument de la fraternité : même l’assassin reste quelqu’un à qui l’on parle.
+- Molenbeek : « pas seulement » ou « pas directement » en Syrie ? : Aux jeunes qui veulent quitter Molenbeek, la version néerlandaise dit en substance : ne va pas uniquement en Syrie, va aux quatre coins du monde. La version anglaise dit plutôt : ne va pas directement en Syrie. Leçon : Le message reste le même (voyager pour découvrir et admirer, pas pour détruire), mais la nuance diffère. Un résumé fidèle retient l’idée commune aux deux versions.
+- La haine « inutile » ou « impossible » ? : Dans le fragment « Le cœur », la version néerlandaise affirme que rien ne justifie la haine et que rien ne mènera à la haine ; l’anglaise, que rien ne rend la haine nécessaire. Leçon : Les deux traductions défendent la même thèse : la haine n’a aucune justification. Quand deux versions divergent, cherche ce qu’elles ont en commun : c’est le noyau de l’idée.
+- Une identité en trois mots : La quatrième de couverture néerlandaise présente l’auteur comme « Belge marocain, musulman et Molenbeekois ». En français, on retrouve la formule « belgo-marocain, musulman et molenbeekois ». Leçon : Ces trois appartenances correspondent chacune à un préjugé que le livre démonte : c’est le point de départ de l’argument sur la diversité (A5).
+
+======================================================================
+3. TEXTES D’ENTRAÎNEMENT (écrits pour l’application, auteurs fictifs) ET CORRIGÉS
+======================================================================
+
+## t1 · « Ranger son téléphone pour mieux apprendre » · Laure Martin, chronique d’une enseignante (auteur fictif), 2025 · niveau 1
+Dans beaucoup d’écoles, la place du téléphone portable fait débat. Selon moi, il devrait être interdit pendant les cours.
+
+D’abord, le téléphone empêche les élèves de se concentrer. Chaque notification attire l’attention, et il faut ensuite plusieurs minutes pour se remettre au travail. Par exemple, un élève qui reçoit trois messages pendant un exercice de mathématiques perd le fil de son raisonnement à chaque fois.
+
+Ensuite, l’interdiction protège les élèves du cyberharcèlement. Sans téléphone en classe, il devient impossible de filmer un camarade à son insu ou de l’humilier sur un groupe de discussion pendant les cours. Une photo prise en cachette au cours de sport peut ainsi circuler dans toute l’école en quelques minutes.
+
+En somme, ranger son téléphone n’est pas une punition : c’est une manière de mieux apprendre et de mieux se respecter.
+
+Schéma corrigé :
+Thème : Le téléphone portable à l’école.
+Thèse : Le téléphone portable devrait être interdit pendant les cours.
+Argument 1 : Il empêche de se concentrer. | Explication : Chaque notification détourne l’attention et il faut du temps pour se remettre au travail. | Exemple : L’élève qui reçoit trois messages pendant un exercice de mathématiques.
+Argument 2 : L’interdiction protège du cyberharcèlement. | Explication : Sans téléphone, on ne peut ni filmer ni humilier un camarade pendant les cours. | Exemple : La photo prise en cachette au cours de sport, partagée dans toute l’école.
+Résumé modèle (50 mots max) : Dans sa chronique, Laure Martin soutient que le téléphone portable devrait être interdit pendant les cours. D’une part, il nuit à la concentration, car chaque notification détourne l’attention. D’autre part, son interdiction protège les élèves du cyberharcèlement.
+
+## t2 · « Des zoos pour protéger » · Hugo Lambert, carte blanche d’un biologiste (auteur fictif), 2024 · niveau 1
+Chaque année, des millions de visiteurs se pressent devant les enclos des zoos. Certes, un animal en captivité ne vit pas comme dans la nature, et certains zoos d’autrefois offraient des conditions indignes. Pourtant, les zoos modernes restent utiles, à condition d’être d’abord des lieux de protection.
+
+Premièrement, ils participent à la sauvegarde des espèces menacées. Grâce à des programmes d’élevage coordonnés entre établissements, ils maintiennent des populations en bonne santé et peuvent parfois réintroduire des animaux dans leur milieu naturel. C’est ainsi que l’oryx d’Arabie, presque disparu à l’état sauvage, a retrouvé le désert grâce à des animaux nés en captivité.
+
+Deuxièmement, les zoos sensibilisent le public. Voir un animal en vrai crée une émotion qu’aucun documentaire ne remplace, et cette émotion donne envie de protéger la nature. Beaucoup de parcs proposent d’ailleurs des ateliers où les enfants découvrent les menaces qui pèsent sur la forêt tropicale.
+
+Enfin, ils financent la protection sur le terrain. Une partie du prix des billets soutient des projets dans les pays où vivent ces espèces.
+
+Plutôt que de fermer les zoos, il faut donc exiger qu’ils deviennent de véritables arches de protection.
+
+Schéma corrigé :
+Thème : L’utilité des zoos.
+Thèse : Les zoos modernes restent utiles s’ils sont d’abord des lieux de protection.
+Argument 1 : Ils sauvent des espèces menacées. | Explication : Programmes d’élevage coordonnés, réintroductions. | Exemple : L’oryx d’Arabie réintroduit dans le désert.
+Argument 2 : Ils sensibilisent le public. | Explication : Voir un animal en vrai crée une émotion qui donne envie de protéger la nature. | Exemple : Les ateliers pour enfants sur la forêt tropicale.
+Argument 3 : Ils financent la protection sur le terrain. | Explication : Une partie du prix des billets soutient des projets locaux. | Exemple : —
+Concession : la captivité n’est pas la vie sauvage et certains zoos anciens étaient indignes.
+Résumé modèle (70 mots max) : Dans une carte blanche, le biologiste Hugo Lambert reconnaît que la captivité n’est pas la vie sauvage, mais il estime que les zoos modernes restent utiles s’ils se consacrent à la protection des animaux. En effet, ils sauvent des espèces menacées grâce à l’élevage et aux réintroductions. De plus, ils sensibilisent le public à la nature. Enfin, ils financent des projets de protection sur le terrain.
+
+## t3 · « Voter à seize ans » · Samira Haddad, éditorial d’un magazine pour adolescents (auteur fictif), 2025 · niveau 2
+En Belgique, les jeunes de seize et dix-sept ans ont pu voter pour la première fois aux élections européennes de 2024. Il faudrait aller plus loin et leur accorder le droit de vote à toutes les élections.
+
+La première raison est que les décisions politiques concernent directement les jeunes. Climat, enseignement, logement, emploi : ce sont eux qui vivront le plus longtemps avec les conséquences des choix faits aujourd’hui. Les grandes marches pour le climat ont d’ailleurs montré que de nombreux adolescents se passionnent pour ces questions.
+
+La seconde raison est que voter tôt crée une habitude. À seize ans, on vit souvent encore chez ses parents et on fréquente l’école : c’est le moment idéal pour apprendre à s’informer et à voter, avec l’aide des enseignants. Un cours de citoyenneté peut, par exemple, comparer les programmes des partis juste avant le scrutin.
+
+On objecte souvent que les jeunes seraient trop influençables. Mais les adultes aussi subissent des influences, et personne ne songe pour autant à leur retirer le droit de vote.
+
+Faire confiance aux jeunes, c’est préparer des citoyens plus engagés.
+
+Schéma corrigé :
+Thème : Le droit de vote des jeunes de seize ans.
+Thèse : Il faut accorder le droit de vote à seize ans à toutes les élections.
+Argument 1 : Les décisions politiques concernent directement les jeunes. | Explication : Ils vivront le plus longtemps avec les conséquences des choix actuels (climat, école, logement, emploi). | Exemple : Les marches des jeunes pour le climat.
+Argument 2 : Voter tôt crée une habitude. | Explication : À seize ans, on est encore à l’école et entouré : moment idéal pour apprendre à s’informer. | Exemple : Comparer les programmes des partis au cours de citoyenneté.
+Contre-argument : les jeunes seraient trop influençables. Réfutation : les adultes aussi sont influencés et gardent le droit de vote.
+Résumé modèle (80 mots max) : Dans un éditorial, Samira Haddad plaide pour que les jeunes de seize ans puissent voter à toutes les élections. D’abord, elle souligne que les décisions politiques les concernent directement, puisqu’ils vivront longtemps avec leurs conséquences. Ensuite, elle affirme que voter tôt crée une habitude, encouragée par l’école. Enfin, elle réfute l’idée que les jeunes seraient trop influençables : les adultes le sont aussi.
+
+## t4 · « La mode jetable nous coûte cher » · Thomas Delvaux, chronique d’un journaliste (auteur fictif), 2025 · niveau 2
+Samedi, Inès a acheté cinq t-shirts pour le prix d’une pizza. Trois semaines plus tard, deux d’entre eux sont déjà déformés et finissent au fond d’une armoire. Cette scène banale résume le succès de la « fast fashion », ces collections bon marché renouvelées sans cesse. Ce modèle, qui semble avantageux, est en réalité un piège qu’il faut refuser.
+
+Il abîme d’abord la planète. Produire des vêtements en masse consomme énormément d’eau, d’énergie et de produits chimiques, puis les vêtements usés s’entassent dans des décharges. Selon plusieurs estimations, la fabrication d’un seul jean peut demander plusieurs milliers de litres d’eau.
+
+Il repose ensuite sur l’exploitation de travailleurs. Pour vendre à prix cassés, les marques font fabriquer leurs vêtements là où les salaires sont les plus bas et où la sécurité est souvent négligée. En 2013, l’effondrement du Rana Plaza, un immeuble d’ateliers textiles au Bangladesh, a fait plus de mille morts.
+
+Enfin, l’économie promise est une illusion. Un vêtement qui se déforme après trois lavages doit être remplacé : au bout du compte, on dépense souvent davantage qu’avec une pièce solide.
+
+On dira que la mode à petit prix permet aux familles modestes de s’habiller. C’est vrai, mais la seconde main et les vêtements durables reviennent souvent moins cher à l’usage.
+
+Avant d’acheter, posons-nous donc une question simple : ce vêtement, le porterai-je au moins trente fois ?
+
+Schéma corrigé :
+Thème : La mode jetable (fast fashion).
+Thèse : La mode jetable, qui semble avantageuse, est un piège qu’il faut refuser.
+Argument 1 : Elle abîme la planète. | Explication : Production massive : eau, énergie, produits chimiques, déchets. | Exemple : Plusieurs milliers de litres d’eau pour un jean.
+Argument 2 : Elle exploite des travailleurs. | Explication : Fabrication là où les salaires sont bas et la sécurité négligée. | Exemple : L’effondrement du Rana Plaza (2013).
+Argument 3 : L’économie promise est une illusion. | Explication : Les vêtements fragiles doivent être remplacés : on dépense plus. | Exemple : —
+Contre-argument : elle permet aux familles modestes de s’habiller. Réfutation : la seconde main et les vêtements durables coûtent souvent moins cher à l’usage.
+Résumé modèle (100 mots max) : Dans sa chronique, Thomas Delvaux soutient que la mode jetable, apparemment avantageuse, est un piège à refuser. Premièrement, elle nuit à l’environnement, car sa production massive gaspille l’eau et l’énergie et génère des déchets. Deuxièmement, elle repose sur l’exploitation de travailleurs mal payés et mal protégés. Troisièmement, l’économie promise est illusoire, puisque des vêtements fragiles doivent vite être remplacés. Le journaliste admet que ces vêtements aident les familles modestes, mais il rappelle que la seconde main et les pièces durables reviennent moins cher à l’usage.
+
+## t5 · « Rire de tout, mais pas n’importe comment » · Clara Renard, billet d’humeur (auteur fictif), 2024 · niveau 3
+« On peut rire de tout, mais pas avec n’importe qui », disait l’humoriste Pierre Desproges. La formule est célèbre, mais elle laisse une question ouverte : l’humour a-t-il des limites ? Je crois qu’on peut rire de tout, à condition que le rire ne serve pas à écraser les plus faibles.
+
+L’humour est d’abord une liberté précieuse, car il permet de critiquer les puissants. En faisant rire d’un dirigeant, le caricaturiste montre ses défauts plus efficacement qu’un long discours, et le rend moins intimidant. Ce n’est pas un hasard si, dans les dictatures, les caricaturistes sont parmi les premiers emprisonnés.
+
+Le rire aide aussi à supporter le malheur. Rire d’une épreuve, c’est reprendre un peu de pouvoir sur elle et se sentir moins seul. Bien des malades et des soignants racontent que l’humour les a aidés à traverser les moments les plus durs.
+
+Certains en concluent que tout doit être permis, au nom de la liberté. Pourtant, une blague qui vise une personne pour ce qu’elle est (sa couleur de peau, son handicap, sa religion) ne critique aucun pouvoir : elle humilie quelqu’un qui en a déjà peu. Dans une cour de récréation, la moquerie répétée sur l’accent d’un élève n’a rien de drôle pour lui ; c’est du harcèlement.
+
+La limite n’est donc pas le sujet, mais la cible. Rire d’une situation, d’une idée ou d’un abus de pouvoir libère ; rire pour rabaisser quelqu’un enferme.
+
+Avant de lancer une blague, il suffit peut-être de se demander : de qui est-ce que je ris, et qui en souffrira ?
+
+Schéma corrigé :
+Thème : Les limites de l’humour.
+Thèse : On peut rire de tout, à condition que le rire ne serve pas à écraser les plus faibles.
+Argument 1 : L’humour permet de critiquer les puissants. | Explication : La caricature montre les défauts d’un dirigeant et le rend moins intimidant. | Exemple : Les caricaturistes emprisonnés dans les dictatures.
+Argument 2 : Le rire aide à supporter le malheur. | Explication : Rire d’une épreuve, c’est reprendre du pouvoir sur elle. | Exemple : Les malades et les soignants que l’humour aide.
+Argument 3 : La limite n’est pas le sujet mais la cible. | Explication : Rire d’une situation libère ; rire pour rabaisser quelqu’un enferme. | Exemple : —
+Contre-argument : tout devrait être permis au nom de la liberté. Réfutation : la blague qui vise une personne pour ce qu’elle est humilie sans critiquer aucun pouvoir (ex. : moquerie sur l’accent = harcèlement).
+Résumé modèle (110 mots max) : Dans un billet d’humeur, Clara Renard se demande si l’humour a des limites. Elle soutient qu’on peut rire de tout, pourvu que le rire n’écrase pas les plus faibles. D’abord, l’humour est une liberté précieuse, car il permet de critiquer les puissants. Ensuite, il aide à supporter les épreuves. Toutefois, elle refuse l’idée que tout serait permis : une plaisanterie qui vise quelqu’un pour ce qu’il est ne critique aucun pouvoir, elle humilie. Elle conclut que la limite de l’humour ne tient pas au sujet, mais à sa cible.
+
+## t6 · « L’intelligence artificielle à l’école : apprendre plutôt qu’interdire » · Nicolas Verbeke, opinion d’un directeur d’école (auteur fictif), 2025 · niveau 3
+Depuis que les assistants d’intelligence artificielle (IA) rédigent des textes en quelques secondes, beaucoup d’enseignants s’inquiètent. Leur crainte est compréhensible : un élève peut faire écrire son devoir par une machine sans rien apprendre. Interdire l’IA serait pourtant une erreur ; l’école doit au contraire apprendre aux élèves à s’en servir avec esprit critique.
+
+D’abord, l’IA fait déjà partie du monde dans lequel les jeunes vivront et travailleront. L’ignorer à l’école, c’est laisser chacun l’utiliser seul, sans règles et sans recul. Les traducteurs automatiques et les correcteurs d’orthographe, longtemps vus comme des tricheries, sont aujourd’hui des outils ordinaires.
+
+Ensuite, bien utilisée, l’IA peut aider à apprendre. Elle peut réexpliquer une notion autrement, proposer des exercices supplémentaires ou commenter un brouillon, à condition que l’élève fasse lui-même le travail. Un élève qui ne comprend pas une règle de grammaire peut lui demander trois exemples de plus, puis vérifier avec son cours.
+
+Surtout, l’IA se trompe, et c’est précisément pour cela qu’il faut l’enseigner. Elle produit des phrases très sûres d’elles, même quand elles sont fausses : seul un utilisateur formé peut repérer l’erreur. Il lui arrive par exemple d’inventer une source ou une citation qui n’existe pas.
+
+Quant au risque de tricherie, il oblige surtout à repenser les évaluations : travail en classe, brouillons à rendre, oral où l’élève explique sa démarche.
+
+L’IA ne remplacera pas l’effort d’apprendre ; à l’école de faire en sorte qu’elle le soutienne au lieu de l’éviter.
+
+Schéma corrigé :
+Thème : La place de l’intelligence artificielle à l’école.
+Thèse : Il ne faut pas interdire l’IA à l’école, mais apprendre aux élèves à l’utiliser avec esprit critique.
+Argument 1 : L’IA fait déjà partie du monde des jeunes. | Explication : L’ignorer, c’est laisser chacun l’utiliser seul, sans règles. | Exemple : Traducteurs et correcteurs, autrefois vus comme tricheries, devenus ordinaires.
+Argument 2 : Bien utilisée, elle aide à apprendre. | Explication : Réexpliquer, proposer des exercices, commenter un brouillon, si l’élève fait le travail. | Exemple : Demander trois exemples de plus d’une règle de grammaire.
+Argument 3 : Elle se trompe, donc il faut l’enseigner. | Explication : Elle affirme des choses fausses avec assurance : il faut un utilisateur formé. | Exemple : Elle peut inventer une source ou une citation.
+Contre-argument : l’IA permet de tricher sans rien apprendre. Réfutation : il faut repenser les évaluations (travail en classe, brouillons, oral).
+Résumé modèle (120 mots max) : Dans un texte d’opinion, Nicolas Verbeke admet que l’intelligence artificielle facilite la tricherie, mais il estime que l’école doit enseigner son usage critique plutôt que l’interdire. Premièrement, l’IA fait déjà partie du monde des jeunes : l’ignorer reviendrait à les laisser l’utiliser sans règles. Deuxièmement, bien employée, elle peut soutenir l’apprentissage, à condition que l’élève fournisse lui-même l’effort. Troisièmement, comme elle commet des erreurs présentées avec assurance, seuls des utilisateurs formés peuvent les repérer. Selon lui, le risque de fraude impose surtout de transformer les évaluations.
+
+## t7 · « Punir sans se venger » · Élise Moreau, tribune d’une juriste (auteur fictif), 2025 · niveau 3
+Après un crime terrible, la colère est légitime ; il arrive même qu’on entende réclamer « œil pour œil, dent pour dent ». Pourtant, si la justice doit sanctionner les crimes, elle ne doit jamais devenir une vengeance.
+
+La vengeance, d’abord, n’a pas de fin. Chaque représailles appelle une nouvelle représailles, si bien que la violence se transmet d’une génération à l’autre. Les vendettas, ces guerres entre familles qui ont duré des décennies, en sont l’illustration.
+
+La justice, au contraire, protège aussi les victimes. Le procès établit publiquement la vérité, désigne les responsables et donne aux victimes une place pour être entendues. Lors du procès des attentats de Bruxelles, en 2022 et 2023, de nombreuses victimes et proches sont venus témoigner devant la cour d’assises.
+
+Enfin, une peine juste doit aussi préparer l’avenir. Punir n’a de sens que si cela protège la société et, quand c’est possible, permet au coupable de comprendre le mal qu’il a fait. En Belgique, des médiations permettent ainsi à des victimes qui le souhaitent de rencontrer l’auteur des faits, accompagnées par des professionnels.
+
+Certains estiment qu’une peine extrême, comme la peine de mort, découragerait les criminels. Rien ne montre pourtant que les pays qui l’appliquent connaissent moins de crimes graves ; et une erreur judiciaire y devient irréparable.
+
+Refuser la vengeance n’est pas une faiblesse : c’est ce qui distingue une société de droit de la loi du plus fort.
+
+Schéma corrigé :
+Thème : La différence entre justice et vengeance.
+Thèse : La justice doit sanctionner les crimes, mais ne doit jamais devenir une vengeance.
+Argument 1 : La vengeance n’a pas de fin. | Explication : Chaque représailles en appelle une autre ; la violence se transmet. | Exemple : Les vendettas entre familles.
+Argument 2 : La justice protège aussi les victimes. | Explication : Le procès établit la vérité, désigne les responsables, écoute les victimes. | Exemple : Les témoignages au procès des attentats de Bruxelles (2022-2023).
+Argument 3 : Une peine juste prépare l’avenir. | Explication : Protéger la société et faire comprendre au coupable le mal commis. | Exemple : Les médiations entre victimes et auteurs en Belgique.
+Contre-argument : une peine extrême (la peine de mort) dissuaderait les criminels. Réfutation : rien ne le prouve, et une erreur judiciaire devient irréparable.
+Résumé modèle (120 mots max) : Dans une tribune, la juriste Élise Moreau soutient que la justice doit punir les crimes sans jamais se transformer en vengeance. D’abord, la vengeance n’a pas de fin, car chaque représailles en provoque une autre. Ensuite, la justice protège aussi les victimes : le procès établit la vérité et leur permet d’être entendues. Enfin, une peine juste doit préparer l’avenir en protégeant la société et en amenant le coupable à prendre conscience de ses actes. L’auteure réfute enfin l’idée que la peine de mort dissuaderait les criminels, en rappelant qu’une erreur judiciaire serait alors irréparable.
+
+======================================================================
+4. BIBLIOTHÈQUE DE THÈMES ET D’ARGUMENTS FRÉQUENTS
+======================================================================
+
+## Les réseaux sociaux et les adolescents
+Sujets : Faut-il interdire les réseaux sociaux avant 15 ans ? / Les réseaux sociaux rapprochent-ils ou isolent-ils ?
+Pour : Ils favorisent le cyberharcèlement, qui suit l’élève jusque chez lui. (ex. : Des moqueries partagées dans un groupe de classe, le soir.) ; Ils nuisent au sommeil et à la concentration. (ex. : Les notifications tard dans la nuit.) ; Ils imposent des modèles irréalistes qui abîment l’estime de soi. (ex. : Les photos retouchées d’influenceurs.) ; Leurs algorithmes sont conçus pour capter le plus de temps possible. (ex. : Le défilement infini des vidéos courtes.)
+Contre : Ils permettent de garder le lien avec ses amis et sa famille éloignée. (ex. : Un appel vidéo avec un cousin à l’étranger.) ; Ils donnent accès à l’information et à des communautés d’intérêt. (ex. : Un groupe d’entraide pour apprendre à dessiner.) ; Ils offrent une tribune aux jeunes pour s’engager. (ex. : Les mobilisations pour le climat organisées en ligne.) ; Interdire ne sert à rien : il vaut mieux éduquer à un usage responsable. (ex. : Des cours d’éducation aux médias.)
+
+## Le téléphone portable à l’école
+Sujets : Faut-il interdire le téléphone portable à l’école ?
+Pour : Il empêche de se concentrer en classe. (ex. : Une notification pendant un exercice.) ; Il facilite la triche et le cyberharcèlement. (ex. : Une photo prise en cachette au vestiaire.) ; Il réduit les échanges réels à la récréation. (ex. : Des élèves côte à côte, chacun sur son écran.)
+Contre : Il peut servir d’outil pédagogique (dictionnaire, calculatrice, recherche). (ex. : Chercher le sens d’un mot en classe.) ; Il rassure les parents en cas d’urgence. (ex. : Prévenir d’un retard de bus.) ; Il vaut mieux apprendre à l’utiliser avec des règles que l’interdire. (ex. : Une charte d’usage rédigée avec les élèves.)
+
+## L’intelligence artificielle
+Sujets : L’IA a-t-elle sa place à l’école ? / L’IA menace-t-elle l’emploi et la création ?
+Pour : Elle peut aider à apprendre (réexpliquer, proposer des exercices). (ex. : Demander trois exemples de plus d’une règle.) ; Elle fait déjà partie du monde professionnel des jeunes. (ex. : Les traducteurs automatiques au travail.) ; Elle libère du temps pour des tâches plus créatives. (ex. : Un résumé de réunion produit automatiquement.)
+Contre : Elle facilite la triche et empêche l’effort d’apprendre. (ex. : Un devoir entièrement rédigé par une machine.) ; Elle commet des erreurs présentées avec assurance. (ex. : Une source inventée.) ; Elle peut supprimer des emplois et reproduire des préjugés. (ex. : Un logiciel de recrutement qui défavorise certains profils.)
+
+## Les jeux vidéo
+Sujets : Les jeux vidéo sont-ils une perte de temps ?
+Pour : Ils peuvent créer une dépendance et prendre la place du sommeil ou du travail. (ex. : Jouer jusqu’à deux heures du matin.) ; Certains jeux banalisent la violence. (ex. : Des jeux de guerre réalistes.) ; Ils rendent sédentaire. (ex. : Des heures assis sans bouger.)
+Contre : Ils développent des compétences (réflexes, stratégie, coopération). (ex. : Organiser une équipe dans un jeu en ligne.) ; Ce sont des œuvres culturelles à part entière. (ex. : Des jeux récompensés pour leur scénario.) ; Ils créent du lien social. (ex. : Jouer en ligne avec des amis éloignés.)
+
+## L’uniforme scolaire
+Sujets : Faut-il imposer l’uniforme à l’école ?
+Pour : Il efface les différences sociales visibles. (ex. : Plus de moqueries sur les marques.) ; Il crée un sentiment d’appartenance. (ex. : Les écoles britanniques.) ; Il simplifie la vie des familles le matin. (ex. : Pas de débat sur la tenue.)
+Contre : Il empêche d’exprimer sa personnalité. (ex. : Le style vestimentaire comme identité.) ; Il coûte cher à l’achat. (ex. : Le prix d’un blazer et de plusieurs chemises.) ; Il ne supprime pas les inégalités, qui se déplacent ailleurs. (ex. : Les chaussures ou le téléphone.)
+
+## La peine de mort
+Sujets : Faut-il rétablir la peine de mort pour les crimes les plus graves ?
+Pour : Certains la jugent juste pour les crimes les plus atroces. (ex. : Le sentiment de justice des familles de victimes.) ; Certains pensent qu’elle dissuade les criminels. (ex. : Argument souvent avancé, mais contesté.) ; Elle empêche définitivement la récidive. (ex. : Un condamné exécuté ne peut plus nuire.)
+Contre : Une erreur judiciaire devient irréparable. (ex. : Des condamnés innocentés après des années.) ; Rien ne prouve qu’elle fait baisser la criminalité. (ex. : Des pays qui l’appliquent sans moins de crimes.) ; Elle viole le droit à la vie : l’État tue à son tour. (ex. : El Bachiri : un crime approuvé par la société.) ; Elle relève de la vengeance plus que de la justice. (ex. : « Œil pour œil » contre justice.)
+
+## Vengeance, pardon et justice
+Sujets : Peut-on pardonner l’impardonnable ? / La justice doit-elle répondre à la colère des victimes ?
+Pour : Refuser la vengeance évite la spirale de la violence. (ex. : Les vendettas entre familles.) ; La justice établit la vérité et protège les victimes. (ex. : Les témoignages au procès des attentats de Bruxelles.) ; Pardonner libère la victime de la haine. (ex. : Des proches de victimes qui s’engagent pour la paix.)
+Contre : La colère des victimes est légitime et doit être entendue. (ex. : Le besoin de voir les coupables punis.) ; Pardonner peut sembler excuser l’acte. (ex. : La crainte de banaliser un crime.) ; Certains crimes paraissent impardonnables. (ex. : Les crimes contre l’humanité.)
+
+## Diversité, intégration et vivre-ensemble
+Sujets : La diversité culturelle est-elle une richesse ? / Comment bien vivre ensemble dans une société multiculturelle ?
+Pour : La rencontre des cultures enrichit chacun. (ex. : La cuisine, la musique, les langues partagées.) ; Une identité peut être plurielle sans contradiction. (ex. : Belge et marocain à la fois.) ; Connaître l’histoire de l’autre fait reculer les préjugés. (ex. : Apprendre que la Belgique a fait venir des travailleurs immigrés.)
+Contre : Des différences de valeurs peuvent créer des tensions. (ex. : Des débats sur les fêtes ou les tenues.) ; Le repli communautaire freine l’intégration. (ex. : Vivre sans contact avec les autres groupes.) ; L’intégration demande des efforts des deux côtés. (ex. : Apprendre la langue, ouvrir l’accès à l’emploi.)
+
+## La religion dans l’espace public
+Sujets : Faut-il une stricte neutralité religieuse dans l’espace public ? / Les signes religieux ont-ils leur place à l’école ?
+Pour : La neutralité de l’État protège la liberté de chacun. (ex. : Un service public identique pour tous.) ; L’école doit être un lieu à l’abri des pressions. (ex. : Éviter que des élèves se sentent obligés.) ; La séparation empêche une religion d’imposer ses règles à tous. (ex. : Des lois votées pour tous les citoyens.)
+Contre : La liberté de religion inclut le droit de l’exprimer. (ex. : Porter un signe religieux discret.) ; Une laïcité qui exclut devient elle-même un fondamentalisme. (ex. : El Bachiri : ne pas exclure des communautés entières.) ; Interdire peut renforcer le sentiment de rejet. (ex. : Des élèves qui quittent l’école.)
+
+## Stéréotypes, préjugés et discriminations
+Sujets : Les médias renforcent-ils les stéréotypes ? / Comment lutter contre les préjugés ?
+Pour : Les préjugés enferment les personnes dans une étiquette. (ex. : Être jugé sur son prénom ou son quartier.) ; Les médias amplifient parfois une image caricaturale. (ex. : Molenbeek présentée comme Kaboul.) ; La discrimination prive la société de talents. (ex. : Des CV écartés à cause d’un nom.)
+Contre : Certains stéréotypes naissent de réalités observées. (ex. : Des problèmes sociaux réels dans certains quartiers.) ; L’humour sur les clichés peut les désamorcer. (ex. : L’autodérision belge.) ; Les médias doivent rendre compte des faits, même dérangeants. (ex. : Informer sur la radicalisation.)
+
+## Liberté d’expression et humour
+Sujets : Peut-on rire de tout ? / La liberté d’expression a-t-elle des limites ?
+Pour : L’humour permet de critiquer les puissants. (ex. : Les caricatures de presse.) ; La liberté d’expression est une condition de la démocratie. (ex. : Les caricaturistes emprisonnés dans les dictatures.) ; Rire aide à supporter les épreuves. (ex. : L’humour à l’hôpital.)
+Contre : Certaines blagues humilient et blessent les plus faibles. (ex. : La moquerie sur un handicap.) ; La loi interdit l’incitation à la haine. (ex. : Des propos racistes condamnés.) ; L’humour peut banaliser les discriminations. (ex. : Des clichés répétés sans recul.)
+
+## La langue et l’égalité (écriture inclusive)
+Sujets : La langue française est-elle sexiste ? / Faut-il féminiser les noms de métiers ?
+Pour : La règle « le masculin l’emporte » invisibilise les femmes. (ex. : Les métiers prestigieux restés au masculin.) ; La langue a évolué et peut encore évoluer. (ex. : Des formes féminines anciennes oubliées.) ; Nommer les femmes rend leur place visible. (ex. : « autrice », « cheffe ».)
+Contre : Les formes inclusives compliquent la lecture. (ex. : Le point médian pour les lecteurs en difficulté.) ; Le masculin peut être compris comme neutre. (ex. : « Les élèves » désigne tout le monde.) ; L’égalité passe d’abord par les faits, pas par la grammaire. (ex. : L’égalité des salaires.)
+
+## L’égalité dans le couple (mariage, nom)
+Sujets : La tradition de prendre le nom du mari est-elle dépassée ?
+Pour : Changer de nom ne devrait pas être une obligation pour la femme seule. (ex. : Le titre « Madame » lié au mariage.) ; Garder son nom, c’est garder son identité. (ex. : La carrière construite sous son nom.)
+Contre : Un nom commun peut symboliser l’unité de la famille. (ex. : Le même nom pour les enfants.) ; C’est un choix personnel qui doit rester libre. (ex. : Des couples qui choisissent ensemble.)
+
+## L’art et la morale (« cancel culture »)
+Sujets : Faut-il séparer l’œuvre de l’artiste ? / Doit-on retirer des œuvres jugées choquantes ?
+Pour : Une œuvre doit être jugée pour elle-même. (ex. : Les tableaux de Gauguin dans les musées.) ; Retirer une œuvre, c’est effacer une trace du passé. (ex. : Comprendre l’évolution des mentalités.) ; Censurer l’art est dangereux pour la liberté. (ex. : Les autodafés dans l’histoire.)
+Contre : Célébrer une œuvre peut sembler excuser son auteur. (ex. : Les prix décernés à des artistes accusés.) ; Certaines œuvres blessent des victimes. (ex. : Des représentations dégradantes.) ; Contextualiser l’œuvre permet de la montrer sans l’excuser. (ex. : Un panneau explicatif au musée.)
+
+## Les zoos et les animaux
+Sujets : Faut-il fermer les zoos ?
+Pour : La captivité prive les animaux de leur liberté. (ex. : Des fauves dans des enclos étroits.) ; On peut observer les animaux autrement (documentaires, réserves). (ex. : Les réserves naturelles.) ; L’argent des zoos serait plus utile pour protéger les milieux naturels. (ex. : Protéger une forêt plutôt qu’un enclos.)
+Contre : Les zoos modernes protègent des espèces menacées. (ex. : L’oryx d’Arabie réintroduit.) ; Ils sensibilisent le public. (ex. : Les ateliers pour enfants.) ; Ils financent la protection sur le terrain. (ex. : Une part du prix des billets.)
+
+## La mode jetable et la consommation
+Sujets : Faut-il boycotter la fast fashion ?
+Pour : Elle gaspille l’eau et l’énergie et produit des déchets. (ex. : Des milliers de litres d’eau pour un jean.) ; Elle exploite des travailleurs mal payés. (ex. : Le Rana Plaza (2013).) ; Les vêtements fragiles coûtent cher à l’usage. (ex. : Un t-shirt déformé après trois lavages.)
+Contre : Elle permet aux familles modestes de s’habiller. (ex. : Des vêtements d’enfants à petit prix.) ; Elle crée des emplois dans des pays pauvres. (ex. : Les ateliers textiles en Asie.) ; Le boycott seul ne suffit pas : il faut des lois. (ex. : Des règles imposées aux marques.)
+
+## Le tourisme de masse
+Sujets : Faut-il limiter le tourisme ?
+Pour : Il abîme l’environnement (avion, déchets, eau). (ex. : Des plages saturées en été.) ; Il chasse les habitants des centres-villes. (ex. : Les logements loués aux touristes.) ; Il transforme les lieux en décors. (ex. : Des quartiers sans vie locale.)
+Contre : Il fait vivre de nombreuses régions. (ex. : Les emplois dans l’hôtellerie.) ; Voyager ouvre l’esprit et fait rencontrer d’autres cultures. (ex. : « Va aux quatre coins du monde » (El Bachiri).) ; Mieux vaut organiser le tourisme que l’interdire. (ex. : Des quotas ou des réservations.)
+
+## La désobéissance civile (CESS 2024)
+Sujets : Peut-on désobéir à la loi pour une cause juste ?
+Pour : Certaines lois injustes n’ont changé que grâce à la désobéissance. (ex. : Rosa Parks dans le bus.) ; C’est une action non violente et assumée publiquement. (ex. : Des militants qui acceptent d’être arrêtés.) ; Elle attire l’attention sur une urgence ignorée. (ex. : Les actions pour le climat.)
+Contre : En démocratie, on peut changer la loi par le vote et le débat. (ex. : Les pétitions, les élections.) ; Elle peut abîmer des biens ou gêner des citoyens. (ex. : Des tableaux visés dans des musées.) ; Si chacun désobéit selon ses idées, la loi perd son sens. (ex. : Le risque du « chacun sa loi ».)
+
+## La politesse (CESS 2016)
+Sujets : La politesse est-elle encore utile aujourd’hui ? / Quels sont les enjeux de la politesse ?
+Pour : Elle facilite la vie en société et apaise les conflits. (ex. : Dire bonjour au chauffeur de bus.) ; Elle montre du respect envers l’autre. (ex. : Remercier un serveur.) ; Elle est utile dans la vie professionnelle. (ex. : Un entretien d’embauche.)
+Contre : Elle peut être hypocrite. (ex. : Sourire à quelqu’un qu’on n’aime pas.) ; Ses règles varient selon les milieux et peuvent exclure. (ex. : Des codes que certains ne connaissent pas.) ; La sincérité compte plus que les formules. (ex. : Un merci sans conviction.)
+
+## Les séries et les écrans (CESS 2015)
+Sujets : Les séries télé méritent-elles leur succès ? / Pourquoi les séries télé sont-elles tant appréciées ?
+Pour : Elles racontent des histoires riches sur la durée. (ex. : Des personnages qui évoluent sur plusieurs saisons.) ; Elles créent un lien entre spectateurs. (ex. : Les discussions entre amis sur un épisode.) ; Elles font découvrir d’autres cultures. (ex. : Des séries coréennes ou scandinaves.)
+Contre : Le visionnage en rafale prend sur le sommeil. (ex. : Enchaîner cinq épisodes.) ; Elles remplacent parfois la lecture ou les sorties. (ex. : Une soirée entière devant l’écran.) ; Les plateformes poussent à consommer toujours plus. (ex. : La lecture automatique de l’épisode suivant.)
+
+## Le sport professionnel et l’argent
+Sujets : Les salaires des sportifs sont-ils trop élevés ?
+Pour : Ils sont démesurés par rapport aux métiers utiles. (ex. : Un footballeur et une infirmière.) ; L’argent pousse au dopage et à la triche. (ex. : Des scandales de dopage.) ; Il éloigne le sport de ses valeurs. (ex. : Des clubs rachetés comme des entreprises.)
+Contre : Les carrières sont courtes et risquées. (ex. : Une blessure qui met fin à une carrière.) ; Les salaires reflètent les recettes que les sportifs génèrent. (ex. : Les droits télévisés.) ; Les champions inspirent les jeunes. (ex. : Des enfants qui s’inscrivent dans un club.)
+
+## Le vote à 16 ans
+Sujets : Faut-il accorder le droit de vote à 16 ans ?
+Pour : Les décisions politiques concernent l’avenir des jeunes. (ex. : Le climat, l’école, le logement.) ; Voter tôt crée une habitude. (ex. : Préparer le vote au cours de citoyenneté.) ; Les jeunes sont déjà engagés. (ex. : Les marches pour le climat.)
+Contre : À 16 ans, on manquerait de maturité politique. (ex. : Des connaissances encore limitées.) ; Les jeunes seraient influençables. (ex. : L’influence des parents ou des réseaux.) ; Beaucoup de jeunes ne s’intéressent pas à la politique. (ex. : L’abstention des primo-votants.)
+
+## La littérature belge francophone (CESS 2015)
+Sujets : Y a-t-il une spécificité de la littérature belge francophone ?
+Pour : Elle mélange les cultures, au carrefour du monde latin et germanique. (ex. : Une langue française nourrie d’autres influences.) ; Elle cultive l’humour, l’autodérision et le goût de l’étrange. (ex. : Le surréalisme belge.) ; Elle s’est construite en se démarquant de Paris. (ex. : Des auteurs qui revendiquent leur belgitude.)
+Contre : Beaucoup d’auteurs belges publient à Paris et sont lus comme français. (ex. : Des prix littéraires français remportés.) ; La langue française est commune : la frontière est floue. (ex. : Des thèmes universels.) ; Parler de spécificité risque d’enfermer les auteurs dans une étiquette. (ex. : Un auteur qui refuse d’être « régional ».)
